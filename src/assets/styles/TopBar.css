@@ -1,0 +1,15 @@
+@media (max-width: 768px) {
+  .lang-selector {
+    margin-top: 0.5rem;
+  }
+}
+
+.blink-text {
+  animation: blinker 3.5s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

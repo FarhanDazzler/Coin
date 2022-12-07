@@ -1,0 +1,33 @@
+.fontt{
+    font-size:.78vw !important;
+}
+.pagination{
+    justify-content: right !important;
+}
+
+
+.badge-success {
+    background-color: rgb(131, 248, 89);
+    color: rgb(12, 136, 14);
+    padding: 4px 8px;
+    text-align: center;
+    border-radius: 5px;
+  }
+
+
+  .badge-amber {
+    background-color: rgb(255, 192, 44);
+    color: rgb(0, 0, 0);
+    padding: 4px 8px;
+    text-align: center;
+    border-radius: 5px;
+  }
+
+
+  .badge-red {
+    background-color: rgb(211, 119, 119);
+    color: red;
+    padding: 4px 8px;
+    text-align: center;
+    border-radius: 5px;
+  }

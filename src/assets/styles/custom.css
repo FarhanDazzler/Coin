@@ -1,0 +1,53 @@
+/* written for GRC MICS */
+
+
+.badge-success {
+  background-color: #ebfbee;
+  color: #4bc461;
+  padding: 4px 8px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.7rem;
+  width: 10px;
+  height: 15px;
+  border-radius: 25px;
+}
+
+
+.badge-amber {
+  background-color: rgb(241, 197, 92);
+  color: #0a0b04;
+  padding: 4px 8px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.7rem;
+  width: 10px;
+  height: 15px;
+  border-radius: 25px;
+}
+
+
+.badge-grey {
+  background-color: #eef2ee;
+  color: #9299a1;
+  padding: 4px 8px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 25px;
+  font-size: 0.7rem;
+  width: 10px;
+  height: 15px;
+}
+
+.badge-red {
+  background-color: #fff5f5;
+  color: #fa5858;
+  padding: 4px 8px;
+  font-weight: bold;
+  text-align: center;
+  font-size: small;
+  width: 10px;
+  height: 15px;
+  border-radius: 25px;
+}
+
