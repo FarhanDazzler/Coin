@@ -2,7 +2,7 @@
 
 import Button from 'react-bootstrap/Button';
 //import { parentQuestions, child_question } from './file';
-import Second from './Second';
+import Section2 from './Section2';
 import KPI from './KPI';
 import axios from 'axios';
 
@@ -476,7 +476,7 @@ function AssessmentForm() {
               borderRadius: '30px',
             }}
           >
-            SECTION 1
+            SECTION 1 : General
           </strong>
         </p>
       </div>
@@ -510,14 +510,14 @@ function AssessmentForm() {
                 borderRadius: '20px',
               }}
             >
-              SECTION 2
+              SECTION 2 : KPI
             </strong>
           </p>
         </div>
       ) : (
         <div></div>
       )}
-      {flag === true ? <KPI /> : <div></div>}
+      {flag === true ? <Section2 /> : <div></div>}
     </>
   );
 }

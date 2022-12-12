@@ -36,6 +36,7 @@ const Details = ({ control_id }) => {
     Axios.get('http://localhost:1234/get_control_instances?ControlID=' + control_id).then(function (
       response,
     ) {
+      console.log(response);
       var status_code = response.status;
       var status_text = response.statusText;
       var api_data = response?.data.data;
@@ -199,6 +200,18 @@ const Details = ({ control_id }) => {
               acc_key="1"
               acc_header="Local Control Description (LCD)"
               acc_body={local_control_description_fromDB}
+            />
+            <DataAccordion
+              acc_key="1"
+              acc_header="SCOPE"
+              acc_body={
+                <div>
+                  <p>Receving entity : </p>
+                  <p>Provider org: </p>
+                  <p>Period of assessment</p>
+                  <p>Frequency of control : </p>
+                </div>
+              }
             />
             {data_loaded ? (
               <div className="card-body p-4">
