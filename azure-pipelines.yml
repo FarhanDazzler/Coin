@@ -10,20 +10,20 @@ pool:
   vmImage: "ubuntu-latest"
 
 resources:
-  # repositories:
+  repositories:
   #   - repository: appsectemplates
   #     type: git
   #     name: DevSecOps/DevSecOps
   #     endpoint: "Cross-Org ab-inbev devsecops"
 
 jobs:
-  # - job: SecureScan
-  #   displayName: SecureScan
+  - job: SecureScan
+    displayName: SecureScan
 
-  #   steps:
-  #     - checkout: self
-  #       fetchDepth: 0
-  #     - checkout: appsectemplates
+    steps:
+      - checkout: self
+        fetchDepth: 0
+      - checkout: appsectemplates
 
       - task: Npm@1
         displayName: npm install
