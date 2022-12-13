@@ -196,6 +196,17 @@ function Section2(props) {
           border: '1px solid gold',
         };
       },
+
+      validator: (newValue, row, column) => {
+        if (isNaN(newValue)) {
+          row.Numerator = '';
+
+          return {
+            valid: false,
+            message: 'only numbers are allowed',
+          };
+        }
+      },
     },
 
     {
@@ -212,6 +223,17 @@ function Section2(props) {
           backgroundColor: 'white',
           border: '1px solid gold',
         };
+      },
+
+      validator: (newValue, row, column) => {
+        if (isNaN(newValue)) {
+          row.Denominator = '';
+
+          return {
+            valid: false,
+            message: 'only numbers are allowed',
+          };
+        }
       },
     },
 
@@ -1170,22 +1192,23 @@ function Section2(props) {
       }
     });
 
-    await ans.forEach((values, keys) => {
-      // console.log("line: ",values)
-
-      if (values == '') {
-        console.log('sita');
-        //   toast.error(' Fill all the fields  !', {
-        //     position: toast.POSITION.BOTTOM_RIGHT
-        // });
-        console.log('2345fgfgttt');
-        is_swal_fired = 1;
-
-        Swal.fire(' Please fill all the fields !');
-
-        return;
+    for (let i = 0; i < final.length; i++) {
+      if (final[i].parent == 1) {
+        for (let j = 0; j < final[i].level.length; j++) {
+          console.log(ans.has(final[i].level[j].L));
+          if (ans.has(final[i].level[j].L !== true)) {
+            is_swal_fired = 1;
+            Swal.fire(' Please fill all the fields !');
+          }
+        }
+      } else {
+        console.log(ans.has(final[i].ques_text));
+        if (ans.has(final[i].ques_text) === false) {
+          is_swal_fired = 1;
+          Swal.fire(' Please fill all the fields !');
+        }
       }
-    });
+    }
 
     if (is_swal_fired === 0) {
       Swal.fire({
@@ -1193,8 +1216,8 @@ function Section2(props) {
         text: 'your assessment is failed !',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: 'golden',
+        cancelButtonColor: 'black',
         confirmButtonText: 'Yes, submit it!',
       }).then((result) => {
         if (result.isConfirmed) {
@@ -1545,7 +1568,8 @@ function Section2(props) {
                       </label>
                     </div>
                     <div>
-                      <input
+                      <textarea
+                        row="3"
                         type="text"
                         class="form-control"
                         placeholder=""
@@ -1554,7 +1578,7 @@ function Section2(props) {
                           console.log(ans);
                           setans((prev) => new Map([...prev]));
                         }}
-                      ></input>
+                      ></textarea>
                     </div>
                   </div>
                 </div>
@@ -1720,7 +1744,8 @@ function Section2(props) {
                           Yes
                         </label>
                       </div>
-                      <input
+                      <textarea
+                        row="3"
                         type="text"
                         class="form-control"
                         placeholder="Enter value first"
@@ -1729,7 +1754,7 @@ function Section2(props) {
                         onChange={(e) => {
                           child_terminate(item, e);
                         }}
-                      ></input>
+                      ></textarea>
                       {childterminate == true && child_submit.get(item.id) == true ? (
                         <div>
                           <h6 style={{ color: 'red', paddingTop: '7px' }}>

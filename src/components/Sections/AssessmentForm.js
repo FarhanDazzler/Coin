@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Section2 from './Section2';
 import KPI from './KPI';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
@@ -106,6 +107,20 @@ function AssessmentForm() {
     }
     console.log('lkjhgdfd');
     console.log(section1);
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'your assessment is failed !',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'gold',
+      cancelButtonColor: 'black',
+      confirmButtonText: 'Yes, submit it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+      }
+    });
   };
 
   const add = async (parent_ques, option_value, event, i) => {
