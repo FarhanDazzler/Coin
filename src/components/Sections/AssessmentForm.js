@@ -96,13 +96,16 @@ function AssessmentForm() {
   console.log(child_question);
   console.log(parentQuestions);
 
-  const submit = async () => {
+  const submit_section1 = async () => {
+    const section1 = {};
     for (let i = 0; i < final.length; i++) {
       console.log(`${final[i].question_text}---->${result.get(final[i].question_text)}`);
       // localStorage.setItem('open', 'Yes');
-      setflag(true);
+      //  setflag(true);
+      section1[final[i].question_text] = result.get(final[i].question_text);
     }
     console.log('lkjhgdfd');
+    console.log(section1);
   };
 
   const add = async (parent_ques, option_value, event, i) => {
@@ -468,12 +471,13 @@ function AssessmentForm() {
       <div>
         <p style={{ backgroundColor: '#FFBF00', marginTop: '15px' }}>
           <strong
+            id="section"
             style={{
               paddingLeft: '15px',
 
               fontSize: '22px',
 
-              borderRadius: '30px',
+              borderRadius: '50px',
             }}
           >
             SECTION 1 : General
@@ -490,7 +494,7 @@ function AssessmentForm() {
             <Button
               className="mt-3"
               variant="warning"
-              onClick={submit}
+              onClick={submit_section1}
               style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
               type="button"
             >
@@ -517,7 +521,7 @@ function AssessmentForm() {
       ) : (
         <div></div>
       )}
-      {flag === true ? <Section2 /> : <div></div>}
+      {flag === true ? <Section2 final={final} result={result} /> : <div></div>}
     </>
   );
 }
