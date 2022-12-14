@@ -149,7 +149,7 @@ const Details = ({ control_id }) => {
 
   return (
     <>
-      <div className="container">
+      <div className="container mt-3">
         <div className="">
           <div className="card mb-1">
             <div className="card-header">
