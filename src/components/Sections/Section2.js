@@ -863,7 +863,7 @@ function Section2(props) {
     // console.log(e.target)
 
     hash.set(head.ques_text, e.target.value);
-    console.log('kushal');
+
     child_submit.set(head.id, true);
 
     console.log(head.ques_text);
@@ -886,7 +886,7 @@ function Section2(props) {
       }
     }
     // console.log(arr)
-    if (e.target.type == 'text') {
+    if (e.target.type == 'textarea') {
       arr.push(terminate[parent.get(head.parent_id)]);
       final = arr;
       setfinal([...final]);
