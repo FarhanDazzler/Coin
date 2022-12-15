@@ -517,15 +517,13 @@ function AssessmentForm() {
   return (
     <>
       <div>
-        <p style={{ backgroundColor: '#FFBF00', marginTop: '15px' }}>
+        <p style={{ background: 'linear-gradient(90deg, rgb(227, 175, 50) 0%, rgb(244, 224, 15) 100%)', marginTop: '15px', borderRadius: '20px' }}>
           <strong
             id="section"
             style={{
               paddingLeft: '15px',
-
-              fontSize: '22px',
-
-              borderRadius: '50px',
+              fontSize: '28px',
+              color: 'black'
             }}
           >
             SECTION 1 : General
@@ -554,13 +552,17 @@ function AssessmentForm() {
       </form>
       {flag === true ? (
         <div>
-          <p style={{ backgroundColor: '#FFBF00' }}>
+          <p
+            style={{
+              background: 'linear-gradient(90deg, rgb(227, 175, 50) 0%, rgb(244, 224, 15) 100%)',
+              borderRadius: '20px',
+            }}
+          >
             <strong
               style={{
                 paddingLeft: '15px',
                 fontSize: '22px',
-
-                borderRadius: '20px',
+                color: 'black'
               }}
             >
               SECTION 2 : KPI
