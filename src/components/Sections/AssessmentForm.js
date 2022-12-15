@@ -97,7 +97,8 @@ function AssessmentForm() {
   console.log(child_question);
   console.log(parentQuestions);
 
-  const submit_section1 = async () => {
+  const submit_section1 = async (event) => {
+    event.preventDefault();
     const section1 = {};
     for (let i = 0; i < final.length; i++) {
       console.log(`${final[i].question_text}---->${result.get(final[i].question_text)}`);
@@ -459,12 +460,44 @@ function AssessmentForm() {
             {number.question_text}
           </strong>
           <br></br>
+          {number.question_text != 'To whom did you hand over ?' ? (
+            <textarea
+              type={'textarea'}
+              class="form-control"
+              placeholder="Enter value first"
+              row="3"
+              id={number.question_text}
+              value={result.get(number.question_text) ? result.get(number.question_text) : ''}
+              required
+              onChange={(event) => {
+                {
+                  console.log(number);
+                  add(number, number, event, i);
+                }
+              }}
+            ></textarea>
+          ) : (
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Enter value first"
+              id={number.question_text}
+              value={result.get(number.question_text) ? result.get(number.question_text) : ''}
+              required
+              onChange={(event) => {
+                {
+                  console.log(number);
+                  add(number, number, event, i);
+                }
+              }}
+            ></input>
+          )}
 
-          <textarea
-            type="text"
-            style={{ height: '100px' }}
+          {/* <textarea
+            type={number.question_text === 'To whom did you hand over ?' ? 'email' : 'text'}
+           // style={{ height: '100px' }}
             class="form-control"
-            placeholder="Enter value first"
+            placeholder="Enter value "
             id={number.question_text}
             row="3"
             value={result.get(number.question_text) ? result.get(number.question_text) : ''}
@@ -475,7 +508,7 @@ function AssessmentForm() {
                 add(number, number, event, i);
               }
             }}
-          ></textarea>
+          ></textarea> */}
         </div>
       </div>
     ),
@@ -499,25 +532,26 @@ function AssessmentForm() {
           </strong>
         </p>
       </div>
-
-      <div class="w-100 d-flex flex-column  justify-content-center  align-self-center">
-        <div class="w-100  align-self-center">
-          {ans}
-          {val != 'terminate' ? (
-            <div></div>
-          ) : (
-            <Button
-              className="mt-3"
-              variant="warning"
-              onClick={submit_section1}
-              style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
-              type="button"
-            >
-              SUBMIT
-            </Button>
-          )}
+      <form onSubmit={submit_section1}>
+        <div class="w-100 d-flex flex-column  justify-content-center  align-self-center">
+          <div class="w-100  align-self-center">
+            {ans}
+            {val != 'terminate' ? (
+              <div></div>
+            ) : (
+              <Button
+                className="mt-3"
+                variant="warning"
+                // onClick={submit_section1}
+                style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
+                type="submit"
+              >
+                SUBMIT
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
+      </form>
       {flag === true ? (
         <div>
           <p style={{ backgroundColor: '#FFBF00' }}>

@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 import Swal from 'sweetalert2';
 
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 //import ToolkitProvider, { CSVExport } from 'react-bootstrap-table2-toolkit';
 // import ToolkitProvider, {
 //   CSVExport,
@@ -22,6 +25,7 @@ function Section2(props) {
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
   const [check_table, setcheck_table] = useState(1);
+  const [table_data, settable_data] = useState([]);
 
   let [final, setfinal] = useState([]);
   let [Level, setLevel] = useState([]);
@@ -77,6 +81,7 @@ function Section2(props) {
         color: '#000000',
         fontWeight: '700',
       },
+      filter: textFilter(),
     },
 
     {
@@ -638,6 +643,29 @@ function Section2(props) {
   ];
 
   useEffect(() => {
+    axios
+      .get('http://localhost:1234/kpi_result?ControlID=ATR_ACCR_01b-K')
+      .then((res) => {
+        console.log(res.data.data);
+        settable_data(res.data.data);
+
+        for (let i = 0; i < table_data.length; i++) {
+          if (table_data[i].KPI_Value == null) {
+            table_data[i]['sep'] = 2;
+          } else {
+            table_data[i]['sep'] = 1;
+          }
+          table_data[i]['id'] = i + 1;
+        }
+        settable_data([...table_data]);
+        console.log(table_data);
+        // setvalues(res.data.data);
+        // console.log(values);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     setfinal([
       {
         ques_text:
@@ -880,6 +908,13 @@ function Section2(props) {
         arr.push(final[i]);
         // arr.push(terminate[0])
         // arr.push(terminate[parent.get(final[i].id)])
+        if (head.section == 0) {
+          arr.push(terminate[parent.get(final[i].parent_id)]);
+
+          final = arr;
+          setfinal([...final]);
+          return;
+        }
         break;
       } else {
         arr.push(final[i]);
@@ -1269,6 +1304,8 @@ function Section2(props) {
           keyField="id"
           data={product}
           columns={columns}
+          filter={filterFactory()}
+          pagination={paginationFactory()}
           className="container"
           responsive
           cellEdit={cellEditFactory({
@@ -1668,7 +1705,8 @@ function Section2(props) {
                         checked={ans.get(item.ques_text) == 'Agree with KPI value' ? true : false}
                         value={'Agree with KPI value'}
                         onChange={(e) => {
-                          child_part(item, e);
+                          // child_part(item, e);
+                          child_terminate(item, e);
                         }}
                       ></input>
                       <label style={{ fontSize: '24px' }} for={item.ques_text}>
@@ -1685,7 +1723,8 @@ function Section2(props) {
                         }
                         value={'KPI calculation is incorrect'}
                         onChange={(e) => {
-                          child_part(item, e);
+                          // child_part(item, e);
+                          child_terminate(item, e);
                         }}
                       ></input>
                       <label style={{ fontSize: '24px' }} for={item.ques_text}>
