@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 import Swal from 'sweetalert2';
 
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 //import ToolkitProvider, { CSVExport } from 'react-bootstrap-table2-toolkit';
 // import ToolkitProvider, {
 //   CSVExport,
@@ -22,6 +25,7 @@ function Section2(props) {
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
   const [check_table, setcheck_table] = useState(1);
+  const [table_data, settable_data] = useState([]);
 
   let [final, setfinal] = useState([]);
   let [Level, setLevel] = useState([]);
@@ -77,6 +81,7 @@ function Section2(props) {
         color: '#000000',
         fontWeight: '700',
       },
+      filter: textFilter(),
     },
 
     {
@@ -184,7 +189,7 @@ function Section2(props) {
     {
       dataField: 'Numerator',
       text: 'Numerator',
-      editable: (content, row, rowIndex, columnIndex) => row.id == 2,
+      editable: (content, row, rowIndex, columnIndex) => row.sep == 2,
       headerStyle: {
         backgroundColor: '#f1c40f',
         color: '#000000',
@@ -212,7 +217,7 @@ function Section2(props) {
     {
       dataField: 'Denominator',
       text: 'Denominator',
-      editable: (content, row, rowIndex, columnIndex) => row.id == 2,
+      editable: (content, row, rowIndex, columnIndex) => row.sep == 2,
       headerStyle: {
         backgroundColor: '#f1c40f',
         color: '#000000',
@@ -638,6 +643,40 @@ function Section2(props) {
   ];
 
   useEffect(() => {
+    axios
+      .get('http://localhost:1234/kpi_result?ControlID=ATR_ACCR_01b-K&Entity=Argentina')
+      .then((res) => {
+        console.log(res.data.data);
+
+        for (let i = 0; i < res.data.data.length; i++) {
+          table_data.push(res.data.data[i]);
+        }
+        settable_data([...table_data]);
+        // settable_data( );
+        console.log(table_data);
+
+        for (let i = 0; i < table_data.length; i++) {
+          if (table_data[i].KPI_Value == '') {
+            console.log('null');
+            table_data[i]['sep'] = 2;
+          } else {
+            console.log('not null');
+            table_data[i]['sep'] = 1;
+          }
+          console.log('ids');
+          table_data[i]['id'] = i + 1;
+        }
+        //  settable_data([...table_data]);
+        console.log(table_data);
+        // setvalues(res.data.data);
+        // console.log(values);
+
+        setproduct(table_data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     setfinal([
       {
         ques_text:
@@ -880,6 +919,13 @@ function Section2(props) {
         arr.push(final[i]);
         // arr.push(terminate[0])
         // arr.push(terminate[parent.get(final[i].id)])
+        if (head.section == 0) {
+          arr.push(terminate[parent.get(final[i].parent_id)]);
+
+          final = arr;
+          setfinal([...final]);
+          return;
+        }
         break;
       } else {
         arr.push(final[i]);
@@ -998,7 +1044,7 @@ function Section2(props) {
       console.log(data);
 
       for (let i = 0; i < product.length; i++) {
-        if (data[i].Denominator == null || data[i].Numerator == null) {
+        if (data[i].Denominator == '' || data[i].Numerator == '' || data[i].sep != 2) {
           continue;
         }
 
@@ -1008,103 +1054,103 @@ function Section2(props) {
 
         if (product[i].Positive_Direction == 'Lower is better') {
           if (
-            product[i].KPI_Value < product[i].MICS_L1_Threshold &&
-            product[i].MICS_L1_Threshold != 'NULL'
+            product[i].KPI_Value <= product[i].MICS_L1_Threshold &&
+            product[i].MICS_L1_Threshold != ''
           ) {
             product[i].L1_Result = 'PASS';
           } else {
-            if (product[i].MICS_L1_Threshold == 'NULL') {
+            if (product[i].MICS_L1_Threshold == '') {
               product[i].L1_Result = 'NA';
             } else {
-              product[i].L1_Result = 'Fail';
+              product[i].L1_Result = 'FAIL';
             }
           }
 
-          if (product[i].KPI_Value < product[i].MICS_L2_Threshold) {
+          if (product[i].KPI_Value <= product[i].MICS_L2_Threshold) {
             product[i].L2_Result = 'PASS';
           } else {
-            product[i].L2_Result = 'Fail';
+            product[i].L2_Result = 'FAIL';
           }
 
-          if (product[i].KPI_Value < product[i].MICS_L3_Threshold) {
+          if (product[i].KPI_Value <= product[i].MICS_L3_Threshold) {
             product[i].L3_Result = 'PASS';
           } else {
-            product[i].L3_Result = 'Fail';
+            product[i].L3_Result = 'FAIL';
           }
         } else if (product[i].Positive_Direction == 'Higher is better') {
           if (
-            product[i].KPI_Value > product[i].MICS_L1_Threshold &&
-            product[i].MICS_L1_Threshold != 'NULL'
+            product[i].KPI_Value >= product[i].MICS_L1_Threshold &&
+            product[i].MICS_L1_Threshold != ''
           ) {
             product[i].L1_Result = 'PASS';
           } else {
-            if (product[i].MICS_L1_Threshold == 'NULL') {
+            if (product[i].MICS_L1_Threshold == '') {
               product[i].L1_Result = 'NA';
             } else {
-              product[i].L1_Result = 'Fail';
+              product[i].L1_Result = 'FAIL';
             }
           }
 
-          if (product[i].KPI_Value > product[i].MICS_L2_Threshold) {
+          if (product[i].KPI_Value >= product[i].MICS_L2_Threshold) {
             product[i].L2_Result = 'PASS';
           } else {
-            product[i].L2_Result = 'Fail';
+            product[i].L2_Result = 'FAIL';
           }
 
-          if (product[i].KPI_Value > product[i].MICS_L3_Threshold) {
+          if (product[i].KPI_Value >= product[i].MICS_L3_Threshold) {
             product[i].L3_Result = 'PASS';
           } else {
-            product[i].L3_Result = 'Fail';
+            product[i].L3_Result = 'FAIL';
           }
         } else if (product[i].Positive_Direction == 'Lower is bad') {
           if (
             product[i].KPI_Value < product[i].MICS_L1_Threshold &&
-            product[i].MICS_L1_Threshold != 'NULL'
+            product[i].MICS_L1_Threshold != ''
           ) {
-            product[i].L1_Result = 'Fail';
+            product[i].L1_Result = 'FAIL';
           } else {
-            if (product[i].MICS_L1_Threshold == 'NULL') {
+            if (product[i].MICS_L1_Threshold == '') {
               product[i].L1_Result = 'NA';
             } else {
-              product[i].L1_Result = 'Pass';
+              product[i].L1_Result = 'PASS';
             }
           }
 
           if (product[i].KPI_Value < product[i].MICS_L2_Threshold) {
-            product[i].L2_Result = 'Fail';
+            product[i].L2_Result = 'FAIL';
           } else {
-            product[i].L2_Result = 'Pass';
+            product[i].L2_Result = 'PASS';
           }
 
           if (product[i].KPI_Value < product[i].MICS_L3_Threshold) {
-            product[i].L3_Result = 'Fail';
+            product[i].L3_Result = 'FAIL';
           } else {
-            product[i].L3_Result = 'Pass';
+            product[i].L3_Result = 'PASS';
           }
         } else if (product[i].Positive_Direction == 'Higher is bad') {
           if (
             product[i].KPI_Value > product[i].MICS_L1_Threshold &&
-            product[i].MICS_L1_Threshold != 'NULL'
+            product[i].MICS_L1_Threshold != ''
           ) {
-            product[i].L1_Result = 'Fail';
+            product[i].L1_Result = 'FAIL';
           } else {
-            if (product[i].MICS_L1_Threshold == 'NULL') {
+            if (product[i].MICS_L1_Threshold == '') {
               product[i].L1_Result = 'NA';
             } else {
-              product[i].L1_Result = 'Pass';
+              product[i].L1_Result = 'PASS';
             }
           }
 
           if (product[i].KPI_Value > product[i].MICS_L2_Threshold) {
-            product[i].L2_Result = 'Fail';
+            product[i].L2_Result = 'FAIL';
           } else {
-            product[i].L2_Result = 'Pass';
+            product[i].L2_Result = 'PASS';
           }
 
           if (product[i].KPI_Value > product[i].MICS_L3_Threshold) {
-            product[i].L3_Result = 'Fail';
+            product[i].L3_Result = 'FAIL';
           } else {
-            product[i].L3_Result = 'Pass';
+            product[i].L3_Result = 'PASS';
           }
         }
 
@@ -1121,18 +1167,18 @@ function Section2(props) {
           continue;
         }
 
-        if (product[i].L1_Result === 'Fail') {
+        if (product[i].L1_Result === 'FAIL') {
           //setL.L[0](true)
           console.log('1');
           k[0] = true;
         }
-        if (product[i].L2_Result === 'Fail') {
+        if (product[i].L2_Result === 'FAIL') {
           //L[1] = true
           //  setL(L[1](true));
           console.log('2');
           k[1] = true;
         }
-        if (product[i].L3_Result === 'Fail') {
+        if (product[i].L3_Result === 'FAIL') {
           // L[2] = true
           console.log('3');
           k[2] = true;
@@ -1179,11 +1225,11 @@ function Section2(props) {
       // console.log("line: ",values)
 
       if (values == '') {
-        console.log('ram');
+        /// console.log('ram');
         //   toast.error(' Fill all the fields  !', {
         //     position: toast.POSITION.BOTTOM_RIGHT
         // });
-        console.log('2345fgfgttt');
+        //  console.log('2345fgfgttt');
         is_swal_fired = 1;
 
         Swal.fire(' Please fill all the fields !');
@@ -1240,6 +1286,7 @@ function Section2(props) {
               element={<button className="export_button">Export To Excel</button>}
             >
               <Workbook.Sheet data={product} name="Sheet A">
+                <Workbook.Column label="sep" value="sep" />
                 <Workbook.Column label="Global_KPI_Code" value="Global_KPI_Code" />
                 <Workbook.Column label="Entity_ID" value="Entity_ID" />
                 <Workbook.Column label="Numerator" value="Numerator" />
@@ -1269,6 +1316,8 @@ function Section2(props) {
           keyField="id"
           data={product}
           columns={columns}
+          filter={filterFactory()}
+          pagination={paginationFactory()}
           className="container"
           responsive
           cellEdit={cellEditFactory({
@@ -1285,7 +1334,6 @@ function Section2(props) {
               }
               if (column.dataField == 'Numerator') {
                 product[row.id - 1].Numerator = newValue;
-                console.log('khandelwal');
               }
               if (row.Denominator != null && row.Numerator != null) {
                 row.KPI_Value = row.Numerator / row.Denominator;
@@ -1305,101 +1353,101 @@ function Section2(props) {
               //     console.log("khandelwal")
               // }
               // row.KPI_Value = (row.Numerator / row.Denominator)
-              if (row.Denominator == null) {
+              if (row.Denominator == '') {
                 return;
               }
 
-              if (row.Numerator == null) {
+              if (row.Numerator == '') {
                 return;
               }
 
               if (row.Positive_Direction == 'Lower is better') {
-                if (row.KPI_Value < row.MICS_L1_Threshold && row.MICS_L1_Threshold != 'NULL') {
+                if (row.KPI_Value <= row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
                   row.L1_Result = 'PASS';
                 } else {
-                  if (row.MICS_L1_Threshold == 'NULL') {
+                  if (row.MICS_L1_Threshold == '') {
                     row.L1_Result = 'NA';
                   } else {
-                    row.L1_Result = 'Fail';
+                    row.L1_Result = 'FAIL';
                   }
                 }
 
-                if (row.KPI_Value < row.MICS_L2_Threshold) {
+                if (row.KPI_Value <= row.MICS_L2_Threshold) {
                   row.L2_Result = 'PASS';
                 } else {
-                  row.L2_Result = 'Fail';
+                  row.L2_Result = 'FAIL';
                 }
 
-                if (row.KPI_Value < row.MICS_L3_Threshold) {
+                if (row.KPI_Value <= row.MICS_L3_Threshold) {
                   row.L3_Result = 'PASS';
                 } else {
-                  row.L3_Result = 'Fail';
+                  row.L3_Result = 'FAIL';
                 }
               } else if (row.Positive_Direction == 'Higher is better') {
-                if (row.KPI_Value > row.MICS_L1_Threshold && row.MICS_L1_Threshold != 'NULL') {
+                if (row.KPI_Value >= row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
                   row.L1_Result = 'PASS';
                 } else {
-                  if (row.MICS_L1_Threshold == 'NULL') {
+                  if (row.MICS_L1_Threshold == '') {
                     row.L1_Result = 'NA';
                   } else {
-                    row.L1_Result = 'Fail';
+                    row.L1_Result = 'FAIL';
                   }
                 }
 
-                if (row.KPI_Value > row.MICS_L2_Threshold) {
+                if (row.KPI_Value >= row.MICS_L2_Threshold) {
                   row.L2_Result = 'PASS';
                 } else {
-                  row.L2_Result = 'Fail';
+                  row.L2_Result = 'FAIL';
                 }
 
-                if (row.KPI_Value > row.MICS_L3_Threshold) {
+                if (row.KPI_Value >= row.MICS_L3_Threshold) {
                   row.L3_Result = 'PASS';
                 } else {
-                  row.L3_Result = 'Fail';
+                  row.L3_Result = 'FAIL';
                 }
               } else if (row.Positive_Direction == 'Lower is bad') {
-                if (row.KPI_Value < row.MICS_L1_Threshold && row.MICS_L1_Threshold != 'NULL') {
-                  row.L1_Result = 'Fail';
+                if (row.KPI_Value < row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
+                  row.L1_Result = 'FAIL';
                 } else {
-                  if (row.MICS_L1_Threshold == 'NULL') {
+                  if (row.MICS_L1_Threshold == '') {
                     row.L1_Result = 'NA';
                   } else {
-                    row.L1_Result = 'Pass';
+                    row.L1_Result = 'PASS';
                   }
                 }
 
                 if (row.KPI_Value < row.MICS_L2_Threshold) {
-                  row.L2_Result = 'Fail';
+                  row.L2_Result = 'FAIL';
                 } else {
-                  row.L2_Result = 'Pass';
+                  row.L2_Result = 'PASS';
                 }
 
                 if (row.KPI_Value < row.MICS_L3_Threshold) {
-                  row.L3_Result = 'Fail';
+                  row.L3_Result = 'FAIL';
                 } else {
-                  row.L3_Result = 'Pass';
+                  row.L3_Result = 'PASS';
                 }
               } else if (row.Positive_Direction == 'Higher is bad') {
-                if (row.KPI_Value > row.MICS_L1_Threshold && row.MICS_L1_Threshold != 'NULL') {
-                  row.L1_Result = 'Fail';
+                if (row.KPI_Value > row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
+                  row.L1_Result = 'FAIL';
                 } else {
-                  if (row.MICS_L1_Threshold == 'NULL') {
+                  if (row.MICS_L1_Threshold == '') {
                     row.L1_Result = 'NA';
                   } else {
-                    row.L1_Result = 'Pass';
+                    row.L1_Result = 'PASS';
                   }
                 }
 
                 if (row.KPI_Value > row.MICS_L2_Threshold) {
-                  row.L2_Result = 'Fail';
+                  row.L2_Result = 'FAIL';
                 } else {
-                  row.L2_Result = 'Pass';
+                  row.L2_Result = 'PASS';
                 }
 
                 if (row.KPI_Value > row.MICS_L3_Threshold) {
-                  row.L3_Result = 'Fail';
+                  row.L3_Result = 'FAIL';
                 } else {
-                  row.L3_Result = 'Pass';
+                  row.L3_Result = 'PASS';
                 }
               }
 
@@ -1415,18 +1463,18 @@ function Section2(props) {
                   continue;
                 }
 
-                if (product[i].L1_Result === 'Fail') {
+                if (product[i].L1_Result === 'FAIL') {
                   //setL.L[0](true)
                   console.log('1');
                   k[0] = true;
                 }
-                if (product[i].L2_Result === 'Fail') {
+                if (product[i].L2_Result === 'FAIL') {
                   //L[1] = true
                   //  setL(L[1](true));
                   console.log('2');
                   k[1] = true;
                 }
-                if (product[i].L3_Result === 'Fail') {
+                if (product[i].L3_Result === 'FAIL') {
                   // L[2] = true
                   console.log('3');
                   k[2] = true;
@@ -1657,7 +1705,12 @@ function Section2(props) {
               <div>
                 <div className="card border-0 child">
                   <div className="card-body text">
-                    <strong className="card-text ">{item.ques_text}</strong>
+                    <strong
+                      className="card-text "
+                      style={{ fontWeight: 'bolder', fontSize: '19px', marginBottom: '26px' }}
+                    >
+                      {item.ques_text}
+                    </strong>
                     <br></br>
                     <br></br>
                     <div>
@@ -1668,10 +1721,11 @@ function Section2(props) {
                         checked={ans.get(item.ques_text) == 'Agree with KPI value' ? true : false}
                         value={'Agree with KPI value'}
                         onChange={(e) => {
-                          child_part(item, e);
+                          // child_part(item, e);
+                          child_terminate(item, e);
                         }}
                       ></input>
-                      <label style={{ fontSize: '24px' }} for={item.ques_text}>
+                      <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.ques_text}>
                         Agree with KPI value
                       </label>
                     </div>
@@ -1685,10 +1739,11 @@ function Section2(props) {
                         }
                         value={'KPI calculation is incorrect'}
                         onChange={(e) => {
-                          child_part(item, e);
+                          // child_part(item, e);
+                          child_terminate(item, e);
                         }}
                       ></input>
-                      <label style={{ fontSize: '24px' }} for={item.ques_text}>
+                      <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.ques_text}>
                         KPI calculation is incorrect
                       </label>
                     </div>

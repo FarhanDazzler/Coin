@@ -120,7 +120,8 @@ function AssessmentForm() {
   console.log(child_question);
   console.log(parentQuestions);
 
-  const submit_section1 = async () => {
+  const submit_section1 = async (event) => {
+    event.preventDefault();
     const section1 = {};
     for (let i = 0; i < final.length; i++) {
       console.log(`${final[i].question_text}---->${result.get(final[i].question_text)}`);
@@ -482,12 +483,44 @@ function AssessmentForm() {
             {number.question_text}
           </strong>
           <br></br>
+          {number.question_text != 'To whom did you hand over ?' ? (
+            <textarea
+              type={'textarea'}
+              class="form-control"
+              placeholder="Enter value first"
+              row="3"
+              id={number.question_text}
+              value={result.get(number.question_text) ? result.get(number.question_text) : ''}
+              required
+              onChange={(event) => {
+                {
+                  console.log(number);
+                  add(number, number, event, i);
+                }
+              }}
+            ></textarea>
+          ) : (
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Enter value first"
+              id={number.question_text}
+              value={result.get(number.question_text) ? result.get(number.question_text) : ''}
+              required
+              onChange={(event) => {
+                {
+                  console.log(number);
+                  add(number, number, event, i);
+                }
+              }}
+            ></input>
+          )}
 
-          <textarea
-            type="text"
-            style={{ height: '100px' }}
+          {/* <textarea
+            type={number.question_text === 'To whom did you hand over ?' ? 'email' : 'text'}
+           // style={{ height: '100px' }}
             class="form-control"
-            placeholder="Enter value first"
+            placeholder="Enter value "
             id={number.question_text}
             row="3"
             value={result.get(number.question_text) ? result.get(number.question_text) : ''}
@@ -498,7 +531,7 @@ function AssessmentForm() {
                 add(number, number, event, i);
               }
             }}
-          ></textarea>
+          ></textarea> */}
         </div>
       </div>
     ),
@@ -506,7 +539,21 @@ function AssessmentForm() {
 
   return (
     <>
-      {sectionDisplay('Section 1: General')}
+      <div>
+        <p style={{ background: 'linear-gradient(90deg, rgb(227, 175, 50) 0%, rgb(244, 224, 15) 100%)', marginTop: '15px', borderRadius: '20px' }}>
+          <strong
+            id="section"
+            style={{
+              paddingLeft: '15px',
+              fontSize: '28px',
+              color: 'black'
+            }}
+          >
+            SECTION 1 : General
+          </strong>
+        </p>
+      </div>
+
       <div class="w-100 d-flex flex-column  justify-content-center  align-self-center">
         <div class="w-100  align-self-center">
           {ans}
