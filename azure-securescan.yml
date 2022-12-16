@@ -25,20 +25,20 @@ jobs:
         SCBranchName: '$(Build.SourceBranchName)'
         SCBaseDirPath: './$(Build.Repository.Name)'
     
-	- task: Npm@1
-        displayName: npm install
-        inputs:
-          command: custom
-          workingDir: "$(System.DefaultWorkingDirectory)/$(Build.Repository.Name)"
-          verbose: false
-          customCommand: install --legacy-peer-deps
-	
-	- task: Npm@1
-        displayName: npm build
-        inputs:
-          command: custom
-          workingDir: "$(System.DefaultWorkingDirectory)/$(Build.Repository.Name)"
-          customCommand: run build
+    - task: Npm@1
+      displayName: npm install
+      inputs:
+        command: custom
+        workingDir: "$(System.DefaultWorkingDirectory)/$(Build.Repository.Name)"
+        verbose: false
+        customCommand: install --legacy-peer-deps
+
+    - task: Npm@1
+      displayName: npm build
+      inputs:
+        command: custom
+        workingDir: "$(System.DefaultWorkingDirectory)/$(Build.Repository.Name)"
+        customCommand: run build
     
     - template: pipeline_templates/secure_code_scan.yml@appsectemplates
       parameters:
