@@ -25,6 +25,7 @@ function AssessmentForm() {
   const sectionDisplay = (display_text) => {
     return (
       <div>
+        <br></br>
         <p
           style={{
             background: 'linear-gradient(90deg, rgb(227, 175, 50) 0%, rgb(244, 224, 15) 100%)',

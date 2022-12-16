@@ -17,6 +17,7 @@ import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 //import './App.css';
 import Workbook from 'react-excel-workbook';
 import * as XLSX from 'xlsx';
+import { RedirectHandler } from '@azure/msal-browser/dist/internals';
 function Section2(props) {
   console.log('second');
   //const { ExportCSVButton } = CSVExport;
@@ -1259,7 +1260,7 @@ function Section2(props) {
     if (is_swal_fired === 0) {
       Swal.fire({
         title: 'Are you sure?',
-        text: 'your assessment is failed !',
+        text: 'The Assessment is failed !',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'golden',
@@ -1267,7 +1268,7 @@ function Section2(props) {
         confirmButtonText: 'Yes, submit it!',
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+          Swal.fire('Done!', 'You are now being redirected to the mainpage', 'success');         
         }
       });
     }
