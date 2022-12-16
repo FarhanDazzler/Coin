@@ -81,7 +81,7 @@ function Section2(props) {
         color: '#000000',
         fontWeight: '700',
       },
-      filter: textFilter(),
+      // filter: textFilter(),
     },
 
     {
@@ -1278,12 +1278,12 @@ function Section2(props) {
 
   return (
     <>
-      <div className="text " id="my_table">
+      <div className="text table-responsive " id="my_table">
         <div id="my_btns">
           <div className="row " id="export_button_right">
             <Workbook
               filename="data.xlsx"
-              element={<button className="export_button">Export To Excel</button>}
+              element={<button className="export_button"><strong>Export To Excel</strong></button>}
             >
               <Workbook.Sheet data={product} name="Sheet A">
                 <Workbook.Column label="sep" value="sep" />
@@ -1299,15 +1299,15 @@ function Section2(props) {
               </Workbook.Sheet>
             </Workbook>
           </div>
-          <h1>Excel file upload & Download</h1>
+          <h1>Excel File Upload & Download</h1>
 
           <form onSubmit={handleSubmit} id="combine_btn">
-            <label class="submit_btn" for="uploadfile">
-              Upload File
+            <label class="submit_btn black-text" for="uploadfile">
+              <strong>Upload File</strong>
             </label>
             <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
-            <button type="submit" className="submit_btn">
-              Submit
+            <button type="submit" className="submit_btn black-text">
+              <strong>Submit</strong>
             </button>
           </form>
         </div>
@@ -1318,7 +1318,7 @@ function Section2(props) {
           columns={columns}
           filter={filterFactory()}
           pagination={paginationFactory()}
-          className="container"
+          className="container pagination"
           responsive
           cellEdit={cellEditFactory({
             mode: 'click',
@@ -1803,7 +1803,7 @@ function Section2(props) {
                         row="3"
                         type="text"
                         class="form-control"
-                        placeholder="Enter value first"
+                        placeholder="Please enter the value here."
                         id={item.id}
                         value={hash.get(item.ques_text)}
                         onChange={(e) => {

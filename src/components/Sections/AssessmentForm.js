@@ -34,7 +34,7 @@ function AssessmentForm() {
           <strong
             style={{
               paddingLeft: '15px',
-              fontSize: '22px',
+              fontSize: '28px',
               color: 'black',
             }}
           >
