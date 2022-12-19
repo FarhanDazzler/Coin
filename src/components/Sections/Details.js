@@ -30,9 +30,25 @@ var control_oversight_fromDB = '';
 
 const Details = ({ control_id }) => {
   // const control_id = 'ATR_ACCR_01a';
+  const [scope, setscope] = useState({});
+  const getScope = () => {
+    Axios.get(
+      'http://localhost:1234/get_control_scope?ControlID=ATR_ACCR_01b-K&coOwner=Kushal.Khandelwal@ab-inbev.com',
+    )
+      .then((res) => {
+        console.log(res.data.data.priod_of_assessment);
+        setscope(res.data.data);
+        //console.log(scope.period_of_assessment);
+        //  scope[ priod_of_assessment]=res.data.data.period_of_assessment
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   const getControlData = () => {
     //for LCD and other details
+
     Axios.get('http://localhost:1234/get_control_instances?ControlID=' + control_id).then(function (
       response,
     ) {
@@ -127,6 +143,7 @@ const Details = ({ control_id }) => {
   useEffect(() => {
     getControlData();
     getGCDDesc();
+    getScope();
   }, []);
 
   const ReadMore = ({ children }) => {
@@ -206,9 +223,9 @@ const Details = ({ control_id }) => {
               acc_header="SCOPE"
               acc_body={
                 <div>
-                  <p>Receving entity : </p>
-                  <p>Provider org: </p>
-                  <p>Period of assessment</p>
+                  <p>Receving entity :{scope.receiving_entity} </p>
+                  <p>Provider org:{scope.provider_org} </p>
+                  <p>Period of assessment : {scope.priod_of_assessment}</p>
                   <p>Frequency of control : </p>
                 </div>
               }

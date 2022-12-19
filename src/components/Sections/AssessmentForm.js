@@ -94,6 +94,21 @@ function AssessmentForm() {
       child_question.push(values[i]);
     }
   }
+
+  for (let i = 0; i < parentQuestions.length; i++) {
+    let question = parentQuestions[i].question_text;
+    question = question.replaceAll('{{org}}', 'monkey');
+    question = question.replaceAll('{{freq}}', 'donkey');
+    parentQuestions[i].question_text = question;
+    console.log(question);
+  }
+  for (let i = 0; i < child_question.length; i++) {
+    let question = child_question[i].question_text;
+    question = question.replaceAll('{{org}}', 'monkey');
+    question = question.replaceAll('{{freq}}', 'donkey');
+    child_question[i].question_text = question;
+    console.log(question);
+  }
   console.log(child_question);
   console.log(parentQuestions);
 
@@ -119,7 +134,7 @@ function AssessmentForm() {
       confirmButtonText: 'Yes, submit it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        Swal.fire('Submited!', 'Your response has been submited', 'success');
       }
     });
   };
@@ -517,13 +532,19 @@ function AssessmentForm() {
   return (
     <>
       <div>
-        <p style={{ background: 'linear-gradient(90deg, rgb(227, 175, 50) 0%, rgb(244, 224, 15) 100%)', marginTop: '15px', borderRadius: '20px' }}>
+        <p
+          style={{
+            background: 'linear-gradient(90deg, rgb(227, 175, 50) 0%, rgb(244, 224, 15) 100%)',
+            marginTop: '15px',
+            borderRadius: '20px',
+          }}
+        >
           <strong
             id="section"
             style={{
               paddingLeft: '15px',
               fontSize: '28px',
-              color: 'black'
+              color: 'black',
             }}
           >
             SECTION 1 : General
@@ -562,7 +583,7 @@ function AssessmentForm() {
               style={{
                 paddingLeft: '15px',
                 fontSize: '22px',
-                color: 'black'
+                color: 'black',
               }}
             >
               SECTION 2 : KPI

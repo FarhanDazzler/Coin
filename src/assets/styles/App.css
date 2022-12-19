@@ -51,6 +51,22 @@
   font-size: 1em;
 }
 
+.page-item.active .page-link {
+  z-index: 1;
+  color: #fff;
+  background-color: goldenrod !important;
+  border-color: goldenrod !important;
+}
+
+.swal2-styled.swal2-confirm {
+  border: 0;
+  border-radius: 0.25em;
+  background: initial;
+  background-color: goldenrod !important;
+  color: #fff;
+  font-size: 1em;
+}
+
 input[type='file'] {
   position: absolute;
   z-index: -1;

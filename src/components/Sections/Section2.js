@@ -651,6 +651,7 @@ function Section2(props) {
         for (let i = 0; i < res.data.data.length; i++) {
           table_data.push(res.data.data[i]);
         }
+
         settable_data([...table_data]);
         // settable_data( );
         console.log(table_data);
@@ -670,6 +671,17 @@ function Section2(props) {
         console.log(table_data);
         // setvalues(res.data.data);
         // console.log(values);
+        for (let j = 0; j < table_data.length; j++) {
+          let period = table_data[j].Period_From;
+
+          let words = period.split('-');
+          const month = parseInt(words[1]);
+          const d = new Date();
+          d.setMonth(month - 1);
+          const monthName = d.toLocaleString('default', { month: 'long' });
+          console.log(monthName);
+          table_data[j]['Month'] = monthName;
+        }
 
         setproduct(table_data);
       })
