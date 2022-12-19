@@ -22,6 +22,30 @@ function AssessmentForm() {
   var parentQuestions = [];
   var child_question = [];
 
+  const sectionDisplay = (display_text) => {
+    return (
+      <div>
+        <br></br>
+        <p
+          style={{
+            background: 'linear-gradient(90deg, rgb(227, 175, 50) 0%, rgb(244, 224, 15) 100%)',
+            borderRadius: '20px',
+          }}
+        >
+          <strong
+            style={{
+              paddingLeft: '15px',
+              fontSize: '28px',
+              color: 'black',
+            }}
+          >
+            {display_text}
+          </strong>
+        </p>
+      </div>
+    );
+  };
+
   useEffect(() => {
     // console.log(child_question)
 
@@ -531,6 +555,7 @@ function AssessmentForm() {
 
   return (
     <>
+<<<<<<< HEAD
       <div>
         <p
           style={{
@@ -585,12 +610,49 @@ function AssessmentForm() {
                 fontSize: '22px',
                 color: 'black',
               }}
+=======
+      {sectionDisplay('Section 1: GENERAL')}
+
+      <div class="w-100 d-flex flex-column  justify-content-center  align-self-center">
+        <div class="w-100  align-self-center">
+          {ans}
+          {val != 'terminate' ? (
+            <div></div>
+          ) : (
+            <Button
+              className="mt-3"
+              variant="warning"
+              onClick={submit_section1}
+              style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
+              type="button"
+>>>>>>> 71105e738426f425788a69ff5cf93bde8b25185e
             >
-              SECTION 2 : KPI
-            </strong>
-          </p>
+              SUBMIT
+            </Button>
+          )}
         </div>
+      </div>
+      {flag === true ? (
+        sectionDisplay('Section 2: KPI')
       ) : (
+        // <div>
+        //   <p
+        //     style={{
+        //       background: 'linear-gradient(90deg, rgb(227, 175, 50) 0%, rgb(244, 224, 15) 100%)',
+        //       borderRadius: '20px',
+        //     }}
+        //   >
+        //     <strong
+        //       style={{
+        //         paddingLeft: '15px',
+        //         fontSize: '22px',
+        //         color: 'black'
+        //       }}
+        //     >
+        //       SECTION 2 : KPI
+        //     </strong>
+        //   </p>
+        // </div>
         <div></div>
       )}
       {flag === true ? <Section2 final={final} result={result} /> : <div></div>}

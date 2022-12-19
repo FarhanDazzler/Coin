@@ -17,6 +17,7 @@ import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 //import './App.css';
 import Workbook from 'react-excel-workbook';
 import * as XLSX from 'xlsx';
+import { RedirectHandler } from '@azure/msal-browser/dist/internals';
 function Section2(props) {
   console.log('second');
   //const { ExportCSVButton } = CSVExport;
@@ -81,7 +82,7 @@ function Section2(props) {
         color: '#000000',
         fontWeight: '700',
       },
-      filter: textFilter(),
+      // filter: textFilter(),
     },
 
     {
@@ -1271,7 +1272,7 @@ function Section2(props) {
     if (is_swal_fired === 0) {
       Swal.fire({
         title: 'Are you sure?',
-        text: 'your assessment is failed !',
+        text: 'The Assessment is failed !',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'golden',
@@ -1279,7 +1280,7 @@ function Section2(props) {
         confirmButtonText: 'Yes, submit it!',
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+          Swal.fire('Done!', 'You are now being redirected to the mainpage', 'success');         
         }
       });
     }
@@ -1290,12 +1291,12 @@ function Section2(props) {
 
   return (
     <>
-      <div className="text " id="my_table">
+      <div className="text table-responsive " id="my_table">
         <div id="my_btns">
           <div className="row " id="export_button_right">
             <Workbook
               filename="data.xlsx"
-              element={<button className="export_button">Export To Excel</button>}
+              element={<button className="export_button"><strong>Export To Excel</strong></button>}
             >
               <Workbook.Sheet data={product} name="Sheet A">
                 <Workbook.Column label="sep" value="sep" />
@@ -1311,15 +1312,15 @@ function Section2(props) {
               </Workbook.Sheet>
             </Workbook>
           </div>
-          <h1>Excel file upload & Download</h1>
+          <h1>Excel File Upload & Download</h1>
 
           <form onSubmit={handleSubmit} id="combine_btn">
-            <label class="submit_btn" for="uploadfile">
-              Upload File
+            <label class="submit_btn black-text" for="uploadfile">
+              <strong>Upload File</strong>
             </label>
             <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
-            <button type="submit" className="submit_btn">
-              Submit
+            <button type="submit" className="submit_btn black-text">
+              <strong>Submit</strong>
             </button>
           </form>
         </div>
@@ -1330,7 +1331,7 @@ function Section2(props) {
           columns={columns}
           filter={filterFactory()}
           pagination={paginationFactory()}
-          className="container"
+          className="container pagination"
           responsive
           cellEdit={cellEditFactory({
             mode: 'click',
@@ -1815,7 +1816,7 @@ function Section2(props) {
                         row="3"
                         type="text"
                         class="form-control"
-                        placeholder="Enter value first"
+                        placeholder="Please enter the value here."
                         id={item.id}
                         value={hash.get(item.ques_text)}
                         onChange={(e) => {
