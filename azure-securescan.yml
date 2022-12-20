@@ -56,7 +56,7 @@ jobs:
         SkAdditionalArgs: '--all-projects --detection-depth=4'
         App360ID: 'SE-03996'
 
-        scanCheckmarx: false
+        scanCheckmarx: true
         CxServiceConnection: 'CheckmarxServer'
         CxPreset: 'ASA_SDLC_Ready'
         CxEnableSyncScan: true
