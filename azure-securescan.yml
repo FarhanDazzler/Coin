@@ -1,4 +1,5 @@
-trigger: none
+trigger:
+  - main
   
 resources:
   repositories:
@@ -42,15 +43,15 @@ jobs:
     - template: pipeline_templates/secure_code_scan.yml@appsectemplates
       parameters:
         scanSonarCloud: true
-        sonarCloudGate: false
+        sonarCloudGate: true
         SCServiceConnection: 'SonarcloudServer'
         SCOrganization: 'ab-inbev'
 
         scanGitleaks: true
-        FailOnSecrets: false
+        FailOnSecrets: true
 
         scanSnyk: true
-        SKFailOnIssues: false
+        SKFailOnIssues: true
         SkServiceConnection: 'SnykServer'
         SkOrganization: 'f8e30283-d4c9-47be-821e-f7bcc1b2afca'
         SkAdditionalArgs: '--all-projects --detection-depth=4'
@@ -60,5 +61,5 @@ jobs:
         CxServiceConnection: 'CheckmarxServer'
         CxPreset: 'ASA_SDLC_Ready'
         CxEnableSyncScan: true
-        CxEnableThreshold: false
+        CxEnableThreshold: true
         CxTeamName: '/CxServer/AB-InBev/GHQ/Digital Solutions'
