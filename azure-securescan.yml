@@ -47,17 +47,17 @@ jobs:
           SCServiceConnection: 'SonarcloudServer'
           SCOrganization: 'ab-inbev'
 
-          scanGitleaks: true
+          scanGitleaks: false
           FailOnSecrets: false
 
-          scanSnyk: true
+          scanSnyk: false
           SKFailOnIssues: false
           SkServiceConnection: 'SnykServer'
           SkOrganization: 'f8e30283-d4c9-47be-821e-f7bcc1b2afca'
           SkAdditionalArgs: '--all-projects --detection-depth=4'
           App360ID: 'SE-03996'
 
-          scanCheckmarx: true
+          scanCheckmarx: false
           CxServiceConnection: 'CheckmarxServer'
           CxPreset: 'ASA_SDLC_Ready'
           CxEnableSyncScan: true
