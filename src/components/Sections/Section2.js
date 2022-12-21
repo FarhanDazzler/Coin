@@ -44,6 +44,7 @@ function Section2(props) {
   let [k, setk] = useState([false, false, false]);
   // let [k,setk]=useState([])
   let [product, setproduct] = useState([{}]);
+  const [is_kpi_open, setis_kpi_open] = useState(0);
 
   const fileType = ['application/vnd.ms-excel', '.xlsx'];
 
@@ -197,10 +198,13 @@ function Section2(props) {
         fontWeight: '700',
       },
       style: (cell, row, rowIndex, colIndex) => {
-        return {
-          backgroundColor: 'white',
-          border: '1px solid gold',
-        };
+        if (row.sep == 2) {
+          return {
+            backgroundColor: 'white',
+            border: '1px solid gold',
+            color: 'black',
+          };
+        }
       },
 
       validator: (newValue, row, column) => {
@@ -225,10 +229,13 @@ function Section2(props) {
         fontWeight: '700',
       },
       style: (cell, row, rowIndex, colIndex) => {
-        return {
-          backgroundColor: 'white',
-          border: '1px solid gold',
-        };
+        if (row.sep == 2) {
+          return {
+            backgroundColor: 'white',
+            border: '1px solid gold',
+            color: 'black',
+          };
+        }
       },
 
       validator: (newValue, row, column) => {
@@ -506,6 +513,16 @@ function Section2(props) {
   //     },
 
   // ];
+
+  const rowStyle2 = (row, rowIndex) => {
+    const style = {};
+    if (row.L3_Result == 'FAIL' || row.L3_Result == 'FAIL' || row.L3_Result == 'FAIL') {
+      style.backgroundColor = '#FF7A80';
+      style.color = '#FFFFFF';
+    }
+
+    return style;
+  };
 
   let parent_arr = [
     {
@@ -1280,7 +1297,7 @@ function Section2(props) {
         confirmButtonText: 'Yes, submit it!',
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire('Done!', 'You are now being redirected to the mainpage', 'success');         
+          Swal.fire('Done!', 'You are now being redirected to the mainpage', 'success');
         }
       });
     }
@@ -1296,7 +1313,11 @@ function Section2(props) {
           <div className="row " id="export_button_right">
             <Workbook
               filename="data.xlsx"
-              element={<button className="export_button"><strong>Export To Excel</strong></button>}
+              element={
+                <button className="export_button">
+                  <strong>Export To Excel</strong>
+                </button>
+              }
             >
               <Workbook.Sheet data={product} name="Sheet A">
                 <Workbook.Column label="sep" value="sep" />
@@ -1333,6 +1354,7 @@ function Section2(props) {
           pagination={paginationFactory()}
           className="container pagination"
           responsive
+          rowStyle={rowStyle2}
           cellEdit={cellEditFactory({
             mode: 'click',
             blurToSave: true,
@@ -1493,8 +1515,16 @@ function Section2(props) {
                   k[2] = true;
                 }
 
+                setis_kpi_open(0);
+
                 console.log(k);
                 setk([...k]);
+              }
+
+              for (let i = 0; i < k.length - 1; i++) {
+                if (k[i] == true) {
+                  setis_kpi_open(1);
+                }
               }
 
               while (final.length > 0) {
@@ -1519,6 +1549,51 @@ function Section2(props) {
             },
           })}
         />
+        <div>
+          {is_kpi_open == 1 ? (
+            <div className="card border-0 child">
+              <div className="card-body text">
+                <strong className="card-text ">
+                  Actual values are not within the designated threshold causing the KPI to fail.
+                  Please pick any of the below options on the KPI value
+                </strong>
+                <br></br>
+                <br></br>
+                <div>
+                  <input type="radio" id={'kpi'} name={'table'}></input>
+                  <label style={{ fontSize: '19px', marginLeft: '8px' }} for={'kpi'}>
+                    Agree with the KPI Assessmen
+                  </label>
+                </div>
+
+                <div>
+                  <input type="radio" id={'kpi2'} name={'table'}></input>
+                  <label style={{ fontSize: '19px', marginLeft: '8px' }} for={'kpi2'}>
+                    Incorrect KPI calculation
+                  </label>
+                </div>
+
+                <div>
+                  <input type="radio" id={'kpi3'} name={'table'}></input>
+                  <label style={{ fontSize: '19px', marginLeft: '8px' }} for={'kpi3'}>
+                    KPI threshold too strict
+                  </label>
+                </div>
+
+                <div>
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    placeholder="Others"
+                    row="3"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div></div>
+          )}
+        </div>
       </div>
 
       {}

@@ -555,62 +555,6 @@ function AssessmentForm() {
 
   return (
     <>
-<<<<<<< HEAD
-      <div>
-        <p
-          style={{
-            background: 'linear-gradient(90deg, rgb(227, 175, 50) 0%, rgb(244, 224, 15) 100%)',
-            marginTop: '15px',
-            borderRadius: '20px',
-          }}
-        >
-          <strong
-            id="section"
-            style={{
-              paddingLeft: '15px',
-              fontSize: '28px',
-              color: 'black',
-            }}
-          >
-            SECTION 1 : General
-          </strong>
-        </p>
-      </div>
-      <form onSubmit={submit_section1}>
-        <div class="w-100 d-flex flex-column  justify-content-center  align-self-center">
-          <div class="w-100  align-self-center">
-            {ans}
-            {val != 'terminate' ? (
-              <div></div>
-            ) : (
-              <Button
-                className="mt-3"
-                variant="warning"
-                // onClick={submit_section1}
-                style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
-                type="submit"
-              >
-                SUBMIT
-              </Button>
-            )}
-          </div>
-        </div>
-      </form>
-      {flag === true ? (
-        <div>
-          <p
-            style={{
-              background: 'linear-gradient(90deg, rgb(227, 175, 50) 0%, rgb(244, 224, 15) 100%)',
-              borderRadius: '20px',
-            }}
-          >
-            <strong
-              style={{
-                paddingLeft: '15px',
-                fontSize: '22px',
-                color: 'black',
-              }}
-=======
       {sectionDisplay('Section 1: GENERAL')}
 
       <div class="w-100 d-flex flex-column  justify-content-center  align-self-center">
@@ -625,7 +569,6 @@ function AssessmentForm() {
               onClick={submit_section1}
               style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
               type="button"
->>>>>>> 71105e738426f425788a69ff5cf93bde8b25185e
             >
               SUBMIT
             </Button>
