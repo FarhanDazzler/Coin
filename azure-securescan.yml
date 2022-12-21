@@ -42,8 +42,8 @@ jobs:
 
       - template: pipeline_templates/secure_code_scan.yml@appsectemplates
         parameters:
-          scanSonarCloud: true
-          sonarCloudGate: true
+          scanSonarCloud: false
+          sonarCloudGate: false
           SCServiceConnection: 'SonarcloudServer'
           SCOrganization: 'ab-inbev'
 
