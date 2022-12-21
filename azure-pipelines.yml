@@ -7,7 +7,7 @@ pr:
       - main
 
 pool:
-  vmImage: "ubuntu-latest"
+  vmImage: 'ubuntu-latest'
 
 resources:
   repositories:
@@ -29,7 +29,7 @@ jobs:
         displayName: npm install
         inputs:
           command: custom
-          workingDir: "$(System.DefaultWorkingDirectory)/$(Build.Repository.Name)"
+          workingDir: '$(System.DefaultWorkingDirectory)/$(Build.Repository.Name)'
           verbose: false
           customCommand: install --legacy-peer-deps
 
@@ -44,9 +44,9 @@ jobs:
       - task: Npm@1
         displayName: npm build
         inputs:
-          command: "custom"
-          workingDir: "$(System.DefaultWorkingDirectory)/$(Build.Repository.Name)"
-          customCommand: "run build"
+          command: 'custom'
+          workingDir: '$(System.DefaultWorkingDirectory)/$(Build.Repository.Name)'
+          customCommand: 'run build'
 
       # - template: pipeline_templates/secure_code_scan.yml@appsectemplates
       #   parameters:
@@ -70,7 +70,6 @@ jobs:
       #     CxEnableSyncScan: true
       #     CxEnableThreshold: true
       #     CxTeamName: "/CxServer/AB-InBev/GHQ/Digital Solutions"
-      
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: drop'
