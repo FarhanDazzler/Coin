@@ -48,10 +48,10 @@ jobs:
           SCOrganization: 'ab-inbev'
 
           scanGitleaks: true
-          FailOnSecrets: true
+          FailOnSecrets: false
 
           scanSnyk: true
-          SKFailOnIssues: true
+          SKFailOnIssues: false
           SkServiceConnection: 'SnykServer'
           SkOrganization: 'f8e30283-d4c9-47be-821e-f7bcc1b2afca'
           SkAdditionalArgs: '--all-projects --detection-depth=4'
