@@ -64,8 +64,8 @@ jobs:
           CxEnableThreshold: true
           CxTeamName: '/CxServer/AB-InBev/GHQ/Digital Solutions'
 
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifact: drop'
-        inputs:
-          # workingDir: "$(System.DefaultWorkingDirectory)/$(Build.Repository.Name)"
-          PathtoPublish: $(System.DefaultWorkingDirectory)/$(Build.Repository.Name)/build
+      # - task: PublishBuildArtifacts@1
+      #   displayName: 'Publish Artifact: drop'
+      #   inputs:
+      #     # workingDir: "$(System.DefaultWorkingDirectory)/$(Build.Repository.Name)"
+      #     PathtoPublish: $(System.DefaultWorkingDirectory)/$(Build.Repository.Name)/build
