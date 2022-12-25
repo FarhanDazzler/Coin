@@ -68,12 +68,8 @@
 }
 
 input[type='file'] {
-  position: absolute;
-  z-index: -1;
-  top: 3px;
-  left: 4px;
-  font-size: 1px;
-  color: #b8b8b8;
+  color: #000;
+  background-color: goldenrod;
 }
 .button-wrap {
   position: relative;

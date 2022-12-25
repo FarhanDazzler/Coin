@@ -18,6 +18,7 @@ function AssessmentForm() {
   const [isDisabled, setIsDisabled] = useState(false);
   const child_map = new Map();
   var [result, setresult] = useState(new Map());
+  const [action_plan, setaction_plan] = useState(new Map());
   let [values, setvalues] = useState([]);
   var parentQuestions = [];
   var child_question = [];
@@ -118,18 +119,20 @@ function AssessmentForm() {
       child_question.push(values[i]);
     }
   }
+  const org = localStorage.getItem('provider_org');
+  const freq = localStorage.getItem('frequency');
 
   for (let i = 0; i < parentQuestions.length; i++) {
     let question = parentQuestions[i].question_text;
-    question = question.replaceAll('{{org}}', 'monkey');
-    question = question.replaceAll('{{freq}}', 'donkey');
+    question = question.replaceAll('{{org}}', org);
+    question = question.replaceAll('{{freq}}', freq);
     parentQuestions[i].question_text = question;
     console.log(question);
   }
   for (let i = 0; i < child_question.length; i++) {
     let question = child_question[i].question_text;
-    question = question.replaceAll('{{org}}', 'monkey');
-    question = question.replaceAll('{{freq}}', 'donkey');
+    question = question.replaceAll('{{org}}', org);
+    question = question.replaceAll('{{freq}}', freq);
     child_question[i].question_text = question;
     console.log(question);
   }
@@ -307,6 +310,16 @@ function AssessmentForm() {
       } else {
         if (option_value.child_question == '') {
           console.log('hii');
+
+          if (option_value.is_action_plan == 1) {
+            console.log('open action plan at end');
+            // setaction_plan(1)
+            action_plan.set(parent_ques.question_text, 1);
+          } else {
+            action_plan.set(parent_ques.question_text, 0);
+          }
+          setaction_plan((prev) => new Map([...prev]));
+
           const parent_index = new Map();
           for (var i = 0; i < parentQuestions.length; i++) {
             parent_index.set(parentQuestions[i].q_id, i);
@@ -598,7 +611,11 @@ function AssessmentForm() {
         // </div>
         <div></div>
       )}
-      {flag === true ? <Section2 final={final} result={result} /> : <div></div>}
+      {flag === true ? (
+        <Section2 final={final} result={result} is_action_plan={action_plan} />
+      ) : (
+        <div></div>
+      )}
     </>
   );
 }

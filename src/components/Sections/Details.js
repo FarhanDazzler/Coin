@@ -35,11 +35,16 @@ const Details = ({ control_id }) => {
     Axios.get(
       'http://localhost:1234/get_control_scope?ControlID=ATR_ACCR_01b-K&coOwner=Kushal.Khandelwal@ab-inbev.com',
     )
-      .then((res) => {
+      .then(async (res) => {
         console.log(res.data.data.priod_of_assessment);
         setscope(res.data.data);
+        console.log(scope.frequency);
+        // localStorage.setItem('frequency', scope.frequency);
+        // localStorage.setItem('provider_org', scope.provider_org);
         //console.log(scope.period_of_assessment);
         //  scope[ priod_of_assessment]=res.data.data.period_of_assessment
+        await localStorage.setItem('frequency', scope.frequency);
+        await localStorage.setItem('provider_org', scope.provider_org);
       })
       .catch((e) => {
         console.log(e);
@@ -144,7 +149,7 @@ const Details = ({ control_id }) => {
     getControlData();
     getGCDDesc();
     getScope();
-  }, []);
+  }, [scope.frequency, scope.provider_org]);
 
   const ReadMore = ({ children }) => {
     const text = children;
@@ -223,10 +228,19 @@ const Details = ({ control_id }) => {
               acc_header="SCOPE"
               acc_body={
                 <div>
-                  <p>Receving entity :{scope.receiving_entity} </p>
-                  <p>Provider org:{scope.provider_org} </p>
-                  <p>Period of assessment : {scope.priod_of_assessment}</p>
-                  <p>Frequency of control : </p>
+                  <p>
+                    <strong>Receving entity :</strong> {scope.receiving_entity}{' '}
+                  </p>
+                  <p>
+                    <strong>Provider org: </strong> {scope.provider_org}{' '}
+                  </p>
+                  <p>
+                    {' '}
+                    <strong>Period of assessment :</strong> {scope.priod_of_assessment}
+                  </p>
+                  <p>
+                    <strong>Frequency of control :</strong> {scope.frequency}{' '}
+                  </p>
                 </div>
               }
             />

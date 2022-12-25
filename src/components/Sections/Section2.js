@@ -660,6 +660,40 @@ function Section2(props) {
     },
   ];
 
+  console.log(props.is_action_plan);
+  let is_action_plan;
+
+  props.is_action_plan.forEach((values, keys) => {
+    //  console.log("line: ",values)
+    if (values == 1) {
+      is_action_plan = 1;
+    }
+  });
+
+  const sectionDisplay = (display_text) => {
+    return (
+      <div>
+        <br></br>
+        <p
+          style={{
+            background: 'linear-gradient(90deg, rgb(227, 175, 50) 0%, rgb(244, 224, 15) 100%)',
+            borderRadius: '20px',
+          }}
+        >
+          <strong
+            style={{
+              paddingLeft: '15px',
+              fontSize: '28px',
+              color: 'black',
+            }}
+          >
+            {display_text}
+          </strong>
+        </p>
+      </div>
+    );
+  };
+
   useEffect(() => {
     axios
       .get('http://localhost:1234/kpi_result?ControlID=ATR_ACCR_01b-K&Entity=Argentina')
@@ -839,12 +873,12 @@ function Section2(props) {
             //  L = [false, true, false]
             //  props.setL(props.L)
             console.log(k);
-            if (k[parent.get(head.id)] == true) {
-              arr.push(child_next[parent.get(head.id)]);
-            } else {
-              child_submit.set(head.id, true);
-              arr.push(children.get(head.Yes));
-            }
+            // if (k[parent.get(head.id)] == true) {
+            //   arr.push(child_next[parent.get(head.id)]);
+            // }
+            child_submit.set(head.id, true);
+            arr.push(children.get(head.Yes));
+
             break;
           } else {
             arr.push(final[i]);
@@ -1214,11 +1248,18 @@ function Section2(props) {
           k[2] = true;
         }
 
+        setis_kpi_open(0);
         console.log(k);
         setk([...k]);
       }
       console.log(product);
       document.getElementById('uploadfile').value = '';
+
+      for (let i = 0; i < k.length - 1; i++) {
+        if (k[i] == true) {
+          setis_kpi_open(1);
+        }
+      }
 
       while (final.length > 0) {
         final.pop();
@@ -1306,6 +1347,17 @@ function Section2(props) {
     console.log(hash);
   };
 
+  const action = {
+    ques_text: 'question action plan because of  section 1',
+    action_plan_present: is_action_plan == 1 ? 1 : 0,
+  };
+
+  const action_plan = (e) => {
+    final.push(action);
+    setfinal([...final]);
+    console.log(final);
+  };
+
   return (
     <>
       <div className="text table-responsive " id="my_table">
@@ -1336,9 +1388,9 @@ function Section2(props) {
           <h1>Excel File Upload & Download</h1>
 
           <form onSubmit={handleSubmit} id="combine_btn">
-            <label class="submit_btn black-text" for="uploadfile">
+            {/* <label class="submit_btn black-text" for="uploadfile">
               <strong>Upload File</strong>
-            </label>
+            </label> */}
             <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
             <button type="submit" className="submit_btn black-text">
               <strong>Submit</strong>
@@ -1603,73 +1655,95 @@ function Section2(props) {
             ** Please fill all the row of KPI table first
           </h3>
         ) : (
-          final.map((item) =>
-            item.id == 'soo7' ? (
-              <div className="card border-0 child">
-                <div className="card-body text">
-                  <strong className="card-text ">
-                    Is L3 MICS Description achieved on this control? In addition to the L2
-                    requirements:
-                  </strong>
-                  <br></br>
-                  <strong className="card-text">
-                    {' '}
-                    1. Any MJE performed is managed through a workflow tool which guarantees four
-                    eye review on every transaction (employees can park & post journal entries, but
-                    can never do this on the same journal entry).
-                  </strong>
-                  <br></br>
-                  <strong className="card-text">
-                    2. All documentation supporting MJEs is stored together with the journal entry
-                    in the system of record (ERP or sub conso system) and no other system.
-                  </strong>
-                  <br></br>
-                  <br></br>
-                  <strong className="card-text">
-                    {' '}
-                    Standardization to be achieved to reach L3: Booking of manual journal entries is
-                    only performed by the NoCC.`,
-                  </strong>
-                  <br></br>
+          <div>
+            {sectionDisplay('Section 3: MICS SPECIFIC')}
 
-                  <div>
-                    <input type="radio" id={item.options.L1} name={item.ques_text}></input>
-                    <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.options.L1}>
-                      {item.options[0].L1}
-                    </label>
-                  </div>
-                  <div>
-                    <input type="radio" id={item.options.L2} name={item.ques_text}></input>
-                    <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.options.L2}>
-                      {item.options[1].L2}
-                    </label>
-                  </div>
-                </div>
-                <Button
-                  className="mt-3"
-                  variant="warning"
-                  onClick={click}
-                  style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
-                  type="button"
-                >
-                  SUBMIT
-                </Button>{' '}
-              </div>
-            ) : item.terminate == 1 ? (
-              <div>
+            {final.map((item) =>
+              item.id == 'soo7' ? (
                 <div className="card border-0 child">
                   <div className="card-body text">
-                    <strong
-                      className="card-text "
-                      style={{ fontWeight: 'bolder', fontSize: '19px', marginBottom: '26px' }}
-                    >
+                    <strong className="card-text ">
+                      Is L3 MICS Description achieved on this control? In addition to the L2
+                      requirements:
+                    </strong>
+                    <br></br>
+                    <strong className="card-text">
                       {' '}
-                      {item.ques_text}
+                      1. Any MJE performed is managed through a workflow tool which guarantees four
+                      eye review on every transaction (employees can park & post journal entries,
+                      but can never do this on the same journal entry).
+                    </strong>
+                    <br></br>
+                    <strong className="card-text">
+                      2. All documentation supporting MJEs is stored together with the journal entry
+                      in the system of record (ERP or sub conso system) and no other system.
                     </strong>
                     <br></br>
                     <br></br>
+                    <strong className="card-text">
+                      {' '}
+                      Standardization to be achieved to reach L3: Booking of manual journal entries
+                      is only performed by the NoCC.`,
+                    </strong>
+                    <br></br>
 
                     <div>
+                      <input
+                        type="radio"
+                        id={item.options.L1}
+                        name={item.ques_text}
+                        onChange={
+                          is_action_plan == 1
+                            ? (e) => {
+                                action_plan(e);
+                              }
+                            : ''
+                        }
+                      ></input>
+                      <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.options.L1}>
+                        {item.options[0].L1}
+                      </label>
+                    </div>
+                    <div>
+                      <input type="radio" id={item.options.L2} name={item.ques_text}></input>
+                      <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.options.L2}>
+                        {item.options[1].L2}
+                      </label>
+                    </div>
+                  </div>
+                  {props.is_action_plan == 0 ? (
+                    <Button
+                      className="mt-3"
+                      variant="warning"
+                      onClick={click}
+                      style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
+                      type="button"
+                    >
+                      SUBMIT
+                    </Button>
+                  ) : (
+                    <div></div>
+                  )}
+                </div>
+              ) : item.terminate == 1 ? (
+                <div>
+                  <div className="card border-0 child">
+                    <div className="card-body text">
+                      <strong
+                        className="card-text "
+                        style={{ fontWeight: 'bolder', fontSize: '19px', marginBottom: '26px' }}
+                      >
+                        {' '}
+                        {/* {item.ques_text} */}
+                        Based on above response, action plans needs to be created on the failed
+                        control. Request you to elaborate the action Plan?<br></br>
+                        (Hint: Action plan is a time bound proposition designed to remediate the
+                        control breakdown with the objective of ensuring MICS compliance)
+                      </strong>
+                      <br></br>
+                      <br></br>
+
+                      {/* <div>
                       <input
                         type="radio"
                         id={item.option.op1}
@@ -1702,227 +1776,294 @@ function Section2(props) {
                       <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.option.op2}>
                         {item.option.op2}
                       </label>
-                    </div>
-                    <div>
-                      <textarea
-                        row="3"
-                        type="text"
-                        class="form-control"
-                        placeholder=""
-                        onChange={(e) => {
-                          ans.set(item.ques_text, e.target.value);
-                          console.log(ans);
-                          setans((prev) => new Map([...prev]));
-                        }}
-                      ></textarea>
+                    </div> */}
+                      <div>
+                        <textarea
+                          row="3"
+                          type="text"
+                          class="form-control"
+                          placeholder=""
+                          onChange={(e) => {
+                            ans.set(item.ques_text, e.target.value);
+                            console.log(ans);
+                            setans((prev) => new Map([...prev]));
+                          }}
+                        ></textarea>
+                      </div>
                     </div>
                   </div>
+                  <h6 style={{ color: 'red', paddingTop: '7px' }}>
+                    Based on above response, the control is assessed as failed at L
+                    {parent.get(item.parent_id) + 1}
+                    {is_action_plan == 1
+                      ? ' / inadequate Documentation or inadequate frequency'
+                      : ''}
+                    {is_kpi_open == 1 ? ' / Failed KPI' : ''}
+                  </h6>
+                  <Button
+                    className="mt-3"
+                    variant="warning"
+                    // onClick={click}
+                    style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
+                    type="submit"
+                    // onSubmit={(e) => submit(props, e, final, hash, setchildterminate)}
+                  >
+                    SUBMIT
+                  </Button>{' '}
                 </div>
-                <h6 style={{ color: 'red', paddingTop: '7px' }}>
-                  Based on above response, the control is assessed as failed at L
-                  {parent.get(item.parent_id) + 1}
-                </h6>
-                <Button
-                  className="mt-3"
-                  variant="warning"
-                  // onClick={click}
-                  style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
-                  type="submit"
-                  // onSubmit={(e) => submit(props, e, final, hash, setchildterminate)}
-                >
-                  SUBMIT
-                </Button>{' '}
-              </div>
-            ) : item.parent == 1 ? (
-              <div>
-                <div className="card border-0 child">
-                  <div className="card-body text">
-                    <strong
-                      className="card-text "
-                      style={{ fontWeight: 'bolder', fontSize: '19px', marginBottom: '26px' }}
-                    >
-                      {' '}
-                      {item.ques_text}
-                    </strong>
-                    <br></br>
-                    <br></br>
-                    <div className="w-100">
-                      {item.level.map((opt, i) => (
-                        <>
-                          <div className="d-flex justify-content-around">
-                            <div className="w-50">
-                              <label style={{ fontSize: '19px' }}>{opt.L}</label>
-                            </div>
-                            <div className="d-flex  w-25  justify-content-between m-5">
-                              <div className="mb-2">
-                                <input
-                                  type="radio"
-                                  name={opt.L}
-                                  checked={ans.get(opt.L) === 'yes' ? true : false}
-                                  onChange={() => {
-                                    radio(item, opt.L, 'yes', i);
-                                  }}
-                                ></input>
-                                <label style={{ fontSize: '19px', marginLeft: '8px' }} for={opt.L}>
-                                  Yes
-                                </label>
+              ) : item.parent == 1 ? (
+                <div>
+                  <div className="card border-0 child">
+                    <div className="card-body text">
+                      <strong
+                        className="card-text "
+                        style={{ fontWeight: 'bolder', fontSize: '19px', marginBottom: '26px' }}
+                      >
+                        {' '}
+                        {item.ques_text}
+                      </strong>
+                      <br></br>
+                      <br></br>
+                      <div className="w-100">
+                        {item.level.map((opt, i) => (
+                          <>
+                            <div className="d-flex justify-content-around">
+                              <div className="w-50">
+                                <label style={{ fontSize: '19px' }}>{opt.L}</label>
                               </div>
-                              <div className="mb-2">
-                                <input
-                                  type="radio"
-                                  name={opt.L}
-                                  checked={ans.get(opt.L) === 'No' ? true : false}
-                                  onChange={() => {
-                                    radio(item, opt.L, 'No', i);
-                                  }}
-                                ></input>
-                                <label style={{ fontSize: '19px', marginLeft: '8px' }} for={opt.L}>
-                                  No
-                                </label>
+                              <div className="d-flex  w-25  justify-content-between m-5">
+                                <div className="mb-2">
+                                  <input
+                                    type="radio"
+                                    name={opt.L}
+                                    checked={ans.get(opt.L) === 'yes' ? true : false}
+                                    onChange={() => {
+                                      radio(item, opt.L, 'yes', i);
+                                    }}
+                                  ></input>
+                                  <label
+                                    style={{ fontSize: '19px', marginLeft: '8px' }}
+                                    for={opt.L}
+                                  >
+                                    Yes
+                                  </label>
+                                </div>
+                                <div className="mb-2">
+                                  <input
+                                    type="radio"
+                                    name={opt.L}
+                                    checked={ans.get(opt.L) === 'No' ? true : false}
+                                    onChange={() => {
+                                      radio(item, opt.L, 'No', i);
+                                    }}
+                                  ></input>
+                                  <label
+                                    style={{ fontSize: '19px', marginLeft: '8px' }}
+                                    for={opt.L}
+                                  >
+                                    No
+                                  </label>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </>
-                      ))}
-                    </div>
-                    <br></br>
-                  </div>
-                </div>
-              </div>
-            ) : item.section == 0 ? (
-              <div>
-                <div className="card border-0 child">
-                  <div className="card-body text">
-                    <strong
-                      className="card-text "
-                      style={{ fontWeight: 'bolder', fontSize: '19px', marginBottom: '26px' }}
-                    >
-                      {item.ques_text}
-                    </strong>
-                    <br></br>
-                    <br></br>
-                    <div>
-                      <input
-                        type="radio"
-                        id={item.ques_text}
-                        name={item.ques_text}
-                        checked={ans.get(item.ques_text) == 'Agree with KPI value' ? true : false}
-                        value={'Agree with KPI value'}
-                        onChange={(e) => {
-                          // child_part(item, e);
-                          child_terminate(item, e);
-                        }}
-                      ></input>
-                      <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.ques_text}>
-                        Agree with KPI value
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id={item.ques_text}
-                        name={item.ques_text}
-                        checked={
-                          ans.get(item.ques_text) == 'KPI calculation is incorrect' ? true : false
-                        }
-                        value={'KPI calculation is incorrect'}
-                        onChange={(e) => {
-                          // child_part(item, e);
-                          child_terminate(item, e);
-                        }}
-                      ></input>
-                      <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.ques_text}>
-                        KPI calculation is incorrect
-                      </label>
+                          </>
+                        ))}
+                      </div>
+                      <br></br>
                     </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <div>
-                <div className="card border-0 child">
-                  <div className="card-body text">
-                    <strong
-                      className="card-text "
-                      style={{ fontWeight: 'bolder', fontSize: '19px', marginBottom: '26px' }}
-                    >
-                      {' '}
-                      {item.ques_text}
-                    </strong>
-                    <br></br>
-                    <br></br>
-                    <div>
-                      <input
-                        type="radio"
-                        id={item.ques_text}
-                        name={item.ques_text}
-                        value={'No'}
-                        checked={ans.get(item.ques_text) == 'No' ? true : false}
-                        onChange={(e) => {
-                          child_part(item, e, 'No');
-                          document.getElementById(item.id).disabled = true;
-                        }}
-                      ></input>
-                      <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.ques_text}>
-                        No
-                      </label>
-                    </div>
-                    <div>
+              ) : item.section == 0 ? (
+                <div>
+                  <div className="card border-0 child">
+                    <div className="card-body text">
+                      <strong
+                        className="card-text "
+                        style={{ fontWeight: 'bolder', fontSize: '19px', marginBottom: '26px' }}
+                      >
+                        {item.ques_text}
+                      </strong>
+                      <br></br>
+                      <br></br>
                       <div>
                         <input
                           type="radio"
                           id={item.ques_text}
                           name={item.ques_text}
-                          checked={ans.get(item.ques_text) == 'yes' ? true : false}
+                          checked={ans.get(item.ques_text) == 'Agree with KPI value' ? true : false}
+                          value={'Agree with KPI value'}
                           onChange={(e) => {
-                            document.getElementById(item.id).disabled = false;
-                            ans.delete(item.ques_text);
-                            ans.set(item.ques_text, 'yes');
-                            console.log(ans);
-
-                            setans((prev) => new Map([...prev]));
+                            // child_part(item, e);
+                            child_terminate(item, e);
                           }}
                         ></input>
                         <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.ques_text}>
-                          Yes
+                          Agree with KPI value
                         </label>
                       </div>
-                      <textarea
-                        row="3"
-                        type="text"
-                        class="form-control"
-                        placeholder="Please enter the value here."
-                        id={item.id}
-                        value={hash.get(item.ques_text)}
-                        onChange={(e) => {
-                          child_terminate(item, e);
-                        }}
-                      ></textarea>
-                      {childterminate == true && child_submit.get(item.id) == true ? (
-                        <div>
-                          <h6 style={{ color: 'red', paddingTop: '7px' }}>
-                            Based on above response, the control is assessed as failed at L
-                            {parent.get(item.parent_id) + 1}
-                          </h6>
-                          <Button
-                            className="mt-3"
-                            variant="warning"
-                            //  onClick={click}
-                            style={{ fontSize: 24, height: ' 50px', width: '100%' }}
-                            type="submit"
-                          >
-                            SUBMIT
-                          </Button>
-                        </div>
-                      ) : (
-                        <div></div>
-                      )}
+                      <div>
+                        <input
+                          type="radio"
+                          id={item.ques_text}
+                          name={item.ques_text}
+                          checked={
+                            ans.get(item.ques_text) == 'KPI calculation is incorrect' ? true : false
+                          }
+                          value={'KPI calculation is incorrect'}
+                          onChange={(e) => {
+                            // child_part(item, e);
+                            child_terminate(item, e);
+                          }}
+                        ></input>
+                        <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.ques_text}>
+                          KPI calculation is incorrect
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ),
-          )
+              ) : (
+                <div>
+                  {item.action_plan_present !== 1 ? (
+                    <div className="card border-0 child">
+                      <div className="card-body text">
+                        <strong
+                          className="card-text "
+                          style={{ fontWeight: 'bolder', fontSize: '19px', marginBottom: '26px' }}
+                        >
+                          {' '}
+                          {item.ques_text}
+                        </strong>
+                        <br></br>
+                        <br></br>
+                        <div>
+                          <input
+                            type="radio"
+                            id={item.ques_text}
+                            name={item.ques_text}
+                            value={'No'}
+                            checked={ans.get(item.ques_text) == 'No' ? true : false}
+                            onChange={(e) => {
+                              child_part(item, e, 'No');
+                              document.getElementById(item.id).disabled = true;
+                            }}
+                          ></input>
+                          <label
+                            style={{ fontSize: '19px', marginLeft: '8px' }}
+                            for={item.ques_text}
+                          >
+                            No
+                          </label>
+                        </div>
+                        <div>
+                          <div>
+                            <input
+                              type="radio"
+                              id={item.ques_text}
+                              name={item.ques_text}
+                              checked={ans.get(item.ques_text) == 'yes' ? true : false}
+                              onChange={(e) => {
+                                document.getElementById(item.id).disabled = false;
+                                ans.delete(item.ques_text);
+                                ans.set(item.ques_text, 'yes');
+                                console.log(ans);
+
+                                setans((prev) => new Map([...prev]));
+                              }}
+                            ></input>
+                            <label
+                              style={{ fontSize: '19px', marginLeft: '8px' }}
+                              for={item.ques_text}
+                            >
+                              Yes
+                            </label>
+                          </div>
+                          <textarea
+                            row="3"
+                            type="text"
+                            class="form-control"
+                            placeholder="Please enter the value here."
+                            id={item.id}
+                            value={hash.get(item.ques_text)}
+                            onChange={(e) => {
+                              child_terminate(item, e);
+                            }}
+                          ></textarea>
+                          {childterminate == true && child_submit.get(item.id) == true ? (
+                            <div>
+                              <h6 style={{ color: 'red', paddingTop: '7px' }}>
+                                Based on above response, the control is assessed as failed at L
+                                {parent.get(item.parent_id) + 1}
+                              </h6>
+                              <Button
+                                className="mt-3"
+                                variant="warning"
+                                //  onClick={click}
+                                style={{ fontSize: 24, height: ' 50px', width: '100%' }}
+                                type="submit"
+                              >
+                                SUBMIT
+                              </Button>
+                            </div>
+                          ) : (
+                            <div></div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="card border-0 child">
+                        <div className="card-body text">
+                          <strong
+                            className="card-text "
+                            style={{ fontWeight: 'bolder', fontSize: '19px', marginBottom: '26px' }}
+                          >
+                            {' '}
+                            Based on above response, action plans needs to be created on the failed
+                            control. Request you to elaborate the action Plan?<br></br>
+                            (Hint: Action plan is a time bound proposition designed to remediate the
+                            control breakdown with the objective of ensuring MICS compliance)
+                          </strong>
+                          <br></br>
+                          <br></br>
+                          <div>
+                            <textarea
+                              type="text"
+                              class="form-control"
+                              placeholder=""
+                              row="4"
+                              onChange={(e) => {
+                                ans.set(item.ques_text, e.target.value);
+                                console.log(ans);
+                                setans((prev) => new Map([...prev]));
+                              }}
+                            ></textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div style={{ color: 'red' }}>
+                        Based on above response, the control is assessed as failed at{' '}
+                        {is_action_plan == 1
+                          ? ' / inadequate Documentation or inadequate frequency'
+                          : ''}
+                        {is_kpi_open == 1 ? ' / Failed KPI' : ''}
+                      </div>
+                      <Button
+                        className="mt-3"
+                        variant="warning"
+                        //  onClick={click}
+                        style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
+                        type="submit"
+                      >
+                        SUBMIT
+                      </Button>{' '}
+                    </div>
+                  )}
+                </div>
+              ),
+            )}
+          </div>
         )}
       </form>
     </>
