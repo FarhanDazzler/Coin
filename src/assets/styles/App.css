@@ -69,7 +69,7 @@
 
 input[type='file'] {
   color: #000;
-  background-color: goldenrod;
+  background-color: rgba(197, 194, 194, 0.966);
 }
 .button-wrap {
   position: relative;

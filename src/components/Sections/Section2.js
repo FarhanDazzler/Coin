@@ -516,7 +516,7 @@ function Section2(props) {
 
   const rowStyle2 = (row, rowIndex) => {
     const style = {};
-    if (row.L3_Result == 'FAIL' || row.L3_Result == 'FAIL' || row.L3_Result == 'FAIL') {
+    if (row.L3_Result == 'Fail' || row.L3_Result == 'Fail' || row.L3_Result == 'Fail') {
       style.backgroundColor = '#FF7A80';
       style.color = '#FFFFFF';
     }
@@ -662,13 +662,22 @@ function Section2(props) {
 
   console.log(props.is_action_plan);
   let is_action_plan;
+  let document;
+  let frequency;
 
   props.is_action_plan.forEach((values, keys) => {
-    //  console.log("line: ",values)
     if (values == 1) {
+      console.log('line: ', values, keys);
       is_action_plan = 1;
+      if (keys.indexOf('documentation evidence') != -1) {
+        document = 1;
+      }
+      if (keys.indexOf('required frequency') != -1) {
+        frequency = 1;
+      }
     }
   });
+  console.log(document, frequency);
 
   const sectionDisplay = (display_text) => {
     return (
@@ -709,7 +718,7 @@ function Section2(props) {
         console.log(table_data);
 
         for (let i = 0; i < table_data.length; i++) {
-          if (table_data[i].KPI_Value == '') {
+          if (table_data[i].KPI_Value == '' || table_data[i].KPI_Value == 0) {
             console.log('null');
             table_data[i]['sep'] = 2;
           } else {
@@ -1121,100 +1130,100 @@ function Section2(props) {
             product[i].KPI_Value <= product[i].MICS_L1_Threshold &&
             product[i].MICS_L1_Threshold != ''
           ) {
-            product[i].L1_Result = 'PASS';
+            product[i].L1_Result = 'Pass';
           } else {
             if (product[i].MICS_L1_Threshold == '') {
               product[i].L1_Result = 'NA';
             } else {
-              product[i].L1_Result = 'FAIL';
+              product[i].L1_Result = 'Fail';
             }
           }
 
           if (product[i].KPI_Value <= product[i].MICS_L2_Threshold) {
-            product[i].L2_Result = 'PASS';
+            product[i].L2_Result = 'Pass';
           } else {
-            product[i].L2_Result = 'FAIL';
+            product[i].L2_Result = 'Fail';
           }
 
           if (product[i].KPI_Value <= product[i].MICS_L3_Threshold) {
-            product[i].L3_Result = 'PASS';
+            product[i].L3_Result = 'Pass';
           } else {
-            product[i].L3_Result = 'FAIL';
+            product[i].L3_Result = 'Fail';
           }
         } else if (product[i].Positive_Direction == 'Higher is better') {
           if (
             product[i].KPI_Value >= product[i].MICS_L1_Threshold &&
             product[i].MICS_L1_Threshold != ''
           ) {
-            product[i].L1_Result = 'PASS';
+            product[i].L1_Result = 'Pass';
           } else {
             if (product[i].MICS_L1_Threshold == '') {
               product[i].L1_Result = 'NA';
             } else {
-              product[i].L1_Result = 'FAIL';
+              product[i].L1_Result = 'Fail';
             }
           }
 
           if (product[i].KPI_Value >= product[i].MICS_L2_Threshold) {
-            product[i].L2_Result = 'PASS';
+            product[i].L2_Result = 'Pass';
           } else {
-            product[i].L2_Result = 'FAIL';
+            product[i].L2_Result = 'Fail';
           }
 
           if (product[i].KPI_Value >= product[i].MICS_L3_Threshold) {
-            product[i].L3_Result = 'PASS';
+            product[i].L3_Result = 'Pass';
           } else {
-            product[i].L3_Result = 'FAIL';
+            product[i].L3_Result = 'Fail';
           }
         } else if (product[i].Positive_Direction == 'Lower is bad') {
           if (
             product[i].KPI_Value < product[i].MICS_L1_Threshold &&
             product[i].MICS_L1_Threshold != ''
           ) {
-            product[i].L1_Result = 'FAIL';
+            product[i].L1_Result = 'Fail';
           } else {
             if (product[i].MICS_L1_Threshold == '') {
               product[i].L1_Result = 'NA';
             } else {
-              product[i].L1_Result = 'PASS';
+              product[i].L1_Result = 'Pass';
             }
           }
 
           if (product[i].KPI_Value < product[i].MICS_L2_Threshold) {
-            product[i].L2_Result = 'FAIL';
+            product[i].L2_Result = 'Fail';
           } else {
-            product[i].L2_Result = 'PASS';
+            product[i].L2_Result = 'Pass';
           }
 
           if (product[i].KPI_Value < product[i].MICS_L3_Threshold) {
-            product[i].L3_Result = 'FAIL';
+            product[i].L3_Result = 'Fail';
           } else {
-            product[i].L3_Result = 'PASS';
+            product[i].L3_Result = 'Pass';
           }
         } else if (product[i].Positive_Direction == 'Higher is bad') {
           if (
             product[i].KPI_Value > product[i].MICS_L1_Threshold &&
             product[i].MICS_L1_Threshold != ''
           ) {
-            product[i].L1_Result = 'FAIL';
+            product[i].L1_Result = 'Fail';
           } else {
             if (product[i].MICS_L1_Threshold == '') {
               product[i].L1_Result = 'NA';
             } else {
-              product[i].L1_Result = 'PASS';
+              product[i].L1_Result = 'Pass';
             }
           }
 
           if (product[i].KPI_Value > product[i].MICS_L2_Threshold) {
-            product[i].L2_Result = 'FAIL';
+            product[i].L2_Result = 'Fail';
           } else {
-            product[i].L2_Result = 'PASS';
+            product[i].L2_Result = 'Pass';
           }
 
           if (product[i].KPI_Value > product[i].MICS_L3_Threshold) {
-            product[i].L3_Result = 'FAIL';
+            product[i].L3_Result = 'Fail';
           } else {
-            product[i].L3_Result = 'PASS';
+            product[i].L3_Result = 'Pass';
           }
         }
 
@@ -1231,18 +1240,18 @@ function Section2(props) {
           continue;
         }
 
-        if (product[i].L1_Result === 'FAIL') {
+        if (product[i].L1_Result === 'Fail') {
           //setL.L[0](true)
           console.log('1');
           k[0] = true;
         }
-        if (product[i].L2_Result === 'FAIL') {
+        if (product[i].L2_Result === 'Fail') {
           //L[1] = true
           //  setL(L[1](true));
           console.log('2');
           k[1] = true;
         }
-        if (product[i].L3_Result === 'FAIL') {
+        if (product[i].L3_Result === 'Fail') {
           // L[2] = true
           console.log('3');
           k[2] = true;
@@ -1422,7 +1431,9 @@ function Section2(props) {
               if (column.dataField == 'Numerator') {
                 product[row.id - 1].Numerator = newValue;
               }
-              if (row.Denominator != null && row.Numerator != null) {
+              if (row.Denominator == '') {
+                row.KPI_Value = '';
+              } else if (row.Denominator != null && row.Numerator != null) {
                 row.KPI_Value = row.Numerator / row.Denominator;
               }
 
@@ -1450,91 +1461,91 @@ function Section2(props) {
 
               if (row.Positive_Direction == 'Lower is better') {
                 if (row.KPI_Value <= row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
-                  row.L1_Result = 'PASS';
+                  row.L1_Result = 'Pass';
                 } else {
                   if (row.MICS_L1_Threshold == '') {
                     row.L1_Result = 'NA';
                   } else {
-                    row.L1_Result = 'FAIL';
+                    row.L1_Result = 'Fail';
                   }
                 }
 
                 if (row.KPI_Value <= row.MICS_L2_Threshold) {
-                  row.L2_Result = 'PASS';
+                  row.L2_Result = 'Pass';
                 } else {
-                  row.L2_Result = 'FAIL';
+                  row.L2_Result = 'Fail';
                 }
 
                 if (row.KPI_Value <= row.MICS_L3_Threshold) {
-                  row.L3_Result = 'PASS';
+                  row.L3_Result = 'Pass';
                 } else {
-                  row.L3_Result = 'FAIL';
+                  row.L3_Result = 'Fail';
                 }
               } else if (row.Positive_Direction == 'Higher is better') {
                 if (row.KPI_Value >= row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
-                  row.L1_Result = 'PASS';
+                  row.L1_Result = 'Pass';
                 } else {
                   if (row.MICS_L1_Threshold == '') {
                     row.L1_Result = 'NA';
                   } else {
-                    row.L1_Result = 'FAIL';
+                    row.L1_Result = 'Fail';
                   }
                 }
 
                 if (row.KPI_Value >= row.MICS_L2_Threshold) {
-                  row.L2_Result = 'PASS';
+                  row.L2_Result = 'Pass';
                 } else {
-                  row.L2_Result = 'FAIL';
+                  row.L2_Result = 'Fail';
                 }
 
                 if (row.KPI_Value >= row.MICS_L3_Threshold) {
-                  row.L3_Result = 'PASS';
+                  row.L3_Result = 'Pass';
                 } else {
-                  row.L3_Result = 'FAIL';
+                  row.L3_Result = 'Fail';
                 }
               } else if (row.Positive_Direction == 'Lower is bad') {
                 if (row.KPI_Value < row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
-                  row.L1_Result = 'FAIL';
+                  row.L1_Result = 'Fail';
                 } else {
                   if (row.MICS_L1_Threshold == '') {
                     row.L1_Result = 'NA';
                   } else {
-                    row.L1_Result = 'PASS';
+                    row.L1_Result = 'Pass';
                   }
                 }
 
                 if (row.KPI_Value < row.MICS_L2_Threshold) {
-                  row.L2_Result = 'FAIL';
+                  row.L2_Result = 'Fail';
                 } else {
-                  row.L2_Result = 'PASS';
+                  row.L2_Result = 'Pass';
                 }
 
                 if (row.KPI_Value < row.MICS_L3_Threshold) {
-                  row.L3_Result = 'FAIL';
+                  row.L3_Result = 'Fail';
                 } else {
-                  row.L3_Result = 'PASS';
+                  row.L3_Result = 'Pass';
                 }
               } else if (row.Positive_Direction == 'Higher is bad') {
                 if (row.KPI_Value > row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
-                  row.L1_Result = 'FAIL';
+                  row.L1_Result = 'Fail';
                 } else {
                   if (row.MICS_L1_Threshold == '') {
                     row.L1_Result = 'NA';
                   } else {
-                    row.L1_Result = 'PASS';
+                    row.L1_Result = 'Pass';
                   }
                 }
 
                 if (row.KPI_Value > row.MICS_L2_Threshold) {
-                  row.L2_Result = 'FAIL';
+                  row.L2_Result = 'Fail';
                 } else {
-                  row.L2_Result = 'PASS';
+                  row.L2_Result = 'Pass';
                 }
 
                 if (row.KPI_Value > row.MICS_L3_Threshold) {
-                  row.L3_Result = 'FAIL';
+                  row.L3_Result = 'Fail';
                 } else {
-                  row.L3_Result = 'PASS';
+                  row.L3_Result = 'Pass';
                 }
               }
 
@@ -1550,18 +1561,18 @@ function Section2(props) {
                   continue;
                 }
 
-                if (product[i].L1_Result === 'FAIL') {
+                if (product[i].L1_Result === 'Fail') {
                   //setL.L[0](true)
                   console.log('1');
                   k[0] = true;
                 }
-                if (product[i].L2_Result === 'FAIL') {
+                if (product[i].L2_Result === 'Fail') {
                   //L[1] = true
                   //  setL(L[1](true));
                   console.log('2');
                   k[1] = true;
                 }
-                if (product[i].L3_Result === 'FAIL') {
+                if (product[i].L3_Result === 'Fail') {
                   // L[2] = true
                   console.log('3');
                   k[2] = true;
@@ -1606,7 +1617,7 @@ function Section2(props) {
             <div className="card border-0 child">
               <div className="card-body text">
                 <strong className="card-text ">
-                  Actual values are not within the designated threshold causing the KPI to fail.
+                  Actual values are not within the designated threshold causing the KPI to Fail.
                   Please pick any of the below options on the KPI value
                 </strong>
                 <br></br>
@@ -1711,7 +1722,7 @@ function Section2(props) {
                       </label>
                     </div>
                   </div>
-                  {props.is_action_plan == 0 ? (
+                  {props.is_action_plan == 0 || is_kpi_open == 1 ? (
                     <Button
                       className="mt-3"
                       variant="warning"
@@ -1793,11 +1804,15 @@ function Section2(props) {
                     </div>
                   </div>
                   <h6 style={{ color: 'red', paddingTop: '7px' }}>
-                    Based on above response, the control is assessed as failed at L
+                    Based on above response, the control is assessed as failed due to L
                     {parent.get(item.parent_id) + 1}
                     {is_action_plan == 1
-                      ? ' / inadequate Documentation or inadequate frequency'
-                      : ''}
+                      ? document == 1 && frequency == 1
+                        ? ' / inadequate Documentation and inadequate frequency'
+                        : document == 1
+                        ? '/ inadequate Documentation'
+                        : '/ inadequate frequency '
+                      : ' '}
                     {is_kpi_open == 1 ? ' / Failed KPI' : ''}
                   </h6>
                   <Button
@@ -2043,10 +2058,14 @@ function Section2(props) {
                         </div>
                       </div>
                       <div style={{ color: 'red' }}>
-                        Based on above response, the control is assessed as failed at{' '}
+                        Based on above response, the control is assessed as failed because of{' '}
                         {is_action_plan == 1
-                          ? ' / inadequate Documentation or inadequate frequency'
-                          : ''}
+                          ? document == 1 && frequency == 1
+                            ? ' / inadequate Documentation and inadequate frequency'
+                            : document == 1
+                            ? '/ inadequate Documentation'
+                            : '/ inadequate frequency '
+                          : ' '}
                         {is_kpi_open == 1 ? ' / Failed KPI' : ''}
                       </div>
                       <Button

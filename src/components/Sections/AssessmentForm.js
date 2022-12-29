@@ -7,10 +7,14 @@ import KPI from './KPI';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
 
 function AssessmentForm() {
+  // const [org, setOrg] = useState('abcd');
   const [val, setVal] = useState('lala');
   var [final, setfinal] = useState([]);
   const [id, setid] = useState([]);
@@ -20,6 +24,7 @@ function AssessmentForm() {
   var [result, setresult] = useState(new Map());
   const [action_plan, setaction_plan] = useState(new Map());
   let [values, setvalues] = useState([]);
+  const [scope, setscope] = useState({});
   var parentQuestions = [];
   var child_question = [];
 
@@ -55,52 +60,67 @@ function AssessmentForm() {
     // console.log(map1)
     axios
       .get('http://localhost:1234/get_questions?ControlID=ATR_MJE_01a-K')
-      .then((res) => {
+      .then(async (res) => {
         console.log(res.data.data);
         setvalues(res.data.data);
         console.log(values);
+        setfinal([res.data.data[0]]);
+
+        // const freq =await  localStorage.getItem('frequency');
       })
       .catch((err) => {
         console.log(err);
       });
 
-    setfinal([
-      {
-        Control_ID: 'ATR_MJE_01a-K',
-        Global_KPI_Code: 'Assigning random kpi code',
-        child_questions: '["Q-S002", "Q-S003"]',
-        is_Terminating: 0,
-        options: [
-          {
-            child_question: '',
-            option_id: '12f2c6ef-6d69-4954-902b-5b50208f',
-            option_value: 'Yes - I am the owner and part of the org',
-            q_id: 'Q-S001',
-          },
-          {
-            child_question: 'Q-S002',
-            option_id: '71fcfb60-0f92-4fad-bcad-c32e844f',
-            option_value: 'No - I am no longer the Owner',
-            q_id: 'Q-S001',
-          },
-          {
-            child_question: 'Q-S003',
-            option_id: 'ab23606b-32ca-4b9b-b1e9-c7130773',
-            option_value: 'I am still the owner, but not part of\u00a0the Org',
-            q_id: 'Q-S001',
-          },
-        ],
-        parent_qid: '',
-        q_id: 'Q-S001',
-        q_id_Type: 1,
-        question_child: 1,
-        question_order: 'Assigning random order',
-        question_status: 1,
-        question_text: 'Are you still the control owner and are you part of Org -',
-        question_type: 'Radio',
-        response_required: 'True',
-      },
-    ]);
+    axios
+      .get(
+        'http://localhost:1234/get_control_scope?ControlID=ATR_ACCR_01b-K&coOwner=Kushal.Khandelwal@ab-inbev.com',
+      )
+      .then((res) => {
+        console.log(res.data.data.priod_of_assessment);
+        setscope(res.data.data);
+        console.log(scope.frequency);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // setfinal([
+    //   {
+    //     Control_ID: 'ATR_MJE_01a-K',
+    //     Global_KPI_Code: 'Assigning random kpi code',
+    //     child_questions: '["Q-S002", "Q-S003"]',
+    //     is_Terminating: 0,
+    //     options: [
+    //       {
+    //         child_question: '',
+    //         option_id: '12f2c6ef-6d69-4954-902b-5b50208f',
+    //         option_value: 'Yes - I am the owner and part of the org',
+    //         q_id: 'Q-S001',
+    //       },
+    //       {
+    //         child_question: 'Q-S002',
+    //         option_id: '71fcfb60-0f92-4fad-bcad-c32e844f',
+    //         option_value: 'No - I am no longer the Owner',
+    //         q_id: 'Q-S001',
+    //       },
+    //       {
+    //         child_question: 'Q-S003',
+    //         option_id: 'ab23606b-32ca-4b9b-b1e9-c7130773',
+    //         option_value: 'I am still the owner, but not part of\u00a0the Org',
+    //         q_id: 'Q-S001',
+    //       },
+    //     ],
+    //     parent_qid: '',
+    //     q_id: 'Q-S001',
+    //     q_id_Type: 1,
+    //     question_child: 1,
+    //     question_order: 'Assigning random order',
+    //     question_status: 1,
+    //     question_text: 'Are you still the control owner and are you part of Org -',
+    //     question_type: 'Radio',
+    //     response_required: 'True',
+    //   },
+    // ]);
   }, []);
 
   values = values.slice(0, 10);
@@ -119,7 +139,9 @@ function AssessmentForm() {
       child_question.push(values[i]);
     }
   }
+
   const org = localStorage.getItem('provider_org');
+  console.log('sdfsdfs', org);
   const freq = localStorage.getItem('frequency');
 
   for (let i = 0; i < parentQuestions.length; i++) {
@@ -472,7 +494,7 @@ function AssessmentForm() {
   const ans = final.map((number, i) =>
     number.question_type === 'Radio' ? (
       <div className="card border-0 child w-100 ">
-        <div className="card-body text">
+        <div className="card-body text ">
           <strong
             className="card-text "
             style={{ fontWeight: 'bolder', fontSize: '19px', marginBottom: '26px' }}
