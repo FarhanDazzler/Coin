@@ -25,7 +25,7 @@ function Section2(props) {
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
-  const [check_table, setcheck_table] = useState(1);
+  const [check_table, setcheck_table] = useState(0);
   const [table_data, settable_data] = useState([]);
 
   let [final, setfinal] = useState([]);
@@ -711,6 +711,13 @@ function Section2(props) {
 
         for (let i = 0; i < res.data.data.length; i++) {
           table_data.push(res.data.data[i]);
+          if (
+            table_data[i].KPI_Value == '' ||
+            table_data[i].KPI_Value == null ||
+            table_data[i].KPI_Value == 0
+          ) {
+            setcheck_table(1);
+          }
         }
 
         settable_data([...table_data]);
@@ -1230,7 +1237,7 @@ function Section2(props) {
         console.log(product[i].L2_Result);
         console.log(product[i].L3_Result);
       }
-      setcheck_table(0);
+      //  setcheck_table(0);
 
       k = [false, false, false];
 
