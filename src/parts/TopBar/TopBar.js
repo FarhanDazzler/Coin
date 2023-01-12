@@ -165,6 +165,59 @@ const TopBar = (props) => {
                     &nbsp;{'Home'}
                   </a>
                 </li>
+
+                {
+                  (props.userRole=="Global Internal Control" ||props.userRole=="Zonal Internal Control" ) && 
+                <li className="nav-item">
+                  <a
+                    className={`nav-link ${
+                      ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+                    }`}
+                    onClick={() => {
+                      history.push('/');
+                    }}
+                  >
+                    <FeatherIcon icon="layers" size={14} />
+                    &nbsp;{'Master Data Management'}
+                  </a>
+                </li>
+              }
+
+              {
+                (props.userRole=="Global Internal Control" ||props.userRole=="Zonal Internal Control" ) && 
+              <li className="nav-item">
+                <a
+                  className={`nav-link ${
+                    ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/');
+                  }}
+                >
+                  <FeatherIcon icon="layers" size={14} />
+                  &nbsp;{'Assessments'}
+                </a>
+              </li>
+            }
+
+            {
+              (props.userRole=="Global Internal Control" ||props.userRole=="Zonal Internal Control" ) && 
+            <li className="nav-item">
+              <a
+                className={`nav-link ${
+                  ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+                }`}
+                onClick={() => {
+                  history.push('/');
+                }}
+              >
+                <FeatherIcon icon="layers" size={14} />
+                &nbsp;{'Question Bank'}
+              </a>
+            </li>
+          }
+          
+
               </ul>
             </div>
           </div>
