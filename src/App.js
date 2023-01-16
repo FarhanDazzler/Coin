@@ -33,7 +33,7 @@ import dataService from './services/dataService';
 import Question from './parts/Assessments/Question';
 
 // User categories --> User Role
-const userRole="Global Internal Control";
+const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
 // const userRole="Control Owner";
 // const userRole="Control Oversight";
@@ -76,13 +76,13 @@ const Pages = () => {
 
           localStorage.setItem('id_token', response?.idToken);
 
-          // //   dataService
-          // //     .getMSGraphPhoto(response.accessToken)
-          // //     .then((image) => {
-          // //       if (image.type === 'image/jpeg')
-          // //         userDispatch({ type: 'SET_PROFILE_PHOTO', payload: image });
-          // //     })
-          // //     .catch((err) => console.log(err));
+          dataService
+            .getMSGraphPhoto(response.accessToken)
+            .then((image) => {
+              if (image.type === 'image/jpeg')
+                userDispatch({ type: 'SET_PROFILE_PHOTO', payload: image });
+            })
+            .catch((err) => console.log(err));
         })
         .catch((err) => {
           instance.logout({
