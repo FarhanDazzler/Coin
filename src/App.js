@@ -33,10 +33,10 @@ import dataService from './services/dataService';
 import Question from './parts/Assessments/Question';
 
 // User categories --> User Role
-const userRole = 'Global Internal Control';
+// const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
 // const userRole="Control Owner";
-// const userRole="Control Oversight";
+const userRole="Control Oversight";
 
 const Pages = () => {
   const location = useLocation();
@@ -46,8 +46,8 @@ const Pages = () => {
 
   const [userState, userDispatch] = useContext(UserContext);
 
-  //const user_role = 'Control Owner';
-  const user_role = 'Internal Controller';
+  const user_role = 'Control Owner';
+  // const user_role = 'Internal Controller';
 
   useEffect(() => {
     if (!isAuthenticated && inProgress === InteractionStatus.None) {

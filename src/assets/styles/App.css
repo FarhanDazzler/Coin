@@ -17,6 +17,13 @@
   font-size: calc(10px + 2vmin); */
 }
 
+.table .form-control {
+  height: 30px;
+  max-width: 100px;
+  font-size:14px;
+  padding-left: 10px;
+}
+
 .App-header-login {
   /* background-color: #f1f1f1; */
   min-height: 100vh;

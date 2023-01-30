@@ -12,9 +12,14 @@ import 'aos/dist/aos.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveAssessmentAns } from '../../redux/Assessments/AssessmentAction';
+import { sectionAnsSelector } from '../../redux/Assessments/AssessmentSelectors';
 
 function AssessmentForm() {
   // const [org, setOrg] = useState('abcd');
+  const dispatch = useDispatch();
+  const sectionAns = useSelector(sectionAnsSelector);
   const [val, setVal] = useState('lala');
   var [final, setfinal] = useState([]);
   const [id, setid] = useState([]);
@@ -27,6 +32,11 @@ function AssessmentForm() {
   const [scope, setscope] = useState({});
   var parentQuestions = [];
   var child_question = [];
+  console.log('#####result', result, sectionAns);
+
+  useEffect(() => {
+    dispatch(saveAssessmentAns({ section1: result }));
+  }, [result])
 
   const sectionDisplay = (display_text) => {
     return (
@@ -638,6 +648,7 @@ function AssessmentForm() {
       ) : (
         <div></div>
       )}
+
     </>
   );
 }

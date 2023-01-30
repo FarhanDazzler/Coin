@@ -18,21 +18,15 @@ import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import Workbook from 'react-excel-workbook';
 import * as XLSX from 'xlsx';
 import { RedirectHandler } from '@azure/msal-browser/dist/internals';
-import readXlsxFile from 'read-excel-file';
-import { useDispatch, useSelector } from 'react-redux';
-import { sectionAnsSelector } from '../../redux/Assessments/AssessmentSelectors';
-import { saveAssessmentAns } from '../../redux/Assessments/AssessmentAction';
-
-function Section2(props) {
-  console.log('second');
+function Section2Updated(props) {
   //const { ExportCSVButton } = CSVExport;
-  const dispatch = useDispatch();
-  const sectionAns = useSelector(sectionAnsSelector);
+
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
   const [check_table, setcheck_table] = useState(0);
   const [table_data, settable_data] = useState([]);
+
   let [final, setfinal] = useState([]);
   let [Level, setLevel] = useState([]);
   let [child_submit, setchild_submit] = useState(new Map());
@@ -43,26 +37,15 @@ function Section2(props) {
   let [children, setchildren] = useState(new Map());
   const [val, setval] = useState('');
 
-  console.log('ans',ans);
-
   let [L, setL] = useState([false, false, false]);
   let v = [false, false, false];
   // let k=[false,false,false];
   let [k, setk] = useState([false, false, false]);
   // let [k,setk]=useState([])
   let [product, setproduct] = useState([{}]);
-  let [editProductIds, setEditProductIds] = useState({
-    idNumeratorList: [],
-    idDenominatorList: []
-  });
   const [is_kpi_open, setis_kpi_open] = useState(0);
 
   const fileType = ['application/vnd.ms-excel', '.xlsx'];
-
-
-  useEffect(() => {
-    dispatch(saveAssessmentAns({ section3: ans }));
-  }, [ans]);
 
   console.log('khandelwal', props.section1);
   const columns = [
@@ -207,20 +190,38 @@ function Section2(props) {
     {
       dataField: 'Numerator',
       text: 'Numerator',
+      editable: (content, row, rowIndex, columnIndex) => row.sep == 2,
       headerStyle: {
         backgroundColor: '#f1c40f',
         color: '#000000',
         fontWeight: '700',
       },
-      editable: (value, row,  rowIndex, columnIndex) => editProductIds.idNumeratorList.includes(row.id) ,
-      editor: { type: 'number' }
+      style: (cell, row, rowIndex, colIndex) => {
+        if (row.sep == 2) {
+          return {
+            backgroundColor: 'white',
+            border: '1px solid gold',
+            color: 'black',
+          };
+        }
+      },
+
+      validator: (newValue, row, column) => {
+        if (isNaN(newValue)) {
+          row.Numerator = '';
+
+          return {
+            valid: false,
+            message: 'only numbers are allowed',
+          };
+        }
+      },
     },
 
     {
       dataField: 'Denominator',
       text: 'Denominator',
-      editable: (value, row,  rowIndex, columnIndex) => editProductIds.idDenominatorList.includes(row.id) ,
-      editor: { type: 'number' },
+      editable: (content, row, rowIndex, columnIndex) => row.sep == 2,
       headerStyle: {
         backgroundColor: '#f1c40f',
         color: '#000000',
@@ -708,12 +709,7 @@ function Section2(props) {
         console.log(res.data.data);
 
         for (let i = 0; i < res.data.data.length; i++) {
-       
-          if (i === 0) {
-            table_data.push({ ...res.data.data[i],Numerator : "NA" });
-          } else {
-            table_data.push(res.data.data[i]);
-          }
+          table_data.push(res.data.data[i]);
           if (
             table_data[i].KPI_Value == '' ||
             table_data[i].KPI_Value == null ||
@@ -753,9 +749,7 @@ function Section2(props) {
           console.log(monthName);
           table_data[j]['Month'] = monthName;
         }
-        const idNumeratorList = table_data.filter(d => d.Numerator === 'NA').map(v => v.id);
-        const idDenominatorList = table_data.filter(d => d.Denominator === 'NA').map(v => v.id);
-        setEditProductIds({idNumeratorList:idNumeratorList, idDenominatorList:idDenominatorList})
+
         setproduct(table_data);
       })
       .catch((err) => {
@@ -1104,23 +1098,12 @@ function Section2(props) {
     let selectedFile = e.target.files[0];
     if (selectedFile) {
       if (selectedFile) {
-        // let reader = new FileReader();
-        // reader.readAsArrayBuffer(selectedFile);
-        // reader.onload = (e) => {
-        //   setExcelFileError(null);
-        //   setExcelFile(e.target.result);
-        // };
-        readXlsxFile(selectedFile).then((data) => {
-          setExcelFile(
-            data.slice(1).map(d => {
-              let obj = {}
-              d.map((v,i) =>  {
-                obj[data[0][i]] = v;
-              })
-              return obj;
-          })
-          );
-        })
+        let reader = new FileReader();
+        reader.readAsArrayBuffer(selectedFile);
+        reader.onload = (e) => {
+          setExcelFileError(null);
+          setExcelFile(e.target.result);
+        };
       } else {
         setExcelFile(null);
       }
@@ -1132,172 +1115,172 @@ function Section2(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (excelFile !== null) {
-      // const workbook = XLSX.read(excelFile, { type: 'buffer' });
-      // const worksheetName = workbook.SheetNames[0];
-      // const worksheet = workbook.Sheets[worksheetName];
-      // const data = XLSX.utils.sheet_to_json(worksheet);
-      // setExcelData(data);
-      // console.log(data);
+      const workbook = XLSX.read(excelFile, { type: 'buffer' });
+      const worksheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[worksheetName];
+      const data = XLSX.utils.sheet_to_json(worksheet);
+      setExcelData(data);
+      console.log(data);
 
-      // for (let i = 0; i < product.length; i++) {
-      //   if (data[i].Denominator == '' || data[i].Numerator == '' || data[i].sep != 2) {
-      //     continue;
-      //   }
+      for (let i = 0; i < product.length; i++) {
+        if (data[i].Denominator == '' || data[i].Numerator == '' || data[i].sep != 2) {
+          continue;
+        }
 
-      //   product[i].Denominator = data[i].Denominator;
-      //   product[i].Numerator = data[i].Numerator;
-      //   product[i].KPI_Value = product[i].Numerator / product[i].Denominator;
+        product[i].Denominator = data[i].Denominator;
+        product[i].Numerator = data[i].Numerator;
+        product[i].KPI_Value = product[i].Numerator / product[i].Denominator;
 
-      //   if (product[i].Positive_Direction == 'Lower is better') {
-      //     if (
-      //       product[i].KPI_Value <= product[i].MICS_L1_Threshold &&
-      //       product[i].MICS_L1_Threshold != ''
-      //     ) {
-      //       product[i].L1_Result = 'Pass';
-      //     } else {
-      //       if (product[i].MICS_L1_Threshold == '') {
-      //         product[i].L1_Result = 'NA';
-      //       } else {
-      //         product[i].L1_Result = 'Fail';
-      //       }
-      //     }
+        if (product[i].Positive_Direction == 'Lower is better') {
+          if (
+            product[i].KPI_Value <= product[i].MICS_L1_Threshold &&
+            product[i].MICS_L1_Threshold != ''
+          ) {
+            product[i].L1_Result = 'Pass';
+          } else {
+            if (product[i].MICS_L1_Threshold == '') {
+              product[i].L1_Result = 'NA';
+            } else {
+              product[i].L1_Result = 'Fail';
+            }
+          }
 
-      //     if (product[i].KPI_Value <= product[i].MICS_L2_Threshold) {
-      //       product[i].L2_Result = 'Pass';
-      //     } else {
-      //       product[i].L2_Result = 'Fail';
-      //     }
+          if (product[i].KPI_Value <= product[i].MICS_L2_Threshold) {
+            product[i].L2_Result = 'Pass';
+          } else {
+            product[i].L2_Result = 'Fail';
+          }
 
-      //     if (product[i].KPI_Value <= product[i].MICS_L3_Threshold) {
-      //       product[i].L3_Result = 'Pass';
-      //     } else {
-      //       product[i].L3_Result = 'Fail';
-      //     }
-      //   } else if (product[i].Positive_Direction == 'Higher is better') {
-      //     if (
-      //       product[i].KPI_Value >= product[i].MICS_L1_Threshold &&
-      //       product[i].MICS_L1_Threshold != ''
-      //     ) {
-      //       product[i].L1_Result = 'Pass';
-      //     } else {
-      //       if (product[i].MICS_L1_Threshold == '') {
-      //         product[i].L1_Result = 'NA';
-      //       } else {
-      //         product[i].L1_Result = 'Fail';
-      //       }
-      //     }
+          if (product[i].KPI_Value <= product[i].MICS_L3_Threshold) {
+            product[i].L3_Result = 'Pass';
+          } else {
+            product[i].L3_Result = 'Fail';
+          }
+        } else if (product[i].Positive_Direction == 'Higher is better') {
+          if (
+            product[i].KPI_Value >= product[i].MICS_L1_Threshold &&
+            product[i].MICS_L1_Threshold != ''
+          ) {
+            product[i].L1_Result = 'Pass';
+          } else {
+            if (product[i].MICS_L1_Threshold == '') {
+              product[i].L1_Result = 'NA';
+            } else {
+              product[i].L1_Result = 'Fail';
+            }
+          }
 
-      //     if (product[i].KPI_Value >= product[i].MICS_L2_Threshold) {
-      //       product[i].L2_Result = 'Pass';
-      //     } else {
-      //       product[i].L2_Result = 'Fail';
-      //     }
+          if (product[i].KPI_Value >= product[i].MICS_L2_Threshold) {
+            product[i].L2_Result = 'Pass';
+          } else {
+            product[i].L2_Result = 'Fail';
+          }
 
-      //     if (product[i].KPI_Value >= product[i].MICS_L3_Threshold) {
-      //       product[i].L3_Result = 'Pass';
-      //     } else {
-      //       product[i].L3_Result = 'Fail';
-      //     }
-      //   } else if (product[i].Positive_Direction == 'Lower is bad') {
-      //     if (
-      //       product[i].KPI_Value < product[i].MICS_L1_Threshold &&
-      //       product[i].MICS_L1_Threshold != ''
-      //     ) {
-      //       product[i].L1_Result = 'Fail';
-      //     } else {
-      //       if (product[i].MICS_L1_Threshold == '') {
-      //         product[i].L1_Result = 'NA';
-      //       } else {
-      //         product[i].L1_Result = 'Pass';
-      //       }
-      //     }
+          if (product[i].KPI_Value >= product[i].MICS_L3_Threshold) {
+            product[i].L3_Result = 'Pass';
+          } else {
+            product[i].L3_Result = 'Fail';
+          }
+        } else if (product[i].Positive_Direction == 'Lower is bad') {
+          if (
+            product[i].KPI_Value < product[i].MICS_L1_Threshold &&
+            product[i].MICS_L1_Threshold != ''
+          ) {
+            product[i].L1_Result = 'Fail';
+          } else {
+            if (product[i].MICS_L1_Threshold == '') {
+              product[i].L1_Result = 'NA';
+            } else {
+              product[i].L1_Result = 'Pass';
+            }
+          }
 
-      //     if (product[i].KPI_Value < product[i].MICS_L2_Threshold) {
-      //       product[i].L2_Result = 'Fail';
-      //     } else {
-      //       product[i].L2_Result = 'Pass';
-      //     }
+          if (product[i].KPI_Value < product[i].MICS_L2_Threshold) {
+            product[i].L2_Result = 'Fail';
+          } else {
+            product[i].L2_Result = 'Pass';
+          }
 
-      //     if (product[i].KPI_Value < product[i].MICS_L3_Threshold) {
-      //       product[i].L3_Result = 'Fail';
-      //     } else {
-      //       product[i].L3_Result = 'Pass';
-      //     }
-      //   } else if (product[i].Positive_Direction == 'Higher is bad') {
-      //     if (
-      //       product[i].KPI_Value > product[i].MICS_L1_Threshold &&
-      //       product[i].MICS_L1_Threshold != ''
-      //     ) {
-      //       product[i].L1_Result = 'Fail';
-      //     } else {
-      //       if (product[i].MICS_L1_Threshold == '') {
-      //         product[i].L1_Result = 'NA';
-      //       } else {
-      //         product[i].L1_Result = 'Pass';
-      //       }
-      //     }
+          if (product[i].KPI_Value < product[i].MICS_L3_Threshold) {
+            product[i].L3_Result = 'Fail';
+          } else {
+            product[i].L3_Result = 'Pass';
+          }
+        } else if (product[i].Positive_Direction == 'Higher is bad') {
+          if (
+            product[i].KPI_Value > product[i].MICS_L1_Threshold &&
+            product[i].MICS_L1_Threshold != ''
+          ) {
+            product[i].L1_Result = 'Fail';
+          } else {
+            if (product[i].MICS_L1_Threshold == '') {
+              product[i].L1_Result = 'NA';
+            } else {
+              product[i].L1_Result = 'Pass';
+            }
+          }
 
-      //     if (product[i].KPI_Value > product[i].MICS_L2_Threshold) {
-      //       product[i].L2_Result = 'Fail';
-      //     } else {
-      //       product[i].L2_Result = 'Pass';
-      //     }
+          if (product[i].KPI_Value > product[i].MICS_L2_Threshold) {
+            product[i].L2_Result = 'Fail';
+          } else {
+            product[i].L2_Result = 'Pass';
+          }
 
-      //     if (product[i].KPI_Value > product[i].MICS_L3_Threshold) {
-      //       product[i].L3_Result = 'Fail';
-      //     } else {
-      //       product[i].L3_Result = 'Pass';
-      //     }
-      //   }
+          if (product[i].KPI_Value > product[i].MICS_L3_Threshold) {
+            product[i].L3_Result = 'Fail';
+          } else {
+            product[i].L3_Result = 'Pass';
+          }
+        }
 
-      //   console.log(product[i].L2_Result);
-      //   console.log(product[i].L3_Result);
-      // }
-      // //  setcheck_table(0);
+        console.log(product[i].L2_Result);
+        console.log(product[i].L3_Result);
+      }
+      //  setcheck_table(0);
 
-      // k = [false, false, false];
+      k = [false, false, false];
 
-      // for (let i = 0; i < product.length; i++) {
-      //   if (product[i].KPI_Value == null) {
-      //     setcheck_table(1);
-      //     continue;
-      //   }
+      for (let i = 0; i < product.length; i++) {
+        if (product[i].KPI_Value == null) {
+          setcheck_table(1);
+          continue;
+        }
 
-      //   if (product[i].L1_Result === 'Fail') {
-      //     //setL.L[0](true)
-      //     console.log('1');
-      //     k[0] = true;
-      //   }
-      //   if (product[i].L2_Result === 'Fail') {
-      //     //L[1] = true
-      //     //  setL(L[1](true));
-      //     console.log('2');
-      //     k[1] = true;
-      //   }
-      //   if (product[i].L3_Result === 'Fail') {
-      //     // L[2] = true
-      //     console.log('3');
-      //     k[2] = true;
-      //   }
+        if (product[i].L1_Result === 'Fail') {
+          //setL.L[0](true)
+          console.log('1');
+          k[0] = true;
+        }
+        if (product[i].L2_Result === 'Fail') {
+          //L[1] = true
+          //  setL(L[1](true));
+          console.log('2');
+          k[1] = true;
+        }
+        if (product[i].L3_Result === 'Fail') {
+          // L[2] = true
+          console.log('3');
+          k[2] = true;
+        }
 
-      //   setis_kpi_open(0);
-      //   console.log(k);
-      //   setk([...k]);
-      // }
-      // console.log('##product',product);
+        setis_kpi_open(0);
+        console.log(k);
+        setk([...k]);
+      }
+      console.log('##product',product);
       
-      // document.getElementById('uploadfile').value = '';
+      document.getElementById('uploadfile').value = '';
 
-      // for (let i = 0; i < k.length - 1; i++) {
-      //   if (k[i] == true) {
-      //     setis_kpi_open(1);
-      //   }
-      // }
+      for (let i = 0; i < k.length - 1; i++) {
+        if (k[i] == true) {
+          setis_kpi_open(1);
+        }
+      }
 
-      // while (final.length > 0) {
-      //   final.pop();
-      // }
-      // console.log(final);
+      while (final.length > 0) {
+        final.pop();
+      }
+      console.log(final);
 
       // for(let j=0;j<parent_arr[0].level.length;j++){
 
@@ -1307,12 +1290,12 @@ function Section2(props) {
       ans.clear();
       hash.clear();
 
-      // final.push(parent_arr[0]);
+      final.push(parent_arr[0]);
 
-      // console.log(final);
-      // setfinal([...final]);
+      console.log(final);
+      setfinal([...final]);
 
-      setproduct(excelFile);
+      setproduct([...product]);
     } else {
       setExcelData(null);
     }
@@ -1391,13 +1374,6 @@ function Section2(props) {
     console.log(final);
   };
 
-  function handleChange(oldValue, newValue, row, column) {
-    console.log('@@@@: ---> ', oldValue, newValue, row, column)
-    const updateProduct = product.map((d) => d.id === row.id ? row : d);
-    console.log('@@@@@: updateProduct',updateProduct, product);
-    setproduct(updateProduct);
-  }
-    
   return (
     <>
       <div className="text table-responsive " id="my_table">
@@ -1437,9 +1413,9 @@ function Section2(props) {
             </button>
           </form>
         </div>
+
         <BootstrapTable
           keyField="id"
-          // cellEdit={ cellEditProp }
           data={product}
           columns={columns}
           filter={filterFactory()}
@@ -1447,12 +1423,201 @@ function Section2(props) {
           className="container pagination"
           responsive
           rowStyle={rowStyle2}
-          cellEdit={ cellEditFactory({ 
+          cellEdit={cellEditFactory({
             mode: 'click',
             blurToSave: true,
-              afterSaveCell: handleChange
-           }) }
 
+            beforeSaveCell: (oldValue, newValue, row, column) => {
+              console.log(product);
+              console.log('Before Saving Cell!!');
+
+              if (column.dataField == 'Denominator') {
+                product[row.id - 1].Denominator = newValue;
+                console.log('kushal');
+              }
+              if (column.dataField == 'Numerator') {
+                product[row.id - 1].Numerator = newValue;
+              }
+              if (row.Denominator == '') {
+                row.KPI_Value = '';
+              } else if (row.Denominator != null && row.Numerator != null) {
+                row.KPI_Value = row.Numerator / row.Denominator;
+              }
+
+              console.log(product);
+            },
+
+            afterSaveCell: (oldValue, newValue, row, column, keyField, rowIndex) => {
+              console.log(oldValue, newValue, row.id, column.dataField);
+              // if (column.dataField == "Denominator") {
+              //     product[row.id - 1].Denominator = newValue;
+              //     console.log("kushal")
+              // }
+              // if (column.dataField == "Numerator") {
+              //     product[row.id - 1].Numerator = newValue;
+              //     console.log("khandelwal")
+              // }
+              // row.KPI_Value = (row.Numerator / row.Denominator)
+              if (row.Denominator == '') {
+                return;
+              }
+
+              if (row.Numerator == '') {
+                return;
+              }
+
+              if (row.Positive_Direction == 'Lower is better') {
+                if (row.KPI_Value <= row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
+                  row.L1_Result = 'Pass';
+                } else {
+                  if (row.MICS_L1_Threshold == '') {
+                    row.L1_Result = 'NA';
+                  } else {
+                    row.L1_Result = 'Fail';
+                  }
+                }
+
+                if (row.KPI_Value <= row.MICS_L2_Threshold) {
+                  row.L2_Result = 'Pass';
+                } else {
+                  row.L2_Result = 'Fail';
+                }
+
+                if (row.KPI_Value <= row.MICS_L3_Threshold) {
+                  row.L3_Result = 'Pass';
+                } else {
+                  row.L3_Result = 'Fail';
+                }
+              } else if (row.Positive_Direction == 'Higher is better') {
+                if (row.KPI_Value >= row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
+                  row.L1_Result = 'Pass';
+                } else {
+                  if (row.MICS_L1_Threshold == '') {
+                    row.L1_Result = 'NA';
+                  } else {
+                    row.L1_Result = 'Fail';
+                  }
+                }
+
+                if (row.KPI_Value >= row.MICS_L2_Threshold) {
+                  row.L2_Result = 'Pass';
+                } else {
+                  row.L2_Result = 'Fail';
+                }
+
+                if (row.KPI_Value >= row.MICS_L3_Threshold) {
+                  row.L3_Result = 'Pass';
+                } else {
+                  row.L3_Result = 'Fail';
+                }
+              } else if (row.Positive_Direction == 'Lower is bad') {
+                if (row.KPI_Value < row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
+                  row.L1_Result = 'Fail';
+                } else {
+                  if (row.MICS_L1_Threshold == '') {
+                    row.L1_Result = 'NA';
+                  } else {
+                    row.L1_Result = 'Pass';
+                  }
+                }
+
+                if (row.KPI_Value < row.MICS_L2_Threshold) {
+                  row.L2_Result = 'Fail';
+                } else {
+                  row.L2_Result = 'Pass';
+                }
+
+                if (row.KPI_Value < row.MICS_L3_Threshold) {
+                  row.L3_Result = 'Fail';
+                } else {
+                  row.L3_Result = 'Pass';
+                }
+              } else if (row.Positive_Direction == 'Higher is bad') {
+                if (row.KPI_Value > row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
+                  row.L1_Result = 'Fail';
+                } else {
+                  if (row.MICS_L1_Threshold == '') {
+                    row.L1_Result = 'NA';
+                  } else {
+                    row.L1_Result = 'Pass';
+                  }
+                }
+
+                if (row.KPI_Value > row.MICS_L2_Threshold) {
+                  row.L2_Result = 'Fail';
+                } else {
+                  row.L2_Result = 'Pass';
+                }
+
+                if (row.KPI_Value > row.MICS_L3_Threshold) {
+                  row.L3_Result = 'Fail';
+                } else {
+                  row.L3_Result = 'Pass';
+                }
+              }
+
+              console.log(row.L2_Result);
+              console.log(row.L3_Result);
+
+              k = [false, false, false];
+              setcheck_table(0);
+
+              for (let i = 0; i < product.length; i++) {
+                if (product[i].KPI_Value == null) {
+                  setcheck_table(1);
+                  continue;
+                }
+
+                if (product[i].L1_Result === 'Fail') {
+                  //setL.L[0](true)
+                  console.log('1');
+                  k[0] = true;
+                }
+                if (product[i].L2_Result === 'Fail') {
+                  //L[1] = true
+                  //  setL(L[1](true));
+                  console.log('2');
+                  k[1] = true;
+                }
+                if (product[i].L3_Result === 'Fail') {
+                  // L[2] = true
+                  console.log('3');
+                  k[2] = true;
+                }
+
+                setis_kpi_open(0);
+
+                console.log(k);
+                setk([...k]);
+              }
+
+              for (let i = 0; i < k.length - 1; i++) {
+                if (k[i] == true) {
+                  setis_kpi_open(1);
+                }
+              }
+
+              while (final.length > 0) {
+                final.pop();
+              }
+              console.log(final);
+
+              // for(let j=0;j<parent_arr[0].level.length;j++){
+
+              //   ans.delete(parent_arr[0].level[j].L)
+              // }
+
+              ans.clear();
+              hash.clear();
+
+              final.push(parent_arr[0]);
+
+              console.log(final);
+              setfinal([...final]);
+
+              console.log(product);
+            },
+          })}
         />
         <div>
           {is_kpi_open == 1 ? (
@@ -1802,12 +1967,8 @@ function Section2(props) {
                             checked={ans.get(item.ques_text) == 'No' ? true : false}
                             onChange={(e) => {
                               child_part(item, e, 'No');
-                              try {
-                                const itemInput = document.getElementById(item?.id);
-                                if(itemInput) itemInput.disabled = false;
-                              } catch(err) {
-                                console.log('@@@:',err);
-                              }
+                              const itemInput = document.getElementById(item?.id);
+                              if(itemInput) itemInput.disabled = true;
                             }}
                           ></input>
                           <label
@@ -1825,13 +1986,8 @@ function Section2(props) {
                               name={item.ques_text}
                               checked={ans.get(item.ques_text) == 'yes' ? true : false}
                               onChange={(e) => {
-                                try {
-                                  const itemInput = document.getElementById(item?.id);
-                                  if(itemInput) itemInput.disabled = false;
-                                } catch(err) {
-                                  console.log('@@@:',err);
-                                }
-                               
+                                const itemInput = document.getElementById(item?.id);
+                                if(itemInput) itemInput.disabled = false;
                                 ans.delete(item.ques_text);
                                 ans.set(item.ques_text, 'yes');
                                 console.log(ans);
@@ -1941,4 +2097,4 @@ function Section2(props) {
   );
 }
 
-export default Section2;
+export default Section2Updated;

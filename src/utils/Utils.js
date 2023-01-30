@@ -1,5 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import moment from 'moment';
+import Cookies from 'js-cookie';
+
+export const isLoggedIn = () => {
+  // const token = Cookies.get('token');
+  // return !!token;
+  return false;
+};
 
 export function getNumberWithOrdinal(n) {
   var s = ['th', 'st', 'nd', 'rd'],
