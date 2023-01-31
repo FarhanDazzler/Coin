@@ -35,8 +35,9 @@ function AssessmentForm() {
   console.log('#####result', result, sectionAns);
 
   useEffect(() => {
+    console.log('@@@@@');
     dispatch(saveAssessmentAns({ section1: result }));
-  }, [result])
+  }, [result]);
 
   const sectionDisplay = (display_text) => {
     return (
@@ -71,9 +72,9 @@ function AssessmentForm() {
     axios
       .get('http://localhost:1234/get_questions?ControlID=ATR_MJE_01a-K')
       .then(async (res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setvalues(res.data.data);
-        console.log(values);
+        // console.log(values);
         setfinal([res.data.data[0]]);
 
         // const freq =await  localStorage.getItem('frequency');
@@ -87,9 +88,9 @@ function AssessmentForm() {
         'http://localhost:1234/get_control_scope?ControlID=ATR_ACCR_01b-K&coOwner=Kushal.Khandelwal@ab-inbev.com',
       )
       .then((res) => {
-        console.log(res.data.data.priod_of_assessment);
+        // console.log(res.data.data.priod_of_assessment);
         setscope(res.data.data);
-        console.log(scope.frequency);
+        // console.log(scope.frequency);
       })
       .catch((err) => {
         console.log(err);
@@ -137,21 +138,21 @@ function AssessmentForm() {
   //console.log(data1[0].length);
 
   for (var i = 0; i < values.length; i++) {
-    console.log(values[i].question_child);
+    // console.log(values[i].question_child);
     if (values[i].parent_qid == '') {
       parentQuestions.push(values[i]);
     }
   }
 
   for (var i = 0; i < values.length; i++) {
-    console.log(values[i].question_child);
+    // console.log(values[i].question_child);
     if (values[i].question_child == 0) {
       child_question.push(values[i]);
     }
   }
 
   const org = localStorage.getItem('provider_org');
-  console.log('sdfsdfs', org);
+  // console.log('sdfsdfs', org);
   const freq = localStorage.getItem('frequency');
 
   for (let i = 0; i < parentQuestions.length; i++) {
@@ -159,29 +160,29 @@ function AssessmentForm() {
     question = question.replaceAll('{{org}}', org);
     question = question.replaceAll('{{freq}}', freq);
     parentQuestions[i].question_text = question;
-    console.log(question);
+    // console.log(question);
   }
   for (let i = 0; i < child_question.length; i++) {
     let question = child_question[i].question_text;
     question = question.replaceAll('{{org}}', org);
     question = question.replaceAll('{{freq}}', freq);
     child_question[i].question_text = question;
-    console.log(question);
+    // console.log(question);
   }
-  console.log(child_question);
-  console.log(parentQuestions);
+  // console.log(child_question);
+  // console.log(parentQuestions);
 
   const submit_section1 = async (event) => {
     event.preventDefault();
     const section1 = {};
     for (let i = 0; i < final.length; i++) {
-      console.log(`${final[i].question_text}---->${result.get(final[i].question_text)}`);
+      // console.log(`${final[i].question_text}---->${result.get(final[i].question_text)}`);
       // localStorage.setItem('open', 'Yes');
       //  setflag(true);
       section1[final[i].question_text] = result.get(final[i].question_text);
     }
-    console.log('lkjhgdfd');
-    console.log(section1);
+    // console.log('lkjhgdfd');
+    // console.log(section1);
 
     Swal.fire({
       title: 'Are you sure?',
@@ -199,17 +200,17 @@ function AssessmentForm() {
   };
 
   const add = async (parent_ques, option_value, event, i) => {
-    console.log(parent_ques.q_id);
-    console.log(parent_ques.parent_qid);
-    console.log();
+    // console.log(parent_ques.q_id);
+    // console.log(parent_ques.parent_qid);
+    // console.log();
     child_question[child_question.length - 1].is_Terminating = 1;
 
     let result1 = parent_ques.question_text;
     // console.log(result1);
 
     if (parent_ques.question_type == 'Free Text') {
-      console.log(parent_ques.question_text);
-      console.log(event.target.value);
+      // console.log(parent_ques.question_text);
+      // console.log(event.target.value);
       if (result.get(parent_ques.question_text)) {
         // console.log("yes")
         result.set(parent_ques.question_text, event.target.value);
@@ -220,8 +221,8 @@ function AssessmentForm() {
     }
 
     if (parent_ques.question_type == 'Radio') {
-      console.log(parent_ques.question_text);
-      console.log(option_value.option_value);
+      // console.log(parent_ques.question_text);
+      // console.log(option_value.option_value);
 
       if (result.get(parent_ques.question_text)) {
         // console.log("yes")
@@ -232,7 +233,7 @@ function AssessmentForm() {
       }
     }
 
-    console.log('kushal', result);
+    // console.log('kushal', result);
 
     if (parent_ques.is_Terminating == 1) {
       //console.log("lkj")
@@ -263,8 +264,6 @@ function AssessmentForm() {
           parent_index.set(parentQuestions[i].q_id, i);
         }
 
-        console.log('kjhl');
-
         let index;
 
         for (let find = 0; find < final.length; find++) {
@@ -274,7 +273,6 @@ function AssessmentForm() {
           }
         }
 
-        console.log(index - 1);
         let this_is_parent = final[index - 1].q_id;
         // let myArray = text.split(`\"`)
         //myArray = myArray.split(`"`);
@@ -324,16 +322,16 @@ function AssessmentForm() {
         if (next != 0) {
           for (let forward = next; forward < final.length; forward++) {
             loop = loop + 1;
-            console.log(`${loop}<---${forward}`);
+            // console.log(`${loop}<---${forward}`);
             final[loop] = final[forward];
-            console.log(final);
+            // console.log(final);
           }
 
-          console.log(final);
+          // console.log(final);
           setfinal([...final]);
         } else {
           final = final.slice(0, loop + 1);
-          console.log(final);
+          // console.log(final);
 
           result.set(parentQuestions[parent_index.get(this_is_parent) + 1].question_text, '');
 
@@ -341,10 +339,9 @@ function AssessmentForm() {
         }
       } else {
         if (option_value.child_question == '') {
-          console.log('hii');
 
           if (option_value.is_action_plan == 1) {
-            console.log('open action plan at end');
+            // console.log('open action plan at end');
             // setaction_plan(1)
             action_plan.set(parent_ques.question_text, 1);
           } else {
@@ -384,12 +381,12 @@ function AssessmentForm() {
               break;
             }
           }
-          console.log(loop2);
-          console.log(loop);
+          // console.log(loop2);
+          // console.log(loop);
 
           if (loop2 != 0) {
-            console.log(loop2);
-            console.log(loop + 1);
+            // console.log(loop2);
+            // console.log(loop + 1);
 
             if (loop2 === loop + 1) {
               return;
@@ -397,16 +394,16 @@ function AssessmentForm() {
 
             for (let forward = loop2; forward < final.length; forward++) {
               loop = loop + 1;
-              console.log(`${loop}<---${forward}`);
+              // console.log(`${loop}<---${forward}`);
               final[loop] = final[forward];
-              console.log(final);
+              // console.log(final);
             }
             final.pop();
-            console.log(final);
+            // console.log(final);
             setfinal([...final]);
           } else {
             final = final.slice(0, loop + 1);
-            console.log(final);
+            // console.log(final);
 
             result.set(parentQuestions[parent_index.get(parent_ques.q_id) + 1].question_text, '');
 
@@ -426,7 +423,7 @@ function AssessmentForm() {
 
           const child_ques = child_map.get(option_value.child_question);
 
-          console.log(child_map.get(option_value.child_question));
+          // console.log(child_map.get(option_value.child_question));
 
           if (parentQuestions.length - 1 == parent_index.get(parent_ques.q_id)) {
             result.set(child_ques.question_text, '');
@@ -459,10 +456,10 @@ function AssessmentForm() {
             // console.log(child_ques)
 
             if (loop2 == -1) {
-              console.log(loop);
+              // console.log(loop);
               loop = loop + 1;
 
-              console.log(final.slice(0, loop));
+              // console.log(final.slice(0, loop));
               final = final.slice(0, loop);
               // console.log(final)
               result.set(child_ques.question_text, '');
@@ -472,8 +469,8 @@ function AssessmentForm() {
               // loop = loop + 1;
 
               if (loop + 2 == loop2) {
-                console.log('311 line');
-                console.log(final);
+                // console.log('311 line');
+                // console.log(final);
                 result.set(child_ques.question_text, '');
                 final[loop + 1] = child_ques;
                 setfinal([...final]);
@@ -555,7 +552,7 @@ function AssessmentForm() {
               required
               onChange={(event) => {
                 {
-                  console.log(number);
+                  // console.log(number);
                   add(number, number, event, i);
                 }
               }}
@@ -570,7 +567,7 @@ function AssessmentForm() {
               required
               onChange={(event) => {
                 {
-                  console.log(number);
+                  // console.log(number);
                   add(number, number, event, i);
                 }
               }}

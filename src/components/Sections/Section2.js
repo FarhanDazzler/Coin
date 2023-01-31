@@ -21,10 +21,10 @@ import { RedirectHandler } from '@azure/msal-browser/dist/internals';
 import readXlsxFile from 'read-excel-file';
 import { useDispatch, useSelector } from 'react-redux';
 import { sectionAnsSelector } from '../../redux/Assessments/AssessmentSelectors';
-import { saveAssessmentAns } from '../../redux/Assessments/AssessmentAction';
+import { saveAssessmentAns, updateAssessmentAns } from '../../redux/Assessments/AssessmentAction';
 
 function Section2(props) {
-  console.log('second');
+  // console.log('second');
   //const { ExportCSVButton } = CSVExport;
   const dispatch = useDispatch();
   const sectionAns = useSelector(sectionAnsSelector);
@@ -43,7 +43,7 @@ function Section2(props) {
   let [children, setchildren] = useState(new Map());
   const [val, setval] = useState('');
 
-  console.log('ans',ans);
+  // console.log('ans',ans);
 
   let [L, setL] = useState([false, false, false]);
   let v = [false, false, false];
@@ -64,7 +64,7 @@ function Section2(props) {
     dispatch(saveAssessmentAns({ section3: ans }));
   }, [ans]);
 
-  console.log('khandelwal', props.section1);
+  // console.log('khandelwal', props.section1);
   const columns = [
     {
       dataField: 'id',
@@ -126,11 +126,11 @@ function Section2(props) {
       hidden: true,
       // events: {
       //     onClick: (e, column, columnIndex, row, rowIndex) => {
-      //       console.log(e);
-      //       console.log(column);
-      //       console.log(columnIndex);
-      //       console.log(row);
-      //       console.log(rowIndex);
+      //       // console.log(e);
+      //       // console.log(column);
+      //       // console.log(columnIndex);
+      //       // console.log(row);
+      //       // console.log(rowIndex);
       //       //alert('Click on Product ID field');
       //     }},
     },
@@ -212,14 +212,14 @@ function Section2(props) {
         color: '#000000',
         fontWeight: '700',
       },
-      editable: (value, row,  rowIndex, columnIndex) => editProductIds.idNumeratorList.includes(row.id) ,
+      editable: (value, row, rowIndex, columnIndex) => editProductIds.idNumeratorList.includes(row.id),
       editor: { type: 'number' }
     },
 
     {
       dataField: 'Denominator',
       text: 'Denominator',
-      editable: (value, row,  rowIndex, columnIndex) => editProductIds.idDenominatorList.includes(row.id) ,
+      editable: (value, row, rowIndex, columnIndex) => editProductIds.idDenominatorList.includes(row.id),
       editor: { type: 'number' },
       headerStyle: {
         backgroundColor: '#f1c40f',
@@ -363,11 +363,11 @@ function Section2(props) {
   //         },
   //         // events: {
   //         //     onClick: (e, column, columnIndex, row, rowIndex) => {
-  //         //       console.log(e);
-  //         //       console.log(column);
-  //         //       console.log(columnIndex);
-  //         //       console.log(row);
-  //         //       console.log(rowIndex);
+  //         //       // console.log(e);
+  //         //       // console.log(column);
+  //         //       // console.log(columnIndex);
+  //         //       // console.log(row);
+  //         //       // console.log(rowIndex);
   //         //       //alert('Click on Product ID field');
   //         //     }},
   //     },
@@ -658,14 +658,14 @@ function Section2(props) {
     },
   ];
 
-  console.log(props.is_action_plan);
+  // console.log(props.is_action_plan);
   let is_action_plan;
   let document;
   let frequency;
 
   props.is_action_plan.forEach((values, keys) => {
     if (values == 1) {
-      console.log('line: ', values, keys);
+      // console.log('line: ', values, keys);
       is_action_plan = 1;
       if (keys.indexOf('documentation evidence') != -1) {
         document = 1;
@@ -675,7 +675,7 @@ function Section2(props) {
       }
     }
   });
-  console.log(document, frequency);
+  // console.log(document, frequency);
 
   const sectionDisplay = (display_text) => {
     return (
@@ -705,12 +705,12 @@ function Section2(props) {
     axios
       .get('http://localhost:1234/kpi_result?ControlID=ATR_ACCR_01b-K&Entity=Argentina')
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
 
         for (let i = 0; i < res.data.data.length; i++) {
-       
+
           if (i === 0) {
-            table_data.push({ ...res.data.data[i],Numerator : "NA" });
+            table_data.push({ ...res.data.data[i], Numerator: "NA" });
           } else {
             table_data.push(res.data.data[i]);
           }
@@ -725,23 +725,23 @@ function Section2(props) {
 
         settable_data([...table_data]);
         // settable_data( );
-        console.log(table_data);
+        // console.log(table_data);
 
         for (let i = 0; i < table_data.length; i++) {
           if (table_data[i].KPI_Value == '' || table_data[i].KPI_Value == 0) {
-            console.log('null');
+            // console.log('null');
             table_data[i]['sep'] = 2;
           } else {
-            console.log('not null');
+            // console.log('not null');
             table_data[i]['sep'] = 1;
           }
-          console.log('ids');
+          // console.log('ids');
           table_data[i]['id'] = i + 1;
         }
         //  settable_data([...table_data]);
-        console.log(table_data);
+        // console.log(table_data);
         // setvalues(res.data.data);
-        // console.log(values);
+        // // console.log(values);
         for (let j = 0; j < table_data.length; j++) {
           let period = table_data[j].Period_From;
 
@@ -750,16 +750,16 @@ function Section2(props) {
           const d = new Date();
           d.setMonth(month - 1);
           const monthName = d.toLocaleString('default', { month: 'long' });
-          console.log(monthName);
+          // console.log(monthName);
           table_data[j]['Month'] = monthName;
         }
         const idNumeratorList = table_data.filter(d => d.Numerator === 'NA').map(v => v.id);
         const idDenominatorList = table_data.filter(d => d.Denominator === 'NA').map(v => v.id);
-        setEditProductIds({idNumeratorList:idNumeratorList, idDenominatorList:idDenominatorList})
+        setEditProductIds({ idNumeratorList: idNumeratorList, idDenominatorList: idDenominatorList })
         setproduct(table_data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
 
     setfinal([
@@ -793,9 +793,9 @@ function Section2(props) {
       children.set(child[i].id, child[i]);
     }
 
-    console.log(children);
+    // console.log(children);
 
-    console.log(parent);
+    // console.log(parent);
     // setfinal([...final,])
 
     setproduct([
@@ -839,22 +839,22 @@ function Section2(props) {
       },
     ]);
   }, []);
-  console.log(final);
+  // console.log(final);
 
   const radio = async (head, level, choose, i) => {
     ans.set(level, choose);
     //setans(...ans,)
     setans((prev) => new Map([...prev, [level, choose]]));
 
-    console.log(ans);
-    console.log(product);
+    // console.log(ans);
+    // console.log(product);
 
-    // console.log(head.ques_text)
-    // console.log(level)
-    // console.log(choose)
+    // // console.log(head.ques_text)
+    // // console.log(level)
+    // // console.log(choose)
 
     hash.set(`${head.ques_text}+${level}`, choose);
-    console.log(hash);
+    // console.log(hash);
 
     let countt = 0;
     for (let j = 0; j < head.level.length; j++) {
@@ -862,8 +862,8 @@ function Section2(props) {
         countt++;
       }
     }
-    console.log(countt);
-    console.log(head.level.length);
+    // console.log(countt);
+    // console.log(head.level.length);
 
     if (countt == head.level.length) {
       let flag = 0;
@@ -883,17 +883,17 @@ function Section2(props) {
             j = i;
 
             //  arr.push(child[0])
-            console.log(head);
+            // console.log(head);
 
-            console.log(props.L);
-            console.log(parent.get(head.id));
+            // console.log(props.L);
+            // console.log(parent.get(head.id));
 
             //    setLevel(props.L);
             //  let L = []
 
             //  L = [false, true, false]
             //  props.setL(props.L)
-            console.log(k);
+            // console.log(k);
             // if (k[parent.get(head.id)] == true) {
             //   arr.push(child_next[parent.get(head.id)]);
             // }
@@ -912,7 +912,7 @@ function Section2(props) {
         }
         final = arr;
         setfinal([...final]);
-        console.log(product);
+        // console.log(product);
         return;
       } else {
         //  alert("trminate")
@@ -929,7 +929,7 @@ function Section2(props) {
             arr.push(final[i]);
           }
         }
-        // console.log(arr)
+        // // console.log(arr)
         final = arr;
         setfinal([...final]);
         // setval("terminate")
@@ -942,13 +942,13 @@ function Section2(props) {
 
   const child_part = (head, e) => {
     setchildterminate(false);
-    console.log(e.target.value);
+    // console.log(e.target.value);
     ans.set(head.ques_text, e.target.value);
 
     setans((prev) => new Map([...prev, [head.ques_text, e.target.value]]));
-    console.log(parent.get(head.parent_id) + 1);
-    console.log(head);
-    console.log(ans);
+    // console.log(parent.get(head.parent_id) + 1);
+    // console.log(head);
+    // console.log(ans);
 
     let find;
     let flag = 0;
@@ -984,18 +984,18 @@ function Section2(props) {
   };
 
   const child_terminate = (head, e) => {
-    // console.log(e.target)
+    // // console.log(e.target)
 
     hash.set(head.ques_text, e.target.value);
 
     child_submit.set(head.id, true);
 
-    console.log(head.ques_text);
-    console.log(e.target.value);
+    // console.log(head.ques_text);
+    // console.log(e.target.value);
     ans.set(head.ques_text, e.target.value);
 
     setans((prev) => new Map([...prev]));
-    console.log(ans);
+    // console.log(ans);
 
     let arr = [];
     for (let i = 0; i < final.length; i++) {
@@ -1016,7 +1016,7 @@ function Section2(props) {
         arr.push(final[i]);
       }
     }
-    // console.log(arr)
+    // // console.log(arr)
     if (e.target.type == 'textarea') {
       arr.push(terminate[parent.get(head.parent_id)]);
       final = arr;
@@ -1037,10 +1037,10 @@ function Section2(props) {
 
     for (let i = 0; i < final.length; i++) {
       if (final[i].parent_id == '') {
-        console.log(final[i].ques_text);
+        // console.log(final[i].ques_text);
         for (let j = 0; j < final[i].level.length; j++) {
-          console.log(`${final[i].level[j].L}`);
-          console.log(hash.get(`${final[i].ques_text}+${final[i].level[j].L}`));
+          // console.log(`${final[i].level[j].L}`);
+          // console.log(hash.get(`${final[i].ques_text}+${final[i].level[j].L}`));
         }
       }
     }
@@ -1069,23 +1069,23 @@ function Section2(props) {
   // export function submit(e) {
   //   e.preventDefault();
   //   alert('ok');
-  //   console.log(props.section1);
+  //   // console.log(props.section1);
 
   //   setchildterminate(false);
 
   //   for (let i = 0; i < final.length; i++) {
   //     if (final[i].parent_id == '') {
-  //       console.log(final[i].ques_text);
+  //       // console.log(final[i].ques_text);
   //       for (let j = 0; j < final[i].level.length; j++) {
-  //         console.log(`${final[i].level[j].L}`);
-  //         console.log(hash.get(`${final[i].ques_text}+${final[i].level[j].L}`));
+  //         // console.log(`${final[i].level[j].L}`);
+  //         // console.log(hash.get(`${final[i].ques_text}+${final[i].level[j].L}`));
   //       }
   //     }
   //   }
 
   //   const section1_output = {};
   //   for (let i = 0; i < props.section1.length; i++) {
-  //     console.log(
+  //     // console.log(
   //       `${props.section1[i].question_text}---->${props.section1_ans.get(
   //         props.section1[i].question_text,
   //       )}`,
@@ -1096,8 +1096,8 @@ function Section2(props) {
   //       props.section1[i].question_text,
   //     );
   //   }
-  //   console.log('lkjhgdfd');
-  //   console.log(section1_output);
+  //   // console.log('lkjhgdfd');
+  //   // console.log(section1_output);
   // }
 
   const handleFile = (e) => {
@@ -1114,18 +1114,18 @@ function Section2(props) {
           setExcelFile(
             data.slice(1).map(d => {
               let obj = {}
-              d.map((v,i) =>  {
+              d.map((v, i) => {
                 obj[data[0][i]] = v;
               })
               return obj;
-          })
+            })
           );
         })
       } else {
         setExcelFile(null);
       }
     } else {
-      console.log('plz select your file');
+      // console.log('plz select your file');
     }
   };
 
@@ -1137,7 +1137,7 @@ function Section2(props) {
       // const worksheet = workbook.Sheets[worksheetName];
       // const data = XLSX.utils.sheet_to_json(worksheet);
       // setExcelData(data);
-      // console.log(data);
+      // // console.log(data);
 
       // for (let i = 0; i < product.length; i++) {
       //   if (data[i].Denominator == '' || data[i].Numerator == '' || data[i].sep != 2) {
@@ -1250,8 +1250,8 @@ function Section2(props) {
       //     }
       //   }
 
-      //   console.log(product[i].L2_Result);
-      //   console.log(product[i].L3_Result);
+      //   // console.log(product[i].L2_Result);
+      //   // console.log(product[i].L3_Result);
       // }
       // //  setcheck_table(0);
 
@@ -1265,27 +1265,27 @@ function Section2(props) {
 
       //   if (product[i].L1_Result === 'Fail') {
       //     //setL.L[0](true)
-      //     console.log('1');
+      //     // console.log('1');
       //     k[0] = true;
       //   }
       //   if (product[i].L2_Result === 'Fail') {
       //     //L[1] = true
       //     //  setL(L[1](true));
-      //     console.log('2');
+      //     // console.log('2');
       //     k[1] = true;
       //   }
       //   if (product[i].L3_Result === 'Fail') {
       //     // L[2] = true
-      //     console.log('3');
+      //     // console.log('3');
       //     k[2] = true;
       //   }
 
       //   setis_kpi_open(0);
-      //   console.log(k);
+      //   // console.log(k);
       //   setk([...k]);
       // }
-      // console.log('##product',product);
-      
+      // // console.log('##product',product);
+
       // document.getElementById('uploadfile').value = '';
 
       // for (let i = 0; i < k.length - 1; i++) {
@@ -1297,7 +1297,7 @@ function Section2(props) {
       // while (final.length > 0) {
       //   final.pop();
       // }
-      // console.log(final);
+      // // console.log(final);
 
       // for(let j=0;j<parent_arr[0].level.length;j++){
 
@@ -1309,7 +1309,7 @@ function Section2(props) {
 
       // final.push(parent_arr[0]);
 
-      // console.log(final);
+      // // console.log(final);
       // setfinal([...final]);
 
       setproduct(excelFile);
@@ -1320,20 +1320,20 @@ function Section2(props) {
 
   const save_response = async (event) => {
     event.preventDefault();
-    console.log(props.final);
-    console.log(props.result);
-    console.log(props.result.keys());
+    // console.log(props.final);
+    // console.log(props.result);
+    // console.log(props.result.keys());
     let is_swal_fired = 0;
 
     await props.result.forEach((values, keys) => {
-      // console.log("line: ",values)
+      // // console.log("line: ",values)
 
       if (values == '') {
-        /// console.log('ram');
+        /// // console.log('ram');
         //   toast.error(' Fill all the fields  !', {
         //     position: toast.POSITION.BOTTOM_RIGHT
         // });
-        //  console.log('2345fgfgttt');
+        //  // console.log('2345fgfgttt');
         is_swal_fired = 1;
 
         Swal.fire(' Please fill all the fields !');
@@ -1345,14 +1345,14 @@ function Section2(props) {
     for (let i = 0; i < final.length; i++) {
       if (final[i].parent == 1) {
         for (let j = 0; j < final[i].level.length; j++) {
-          console.log(ans.has(final[i].level[j].L));
+          // console.log(ans.has(final[i].level[j].L));
           if (ans.has(final[i].level[j].L !== true)) {
             is_swal_fired = 1;
             Swal.fire(' Please fill all the fields !');
           }
         }
       } else {
-        console.log(ans.has(final[i].ques_text));
+        // console.log(ans.has(final[i].ques_text));
         if (ans.has(final[i].ques_text) === false) {
           is_swal_fired = 1;
           Swal.fire(' Please fill all the fields !');
@@ -1370,14 +1370,25 @@ function Section2(props) {
         cancelButtonColor: 'black',
         confirmButtonText: 'Yes, submit it!',
       }).then((result) => {
+        // debugger
         if (result.isConfirmed) {
+          const payload = {
+            "Assessment_ID": "",
+            "Response_ID": "",
+            "Control_ID": "ATR_MJE_01a-K",
+            "COwner": "jaymin@ab-inbev.com",
+            "Response_Data": { s1: props.result, s3: ans },
+            "Time_Stamp": "01/30/2023"
+          }
+          
+          dispatch(updateAssessmentAns(payload))
           Swal.fire('Done!', 'You are now being redirected to the mainpage', 'success');
         }
       });
     }
 
-    console.log(ans);
-    console.log(hash);
+    // console.log(ans);
+    // console.log(hash);
   };
 
   const action = {
@@ -1388,16 +1399,16 @@ function Section2(props) {
   const action_plan = (e) => {
     final.push(action);
     setfinal([...final]);
-    console.log(final);
+    // console.log(final);
   };
 
   function handleChange(oldValue, newValue, row, column) {
-    console.log('@@@@: ---> ', oldValue, newValue, row, column)
+    // console.log('@@@@: ---> ', oldValue, newValue, row, column)
     const updateProduct = product.map((d) => d.id === row.id ? row : d);
-    console.log('@@@@@: updateProduct',updateProduct, product);
+    // console.log('@@@@@: updateProduct',updateProduct, product);
     setproduct(updateProduct);
   }
-    
+
   return (
     <>
       <div className="text table-responsive " id="my_table">
@@ -1447,11 +1458,11 @@ function Section2(props) {
           className="container pagination"
           responsive
           rowStyle={rowStyle2}
-          cellEdit={ cellEditFactory({ 
+          cellEdit={cellEditFactory({
             mode: 'click',
             blurToSave: true,
-              afterSaveCell: handleChange
-           }) }
+            afterSaveCell: handleChange
+          })}
 
         />
         <div>
@@ -1501,7 +1512,7 @@ function Section2(props) {
         </div>
       </div>
 
-      {}
+      { }
       <form onSubmit={save_response}>
         {check_table == 1 ? (
           <h3 style={{ color: 'red', fontSize: '12px' }}>
@@ -1548,8 +1559,8 @@ function Section2(props) {
                         onChange={
                           is_action_plan == 1
                             ? (e) => {
-                                action_plan(e);
-                              }
+                              action_plan(e);
+                            }
                             : ''
                         }
                       ></input>
@@ -1605,7 +1616,7 @@ function Section2(props) {
                         name={item.ques_text}
                         onChange={() => {
                           ans.set(item.ques_text, item.option.op1);
-                          console.log(ans);
+                          // console.log(ans);
                           setans((prev) => new Map([...prev]));
                         }}
                       ></input>
@@ -1622,7 +1633,7 @@ function Section2(props) {
                         name={item.ques_text}
                         onChange={() => {
                           ans.set(item.ques_text, item.option.op2);
-                          console.log(ans);
+                          // console.log(ans);
                           setans((prev) => new Map([...prev]));
                         }}
                       ></input>
@@ -1638,7 +1649,7 @@ function Section2(props) {
                           placeholder=""
                           onChange={(e) => {
                             ans.set(item.ques_text, e.target.value);
-                            console.log(ans);
+                            // console.log(ans);
                             setans((prev) => new Map([...prev]));
                           }}
                         ></textarea>
@@ -1652,8 +1663,8 @@ function Section2(props) {
                       ? document == 1 && frequency == 1
                         ? ' / inadequate Documentation and inadequate frequency'
                         : document == 1
-                        ? '/ inadequate Documentation'
-                        : '/ inadequate frequency '
+                          ? '/ inadequate Documentation'
+                          : '/ inadequate frequency '
                       : ' '}
                     {is_kpi_open == 1 ? ' / Failed KPI' : ''}
                   </h6>
@@ -1663,7 +1674,7 @@ function Section2(props) {
                     // onClick={click}
                     style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
                     type="submit"
-                    // onSubmit={(e) => submit(props, e, final, hash, setchildterminate)}
+                  // onSubmit={(e) => submit(props, e, final, hash, setchildterminate)}
                   >
                     SUBMIT
                   </Button>{' '}
@@ -1804,9 +1815,9 @@ function Section2(props) {
                               child_part(item, e, 'No');
                               try {
                                 const itemInput = document.getElementById(item?.id);
-                                if(itemInput) itemInput.disabled = false;
-                              } catch(err) {
-                                console.log('@@@:',err);
+                                if (itemInput) itemInput.disabled = false;
+                              } catch (err) {
+                                // console.log('@@@:',err);
                               }
                             }}
                           ></input>
@@ -1827,14 +1838,14 @@ function Section2(props) {
                               onChange={(e) => {
                                 try {
                                   const itemInput = document.getElementById(item?.id);
-                                  if(itemInput) itemInput.disabled = false;
-                                } catch(err) {
-                                  console.log('@@@:',err);
+                                  if (itemInput) itemInput.disabled = false;
+                                } catch (err) {
+                                  // console.log('@@@:',err);
                                 }
-                               
+
                                 ans.delete(item.ques_text);
                                 ans.set(item.ques_text, 'yes');
-                                console.log(ans);
+                                // console.log(ans);
                                 setans((prev) => new Map([...prev]));
                               }}
                             ></input>
@@ -1902,7 +1913,7 @@ function Section2(props) {
                               row="4"
                               onChange={(e) => {
                                 ans.set(item.ques_text, e.target.value);
-                                console.log(ans);
+                                // console.log(ans);
                                 setans((prev) => new Map([...prev]));
                               }}
                             ></textarea>
@@ -1915,8 +1926,8 @@ function Section2(props) {
                           ? document == 1 && frequency == 1
                             ? ' / inadequate Documentation and inadequate frequency'
                             : document == 1
-                            ? '/ inadequate Documentation'
-                            : '/ inadequate frequency '
+                              ? '/ inadequate Documentation'
+                              : '/ inadequate frequency '
                           : ' '}
                         {is_kpi_open == 1 ? ' / Failed KPI' : ''}
                       </div>

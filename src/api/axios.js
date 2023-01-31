@@ -22,7 +22,7 @@ const Axios = axios.create({
 Axios.interceptors.request.use(
   async (config) => {
     const token = getToken('token');
-    if (token) config.headers.Authorization = `Token ${token}`;
+    if (token) config.headers.Authorization = `Basic ${token}`;
 
     return config;
   },
@@ -34,10 +34,10 @@ Axios.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    if (error && error.response && error.response.status === 401) {
-      Cookies.remove('token');
-      window.location.reload();
-    }
+    // if (error && error.response && error.response.status === 401) {
+      // Cookies.remove('token');
+      // window.location.reload();
+    // }
     return Promise.reject(error);
   },
 );
