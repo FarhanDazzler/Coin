@@ -70,7 +70,7 @@ function AssessmentForm() {
 
     // console.log(map1)
     axios
-      .get('http://localhost:1234/get_questions?ControlID=ATR_MJE_01a-K')
+      .get('https://acoemicsgrcpwa-devbe.azurewebsites.net/get_questions?ControlID=ATR_MJE_01a-K')
       .then(async (res) => {
         // console.log(res.data.data);
         setvalues(res.data.data);
@@ -85,7 +85,7 @@ function AssessmentForm() {
 
     axios
       .get(
-        'http://localhost:1234/get_control_scope?ControlID=ATR_ACCR_01b-K&coOwner=Kushal.Khandelwal@ab-inbev.com',
+        'https://acoemicsgrcpwa-devbe.azurewebsites.net/get_control_scope?ControlID=ATR_ACCR_01b-K&coOwner=Kushal.Khandelwal@ab-inbev.com',
       )
       .then((res) => {
         // console.log(res.data.data.priod_of_assessment);
