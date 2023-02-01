@@ -20,7 +20,9 @@ import TopBar from './parts/TopBar/TopBar';
 import Footer from './parts/Footer/Footer';
 import Login from './pages/Login/Login';
 import Home_controlOwner from './pages/Home/Home_controlOwner';
-import Home_internalController from './pages/Home/Home_internalController';
+//import Home_internalController from './pages/Home/Home_internalController';
+
+import Home_InternalControl from './routes/InternalControl/InternalControl.component';
 // import question from './parts/Assessments/question';
 
 import { UserContext, UserContextProvider } from './context/userContext';
@@ -29,6 +31,12 @@ import { UserContext, UserContextProvider } from './context/userContext';
 // import { MantineProvider } from '@mantine/core';
 import dataService from './services/dataService';
 import Question from './parts/Assessments/Question';
+
+// User categories --> User Role
+// const userRole = 'Global Internal Control';
+// const userRole="Zonal Internal Control";
+// const userRole="Control Owner";
+const userRole="Control Oversight";
 
 const Pages = () => {
   const location = useLocation();
@@ -39,6 +47,7 @@ const Pages = () => {
   const [userState, userDispatch] = useContext(UserContext);
 
   const user_role = 'Control Owner';
+  // const user_role = 'Internal Controller';
 
   useEffect(() => {
     if (!isAuthenticated && inProgress === InteractionStatus.None) {
@@ -67,13 +76,13 @@ const Pages = () => {
 
           localStorage.setItem('id_token', response?.idToken);
 
-          // //   dataService
-          // //     .getMSGraphPhoto(response.accessToken)
-          // //     .then((image) => {
-          // //       if (image.type === 'image/jpeg')
-          // //         userDispatch({ type: 'SET_PROFILE_PHOTO', payload: image });
-          // //     })
-          // //     .catch((err) => console.log(err));
+          dataService
+            .getMSGraphPhoto(response.accessToken)
+            .then((image) => {
+              if (image.type === 'image/jpeg')
+                userDispatch({ type: 'SET_PROFILE_PHOTO', payload: image });
+            })
+            .catch((err) => console.log(err));
         })
         .catch((err) => {
           instance.logout({
@@ -86,7 +95,7 @@ const Pages = () => {
   return (
     <div className="page">
       <div className="flex-fill">
-        {!['/login'].includes(location?.pathname) && <TopBar />}
+        {!['/login'].includes(location?.pathname) && <TopBar userRole={userRole} />}
         {/* <Home /> */}
         <Switch>
           <Route
@@ -99,7 +108,7 @@ const Pages = () => {
           {user_role === 'Control Owner' ? (
             <Route exact path="/" component={Home_controlOwner} />
           ) : user_role === 'Internal Controller' ? (
-            <Route exact path="/" component={Home_internalController} />
+            <Route exact path="/" component={Home_InternalControl} />
           ) : (
             <Route exact path="/" component={Home_controlOwner} />
           )}

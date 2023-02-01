@@ -188,7 +188,7 @@ const Home = ({ getControlId }) => {
             <div className="card-header">
               <span className="card-title">
                 {`Hi  `}
-                <span className="golden-text">{accounts[0].name ? accounts[0].name : ''}</span>
+                <span className="golden-text">{accounts[0]?.name ? accounts[0].name : ''}</span>
                 {`!  You have one assessment pending`}
               </span>
             </div>
