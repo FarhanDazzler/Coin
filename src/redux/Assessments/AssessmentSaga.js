@@ -27,7 +27,7 @@ function* handleGetAssessmentAns({ payload }) {
     if (response.success) {
       yield put({
         type: GET_ASSESSMENT_RESPONSE_SUCCESS,
-        payload: response.data
+        payload: { data: response.data, Control_ID: payload.Control_ID }
       });
     }
   } catch (error) {
@@ -45,7 +45,6 @@ async function AssessmentAnsAddApi(payload) {
 function* handleAddAssessmentAns({ payload }) {
   try {
     const response = yield call(AssessmentAnsAddApi, payload);
-    debugger
     if (response.token) {
       yield put({
         type: ADD_ASSESSMENT_RESPONSE_SUCCESS,
@@ -66,7 +65,6 @@ async function AssessmentAnsUpdateApi(payload) {
 function* handleUpdateAssessmentAns({ payload }) {
   try {
     const response = yield call(AssessmentAnsUpdateApi, payload);
-    debugger
     if (response.token) {
       yield put({
         type: UPDATE_ASSESSMENT_RESPONSE_SUCCESS,

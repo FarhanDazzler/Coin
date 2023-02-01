@@ -1,3 +1,5 @@
+import { stopAsyncValidation } from "redux-form";
+
 export const SAVE_ANS = 'RESET_BLOCK_ASSESSMENT';
 export const SAVE_ANS_SUCCESS = 'SAVE_ANS_SUCCESS';
 export const SAVE_ANS_ERROR = 'SAVE_ANS_ERROR';
@@ -25,7 +27,7 @@ const block = {
 
 const initialState = {
   sectionAns: null,
-  getResponse: { ...block },
+  getResponse: { ...block, data: { s1: null, s2: null, s3: null } },
   addResponse: { ...block },
   updateResponse: { ...block },
 };
@@ -47,10 +49,21 @@ export const AssessmentReducer = (state = initialState, { type, payload }) => {
         getResponse: { ...state.getResponse, loading: true }
       }
     case GET_ASSESSMENT_RESPONSE_SUCCESS:
+      const currentResp = payload.data.find((d) => d.Control_ID === payload.Control_ID);
+      const dataStr = JSON.parse(currentResp?.Response_Data);
+      const s1Data = new Map(Object.entries(dataStr.s1));
+      const s3Data = new Map(Object.entries(dataStr.s3));
       return {
         ...state,
-        getResponse: { ...state.getResponse, loading: false },
-        sectionAns: payload.Response_Data
+        getResponse: {
+          ...state.getResponse,
+          loading: false,
+          data: {
+            ...state.getResponse.data,
+            s1: s1Data,
+            s3: s3Data,
+          }
+        },
       }
     case GET_ASSESSMENT_RESPONSE_ERROR:
       return {

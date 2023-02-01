@@ -14,12 +14,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveAssessmentAns } from '../../redux/Assessments/AssessmentAction';
-import { sectionAnsSelector } from '../../redux/Assessments/AssessmentSelectors';
+import { getResponseSelector, sectionAnsSelector } from '../../redux/Assessments/AssessmentSelectors';
 
 function AssessmentForm() {
   // const [org, setOrg] = useState('abcd');
   const dispatch = useDispatch();
   const sectionAns = useSelector(sectionAnsSelector);
+  const getResponse = useSelector(getResponseSelector);
   const [val, setVal] = useState('lala');
   var [final, setfinal] = useState([]);
   const [id, setid] = useState([]);
@@ -32,12 +33,23 @@ function AssessmentForm() {
   const [scope, setscope] = useState({});
   var parentQuestions = [];
   var child_question = [];
-  console.log('#####result', result, sectionAns);
 
   useEffect(() => {
-    console.log('@@@@@');
     dispatch(saveAssessmentAns({ section1: result }));
   }, [result]);
+console.log('@@@',final)
+  useEffect(() => {
+    if (getResponse.data?.s1) {
+      setresult(getResponse.data?.s1);
+
+      const finalList = values.filter(f => getResponse.data?.s1.get(f.question_text));
+      if(finalList.length > 0) {
+        setfinal(finalList);
+        setflag(true);
+      }
+
+    }
+  }, [getResponse.data?.s1, values])
 
   const sectionDisplay = (display_text) => {
     return (
@@ -95,43 +107,7 @@ function AssessmentForm() {
       .catch((err) => {
         console.log(err);
       });
-    // setfinal([
-    //   {
-    //     Control_ID: 'ATR_MJE_01a-K',
-    //     Global_KPI_Code: 'Assigning random kpi code',
-    //     child_questions: '["Q-S002", "Q-S003"]',
-    //     is_Terminating: 0,
-    //     options: [
-    //       {
-    //         child_question: '',
-    //         option_id: '12f2c6ef-6d69-4954-902b-5b50208f',
-    //         option_value: 'Yes - I am the owner and part of the org',
-    //         q_id: 'Q-S001',
-    //       },
-    //       {
-    //         child_question: 'Q-S002',
-    //         option_id: '71fcfb60-0f92-4fad-bcad-c32e844f',
-    //         option_value: 'No - I am no longer the Owner',
-    //         q_id: 'Q-S001',
-    //       },
-    //       {
-    //         child_question: 'Q-S003',
-    //         option_id: 'ab23606b-32ca-4b9b-b1e9-c7130773',
-    //         option_value: 'I am still the owner, but not part of\u00a0the Org',
-    //         q_id: 'Q-S001',
-    //       },
-    //     ],
-    //     parent_qid: '',
-    //     q_id: 'Q-S001',
-    //     q_id_Type: 1,
-    //     question_child: 1,
-    //     question_order: 'Assigning random order',
-    //     question_status: 1,
-    //     question_text: 'Are you still the control owner and are you part of Org -',
-    //     question_type: 'Radio',
-    //     response_required: 'True',
-    //   },
-    // ]);
+
   }, []);
 
   values = values.slice(0, 10);
@@ -274,33 +250,6 @@ function AssessmentForm() {
         }
 
         let this_is_parent = final[index - 1].q_id;
-        // let myArray = text.split(`\"`)
-        //myArray = myArray.split(`"`);
-
-        // let arr = [];
-        // for (let i = 1; i < myArray.length; i += 2) {
-        //     arr.push(myArray[i]);
-        // }
-
-        //     console.log(arr)
-        //     let this_is_parent;
-        //     if(arr.length==0){
-
-        //         this_is_parent=parent_ques.parent_qid;
-        //     }else{
-
-        //     for(let next_parent=0;  next_parent<arr.length;  next_parent++){
-
-        //                     for(let f=0 ; f<final.length; f++){
-
-        //                         if(final[f].q_id==arr[next_parent]){
-        //                             this_is_parent=arr[next_parent];
-
-        //                         }
-        //                     }
-        //     }
-        //     console.log(this_is_parent)
-        // }
 
         let loop = 0;
         for (let l = 0; l < final.length; l++) {

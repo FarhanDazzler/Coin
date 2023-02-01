@@ -20,14 +20,17 @@ import * as XLSX from 'xlsx';
 import { RedirectHandler } from '@azure/msal-browser/dist/internals';
 import readXlsxFile from 'read-excel-file';
 import { useDispatch, useSelector } from 'react-redux';
-import { sectionAnsSelector } from '../../redux/Assessments/AssessmentSelectors';
+import { getResponseSelector, sectionAnsSelector } from '../../redux/Assessments/AssessmentSelectors';
 import { saveAssessmentAns, updateAssessmentAns } from '../../redux/Assessments/AssessmentAction';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
 function Section2(props) {
   // console.log('second');
   //const { ExportCSVButton } = CSVExport;
   const dispatch = useDispatch();
   const sectionAns = useSelector(sectionAnsSelector);
+  const history = useHistory();
+  const getResponse = useSelector(getResponseSelector);
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
@@ -43,7 +46,179 @@ function Section2(props) {
   let [children, setchildren] = useState(new Map());
   const [val, setval] = useState('');
 
-  // console.log('ans',ans);
+  let parent_arr = [
+    {
+      ques_text:
+        ' Below are the key requirements linked to L1 MICS Description and would require your response to assess compliance with L1',
+      level: [
+        {
+          L: 'Approval evidence along with supporting documents on MJE are archived in a ticketing tool or in SAP?',
+        },
+        { L: 'Approver and requestor authorized to park/post MJE in SAP' },
+        {
+          L: 'For MJE Posted without park & Post, detective review is executed before or on WD10. Further, whether on quarterly basis, access to direct post (without park) is reviewed and confirmed?',
+        },
+      ],
+      parent: 1,
+      terminate: 0,
+      parent_id: '',
+      id: 'soo1',
+      Yes: 'soo2',
+      No: 'soo3',
+    },
+
+    {
+      ques_text:
+        ' Below are the key requirements linked to L2 MICS Description and would require your response to assess compliance with L2',
+      level: [
+        {
+          L: 'Whether manual journal entries are managed in a workflow tool to ensure:a) mandatory attachments are included &b) auto posting of manual journal entries following the necessary approvals provided in the system',
+        },
+        {
+          L: 'All changes in the workflow configuration are approved by Zone Internal Control before the changes are made.',
+        },
+        {
+          L: 'For MJEs not categorized speciafically, (e.g. reclassification, corrections) a common and standardized zone template is in place to justify the underlying data of the amounts defined in the journal entry.',
+        },
+      ],
+      parent: 1,
+      terminate: 0,
+      parent_id: '',
+      id: 'soo4',
+      Yes: 'soo5',
+      No: 'soo6',
+    },
+
+    {
+      ques_text: `Is L3 MICS Description achieved on this control? In addition to the L2 requirements:
+        1. Any MJE performed is managed through a workflow tool which guarantees four eye review on every transaction 
+        (employees can park & post journal entries, but can never do this on the same journal entry). 
+        2. All documentation supporting MJEs is stored together with the journal entry in the system of record (ERP or sub conso system) and no other system.
+
+        Standardization to be achieved to reach L3: Booking of manual journal entries is only performed by the NoCC.`,
+      options: [{ L1: 'Yes, passed at Level3' }, { L2: 'No, failed at Level3' }],
+      id: 'soo7',
+      parent_id: '',
+    },
+  ];
+  let child_next = [
+    {
+      ques_text: `Based on KPI data in section 2. the control failed at Level choose either of below`,
+      option: {
+        L1: 'Agree with KPI value',
+        L2: 'KPI calculation is incorrect',
+      },
+      parent: 0,
+      terminate: 0,
+      parent_id: 'soo1',
+      id: 'soo2',
+      section: 0,
+    },
+    {
+      ques_text: `Based on KPI data in section 2. the control failed at Level choose either of below`,
+      option: {
+        L1: 'Agree with KPI value',
+        L2: 'KPI calculation is incorrect',
+      },
+      parent: 0,
+      terminate: 0,
+      parent_id: 'soo4',
+      id: 'soo2',
+      section: 0,
+    },
+  ];
+
+  let child = [
+    {
+      ques_text:
+        ' Based on above response, the control is assessed as passed at L1. Would you like to report any other deficiency not covered in the points mentioned above? (Please select "No" in case of none of the deficiencies identified)',
+      option: 'No',
+      parent: 0,
+      terminate: 0,
+      parent_id: 'soo1',
+      id: 'soo2',
+      section: 1,
+    },
+
+    {
+      ques_text:
+        ' Based on above response, the control is assessed as passed at L2. Would you like to report any other deficiency not covered in the points mentioned above? ',
+      option: 'No',
+      parent: 0,
+      terminate: 0,
+      parent_id: 'soo4',
+      id: 'soo5',
+      section: 1,
+    },
+  ];
+
+  let terminate = [
+    {
+      ques_text:
+        'Based on above response, the control is assessed as failed at L1. Could you please select either of the below options on action Plan   Action plan is a time bound proposition designed to remediate the control breakdown with the objective of ensuring MICS compliance',
+      option: {
+        op1: 'Action Plan to remediate the controls is already created by aligning with the Zone IC team',
+        op2: 'Action Plan to remediate the issue is yet to be created and requires alignment with Zone IC team',
+      },
+      parent: 0,
+      terminate: 1,
+      parent_id: 'soo1',
+      id: 'soo3',
+      section: 1,
+    },
+
+    {
+      ques_text:
+        'Based on above response, the control is assessed as failed at L2. Could you please select either of the below options on the action Plan.',
+      option: {
+        op1: 'Action Plan to remediate the controls is already created by aligning with the Zone IC team',
+        op2: 'Action Plan to remediate the issue is yet to be created and requires alignment with Zone IC team',
+      },
+      parent: 0,
+      terminate: 1,
+      parent_id: 'soo4',
+      id: 'soo3',
+      section: 1,
+    },
+  ];
+
+  console.log('@@@@ ->', ans, final);
+
+  useEffect(() => {
+    if (getResponse.data?.s3) {
+      setans(getResponse.data?.s3);
+      const finalList = child.filter(f => getResponse.data?.s3.get(f.ques_text));
+      const terminateList = terminate.filter(f => getResponse.data?.s3.get(f.ques_text));
+
+      if (finalList.length > 0) {
+        setfinal([
+          {
+            ques_text:
+              ' Below are the key requirements linked to L1 MICS Description and would require your response to assess compliance with L1',
+            level: [
+              {
+                L: 'Approval evidence along with supporting documents on MJE are archived in a ticketing tool or in SAP?',
+              },
+              { L: 'Approver and requestor authorized to park/post MJE in SAP' },
+              {
+                L: 'For MJE Posted without park & Post, detective review is executed before or on WD10. Further, whether on quarterly basis, access to direct post (without park) is reviewed and confirmed?',
+              },
+            ],
+            parent: 1,
+
+            terminate: 0,
+            parent_id: '',
+            id: 'soo1',
+            Yes: 'soo2',
+            No: 'soo3',
+          },
+          ...finalList,
+          ...terminateList
+        ]);
+      }
+      // 
+    }
+  }, [getResponse.data?.s3])
 
   let [L, setL] = useState([false, false, false]);
   let v = [false, false, false];
@@ -303,215 +478,6 @@ function Section2(props) {
     },
   ];
 
-  // const columns = [
-  //     {
-  //         dataField: 'id',
-  //         text: 'id',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //         hidden: true
-  //     },
-
-  //     {
-  //         dataField: 'sep',
-  //         text: 'sep',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //         hidden: true
-  //     },
-
-  //     {
-  //         dataField: 'Global_KPI_Code',
-  //         text: 'Global_KPI_Code',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'MICS_Code',
-  //         text: 'MICS_Code',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //             width: '1000px'
-
-  //         },
-
-  //     }, {
-  //         dataField: 'MICS_L1_Threshold',
-  //         text: 'MICS_L1_Threshold',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-
-  //         },
-  //         // events: {
-  //         //     onClick: (e, column, columnIndex, row, rowIndex) => {
-  //         //       // console.log(e);
-  //         //       // console.log(column);
-  //         //       // console.log(columnIndex);
-  //         //       // console.log(row);
-  //         //       // console.log(rowIndex);
-  //         //       //alert('Click on Product ID field');
-  //         //     }},
-  //     },
-  //     {
-  //         dataField: 'MICS_L2_Threshold',
-  //         text: 'MICS_L2_Threshold',
-  //         editable: false,
-
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-  //     {
-  //         dataField: 'MICS_L3_Threshold',
-  //         text: 'MICS_L3_Threshold',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-  //     {
-  //         dataField: 'Positive_Direction',
-  //         text: 'Positive_Direction',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'Entity_ID',
-  //         text: 'Entity_ID',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'Period_From',
-  //         text: 'Period_From',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'Period_To',
-  //         text: 'Period_To',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'Numerator',
-  //         text: 'Numerator',
-  //         editable: (content, row, rowIndex, columnIndex) => row.id == 2,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'Denominator',
-  //         text: 'Denominator',
-  //         editable: (content, row, rowIndex, columnIndex) => row.id == 2,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //         style: (cell, row, rowIndex, colIndex) => {
-
-  //             return {
-  //                 backgroundColor: 'white',
-  //                 border: '1px solid red',
-
-  //             };
-  //         }
-  //     },
-
-  //     {
-  //         dataField: 'KPI_Value',
-  //         text: 'KPI_Value',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'L1_Result',
-  //         text: 'L1_Result',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'L2_Result',
-  //         text: 'L2_Result',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'L3_Result',
-  //         text: 'L3_Result',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  // ];
-
   const rowStyle2 = (row, rowIndex) => {
     const style = {};
     if (row.L3_Result == 'Fail' || row.L3_Result == 'Fail' || row.L3_Result == 'Fail') {
@@ -521,142 +487,6 @@ function Section2(props) {
 
     return style;
   };
-
-  let parent_arr = [
-    {
-      ques_text:
-        ' Below are the key requirements linked to L1 MICS Description and would require your response to assess compliance with L1',
-      level: [
-        {
-          L: 'Approval evidence along with supporting documents on MJE are archived in a ticketing tool or in SAP?',
-        },
-        { L: 'Approver and requestor authorized to park/post MJE in SAP' },
-        {
-          L: 'For MJE Posted without park & Post, detective review is executed before or on WD10. Further, whether on quarterly basis, access to direct post (without park) is reviewed and confirmed?',
-        },
-      ],
-      parent: 1,
-      terminate: 0,
-      parent_id: '',
-      id: 'soo1',
-      Yes: 'soo2',
-      No: 'soo3',
-    },
-
-    {
-      ques_text:
-        ' Below are the key requirements linked to L2 MICS Description and would require your response to assess compliance with L2',
-      level: [
-        {
-          L: 'Whether manual journal entries are managed in a workflow tool to ensure:a) mandatory attachments are included &b) auto posting of manual journal entries following the necessary approvals provided in the system',
-        },
-        {
-          L: 'All changes in the workflow configuration are approved by Zone Internal Control before the changes are made.',
-        },
-        {
-          L: 'For MJEs not categorized speciafically, (e.g. reclassification, corrections) a common and standardized zone template is in place to justify the underlying data of the amounts defined in the journal entry.',
-        },
-      ],
-      parent: 1,
-      terminate: 0,
-      parent_id: '',
-      id: 'soo4',
-      Yes: 'soo5',
-      No: 'soo6',
-    },
-
-    {
-      ques_text: `Is L3 MICS Description achieved on this control? In addition to the L2 requirements:
-        1. Any MJE performed is managed through a workflow tool which guarantees four eye review on every transaction 
-        (employees can park & post journal entries, but can never do this on the same journal entry). 
-        2. All documentation supporting MJEs is stored together with the journal entry in the system of record (ERP or sub conso system) and no other system.
-
-        Standardization to be achieved to reach L3: Booking of manual journal entries is only performed by the NoCC.`,
-      options: [{ L1: 'Yes, passed at Level3' }, { L2: 'No, failed at Level3' }],
-      id: 'soo7',
-      parent_id: '',
-    },
-  ];
-  let child_next = [
-    {
-      ques_text: `Based on KPI data in section 2. the control failed at Level choose either of below`,
-      option: {
-        L1: 'Agree with KPI value',
-        L2: 'KPI calculation is incorrect',
-      },
-      parent: 0,
-      terminate: 0,
-      parent_id: 'soo1',
-      id: 'soo2',
-      section: 0,
-    },
-    {
-      ques_text: `Based on KPI data in section 2. the control failed at Level choose either of below`,
-      option: {
-        L1: 'Agree with KPI value',
-        L2: 'KPI calculation is incorrect',
-      },
-      parent: 0,
-      terminate: 0,
-      parent_id: 'soo4',
-      id: 'soo2',
-      section: 0,
-    },
-  ];
-
-  let child = [
-    {
-      ques_text:
-        ' Based on above response, the control is assessed as passed at L1. Would you like to report any other deficiency not covered in the points mentioned above? (Please select "No" in case of none of the deficiencies identified)',
-      option: 'No',
-      parent: 0,
-      terminate: 0,
-      parent_id: 'soo1',
-      id: 'soo2',
-      section: 1,
-    },
-
-    {
-      ques_text:
-        ' Based on above response, the control is assessed as passed at L2. Would you like to report any other deficiency not covered in the points mentioned above? ',
-      option: 'No',
-      parent: 0,
-      terminate: 0,
-      parent_id: 'soo4',
-      id: 'soo5',
-      section: 1,
-    },
-  ];
-
-  let terminate = [
-    {
-      ques_text:
-        'Based on above response, the control is assessed as failed at L1. Could you please select either of the below options on action Plan   Action plan is a time bound proposition designed to remediate the control breakdown with the objective of ensuring MICS compliance',
-      option: {
-        op1: 'Action Plan to remediate the controls is already created by aligning with the Zone IC team',
-        op2: 'Action Plan to remediate the issue is yet to be created and requires alignment with Zone IC team',
-      },
-      parent: 0,
-      terminate: 1,
-      parent_id: 'soo1',
-      id: 'soo3',
-      section: 1,
-    },
-
-    {
-      ques_text:
-        'Based on above response, the control is assessed as failed at L2. Could you please select either of the below options on the action Plan.',
-      option: {
-        op1: 'Action Plan to remediate the controls is already created by aligning with the Zone IC team',
-        op2: 'Action Plan to remediate the issue is yet to be created and requires alignment with Zone IC team',
-      },
-      parent: 0,
-      terminate: 1,
-      parent_id: 'soo4',
-      id: 'soo3',
-      section: 1,
-    },
-  ];
 
   // console.log(props.is_action_plan);
   let is_action_plan;
@@ -710,7 +540,7 @@ function Section2(props) {
         for (let i = 0; i < res.data.data.length; i++) {
 
           if (i === 0) {
-            table_data.push({ ...res.data.data[i], Numerator: "NA" });
+            table_data.push({ ...res.data.data[i], Numerator: "NA", Denominator: 'NA' });
           } else {
             table_data.push(res.data.data[i]);
           }
@@ -762,28 +592,28 @@ function Section2(props) {
         // console.log(err);
       });
 
-    setfinal([
-      {
-        ques_text:
-          ' Below are the key requirements linked to L1 MICS Description and would require your response to assess compliance with L1',
-        level: [
-          {
-            L: 'Approval evidence along with supporting documents on MJE are archived in a ticketing tool or in SAP?',
-          },
-          { L: 'Approver and requestor authorized to park/post MJE in SAP' },
-          {
-            L: 'For MJE Posted without park & Post, detective review is executed before or on WD10. Further, whether on quarterly basis, access to direct post (without park) is reviewed and confirmed?',
-          },
-        ],
-        parent: 1,
+    // setfinal([
+    //   {
+    //     ques_text:
+    //       ' Below are the key requirements linked to L1 MICS Description and would require your response to assess compliance with L1',
+    //     level: [
+    //       {
+    //         L: 'Approval evidence along with supporting documents on MJE are archived in a ticketing tool or in SAP?',
+    //       },
+    //       { L: 'Approver and requestor authorized to park/post MJE in SAP' },
+    //       {
+    //         L: 'For MJE Posted without park & Post, detective review is executed before or on WD10. Further, whether on quarterly basis, access to direct post (without park) is reviewed and confirmed?',
+    //       },
+    //     ],
+    //     parent: 1,
 
-        terminate: 0,
-        parent_id: '',
-        id: 'soo1',
-        Yes: 'soo2',
-        No: 'soo3',
-      },
-    ]);
+    //     terminate: 0,
+    //     parent_id: '',
+    //     id: 'soo1',
+    //     Yes: 'soo2',
+    //     No: 'soo3',
+    //   },
+    // ]);
 
     for (let i = 0; i < parent_arr.length; i++) {
       parent.set(parent_arr[i].id, i);
@@ -1317,7 +1147,7 @@ function Section2(props) {
       setExcelData(null);
     }
   };
-
+  console.log('ddans', ans)
   const save_response = async (event) => {
     event.preventDefault();
     // console.log(props.final);
@@ -1346,7 +1176,7 @@ function Section2(props) {
       if (final[i].parent == 1) {
         for (let j = 0; j < final[i].level.length; j++) {
           // console.log(ans.has(final[i].level[j].L));
-          if (ans.has(final[i].level[j].L !== true)) {
+          if (ans.has(final[i].level[j].L) !== true) {
             is_swal_fired = 1;
             Swal.fire(' Please fill all the fields !');
           }
@@ -1370,19 +1200,19 @@ function Section2(props) {
         cancelButtonColor: 'black',
         confirmButtonText: 'Yes, submit it!',
       }).then((result) => {
-        // debugger
         if (result.isConfirmed) {
           const payload = {
             "Assessment_ID": "",
             "Response_ID": "",
             "Control_ID": "ATR_MJE_01a-K",
             "COwner": "jaymin@ab-inbev.com",
-            "Response_Data": { s1: props.result, s3: ans },
+            "Response_Data": JSON.stringify({ s1: Object.fromEntries(props.result), s3: Object.fromEntries(ans) }),
             "Time_Stamp": "01/30/2023"
           }
-          
-          dispatch(updateAssessmentAns(payload))
+
+          dispatch(updateAssessmentAns(payload));
           Swal.fire('Done!', 'You are now being redirected to the mainpage', 'success');
+          history.push('/');
         }
       });
     }
@@ -1512,7 +1342,6 @@ function Section2(props) {
         </div>
       </div>
 
-      { }
       <form onSubmit={save_response}>
         {check_table == 1 ? (
           <h3 style={{ color: 'red', fontSize: '12px' }}>
@@ -1652,7 +1481,9 @@ function Section2(props) {
                             // console.log(ans);
                             setans((prev) => new Map([...prev]));
                           }}
-                        ></textarea>
+                        >
+                          {ans.get(item.ques_text)}
+                        </textarea>
                       </div>
                     </div>
                   </div>
@@ -1800,7 +1631,7 @@ function Section2(props) {
                           style={{ fontWeight: 'bolder', fontSize: '19px', marginBottom: '26px' }}
                         >
                           {' '}
-                          {item.ques_text}999
+                          {item.ques_text}
                         </strong>
                         <br></br>
                         <br></br>
@@ -1866,7 +1697,9 @@ function Section2(props) {
                             onChange={(e) => {
                               child_terminate(item, e);
                             }}
-                          ></textarea>
+                          >
+                            {ans.get(item.ques_text)}
+                          </textarea>
                           {childterminate == true && child_submit.get(item.id) == true ? (
                             <div>
                               <h6 style={{ color: 'red', paddingTop: '7px' }}>
