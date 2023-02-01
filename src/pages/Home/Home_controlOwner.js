@@ -110,7 +110,7 @@ const Home = ({ getControlId }) => {
   const pending_control = 2;
 
   useEffect(() => {
-    Axios.get('http://localhost:1234/get_assessment_trigger_surveys').then(function (response) {
+    Axios.get('https://acoemicsgrcpwa-devbe.azurewebsites.net/get_assessment_trigger_surveys').then(function (response) {
       // console.log(response?.data);
       console.log(owner_assessment_data);
       var status_code = response.status;

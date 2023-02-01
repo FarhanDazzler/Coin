@@ -27,7 +27,7 @@ const Section1 = () => {
   const validationSchema = Yup.object().shape({});
   //get quesitons from the database
   useEffect(() => {
-    Axios.get('http://localhost:1234/get_questions?ControlID=' + control_id).then(function (
+    Axios.get('https://acoemicsgrcpwa-devbe.azurewebsites.net/get_questions?ControlID=' + control_id).then(function (
       response,
     ) {
       var status_code = response.status;
