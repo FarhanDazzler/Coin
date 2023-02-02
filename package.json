@@ -5,9 +5,13 @@
   "dependencies": {
     "@azure/msal-browser": "^2.16.1",
     "@azure/msal-react": "^1.0.1",
+    "@emotion/styled": "^11.10.5",
     "@mantine/core": "^4.2.6",
     "@mantine/dates": "^4.2.6",
     "@mantine/hooks": "^4.2.6",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.7",
+    "@mui/x-data-grid": "^5.17.21",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
