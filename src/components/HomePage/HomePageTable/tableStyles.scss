@@ -1,0 +1,44 @@
+.main-table-wrapper {
+  color: rgb(169 169 169) !important;
+  border: 1px solid #333333 !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+
+  .MuiDataGrid-columnHeaderTitle {
+    color: #fff !important;
+  }
+  .MuiSvgIcon-root {
+    color: #fff;
+    fill: #fff;
+  }
+  background: #5c5c5c33;
+  backdrop-filter: blur(20px);
+
+  .badge {
+    background: rgba(0, 0, 0, 0.25) !important;
+    display: block;
+    width: 100%;
+    height: max-content;
+    line-height: 1.7;
+  }
+}
+.main-table-wrapper-footer {
+  display: none !important;
+}
+.dashboardCell {
+  justify-content: center !important;
+}
+.MuiDataGrid-columnHeader {
+  backdrop-filter: blur(20px);
+  background: #0e0e0efc;
+}
+.MuiDataGrid-cell,
+.MuiDataGrid-columnHeader {
+  border: 1px solid rgba(255, 255, 255, 0.13) !important;
+}
+.text-yellow {
+  color: #d3a306;
+}
+.text-yellow-dark {
+  color: #eccf12ba;
+}

@@ -110,18 +110,20 @@ const Home = ({ getControlId }) => {
   const pending_control = 2;
 
   useEffect(() => {
-    Axios.get('https://acoemicsgrcpwa-devbe.azurewebsites.net/get_assessment_trigger_surveys').then(function (response) {
-      // console.log(response?.data);
-      console.log(owner_assessment_data);
-      var status_code = response.status;
-      var status_text = response.statusText;
-      var api_data = response?.data.data;
-      if (status_code === 200 && status_text === 'OK') {
-        console.log(api_data);
-      } else {
-        console.log(response.error.message);
-      }
-    });
+    Axios.get('https://acoemicsgrcpwa-devbe.azurewebsites.net/get_assessment_trigger_surveys').then(
+      function (response) {
+        // console.log(response?.data);
+        console.log(owner_assessment_data);
+        var status_code = response.status;
+        var status_text = response.statusText;
+        var api_data = response?.data.data;
+        if (status_code === 200 && status_text === 'OK') {
+          console.log(api_data);
+        } else {
+          console.log(response.error.message);
+        }
+      },
+    );
   }, []);
 
   const assessment_data_list = (data) =>

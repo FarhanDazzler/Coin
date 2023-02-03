@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -267,215 +267,6 @@ function Section2(props) {
       },
     },
   ];
-
-  // const columns = [
-  //     {
-  //         dataField: 'id',
-  //         text: 'id',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //         hidden: true
-  //     },
-
-  //     {
-  //         dataField: 'sep',
-  //         text: 'sep',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //         hidden: true
-  //     },
-
-  //     {
-  //         dataField: 'Global_KPI_Code',
-  //         text: 'Global_KPI_Code',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'MICS_Code',
-  //         text: 'MICS_Code',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //             width: '1000px'
-
-  //         },
-
-  //     }, {
-  //         dataField: 'MICS_L1_Threshold',
-  //         text: 'MICS_L1_Threshold',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-
-  //         },
-  //         // events: {
-  //         //     onClick: (e, column, columnIndex, row, rowIndex) => {
-  //         //       console.log(e);
-  //         //       console.log(column);
-  //         //       console.log(columnIndex);
-  //         //       console.log(row);
-  //         //       console.log(rowIndex);
-  //         //       //alert('Click on Product ID field');
-  //         //     }},
-  //     },
-  //     {
-  //         dataField: 'MICS_L2_Threshold',
-  //         text: 'MICS_L2_Threshold',
-  //         editable: false,
-
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-  //     {
-  //         dataField: 'MICS_L3_Threshold',
-  //         text: 'MICS_L3_Threshold',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-  //     {
-  //         dataField: 'Positive_Direction',
-  //         text: 'Positive_Direction',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'Entity_ID',
-  //         text: 'Entity_ID',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'Period_From',
-  //         text: 'Period_From',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'Period_To',
-  //         text: 'Period_To',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'Numerator',
-  //         text: 'Numerator',
-  //         editable: (content, row, rowIndex, columnIndex) => row.id == 2,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'Denominator',
-  //         text: 'Denominator',
-  //         editable: (content, row, rowIndex, columnIndex) => row.id == 2,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //         style: (cell, row, rowIndex, colIndex) => {
-
-  //             return {
-  //                 backgroundColor: 'white',
-  //                 border: '1px solid red',
-
-  //             };
-  //         }
-  //     },
-
-  //     {
-  //         dataField: 'KPI_Value',
-  //         text: 'KPI_Value',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'L1_Result',
-  //         text: 'L1_Result',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'L2_Result',
-  //         text: 'L2_Result',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  //     {
-  //         dataField: 'L3_Result',
-  //         text: 'L3_Result',
-  //         editable: false,
-  //         headerStyle: {
-  //             backgroundColor: '#f1c40f',
-  //             color: '#000000',
-  //             fontWeight: '700',
-  //         },
-  //     },
-
-  // ];
 
   let parent_arr = [
     {
@@ -1135,7 +926,7 @@ function Section2(props) {
           <h1>Excel file upload & Download</h1>
 
           <form onSubmit={handleSubmit} id="combine_btn">
-            <label class="submit_btn" for="uploadfile">
+            <label className="submit_btn" for="uploadfile">
               Upload File
             </label>
             <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
@@ -1319,13 +1110,6 @@ function Section2(props) {
               while (final.length > 0) {
                 final.pop();
               }
-              console.log(final);
-
-              // for(let j=0;j<parent_arr[0].level.length;j++){
-
-              //   ans.delete(parent_arr[0].level[j].L)
-              // }
-
               ans.clear();
               hash.clear();
 
@@ -1340,8 +1124,6 @@ function Section2(props) {
         />
       </div>
 
-      {}
-
       {check_table == 1 ? (
         <h3 style={{ color: 'red' }}>** Please fill all the row of KPI table first</h3>
       ) : (
@@ -1353,35 +1135,35 @@ function Section2(props) {
                   Is L3 MICS Description achieved on this control? In addition to the L2
                   requirements:
                 </strong>
-                <br></br>
+                <br />
                 <strong className="card-text">
                   {' '}
                   1. Any MJE performed is managed through a workflow tool which guarantees four eye
                   review on every transaction (employees can park & post journal entries, but can
                   never do this on the same journal entry).
                 </strong>
-                <br></br>
+                <br />
                 <strong className="card-text">
                   2. All documentation supporting MJEs is stored together with the journal entry in
                   the system of record (ERP or sub conso system) and no other system.
                 </strong>
-                <br></br>
-                <br></br>
+                <br />
+                <br />
                 <strong className="card-text">
                   {' '}
                   Standardization to be achieved to reach L3: Booking of manual journal entries is
                   only performed by the NoCC.`,
                 </strong>
-                <br></br>
+                <br />
 
                 <div>
-                  <input type="radio" id={item.options.L1} name={item.ques_text}></input>
+                  <input type="radio" id={item.options.L1} name={item.ques_text} />
                   <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.options.L1}>
                     {item.options[0].L1}
                   </label>
                 </div>
                 <div>
-                  <input type="radio" id={item.options.L2} name={item.ques_text}></input>
+                  <input type="radio" id={item.options.L2} name={item.ques_text} />
                   <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.options.L2}>
                     {item.options[1].L2}
                   </label>
@@ -1408,8 +1190,8 @@ function Section2(props) {
                     {' '}
                     {item.ques_text}
                   </strong>
-                  <br></br>
-                  <br></br>
+                  <br />
+                  <br />
 
                   <div>
                     <input
@@ -1423,7 +1205,7 @@ function Section2(props) {
                         console.log(ans);
                         setans((prev) => new Map([...prev]));
                       }}
-                    ></input>
+                    />
                     <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.option.op1}>
                       {item.option.op1}
                     </label>
@@ -1440,7 +1222,7 @@ function Section2(props) {
                         console.log(ans);
                         setans((prev) => new Map([...prev]));
                       }}
-                    ></input>
+                    />
                     <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.option.op2}>
                       {item.option.op2}
                     </label>
@@ -1448,14 +1230,14 @@ function Section2(props) {
                   <div>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder=""
                       onChange={(e) => {
                         ans.set(item.ques_text, e.target.value);
                         console.log(ans);
                         setans((prev) => new Map([...prev]));
                       }}
-                    ></input>
+                    />
                   </div>
                 </div>
               </div>
@@ -1484,8 +1266,8 @@ function Section2(props) {
                     {' '}
                     {item.ques_text}
                   </strong>
-                  <br></br>
-                  <br></br>
+                  <br />
+                  <br />
                   <div className="w-100">
                     {item.level.map((opt, i) => (
                       <>
@@ -1502,7 +1284,7 @@ function Section2(props) {
                                 onChange={() => {
                                   radio(item, opt.L, 'yes', i);
                                 }}
-                              ></input>
+                              />
                               <label style={{ fontSize: '19px', marginLeft: '8px' }} for={opt.L}>
                                 Yes
                               </label>
@@ -1515,7 +1297,7 @@ function Section2(props) {
                                 onChange={() => {
                                   radio(item, opt.L, 'No', i);
                                 }}
-                              ></input>
+                              />
                               <label style={{ fontSize: '19px', marginLeft: '8px' }} for={opt.L}>
                                 No
                               </label>
@@ -1525,7 +1307,7 @@ function Section2(props) {
                       </>
                     ))}
                   </div>
-                  <br></br>
+                  <br />
                 </div>
               </div>
             </div>
@@ -1534,8 +1316,8 @@ function Section2(props) {
               <div className="card border-0 child">
                 <div className="card-body text">
                   <strong className="card-text ">{item.ques_text}</strong>
-                  <br></br>
-                  <br></br>
+                  <br />
+                  <br />
                   <div>
                     <input
                       type="radio"
@@ -1546,7 +1328,7 @@ function Section2(props) {
                       onChange={(e) => {
                         child_part(item, e);
                       }}
-                    ></input>
+                    />
                     <label style={{ fontSize: '24px' }} for={item.ques_text}>
                       Agree with KPI value
                     </label>
@@ -1563,7 +1345,7 @@ function Section2(props) {
                       onChange={(e) => {
                         child_part(item, e);
                       }}
-                    ></input>
+                    />
                     <label style={{ fontSize: '24px' }} for={item.ques_text}>
                       KPI calculation is incorrect
                     </label>
@@ -1582,8 +1364,8 @@ function Section2(props) {
                     {' '}
                     {item.ques_text}
                   </strong>
-                  <br></br>
-                  <br></br>
+                  <br />
+                  <br />
                   <div>
                     <input
                       type="radio"
@@ -1595,7 +1377,7 @@ function Section2(props) {
                         child_part(item, e, 'No');
                         document.getElementById(item.id).disabled = true;
                       }}
-                    ></input>
+                    />
                     <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.ques_text}>
                       No
                     </label>
@@ -1615,21 +1397,21 @@ function Section2(props) {
 
                           setans((prev) => new Map([...prev]));
                         }}
-                      ></input>
+                      />
                       <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.ques_text}>
                         Yes
                       </label>
                     </div>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Enter value first"
                       id={item.id}
                       value={hash.get(item.ques_text)}
                       onChange={(e) => {
                         child_terminate(item, e);
                       }}
-                    ></input>
+                    />
                     {childterminate == true && child_submit.get(item.id) == true ? (
                       <div>
                         <h6 style={{ color: 'red', paddingTop: '7px' }}>

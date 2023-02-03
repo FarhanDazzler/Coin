@@ -20,7 +20,7 @@
 .table .form-control {
   height: 30px;
   max-width: 100px;
-  font-size:14px;
+  font-size: 14px;
   padding-left: 10px;
 }
 
@@ -341,6 +341,10 @@ a:not([href]):not([tabindex]):focus {
 
 a:not([href]):not([tabindex]):focus {
   outline: 0;
+}
+
+iframe {
+  display: none;
 }
 
 pre,

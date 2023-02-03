@@ -13,12 +13,17 @@ import 'aos/dist/aos.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveAssessmentAns } from '../../redux/Assessments/AssessmentAction';
-import { getResponseSelector, sectionAnsSelector } from '../../redux/Assessments/AssessmentSelectors';
+import { saveAssessmentAns, updateAssessmentAns } from '../../redux/Assessments/AssessmentAction';
+import {
+  getResponseSelector,
+  sectionAnsSelector,
+} from '../../redux/Assessments/AssessmentSelectors';
+import { useHistory } from 'react-router-dom';
 
 function AssessmentForm() {
   // const [org, setOrg] = useState('abcd');
   const dispatch = useDispatch();
+  const history = useHistory();
   const sectionAns = useSelector(sectionAnsSelector);
   const getResponse = useSelector(getResponseSelector);
   const [val, setVal] = useState('lala');
@@ -37,24 +42,23 @@ function AssessmentForm() {
   useEffect(() => {
     dispatch(saveAssessmentAns({ section1: result }));
   }, [result]);
-console.log('@@@',final)
+
   useEffect(() => {
     if (getResponse.data?.s1) {
       setresult(getResponse.data?.s1);
 
-      const finalList = values.filter(f => getResponse.data?.s1.get(f.question_text));
-      if(finalList.length > 0) {
+      const finalList = values.filter((f) => getResponse.data?.s1.get(f.question_text));
+      if (finalList.length > 0) {
         setfinal(finalList);
         setflag(true);
       }
-
     }
-  }, [getResponse.data?.s1, values])
+  }, [getResponse.data?.s1, values]);
 
   const sectionDisplay = (display_text) => {
     return (
       <div>
-        <br></br>
+        <br />
         <p
           style={{
             background: 'linear-gradient(90deg, rgb(227, 175, 50) 0%, rgb(244, 224, 15) 100%)',
@@ -107,7 +111,6 @@ console.log('@@@',final)
       .catch((err) => {
         console.log(err);
       });
-
   }, []);
 
   values = values.slice(0, 10);
@@ -168,9 +171,21 @@ console.log('@@@',final)
       confirmButtonColor: 'gold',
       cancelButtonColor: 'black',
       confirmButtonText: 'Yes, submit it!',
-    }).then((result) => {
-      if (result.isConfirmed) {
+    }).then((res) => {
+      if (res.isConfirmed) {
+        const payload = {
+          Assessment_ID: '',
+          Response_ID: '',
+          Control_ID: 'ATR_MJE_01a-K',
+          COwner: 'jaymin@ab-inbev.com',
+          Response_Data: JSON.stringify({
+            s1: Object.fromEntries(result),
+          }),
+          Time_Stamp: '01/30/2023',
+        };
+        dispatch(updateAssessmentAns(payload));
         Swal.fire('Submited!', 'Your response has been submited', 'success');
+        history.push('/');
       }
     });
   };
@@ -288,7 +303,6 @@ console.log('@@@',final)
         }
       } else {
         if (option_value.child_question == '') {
-
           if (option_value.is_action_plan == 1) {
             // console.log('open action plan at end');
             // setaction_plan(1)
@@ -458,7 +472,7 @@ console.log('@@@',final)
             {' '}
             {number.question_text}
           </strong>
-          <br></br>
+          <br />
 
           {number.options.map((opt, i) => (
             <>
@@ -470,11 +484,11 @@ console.log('@@@',final)
                 onChange={(event) => {
                   add(number, opt, event, i);
                 }}
-              ></input>
-              <label style={{ fontSize: '19px', marginLeft: '8px' }} for={opt.ption_id}>
+              />
+              <label style={{ fontSize: '19px', marginLeft: '8px' }} for={opt.option_id}>
                 {opt.option_value}
               </label>
-              <br></br>
+              <br />
             </>
           ))}
         </div>
@@ -489,7 +503,7 @@ console.log('@@@',final)
             {' '}
             {number.question_text}
           </strong>
-          <br></br>
+          <br />
           {number.question_text != 'To whom did you hand over ?' ? (
             <textarea
               type={'textarea'}
@@ -505,7 +519,7 @@ console.log('@@@',final)
                   add(number, number, event, i);
                 }
               }}
-            ></textarea>
+            />
           ) : (
             <input
               type="email"
@@ -520,7 +534,7 @@ console.log('@@@',final)
                   add(number, number, event, i);
                 }
               }}
-            ></input>
+            />
           )}
 
           {/* <textarea
@@ -538,7 +552,7 @@ console.log('@@@',final)
                 add(number, number, event, i);
               }
             }}
-          ></textarea> */}
+          /> */}
         </div>
       </div>
     ),
@@ -552,7 +566,7 @@ console.log('@@@',final)
         <div class="w-100  align-self-center">
           {ans}
           {val != 'terminate' ? (
-            <div></div>
+            <div />
           ) : (
             <Button
               className="mt-3"
@@ -587,14 +601,13 @@ console.log('@@@',final)
         //     </strong>
         //   </p>
         // </div>
-        <div></div>
+        <div />
       )}
       {flag === true ? (
         <Section2 final={final} result={result} is_action_plan={action_plan} />
       ) : (
-        <div></div>
+        <div />
       )}
-
     </>
   );
 }

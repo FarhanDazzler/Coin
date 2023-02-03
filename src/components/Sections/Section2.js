@@ -20,7 +20,10 @@ import * as XLSX from 'xlsx';
 import { RedirectHandler } from '@azure/msal-browser/dist/internals';
 import readXlsxFile from 'read-excel-file';
 import { useDispatch, useSelector } from 'react-redux';
-import { getResponseSelector, sectionAnsSelector } from '../../redux/Assessments/AssessmentSelectors';
+import {
+  getResponseSelector,
+  sectionAnsSelector,
+} from '../../redux/Assessments/AssessmentSelectors';
 import { saveAssessmentAns, updateAssessmentAns } from '../../redux/Assessments/AssessmentAction';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 
@@ -182,13 +185,11 @@ function Section2(props) {
     },
   ];
 
-  console.log('@@@@ ->', ans, final);
-
   useEffect(() => {
     if (getResponse.data?.s3) {
       setans(getResponse.data?.s3);
-      const finalList = child.filter(f => getResponse.data?.s3.get(f.ques_text));
-      const terminateList = terminate.filter(f => getResponse.data?.s3.get(f.ques_text));
+      const finalList = child.filter((f) => getResponse.data?.s3.get(f.ques_text));
+      const terminateList = terminate.filter((f) => getResponse.data?.s3.get(f.ques_text));
 
       if (finalList.length > 0) {
         setfinal([
@@ -213,12 +214,12 @@ function Section2(props) {
             No: 'soo3',
           },
           ...finalList,
-          ...terminateList
+          ...terminateList,
         ]);
       }
-      // 
+      //
     }
-  }, [getResponse.data?.s3])
+  }, [getResponse.data?.s3]);
 
   let [L, setL] = useState([false, false, false]);
   let v = [false, false, false];
@@ -228,12 +229,11 @@ function Section2(props) {
   let [product, setproduct] = useState([{}]);
   let [editProductIds, setEditProductIds] = useState({
     idNumeratorList: [],
-    idDenominatorList: []
+    idDenominatorList: [],
   });
   const [is_kpi_open, setis_kpi_open] = useState(0);
 
   const fileType = ['application/vnd.ms-excel', '.xlsx'];
-
 
   useEffect(() => {
     dispatch(saveAssessmentAns({ section3: ans }));
@@ -387,14 +387,16 @@ function Section2(props) {
         color: '#000000',
         fontWeight: '700',
       },
-      editable: (value, row, rowIndex, columnIndex) => editProductIds.idNumeratorList.includes(row.id),
-      editor: { type: 'number' }
+      editable: (value, row, rowIndex, columnIndex) =>
+        editProductIds.idNumeratorList.includes(row.id),
+      editor: { type: 'number' },
     },
 
     {
       dataField: 'Denominator',
       text: 'Denominator',
-      editable: (value, row, rowIndex, columnIndex) => editProductIds.idDenominatorList.includes(row.id),
+      editable: (value, row, rowIndex, columnIndex) =>
+        editProductIds.idDenominatorList.includes(row.id),
       editor: { type: 'number' },
       headerStyle: {
         backgroundColor: '#f1c40f',
@@ -533,14 +535,15 @@ function Section2(props) {
 
   useEffect(() => {
     axios
-      .get('https://acoemicsgrcpwa-devbe.azurewebsites.net/kpi_result?ControlID=ATR_ACCR_01b-K&Entity=Argentina')
+      .get(
+        'https://acoemicsgrcpwa-devbe.azurewebsites.net/kpi_result?ControlID=ATR_ACCR_01b-K&Entity=Argentina',
+      )
       .then((res) => {
         // console.log(res.data.data);
 
         for (let i = 0; i < res.data.data.length; i++) {
-
           if (i === 0) {
-            table_data.push({ ...res.data.data[i], Numerator: "NA", Denominator: 'NA' });
+            table_data.push({ ...res.data.data[i], Numerator: 'NA', Denominator: 'NA' });
           } else {
             table_data.push(res.data.data[i]);
           }
@@ -583,37 +586,17 @@ function Section2(props) {
           // console.log(monthName);
           table_data[j]['Month'] = monthName;
         }
-        const idNumeratorList = table_data.filter(d => d.Numerator === 'NA').map(v => v.id);
-        const idDenominatorList = table_data.filter(d => d.Denominator === 'NA').map(v => v.id);
-        setEditProductIds({ idNumeratorList: idNumeratorList, idDenominatorList: idDenominatorList })
+        const idNumeratorList = table_data.filter((d) => d.Numerator === 'NA').map((v) => v.id);
+        const idDenominatorList = table_data.filter((d) => d.Denominator === 'NA').map((v) => v.id);
+        setEditProductIds({
+          idNumeratorList: idNumeratorList,
+          idDenominatorList: idDenominatorList,
+        });
         setproduct(table_data);
       })
       .catch((err) => {
         // console.log(err);
       });
-
-    // setfinal([
-    //   {
-    //     ques_text:
-    //       ' Below are the key requirements linked to L1 MICS Description and would require your response to assess compliance with L1',
-    //     level: [
-    //       {
-    //         L: 'Approval evidence along with supporting documents on MJE are archived in a ticketing tool or in SAP?',
-    //       },
-    //       { L: 'Approver and requestor authorized to park/post MJE in SAP' },
-    //       {
-    //         L: 'For MJE Posted without park & Post, detective review is executed before or on WD10. Further, whether on quarterly basis, access to direct post (without park) is reviewed and confirmed?',
-    //       },
-    //     ],
-    //     parent: 1,
-
-    //     terminate: 0,
-    //     parent_id: '',
-    //     id: 'soo1',
-    //     Yes: 'soo2',
-    //     No: 'soo3',
-    //   },
-    // ]);
 
     for (let i = 0; i < parent_arr.length; i++) {
       parent.set(parent_arr[i].id, i);
@@ -622,11 +605,6 @@ function Section2(props) {
     for (let i = 0; i < child.length; i++) {
       children.set(child[i].id, child[i]);
     }
-
-    // console.log(children);
-
-    // console.log(parent);
-    // setfinal([...final,])
 
     setproduct([
       {
@@ -676,13 +654,6 @@ function Section2(props) {
     //setans(...ans,)
     setans((prev) => new Map([...prev, [level, choose]]));
 
-    // console.log(ans);
-    // console.log(product);
-
-    // // console.log(head.ques_text)
-    // // console.log(level)
-    // // console.log(choose)
-
     hash.set(`${head.ques_text}+${level}`, choose);
     // console.log(hash);
 
@@ -692,8 +663,6 @@ function Section2(props) {
         countt++;
       }
     }
-    // console.log(countt);
-    // console.log(head.level.length);
 
     if (countt == head.level.length) {
       let flag = 0;
@@ -713,10 +682,6 @@ function Section2(props) {
             j = i;
 
             //  arr.push(child[0])
-            // console.log(head);
-
-            // console.log(props.L);
-            // console.log(parent.get(head.id));
 
             //    setLevel(props.L);
             //  let L = []
@@ -776,9 +741,6 @@ function Section2(props) {
     ans.set(head.ques_text, e.target.value);
 
     setans((prev) => new Map([...prev, [head.ques_text, e.target.value]]));
-    // console.log(parent.get(head.parent_id) + 1);
-    // console.log(head);
-    // console.log(ans);
 
     let find;
     let flag = 0;
@@ -875,26 +837,6 @@ function Section2(props) {
       }
     }
   };
-  const upload = () => {
-    alert('radha');
-  };
-  const data1 = [
-    {
-      foo: '123',
-      bar: '456',
-      baz: '789',
-    },
-    {
-      foo: 'abc',
-      bar: 'dfg',
-      baz: 'hij',
-    },
-    {
-      foo: 'aaa',
-      bar: 'bbb',
-      baz: 'ccc',
-    },
-  ];
 
   // export function submit(e) {
   //   e.preventDefault();
@@ -942,15 +884,15 @@ function Section2(props) {
         // };
         readXlsxFile(selectedFile).then((data) => {
           setExcelFile(
-            data.slice(1).map(d => {
-              let obj = {}
+            data.slice(1).map((d) => {
+              let obj = {};
               d.map((v, i) => {
                 obj[data[0][i]] = v;
-              })
+              });
               return obj;
-            })
+            }),
           );
-        })
+        });
       } else {
         setExcelFile(null);
       }
@@ -1147,7 +1089,7 @@ function Section2(props) {
       setExcelData(null);
     }
   };
-  console.log('ddans', ans)
+  console.log('ddans', ans);
   const save_response = async (event) => {
     event.preventDefault();
     // console.log(props.final);
@@ -1202,13 +1144,16 @@ function Section2(props) {
       }).then((result) => {
         if (result.isConfirmed) {
           const payload = {
-            "Assessment_ID": "",
-            "Response_ID": "",
-            "Control_ID": "ATR_MJE_01a-K",
-            "COwner": "jaymin@ab-inbev.com",
-            "Response_Data": JSON.stringify({ s1: Object.fromEntries(props.result), s3: Object.fromEntries(ans) }),
-            "Time_Stamp": "01/30/2023"
-          }
+            Assessment_ID: '',
+            Response_ID: '',
+            Control_ID: 'ATR_MJE_01a-K',
+            COwner: 'jaymin@ab-inbev.com',
+            Response_Data: JSON.stringify({
+              s1: Object.fromEntries(props.result),
+              s3: Object.fromEntries(ans),
+            }),
+            Time_Stamp: '01/30/2023',
+          };
 
           dispatch(updateAssessmentAns(payload));
           Swal.fire('Done!', 'You are now being redirected to the mainpage', 'success');
@@ -1233,8 +1178,103 @@ function Section2(props) {
   };
 
   function handleChange(oldValue, newValue, row, column) {
-    // console.log('@@@@: ---> ', oldValue, newValue, row, column)
-    const updateProduct = product.map((d) => d.id === row.id ? row : d);
+    const updateProduct = product.map((d) => {
+      if (d.id === row.id) {
+        row.KPI_Value = (row.Numerator / row.Denominator).toFixed(2);
+        if (row.Positive_Direction == 'Lower is better') {
+          if (row.KPI_Value <= row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
+            row.L1_Result = 'Pass';
+          } else {
+            if (row.MICS_L1_Threshold == '') {
+              row.L1_Result = 'NA';
+            } else {
+              row.L1_Result = 'Fail';
+            }
+          }
+
+          if (row.KPI_Value <= row.MICS_L2_Threshold) {
+            row.L2_Result = 'Pass';
+          } else {
+            row.L2_Result = 'Fail';
+          }
+
+          if (row.KPI_Value <= row.MICS_L3_Threshold) {
+            row.L3_Result = 'Pass';
+          } else {
+            row.L3_Result = 'Fail';
+          }
+        } else if (row.Positive_Direction == 'Higher is better') {
+          if (row.KPI_Value >= row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
+            row.L1_Result = 'Pass';
+          } else {
+            if (row.MICS_L1_Threshold == '') {
+              row.L1_Result = 'NA';
+            } else {
+              row.L1_Result = 'Fail';
+            }
+          }
+
+          if (row.KPI_Value >= row.MICS_L2_Threshold) {
+            row.L2_Result = 'Pass';
+          } else {
+            row.L2_Result = 'Fail';
+          }
+
+          if (row.KPI_Value >= row.MICS_L3_Threshold) {
+            row.L3_Result = 'Pass';
+          } else {
+            row.L3_Result = 'Fail';
+          }
+        } else if (row.Positive_Direction == 'Lower is bad') {
+          if (row.KPI_Value < row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
+            row.L1_Result = 'Fail';
+          } else {
+            if (row.MICS_L1_Threshold == '') {
+              row.L1_Result = 'NA';
+            } else {
+              row.L1_Result = 'Pass';
+            }
+          }
+
+          if (row.KPI_Value < row.MICS_L2_Threshold) {
+            row.L2_Result = 'Fail';
+          } else {
+            row.L2_Result = 'Pass';
+          }
+
+          if (row.KPI_Value < row.MICS_L3_Threshold) {
+            row.L3_Result = 'Fail';
+          } else {
+            row.L3_Result = 'Pass';
+          }
+        } else if (row.Positive_Direction == 'Higher is bad') {
+          if (row.KPI_Value > row.MICS_L1_Threshold && row.MICS_L1_Threshold != '') {
+            row.L1_Result = 'Fail';
+          } else {
+            if (row.MICS_L1_Threshold == '') {
+              row.L1_Result = 'NA';
+            } else {
+              row.L1_Result = 'Pass';
+            }
+          }
+
+          if (row.KPI_Value > row.MICS_L2_Threshold) {
+            row.L2_Result = 'Fail';
+          } else {
+            row.L2_Result = 'Pass';
+          }
+
+          if (row.KPI_Value > row.MICS_L3_Threshold) {
+            row.L3_Result = 'Fail';
+          } else {
+            row.L3_Result = 'Pass';
+          }
+        }
+
+        return row;
+      }
+      return d;
+    });
     // console.log('@@@@@: updateProduct',updateProduct, product);
     setproduct(updateProduct);
   }
@@ -1291,9 +1331,8 @@ function Section2(props) {
           cellEdit={cellEditFactory({
             mode: 'click',
             blurToSave: true,
-            afterSaveCell: handleChange
+            afterSaveCell: handleChange,
           })}
-
         />
         <div>
           {is_kpi_open == 1 ? (
@@ -1388,8 +1427,8 @@ function Section2(props) {
                         onChange={
                           is_action_plan == 1
                             ? (e) => {
-                              action_plan(e);
-                            }
+                                action_plan(e);
+                              }
                             : ''
                         }
                       ></input>
@@ -1494,8 +1533,8 @@ function Section2(props) {
                       ? document == 1 && frequency == 1
                         ? ' / inadequate Documentation and inadequate frequency'
                         : document == 1
-                          ? '/ inadequate Documentation'
-                          : '/ inadequate frequency '
+                        ? '/ inadequate Documentation'
+                        : '/ inadequate frequency '
                       : ' '}
                     {is_kpi_open == 1 ? ' / Failed KPI' : ''}
                   </h6>
@@ -1505,7 +1544,7 @@ function Section2(props) {
                     // onClick={click}
                     style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
                     type="submit"
-                  // onSubmit={(e) => submit(props, e, final, hash, setchildterminate)}
+                    // onSubmit={(e) => submit(props, e, final, hash, setchildterminate)}
                   >
                     SUBMIT
                   </Button>{' '}
@@ -1759,8 +1798,8 @@ function Section2(props) {
                           ? document == 1 && frequency == 1
                             ? ' / inadequate Documentation and inadequate frequency'
                             : document == 1
-                              ? '/ inadequate Documentation'
-                              : '/ inadequate frequency '
+                            ? '/ inadequate Documentation'
+                            : '/ inadequate frequency '
                           : ' '}
                         {is_kpi_open == 1 ? ' / Failed KPI' : ''}
                       </div>
