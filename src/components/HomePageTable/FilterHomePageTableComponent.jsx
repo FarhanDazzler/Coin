@@ -36,8 +36,13 @@ export default function FilterHomePageTable() {
   };
 
   return (
-    <div style={{ float: 'right' }}>
-      <Button variant="outlined" startIcon={<FilterListIcon />} onClick={handleClickOpen}>
+    <div>
+      <Button
+        variant="outlined"
+        startIcon={<FilterListIcon style={{ color: 'white' }} />}
+        onClick={handleClickOpen}
+        style={{ float: 'right', color: 'white', borderColor: 'white' }}
+      >
         {' '}
         Assessment Filter
       </Button>

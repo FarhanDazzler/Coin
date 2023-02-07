@@ -3,10 +3,15 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { Grid } from '@mui/material';
 
 import '../../assets/styles/custom.css';
-import Progress from 'react-circle-progress-bar';
 import { useMsal } from '@azure/msal-react';
 import './StatusTrackerCard.css';
 import FilterHomePageTable from './FilterHomePageTableComponent';
+import ProgressBar from './ProgressBar/ProgressBar';
+
+import { styled } from '@mui/material/styles';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import Button from '@mui/material/Button';
 
 const rows = [
   {
@@ -45,7 +50,7 @@ const HomePageStatusTable = () => {
   return (
     <Grid container item xs={12} sx={{ height: 500, width: '100%' }}>
       <DataGrid
-        sx={{ width: '100%' }}
+        sx={{ width: '100%', color: 'White' }}
         rows={rows}
         className="remove-search-boarder"
         componentsProps={{
@@ -156,31 +161,70 @@ const HomePageStatusTable = () => {
   );
 };
 
-const ProgressChart = () => {
-  return (
-    <Progress
-      progress={75}
-      strokeWidth={20}
-      reduction={0}
-      subtitle={'1st Assessment Cycle'}
-      gradient={[
-        { stop: 0, color: '#eeb609' },
-        { stop: 1, color: '#fcc201' },
-      ]}
-    />
-  );
-};
+const BootstrapTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} arrow classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.common.black,
+  },
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.black,
+  },
+}));
 
 const StatusTracker = () => {
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%', padding: 0 }}>
       <div className="parent">
-        <div className="child"></div>
-        <div className="child"></div>
+        <div className="child">
+          <span className="golden-text">
+            <strong style={{ fontSize: 40 }}>46</strong>
+          </span>
+          <br />
+          <BootstrapTooltip
+            title="Assessments which are still pending to be completed"
+            style={{ padding: 0 }}
+          >
+            <Button style={{ color: 'white' }}>
+              <InfoOutlinedIcon className="golden-color" /> &nbsp;Not started
+            </Button>
+          </BootstrapTooltip>
+        </div>
+        <div className="child">
+          <span className="golden-text">
+            <strong style={{ fontSize: 40 }}>222</strong>
+          </span>
+          <br />
+          <BootstrapTooltip title="Assessments which are saved as draft" style={{ padding: 0 }}>
+            <Button style={{ color: 'white' }}>
+              <InfoOutlinedIcon className="golden-color" /> &nbsp;Draft
+            </Button>
+          </BootstrapTooltip>
+        </div>
       </div>
       <div className="parent">
-        <div className="child"></div>
-        <div className="child"></div>
+        <div className="child">
+          <span className="golden-text">
+            <strong style={{ fontSize: 40 }}>4000</strong>
+          </span>
+          <br />
+          <BootstrapTooltip title="Assessments which are Submited" style={{ padding: 0 }}>
+            <Button style={{ color: 'white' }}>
+              <InfoOutlinedIcon className="golden-color" /> &nbsp;Completed
+            </Button>
+          </BootstrapTooltip>
+        </div>
+        <div className="child">
+          <span className="golden-text">
+            <strong style={{ fontSize: 40 }}>80</strong>
+          </span>
+          <br />
+          <BootstrapTooltip title="Assessment which are re-Attempted" style={{ padding: 0 }}>
+            <Button style={{ color: 'white' }}>
+              <InfoOutlinedIcon className="golden-color" /> &nbsp;Re-assessed
+            </Button>
+          </BootstrapTooltip>
+        </div>
       </div>
     </div>
   );
@@ -219,14 +263,14 @@ const DashboardTable = () => {
         <div className="row">
           <div className="col col-sm-3">
             <div className="row">
-              <div className="card-title">
+              <div className="card-title" style={{ textAlign: 'left', paddingTop: 40 }}>
                 <span>
-                  <strong>{`Welcome`}</strong>
+                  <strong style={{ fontSize: 25, color: 'white' }}>{`Welcome`}</strong>
                 </span>
                 <br></br>
                 <span className="golden-text">
-                  <strong>
-                    {accounts.length > 0 ? accounts[0].name : ''} {`!`}
+                  <strong style={{ fontSize: 35 }}>
+                    {accounts.length > 0 ? accounts[0].name : ''}
                   </strong>
                 </span>
               </div>
@@ -234,9 +278,16 @@ const DashboardTable = () => {
           </div>
           <div className="col col-lg">
             <div className="row">
-              <div className="card">
+              <div
+                className="card"
+                style={{
+                  backgroundColor: '#28282B',
+                  marginBottom: 8,
+                  marginTop: 8,
+                }}
+              >
                 <div className="charWrapper">
-                  <ProgressChart />
+                  <ProgressBar />
                   <StatusTracker />
                 </div>
               </div>
@@ -244,7 +295,9 @@ const DashboardTable = () => {
           </div>
         </div>
       </div>
-      <FilterHomePageTable />
+      <div style={{ paddingBottom: 10 }}>
+        <FilterHomePageTable />
+      </div>
       <HomePageStatusTable />
     </>
   );

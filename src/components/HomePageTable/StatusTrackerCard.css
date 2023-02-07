@@ -1,15 +1,25 @@
 .parent {
     display: flex;
     flex-wrap: wrap;
+   
   }
   
   .child {
     flex: 1 0 21%; /* explanation below */
     margin: 5px;
     height: 100px;
-    background-color: lightgrey;
+    
   }
 
   .charWrapper{
     display:flex;
+    
   }
+
+  .golden-color{
+    color: #e3af32
+  }
+
+/* .MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeSmall.MuiButton-textSizeSmall.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeSmall.MuiButton-textSizeSmall.css-1knaqv7-MuiButtonBase-root-MuiButton-root{
+  color: #e3af32
+} */
