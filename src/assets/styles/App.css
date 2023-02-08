@@ -19336,3 +19336,44 @@ svg {
   -webkit-justify-content: space-between;
   justify-content: space-between;
 }
+
+button.btn.btn-primary:hover:after,
+a.btn.btn-primary:hover:after {
+  transform: translate(0, 0);
+  transition: transform 0.75s;
+  transition: transform 0.75s 0;
+  backface-visibility: hidden;
+}
+
+button.btn.btn-primary:after,
+a.btn.btn-primary:after {
+  position: absolute;
+  left: 0;
+  content: '';
+  background-image: url('../images/primary-button-fill.svg');
+  background-size: 40% 240%;
+  width: 280%;
+  height: 100%;
+  background-position: -83% -12%;
+  /* background-repeat-y: no-repeat; */
+  bottom: 0;
+  transition: transform 1s;
+  transition: transform 1s 0;
+  backface-visibility: hidden;
+  transform: translate(-66%, 34%);
+  z-index: -1;
+}
+
+button.btn.btn-primary,
+a.btn.btn-primary {
+  display: inline-block;
+  overflow: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(#fff, #000);
+  mask-image: -webkit-radial-gradient(#fff, #000);
+  color: #000;
+  padding: 0.8em 1em;
+  text-align: center;
+  border: 0;
+  border-radius: 0.4em;
+  background-color: #f4e00f;
+}
