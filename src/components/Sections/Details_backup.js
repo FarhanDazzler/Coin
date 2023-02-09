@@ -3,8 +3,6 @@ import Axios from 'axios';
 
 import DataAccordion from '../../common/DataAccordion';
 
-import { useMsal } from '@azure/msal-react';
-
 //variables from global controls and local control descriptions.
 var Global_data = [];
 var Global_Data = [];
@@ -31,16 +29,11 @@ var control_name_fromDB = '';
 var control_oversight_fromDB = '';
 
 const Details = ({ control_id }) => {
-  const { accounts } = useMsal();
-  console.log(control_id, 'Control_ID');
-
   // const control_id = 'ATR_ACCR_01a';
   const [scope, setscope] = useState({});
   const getScope = () => {
     Axios.get(
-      `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_control_scope?ControlID=${
-        control_id || `ATR_ACCR_01a`
-      }&coOwner=${accounts[0].username}`,
+      'https://acoemicsgrcpwa-devbe.azurewebsites.net/get_control_scope?ControlID=ATR_ACCR_01b-K&coOwner=Kushal.Khandelwal@ab-inbev.com',
     )
       .then(async (res) => {
         console.log(res.data.data.priod_of_assessment);
@@ -200,111 +193,16 @@ const Details = ({ control_id }) => {
               acc_header="Global Control Description (GCD)"
               acc_body={
                 <ReadMore>
-                  <div style={{ textAlign: 'left' }}>
-                    <p className="black-text">
-                      <strong>{`2021 MICS L1 - Minimal Requirements To Protect Financial Statement From Material Mistakes (External Compliance)`}</strong>
-                    </p>
-                    <p>
-                      {`A process should be put in place to ensure all manual journal entries are pre-approved by the authorized people. The evidence of those approvals should be archived and the completeness of pre-approvals should be verified as part of the detective control over manual journal entries.`}
-                      <br /> <br />
-                      {`All MJEs in ERP systems (any manual transaction whereby a person determines both Debit & Credit account and the amount to be posted) are reviewed for accuracy and validity at the moment of request by capable and independent senior employees.`}
-                      <br /> <br />
-                      {`The approver should ensure that the person requesting the manual journal entry is authorized to do so, the entry is in line with the Accounting & Reporting Manual or other management reporting guidelines, the supporting material and calculation behind the entry is available and accurate, necessary DAG approvals are in place (if applicable). `}
-                      <br /> <br />
-                      {`Exception procedure for journal entries where system does technically not allow park & post (as validated by Global Internal Control) :`}
-                      <br />
-                      {`- the reviewer in the detective control will perform the  tasks assigned to approver above post-factum.`}
-                      <br />
-                      {`- the detective control is executed before or on WD10.`}
-                      <br />
-                      {`- on top, quarterly, the list of people with direct access to post (without park) is reviewed and confirmed.`}
-                    </p>
-                  </div>
-
-                  <div style={{ textAlign: 'left' }}>
-                    <p className="black-text">
-                      <strong>{`2021 MICS L2 - Minimal Requirements To Avoid Surprises (Internal Compliance)`}</strong>
-                    </p>
-                    <p>
-                      {`Manual journal entries are managed in a workflow tool which is configured to ensure:`}
-                      <br />
-                      {`- mandatory attachments are included in the request to enable validation of the entries `}
-                      <br />
-                      {`- critical mandatory fields are defined to ensure the proper identification of manual journal entries `}
-                      <br />
-                      {`- auto posting of manual journal entries following the necessary approvals provided in the system`}
-                      <br />
-                      <br />
-                      <br />
-                      {`As a note, following types of MJE are to be reviewed per description of the following controls and in compliance with the global journal voucher policy: `}
-                      <br />
-                      {`- Discount accruals: ATR_ACCR_01a `}
-                      <br />
-                      {`- Other accruals: ATR_ACCR_02 `}
-                      <br />
-                      {`- Off balance sheet accruals: ATR_REP_01 `}
-                      <br />
-                      {`- Provisions for doubtful debtors: ATR_PROV_02-K `}
-                      <br />
-                      {`- Manual adjustments on VIC, VLC, inventory: INV_REP_01 `}
-                      <br />
-                      {`- Manual Invoices (Direct FI invoices): STP_PO_03 `}
-                      <br />
-                      {`- CAPEX to OPEX Reclasses: FA_CAP_04`}
-                      <br />
-                      {`- Manual journal entries for the Institutional packages reclassifications and journal entries related to Gifts & Donations must be approved by the legal compliance team `}
-                      <br />
-                      {`- Manual journal entries are to be above the threshold defined in the global and manual journal entries  with an accumulated  debit  side  lower  than  500  USD are avoided (with exception of journal entries related to Gifts & Donations).`}
-                      <br />
-                      {`For any other type of manual journal entries (e.g. reclassification, corrections) a common and standardized zone template is in place to justify the underlying data of the amounts defined in the journal entry. Different templates exist for the different types of manual journal entries.`}
-                      <br /> <br /> <br />
-                      {`Further reference on how Manual Journal Entries should be processed in ERP is available in the Journal Voucher Policy.`}
-                      <br></br>
-                      {`Any changes in the workflow configuration should be approved by Zone Internal Control before the changes are made.`}
-                      <br></br>
-                      {`Result KPI's to be achieved to reach L2:`}
-                      <br />
-                      {`- [KPI_ATR_MJE_09] % of manual journal entries not passed via  parked & posted <1%. `}
-                      <br />
-                      {`- [KPI_ATR_MJE_02] % of manual journal entries parked & posted by the same person <0%.`}
-                      <br />
-                      {`- [KPI_ATR_MJE_06] Number of manual journal entries for which releaser changed the amount = 0.`}
-                      <br />
-                      {`- [KPI_ATR_MJE_03] Number of manual journal entries (24 to 12 months ago)  < Number of manual journal entries last 12 months`}
-                    </p>
-                  </div>
-                  <div style={{ textAlign: 'left' }}>
-                    <p className="black-text">
-                      <strong>{`2021 MICS L3`}</strong>
-                    </p>
-                    <p>
-                      {`In addition to the L2 requirements:`}
-                      <br />
-                      {`1. Any MJE performed is managed through a workflow tool which guarantees four eye review on every transaction (employees can park & post journal entries, but can never do this on the same journal entry). `}
-                      <br />
-                      {`2. All documentation supporting MJEs is stored together with the journal entry in the system of record (ERP or sub conso system) and no other system.`}
-                      <br /> <br /> <br />
-                      {`Standardization to be achieved to reach L3:`}
-                      <br />
-                      {`Booking of manual journal entries is only performed by the NoCC.`}
-                      <br />
-                      <br /> <br />
-                      {`Result KPI's to be achieved to reach L3:`}
-                      <br />
-                      {`- [KPI_ATR_MJE_04] Number of manual journal entries not passed via  parked & posted = 0. `}
-                      <br />
-                      {`- [KPI_ATR_MJE_05] Number of manual journal entries parked & posted by the same person = 0.`}
-                      <br />
-                      {`- [KPI_ATR_MJE_06] Number of manual journal entries for which releaser changed the amount = 0.`}
-                      <br />
-                      {`- [KPI_ATR_MJE_07] % of MJE line items over total of journal entry line items < 1%`}
-                      <br />
-                      {`- [KPI_ATR_MJE_08] % of MJE value over total absolute value of journal entries in the month is smaller < 1%`}
-                      <br />
-                      {`- [KPI_ATR_MJE_09] % of manual journal entries not passed via  parked & posted <0%.`}
-                      <br />
-                    </p>
-                  </div>
+                  {Global_data.map((comp) => {
+                    return (
+                      <div>
+                        <p className="black-text">
+                          <strong>{comp.header}</strong>
+                        </p>
+                        <p>{comp.text}</p>
+                      </div>
+                    );
+                  })}
                 </ReadMore>
               }
               // acc_body={Global_data.map((comp) => {
