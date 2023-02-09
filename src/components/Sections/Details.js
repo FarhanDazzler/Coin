@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 
 import DataAccordion from '../../common/DataAccordion';
+import { useDispatch } from 'react-redux';
+import { controlData } from '../../redux/Assessments/AssessmentAction';
 
 //variables from global controls and local control descriptions.
 var Global_data = [];
@@ -30,6 +32,7 @@ var control_oversight_fromDB = '';
 
 const Details = ({ control_id }) => {
   // const control_id = 'ATR_ACCR_01a';
+  const dispatch = useDispatch();
   const [scope, setscope] = useState({});
   const getScope = () => {
     Axios.get(
@@ -43,6 +46,7 @@ const Details = ({ control_id }) => {
         // localStorage.setItem('provider_org', scope.provider_org);
         //console.log(scope.period_of_assessment);
         //  scope[ priod_of_assessment]=res.data.data.period_of_assessment
+        dispatch(controlData(res.data.data))
         await localStorage.setItem('frequency', scope.frequency);
         await localStorage.setItem('provider_org', scope.provider_org);
       })

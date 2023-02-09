@@ -8,6 +8,10 @@ export const GET_ASSESSMENT_RESPONSE_REQUEST = "GET_ASSESSMENT_RESPONSE_REQUEST"
 export const GET_ASSESSMENT_RESPONSE_SUCCESS = "GET_ASSESSMENT_RESPONSE_SUCCESS";
 export const GET_ASSESSMENT_RESPONSE_ERROR = "GET_ASSESSMENT_RESPONSE_ERROR";
 
+export const GET_CONTROL_RESPONSE_REQUEST = "GET_CONTROL_RESPONSE_REQUEST";
+export const GET_CONTROL_RESPONSE_SUCCESS = "GET_CONTROL_RESPONSE_SUCCESS";
+export const GET_CONTROL_RESPONSE_ERROR = "GET_CONTROL_RESPONSE_ERROR";
+
 export const UPDATE_ASSESSMENT_RESPONSE_REQUEST = "UPDATE_ASSESSMENT_RESPONSE_REQUEST";
 export const UPDATE_ASSESSMENT_RESPONSE_SUCCESS = "UPDATE_ASSESSMENT_RESPONSE_SUCCESS";
 export const UPDATE_ASSESSMENT_RESPONSE_ERROR = "UPDATE_ASSESSMENT_RESPONSE_ERROR";
@@ -30,9 +34,10 @@ const initialState = {
   getResponse: { ...block, data: { s1: null, s2: null, s3: null } },
   addResponse: { ...block },
   updateResponse: { ...block },
+  controlData:{}
 };
 
-export const AssessmentReducer = (state = initialState, { type, payload }) => {
+export const AssessmentReducer = (state = initialState, { type, payload={} }) => {
   switch (type) {
     case SAVE_ANS:
       return {
@@ -69,6 +74,11 @@ export const AssessmentReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         getResponse: { ...state.getResponse, loading: false }
+      }
+    case GET_CONTROL_RESPONSE_REQUEST:
+      return {
+        ...state,
+        controlData: { ...payload, loading: false }
       }
 
     case UPDATE_ASSESSMENT_RESPONSE_REQUEST:
