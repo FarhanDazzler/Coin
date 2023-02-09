@@ -4,10 +4,10 @@ import { useHistory } from 'react-router-dom';
 import '../../assets/styles/Login.css';
 import { Button, Card } from 'react-bootstrap';
 import { loginRequest } from '../../utils/authConfig';
-import ABILogo from '../../assets/images/abi_logo_black.png';
+import ABILogo from '../../assets/images/abi_logo.png';
 import DSCOELogo from '../../assets/images/dscoe_logo.png';
 import BTLogo from '../../assets/images/BT.png';
-import appLogo from '../../assets/images/ABILogo.png';
+import appLogo from '../../assets/images/coin_logo.png';
 
 import { useMsal, useIsAuthenticated } from '@azure/msal-react';
 import { InteractionStatus } from '@azure/msal-browser';
@@ -38,25 +38,26 @@ const Login = () => {
         <div className="container">
           <div className="row">
             <div className="col col-login mx-auto">
-              <Card>
+              <Card className="loginCard">
                 <Card.Body className="p-6">
                   <div className="text-center mb-6">
                     <img
                       src={appLogo}
                       className="h-9"
                       alt="GRC MICS SA Portal Logo"
-                      style={{ borderRadius: '4rem' }}
+                      //style={{ borderRadius: '4rem' }}
                     />
                   </div>
 
                   <div className="card-title text-center">
                     <div className="orange-text">
-                      <h2 className="display-6">
-                        {`GRC MICS SA`} <br /> {`Portal`}
-                      </h2>
+                      <h2
+                        className="display-6"
+                        style={{ color: '#e3af32', fontWeight: '600' }}
+                      >{`Welcome`}</h2>
                     </div>
 
-                    <p>
+                    <p style={{ color: 'white' }}>
                       {`Please use your `}
                       <strong className="golden-text">{`AB InBev ID`}</strong>
                       {` to login`}
@@ -73,7 +74,7 @@ const Login = () => {
                     </Button>
                   </div>
                 </Card.Body>
-                <Card.Footer>
+                <Card.Footer style={{ borderColor: 'grey' }}>
                   <div className="text-center">
                     <img
                       src={ABILogo}

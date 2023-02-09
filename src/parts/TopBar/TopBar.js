@@ -7,6 +7,7 @@ import { loginRequest } from '../../utils/authConfig';
 import '../../assets/styles/TopBar.css';
 import FeatherIcon from 'feather-icons-react';
 import abiLogo from '../../assets/images/abi_logo.png';
+import coinLogo from '../../assets/images/coin_logo.png';
 import defaultProfilePhoto from '../../assets/images/profile.jpg';
 import { UserContext } from '../../context/userContext';
 import appLogo from '../../assets/images/GCCWhite.png';
@@ -65,12 +66,17 @@ const TopBar = (props) => {
         <div className="container">
           <div className="d-flex">
             <a className="header-brand" href="/">
-              {/* <img
-                src={appLogo}
-                className="header-brand-img"
-                style={{ borderRadius: '40px', height: '2.5rem', marginRight: '1rem' }}
-                alt="App Logo"
-              /> */}
+              {
+                <img
+                  src={coinLogo}
+                  className="header-brand-img"
+                  style={{ paddingRight: 8, borderRightStyle: 'solid', borderRightColor: 'White' }}
+                  //border-right-style: solid; border-right-color: #92a8d1;
+                  //style={{ paddingLeft: '0.5rem', height: '1.5rem' }}
+                  //style={{ borderRadius: '40px', height: '2.5rem', marginRight: '1rem' }}
+                  alt="App Logo"
+                />
+              }
               <img
                 src={abiLogo}
                 className="header-brand-img"
@@ -166,58 +172,56 @@ const TopBar = (props) => {
                   </a>
                 </li>
 
-                {
-                  (props.userRole=="Global Internal Control" ||props.userRole=="Zonal Internal Control" ) && 
-                <li className="nav-item">
-                  <a
-                    className={`nav-link ${
-                      ['/', '/register'].includes(location?.pathname) ? ' active' : ''
-                    }`}
-                    onClick={() => {
-                      history.push('/');
-                    }}
-                  >
-                    <FeatherIcon icon="layers" size={14} />
-                    &nbsp;{'Master Data Management'}
-                  </a>
-                </li>
-              }
+                {(props.userRole == 'Global Internal Control' ||
+                  props.userRole == 'Zonal Internal Control') && (
+                  <li className="nav-item">
+                    <a
+                      className={`nav-link ${
+                        ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+                      }`}
+                      onClick={() => {
+                        history.push('/');
+                      }}
+                    >
+                      <FeatherIcon icon="layers" size={14} />
+                      &nbsp;{'Master Data Management'}
+                    </a>
+                  </li>
+                )}
 
-              {
-                (props.userRole=="Global Internal Control" ||props.userRole=="Zonal Internal Control" ) && 
-              <li className="nav-item">
-                <a
-                  className={`nav-link ${
-                    ['/', '/register'].includes(location?.pathname) ? ' active' : ''
-                  }`}
-                  onClick={() => {
-                    history.push('/');
-                  }}
-                >
-                  <FeatherIcon icon="layers" size={14} />
-                  &nbsp;{'Assessments'}
-                </a>
-              </li>
-            }
+                {(props.userRole == 'Global Internal Control' ||
+                  props.userRole == 'Zonal Internal Control') && (
+                  <li className="nav-item">
+                    <a
+                      className={`nav-link ${
+                        ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+                      }`}
+                      onClick={() => {
+                        history.push('/');
+                      }}
+                    >
+                      <FeatherIcon icon="layers" size={14} />
+                      &nbsp;{'Assessments'}
+                    </a>
+                  </li>
+                )}
 
-            {
-              (props.userRole=="Global Internal Control" ||props.userRole=="Zonal Internal Control" ) && 
-            <li className="nav-item">
-              <a
-                className={`nav-link ${
-                  ['/', '/register'].includes(location?.pathname) ? ' active' : ''
-                }`}
-                onClick={() => {
-                  history.push('/');
-                }}
-              >
-                <FeatherIcon icon="layers" size={14} />
-                &nbsp;{'Question Bank'}
-              </a>
-            </li>
-          }
-          
-
+                {(props.userRole == 'Global Internal Control' ||
+                  props.userRole == 'Zonal Internal Control') && (
+                  <li className="nav-item">
+                    <a
+                      className={`nav-link ${
+                        ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+                      }`}
+                      onClick={() => {
+                        history.push('/');
+                      }}
+                    >
+                      <FeatherIcon icon="layers" size={14} />
+                      &nbsp;{'Question Bank'}
+                    </a>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
