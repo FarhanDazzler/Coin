@@ -605,7 +605,28 @@ function Section2(props) {
     for (let i = 0; i < child.length; i++) {
       children.set(child[i].id, child[i]);
     }
+    setfinal([
+      {
+        ques_text:
+          ' Below are the key requirements linked to L1 MICS Description and would require your response to assess compliance with L1',
+        level: [
+          {
+            L: 'Approval evidence along with supporting documents on MJE are archived in a ticketing tool or in SAP?',
+          },
+          { L: 'Approver and requestor authorized to park/post MJE in SAP' },
+          {
+            L: 'For MJE Posted without park & Post, detective review is executed before or on WD10. Further, whether on quarterly basis, access to direct post (without park) is reviewed and confirmed?',
+          },
+        ],
+        parent: 1,
 
+        terminate: 0,
+        parent_id: '',
+        id: 'soo1',
+        Yes: 'soo2',
+        No: 'soo3',
+      },
+    ]);
     setproduct([
       {
         sap: 1,
@@ -1124,10 +1145,11 @@ function Section2(props) {
           }
         }
       } else {
+        // TODO: this logic need to change
         // console.log(ans.has(final[i].ques_text));
         if (ans.has(final[i].ques_text) === false) {
-          is_swal_fired = 1;
-          Swal.fire(' Please fill all the fields !');
+          is_swal_fired = 0;
+          // Swal.fire(' Please fill all the fields !');
         }
       }
     }
