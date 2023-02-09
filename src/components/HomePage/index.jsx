@@ -6,6 +6,7 @@ import './homeStyles.scss';
 import Select from '../UI/Select/Select';
 import GraphIcon from '../../assets/images/chart.png';
 import NumberWithText from './NumberWithText';
+import { useMsal } from '@azure/msal-react';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -33,6 +34,7 @@ const HomePage = () => {
     );
   };
 
+  const { accounts } = useMsal();
   return (
     <div>
       <PageWrapper>
@@ -40,7 +42,9 @@ const HomePage = () => {
           <div className="row pt-5 align-items-center">
             <div className="col-lg-4">
               <h4 className="welcome-text">Welcome</h4>
-              <h2 className="user-name-home yellow-gradient-text">Ron Dorman</h2>
+              <h2 className="user-name-home yellow-gradient-text">
+                {accounts.length > 0 ? accounts[0].name : 'User Name'}
+              </h2>
             </div>
             <div className="col-lg-8">
               <div className="home-right-overview">
