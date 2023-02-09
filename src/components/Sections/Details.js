@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 
 import DataAccordion from '../../common/DataAccordion';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { controlData } from '../../redux/Assessments/AssessmentAction';
 
 import { useMsal } from '@azure/msal-react';
+import { getControlSelector } from '../../redux/Assessments/AssessmentSelectors';
 
 //variables from global controls and local control descriptions.
 var Global_data = [];
@@ -28,11 +29,14 @@ const SpinningLoader = [
   </div>,
 ];
 
-var local_control_description_fromDB = '';
 var control_name_fromDB = '';
 var control_oversight_fromDB = '';
 
 const Details = ({ control_id }) => {
+  const controlDataResponse = useSelector(getControlSelector);
+
+  var local_control_description_fromDB = controlDataResponse?.lcd;
+
   const { accounts } = useMsal();
   console.log(control_id, 'Control_ID');
 
@@ -42,7 +46,7 @@ const Details = ({ control_id }) => {
   const getScope = () => {
     Axios.get(
       `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_control_scope?ControlID=${
-        control_id || `ATR_ACCR_01a`
+        control_id || `ATR_MJE_01a-K`
       }&coOwner=${accounts[0].username}`,
     )
       .then(async (res) => {
@@ -53,7 +57,7 @@ const Details = ({ control_id }) => {
         // localStorage.setItem('provider_org', scope.provider_org);
         //console.log(scope.period_of_assessment);
         //  scope[ priod_of_assessment]=res.data.data.period_of_assessment
-        dispatch(controlData(res.data.data))
+        dispatch(controlData(res.data.data));
         await localStorage.setItem('frequency', scope.frequency);
         await localStorage.setItem('provider_org', scope.provider_org);
       })
@@ -67,14 +71,15 @@ const Details = ({ control_id }) => {
 
     Axios.get(
       'https://acoemicsgrcpwa-devbe.azurewebsites.net/get_control_instances?ControlID=' +
-        control_id,
+        control_id +
+        `&coOwner=${accounts[0].username}`,
     ).then(function (response) {
       console.log(response);
       var status_code = response.status;
       var status_text = response.statusText;
       var api_data = response?.data.data;
 
-      console.log(api_data);
+      console.log(api_data, 'LCD API TEST Kuldeep');
 
       var lcd_desc = '';
       var control_oversight = '';
