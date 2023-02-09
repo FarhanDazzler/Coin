@@ -1,0 +1,15 @@
+.select-options {
+  background: rgba(140, 140, 140, 0.14);
+  backdrop-filter: blur(14.4828px);
+  border-radius: 8.68966px !important;
+  color: #fff !important;
+  &:hover {
+    .MuiOutlinedInput-notchedOutline {
+      border: 0px !important;
+    }
+  }
+}
+.MuiPaper-root {
+  background: #2a2a2a !important;
+  color: #fff !important;
+}

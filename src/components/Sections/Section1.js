@@ -252,7 +252,7 @@ const Section1 = () => {
       );
     }
   });
-
+  
   return (
     <>
       <div className="container">

@@ -1,0 +1,48 @@
+.welcome-text {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 87.52%;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.user-name-home {
+  font-weight: 700;
+  font-size: 52px;
+  line-height: 87.52%;
+}
+.home-right-overview {
+  background: rgba(140, 140, 140, 0.14);
+  border-radius: 18px;
+  padding: 30px;
+}
+
+.yellow-gradient-text {
+  background: linear-gradient(90deg, #d7a833 0%, #f4df03 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.wrapper-info-grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  align-items: center;
+}
+.largeNumber {
+  font-weight: 700;
+  font-size: 38.0513px;
+  line-height: 87.52%;
+  letter-spacing: -0.04em;
+  margin-bottom: 10px;
+}
+.right-number {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  gap: 30px;
+}
+.graph-value {
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 87.52%;
+  letter-spacing: -0.04em;
+  margin-bottom: 0;
+}
