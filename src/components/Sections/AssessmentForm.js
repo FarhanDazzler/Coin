@@ -15,6 +15,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveAssessmentAns, updateAssessmentAns } from '../../redux/Assessments/AssessmentAction';
 import {
+  getControlSelector,
   getResponseSelector,
   sectionAnsSelector,
 } from '../../redux/Assessments/AssessmentSelectors';
@@ -26,6 +27,7 @@ function AssessmentForm() {
   const history = useHistory();
   const sectionAns = useSelector(sectionAnsSelector);
   const getResponse = useSelector(getResponseSelector);
+  const controlDataResponse = useSelector(getControlSelector);
   const [val, setVal] = useState('lala');
   var [final, setfinal] = useState([]);
   const [id, setid] = useState([]);
@@ -133,21 +135,37 @@ function AssessmentForm() {
   const org = localStorage.getItem('provider_org');
   // console.log('sdfsdfs', org);
   const freq = localStorage.getItem('frequency');
-
   for (let i = 0; i < parentQuestions.length; i++) {
     let question = parentQuestions[i].question_text;
-    question = question.replaceAll('{{org}}', org);
-    question = question.replaceAll('{{freq}}', freq);
+    question = question.replaceAll('{{org}}', org || controlDataResponse?.provider_org);
+    question = question.replaceAll('{{freq}}', freq || controlDataResponse?.frequency);
     parentQuestions[i].question_text = question;
     // console.log(question);
   }
   for (let i = 0; i < child_question.length; i++) {
     let question = child_question[i].question_text;
-    question = question.replaceAll('{{org}}', org);
-    question = question.replaceAll('{{freq}}', freq);
+    question = question.replaceAll('{{org}}', org || controlDataResponse?.provider_org);
+    question = question.replaceAll('{{freq}}', freq || controlDataResponse?.frequency);
     child_question[i].question_text = question;
     // console.log(question);
   }
+
+  useEffect(() => {
+    for (let i = 0; i < parentQuestions.length; i++) {
+      let question = parentQuestions[i].question_text;
+      question = question.replaceAll('{{org}}', org || controlDataResponse?.provider_org);
+      question = question.replaceAll('{{freq}}', freq);
+      parentQuestions[i].question_text = question;
+      // console.log(question);
+    }
+    for (let i = 0; i < child_question.length; i++) {
+      let question = child_question[i].question_text;
+      question = question.replaceAll('{{org}}', org || controlDataResponse?.provider_org);
+      question = question.replaceAll('{{freq}}', freq);
+      child_question[i].question_text = question;
+      // console.log(question);
+    }
+  }, [org, freq, controlDataResponse])
   // console.log(child_question);
   // console.log(parentQuestions);
 
