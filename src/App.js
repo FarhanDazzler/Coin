@@ -31,12 +31,13 @@ import { UserContext, UserContextProvider } from './context/userContext';
 // import { MantineProvider } from '@mantine/core';
 import dataService from './services/dataService';
 import Question from './parts/Assessments/Question';
+import HomePage from './components/HomePage';
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
 // const userRole="Control Owner";
-const userRole="Control Oversight";
+const userRole = 'Control Oversight';
 
 const Pages = () => {
   const location = useLocation();
@@ -104,7 +105,7 @@ const Pages = () => {
               return <Login />;
             }}
           />
-
+          <Route exact path="/new" component={HomePage} />
           {user_role === 'Control Owner' ? (
             <Route exact path="/" component={Home_controlOwner} />
           ) : user_role === 'Internal Controller' ? (
@@ -146,8 +147,6 @@ function App() {
           </MsalProvider>
         </Router>
       </header>
-      <br />
-      <br />
       <Footer />
     </div>
   );

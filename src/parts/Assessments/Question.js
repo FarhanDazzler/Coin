@@ -12,8 +12,9 @@ const Question = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAssessmentAns({ COwner: "jaymin@ab-inbev.com", Control_ID: "ATR_MJE_01a-K" }));
+    dispatch(getAssessmentAns({ COwner: 'jaymin@ab-inbev.com', Control_ID: Assessment_id }));
   }, []);
+
   return (
     <>
       <div className="container text-left">

@@ -1,6 +1,5 @@
 /* written for GRC MICS */
 
-
 .badge-success {
   background-color: #ebfbee;
   color: #4bc461;
@@ -8,11 +7,8 @@
   text-align: center;
   font-weight: bold;
   font-size: 0.7rem;
-  width: 10px;
-  height: 15px;
   border-radius: 25px;
 }
-
 
 .badge-amber {
   background-color: rgb(241, 197, 92);
@@ -21,11 +17,8 @@
   font-weight: bold;
   text-align: center;
   font-size: 0.7rem;
-  width: 10px;
-  height: 15px;
   border-radius: 25px;
 }
-
 
 .badge-grey {
   background-color: #eef2ee;
@@ -35,8 +28,6 @@
   text-align: center;
   border-radius: 25px;
   font-size: 0.7rem;
-  width: 10px;
-  height: 15px;
 }
 
 .badge-red {
@@ -46,8 +37,5 @@
   font-weight: bold;
   text-align: center;
   font-size: small;
-  width: 10px;
-  height: 15px;
   border-radius: 25px;
 }
-

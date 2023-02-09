@@ -13,13 +13,19 @@ import 'aos/dist/aos.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveAssessmentAns } from '../../redux/Assessments/AssessmentAction';
-import { sectionAnsSelector } from '../../redux/Assessments/AssessmentSelectors';
+import { saveAssessmentAns, updateAssessmentAns } from '../../redux/Assessments/AssessmentAction';
+import {
+  getResponseSelector,
+  sectionAnsSelector,
+} from '../../redux/Assessments/AssessmentSelectors';
+import { useHistory } from 'react-router-dom';
 
 function AssessmentForm() {
   // const [org, setOrg] = useState('abcd');
   const dispatch = useDispatch();
+  const history = useHistory();
   const sectionAns = useSelector(sectionAnsSelector);
+  const getResponse = useSelector(getResponseSelector);
   const [val, setVal] = useState('lala');
   var [final, setfinal] = useState([]);
   const [id, setid] = useState([]);
@@ -32,17 +38,27 @@ function AssessmentForm() {
   const [scope, setscope] = useState({});
   var parentQuestions = [];
   var child_question = [];
-  console.log('#####result', result, sectionAns);
 
   useEffect(() => {
-    console.log('@@@@@');
     dispatch(saveAssessmentAns({ section1: result }));
   }, [result]);
+
+  useEffect(() => {
+    if (getResponse.data?.s1) {
+      setresult(getResponse.data?.s1);
+
+      const finalList = values.filter((f) => getResponse.data?.s1.get(f.question_text));
+      if (finalList.length > 0) {
+        setfinal(finalList);
+        setflag(true);
+      }
+    }
+  }, [getResponse.data?.s1, values]);
 
   const sectionDisplay = (display_text) => {
     return (
       <div>
-        <br></br>
+        <br />
         <p
           style={{
             background: 'linear-gradient(90deg, rgb(227, 175, 50) 0%, rgb(244, 224, 15) 100%)',
@@ -95,43 +111,6 @@ function AssessmentForm() {
       .catch((err) => {
         console.log(err);
       });
-    // setfinal([
-    //   {
-    //     Control_ID: 'ATR_MJE_01a-K',
-    //     Global_KPI_Code: 'Assigning random kpi code',
-    //     child_questions: '["Q-S002", "Q-S003"]',
-    //     is_Terminating: 0,
-    //     options: [
-    //       {
-    //         child_question: '',
-    //         option_id: '12f2c6ef-6d69-4954-902b-5b50208f',
-    //         option_value: 'Yes - I am the owner and part of the org',
-    //         q_id: 'Q-S001',
-    //       },
-    //       {
-    //         child_question: 'Q-S002',
-    //         option_id: '71fcfb60-0f92-4fad-bcad-c32e844f',
-    //         option_value: 'No - I am no longer the Owner',
-    //         q_id: 'Q-S001',
-    //       },
-    //       {
-    //         child_question: 'Q-S003',
-    //         option_id: 'ab23606b-32ca-4b9b-b1e9-c7130773',
-    //         option_value: 'I am still the owner, but not part of\u00a0the Org',
-    //         q_id: 'Q-S001',
-    //       },
-    //     ],
-    //     parent_qid: '',
-    //     q_id: 'Q-S001',
-    //     q_id_Type: 1,
-    //     question_child: 1,
-    //     question_order: 'Assigning random order',
-    //     question_status: 1,
-    //     question_text: 'Are you still the control owner and are you part of Org -',
-    //     question_type: 'Radio',
-    //     response_required: 'True',
-    //   },
-    // ]);
   }, []);
 
   values = values.slice(0, 10);
@@ -192,9 +171,21 @@ function AssessmentForm() {
       confirmButtonColor: 'gold',
       cancelButtonColor: 'black',
       confirmButtonText: 'Yes, submit it!',
-    }).then((result) => {
-      if (result.isConfirmed) {
+    }).then((res) => {
+      if (res.isConfirmed) {
+        const payload = {
+          Assessment_ID: '',
+          Response_ID: '',
+          Control_ID: 'ATR_MJE_01a-K',
+          COwner: 'jaymin@ab-inbev.com',
+          Response_Data: JSON.stringify({
+            s1: Object.fromEntries(result),
+          }),
+          Time_Stamp: '01/30/2023',
+        };
+        dispatch(updateAssessmentAns(payload));
         Swal.fire('Submited!', 'Your response has been submited', 'success');
+        history.push('/');
       }
     });
   };
@@ -274,33 +265,6 @@ function AssessmentForm() {
         }
 
         let this_is_parent = final[index - 1].q_id;
-        // let myArray = text.split(`\"`)
-        //myArray = myArray.split(`"`);
-
-        // let arr = [];
-        // for (let i = 1; i < myArray.length; i += 2) {
-        //     arr.push(myArray[i]);
-        // }
-
-        //     console.log(arr)
-        //     let this_is_parent;
-        //     if(arr.length==0){
-
-        //         this_is_parent=parent_ques.parent_qid;
-        //     }else{
-
-        //     for(let next_parent=0;  next_parent<arr.length;  next_parent++){
-
-        //                     for(let f=0 ; f<final.length; f++){
-
-        //                         if(final[f].q_id==arr[next_parent]){
-        //                             this_is_parent=arr[next_parent];
-
-        //                         }
-        //                     }
-        //     }
-        //     console.log(this_is_parent)
-        // }
 
         let loop = 0;
         for (let l = 0; l < final.length; l++) {
@@ -339,7 +303,6 @@ function AssessmentForm() {
         }
       } else {
         if (option_value.child_question == '') {
-
           if (option_value.is_action_plan == 1) {
             // console.log('open action plan at end');
             // setaction_plan(1)
@@ -509,7 +472,7 @@ function AssessmentForm() {
             {' '}
             {number.question_text}
           </strong>
-          <br></br>
+          <br />
 
           {number.options.map((opt, i) => (
             <>
@@ -521,11 +484,11 @@ function AssessmentForm() {
                 onChange={(event) => {
                   add(number, opt, event, i);
                 }}
-              ></input>
-              <label style={{ fontSize: '19px', marginLeft: '8px' }} for={opt.ption_id}>
+              />
+              <label style={{ fontSize: '19px', marginLeft: '8px' }} for={opt.option_id}>
                 {opt.option_value}
               </label>
-              <br></br>
+              <br />
             </>
           ))}
         </div>
@@ -540,7 +503,7 @@ function AssessmentForm() {
             {' '}
             {number.question_text}
           </strong>
-          <br></br>
+          <br />
           {number.question_text != 'To whom did you hand over ?' ? (
             <textarea
               type={'textarea'}
@@ -556,7 +519,7 @@ function AssessmentForm() {
                   add(number, number, event, i);
                 }
               }}
-            ></textarea>
+            />
           ) : (
             <input
               type="email"
@@ -571,7 +534,7 @@ function AssessmentForm() {
                   add(number, number, event, i);
                 }
               }}
-            ></input>
+            />
           )}
 
           {/* <textarea
@@ -589,7 +552,7 @@ function AssessmentForm() {
                 add(number, number, event, i);
               }
             }}
-          ></textarea> */}
+          /> */}
         </div>
       </div>
     ),
@@ -603,7 +566,7 @@ function AssessmentForm() {
         <div class="w-100  align-self-center">
           {ans}
           {val != 'terminate' ? (
-            <div></div>
+            <div />
           ) : (
             <Button
               className="mt-3"
@@ -638,14 +601,13 @@ function AssessmentForm() {
         //     </strong>
         //   </p>
         // </div>
-        <div></div>
+        <div />
       )}
       {flag === true ? (
         <Section2 final={final} result={result} is_action_plan={action_plan} />
       ) : (
-        <div></div>
+        <div />
       )}
-
     </>
   );
 }
