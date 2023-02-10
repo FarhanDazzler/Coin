@@ -7,6 +7,7 @@ import Select from '../UI/Select/Select';
 import GraphIcon from '../../assets/images/chart.png';
 import NumberWithText from './NumberWithText';
 import { useMsal } from '@azure/msal-react';
+import ProgressBar from '../HomePageTable/ProgressBar/ProgressBar';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -67,11 +68,11 @@ const HomePage = () => {
                     </FormControl>
 
                     <div className="d-flex align-items-center mt-4">
-                      <img src={GraphIcon} />
-                      <div className="ml-2">
+                      <ProgressBar />
+                      {/* <div className="ml-2">
                         <p className="text-white">1st Assessment Cycle</p>
-                        <h2 className="yellow-gradient-text graph-value">60 %</h2>
-                      </div>
+                      <h2 className="yellow-gradient-text graph-value">60 %</h2> 
+                      </div> */}
                     </div>
                   </div>
                   <div>

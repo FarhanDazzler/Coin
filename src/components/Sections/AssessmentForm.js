@@ -21,7 +21,10 @@ import {
 } from '../../redux/Assessments/AssessmentSelectors';
 import { useHistory } from 'react-router-dom';
 
+import { useMsal } from '@azure/msal-react';
+
 function AssessmentForm() {
+  const { accounts } = useMsal();
   // const [org, setOrg] = useState('abcd');
   const dispatch = useDispatch();
   const history = useHistory();
@@ -103,7 +106,7 @@ function AssessmentForm() {
 
     axios
       .get(
-        'https://acoemicsgrcpwa-devbe.azurewebsites.net/get_control_scope?ControlID=ATR_ACCR_01b-K&coOwner=Kushal.Khandelwal@ab-inbev.com',
+        `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_control_scope?ControlID=ATR_MJE_01a-K&coOwner=${accounts[0].username}`,
       )
       .then((res) => {
         // console.log(res.data.data.priod_of_assessment);
@@ -137,15 +140,15 @@ function AssessmentForm() {
   const freq = localStorage.getItem('frequency');
   for (let i = 0; i < parentQuestions.length; i++) {
     let question = parentQuestions[i].question_text;
-    question = question.replaceAll('{{org}}', org || controlDataResponse?.provider_org);
-    question = question.replaceAll('{{freq}}', freq || controlDataResponse?.frequency);
+    question = question.replaceAll('{{org}}', controlDataResponse?.provider_org);
+    question = question.replaceAll('{{freq}}', controlDataResponse?.frequency);
     parentQuestions[i].question_text = question;
     // console.log(question);
   }
   for (let i = 0; i < child_question.length; i++) {
     let question = child_question[i].question_text;
-    question = question.replaceAll('{{org}}', org || controlDataResponse?.provider_org);
-    question = question.replaceAll('{{freq}}', freq || controlDataResponse?.frequency);
+    question = question.replaceAll('{{org}}', controlDataResponse?.provider_org);
+    question = question.replaceAll('{{freq}}', controlDataResponse?.frequency);
     child_question[i].question_text = question;
     // console.log(question);
   }
@@ -165,7 +168,7 @@ function AssessmentForm() {
       child_question[i].question_text = question;
       // console.log(question);
     }
-  }, [org, freq, controlDataResponse])
+  }, [org, freq, controlDataResponse]);
   // console.log(child_question);
   // console.log(parentQuestions);
 
