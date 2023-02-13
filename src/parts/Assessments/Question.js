@@ -17,7 +17,7 @@ const Question = () => {
 
   return (
     <>
-      <div className="container text-left">
+      <div className="container text-left pb-5 mb-5">
         <Details control_id={Assessment_id} />
         <AssessmentForm control_id={Assessment_id} />
       </div>

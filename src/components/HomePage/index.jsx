@@ -4,9 +4,10 @@ import DashboardTable from './HomePageTable/HomePageTableComponent';
 import PageWrapper from '../wrappers/PageWrapper';
 import './homeStyles.scss';
 import Select from '../UI/Select/Select';
-import GraphIcon from '../../assets/images/chart.png';
 import NumberWithText from './NumberWithText';
 import { useMsal } from '@azure/msal-react';
+import { useHistory } from 'react-router-dom';
+import HomeTableModal from './HomeTableModal';
 import ProgressBar from '../HomePageTable/ProgressBar/ProgressBar';
 
 const ITEM_HEIGHT = 48;
@@ -24,6 +25,9 @@ const names = ['All Zones', 'AFR', 'NAZ', 'EUR', 'APAC'];
 
 const HomePage = () => {
   const [personName, setPersonName] = React.useState(['All Zones']);
+  const history = useHistory();
+  const query = new URLSearchParams(history.location.search);
+  const Control_ID = query.get('Control_ID');
 
   const handleChange = (event) => {
     const {
@@ -44,7 +48,7 @@ const HomePage = () => {
             <div className="col-lg-4">
               <h4 className="welcome-text">Welcome</h4>
               <h2 className="user-name-home yellow-gradient-text">
-                {accounts.length > 0 ? accounts[0].name : 'User Name'}
+                {accounts.length > 0 ? accounts[0].name.split('(').join(' (') : 'User Name'}
               </h2>
             </div>
             <div className="col-lg-8">
@@ -71,7 +75,7 @@ const HomePage = () => {
                       <ProgressBar />
                       {/* <div className="ml-2">
                         <p className="text-white">1st Assessment Cycle</p>
-                      <h2 className="yellow-gradient-text graph-value">60 %</h2> 
+                      <h2 className="yellow-gradient-text graph-value">60 %</h2>
                       </div> */}
                     </div>
                   </div>
@@ -133,6 +137,7 @@ const HomePage = () => {
           </div>
         </div>
         <DashboardTable />
+        <HomeTableModal />
       </PageWrapper>
     </div>
   );

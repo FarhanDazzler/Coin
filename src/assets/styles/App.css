@@ -7,6 +7,10 @@
   pointer-events: none;
 }
 
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
 .App-header {
   background-color: #f1f1f1;
   min-height: 100vh;
@@ -7974,7 +7978,7 @@ button.bg-dark:focus {
 .flex-fill {
   -ms-flex: 1 1 auto !important;
   flex: 1 1 auto !important;
-  margin-bottom: 50px;
+  /*margin-bottom: 50px;*/
 }
 
 .flex-grow-0 {
@@ -14062,6 +14066,9 @@ button.bg-yellow:focus {
 
 .text-yellow {
   color: #f1c40f !important;
+}
+.text-yellow-dark {
+  color: #a88b31 !important;
 }
 
 .bg-green {

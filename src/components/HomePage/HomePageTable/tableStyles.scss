@@ -42,3 +42,54 @@
 .text-yellow-dark {
   color: #eccf12ba;
 }
+
+.table-toolbar-wrapper {
+  .MuiButtonBase-root {
+    color: #fff;
+    margin: 4px 10px;
+    position: relative;
+    &:before {
+      content: '';
+      width: 1px;
+      height: 70%;
+      background: #fff;
+      position: absolute;
+      right: -10px;
+    }
+  }
+  input {
+    border-color: #ffffff00 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    color: #fff;
+    &:focus {
+      border-color: #ffffff00 !important;
+      box-shadow: none !important;
+    }
+  }
+}
+.MuiDataGrid-filterForm {
+  svg {
+    fill: #fff;
+  }
+  input,
+  select,
+  label {
+    color: #fff;
+  }
+  option {
+    background: black !important;
+  }
+}
+.MuiDataGrid-panel {
+  input {
+    border-color: #ffffff00 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    color: #fff;
+    &:focus {
+      border-color: #ffffff00 !important;
+      box-shadow: none !important;
+    }
+  }
+}

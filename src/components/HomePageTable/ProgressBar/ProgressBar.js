@@ -8,7 +8,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import RadialSeparators from './RadialSeparators';
 
 const ProgressBar = () => (
-  <div style={{ padding: '5px', paddingTop: 30 }}>
+  <div style={{ padding: '5px' }}>
     <RadialProgressBar label="Progressbar with separators" style={{ width: 10, height: 10 }}>
       <CircularProgressbarWithChildren
         // value of Progress bar

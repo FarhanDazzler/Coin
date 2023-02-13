@@ -1,0 +1,12 @@
+.control-actions-wrapper {
+  background: rgba(33, 33, 33, 0.15);
+  padding: 12px 40px;
+}
+.modal-form-wrapper {
+  padding: 40px;
+}
+
+.modal-form-body {
+  max-height: calc(100vh - 150px);
+  overflow: scroll;
+}

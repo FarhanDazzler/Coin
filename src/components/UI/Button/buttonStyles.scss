@@ -1,0 +1,16 @@
+.custom-button-wrapper {
+  &.MuiButton-containedPrimary {
+    background: #323232;
+    color: #fff;
+    border-radius: 8px;
+    &:hover {
+      color: #fff;
+      background: #262626;
+    }
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      pointer-events: auto;
+    }
+  }
+}

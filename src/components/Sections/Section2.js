@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 
@@ -33,7 +33,9 @@ function Section2(props) {
   const dispatch = useDispatch();
   const sectionAns = useSelector(sectionAnsSelector);
   const history = useHistory();
-  const getResponse = useSelector(getResponseSelector);
+
+  // const getResponse = useSelector(getResponseSelector);
+  const getResponse = props?.getResponse;
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
   const [excelData, setExcelData] = useState(null);
@@ -48,7 +50,7 @@ function Section2(props) {
   let [parent, setparent] = useState(new Map());
   let [children, setchildren] = useState(new Map());
   const [val, setval] = useState('');
-
+  console.log('$$$$$$$$ : final', final);
   let parent_arr = [
     {
       ques_text:
@@ -192,30 +194,32 @@ function Section2(props) {
       const terminateList = terminate.filter((f) => getResponse.data?.s3.get(f.ques_text));
 
       if (finalList.length > 0) {
-        setfinal([
-          {
-            ques_text:
-              ' Below are the key requirements linked to L1 MICS Description and would require your response to assess compliance with L1',
-            level: [
-              {
-                L: 'Approval evidence along with supporting documents on MJE are archived in a ticketing tool or in SAP?',
-              },
-              { L: 'Approver and requestor authorized to park/post MJE in SAP' },
-              {
-                L: 'For MJE Posted without park & Post, detective review is executed before or on WD10. Further, whether on quarterly basis, access to direct post (without park) is reviewed and confirmed?',
-              },
-            ],
-            parent: 1,
-
-            terminate: 0,
-            parent_id: '',
-            id: 'soo1',
-            Yes: 'soo2',
-            No: 'soo3',
-          },
-          ...finalList,
-          ...terminateList,
-        ]);
+        setTimeout(() => {
+          setfinal([
+            {
+              ques_text:
+                ' Below are the key requirements linked to L1 MICS Description and would require your response to assess compliance with L1',
+              level: [
+                {
+                  L: 'Approval evidence along with supporting documents on MJE are archived in a ticketing tool or in SAP?',
+                },
+                { L: 'Approver and requestor authorized to park/post MJE in SAP' },
+                {
+                  L: 'For MJE Posted without park & Post, detective review is executed before or on WD10. Further, whether on quarterly basis, access to direct post (without park) is reviewed and confirmed?',
+                },
+              ],
+              parent: 1,
+              action_plan_present: 1,
+              terminate: 0,
+              parent_id: '',
+              id: 'soo1',
+              Yes: 'soo2',
+              No: 'soo3',
+            },
+            ...finalList,
+            ...terminateList,
+          ]);
+        }, 50);
       }
       //
     }
@@ -512,7 +516,7 @@ function Section2(props) {
   const sectionDisplay = (display_text) => {
     return (
       <div>
-        <br></br>
+        <br />
         <p
           style={{
             background: 'linear-gradient(90deg, rgb(227, 175, 50) 0%, rgb(244, 224, 15) 100%)',
@@ -1177,6 +1181,14 @@ function Section2(props) {
             Time_Stamp: '01/30/2023',
           };
 
+          localStorage.setItem(
+            'userAns',
+            JSON.stringify({
+              s1: Object.fromEntries(props.result),
+              s3: Object.fromEntries(ans),
+            }),
+          );
+
           dispatch(updateAssessmentAns(payload));
           Swal.fire('Done!', 'You are now being redirected to the mainpage', 'success');
           history.push('/');
@@ -1364,24 +1376,24 @@ function Section2(props) {
                   Actual values are not within the designated threshold causing the KPI to Fail.
                   Please pick any of the below options on the KPI value
                 </strong>
-                <br></br>
-                <br></br>
+                <br />
+                <br />
                 <div>
-                  <input type="radio" id={'kpi'} name={'table'}></input>
+                  <input type="radio" id={'kpi'} name={'table'} />
                   <label style={{ fontSize: '19px', marginLeft: '8px' }} for={'kpi'}>
                     Agree with the KPI Assessmen
                   </label>
                 </div>
 
                 <div>
-                  <input type="radio" id={'kpi2'} name={'table'}></input>
+                  <input type="radio" id={'kpi2'} name={'table'} />
                   <label style={{ fontSize: '19px', marginLeft: '8px' }} for={'kpi2'}>
                     Incorrect KPI calculation
                   </label>
                 </div>
 
                 <div>
-                  <input type="radio" id={'kpi3'} name={'table'}></input>
+                  <input type="radio" id={'kpi3'} name={'table'} />
                   <label style={{ fontSize: '19px', marginLeft: '8px' }} for={'kpi3'}>
                     KPI threshold too strict
                   </label>
@@ -1420,26 +1432,26 @@ function Section2(props) {
                       Is L3 MICS Description achieved on this control? In addition to the L2
                       requirements:
                     </strong>
-                    <br></br>
+                    <br />
                     <strong className="card-text">
                       {' '}
                       1. Any MJE performed is managed through a workflow tool which guarantees four
                       eye review on every transaction (employees can park & post journal entries,
                       but can never do this on the same journal entry).
                     </strong>
-                    <br></br>
+                    <br />
                     <strong className="card-text">
                       2. All documentation supporting MJEs is stored together with the journal entry
                       in the system of record (ERP or sub conso system) and no other system.
                     </strong>
-                    <br></br>
-                    <br></br>
+                    <br />
+                    <br />
                     <strong className="card-text">
                       {' '}
                       Standardization to be achieved to reach L3: Booking of manual journal entries
                       is only performed by the NoCC.`,
                     </strong>
-                    <br></br>
+                    <br />
 
                     <div>
                       <input
@@ -1453,13 +1465,13 @@ function Section2(props) {
                               }
                             : ''
                         }
-                      ></input>
+                      />
                       <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.options.L1}>
                         {item.options[0].L1}
                       </label>
                     </div>
                     <div>
-                      <input type="radio" id={item.options.L2} name={item.ques_text}></input>
+                      <input type="radio" id={item.options.L2} name={item.ques_text} />
                       <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.options.L2}>
                         {item.options[1].L2}
                       </label>
@@ -1490,12 +1502,13 @@ function Section2(props) {
                         {' '}
                         {/* {item.ques_text} */}
                         Based on above response, action plans needs to be created on the failed
-                        control. Request you to elaborate the action Plan?<br></br>
+                        control. Request you to elaborate the action Plan?
+                        <br />
                         (Hint: Action plan is a time bound proposition designed to remediate the
                         control breakdown with the objective of ensuring MICS compliance)
                       </strong>
-                      <br></br>
-                      <br></br>
+                      <br />
+                      <br />
 
                       {/* <div>
                       <input
@@ -1509,7 +1522,7 @@ function Section2(props) {
                           // console.log(ans);
                           setans((prev) => new Map([...prev]));
                         }}
-                      ></input>
+                      />
                       <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.option.op1}>
                         {item.option.op1}
                       </label>
@@ -1526,7 +1539,7 @@ function Section2(props) {
                           // console.log(ans);
                           setans((prev) => new Map([...prev]));
                         }}
-                      ></input>
+                      />
                       <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.option.op2}>
                         {item.option.op2}
                       </label>
@@ -1582,8 +1595,8 @@ function Section2(props) {
                         {' '}
                         {item.ques_text}777
                       </strong>
-                      <br></br>
-                      <br></br>
+                      <br />
+                      <br />
                       <div className="w-100">
                         {item.level.map((opt, i) => (
                           <>
@@ -1600,7 +1613,7 @@ function Section2(props) {
                                     onChange={() => {
                                       radio(item, opt.L, 'yes', i);
                                     }}
-                                  ></input>
+                                  />
                                   <label
                                     style={{ fontSize: '19px', marginLeft: '8px' }}
                                     for={opt.L}
@@ -1616,7 +1629,7 @@ function Section2(props) {
                                     onChange={() => {
                                       radio(item, opt.L, 'No', i);
                                     }}
-                                  ></input>
+                                  />
                                   <label
                                     style={{ fontSize: '19px', marginLeft: '8px' }}
                                     for={opt.L}
@@ -1629,7 +1642,7 @@ function Section2(props) {
                           </>
                         ))}
                       </div>
-                      <br></br>
+                      <br />
                     </div>
                   </div>
                 </div>
@@ -1643,8 +1656,8 @@ function Section2(props) {
                       >
                         {item.ques_text}888
                       </strong>
-                      <br></br>
-                      <br></br>
+                      <br />
+                      <br />
                       <div>
                         <input
                           type="radio"
@@ -1656,7 +1669,7 @@ function Section2(props) {
                             // child_part(item, e);
                             child_terminate(item, e);
                           }}
-                        ></input>
+                        />
                         <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.ques_text}>
                           Agree with KPI value
                         </label>
@@ -1674,7 +1687,7 @@ function Section2(props) {
                             // child_part(item, e);
                             child_terminate(item, e);
                           }}
-                        ></input>
+                        />
                         <label style={{ fontSize: '19px', marginLeft: '8px' }} for={item.ques_text}>
                           KPI calculation is incorrect
                         </label>
@@ -1694,8 +1707,8 @@ function Section2(props) {
                           {' '}
                           {item.ques_text}
                         </strong>
-                        <br></br>
-                        <br></br>
+                        <br />
+                        <br />
                         <div>
                           <input
                             type="radio"
@@ -1712,7 +1725,7 @@ function Section2(props) {
                                 // console.log('@@@:',err);
                               }
                             }}
-                          ></input>
+                          />
                           <label
                             style={{ fontSize: '19px', marginLeft: '8px' }}
                             for={item.ques_text}
@@ -1740,7 +1753,7 @@ function Section2(props) {
                                 // console.log(ans);
                                 setans((prev) => new Map([...prev]));
                               }}
-                            ></input>
+                            />
                             <label
                               style={{ fontSize: '19px', marginLeft: '8px' }}
                               for={item.ques_text}
@@ -1793,12 +1806,13 @@ function Section2(props) {
                           >
                             {' '}
                             Based on above response, action plans needs to be created on the failed
-                            control. Request you to elaborate the action Plan?<br></br>
+                            control. Request you to elaborate the action Plan?
+                            <br />
                             (Hint: Action plan is a time bound proposition designed to remediate the
                             control breakdown with the objective of ensuring MICS compliance)
                           </strong>
-                          <br></br>
-                          <br></br>
+                          <br />
+                          <br />
                           <div>
                             <textarea
                               type="text"
@@ -1810,7 +1824,7 @@ function Section2(props) {
                                 // console.log(ans);
                                 setans((prev) => new Map([...prev]));
                               }}
-                            ></textarea>
+                            />
                           </div>
                         </div>
                       </div>

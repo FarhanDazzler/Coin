@@ -9,7 +9,7 @@
 .user-name-home {
   font-weight: 700;
   font-size: 52px;
-  line-height: 80px;
+  line-height: 1;
 }
 .home-right-overview {
   background: rgba(140, 140, 140, 0.14);
@@ -45,4 +45,28 @@
   line-height: 87.52%;
   letter-spacing: -0.04em;
   margin-bottom: 0;
+}
+
+@media only screen and (max-width: 1279px) {
+  .user-name-home {
+    font-size: 45px;
+  }
+  .graph-value {
+    font-size: 50px;
+  }
+  .right-number {
+    gap: 10px;
+  }
+  .wrapper-info-grid {
+    gap: 10px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .wrapper-info-grid {
+    grid-template-columns: 100%;
+  }
+  .right-number {
+    margin-top: 15px;
+  }
 }
