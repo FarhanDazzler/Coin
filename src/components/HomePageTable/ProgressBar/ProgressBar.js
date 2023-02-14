@@ -13,9 +13,11 @@ const ProgressBar = () => (
       <CircularProgressbarWithChildren
         // value of Progress bar
         value={80}
+        text={`Compilation`}
         // text={`${80}%`}
         strokeWidth={10}
         styles={buildStyles({
+          textSize: '12px',
           trailColor: '#808080',
           textColor: '#e3af32',
           pathColor: '#e3af32',

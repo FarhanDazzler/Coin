@@ -85,49 +85,52 @@ const HomePage = () => {
                         number={12292}
                         tooltip={
                           <div>
-                            <span className="yellow-text">Answered : </span>
+                            <span className="yellow-text"> Completed : </span>
                             <span>
                               Check if the control results are reflected correctly in scoring.
                             </span>
                           </div>
                         }
-                        subTitle="Answered"
+                        subTitle="Completed"
                       />
 
                       <NumberWithText
                         number={61}
                         tooltip={
                           <div>
-                            <span className="yellow-text"> Not Answered : </span>
+                            <span className="yellow-text"> Not started : </span>
                             <span>
                               Contact Control Owners to complete assessments, and check fallbacks on
                               GRC.
                             </span>
                           </div>
                         }
-                        subTitle="Not Answered"
+                        subTitle="Not started"
                       />
 
                       <NumberWithText
                         number={9863}
                         tooltip={
                           <div>
-                            <span className="yellow-text">Not Applicable : </span>
-                            <span>Controls not applicable for this quarter.</span>
+                            <span className="yellow-text"> Draft : </span>
+                            <span>
+                              Owner has started & saved the assessment as draft, however not
+                              submitted.
+                            </span>
                           </div>
                         }
-                        subTitle="Answered"
+                        subTitle="Draft"
                       />
 
                       <NumberWithText
                         number={11}
                         tooltip={
                           <div>
-                            <span className="yellow-text"> Not Triggered : </span>
-                            <span>Check GRC Master Data or contact the Global IC/ GRC team.</span>
+                            <span className="yellow-text"> Re-assessed : </span>
+                            <span>if owner has reassessed the already submitted assessment.</span>
                           </div>
                         }
-                        subTitle="Not Triggered"
+                        subTitle="Re-assessed"
                       />
                     </div>
                   </div>
