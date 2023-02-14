@@ -12,7 +12,7 @@ import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 
 //   useLocation,
 //   useHistory,
 // } from 'react-router-dom';
-
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './assets/styles/App.css';
 
 import TopBar from './parts/TopBar/TopBar';
@@ -38,6 +38,17 @@ import HomePage from './components/HomePage';
 // const userRole="Zonal Internal Control";
 // const userRole="Control Owner";
 const userRole = 'Control Oversight';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#d3a306',
+    },
+    secondary: {
+      main: '#E33E7F',
+    },
+  },
+});
 
 const Pages = () => {
   const location = useLocation();
@@ -137,17 +148,19 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <Router>
-          <MsalProvider instance={msalInstance}>
-            <UserContextProvider>
-              {navigator.onLine && <Pages />}
-              {/* {!navigator.onLine && <NoInternet />} */}
-            </UserContextProvider>
-          </MsalProvider>
-        </Router>
-      </header>
-      <Footer />
+      <ThemeProvider theme={theme}>
+        <header className="App-header">
+          <Router>
+            <MsalProvider instance={msalInstance}>
+              <UserContextProvider>
+                {navigator.onLine && <Pages />}
+                {/* {!navigator.onLine && <NoInternet />} */}
+              </UserContextProvider>
+            </MsalProvider>
+          </Router>
+        </header>
+        <Footer />
+      </ThemeProvider>
     </div>
   );
 }

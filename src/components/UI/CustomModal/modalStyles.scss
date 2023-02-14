@@ -1,0 +1,30 @@
+.modal-wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+
+  .model-header {
+    background: #212121;
+    color: #d3a306;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 87.52%;
+    padding: 30px 40px;
+  }
+
+  .modal-body {
+    max-height: 95vh;
+    max-width: 90vw;
+  }
+}
+.custom-modal-wrapper {
+  .MuiBackdrop-root {
+    background: rgba(13, 13, 13, 0.78);
+    backdrop-filter: blur(4.5px);
+  }
+}
