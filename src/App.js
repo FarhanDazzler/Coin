@@ -4,6 +4,7 @@ import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { InteractionStatus, PublicClientApplication } from '@azure/msal-browser';
 import { loginRequest, msalConfig } from './utils/authConfig';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 'react-router-dom';
+import axios from 'axios';
 // import {
 //   BrowserRouter as Router,
 //   Route,
@@ -12,7 +13,7 @@ import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 
 //   useLocation,
 //   useHistory,
 // } from 'react-router-dom';
-
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './assets/styles/App.css';
 
 import TopBar from './parts/TopBar/TopBar';
@@ -39,6 +40,17 @@ import HomePage from './components/HomePage';
 // const userRole="Control Owner";
 const userRole = 'Control Oversight';
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#d3a306',
+    },
+    secondary: {
+      main: '#E33E7F',
+    },
+  },
+});
+
 const Pages = () => {
   const location = useLocation();
   const history = useHistory();
@@ -47,8 +59,26 @@ const Pages = () => {
 
   const [userState, userDispatch] = useContext(UserContext);
 
-  const user_role = 'Control Owner';
-  // const user_role = 'Internal Controller';
+  useEffect(() => {
+    axios
+      .get(
+        `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_user_role?User_Email=${accounts[0].username}`,
+        {
+          headers: {
+            Authorization: 'Basic Q09JTjpDT0lOX1NlY3VyZUAxMjM=',
+          },
+        },
+      )
+      .then(async (res) => {
+        console.log(res.data.data[0], 'User Role');
+        localStorage.setItem('user_Role', res?.data.data[0].User_Role);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const user_role = localStorage.getItem('user_Role');
 
   useEffect(() => {
     if (!isAuthenticated && inProgress === InteractionStatus.None) {
@@ -96,7 +126,7 @@ const Pages = () => {
   return (
     <div className="page">
       <div className="flex-fill">
-        {!['/login'].includes(location?.pathname) && <TopBar userRole={userRole} />}
+        {!['/login'].includes(location?.pathname) && <TopBar userRole={user_role} />}
         {/* <Home /> */}
         <Switch>
           <Route
@@ -106,9 +136,9 @@ const Pages = () => {
             }}
           />
           <Route exact path="/new" component={HomePage} />
-          {user_role === 'Control Owner' ? (
+          {user_role === 'organizational persona' ? (
             <Route exact path="/" component={Home_controlOwner} />
-          ) : user_role === 'Internal Controller' ? (
+          ) : user_role === 'administrational persona' ? (
             <Route exact path="/" component={Home_InternalControl} />
           ) : (
             <Route exact path="/" component={Home_controlOwner} />
@@ -137,17 +167,19 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <Router>
-          <MsalProvider instance={msalInstance}>
-            <UserContextProvider>
-              {navigator.onLine && <Pages />}
-              {/* {!navigator.onLine && <NoInternet />} */}
-            </UserContextProvider>
-          </MsalProvider>
-        </Router>
-      </header>
-      <Footer />
+      <ThemeProvider theme={theme}>
+        <header className="App-header">
+          <Router>
+            <MsalProvider instance={msalInstance}>
+              <UserContextProvider>
+                {navigator.onLine && <Pages />}
+                {/* {!navigator.onLine && <NoInternet />} */}
+              </UserContextProvider>
+            </MsalProvider>
+          </Router>
+        </header>
+        <Footer />
+      </ThemeProvider>
     </div>
   );
 }

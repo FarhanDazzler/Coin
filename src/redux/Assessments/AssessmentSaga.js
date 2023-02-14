@@ -4,7 +4,8 @@ import Cookies from 'js-cookie';
 import { Axios } from '../../api/axios';
 import { getSimplifiedError } from '../../utils/error';
 import {
-  SAVE_ANS, SAVE_ANS_ERROR,
+  SAVE_ANS,
+  SAVE_ANS_ERROR,
   SAVE_ANS_SUCCESS,
   GET_ASSESSMENT_RESPONSE_REQUEST,
   ADD_ASSESSMENT_RESPONSE_REQUEST,
@@ -17,7 +18,6 @@ import {
   ADD_ASSESSMENT_RESPONSE_ERROR,
 } from './AssessmentReducer';
 
-
 async function AssessmentAnsGetApi(params) {
   return await Axios.get('/get_user_response', { params });
 }
@@ -27,7 +27,7 @@ function* handleGetAssessmentAns({ payload }) {
     if (response.success) {
       yield put({
         type: GET_ASSESSMENT_RESPONSE_SUCCESS,
-        payload: { data: response.data, Control_ID: payload.Control_ID }
+        payload: { data: response.data, Control_ID: payload.Control_ID },
       });
     }
   } catch (error) {
@@ -37,7 +37,6 @@ function* handleGetAssessmentAns({ payload }) {
     });
   }
 }
-
 
 async function AssessmentAnsAddApi(payload) {
   return await Axios.post('/add_user_response/', payload);
@@ -58,7 +57,6 @@ function* handleAddAssessmentAns({ payload }) {
   }
 }
 
-
 async function AssessmentAnsUpdateApi(payload) {
   return await Axios.post('/update_user_response', payload);
 }
@@ -73,11 +71,10 @@ function* handleUpdateAssessmentAns({ payload }) {
   } catch (error) {
     yield put({
       type: UPDATE_ASSESSMENT_RESPONSE_ERROR,
-      error: getSimplifiedError(error),
+      // error: getSimplifiedError(error),
     });
   }
 }
-
 
 export default all([
   takeLatest(GET_ASSESSMENT_RESPONSE_REQUEST, handleGetAssessmentAns),

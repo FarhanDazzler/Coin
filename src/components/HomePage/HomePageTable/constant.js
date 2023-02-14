@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const class_to_apply = (item) => {
+export const class_to_apply = (item) => {
   let className = '';
   if (item.toUpperCase() === 'PASS') {
     className = 'badge badge-success';
@@ -22,102 +22,6 @@ const class_to_apply = (item) => {
   }
   return className;
 };
-
-export const TABLE_COLUMNS = [
-  {
-    field: 'id',
-    headerName: 'ID',
-    flex: 1,
-    cellClassName: 'dashboardCell',
-    minWidth: 70,
-  },
-  {
-    field: 'Zone',
-    headerName: 'Zone',
-    flex: 1,
-    cellClassName: 'dashboardCell',
-    minWidth: 120,
-  },
-  {
-    field: 'Provider_Org',
-    headerName: 'Provider Org',
-    flex: 1,
-    cellClassName: 'dashboardCell',
-    minWidth: 180,
-  },
-  {
-    field: 'Control_ID',
-    headerName: 'Control ID',
-    flex: 1,
-    cellClassName: 'dashboardCell',
-    minWidth: 120,
-    renderCell: (row) => {
-      return <span className={'text-yellow'}>{row.row.Control_ID}</span>;
-    },
-  },
-  {
-    field: 'Status',
-    headerName: 'Status',
-    flex: 1,
-    cellClassName: 'dashboardCell',
-    minWidth: 120,
-    renderCell: (row) => {
-      return <span className={'text-yellow-dark'}>{row.row.Status}</span>;
-    },
-  },
-  {
-    field: 'KPI_Result',
-    headerName: 'KPI Result',
-    flex: 1,
-    cellClassName: 'dashboardCell',
-    minWidth: 100,
-    renderCell: (row) => {
-      return <span className={class_to_apply(row.row.KPI_Result)}>{row.row.KPI_Result}</span>;
-    },
-  },
-  {
-    field: 'Assessment_Result',
-    headerName: 'Assessment Result',
-    flex: 1,
-    cellClassName: 'dashboardCell',
-    minWidth: 100,
-    renderCell: (row) => {
-      return (
-        <span className={class_to_apply(row.row.Assessment_Result)}>
-          {row.row.Assessment_Result}
-        </span>
-      );
-    },
-  },
-  {
-    field: 'Compliance_Result',
-    headerName: 'Compliance Result',
-    flex: 1,
-    cellClassName: 'dashboardCell',
-    minWidth: 100,
-    renderCell: (row) => {
-      return (
-        <span className={class_to_apply(row.row.Compliance_Result)}>
-          {row.row.Compliance_Result}
-        </span>
-      );
-    },
-  },
-  {
-    field: 'Co_Owner',
-    headerName: 'Co Owner',
-    flex: 1,
-    cellClassName: 'dashboardCell',
-    minWidth: 120,
-  },
-  {
-    field: 'Co_Oversight',
-    headerName: 'Co Oversight',
-    flex: 1,
-    cellClassName: 'dashboardCell',
-    minWidth: 100,
-  },
-];
 
 export const TABLE_ROES = [
   {

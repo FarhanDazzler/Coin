@@ -29,10 +29,14 @@ function AssessmentForm() {
   const dispatch = useDispatch();
   const history = useHistory();
   const sectionAns = useSelector(sectionAnsSelector);
-  const getResponse = useSelector(getResponseSelector);
+  const [getResponse, setGetResponse] = useState({ data: { s1: {}, s3: {} } });
+  // const getResponse = useSelector(getResponseSelector);
+  const getLocalAns = localStorage.getItem('userAns');
+
   const controlDataResponse = useSelector(getControlSelector);
   const [val, setVal] = useState('lala');
   var [final, setfinal] = useState([]);
+  const [timer, setTimer] = useState();
   const [id, setid] = useState([]);
   let [flag, setflag] = useState('false');
   const [isDisabled, setIsDisabled] = useState(false);
@@ -45,13 +49,19 @@ function AssessmentForm() {
   var child_question = [];
 
   useEffect(() => {
+    const getLocalAnsJson = getLocalAns ? JSON.parse(getLocalAns) : { s1: {}, s3: {} };
+    const s1Data = new Map(Object.entries(getLocalAnsJson.s1));
+    const s3Data = new Map(Object.entries(getLocalAnsJson.s3));
+    setGetResponse({ data: { s1: s1Data, s3: s3Data } });
+  }, []);
+
+  useEffect(() => {
     dispatch(saveAssessmentAns({ section1: result }));
   }, [result]);
 
   useEffect(() => {
     if (getResponse.data?.s1) {
       setresult(getResponse.data?.s1);
-
       const finalList = values.filter((f) => getResponse.data?.s1.get(f.question_text));
       if (finalList.length > 0) {
         setfinal(finalList);
@@ -97,7 +107,9 @@ function AssessmentForm() {
         setvalues(res.data.data);
         // console.log(values);
         setfinal([res.data.data[0]]);
-
+        setTimeout(() => {
+          setTimer('123');
+        }, 200);
         // const freq =await  localStorage.getItem('frequency');
       })
       .catch((err) => {
@@ -204,9 +216,17 @@ function AssessmentForm() {
           }),
           Time_Stamp: '01/30/2023',
         };
-        dispatch(updateAssessmentAns(payload));
+
+        localStorage.setItem(
+          'userAns',
+          JSON.stringify({
+            s1: Object.fromEntries(result),
+          }),
+        );
+
+        // dispatch(updateAssessmentAns(payload));
         Swal.fire('Submited!', 'Your response has been submited', 'success');
-        history.push('/');
+        // history.push('/');
       }
     });
   };
@@ -625,7 +645,12 @@ function AssessmentForm() {
         <div />
       )}
       {flag === true ? (
-        <Section2 final={final} result={result} is_action_plan={action_plan} />
+        <Section2
+          final={final}
+          result={result}
+          is_action_plan={action_plan}
+          getResponse={getResponse}
+        />
       ) : (
         <div />
       )}

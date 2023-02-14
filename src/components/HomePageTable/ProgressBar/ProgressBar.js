@@ -8,14 +8,16 @@ import 'react-circular-progressbar/dist/styles.css';
 import RadialSeparators from './RadialSeparators';
 
 const ProgressBar = () => (
-  <div style={{ padding: '5px', paddingTop: 30 }}>
+  <div style={{ padding: '5px' }}>
     <RadialProgressBar label="Progressbar with separators" style={{ width: 10, height: 10 }}>
       <CircularProgressbarWithChildren
         // value of Progress bar
         value={80}
+        text={`Compilation`}
         // text={`${80}%`}
         strokeWidth={10}
         styles={buildStyles({
+          textSize: '12px',
           trailColor: '#808080',
           textColor: '#e3af32',
           pathColor: '#e3af32',

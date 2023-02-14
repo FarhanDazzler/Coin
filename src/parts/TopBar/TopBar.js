@@ -172,8 +172,7 @@ const TopBar = (props) => {
                   </a>
                 </li>
 
-                {(props.userRole == 'Global Internal Control' ||
-                  props.userRole == 'Zonal Internal Control') && (
+                {props.userRole == 'administrational persona' && (
                   <li className="nav-item">
                     <a
                       className={`nav-link ${
@@ -189,8 +188,7 @@ const TopBar = (props) => {
                   </li>
                 )}
 
-                {(props.userRole == 'Global Internal Control' ||
-                  props.userRole == 'Zonal Internal Control') && (
+                {props.userRole == 'administrational persona' && (
                   <li className="nav-item">
                     <a
                       className={`nav-link ${
@@ -200,14 +198,13 @@ const TopBar = (props) => {
                         history.push('/');
                       }}
                     >
-                      <FeatherIcon icon="layers" size={14} />
-                      &nbsp;{'Assessments'}
+                      <FeatherIcon icon="help-circle" size={14} />
+                      &nbsp;{'Question Bank'}
                     </a>
                   </li>
                 )}
 
-                {(props.userRole == 'Global Internal Control' ||
-                  props.userRole == 'Zonal Internal Control') && (
+                {props.userRole == 'administrational persona' && (
                   <li className="nav-item">
                     <a
                       className={`nav-link ${
@@ -217,8 +214,8 @@ const TopBar = (props) => {
                         history.push('/');
                       }}
                     >
-                      <FeatherIcon icon="layers" size={14} />
-                      &nbsp;{'Question Bank'}
+                      <FeatherIcon icon="clipboard" size={14} />
+                      &nbsp;{'Assessment Bank'}
                     </a>
                   </li>
                 )}
