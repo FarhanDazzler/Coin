@@ -62,7 +62,7 @@ const Pages = () => {
   useEffect(() => {
     axios
       .get(
-        `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_user_role?User_Email=${accounts[0].username}`,
+        `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_user_role?User_Email=${accounts[0]?.username}`,
         {
           headers: {
             Authorization: 'Basic Q09JTjpDT0lOX1NlY3VyZUAxMjM=',

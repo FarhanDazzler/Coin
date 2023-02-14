@@ -13,7 +13,7 @@ const ProgressBar = () => (
       <CircularProgressbarWithChildren
         // value of Progress bar
         value={80}
-        text={`Compilation`}
+        text={`Completion`}
         // text={`${80}%`}
         strokeWidth={10}
         styles={buildStyles({
