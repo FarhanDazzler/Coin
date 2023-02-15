@@ -6,7 +6,7 @@
     "@azure/msal-browser": "^2.16.1",
     "@azure/msal-react": "^1.0.1",
     "@emotion/styled": "^11.10.5",
-    "@mantine/core": "^4.2.6",
+    "@mantine/core": "^4.2.12",
     "@mantine/dates": "^4.2.6",
     "@mantine/hooks": "^4.2.6",
     "@mui/icons-material": "^5.11.0",

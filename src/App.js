@@ -139,7 +139,7 @@ const Pages = () => {
           {user_role === 'organizational persona' ? (
             <Route exact path="/" component={Home_controlOwner} />
           ) : user_role === 'administrational persona' ? (
-            <Route exact path="/" component={Home_InternalControl} />
+            <Route exact path="/" component={HomePage} />
           ) : (
             <Route exact path="/" component={Home_controlOwner} />
           )}

@@ -1,0 +1,25 @@
+.mantine-MultiSelect-wrapper{
+
+    text-align: center;
+    
+
+    .mantine-MultiSelect-label{
+        color: #fff !important;
+        //padding-left: 10px;
+        
+    }
+
+    .mantine-MultiSelect-dropdown{
+        background-color: grey;
+    }
+    .mantine-MultiSelect-input{
+        background-color: #1A1B1E;
+    }
+    .mantine-MultiSelect-searchInput{
+        background-color: #1A1B1E;
+    }
+    
+    .mantine-MultiSelect-value{
+        background-color: #ffffff ;
+    }
+}

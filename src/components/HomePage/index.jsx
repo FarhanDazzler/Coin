@@ -9,6 +9,8 @@ import { useMsal } from '@azure/msal-react';
 import { useHistory } from 'react-router-dom';
 import HomeTableModal from './HomeTableModal';
 import ProgressBar from '../HomePageTable/ProgressBar/ProgressBar';
+import MultiSelectButton from '../Buttons/MultiSelect/MultiSelectButtonComponents';
+import { Group, Button } from '@mantine/core';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -23,6 +25,30 @@ const MenuProps = {
 
 const names = ['All Zones', 'AFR', 'NAZ', 'EUR', 'APAC'];
 
+const FilterButtons = () => {
+  return (
+    <div className="container mt-5">
+      <div className="row pt-5">
+        <div className="col col-lg-12">
+          <Group spacing="xs">
+            <MultiSelectButton
+              data={names}
+              label="Assessment Period"
+              placeholder="Select your option"
+            />
+            <MultiSelectButton data={names} label="Zone" placeholder="Select your option" />
+            <MultiSelectButton
+              data={names}
+              label="Business Unit"
+              placeholder="Select your option"
+            />
+            <MultiSelectButton data={names} label="Receiver Org" placeholder="Select your option" />
+          </Group>
+        </div>
+      </div>
+    </div>
+  );
+};
 const HomePage = () => {
   const [personName, setPersonName] = React.useState(['All Zones']);
   const history = useHistory();
@@ -139,6 +165,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
+        <FilterButtons />
         <DashboardTable />
         <HomeTableModal />
       </PageWrapper>
