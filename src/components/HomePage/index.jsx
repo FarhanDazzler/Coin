@@ -9,6 +9,7 @@ import { useMsal } from '@azure/msal-react';
 import { useHistory } from 'react-router-dom';
 import HomeTableModal from './HomeTableModal';
 import ProgressBar from '../HomePageTable/ProgressBar/ProgressBar';
+import FilterHomePageTable from './HomePageTable/FilterHomePageTableComponent';
 import MultiSelectButton from '../Buttons/MultiSelect/MultiSelectButtonComponents';
 import { Group, Button } from '@mantine/core';
 
@@ -50,20 +51,9 @@ const FilterButtons = () => {
   );
 };
 const HomePage = () => {
-  const [personName, setPersonName] = React.useState(['All Zones']);
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
-
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  };
 
   const { accounts } = useMsal();
   return (
@@ -81,22 +71,6 @@ const HomePage = () => {
               <div className="home-right-overview">
                 <div className="wrapper-info-grid">
                   <div>
-                    <FormControl sx={{ m: 1, width: 130, mt: 3 }}>
-                      <Select
-                        value={personName}
-                        onChange={handleChange}
-                        renderValue={(selected) => {
-                          if (selected.length === 0) {
-                            return <em>Placeholder</em>;
-                          }
-                          return selected.join(', ');
-                        }}
-                        MenuProps={MenuProps}
-                        inputProps={{ 'aria-label': 'Without label' }}
-                        options={names}
-                      />
-                    </FormControl>
-
                     <div className="d-flex align-items-center mt-4">
                       <ProgressBar />
                       {/* <div className="ml-2">
@@ -162,6 +136,13 @@ const HomePage = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div className="container">
+          <div className="row mt-5">
+            <div className="col-12 mt-5">
+              <FilterHomePageTable />
             </div>
           </div>
         </div>

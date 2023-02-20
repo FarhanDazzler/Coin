@@ -1,0 +1,24 @@
+.radio-wrapper {
+  .MuiFormLabel-root {
+    font-weight: 700;
+    font-size: 14px;
+    color: #595959 !important;
+  }
+  .MuiTypography-root {
+    font-size: 14px;
+  }
+  .MuiSvgIcon-root {
+    font-size: 16px;
+  }
+
+  label.MuiFormControlLabel-root {
+    margin-bottom: 0;
+    margin-left: -5px;
+  }
+  .MuiFormLabel-root {
+    margin-bottom: 0;
+  }
+  .MuiButtonBase-root {
+    padding: 5px;
+  }
+}

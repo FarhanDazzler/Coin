@@ -1,0 +1,12 @@
+.input-wrapper {
+  width: 100%;
+  max-width: 600px;
+  .MuiOutlinedInput-input {
+    padding: 5px 8px;
+  }
+  .MuiFormLabel-root {
+    font-weight: 700;
+    font-size: 14px;
+    color: #595959 !important;
+  }
+}
