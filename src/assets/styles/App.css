@@ -19389,3 +19389,18 @@ a.btn.btn-primary {
   border-radius: 0.4em;
   background-color: #f4e00f;
 }
+
+
+.nav-tabs .navbar-link.active {
+  border-width: 3px;
+  border-color: #000000;
+  color: #f49c00;
+  background: #00000029;
+  color: white;
+  border: none;
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 25px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}

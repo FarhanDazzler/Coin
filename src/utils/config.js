@@ -1,1 +1,1 @@
-export const app_name = 'GRC MICS SA';
+export const app_name = 'COIN';

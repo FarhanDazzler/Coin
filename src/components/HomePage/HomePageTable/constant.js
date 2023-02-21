@@ -160,3 +160,46 @@ export const TABLE_ROES = [
     Lock: '0',
   },
 ];
+
+export const QuestionBank_Landing_page_data = [
+  {
+    id: 1,
+    Mega_Process: 'AB Inbev India',
+    Sub_Process: 'AB Inbev India',
+    Control_ID: 'ATR_ACCR_01b-K',
+    Control_Name: 'AB Inbev India',
+    Status: 'Completed',
+  },
+  {
+    id: 2,
+    Mega_Process: 'AB Inbev US',
+    Sub_Process: 'AB Inbev US',
+    Control_ID: 'ATR_ACCR_01b-K',
+    Control_Name: 'AB Inbev US',
+    Status: 'Pending',
+  },
+  {
+    id: 3,
+    Mega_Process: 'AB Inbev Belgium',
+    Sub_Process: 'AB Inbev Belgium',
+    Control_ID: 'ATR_ACCR_01b-K',
+    Control_Name: 'AB Inbev Belgium',
+    Status: 'Completed',
+  },
+  {
+    id: 4,
+    Mega_Process: 'AB Inbev India',
+    Sub_Process: 'AB Inbev India',
+    Control_ID: 'ATR_ACCR_01b-K',
+    Control_Name: 'AB Inbev India',
+    Status: 'Not Confirmed',
+  },
+  {
+    id: 5,
+    Mega_Process: 'AB Inbev US',
+    Sub_Process: 'AB Inbev US',
+    Control_ID: 'ATR_ACCR_01b-K',
+    Control_Name: 'AB Inbev US',
+    Status: 'Completed',
+  },
+];

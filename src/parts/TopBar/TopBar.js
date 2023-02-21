@@ -160,7 +160,7 @@ const TopBar = (props) => {
               <ul className="nav nav-tabs border-0 flex-column flex-lg-row">
                 <li className="nav-item">
                   <a
-                    className={`nav-link ${
+                    className={`navbar-link ${
                       ['/', '/register'].includes(location?.pathname) ? ' active' : ''
                     }`}
                     onClick={() => {
@@ -175,11 +175,11 @@ const TopBar = (props) => {
                 {props.userRole == 'administrational persona' && (
                   <li className="nav-item">
                     <a
-                      className={`nav-link ${
-                        ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+                      className={`navbar-link ${
+                        ['/mdm', '/register'].includes(location?.pathname) ? ' active' : ''
                       }`}
                       onClick={() => {
-                        history.push('/');
+                        history.push('/mdm');
                       }}
                     >
                       <FeatherIcon icon="layers" size={14} />
@@ -191,11 +191,11 @@ const TopBar = (props) => {
                 {props.userRole == 'administrational persona' && (
                   <li className="nav-item">
                     <a
-                      className={`nav-link ${
-                        ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+                      className={`navbar-link ${
+                        ['/questionbank', '/register'].includes(location?.pathname) ? ' active' : ''
                       }`}
                       onClick={() => {
-                        history.push('/');
+                        history.push('/questionbank');
                       }}
                     >
                       <FeatherIcon icon="help-circle" size={14} />
@@ -207,11 +207,13 @@ const TopBar = (props) => {
                 {props.userRole == 'administrational persona' && (
                   <li className="nav-item">
                     <a
-                      className={`nav-link ${
-                        ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+                      className={`navbar-link ${
+                        ['/assessmentbank', '/register'].includes(location?.pathname)
+                          ? ' active'
+                          : ''
                       }`}
                       onClick={() => {
-                        history.push('/');
+                        history.push('/assessmentbank');
                       }}
                     >
                       <FeatherIcon icon="clipboard" size={14} />
