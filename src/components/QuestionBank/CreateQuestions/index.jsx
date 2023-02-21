@@ -20,12 +20,9 @@ const MenuProps = {
   },
 };
 
-const CreateQuestions = () => {
+const CreateQuestions = ({ open, handleClose }) => {
   const [section1, setSection1] = useState(questions);
-  const [open, setOpen] = useState(false);
   const [personName, setPersonName] = useState(['All Zones']);
-
-  const handleClose = () => {};
 
   const handleChange = (event) => {
     const {

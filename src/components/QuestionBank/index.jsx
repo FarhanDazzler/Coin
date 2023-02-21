@@ -7,13 +7,18 @@ import FolderSpecialOutlinedIcon from '@mui/icons-material/FolderSpecialOutlined
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import Button from '../UI/Button';
 import QuestionBankTable from './QuestionBankTable';
-import CustomModal from '../UI/CustomModal';
-import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
-import Select from '../UI/Select/Select';
-import FormControl from '@mui/material/FormControl';
 import CreateQuestions from './CreateQuestions';
 
 const QuestionBank = () => {
+  const [openCreateQuestions, setOpenCreateQuestions] = useState(false);
+
+  const handleOpenCreateQuestions = () => {
+    // setOpenCreateQuestions(true);
+  };
+  const handleCloseCreateQuestions = () => {
+    setOpenCreateQuestions(false);
+  };
+
   return (
     <PageWrapper>
       <div className="container py-5">
@@ -23,7 +28,12 @@ const QuestionBank = () => {
               title="Create Questions for New MICS"
               description="Define MICS-Specific questions to create a new survey."
             >
-              <Button variant="outlined" size="large" startIcon={<NoteAddOutlinedIcon />}>
+              <Button
+                variant="outlined"
+                size="large"
+                startIcon={<NoteAddOutlinedIcon />}
+                onClick={handleOpenCreateQuestions}
+              >
                 <span className="text-white">Create MICS-Specific</span>
               </Button>
             </QuestionBankBox>
@@ -55,7 +65,7 @@ const QuestionBank = () => {
           </div>
         </div>
 
-        <CreateQuestions />
+        <CreateQuestions open={openCreateQuestions} handleClose={handleCloseCreateQuestions} />
       </div>
     </PageWrapper>
   );

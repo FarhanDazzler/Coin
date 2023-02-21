@@ -3,7 +3,6 @@ import CustomModal from '../../UI/CustomModal';
 import { useHistory } from 'react-router-dom';
 import ControlActions from './ControlActions';
 import './homeTableModalStyles.scss';
-import ControlFormModal from './ControlFormModal';
 import { useDispatch } from 'react-redux';
 import {
   getAssessmentAns,
@@ -54,8 +53,12 @@ const HomeTableModal = () => {
               setTerminating={setTerminating}
               setShowMoreSection={setShowMoreSection}
             />
-            <ControlSection2 />
-            <ControlSection3 setTerminating={setTerminating} />
+            {showMoreSection && (
+              <>
+                <ControlSection2 />
+                <ControlSection3 setTerminating={setTerminating} />
+              </>
+            )}
 
             {terminating && (
               <Button color="neutral" className="w-100">
