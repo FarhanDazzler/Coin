@@ -16,6 +16,12 @@ import {
   UPDATE_ASSESSMENT_RESPONSE_ERROR,
   ADD_ASSESSMENT_RESPONSE_SUCCESS,
   ADD_ASSESSMENT_RESPONSE_ERROR,
+  GET_QUESTIONS_REQUEST,
+  GET_QUESTIONS_SUCCESS,
+  GET_QUESTIONS_ERROR,
+  GET_KPI_RESULT_REQUEST,
+  GET_KPI_RESULT_SUCCESS,
+  GET_KPI_RESULT_ERROR,
 } from './AssessmentReducer';
 
 async function AssessmentAnsGetApi(params) {
@@ -63,7 +69,7 @@ async function AssessmentAnsUpdateApi(payload) {
 function* handleUpdateAssessmentAns({ payload }) {
   try {
     const response = yield call(AssessmentAnsUpdateApi, payload);
-    if (response.token) {
+    if (response) {
       yield put({
         type: UPDATE_ASSESSMENT_RESPONSE_SUCCESS,
       });
@@ -76,8 +82,50 @@ function* handleUpdateAssessmentAns({ payload }) {
   }
 }
 
+async function getQuestionsApi(params) {
+  return await Axios.get('/get_questions', { params });
+}
+function* handleGetQuestions({ payload }) {
+  try {
+    const response = yield call(getQuestionsApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_QUESTIONS_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_QUESTIONS_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+async function getKPIApi(params) {
+  return await Axios.get('/kpi_result', { params });
+}
+function* handleGetKPIData({ payload }) {
+  try {
+    const response = yield call(getKPIApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_KPI_RESULT_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_KPI_RESULT_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 export default all([
   takeLatest(GET_ASSESSMENT_RESPONSE_REQUEST, handleGetAssessmentAns),
   takeLatest(ADD_ASSESSMENT_RESPONSE_REQUEST, handleAddAssessmentAns),
   takeLatest(UPDATE_ASSESSMENT_RESPONSE_REQUEST, handleUpdateAssessmentAns),
+  takeLatest(GET_QUESTIONS_REQUEST, handleGetQuestions),
+  takeLatest(GET_KPI_RESULT_REQUEST, handleGetKPIData),
 ]);

@@ -11,15 +11,16 @@ import coinLogo from '../../assets/images/coin_logo.png';
 import defaultProfilePhoto from '../../assets/images/profile.jpg';
 import { UserContext } from '../../context/userContext';
 import appLogo from '../../assets/images/GCCWhite.png';
+import { useDispatch } from 'react-redux';
+import { setLoginInfo } from '../../redux/Auth/AuthAction';
 
 const TopBar = (props) => {
   const history = useHistory();
   const location = useLocation();
-
+  const dispatch = useDispatch();
   const isAuthenticated = useIsAuthenticated();
 
   const { instance, accounts, inProgress } = useMsal();
-
   const [isDropDownOpen, setisDropDownOpen] = useState(false);
 
   const [profilePhoto, setProfilePhoto] = useState(null);
@@ -50,15 +51,9 @@ const TopBar = (props) => {
     });
   };
 
-  const [rtoHubAccess, setRtoHubAccess] = useState();
-
   useEffect(() => {
-    // console.log(location);
-  }, [location]);
-
-  useEffect(() => {
-    // console.log(userState);
-  }, [userState]);
+    dispatch(setLoginInfo(accounts));
+  }, [accounts]);
 
   return (
     <div className="top-nav">

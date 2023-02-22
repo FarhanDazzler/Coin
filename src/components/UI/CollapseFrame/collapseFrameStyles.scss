@@ -1,0 +1,31 @@
+.collapse-frame-actionbar {
+  background: #dadada;
+  border-radius: 8px;
+  color: #666666;
+  padding: 14px 24px;
+  cursor: pointer;
+  &.active-collapse-frame {
+    background: #e7c55d;
+    color: #333333;
+  }
+
+  .collapse-frame-title {
+    font-weight: 600;
+    font-size: 20px;
+  }
+  .collapse-frame-center {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1;
+
+    svg {
+      font-size: 20px;
+    }
+  }
+  .arrow-icon {
+    transition: 0.3s;
+  }
+  .open-arrow {
+    transform: scaleX(-1) scaleY(-1);
+  }
+}

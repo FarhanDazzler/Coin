@@ -3,6 +3,12 @@
     background: #323232;
     color: #fff;
     border-radius: 8px;
+
+    &.dark-btn {
+      background: rgba(140, 140, 140, 0.14);
+      backdrop-filter: blur(20px);
+    }
+
     &:hover {
       color: #fff;
       background: #262626;
