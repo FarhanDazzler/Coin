@@ -227,7 +227,7 @@ function AssessmentForm() {
 
         // dispatch(updateAssessmentAns(payload));
         Swal.fire('Submited!', 'Your response has been submited', 'success');
-        // history.push('/');
+        history.push('/');
       }
     });
   };
