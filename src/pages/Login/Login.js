@@ -20,7 +20,6 @@ const Login = () => {
   const isAuthenticated = useIsAuthenticated();
 
   // console.log('I AM IN LOGIN');
-
   useEffect(() => {
     //console.log(`AUTH LOG = ${isAuthenticated}`);
     if (isAuthenticated) {
