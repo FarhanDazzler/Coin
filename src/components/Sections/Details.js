@@ -14,8 +14,6 @@ var Global_Data = [];
 var L1_desc = {};
 var L2_desc = {};
 
-let data_loaded = false;
-
 const SpinningLoader = [
   <div
     className="spinner-loader"
@@ -33,6 +31,8 @@ var control_name_fromDB = '';
 var control_oversight_fromDB = '';
 
 const Details = ({ control_id }) => {
+  const [data_loaded, setData_loaded] = useState(false);
+  console.log('data_loaded', data_loaded);
   const controlDataResponse = useSelector(getControlSelector);
 
   var local_control_description_fromDB = controlDataResponse?.lcd;
@@ -66,10 +66,10 @@ const Details = ({ control_id }) => {
       });
   };
 
-  const getControlData = () => {
+  const getControlData = async () => {
     //for LCD and other details
-
-    Axios.get(
+    setData_loaded(true);
+    await Axios.get(
       'https://acoemicsgrcpwa-devbe.azurewebsites.net/get_control_instances?ControlID=' +
         control_id +
         `&coOwner=${accounts[0].username}`,
@@ -103,7 +103,7 @@ const Details = ({ control_id }) => {
         }
         control_oversight_fromDB = control_oversight ? control_oversight.split('@')[0] : '';
         control_name_fromDB = control_name;
-        data_loaded = true;
+        setData_loaded(false);
       } else {
         console.log(response.error.message);
       }

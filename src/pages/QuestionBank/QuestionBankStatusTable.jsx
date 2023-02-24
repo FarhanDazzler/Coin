@@ -7,7 +7,7 @@ import {
   QuestionBank_Landing_page_data,
 } from '../../components/HomePage/HomePageTable/constant';
 import { useEffect, useState } from 'react';
-import '../../components/HomePage/HomePageTable/tableStyles.scss';
+// import '../../components/HomePage/HomePageTable/tableStyles.scss';
 
 const QuestionBankLandingPageTable = () => {
   const [tableColumns, setTableColumns] = useState([]);

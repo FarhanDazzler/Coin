@@ -33,6 +33,7 @@ import { UserContext, UserContextProvider } from './context/userContext';
 import dataService from './services/dataService';
 import Question from './parts/Assessments/Question';
 import HomePage from './components/HomePage';
+import QuestionBank from './components/QuestionBank';
 import QuestionBankLandingPage from './pages/QuestionBank/QuestionBankLandingPage';
 
 // User categories --> User Role
@@ -47,7 +48,11 @@ const theme = createTheme({
       main: '#d3a306',
     },
     secondary: {
-      main: '#E33E7F',
+      main: '#595959',
+    },
+    neutral: {
+      main: '#f1c40f',
+      contrastText: '#fff',
     },
   },
 });
@@ -137,6 +142,7 @@ const Pages = () => {
             }}
           />
           <Route exact path="/new" component={HomePage} />
+          <Route exact path="/question-bank" component={QuestionBank} />
           {user_role === 'organizational persona' ? (
             <Route exact path="/" component={Home_controlOwner} />
           ) : user_role === 'administrational persona' ? (

@@ -1,21 +1,52 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import Button from '../../UI/Button';
+import Select from '../../UI/Select/Select';
+import { useState } from 'react';
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 140,
+    },
+  },
+};
 
 export default function FilterHomePageTable() {
-  const [open, setOpen] = React.useState(false);
-  const [assessmentCycle, setAssessmentCycle] = React.useState('All');
-  const [assessmentYear, setAssessmentYear] = React.useState(2023);
+  const [open, setOpen] = useState(false);
+  const [assessmentCycle, setAssessmentCycle] = useState('All');
+  const [assessmentYear, setAssessmentYear] = useState(2023);
+
+  const [personName, setPersonName] = React.useState(['All Zones']);
+
+  const names = [
+    { label: 'All Zones', value: 'All Zones' },
+    { label: 'AFR', value: 'AFR' },
+    { label: 'NAZ', value: 'NAZ' },
+    { label: 'EUR', value: 'EUR' },
+    { label: 'APAC', value: 'APAC' },
+  ];
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
 
   const handleAssessmentCycle = (event) => {
     setAssessmentCycle(event.target.value);
@@ -36,55 +67,75 @@ export default function FilterHomePageTable() {
   };
 
   return (
-    <div>
+    <div className="d-flex justify-content-end">
+      <FormControl sx={{ width: 130 }}>
+        <Select
+          value={personName}
+          onChange={handleChange}
+          renderValue={(selected) => {
+            if (selected.length === 0) {
+              return <em>Placeholder</em>;
+            }
+            return selected.join(', ');
+          }}
+          MenuProps={MenuProps}
+          inputProps={{ 'aria-label': 'Without label' }}
+          options={names}
+        />
+      </FormControl>
+
       <Button
-        variant="outlined"
-        startIcon={<FilterListIcon style={{ color: 'white' }} />}
+        size="large"
+        startIcon={<FilterAltOutlinedIcon style={{ color: 'white' }} />}
         onClick={handleClickOpen}
-        style={{ float: 'right', color: 'white', borderColor: 'white' }}
+        className="ml-4 dark-btn"
       >
-        {' '}
         Assessment Filter
       </Button>
+
+      <Button
+        size="large"
+        startIcon={<VisibilityOutlinedIcon style={{ color: 'white' }} />}
+        className="ml-4 dark-btn"
+      >
+        View All
+      </Button>
+
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Filter Assessment on the basis of :</DialogTitle>
         <DialogContent>
           <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
             <FormControl sx={{ m: 1, minWidth: 190 }}>
-              <InputLabel htmlFor="demo-dialog-native">Assessment Cycle</InputLabel>
               <Select
-                native
+                placeholder="Assessment Cycle"
                 value={assessmentCycle}
                 onChange={handleAssessmentCycle}
-                input={<OutlinedInput label="AssessmentCycle" id="demo-dialog-native" />}
-              >
-                <option aria-label="None" value="None" />
-                <option value={'A1'}>Cycle 1</option>
-                <option value={'A2'}>Cycle 2</option>
-                <option value={'A3'}>Cycle 3</option>
-                <option value={'A4'}>Cycle 4</option>
-              </Select>
+                options={[
+                  { label: 'Assessment Cycle', value: 'All' },
+                  { label: 'Cycle 1', value: 'A1' },
+                  { label: 'Cycle 2', value: 'A2' },
+                  { label: 'Cycle 3', value: 'A3' },
+                  { label: 'Cycle 4', value: 'A4' },
+                ]}
+              />
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-dialog-select-label">Year</InputLabel>
               <Select
                 labelId="demo-dialog-select-label"
-                id="demo-dialog-select"
+                placeholder="Year"
                 value={assessmentYear}
                 onChange={handleAssessmentYear}
-                input={<OutlinedInput label="Year" />}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={2023}>2023</MenuItem>
-                <MenuItem value={2024}>2024</MenuItem>
-                <MenuItem value={2025}>2025</MenuItem>
-                <MenuItem value={2026}>2026</MenuItem>
-                <MenuItem value={2027}>2027</MenuItem>
-                <MenuItem value={2028}>2028</MenuItem>
-                <MenuItem value={2029}>2029</MenuItem>
-              </Select>
+                options={[
+                  { label: '2023', value: 2023 },
+                  { label: '2023', value: 2024 },
+                  { label: '2025', value: 2025 },
+                  { label: '2026', value: 2026 },
+                  { label: '2027', value: 2027 },
+                  { label: '2028', value: 2028 },
+                  { label: '2029', value: 2029 },
+                  { label: '2030', value: 2030 },
+                ]}
+              />
             </FormControl>
           </Box>
         </DialogContent>

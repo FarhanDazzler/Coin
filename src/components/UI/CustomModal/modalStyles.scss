@@ -6,11 +6,11 @@
   background: #fff;
   border-radius: 8px;
   overflow: hidden;
-  width: 100%;
+  width: 95%;
 
   .model-header {
     background: #212121;
-    color: #d3a306;
+    color: #fff;
     font-weight: 600;
     font-size: 16px;
     line-height: 87.52%;
@@ -18,8 +18,8 @@
   }
 
   .modal-body {
-    max-height: 95vh;
-    max-width: 90vw;
+    max-height: 80vh;
+    overflow: auto;
   }
 }
 .custom-modal-wrapper {

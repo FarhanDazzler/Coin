@@ -10,3 +10,26 @@
   max-height: calc(100vh - 150px);
   overflow: scroll;
 }
+.table-modal-title {
+  font-size: 22px;
+}
+
+.react-bootstrap-table {
+  width: 100%;
+  overflow-x: auto;
+}
+.side-by-side-radio-wrapper {
+  display: grid !important;
+  gap: 2%;
+  grid-template-columns: 73% 23%;
+
+  .side-by-side-radio-label {
+    font-weight: 400 !important;
+  }
+  .side-by-side-radio {
+    display: grid !important;
+    align-items: center;
+    gap: 2%;
+    grid-template-columns: 68% 28%;
+  }
+}

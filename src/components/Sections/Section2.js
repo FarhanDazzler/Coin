@@ -192,7 +192,9 @@ function Section2(props) {
       setans(getResponse.data?.s3);
       const finalList = child.filter((f) => getResponse.data?.s3.get(f.ques_text));
       const terminateList = terminate.filter((f) => getResponse.data?.s3.get(f.ques_text));
+      const tableAPIData = getResponse.data?.s2;
 
+      // getResponse
       if (finalList.length > 0) {
         setTimeout(() => {
           setfinal([
@@ -219,6 +221,8 @@ function Section2(props) {
             ...finalList,
             ...terminateList,
           ]);
+
+          if (tableAPIData?.length > 0) settable_data(tableAPIData);
         }, 50);
       }
       //
@@ -546,11 +550,13 @@ function Section2(props) {
         // console.log(res.data.data);
 
         for (let i = 0; i < res.data.data.length; i++) {
-          if (i === 0) {
-            table_data.push({ ...res.data.data[i], Numerator: 'NA', Denominator: 'NA' });
-          } else {
-            table_data.push(res.data.data[i]);
-          }
+          //TODO: check first NA
+          // if (i === 0) {
+          //   table_data.push({ ...res.data.data[i], Numerator: 'NA', Denominator: 'NA' });
+          // } else {
+          //  table_data.push(res.data.data[i]);
+          // }
+          table_data.push(res.data.data[i]);
           if (
             table_data[i].KPI_Value == '' ||
             table_data[i].KPI_Value == null ||
@@ -1176,10 +1182,20 @@ function Section2(props) {
             COwner: 'jaymin@ab-inbev.com',
             Response_Data: JSON.stringify({
               s1: Object.fromEntries(props.result),
+              s2: JSON.stringify(table_data),
               s3: Object.fromEntries(ans),
             }),
             Time_Stamp: '01/30/2023',
           };
+
+          // TODO: Save local data
+          // localStorage.setItem(
+          //   'userAns',
+          //   JSON.stringify({
+          //     s1: Object.fromEntries(props.result),
+          //     s3: Object.fromEntries(ans),
+          //   }),
+          // );
 
           localStorage.setItem(
             'userAns',

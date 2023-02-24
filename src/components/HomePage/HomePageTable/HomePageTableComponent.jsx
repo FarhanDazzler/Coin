@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import '../../../assets/styles/custom.css';
 import { class_to_apply, TABLE_ROES } from './constant';
 import { useEffect, useState } from 'react';
-import './tableStyles.scss';
+import Table from '../../UI/Table';
 
 const DashboardTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -116,7 +115,7 @@ const DashboardTable = () => {
   ];
 
   const handleControlIDClick = (id) => {
-    // TODO: Show modal new page
+    //TODO: modal redirect
     // history.push(`${history.location.pathname}?Control_ID=${id}`);
   };
 
@@ -132,28 +131,7 @@ const DashboardTable = () => {
       <div className="container mt-5">
         <div className="row pt-5">
           <div className="col col-lg-12">
-            <DataGrid
-              sx={{ width: '100%' }}
-              rows={tableData}
-              className="remove-search-boarder"
-              componentsProps={{
-                toolbar: { showQuickFilter: true },
-              }}
-              components={{
-                Toolbar: GridToolbar,
-              }}
-              columns={tableColumns}
-              autoHeight
-              classes={{
-                root: 'main-table-wrapper',
-                footerContainer: 'main-table-wrapper-footer',
-                columnHeaderTitleContainer: 'justify-content-center',
-                iconSeparator: 'opacity-0',
-                toolbarContainer: 'table-toolbar-wrapper',
-                panel: 'table-panel-wrapper',
-                panelHeader: '4564',
-              }}
-            />
+            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
           </div>
         </div>
       </div>

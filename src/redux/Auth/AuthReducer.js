@@ -8,6 +8,8 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 
+export const SET_LOGIN_USER_INFO = 'SET_LOGIN_USER_INFO';
+
 export const LOGOUT = 'LOGOUT';
 
 export const RESET_BLOCK_AUTH = 'RESET_BLOCK_AUTH';
@@ -24,10 +26,11 @@ const initialState = {
   signup: { ...block },
   login: { ...block },
   logout: { ...block },
+  loginInfo: {},
 };
 
-export const AuthReducer = (state = initialState, action) => {
-  switch (action.type) {
+export const AuthReducer = (state = initialState, { payload, type }) => {
+  switch (type) {
     case SIGNUP_REQUEST:
       return { ...state, signup: { ...state.signup, loading: true } };
     case SIGNUP_SUCCESS:
@@ -38,7 +41,7 @@ export const AuthReducer = (state = initialState, action) => {
     case SIGNUP_ERROR:
       return {
         ...state,
-        signup: { ...state.signup, loading: false, error: action.error },
+        signup: { ...state.signup, loading: false, error: payload },
       };
 
     case LOGIN_REQUEST:
@@ -51,7 +54,7 @@ export const AuthReducer = (state = initialState, action) => {
     case LOGIN_ERROR:
       return {
         ...state,
-        login: { ...state.login, loading: false, error: action.error },
+        login: { ...state.login, loading: false, error: payload },
       };
 
     case LOGOUT:
@@ -62,14 +65,19 @@ export const AuthReducer = (state = initialState, action) => {
           success: true,
         },
       };
+    case SET_LOGIN_USER_INFO:
+      return {
+        ...state,
+        loginInfo: { ...payload },
+      };
 
     //reset block with flag and data
     case RESET_BLOCK_AUTH:
       return {
         ...state,
-        [action.payload.blockType]: {
-          ...state[action.payload.blockType],
-          ...initialState[action.payload.blockType],
+        [payload.blockType]: {
+          ...state[payload.blockType],
+          ...initialState[payload.blockType],
         },
       };
 
@@ -77,8 +85,8 @@ export const AuthReducer = (state = initialState, action) => {
     case RESET_FLAGS_AUTH:
       return {
         ...state,
-        [action.payload.blockType]: {
-          ...state[action.payload.blockType],
+        [payload.blockType]: {
+          ...state[payload.blockType],
           ...block,
         },
       };

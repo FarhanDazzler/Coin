@@ -29,8 +29,8 @@ function AssessmentForm() {
   const dispatch = useDispatch();
   const history = useHistory();
   const sectionAns = useSelector(sectionAnsSelector);
-  const [getResponse, setGetResponse] = useState({ data: { s1: {}, s3: {} } });
-  // const getResponse = useSelector(getResponseSelector);
+  // const [getResponse, setGetResponse] = useState({ data: { s1: {}, s3: {} } });
+  const getResponse = useSelector(getResponseSelector);
   const getLocalAns = localStorage.getItem('userAns');
 
   const controlDataResponse = useSelector(getControlSelector);
@@ -49,10 +49,11 @@ function AssessmentForm() {
   var child_question = [];
 
   useEffect(() => {
-    const getLocalAnsJson = getLocalAns ? JSON.parse(getLocalAns) : { s1: {}, s3: {} };
-    const s1Data = new Map(Object.entries(getLocalAnsJson.s1));
-    const s3Data = new Map(Object.entries(getLocalAnsJson.s3));
-    setGetResponse({ data: { s1: s1Data, s3: s3Data } });
+    //TODO: localstorage save state data
+    // const getLocalAnsJson = getLocalAns ? JSON.parse(getLocalAns) : { s1: {}, s3: {} };
+    // const s1Data = new Map(Object.entries(getLocalAnsJson.s1));
+    // const s3Data = new Map(Object.entries(getLocalAnsJson.s3));
+    // setGetResponse({ data: { s1: s1Data, s3: s3Data } });
   }, []);
 
   useEffect(() => {
@@ -226,7 +227,7 @@ function AssessmentForm() {
 
         // dispatch(updateAssessmentAns(payload));
         Swal.fire('Submited!', 'Your response has been submited', 'success');
-        // history.push('/');
+        history.push('/');
       }
     });
   };
@@ -599,6 +600,7 @@ function AssessmentForm() {
     ),
   );
 
+  console.log('@@@@@@@@@', final, result, action_plan, getResponse);
   return (
     <>
       {sectionDisplay('Section 1: GENERAL')}
