@@ -4,11 +4,16 @@ import '../../../assets/styles/custom.css';
 import { class_to_apply, TABLE_ROES } from './constant';
 import { useEffect, useState } from 'react';
 import Table from '../../UI/Table';
+import { useDispatch, useSelector } from 'react-redux';
+import { useMsal } from '@azure/msal-react';
+import { getControlDataAction } from '../../../redux/ControlData/ControlDataAction';
 
 const DashboardTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const history = useHistory();
+  const { accounts } = useMsal();
+  const dispatch = useDispatch();
   const query = new URLSearchParams(history.location.search);
 
   const TABLE_COLUMNS = [
@@ -116,7 +121,12 @@ const DashboardTable = () => {
 
   const handleControlIDClick = (id) => {
     //TODO: modal redirect
-    // history.push(`${history.location.pathname}?Control_ID=${id}`);
+    // let payload = {
+    //   controlId : id,
+    //   coOwner: accounts.length > 0 ? accounts[0].username : ''
+    // }
+    // dispatch(getControlDataAction(payload ));
+    history.push(`${history.location.pathname}?Control_ID=${id}`);
   };
 
   useEffect(() => {

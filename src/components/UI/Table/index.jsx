@@ -1,5 +1,6 @@
 import React from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+
 import cs from 'classnames';
 import './tableStyles.scss';
 
@@ -37,6 +38,8 @@ const Table = ({
           panel: 'table-panel-wrapper',
           ...classes,
         }}
+        pageSize={5}
+        pagination
       />
     </div>
   );
