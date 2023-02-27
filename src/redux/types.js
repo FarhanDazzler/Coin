@@ -1,0 +1,7 @@
+// =================== Control Data ========================//
+
+export const ACTION_GET_CONTROL_DATA = 'ACTION_GET_CONTROL_DATA';
+export const ACTION_GET_CONTROL_DATA_SUCCESS = 'ACTION_GET_CONTROL_DATA_SUCCESS';
+export const ACTION_GET_CONTROL_DATA_FAILED = 'ACTION_GET_CONTROL_DATA_FAILED';
+
+// =================== Control Data ========================//

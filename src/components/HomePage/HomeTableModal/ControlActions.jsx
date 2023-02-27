@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import Button from '../../UI/Button';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ControlActions = () => {
   const [activeTab, setActiveTab] = useState('');
+  const stateControlData = useSelector((state) => state?.controlData?.data);
+  console.log("sate", stateControlData);
   return (
     <div className="control-actions-wrapper">
       <div className="pb-5 pt-4">
@@ -38,6 +41,29 @@ const ControlActions = () => {
             <p className="text-yellow-dark">Show More</p>
           </div>
         )}
+         {activeTab === 'LCD' && (
+          <div>
+            <p className="font-weight-bold mb-2">
+             {stateControlData.lcd}
+            </p>
+          </div>
+         )}
+          {activeTab === 'Scope' && (
+          <div>
+            <p className="mb-2">
+             <span className='font-weight-bold'>Receiving entity: </span><span>{stateControlData.receiving_entity}</span>
+            </p>
+            <p className="mb-2">
+             <span className='font-weight-bold'>Provider org: </span><span>{stateControlData.provider_org}</span>
+            </p>
+            <p className="mb-2">
+             <span className='font-weight-bold'>Period of assessment: </span><span>{stateControlData.priod_of_assessment}</span>
+            </p>
+            <p className="mb-2">
+             <span className='font-weight-bold'>Frequency of control: </span><span>{stateControlData.frequency}</span>
+            </p>
+          </div>
+         )}
       </div>
     </div>
   );
