@@ -41,29 +41,41 @@ const ControlActions = () => {
             <p className="text-yellow-dark">Show More</p>
           </div>
         )}
-         {activeTab === 'LCD' && (
+        {activeTab === 'LCD' && (
           <div>
             <p className="font-weight-bold mb-2">
-             {stateControlData.lcd}
+              {stateControlData.lcd}
             </p>
           </div>
-         )}
-          {activeTab === 'Scope' && (
+        )}
+        {activeTab === 'Scope' && (
           <div>
             <p className="mb-2">
-             <span className='font-weight-bold'>Receiving entity: </span><span>{stateControlData.receiving_entity}</span>
+              <span className='font-weight-bold'>Receiving entity: </span><span>{stateControlData.receiving_entity}</span>
             </p>
             <p className="mb-2">
-             <span className='font-weight-bold'>Provider org: </span><span>{stateControlData.provider_org}</span>
+              <span className='font-weight-bold'>Provider org: </span><span>{stateControlData.provider_org}</span>
             </p>
             <p className="mb-2">
-             <span className='font-weight-bold'>Period of assessment: </span><span>{stateControlData.priod_of_assessment}</span>
+              <span className='font-weight-bold'>Period of assessment: </span><span>{stateControlData.priod_of_assessment}</span>
             </p>
             <p className="mb-2">
-             <span className='font-weight-bold'>Frequency of control: </span><span>{stateControlData.frequency}</span>
+              <span className='font-weight-bold'>Frequency of control: </span><span>{stateControlData.frequency}</span>
+            </p>
+            <p className="mb-2">
+              <span className='font-weight-bold'>Mega Process: </span><span>{stateControlData.mega_process}</span>
             </p>
           </div>
-         )}
+        )}
+      </div>
+      <hr />
+      <div>
+        <p className="mb-2">
+          <span className='font-weight-bold'>Control Name: </span><span>{stateControlData.control_name}</span>
+        </p>
+        <p className="mb-2">
+             <span className='font-weight-bold'>Control Oversight: </span><span>{stateControlData.coversight}</span>
+            </p>
       </div>
     </div>
   );
