@@ -11,6 +11,7 @@
   font-size: 52px;
   line-height: 85px;
 }
+
 .home-right-overview {
   background: rgba(140, 140, 140, 0.14);
   border-radius: 18px;
@@ -22,11 +23,13 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 .wrapper-info-grid {
   display: grid;
   grid-template-columns: 50% 50%;
   align-items: center;
 }
+
 .largeNumber {
   font-weight: 700;
   font-size: 38.0513px;
@@ -34,11 +37,13 @@
   letter-spacing: -0.04em;
   margin-bottom: 10px;
 }
+
 .right-number {
-  display: grid;
+  // display: grid;
   grid-template-columns: 50% 50%;
   gap: 30px;
 }
+
 .graph-value {
   font-weight: 700;
   font-size: 64px;
@@ -51,12 +56,15 @@
   .user-name-home {
     font-size: 45px;
   }
+
   .graph-value {
     font-size: 50px;
   }
+
   .right-number {
     gap: 10px;
   }
+
   .wrapper-info-grid {
     gap: 10px;
   }
@@ -66,6 +74,7 @@
   .wrapper-info-grid {
     grid-template-columns: 100%;
   }
+
   .right-number {
     margin-top: 15px;
   }

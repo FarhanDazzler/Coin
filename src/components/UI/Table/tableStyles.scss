@@ -7,10 +7,12 @@
   .MuiDataGrid-columnHeaderTitle {
     color: #fff !important;
   }
+
   .MuiSvgIcon-root {
     color: #fff;
     fill: #fff;
   }
+
   background: #5c5c5c33;
   backdrop-filter: blur(20px);
 
@@ -22,23 +24,34 @@
     line-height: 1.7;
   }
 }
+
 .main-table-wrapper-footer {
-  display: none !important;
+  // display: none !important;
+  align-items: center;
+
+  .css-levciy-MuiTablePagination-displayedRows {
+    color: #f6ebeb;
+  }
 }
+
 .dashboardCell {
   justify-content: center !important;
 }
+
 .MuiDataGrid-columnHeader {
   backdrop-filter: blur(20px);
   background: #0e0e0efc;
 }
+
 .MuiDataGrid-cell,
 .MuiDataGrid-columnHeader {
   border: 1px solid rgba(255, 255, 255, 0.13) !important;
 }
+
 .text-yellow {
   color: #d3a306;
 }
+
 .text-yellow-dark {
   color: #eccf12ba;
 }
@@ -48,6 +61,7 @@
     color: #fff;
     margin: 4px 10px;
     position: relative;
+
     &:before {
       content: '';
       width: 1px;
@@ -57,36 +71,43 @@
       right: -10px;
     }
   }
+
   input {
     border-color: #ffffff00 !important;
     box-shadow: none !important;
     background: transparent !important;
     color: #fff;
+
     &:focus {
       border-color: #ffffff00 !important;
       box-shadow: none !important;
     }
   }
 }
+
 .MuiDataGrid-filterForm {
   svg {
     fill: #fff;
   }
+
   input,
   select,
   label {
     color: #fff;
   }
+
   option {
     background: black !important;
   }
 }
+
 .MuiDataGrid-panel {
   input {
     border-color: #ffffff00 !important;
     box-shadow: none !important;
     background: transparent !important;
     color: #fff;
+
     &:focus {
       border-color: #ffffff00 !important;
       box-shadow: none !important;
