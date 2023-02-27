@@ -10,7 +10,7 @@ import { getSimplifiedError } from '../../utils/error';
 function getControlDataApiCall(data) {
     console.log("saga", data.payload.data);
     let params = data.payload.data
-  return Axios.get('/get_control_scope?ControlID=' + params.controlId + '&coOwner=' + "40107970@ab-inbev.com");
+  return Axios.get('/get_control_scope?ControlID=' + params.controlId + '&coOwner=' + params.coOwner);
 }
 
 function* getControlData(payload) {
