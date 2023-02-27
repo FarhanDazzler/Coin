@@ -33,8 +33,8 @@ import { UserContext, UserContextProvider } from './context/userContext';
 import dataService from './services/dataService';
 import Question from './parts/Assessments/Question';
 import HomePage from './components/HomePage';
-import QuestionBank from './components/QuestionBank';
-import QuestionBankLandingPage from './pages/QuestionBank/QuestionBankLandingPage';
+//import QuestionBank from './components/QuestionBank';
+import QuestionBank from './pages/QuestionBank/QuestionBankLandingPage';
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -151,7 +151,7 @@ const Pages = () => {
             <Route exact path="/" component={Home_controlOwner} />
           )}
           <Route exact path="/Assessments/:Assessment_id" component={Question} />
-          <Route exact path="/questionbank" component={QuestionBankLandingPage} />
+          <Route exact path="/questionbank" component={QuestionBank} />
           <Route
             path="*"
             render={(props) => {
