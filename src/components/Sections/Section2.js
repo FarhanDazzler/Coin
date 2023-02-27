@@ -1183,7 +1183,7 @@ function Section2(props) {
             Response_Data: JSON.stringify({
               s1: Object.fromEntries(props.result),
               s2: JSON.stringify(table_data),
-              s3: Object.fromEntries(ans),
+              s3: JSON.stringify(["wewe", "wewe"]),
             }),
             Time_Stamp: '01/30/2023',
           };

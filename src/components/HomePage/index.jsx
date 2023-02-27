@@ -81,18 +81,6 @@ const HomePage = () => {
                   </div>
                   <div>
                     <div className="right-number">
-                      <NumberWithText
-                        number={12292}
-                        tooltip={
-                          <div>
-                            <span className="yellow-text"> Completed : </span>
-                            <span>
-                              Check if the control results are reflected correctly in scoring.
-                            </span>
-                          </div>
-                        }
-                        subTitle="Completed"
-                      />
 
                       <NumberWithText
                         number={61}
@@ -106,6 +94,19 @@ const HomePage = () => {
                           </div>
                         }
                         subTitle="Not started"
+                      />
+
+                      <NumberWithText
+                        number={12292}
+                        tooltip={
+                          <div>
+                            <span className="yellow-text"> Completed : </span>
+                            <span>
+                              Check if the control results are reflected correctly in scoring.
+                            </span>
+                          </div>
+                        }
+                        subTitle="Completed"
                       />
 
                       <NumberWithText
@@ -139,13 +140,13 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-        <div className="container">
+        {/* <div className="container">
           <div className="row mt-5">
             <div className="col-12 mt-5">
               <FilterHomePageTable />
             </div>
           </div>
-        </div>
+        </div> */}
         <FilterButtons />
         <DashboardTable />
         <HomeTableModal />
