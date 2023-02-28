@@ -4,6 +4,11 @@
   hr{
     margin: 1rem 0;
   }
+  .active{
+    background: #e7c55d !important;
+    color: #333333 !important;
+    font-weight: 600;
+  }
 }
 .modal-form-wrapper {
   padding: 40px;
