@@ -4,7 +4,16 @@ import FormControl from '@mui/material/FormControl';
 import './inpurstyles.scss';
 import FormLabel from '@mui/material/FormLabel';
 
-const Input = ({ formControlProps, formLabelProps, label, handleChange, block, value, ...res }) => {
+const Input = ({
+  formControlProps,
+  formLabelProps,
+  label,
+  handleChange,
+  block,
+  value,
+  fullInput,
+  ...res
+}) => {
   const onChange = ({ target: { value } }) => {
     if (handleChange) {
       handleChange(value, block);

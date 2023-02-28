@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import CollapseFrame from '../../UI/CollapseFrame';
 import { useSelector } from 'react-redux';
 import { getQuestionsSelector } from '../../../redux/Assessments/AssessmentSelectors';
-import { getFormatQuestions, handleSelectAns, tempData } from '../../../utils/helper';
+import { getFormatQuestions, handleSelectAns } from '../../../utils/helper';
 import RenderBlock from '../../RenderBlock';
+import { tempData } from '../HomePageTable/constant';
 
 const ControlSection3 = ({ setTerminating }) => {
   const getQuestions = useSelector(getQuestionsSelector);
@@ -40,7 +41,6 @@ const ControlSection3 = ({ setTerminating }) => {
     const formatQuestionsData = getFormatQuestions(tempData);
     setData(formatQuestionsData);
     setQuestion([formatQuestionsData[0]]);
-    console.log('formatQuestionsData', formatQuestionsData);
   }, []);
 
   useEffect(() => {

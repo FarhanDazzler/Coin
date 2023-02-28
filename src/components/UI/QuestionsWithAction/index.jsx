@@ -4,9 +4,9 @@ import Button from '../Button';
 import { ReactComponent as EditIcon } from '../../../assets/images/Edit.svg';
 import { ReactComponent as Delete } from '../../../assets/images/Trash.svg';
 
-const QuestionsWithAction = ({ number, text, withAction }) => {
+const QuestionsWithAction = ({ number, text, withAction, active }) => {
   return (
-    <div className="questions-with-action-wrapper">
+    <div className="questions-with-action-wrapper" style={{ opacity: active ? 1 : 0.5 }}>
       <div className="d-flex align-items-center w-100">
         <div className="questions-number">{number}</div>
         <p className="mb-0 question-text">{text}</p>

@@ -1,0 +1,56 @@
+//@import '../../../styles/variables.scss';
+.remove-attribute-modal {
+  height: 100vh;
+  background: rgba(13, 13, 13, 0.78);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999999999999;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2.5px);
+  &__subtitle {
+    min-height: 22px;
+  }
+  &__content {
+    padding: 21px 32px 32px;
+    text-align: center;
+    width: 356px;
+    height: max-content;
+    background: #ffffff;
+    border: 1px solid #cfcfcf;
+    border-radius: 4px;
+    .warningIcon {
+      height: 60px;
+    }
+  }
+  &__btn {
+    width: 100%;
+    box-shadow: 0px 2px 4px rgba(244, 111, 111, 0.15), inset 0px -2px 4px rgba(0, 0, 0, 0.05),
+      inset 0px 1px 3px rgba(255, 255, 255, 0.15);
+    border-radius: 4px !important;
+    cursor: pointer;
+    & > button {
+      cursor: pointer;
+      border: none;
+      background: inherit;
+      &:hover,
+      &:focus {
+        background: inherit;
+      }
+    }
+    &:first-child {
+      border: 1px solid #cfcfcf;
+    }
+    &:last-child {
+      background: #f46f6f;
+      & > button {
+        background: #f46f6f;
+        & > article {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}

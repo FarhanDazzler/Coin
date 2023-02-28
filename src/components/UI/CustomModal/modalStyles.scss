@@ -28,3 +28,11 @@
     backdrop-filter: blur(4.5px);
   }
 }
+
+.footer-action {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  padding: 15px 20px;
+  border-top: 1px solid #606060db;
+}

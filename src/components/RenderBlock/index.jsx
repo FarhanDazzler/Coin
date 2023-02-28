@@ -9,7 +9,7 @@ import RadioWithInput from '../UI/RadioWithInput';
 
 const RenderBlock = ({ blocks = [], handleChange }) => {
   return (
-    <div>
+    <div className="w-100">
       {blocks.map((block, i) => {
         if (!block) return;
         switch (block.question_type) {
@@ -41,7 +41,7 @@ const RenderBlock = ({ blocks = [], handleChange }) => {
 
           case 'RadioWithInput':
             return (
-              <RenderBlockWrapper>
+              <RenderBlockWrapper key={i}>
                 <RadioWithInput
                   block={block}
                   label={block.label}
