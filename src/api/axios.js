@@ -8,7 +8,7 @@ const cache = setupCache({
 });
 
 //const baseURL = process.env.REACT_APP_API_BASE_URL;
-const baseURL = "https://acoemicsgrcpwa-devbe.azurewebsites.net";
+const baseURL = 'https://acoemicsgrcpwa-devbe.azurewebsites.net';
 
 const getToken = (name = 'token') => {
   return Cookies.get(name);
