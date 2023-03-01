@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import Table from '../../UI/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
-import { getControlDataAction } from '../../../redux/ControlData/ControlDataAction';
+import { getControlDataAction, getControlDataGcdAction } from '../../../redux/ControlData/ControlDataAction';
 
 const DashboardTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -125,7 +125,11 @@ const DashboardTable = () => {
       controlId : id,
       coOwner: accounts.length > 0 ? accounts[0].username : ''
     }
+    let gcdPayload = {
+      controlId : id,
+    }
     dispatch(getControlDataAction(payload ));
+    dispatch(getControlDataGcdAction(gcdPayload))
     history.push(`${history.location.pathname}?Control_ID=${id}`);
   };
 
