@@ -1,31 +1,38 @@
 import React, { useState } from 'react';
 import Button from '../../UI/Button';
 import { useDispatch, useSelector } from 'react-redux';
+import ContentLoader from "react-content-loader";
 
 const ControlActions = () => {
   const [activeTab, setActiveTab] = useState('');
-  const stateControlData = useSelector((state) => state?.controlData?.data);
-  console.log("sate", stateControlData);
+  const [isReadMore, setIsReadMore] = useState(true);
+  const toggleReadMore = () => {
+    setIsReadMore(!isReadMore);
+  };
+  const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
+  const stateGcdData = useSelector((state) => state?.controlData?.gcd?.data);
+  console.log("sate", stateGcdData);
   return (
     <div className="control-actions-wrapper">
       <div className="pb-5 pt-4">
         <Button
-          disabled={activeTab && activeTab !== 'GCD'}
-          className="mr-4"
-          onClick={() => setActiveTab(activeTab ? '' : 'GCD')}
+          // disabled={activeTab && activeTab !== 'GCD'}
+          className={activeTab === 'GCD' ? "mr-4 active" : "mr-4"}
+          onClick={() => setActiveTab('GCD')}
         >
           Global Control Description (GCD)
         </Button>
         <Button
-          disabled={activeTab && activeTab !== 'LCD'}
-          className="mr-4"
-          onClick={() => setActiveTab(activeTab ? '' : 'LCD')}
+          // disabled={activeTab && activeTab !== 'LCD'}
+          className={activeTab === 'LCD' ? "mr-4 active" : "mr-4"}
+          onClick={() => setActiveTab('LCD')}
         >
           Local Control Description (LCD)
         </Button>
         <Button
-          disabled={activeTab && activeTab !== 'Scope'}
-          onClick={() => setActiveTab(activeTab ? '' : 'Scope')}
+          // disabled={activeTab && activeTab !== 'Scope'}
+          className={activeTab === 'Scope' ? "mr-4 active" : "mr-4"}
+          onClick={() => setActiveTab('Scope')}
         >
           Scope
         </Button>
@@ -33,12 +40,20 @@ const ControlActions = () => {
       <div className="control-actions-collapse">
         {activeTab === 'GCD' && (
           <div>
-            <p className="font-weight-bold mb-2">
-              MICS L1 - Minimal Requirements To Protect Financial Statement From Material Mistakes
-              (External Compliance)
-            </p>
-            <p className="mb-2">Not tested for external compliance. Minimum compliance is L2. </p>
-            <p className="text-yellow-dark">Show More</p>
+            {isReadMore ? 
+            <p>{stateGcdData[0].mics_L1desc.slice(0, 600)}</p> : 
+            <>
+            <p>{stateGcdData[0]?.mics_L1desc}</p>
+            <p>{stateGcdData[0]?.mics_L2desc}</p>
+            <p>{stateGcdData[0]?.mics_L3desc}</p>
+            </>
+            }
+           
+            <strong>
+              <span onClick={toggleReadMore} className="golden-text read-or-hide">
+                {isReadMore ? '...Show more' : ' Show less'}
+              </span>
+            </strong>
           </div>
         )}
         {activeTab === 'LCD' && (
@@ -71,11 +86,36 @@ const ControlActions = () => {
       <hr />
       <div>
         <p className="mb-2">
-          <span className='font-weight-bold'>Control Name: </span><span>{stateControlData.control_name}</span>
+          <span className='font-weight-bold'>Control Name: </span>
+          <span>{
+          stateControlData.control_name ? stateControlData.control_name :
+          
+            <ContentLoader
+            height={38}
+            speed={1}
+            backgroundColor={'rgba(33, 33, 33, 0.1)'}
+            foregroundColor={'#999'}
+            viewBox="70 23 354 60"
+          >
+            {/* Only SVG shapes */}
+            <rect x="80" y="40" rx="5" ry="5" width="250" height="25" />
+          </ContentLoader>}</span>
         </p>
         <p className="mb-2">
-             <span className='font-weight-bold'>Control Oversight: </span><span>{stateControlData.coversight}</span>
-            </p>
+          <span className='font-weight-bold'>Control Oversight: </span>
+          <span>{stateControlData.coversight ? stateControlData.coversight :
+          <ContentLoader
+          height={38}
+          speed={1}
+          backgroundColor={'rgba(33, 33, 33, 0.1)'}
+          foregroundColor={'#999'}
+          viewBox="70 23 354 60"
+        >
+          {/* Only SVG shapes */}
+          <rect x="80" y="40" rx="5" ry="5" width="250" height="25" />
+        </ContentLoader>
+          }</span>
+        </p>
       </div>
     </div>
   );
