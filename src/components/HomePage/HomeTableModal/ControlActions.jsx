@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../../UI/Button';
 import { useDispatch, useSelector } from 'react-redux';
+import ContentLoader from "react-content-loader";
 
 const ControlActions = () => {
   const [activeTab, setActiveTab] = useState('');
@@ -85,10 +86,35 @@ const ControlActions = () => {
       <hr />
       <div>
         <p className="mb-2">
-          <span className='font-weight-bold'>Control Name: </span><span>{stateControlData.control_name}</span>
+          <span className='font-weight-bold'>Control Name: </span>
+          <span>{
+          stateControlData.control_name ? stateControlData.control_name :
+          
+            <ContentLoader
+            height={38}
+            speed={1}
+            backgroundColor={'rgba(33, 33, 33, 0.1)'}
+            foregroundColor={'#999'}
+            viewBox="70 23 354 60"
+          >
+            {/* Only SVG shapes */}
+            <rect x="80" y="40" rx="5" ry="5" width="250" height="25" />
+          </ContentLoader>}</span>
         </p>
         <p className="mb-2">
-          <span className='font-weight-bold'>Control Oversight: </span><span>{stateControlData.coversight}</span>
+          <span className='font-weight-bold'>Control Oversight: </span>
+          <span>{stateControlData.coversight ? stateControlData.coversight :
+          <ContentLoader
+          height={38}
+          speed={1}
+          backgroundColor={'rgba(33, 33, 33, 0.1)'}
+          foregroundColor={'#999'}
+          viewBox="70 23 354 60"
+        >
+          {/* Only SVG shapes */}
+          <rect x="80" y="40" rx="5" ry="5" width="250" height="25" />
+        </ContentLoader>
+          }</span>
         </p>
       </div>
     </div>
