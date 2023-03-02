@@ -41,6 +41,7 @@ function Section2(props) {
   const [excelData, setExcelData] = useState(null);
   const [check_table, setcheck_table] = useState(0);
   const [table_data, settable_data] = useState([]);
+  const [submit1, setSubmit1] = useState();
   let [final, setfinal] = useState([]);
   let [Level, setLevel] = useState([]);
   let [child_submit, setchild_submit] = useState(new Map());
@@ -1569,6 +1570,7 @@ function Section2(props) {
                           onChange={(e) => {
                             ans.set(item.ques_text, e.target.value);
                             // console.log(ans);
+                            setSubmit1(e.target.value);
                             setans((prev) => new Map([...prev]));
                           }}
                         >
@@ -1595,6 +1597,7 @@ function Section2(props) {
                     // onClick={click}
                     style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
                     type="submit"
+                    disabled={!submit1}
                     // onSubmit={(e) => submit(props, e, final, hash, setchildterminate)}
                   >
                     SUBMIT
@@ -1785,6 +1788,7 @@ function Section2(props) {
                             id={item.id}
                             value={hash.get(item.ques_text)}
                             onChange={(e) => {
+                              setSubmit1(e.target.value);
                               child_terminate(item, e);
                             }}
                           >
@@ -1802,6 +1806,7 @@ function Section2(props) {
                                 //  onClick={click}
                                 style={{ fontSize: 24, height: ' 50px', width: '100%' }}
                                 type="submit"
+                                disabled={!submit1}
                               >
                                 SUBMIT
                               </Button>
@@ -1838,6 +1843,7 @@ function Section2(props) {
                               onChange={(e) => {
                                 ans.set(item.ques_text, e.target.value);
                                 // console.log(ans);
+                                setSubmit1(e.target.value);
                                 setans((prev) => new Map([...prev]));
                               }}
                             />
@@ -1861,6 +1867,7 @@ function Section2(props) {
                         //  onClick={click}
                         style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
                         type="submit"
+                        disabled={!submit1}
                       >
                         SUBMIT
                       </Button>{' '}
