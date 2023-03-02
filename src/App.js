@@ -35,6 +35,7 @@ import Question from './parts/Assessments/Question';
 import HomePage from './components/HomePage';
 //import QuestionBank from './components/QuestionBank';
 import QuestionBank from './pages/QuestionBank/QuestionBankLandingPage';
+import NotAuthorized from './pages/NotAuthorized/NotAuthorizedPage';
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -152,6 +153,7 @@ const Pages = () => {
           )}
           <Route exact path="/Assessments/:Assessment_id" component={Question} />
           <Route exact path="/questionbank" component={QuestionBank} />
+          <Route exact path="/not-authorized" component={NotAuthorized} />
           <Route
             path="*"
             render={(props) => {
