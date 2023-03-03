@@ -24,7 +24,7 @@ function* handleGetSection3({ payload }) {
     if (response.success) {
       yield put({
         type: GET_SECTION_3_MICS_SUCCESS,
-        payload: response.data,
+        payload: { data: response.data, Level: { [payload.Level]: response.data } },
       });
     }
   } catch (error) {

@@ -24,7 +24,7 @@ const block = {
 };
 
 const initialState = {
-  question: { ...block, data: [] },
+  question: { ...block, data: [], Level: {} },
   questionAdd: { ...block },
   questionUpdate: { ...block },
   questionDelete: { ...block },
@@ -40,7 +40,12 @@ export const QuestionsReducer = (state = initialState, { type, payload = {} }) =
     case GET_SECTION_3_MICS_SUCCESS:
       return {
         ...state,
-        question: { ...state.question, data: payload, loading: false },
+        question: {
+          ...state.question,
+          data: payload.data,
+          Level: { ...state.question.Level, ...payload.Level },
+          loading: false,
+        },
       };
     case GET_SECTION_3_MICS_ERROR:
       return {

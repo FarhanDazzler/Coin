@@ -15,6 +15,7 @@ import ControlSection3 from './ControlSection3';
 import Button from '../../UI/Button';
 import { getQuestionsSelector } from '../../../redux/Assessments/AssessmentSelectors';
 import { Loader } from '@mantine/core';
+import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
 
 const HomeTableModal = () => {
   const history = useHistory();
@@ -28,6 +29,10 @@ const HomeTableModal = () => {
   const handleClose = () => {
     history.push('/new');
   };
+
+  useEffect(() => {
+    dispatch(getSection3Questions({ Level: 'L1', Control_ID: Control_ID }));
+  }, [showMoreSection]);
 
   useEffect(() => {
     dispatch(getAssessmentAns({ COwner: 'jaymin@ab-inbev.com', Control_ID: Control_ID }));

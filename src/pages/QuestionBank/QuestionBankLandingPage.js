@@ -13,7 +13,7 @@ const QuestionBank = () => {
   const [openCreateQuestions, setOpenCreateQuestions] = useState(false);
 
   const handleOpenCreateQuestions = () => {
-    // setOpenCreateQuestions(true);
+    setOpenCreateQuestions(true);
   };
   const handleCloseCreateQuestions = () => {
     setOpenCreateQuestions(false);

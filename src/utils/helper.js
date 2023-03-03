@@ -1,6 +1,6 @@
 import blockType from '../components/RenderBlock/constant';
 
-export const getFormatQuestions = (questions, action) => {
+export const getFormatQuestions = (questions, action, startStr) => {
   const isQuestionLabelEdit = action === 'isQuestionEdit';
   return questions.map((d, i) => {
     switch (d.question_type) {
@@ -12,7 +12,7 @@ export const getFormatQuestions = (questions, action) => {
         return {
           ...d,
           isQuestionLabelEdit,
-          label: d.question_text,
+          label: `${startStr ? startStr + ': ' : ''}${d.question_text}`,
           question_options: d.options,
           options: optionData,
           show: i === 0,
@@ -26,7 +26,7 @@ export const getFormatQuestions = (questions, action) => {
           ...d,
           label: d.Header_Question || d.question_text,
           isQuestionLabelEdit,
-          renderOption: getFormatQuestions(d.innerOptions),
+          renderOption: getFormatQuestions(d.innerOptions, null, startStr),
         };
 
       default:
@@ -187,3 +187,45 @@ export const getQuestionsFormatData = (data) => {
     };
   });
 };
+
+// TODO: old multi select logic
+// if (block.child_questions) {
+//   if (block.renderOption.length === Object.keys(ans[block.q_id]).length) {
+//     const selectedOptionLabel = [];
+//     const child_question_ids = {};
+//     block.innerOptions.forEach((d) => {
+//       d.options.forEach((o) => {
+//         if (o.option_id === newAnsList[block.q_id][d.q_id]) {
+//           selectedOptionLabel.push(o.option_value);
+//           child_question_ids[o.option_value] = o.child_question;
+//         }
+//       });
+//     });
+//     const filterOptions = [...new Set(selectedOptionLabel)];
+//     if (filterOptions.length === 1) {
+//       const selectedChildId = child_question_ids[filterOptions[0]];
+//       const findNewQuestion = childData.find((cd) => cd.q_id === selectedChildId);
+//       if (findNewQuestion) {
+//         if (ans[findNewQuestion.q_id])
+//           newAnsList[findNewQuestion.q_id] = ans[findNewQuestion.q_id];
+//         newQuestionList.push(findNewQuestion);
+//         childData = childData.filter((d) => d.q_id !== selectedChildId);
+//       }
+//     } else {
+//       const selectedNoChildId = child_question_ids['No'];
+//       const findNewNoQuestion = childData.find((cd) => cd.q_id === selectedNoChildId);
+//       if (findNewNoQuestion) {
+//         if (ans[findNewNoQuestion.q_id])
+//           newAnsList[findNewNoQuestion.q_id] = ans[findNewNoQuestion.q_id];
+//         newQuestionList.push(findNewNoQuestion);
+//         childData = childData.filter((d) => d.q_id !== selectedNoChildId);
+//       }
+//     }
+//   }
+// } else {
+//   if (parentData.length > 0) {
+//     if (ans[parentData[0].q_id]) newAnsList[parentData[0].q_id] = ans[parentData[0].q_id];
+//     newQuestionList.push(parentData[0]);
+//     delete parentData.shift();
+//   }
+// }

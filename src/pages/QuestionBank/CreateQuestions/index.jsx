@@ -50,6 +50,14 @@ const CreateQuestions = ({ open, handleClose }) => {
     setControl_ID(typeof value === 'string' ? value.split(',') : value);
   };
 
+  useEffect(() => {
+    if (section3.length > 0) {
+      setShowAddQuestion(false);
+    } else {
+      setShowAddQuestion(true);
+    }
+  }, [section3]);
+
   const handleChangeLevel = (event) => {
     const {
       target: { value },
@@ -66,11 +74,9 @@ const CreateQuestions = ({ open, handleClose }) => {
     if (questionData.data.length > 0) {
       const apiQuestion = getQuestionsFormatData(questionData.data);
       setSection3(getFormatQuestions(apiQuestion, 'isQuestionEdit'));
-      setShowAddQuestion(false);
       return;
     }
     setSection3([]);
-    setShowAddQuestion(true);
   }, [questionData.data]);
 
   useEffect(() => {
@@ -83,7 +89,8 @@ const CreateQuestions = ({ open, handleClose }) => {
     if (value === 'delete') {
       const updateSection3 = section3.filter((section) => section.Control_ID !== block.Control_ID);
       setSection3(updateSection3);
-      dispatch(deleteSection3Questions({ Control_ID: control_ID[0], Level: level[0] }));
+      if (questionData.data.length > 0)
+        dispatch(deleteSection3Questions({ Control_ID: control_ID[0], Level: level[0] }));
       if (updateSection3.length === 0) {
         setShowAddQuestion(true);
       }
@@ -111,7 +118,11 @@ const CreateQuestions = ({ open, handleClose }) => {
         Level: level[0],
         Control_ID: control_ID[0],
       };
-      dispatch(updateSection3Questions(payload));
+      if (questionData.data.length > 0) {
+        dispatch(updateSection3Questions(payload));
+      } else {
+        dispatch(addSection3Questions(payload));
+      }
       handleClose();
     }
   };
@@ -123,7 +134,7 @@ const CreateQuestions = ({ open, handleClose }) => {
       Inner_Questions: '',
       Level: level[0],
     };
-    dispatch(addSection3Questions(payload));
+    // dispatch(addSection3Questions(payload));
 
     const newDataQuestion = getQuestionsFormatData([payload]);
     setSection3(getFormatQuestions(newDataQuestion, 'isQuestionEdit'));
