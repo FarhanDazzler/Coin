@@ -38,6 +38,7 @@
     "react-bootstrap-table2-paginator": "^2.1.2",
     "react-circle-progress-bar": "^0.1.1",
     "react-circular-progressbar": "^2.1.0",
+    "react-content-loader": "^6.2.0",
     "react-d3-speedometer": "^1.0.2",
     "react-datetime": "^3.1.1",
     "react-device-detect": "^2.0.0",
@@ -105,5 +106,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "npm-install-peers": "^1.2.2"
   }
 }
