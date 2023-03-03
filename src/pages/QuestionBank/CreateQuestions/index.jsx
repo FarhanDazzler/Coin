@@ -259,7 +259,7 @@ const CreateQuestions = ({ open, handleClose }) => {
               )}
             </div>
             <div className="d-flex align-items-center justify-content-end">
-              <Button variant="text" color="secondary" onClikc={handleClose}>
+              <Button variant="text" color="secondary" onClick={handleClose}>
                 Cancel
               </Button>
               <Button

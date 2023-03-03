@@ -6,7 +6,6 @@ const MultiSelectButton = (props) => {
   const [searchValue, onSearchChange] = useState('');
   const [data, setData] = useState([]);
   const [value, setValue] = useState([]);
-  console.log(value);
 
   useEffect(() => {
     if (props.data?.length > 0) {
