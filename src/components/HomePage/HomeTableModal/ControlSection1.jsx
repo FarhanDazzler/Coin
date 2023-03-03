@@ -36,15 +36,24 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating }) => {
       setTerminating(isTerminating);
       setAns(newAnsList);
       setQuestion(newQuestionList);
-      setShowMoreSection(newQuestionList.length === Object.keys(newAnsList).length);
+      if (newQuestionList.length > 2)
+        setShowMoreSection(newQuestionList.length === Object.keys(newAnsList).length);
     }
   }, [lastAns]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const div = document.getElementById('lastShow');
+      if (div) div.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+    }, 200);
+  }, [question.length]);
 
   return (
     <div>
       <CollapseFrame title="Section 1 : Standard" active>
         <div className="mt-5">
           <RenderBlock blocks={question} handleChange={handleChange} />
+          <div id="lastShow" />
           {/*<Table />*/}
         </div>
       </CollapseFrame>

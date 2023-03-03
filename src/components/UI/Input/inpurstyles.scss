@@ -1,6 +1,9 @@
 .input-wrapper {
   width: 100%;
   max-width: 600px;
+  &.full-input {
+    max-width: 100%;
+  }
   .MuiOutlinedInput-input {
     padding: 5px 8px;
   }

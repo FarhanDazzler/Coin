@@ -1,0 +1,70 @@
+$inter-medium: 'inter-medium';
+$inter-bold: 'inter-bold';
+$inter-thin: 'inter-thin';
+$inter-semi-bold: 'inter-semi-bold';
+$inter-regular: 'inter-regular';
+$inter-light: 'inter-light';
+$inter-extra-light: 'inter-extra-light';
+$inter-bold: 'inter-bold';
+$inter-black: 'inter-black';
+
+$weights: (medium, semibold, regular);
+
+@mixin typography($value, $weight) {
+  font-size: $value + px !important;
+  @if ($value==10) {
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: $value + px;
+  }
+  @if ($weight== 'medium') {
+    font-weight: 500 !important;
+  } @else if($weight== 'semibold') {
+    font-weight: 600 !important;
+  } @else if($weight == 'regular') {
+    font-weight: 400 !important;
+  }
+  @if ($value==32 and $weight== 'medium') {
+    line-height: 40px;
+  } @else if($value==18) {
+    @if ($weight== 'semibold') {
+      line-height: 24px;
+    } @else if($weight== 'medium') {
+      line-height: 20px;
+    }
+  } @else if($value==16) {
+    @if ($weight== 'regular') {
+      line-height: 20px;
+    } @else if($weight== 'medium') {
+      line-height: 20px;
+    }
+  } @else if($value==14) {
+    @if ($weight== 'regular') {
+      line-height: 22px;
+    } @else if($weight== 'medium') {
+      line-height: 20px;
+    } @else if($weight== 'semibold') {
+      line-height: 18px;
+    }
+  } @else if($value==12) {
+    @if ($weight== 'regular') {
+      line-height: 16px;
+    } @else if($weight== 'medium') {
+      line-height: 16px;
+    } @else if($weight== 'semibold') {
+      line-height: 16px;
+    }
+  } @else if($value==11) {
+    line-height: 16px;
+  } @else if($value == 40) {
+    line-height: 48px;
+  }
+}
+
+@each $weight in $weights {
+  @for $i from 10 through 48 {
+    .typography-#{$i}-#{$weight} {
+      @include typography($i, $weight);
+    }
+  }
+}

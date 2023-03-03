@@ -3,7 +3,7 @@ import Modal from '@mui/material/Modal';
 import './modalStyles.scss';
 
 const CustomModal = ({
-  title = 'test title',
+  title = 'title',
   bodyClassName,
   width = 600,
   children,
@@ -20,7 +20,9 @@ const CustomModal = ({
       <Modal classes={{ root: rootClass, ...classes }} {...res}>
         <div className="modal-wrapper" style={{ maxWidth: width }}>
           {title && <div className="model-header">{title}</div>}
-          <div className={`modal-body ${bodyClassName ? bodyClassName : ''}`}>{children}</div>
+          <div className={`modal-body ${bodyClassName ? bodyClassName : ''}`} id="modal-body">
+            {children}
+          </div>
         </div>
       </Modal>
     </div>

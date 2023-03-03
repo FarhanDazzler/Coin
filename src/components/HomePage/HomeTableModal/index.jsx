@@ -3,7 +3,7 @@ import CustomModal from '../../UI/CustomModal';
 import { useHistory } from 'react-router-dom';
 import ControlActions from './ControlActions';
 import './homeTableModalStyles.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   getAssessmentAns,
   getKPIData,
@@ -13,11 +13,15 @@ import ControlSection1 from './ControlSection1';
 import ControlSection2 from './ControlSection2';
 import ControlSection3 from './ControlSection3';
 import Button from '../../UI/Button';
+import { getQuestionsSelector } from '../../../redux/Assessments/AssessmentSelectors';
+import { Loader } from '@mantine/core';
+import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
 
 const HomeTableModal = () => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const dispatch = useDispatch();
+  const questionsInfo = useSelector(getQuestionsSelector);
   const ans = localStorage.getItem('userAns');
   const [showMoreSection, setShowMoreSection] = useState(false);
   const [terminating, setTerminating] = useState(false);
@@ -25,6 +29,10 @@ const HomeTableModal = () => {
   const handleClose = () => {
     history.push('/new');
   };
+
+  useEffect(() => {
+    dispatch(getSection3Questions({ Level: 'L1', Control_ID: Control_ID }));
+  }, [showMoreSection]);
 
   useEffect(() => {
     dispatch(getAssessmentAns({ COwner: 'jaymin@ab-inbev.com', Control_ID: Control_ID }));
@@ -48,24 +56,31 @@ const HomeTableModal = () => {
       >
         <div className="modal-form-body">
           <ControlActions />
-          <div className="p-5">
-            <ControlSection1
-              setTerminating={setTerminating}
-              setShowMoreSection={setShowMoreSection}
-            />
-            {showMoreSection && (
-              <>
-                <ControlSection2 />
-                <ControlSection3 setTerminating={setTerminating} />
-              </>
-            )}
 
-            {terminating && (
-              <Button color="neutral" className="w-100">
-                Submit
-              </Button>
-            )}
-          </div>
+          {questionsInfo.loading ? (
+            <div className="d-flex w-100 align-items-center justify-content-center py-5 my-5">
+              <Loader color="#d3a306" />
+            </div>
+          ) : (
+            <div className="p-5">
+              <ControlSection1
+                setTerminating={setTerminating}
+                setShowMoreSection={setShowMoreSection}
+              />
+              {showMoreSection && (
+                <>
+                  <ControlSection2 />
+                  <ControlSection3 setTerminating={setTerminating} />
+                </>
+              )}
+
+              {terminating && (
+                <Button color="neutral" className="w-100">
+                  Submit
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </CustomModal>
     </div>

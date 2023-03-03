@@ -5,6 +5,7 @@ import { Select as SelectBase } from '@mui/material';
 import './selectStyles.scss';
 
 const Select = ({ options, classes = {}, placeholder, ...rest }) => {
+  console.log('placeholder', placeholder);
   return (
     <SelectBase
       input={<OutlinedInput classes={{ root: 'select-options', ...classes }} />}
@@ -13,7 +14,7 @@ const Select = ({ options, classes = {}, placeholder, ...rest }) => {
     >
       {placeholder && (
         <MenuItem disabled value="">
-          <em>Placeholder</em>
+          <em>{placeholder}</em>
         </MenuItem>
       )}
 
