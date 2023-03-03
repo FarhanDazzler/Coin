@@ -118,7 +118,7 @@ const ControlSection3 = ({
       updateAns.L3 = ans.L3;
       setAns(updateAns);
     }
-  }, [questionData.loading]);
+  }, [lastAns]);
 
   useEffect(() => {
     if (questionData.Level?.L1) {
