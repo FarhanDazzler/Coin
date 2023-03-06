@@ -61,7 +61,7 @@ const HomeTableModal = () => {
   const handleSubmit = () => {
     Swal.fire({
       title: 'Are you sure?',
-      text: 'The Assessment is failed !',
+      text: '',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
