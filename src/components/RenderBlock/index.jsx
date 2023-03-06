@@ -55,7 +55,12 @@ const RenderBlock = ({ blocks = [], handleChange }) => {
           case blockType.TEXT:
             return (
               <RenderBlockWrapper key={i}>
-                <Input label={block.label} block={block} handleChange={handleChange} />
+                <Input
+                  label={block.label}
+                  required={block.required}
+                  block={block}
+                  handleChange={handleChange}
+                />
               </RenderBlockWrapper>
             );
           default:

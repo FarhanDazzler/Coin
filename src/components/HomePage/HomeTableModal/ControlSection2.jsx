@@ -128,14 +128,14 @@ const ControlSection2 = ({ tableData, setTableData }) => {
         ...headerStyles,
       },
       editable: (value, row, rowIndex, columnIndex) =>
-        editProductIds.idNumeratorList.includes(row.id),
+        editProductIds.idNumeratorList?.includes(row.id),
       editor: { type: 'number' },
     },
     {
       dataField: 'Denominator',
       text: 'Denominator',
       editable: (value, row, rowIndex, columnIndex) =>
-        editProductIds.idDenominatorList.includes(row.id),
+        editProductIds.idDenominatorList?.includes(row.id),
       editor: { type: 'number' },
       headerStyle: {
         ...headerStyles,

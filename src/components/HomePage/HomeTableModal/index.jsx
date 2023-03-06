@@ -37,7 +37,7 @@ const HomeTableModal = () => {
 
   useEffect(() => {
     dispatch(getAssessmentAns({ COwner: 'jaymin@ab-inbev.com', Control_ID: Control_ID }));
-    dispatch(getQuestions({ Control_ID: Control_ID }));
+    dispatch(getQuestions({ Control_ID: 'Standard' }));
     dispatch(
       getKPIData({
         ControlID: 'ATR_ACCR_01b-K',

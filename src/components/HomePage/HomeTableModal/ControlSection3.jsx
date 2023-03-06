@@ -79,6 +79,11 @@ const ControlSection3 = ({
         } else {
           setShowNoQuestion(false);
         }
+      } else {
+        if (ans.L1) {
+          updateAns.L1 = ans.L1;
+          setAns(updateAns);
+        }
       }
     }
     if (ans.L2) {
@@ -100,6 +105,13 @@ const ControlSection3 = ({
         } else {
           setShowNoQuestion(false);
         }
+      } else {
+        if (ans.L2) {
+          updateAns.L2 = ans.L2;
+          setAns(updateAns);
+        }
+        updateAns.L2 = ans.L2;
+        setAns(updateAns);
       }
     }
     if (ans.L3) {
@@ -166,6 +178,7 @@ const ControlSection3 = ({
                 label="Based on above response, action plans needs to be created on the failed control. Request you to elaborate the action Plan?
 (Hint: Action plan is a time bound proposition designed to remediate the control breakdown with the objective of ensuring MICS compliance)"
                 value={showNoQuestionAns}
+                required
                 handleChange={handleChangeNoQuestion}
               />
             </RenderBlockWrapper>
