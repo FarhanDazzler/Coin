@@ -40,6 +40,8 @@ function AssessmentForm() {
   const [id, setid] = useState([]);
   let [flag, setflag] = useState('false');
   const [isDisabled, setIsDisabled] = useState(false);
+  const [email, setEmail] = useState();
+  const [textArea, setTextArea] = useState()
   const child_map = new Map();
   var [result, setresult] = useState(new Map());
   const [action_plan, setaction_plan] = useState(new Map());
@@ -47,7 +49,38 @@ function AssessmentForm() {
   const [scope, setscope] = useState({});
   var parentQuestions = [];
   var child_question = [];
-
+  console.log(email);
+  const handleChange = (e, name) => {
+    console.log("name", name);
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(name === "email"){
+      const value = e.target.value.trim().toLowerCase();
+    console.log(value);
+    const isValidEmail = re.test(value);
+   
+      setEmail({
+        value,
+        message : "Email is not valid",
+        error: !isValidEmail
+      });
+    }else if(name === "textarea"){
+      console.log("text",e.target.value.length);
+      if(e.target.value.length === 0){
+        setTextArea({
+          message : "Required",
+          error: true
+        })
+      }else{
+        setTextArea({
+          message : "",
+          error: false
+        })
+      }
+    }
+    
+  
+    
+  };
   useEffect(() => {
     //TODO: localstorage save state data
     // const getLocalAnsJson = getLocalAns ? JSON.parse(getLocalAns) : { s1: {}, s3: {} };
@@ -235,7 +268,6 @@ function AssessmentForm() {
   const add = async (parent_ques, option_value, event, i) => {
     // console.log(parent_ques.q_id);
     // console.log(parent_ques.parent_qid);
-    // console.log();
     child_question[child_question.length - 1].is_Terminating = 1;
 
     let result1 = parent_ques.question_text;
@@ -547,6 +579,7 @@ function AssessmentForm() {
           </strong>
           <br />
           {number.question_text != 'To whom did you hand over ?' ? (
+            <>
             <textarea
               type={'textarea'}
               class="form-control"
@@ -558,11 +591,16 @@ function AssessmentForm() {
               onChange={(event) => {
                 {
                   // console.log(number);
+                  handleChange(event, "textarea");
                   add(number, number, event, i);
                 }
               }}
             />
+            {textArea?.error && <p style={{ fontSize: '14px', color:'red' }}>{textArea?.message}</p>}
+            </>
           ) : (
+            <>
+            
             <input
               type="email"
               class="form-control"
@@ -572,11 +610,14 @@ function AssessmentForm() {
               required
               onChange={(event) => {
                 {
-                  // console.log(number);
+                  handleChange(event, "email");
                   add(number, number, event, i);
                 }
               }}
             />
+            {email?.error && <p style={{ fontSize: '14px', color:'red' }}>{email?.message}</p>}
+            
+            </>
           )}
 
           {/* <textarea
@@ -617,6 +658,7 @@ function AssessmentForm() {
               onClick={submit_section1}
               style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
               type="button"
+              disabled={email?.error}
             >
               SUBMIT
             </Button>

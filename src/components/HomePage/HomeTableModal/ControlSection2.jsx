@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+//import axios from 'axios';
 import CollapseFrame from '../../UI/CollapseFrame';
 import { useSelector } from 'react-redux';
 import { kpiResultSelector } from '../../../redux/Assessments/AssessmentSelectors';
@@ -8,12 +9,13 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import Workbook from 'react-excel-workbook';
 import readXlsxFile from 'read-excel-file';
+import { Axios } from '../../../api/axios.js';
 
 const headerStyles = { backgroundColor: '#f1c40f', color: '#000000', fontWeight: '700' };
 
-const ControlSection2 = () => {
+const ControlSection2 = ({ tableData, setTableData }) => {
   const kpiResultData = useSelector(kpiResultSelector);
-  const [tableData, setTableData] = useState([]);
+
   const [editProductIds, setEditProductIds] = useState([
     { idNumeratorList: [], idDenominatorList: [] },
   ]);
@@ -241,6 +243,7 @@ const ControlSection2 = () => {
         idDenominatorList: idDenominatorList,
       });
       setTableData(table_data);
+      console.log(table_data, 'Section 2 data');
     }
   }, [kpiResultData]);
 
@@ -345,11 +348,84 @@ const ControlSection2 = () => {
     setTableData(updateProduct);
   }
 
+  const Section2ExcelDataValidation = (old_table, new_table) => {
+    var myHeaders = new Headers();
+    myHeaders.append('Authorization', 'Basic Q09JTjpDT0lOX1NlY3VyZUAxMjM=');
+    myHeaders.append('Content-Type', 'application/json');
+
+    var apiBody = JSON.stringify({
+      input_table: old_table,
+      output_table: new_table,
+    });
+
+    console.log(apiBody, 'API BODY For Section 2');
+
+    var requestParameters = {
+      method: 'POST',
+      headers: myHeaders,
+      body: apiBody,
+    };
+
+    fetch('https://acoemicsgrcpwa-devbe.azurewebsites.net/is_csv_tampered', requestParameters)
+      .then((response) => response.text())
+      .then((response) => {
+        console.log(JSON.parse(response).data, 'Check Section 2 validation data');
+
+        const flag = JSON.parse(response).data;
+        if (flag) {
+          //console.log('Not Valid');
+          alert("Please don't change the existing values from excel file!!");
+        } else {
+          console.log('Valid');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  console.log(excelFile, 'after upload');
   const handleSubmit = (e) => {
     e.preventDefault();
     if (excelFile !== null) {
       document.getElementById('combine_btn').reset();
-      setTableData(excelFile);
+      // Section 2 data validation
+      //Section2ExcelDataValidation(tableData, excelFile);
+
+      var myHeaders = new Headers();
+      myHeaders.append('Authorization', 'Basic Q09JTjpDT0lOX1NlY3VyZUAxMjM=');
+      myHeaders.append('Content-Type', 'application/json');
+
+      var apiBody = JSON.stringify({
+        input_table: tableData,
+        output_table: excelFile,
+      });
+
+      console.log(apiBody, 'API BODY For Section 2');
+
+      var requestParameters = {
+        method: 'POST',
+        headers: myHeaders,
+        body: apiBody,
+      };
+
+      fetch('https://acoemicsgrcpwa-devbe.azurewebsites.net/is_csv_tampered', requestParameters)
+        .then((response) => response.text())
+        .then((response) => {
+          console.log(JSON.parse(response).data, 'Check Section 2 validation data');
+
+          const flag = JSON.parse(response).data;
+          if (flag) {
+            //console.log('Not Valid');
+            alert("Please don't change the existing values from excel file!!");
+          } else {
+            console.log('Valid');
+            setTableData(excelFile);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     } else {
       setTableData(null);
     }

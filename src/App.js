@@ -1,40 +1,23 @@
-// import React, { useContext, useEffect, useState, useMemo } from 'react';
 import React, { useContext, useEffect } from 'react';
 import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { InteractionStatus, PublicClientApplication } from '@azure/msal-browser';
 import { loginRequest, msalConfig } from './utils/authConfig';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
-// import {
-//   BrowserRouter as Router,
-//   Route,
-//   Switch,
-//   Redirect,
-//   useLocation,
-//   useHistory,
-// } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './assets/styles/App.css';
-
+import './assets/styles/mixins.scss';
 import TopBar from './parts/TopBar/TopBar';
-
 import Footer from './parts/Footer/Footer';
 import Login from './pages/Login/Login';
 import Home_controlOwner from './pages/Home/Home_controlOwner';
-//import Home_internalController from './pages/Home/Home_internalController';
-
-import Home_InternalControl from './routes/InternalControl/InternalControl.component';
-// import question from './parts/Assessments/question';
-
 import { UserContext, UserContextProvider } from './context/userContext';
-
-// import ServiceWorkerWrapper from './parts/ServiceWorkerWrapper/ServiceWorkerWrapper';
-// import { MantineProvider } from '@mantine/core';
 import dataService from './services/dataService';
 import Question from './parts/Assessments/Question';
 import HomePage from './components/HomePage';
 //import QuestionBank from './components/QuestionBank';
 import QuestionBank from './pages/QuestionBank/QuestionBankLandingPage';
+import NotAuthorized from './pages/NotAuthorized/NotAuthorizedPage';
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -52,7 +35,10 @@ const theme = createTheme({
     },
     neutral: {
       main: '#f1c40f',
-      contrastText: '#fff',
+      contrastText: '#111',
+    },
+    silver: {
+      main: '#F5F5F5',
     },
   },
 });
@@ -152,6 +138,7 @@ const Pages = () => {
           )}
           <Route exact path="/Assessments/:Assessment_id" component={Question} />
           <Route exact path="/questionbank" component={QuestionBank} />
+          <Route exact path="/not-authorized" component={NotAuthorized} />
           <Route
             path="*"
             render={(props) => {

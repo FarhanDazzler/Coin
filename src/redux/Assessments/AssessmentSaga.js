@@ -23,6 +23,7 @@ import {
   GET_KPI_RESULT_SUCCESS,
   GET_KPI_RESULT_ERROR,
 } from './AssessmentReducer';
+import Swal from 'sweetalert2';
 
 async function AssessmentAnsGetApi(params) {
   return await Axios.get('/get_user_response', { params });
@@ -54,12 +55,14 @@ function* handleAddAssessmentAns({ payload }) {
       yield put({
         type: ADD_ASSESSMENT_RESPONSE_SUCCESS,
       });
+      Swal.fire('Done!', 'You are now being redirected to the mainpage', 'success');
     }
   } catch (error) {
     yield put({
       type: ADD_ASSESSMENT_RESPONSE_ERROR,
       error: getSimplifiedError(error),
     });
+    Swal.fire('Oops...', 'Internal Server Error: Please refresh page', 'error');
   }
 }
 
