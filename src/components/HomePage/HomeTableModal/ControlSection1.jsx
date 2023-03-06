@@ -5,11 +5,11 @@ import { useSelector } from 'react-redux';
 import { getQuestionsSelector } from '../../../redux/Assessments/AssessmentSelectors';
 import { getFormatQuestions, handleSelectAns } from '../../../utils/helper';
 
-const ControlSection1 = ({ setShowMoreSection, setTerminating }) => {
+const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns }) => {
   const getQuestions = useSelector(getQuestionsSelector);
   const [data, setData] = useState([]);
   const [question, setQuestion] = useState([]);
-  const [ans, setAns] = useState({});
+
   const [lastAns, setLastAns] = useState('');
 
   const handleChange = (value, block) => {
