@@ -14,6 +14,7 @@ import {
   GET_SECTION_3_MICS_UPDATE_ERROR,
   GET_SECTION_3_MICS_DELETE_SUCCESS,
 } from './QuestionsReducer';
+import Swal from 'sweetalert2';
 
 async function getSection3Api(params) {
   return await Axios.get('/get_Section3_MICS_Specific_Question', { params });
@@ -66,12 +67,14 @@ function* handleUpdateSection3({ payload }) {
         type: GET_SECTION_3_MICS_UPDATE_SUCCESS,
         payload: { data: response.data },
       });
+      Swal.fire('Saved', '', 'success');
     }
   } catch (error) {
     yield put({
       type: GET_SECTION_3_MICS_UPDATE_ERROR,
       payload: getSimplifiedError(error),
     });
+    Swal.fire('Error!', 'Internal Server Error: Please refresh page', 'error');
   }
 }
 
