@@ -20,8 +20,8 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns }) =>
   useEffect(() => {
     if (getQuestions?.data?.length > 0) {
       const allData = getFormatQuestions(getQuestions?.data);
-      setData(allData.slice(0, 10));
-      const showData = allData.slice(0, 10).filter((d) => d.show);
+      setData(allData.slice(0, 9));
+      const showData = allData.slice(0, 9).filter((d) => d.show);
       setQuestion(showData);
     }
   }, [getQuestions.data]);
