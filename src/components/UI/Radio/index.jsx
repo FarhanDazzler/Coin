@@ -15,6 +15,7 @@ const Radio = ({
   value,
   handleChange,
   block = {},
+  disabled,
 }) => {
   const onChange = ({ target: { value } }) => {
     if (handleChange) {
@@ -22,14 +23,18 @@ const Radio = ({
     }
   };
 
-  console.log('options', options);
-
   return (
     <FormControl className="radio-wrapper" {...formControlProps}>
       {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
       <RadioGroup value={value} onChange={onChange} {...radioGroupProps}>
         {options.map((o, i) => (
-          <FormControlLabel key={i} value={o.value} control={<BaseRadio />} label={o.label} />
+          <FormControlLabel
+            key={i}
+            value={o.value}
+            control={<BaseRadio />}
+            disabled={disabled}
+            label={o.label}
+          />
         ))}
       </RadioGroup>
     </FormControl>

@@ -1,4 +1,28 @@
 .questions-list-main-wrapper {
   margin-top: 10px;
   padding: 20px 0 10px;
+
+  .table-section-title {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 134.02%;
+    color: #595959;
+    padding-left: 20px;
+  }
+
+  .table-view-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 15px;
+    background: rgba(215, 215, 215, 0.2);
+    border-radius: 8px;
+
+    .table-header-cell {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 134.02%;
+      color: #595959;
+      padding: 18px 20px;
+    }
+  }
 }

@@ -1,28 +1,14 @@
 import React from 'react';
-import FormControl from '@mui/material/FormControl';
 import DashboardTable from './HomePageTable/HomePageTableComponent';
 import PageWrapper from '../wrappers/PageWrapper';
 import './homeStyles.scss';
-import Select from '../UI/Select/Select';
 import NumberWithText from './NumberWithText';
 import { useMsal } from '@azure/msal-react';
 import { useHistory } from 'react-router-dom';
 import HomeTableModal from './HomeTableModal';
 import ProgressBar from '../HomePageTable/ProgressBar/ProgressBar';
-import FilterHomePageTable from './HomePageTable/FilterHomePageTableComponent';
 import MultiSelectButton from '../Buttons/MultiSelect/MultiSelectButtonComponents';
-import { Group, Button } from '@mantine/core';
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 140,
-    },
-  },
-};
+import { Group } from '@mantine/core';
 
 const names = ['All Zones', 'AFR', 'NAZ', 'EUR', 'APAC'];
 
@@ -81,7 +67,6 @@ const HomePage = () => {
                   </div>
                   <div>
                     <div className="right-number">
-
                       <NumberWithText
                         number={61}
                         tooltip={

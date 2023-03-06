@@ -11,9 +11,9 @@ import readXlsxFile from 'read-excel-file';
 
 const headerStyles = { backgroundColor: '#f1c40f', color: '#000000', fontWeight: '700' };
 
-const ControlSection2 = () => {
+const ControlSection2 = ({ tableData, setTableData }) => {
   const kpiResultData = useSelector(kpiResultSelector);
-  const [tableData, setTableData] = useState([]);
+
   const [editProductIds, setEditProductIds] = useState([
     { idNumeratorList: [], idDenominatorList: [] },
   ]);
