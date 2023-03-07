@@ -86,7 +86,7 @@ function* handleUpdateAssessmentAns({ payload }) {
 }
 
 async function getQuestionsApi(params) {
-  return await Axios.get('/get_questions', { params });
+  return await Axios.get('/get_Section1_Question', { params });
 }
 function* handleGetQuestions({ payload }) {
   try {
