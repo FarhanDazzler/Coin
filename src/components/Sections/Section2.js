@@ -28,7 +28,7 @@ import { saveAssessmentAns, updateAssessmentAns } from '../../redux/Assessments/
 import { Link, useHistory, useLocation } from 'react-router-dom';
 
 function Section2(props) {
-  // console.log('second');
+   console.log("props",props);
   //const { ExportCSVButton } = CSVExport;
   const dispatch = useDispatch();
   const sectionAns = useSelector(sectionAnsSelector);
@@ -1598,7 +1598,7 @@ function Section2(props) {
                     // onClick={click}
                     style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
                     type="submit"
-                    disabled={!submit1}
+                    disabled={!submit1 || props.textfield.error}
                   // onSubmit={(e) => submit(props, e, final, hash, setchildterminate)}
                   >
                     SUBMIT
@@ -1813,7 +1813,7 @@ function Section2(props) {
                                 //  onClick={click}
                                 style={{ fontSize: 24, height: ' 50px', width: '100%' }}
                                 type="submit"
-                                disabled={!submit1}
+                                disabled={!submit1 || props.textfield.error}
                               >
                                 SUBMIT
                               </Button>
@@ -1874,7 +1874,7 @@ function Section2(props) {
                         //  onClick={click}
                         style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
                         type="submit"
-                        disabled={!submit1}
+                        disabled={!submit1 || props.textfield.error}
                       >
                         SUBMIT
                       </Button>{' '}
