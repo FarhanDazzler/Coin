@@ -69,7 +69,7 @@ const ControlActions = () => {
               <span>{stateControlData.receiving_entity}</span>
             </p>
             <p className="mb-2">
-              <span className="font-weight-bold">Provider org: </span>
+              <span className="font-weight-bold">Provider organization: </span>
               <span>{stateControlData.provider_org}</span>
             </p>
             <p className="mb-2">
@@ -85,7 +85,7 @@ const ControlActions = () => {
               <span>{stateControlData.mega_process}</span>
             </p>
             <p className="mb-2">
-              <span className="font-weight-bold">Cowner: </span>
+              <span className="font-weight-bold">Control owner: </span>
               <span>
                 {stateControlData.cowner}
               </span>
