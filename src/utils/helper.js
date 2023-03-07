@@ -19,7 +19,13 @@ export const getFormatQuestions = (questions, action, startStr) => {
         };
 
       case blockType.TEXT:
-        return { ...d, label: d.question_text, isQuestionLabelEdit, show: i === 0 };
+        return {
+          ...d,
+          label: d.question_text,
+          required: true,
+          isQuestionLabelEdit,
+          show: i === 0,
+        };
 
       case blockType.RADIO_MULTI:
         return {
@@ -44,7 +50,10 @@ export const gatAllChildIds = (data) => {
         childIds.push(v);
       });
     } else {
-      childIds.push(d.child_questions);
+      if (typeof d.child_questions === 'string') childIds.push(d.child_questions);
+      d.child_questions.forEach((v) => {
+        childIds.push(v);
+      });
     }
   });
   return childIds;
@@ -70,7 +79,7 @@ export const handleSelectAns = ({ question = [], ans, data }) => {
   // Store all parent question and child question
   let parentData = filterData.filter((d) => !childIds.includes(d.q_id));
   let childData = filterData.filter((d) => childIds.includes(d.q_id));
-  console.log('childData', childData, childIds);
+
   // here is main section1 data logic
   data.forEach((block) => {
     // Check section data is Terminating or not.
@@ -89,6 +98,11 @@ export const handleSelectAns = ({ question = [], ans, data }) => {
             (o) => o.option_id === newAnsList[block.q_id],
           );
           const selectOption = matchQuestion?.child_question;
+          if (matchQuestion.is_Terminating) {
+            // if this question Terminating then show submit button
+            isTerminating = true;
+            return;
+          }
           // check selected question_options has child_question?
           if (selectOption) {
             // if child_question then find childData inside this selected child_question record

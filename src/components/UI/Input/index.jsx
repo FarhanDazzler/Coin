@@ -10,6 +10,7 @@ const Input = ({
   label,
   handleChange,
   block,
+  required,
   value,
   fullInput,
   ...res
@@ -21,8 +22,12 @@ const Input = ({
   };
   return (
     <FormControl className="input-wrapper" {...formControlProps}>
-      {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
-      <OutlinedInput value={value} onChange={onChange} {...res} />
+      {label && (
+        <FormLabel {...formLabelProps}>
+          {label} {required && <span className="text-danger">*</span>}
+        </FormLabel>
+      )}
+      <OutlinedInput required value={value} onChange={onChange} {...res} />
     </FormControl>
   );
 };
