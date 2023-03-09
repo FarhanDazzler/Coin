@@ -23,6 +23,7 @@ import {
 } from '../../../redux/Questions/QuestionsAction';
 import { questionSelector } from '../../../redux/Questions/QuestionsSelectors';
 import { Loader } from 'semantic-ui-react';
+import Swal from 'sweetalert2';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -41,12 +42,26 @@ const CreateQuestions = ({ open, handleClose }) => {
   const [control_ID, setControl_ID] = useState(['']);
   const [showAddQuestion, setShowAddQuestion] = useState(false);
   const [level, setLevel] = useState(['L1']);
+  const [isEdit, setIsEdit] = useState(false);
   const questionData = useSelector(questionSelector);
   const [section3, setSection3] = useState([]);
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
+    if (isEdit) {
+      Swal.fire({
+        icon: 'info',
+        html: 'There are some changes available? do you want to discard changes?',
+        confirmButtonText: 'Yes',
+        showCancelButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setControl_ID(typeof value === 'string' ? value.split(',') : value);
+        }
+      });
+      return;
+    }
     setControl_ID(typeof value === 'string' ? value.split(',') : value);
   };
 
@@ -62,6 +77,19 @@ const CreateQuestions = ({ open, handleClose }) => {
     const {
       target: { value },
     } = event;
+    if (isEdit) {
+      Swal.fire({
+        icon: 'info',
+        html: 'There are some changes available? do you want to discard changes',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setLevel(typeof value === 'string' ? value.split(',') : value);
+        }
+      });
+      return;
+    }
     setLevel(typeof value === 'string' ? value.split(',') : value);
   };
 
@@ -96,6 +124,7 @@ const CreateQuestions = ({ open, handleClose }) => {
       }
       return;
     }
+    setIsEdit(true);
     switch (block.question_type) {
       case blockType.RADIO_MULTI:
         const updateRadioMultiData = section3.map((val) => {
@@ -110,7 +139,7 @@ const CreateQuestions = ({ open, handleClose }) => {
     }
   };
 
-  const handleSaveQuestion = () => {
+  const handleSaveQuestion = (saveWithCloseModal = true) => {
     if (section3.length > 0) {
       const payload = {
         Header_Question: section3[0].label,
@@ -123,7 +152,8 @@ const CreateQuestions = ({ open, handleClose }) => {
       } else {
         dispatch(addSection3Questions(payload));
       }
-      handleClose();
+      setIsEdit(false);
+      if (saveWithCloseModal) handleClose();
     }
   };
 
@@ -135,7 +165,7 @@ const CreateQuestions = ({ open, handleClose }) => {
       Level: level[0],
     };
     // dispatch(addSection3Questions(payload));
-
+    setIsEdit(true);
     const newDataQuestion = getQuestionsFormatData([payload]);
     setSection3(getFormatQuestions(newDataQuestion, 'isQuestionEdit'));
   };

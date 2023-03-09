@@ -36,8 +36,11 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns }) =>
       setTerminating(isTerminating);
       setAns(newAnsList);
       setQuestion(newQuestionList);
-      if (newQuestionList.length > 2)
+      if (newQuestionList.length > 2) {
         setShowMoreSection(newQuestionList.length === Object.keys(newAnsList).length);
+      } else {
+        setShowMoreSection(false);
+      }
     }
   }, [lastAns]);
 
