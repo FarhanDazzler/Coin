@@ -6,8 +6,22 @@ import './renderBlocksStyles.scss';
 import Input from '../UI/Input';
 import RadioMulti from '../UI/RadioMulti';
 import RadioWithInput from '../UI/RadioWithInput';
+import { useDispatch, useSelector } from 'react-redux';
 
 const RenderBlock = ({ blocks = [], handleChange }) => {
+  const controlDataResponse = useSelector((state) => state?.controlData?.controlData?.data);
+  console.log("hi",controlDataResponse);
+  console.log("blocks",blocks);
+  for (let i = 0; i < blocks.length; i++) {
+    let question = blocks[i].question_text;
+    console.log("questions=======>",question)
+    question = question.replaceAll('{{org}}', controlDataResponse?.provider_org);
+    question = question.replaceAll('{{freq}}', controlDataResponse?.frequency);
+    console.log("output",question)
+    blocks[i].question_text = question;
+    blocks[i].label = question;
+    // console.log(question);
+  }
   return (
     <div className="w-100">
       {blocks.map((block, i) => {

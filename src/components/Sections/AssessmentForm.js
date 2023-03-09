@@ -33,7 +33,8 @@ function AssessmentForm() {
   const getResponse = useSelector(getResponseSelector);
   const getLocalAns = localStorage.getItem('userAns');
 
-  const controlDataResponse = useSelector(getControlSelector);
+  const controlDataResponse = useSelector((state) => state?.controlData?.controlData?.data);
+  
   const [val, setVal] = useState('lala');
   var [final, setfinal] = useState([]);
   const [timer, setTimer] = useState();
@@ -47,6 +48,7 @@ function AssessmentForm() {
   const [action_plan, setaction_plan] = useState(new Map());
   let [values, setvalues] = useState([]);
   const [scope, setscope] = useState({});
+  const [submit1, setSubmit1] = useState();
   var parentQuestions = [];
   var child_question = [];
   console.log(email);
@@ -184,6 +186,7 @@ function AssessmentForm() {
   const org = localStorage.getItem('provider_org');
   // console.log('sdfsdfs', org);
   const freq = localStorage.getItem('frequency');
+  console.log("parentQuestions.length", parentQuestions.length);
   for (let i = 0; i < parentQuestions.length; i++) {
     let question = parentQuestions[i].question_text;
     question = question.replaceAll('{{org}}', controlDataResponse?.provider_org);
@@ -694,6 +697,7 @@ function AssessmentForm() {
           result={result}
           is_action_plan={action_plan}
           getResponse={getResponse}
+          textfield={textArea}
         />
       ) : (
         <div />
