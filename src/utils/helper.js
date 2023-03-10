@@ -12,7 +12,7 @@ export const getFormatQuestions = (questions, action, startStr) => {
         return {
           ...d,
           isQuestionLabelEdit,
-          label: `${startStr ? startStr + ': ' : ''}${d.question_text}`,
+          label: `${startStr ? startStr + `: Q${i + 1}.` : ''}${d.question_text}`,
           question_options: d.options,
           options: optionData,
           show: i === 0,
