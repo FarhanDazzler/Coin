@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 //import axios from 'axios';
 import CollapseFrame from '../../UI/CollapseFrame';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { kpiResultSelector } from '../../../redux/Assessments/AssessmentSelectors';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory from 'react-bootstrap-table2-filter';
@@ -10,12 +10,13 @@ import cellEditFactory from 'react-bootstrap-table2-editor';
 import Workbook from 'react-excel-workbook';
 import readXlsxFile from 'read-excel-file';
 import { Axios } from '../../../api/axios.js';
+import { getCsvTampredDataAction } from '../../../redux/CsvTampred/CsvTampredAction';
 
 const headerStyles = { backgroundColor: '#f1c40f', color: '#000000', fontWeight: '700' };
 
 const ControlSection2 = ({ tableData, setTableData }) => {
   const kpiResultData = useSelector(kpiResultSelector);
-
+  const dispatch = useDispatch();
   const [editProductIds, setEditProductIds] = useState([
     { idNumeratorList: [], idDenominatorList: [] },
   ]);
@@ -87,8 +88,8 @@ const ControlSection2 = ({ tableData, setTableData }) => {
       hidden: true,
     },
     {
-      dataField: 'Positive_Direction',
-      text: 'Positive_Direction',
+      dataField: 'Positive_direction',
+      text: 'Positive_direction',
       editable: false,
       headerStyle: {
         ...headerStyles,
@@ -251,7 +252,8 @@ const ControlSection2 = ({ tableData, setTableData }) => {
     const updateProduct = tableData.map((d) => {
       if (d.id === row.id) {
         row.KPI_Value = (row.Numerator / row.Denominator).toFixed(2);
-        if (row.Positive_Direction === 'Lower is better') {
+        console.log("row",row);
+        if (row.Positive_direction === 'Lower is better') {
           if (row.KPI_Value <= row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
             row.L1_Result = 'Pass';
           } else {
@@ -273,7 +275,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
           } else {
             row.L3_Result = 'Fail';
           }
-        } else if (row.Positive_Direction === 'Higher is better') {
+        } else if (row.Positive_direction === 'Higher is better') {
           if (row.KPI_Value >= row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
             row.L1_Result = 'Pass';
           } else {
@@ -295,7 +297,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
           } else {
             row.L3_Result = 'Fail';
           }
-        } else if (row.Positive_Direction === 'Lower is bad') {
+        } else if (row.Positive_direction === 'Lower is bad') {
           if (row.KPI_Value < row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
             row.L1_Result = 'Fail';
           } else {
@@ -317,7 +319,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
           } else {
             row.L3_Result = 'Pass';
           }
-        } else if (row.Positive_Direction === 'Higher is bad') {
+        } else if (row.Positive_direction === 'Higher is bad') {
           if (row.KPI_Value > row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
             row.L1_Result = 'Fail';
           } else {
@@ -396,12 +398,13 @@ const ControlSection2 = ({ tableData, setTableData }) => {
       myHeaders.append('Authorization', 'Basic Q09JTjpDT0lOX1NlY3VyZUAxMjM=');
       myHeaders.append('Content-Type', 'application/json');
 
-      var apiBody = JSON.stringify({
+      var apiBody = {
         input_table: tableData,
         output_table: excelFile,
-      });
+      };
 
       console.log(apiBody, 'API BODY For Section 2');
+      dispatch(getCsvTampredDataAction(apiBody ));
 
       var requestParameters = {
         method: 'POST',
@@ -409,23 +412,23 @@ const ControlSection2 = ({ tableData, setTableData }) => {
         body: apiBody,
       };
 
-      fetch('https://acoemicsgrcpwa-devbe.azurewebsites.net/is_csv_tampered', requestParameters)
-        .then((response) => response.text())
-        .then((response) => {
-          console.log(JSON.parse(response).data, 'Check Section 2 validation data');
+      // fetch('https://acoemicsgrcpwa-devbe.azurewebsites.net/is_csv_tampered', requestParameters)
+      //   .then((response) => response.text())
+      //   .then((response) => {
+      //     console.log(JSON.parse(response).data, 'Check Section 2 validation data');
 
-          const flag = JSON.parse(response).data;
-          if (flag) {
-            //console.log('Not Valid');
-            alert("Please don't change the existing values from excel file!!");
-          } else {
-            console.log('Valid');
-            setTableData(excelFile);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      //     const flag = JSON.parse(response).data;
+      //     if (flag) {
+      //       //console.log('Not Valid');
+      //       alert("Please don't change the existing values from excel file!!");
+      //     } else {
+      //       console.log('Valid');
+      //       setTableData(excelFile);
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
     } else {
       setTableData(null);
     }
