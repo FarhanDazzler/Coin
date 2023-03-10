@@ -18,6 +18,8 @@ import { getQuestionsSelector } from '../../../redux/Assessments/AssessmentSelec
 import { Loader } from '@mantine/core';
 import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
 import Swal from 'sweetalert2';
+import { useMsal } from '@azure/msal-react';
+import {  getControlDataAction, getControlDataGcdAction } from '../../../redux/ControlData/ControlDataAction';
 
 const HomeTableModal = () => {
   const history = useHistory();
@@ -31,6 +33,7 @@ const HomeTableModal = () => {
   const [showMoreSection, setShowMoreSection] = useState(false);
   const [terminating, setTerminating] = useState(false);
   const Control_ID = query.get('Control_ID');
+  const { accounts } = useMsal();
   const handleClose = () => {
     history.push('/new');
   };
@@ -40,10 +43,19 @@ const HomeTableModal = () => {
     dispatch(getQuestions({ Control_ID: 'Standard' }));
     dispatch(
       getKPIData({
-        ControlID: 'ATR_ACCR_01b-K',
-        Entity: 'Argentina',
+        MICS_code: 'ATR_ACCR_01b-K',
+        Entity_ID: 'Argentina',
       }),
     );
+    let payload = {
+      controlId : Control_ID,
+      coOwner: accounts.length > 0 ? accounts[0].username : ''
+    }
+    let gcdPayload = {
+      controlId : Control_ID,
+    }
+    dispatch(getControlDataAction(payload ));
+    dispatch(getControlDataGcdAction(gcdPayload))
   }, []);
 
   useEffect(() => {
