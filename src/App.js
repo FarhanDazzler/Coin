@@ -18,7 +18,12 @@ import HomePage from './components/HomePage';
 //import QuestionBank from './components/QuestionBank';
 import QuestionBank from './pages/QuestionBank/QuestionBankLandingPage';
 import NotAuthorized from './pages/NotAuthorized/NotAuthorizedPage';
-
+import MDM from './pages/MDM/MDMLandingPage';
+import MDM_OrganizationHierarchyLandingPage from './pages/MDM/OrganizationHierarchy/MDMOrganizationHierarchyLandingPage.jsx';
+import MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage from './pages/MDM/Applicability_AssignmentOfProviderOrganization/MDMApplicabilityAndAssignmentOfProviderOrganizationLandingPage';
+import MDM_Mega_Process_Sub_ProcessLandingPage from './pages/MDM/Mega_Process_And_Sub_Process/MDM_Mega_Process _Sub_ProcessLandingPage.jsx';
+import MDM_Control_Owner_OversightLandingPage from './pages/MDM/Control_Owner_Oversight/MDMControl_Owner_OversightLandingPage';
+import MDM_MICS_FrameworkLandingPage from './pages/MDM/MICS_Framework/MDMMICSFrameworkLandingPage.jsx';
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -139,6 +144,32 @@ const Pages = () => {
           <Route exact path="/Assessments/:Assessment_id" component={Question} />
           <Route exact path="/questionbank" component={QuestionBank} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
+          <Route exact path="/master-data-management" component={MDM} />
+          <Route
+            exact
+            path="/master-data-management/organization-hierarchy"
+            component={MDM_OrganizationHierarchyLandingPage}
+          />
+          <Route
+            exact
+            path="/master-data-management/applicability-assignment-of-provider-organization"
+            component={MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage}
+          />
+          <Route
+            exact
+            path="/master-data-management/co-owner-oversight"
+            component={MDM_Control_Owner_OversightLandingPage}
+          />
+          <Route
+            exact
+            path="/master-data-management/mics-framework"
+            component={MDM_MICS_FrameworkLandingPage}
+          />
+          <Route
+            exact
+            path="/master-data-management/mega-process-sub-Process"
+            component={MDM_Mega_Process_Sub_ProcessLandingPage}
+          />
           <Route
             path="*"
             render={(props) => {

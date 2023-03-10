@@ -171,10 +171,12 @@ const TopBar = (props) => {
                   <li className="nav-item">
                     <a
                       className={`navbar-link ${
-                        ['/mdm', '/register'].includes(location?.pathname) ? ' active' : ''
+                        ['/master-data-management', '/register'].includes(location?.pathname)
+                          ? ' active'
+                          : ''
                       }`}
                       onClick={() => {
-                        history.push('/mdm');
+                        history.push('/master-data-management');
                       }}
                     >
                       <FeatherIcon icon="layers" size={14} />
