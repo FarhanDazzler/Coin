@@ -106,7 +106,7 @@ function* handleGetQuestions({ payload }) {
 }
 
 async function getKPIApi(params) {
-  return await Axios.get('/kpi_result', { params });
+  return await Axios.get('/get_KPIs_for_section_2', { params });
 }
 function* handleGetKPIData({ payload }) {
   try {
