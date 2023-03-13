@@ -86,7 +86,7 @@ export const handleSelectAns = ({ question = [], ans, data }) => {
     if (isTerminating) return;
     // Check current question is selected in existing ans list
     if (newAnsList[block.q_id]) {
-      if (block.is_Terminating) {
+      if (block.is_Terminating || block.options[0]?.is_Terminating) {
         // if this question Terminating then show submit button
         isTerminating = true;
         return;
