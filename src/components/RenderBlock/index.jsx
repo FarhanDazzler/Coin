@@ -16,7 +16,9 @@ const RenderBlock = ({ blocks = [], handleChange }) => {
     let question = blocks[i].question_text;
     console.log("questions=======>",question)
     question = question.replaceAll('{{org}}', controlDataResponse?.provider_org);
+    question = question.replaceAll('{{ReceiverOrg}}', controlDataResponse?.provider_org);
     question = question.replaceAll('{{freq}}', controlDataResponse?.frequency);
+    question = question.replaceAll('({{Frequency}})', controlDataResponse?.frequency);
     console.log("output",question)
     blocks[i].question_text = question;
     blocks[i].label = question;

@@ -33,6 +33,7 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns }) =>
         ans,
         data,
       });
+      console.log('isTerminating',isTerminating)
       setTerminating(isTerminating);
       setAns(newAnsList);
       setQuestion(newQuestionList);
