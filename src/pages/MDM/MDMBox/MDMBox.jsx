@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../../../components/UI/Button';
-import { MathGreater } from 'tabler-icons-react';
+import { ChevronRight } from 'tabler-icons-react';
 import { useLocation, useHistory } from 'react-router-dom';
 
 const MDMBox = ({ title, description, url }) => {
@@ -17,11 +17,11 @@ const MDMBox = ({ title, description, url }) => {
         <h4 className="questionBankBoxTitle text-yellow">{title}</h4>
         <p>{description} </p>
       </div>
-      <div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Button
           variant="outlined"
           size="large"
-          startIcon={<MathGreater size={30} strokeWidth={1.5} color={'#ffc800'} />}
+          startIcon={<ChevronRight size={30} strokeWidth={1.5} color={'#ffc800'} />}
           className="mr-4"
           onClick={() => handleClick(url)}
         />
