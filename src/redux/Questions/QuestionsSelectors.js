@@ -1,1 +1,2 @@
-export const questionSelector = (state) => state.questions.question;
+export const question1Selector = (state) => state.questions.question1;
+export const question3Selector = (state) => state.questions.question3;

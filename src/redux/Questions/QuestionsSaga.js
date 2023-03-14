@@ -13,8 +13,31 @@ import {
   GET_SECTION_3_MICS_UPDATE_SUCCESS,
   GET_SECTION_3_MICS_UPDATE_ERROR,
   GET_SECTION_3_MICS_DELETE_SUCCESS,
+  GET_SECTION_1_MICS_REQUEST,
+  GET_SECTION_1_MICS_SUCCESS,
+  GET_SECTION_1_MICS_ERROR,
 } from './QuestionsReducer';
 import Swal from 'sweetalert2';
+
+async function getSection1Api(params) {
+  return await Axios.get('/get_Section1_Question', { params });
+}
+function* handleGetSection1({ payload }) {
+  try {
+    const response = yield call(getSection1Api, payload);
+    if (response.success) {
+      yield put({
+        type: GET_SECTION_1_MICS_SUCCESS,
+        payload: { data: response.data, Level: { [payload.Level]: response.data } },
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_SECTION_1_MICS_ERROR,
+      payload: getSimplifiedError(error),
+    });
+  }
+}
 
 async function getSection3Api(params) {
   return await Axios.get('/get_Section3_MICS_Specific_Question', { params });
@@ -99,6 +122,7 @@ function* handleDeleteSection3({ payload }) {
 }
 
 export default all([
+  takeLatest(GET_SECTION_1_MICS_REQUEST, handleGetSection1),
   takeLatest(GET_SECTION_3_MICS_REQUEST, handleGetSection3),
   takeLatest(GET_SECTION_3_MICS_ADD_REQUEST, handleAddSection3),
   takeLatest(GET_SECTION_3_MICS_UPDATE_REQUEST, handleUpdateSection3),

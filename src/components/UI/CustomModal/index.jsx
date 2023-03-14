@@ -4,14 +4,13 @@ import './modalStyles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 
 const CustomModal = ({
-  title = 'title',
+  title = '',
   bodyClassName,
   width = 600,
   children,
   classes = {},
   ...res
 }) => {
-  const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   let rootClass = 'custom-modal-wrapper';
   if ('root' in classes) {
     rootClass = `${rootClass} ${classes.root}`;
@@ -21,14 +20,7 @@ const CustomModal = ({
     <div>
       <Modal classes={{ root: rootClass, ...classes }} {...res}>
         <div className="modal-wrapper" style={{ maxWidth: width }}>
-          {title && <div className="model-header">{title} 
-          <br /><br />
-          <p className="mb-2">
-            <span className="font-weight-bold">Control Name: </span>
-            <span>
-              {stateControlData.control_name}
-            </span>
-          </p></div>}
+          {title && <div className="model-header">{title}</div>}
           <div className={`modal-body ${bodyClassName ? bodyClassName : ''}`} id="modal-body">
             {children}
           </div>

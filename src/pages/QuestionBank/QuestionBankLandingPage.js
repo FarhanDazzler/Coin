@@ -8,15 +8,24 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import Button from '../../components/UI/Button';
 import QuestionBankTable from './QuestionBankTable';
 import CreateQuestions from './CreateQuestions';
+import ModifyMICSQuestions from './ModifyMICSQuestions';
 
 const QuestionBank = () => {
   const [openCreateQuestions, setOpenCreateQuestions] = useState(false);
+  const [editModifyMICS, setEditModifyMICS] = useState('');
 
   const handleOpenCreateQuestions = () => {
     setOpenCreateQuestions(true);
   };
   const handleCloseCreateQuestions = () => {
     setOpenCreateQuestions(false);
+  };
+
+  const handleEditModifyMICS = (type) => {
+    setEditModifyMICS(type);
+  };
+  const handleCloseEditModifyMICS = () => {
+    setEditModifyMICS('');
   };
 
   return (
@@ -49,23 +58,33 @@ const QuestionBank = () => {
                 size="large"
                 startIcon={<DescriptionOutlinedIcon />}
                 className="mr-4"
+                onClick={() => handleEditModifyMICS('Standard')}
               >
-                <span className="text-white">Create MICS-Specific</span>
+                <span className="text-white">Modify Standard</span>
               </Button>
-              <Button variant="outlined" size="large" startIcon={<FolderSpecialOutlinedIcon />}>
-                <span className="text-white">Create MICS-Specific</span>
+              <Button
+                variant="outlined"
+                size="large"
+                startIcon={<FolderSpecialOutlinedIcon />}
+                onClick={() => handleEditModifyMICS('MICS-Specific')}
+              >
+                <span className="text-white">Modify MICS-Specific</span>
               </Button>
             </QuestionBankBox>
           </div>
         </div>
-
         <div className="row">
           <div className="col-12">
             <QuestionBankTable />
           </div>
         </div>
-
+        -Specific
         <CreateQuestions open={openCreateQuestions} handleClose={handleCloseCreateQuestions} />
+        <ModifyMICSQuestions
+          open={!!editModifyMICS}
+          type={editModifyMICS}
+          handleClose={handleCloseEditModifyMICS}
+        />
       </div>
     </PageWrapper>
   );

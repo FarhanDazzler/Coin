@@ -3,7 +3,7 @@ import CollapseFrame from '../../UI/CollapseFrame';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFormatQuestions, getQuestionsFormatData } from '../../../utils/helper';
 import RenderBlock from '../../RenderBlock';
-import { questionSelector } from '../../../redux/Questions/QuestionsSelectors';
+import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
 import { Loader } from 'semantic-ui-react';
 import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
 import { useHistory } from 'react-router-dom';
@@ -20,7 +20,7 @@ const ControlSection3 = ({
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
-  const questionData = useSelector(questionSelector);
+  const questionData = useSelector(question3Selector);
   const dispatch = useDispatch();
   const [questionL1, setQuestionL1] = useState([]);
   const [questionL2, setQuestionL2] = useState([]);
