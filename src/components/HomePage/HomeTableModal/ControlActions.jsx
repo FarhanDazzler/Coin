@@ -11,28 +11,28 @@ const ControlActions = () => {
   };
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   const stateGcdData = useSelector((state) => state?.controlData?.gcd?.data);
-
+  const isClear = (text) => activeTab === text
   return (
     <div className="control-actions-wrapper">
       <div className="pb-5 pt-4">
         <Button
           // disabled={activeTab && activeTab !== 'GCD'}
           className={activeTab === 'GCD' ? 'mr-4 active' : 'mr-4'}
-          onClick={() => setActiveTab('GCD')}
+          onClick={() => setActiveTab(isClear('GCD') ? '' : 'GCD')}
         >
           Global Control Description (GCD)
         </Button>
         <Button
           // disabled={activeTab && activeTab !== 'LCD'}
           className={activeTab === 'LCD' ? 'mr-4 active' : 'mr-4'}
-          onClick={() => setActiveTab('LCD')}
+          onClick={() => setActiveTab(isClear('LCD') ? '' : 'LCD')}
         >
           Local Control Description (LCD)
         </Button>
         <Button
           // disabled={activeTab && activeTab !== 'Scope'}
           className={activeTab === 'Scope' ? 'mr-4 active' : 'mr-4'}
-          onClick={() => setActiveTab('Scope')}
+          onClick={() => setActiveTab(isClear('Scope') ? '' : 'Scope')}
         >
           Scope
         </Button>
@@ -75,6 +75,10 @@ const ControlActions = () => {
             <p className="mb-2">
               <span className="font-weight-bold">Period of assessment: </span>
               <span>{stateControlData.priod_of_assessment}</span>
+            </p>
+            <p className="mb-2">
+              <span className="font-weight-bold">Assessment Cycle: </span>
+              <span>{1}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Frequency of control: </span>
