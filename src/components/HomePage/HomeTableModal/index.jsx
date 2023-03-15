@@ -51,6 +51,7 @@ const HomeTableModal = () => {
       controlId : Control_ID,
       coOwner: accounts.length > 0 ? accounts[0].username : ''
     }
+    console.log("contid", Control_ID)
     let gcdPayload = {
       controlId : Control_ID,
     }

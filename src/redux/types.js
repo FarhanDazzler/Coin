@@ -19,3 +19,11 @@ export const ACTION_GET_CSV_TAMPRED_DATA_SUCCESS = 'ACTION_GET_CSV_TAMPRED_DATA_
 export const ACTION_GET_CSV_TAMPRED_DATA_FAILED = 'ACTION_GET_CSV_TAMPRED_DATA_FAILED';
 
 // =================== Csv Tampred ========================//
+
+// =================== Csv Tampred ========================//
+
+export const ACTION_GET_SECTION1_QUESTIONS_DATA = 'ACTION_GET_SECTION1_QUESTIONS_DATA';
+export const ACTION_GET_SECTION1_QUESTIONS_DATA_SUCCESS = 'ACTION_GET_SECTION1_QUESTIONS_DATA_SUCCESS';
+export const ACTION_GET_SECTION1_QUESTIONS_DATA_FAILED = 'ACTION_GET_SECTION1_QUESTIONS_DATA_FAILED';
+
+// =================== Csv Tampred ========================//

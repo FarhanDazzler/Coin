@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PageWrapper from '../../components/wrappers/PageWrapper';
 import QuestionBankBox from './QuestionBankBox/QuestionBankBox';
 import './questionBankStyles.scss';
@@ -8,15 +9,30 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import Button from '../../components/UI/Button';
 import QuestionBankTable from './QuestionBankTable';
 import CreateQuestions from './CreateQuestions';
+import ModifyStandard from './ModifyStandard';
+import { getSection1QuestionDataAction } from '../../redux/QuestionBank/QuestionBankAction';
 
 const QuestionBank = () => {
   const [openCreateQuestions, setOpenCreateQuestions] = useState(false);
-
+  const [openModifyStandard, setOpenModifyStandard] = useState(false);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    let payload = {
+      controlId : "Standard"
+    }
+    dispatch(getSection1QuestionDataAction(payload))
+  }, [])
   const handleOpenCreateQuestions = () => {
     setOpenCreateQuestions(true);
   };
   const handleCloseCreateQuestions = () => {
     setOpenCreateQuestions(false);
+  };
+  const handleOpenModifyStandard = () => {
+    setOpenModifyStandard(true);
+  };
+  const handleCloseModifyStandard = () => {
+    setOpenModifyStandard(false);
   };
 
   return (
@@ -49,11 +65,12 @@ const QuestionBank = () => {
                 size="large"
                 startIcon={<DescriptionOutlinedIcon />}
                 className="mr-4"
+                onClick={handleOpenModifyStandard}
               >
-                <span className="text-white">Create MICS-Specific</span>
+                <span className="text-white">Modify Standard</span>
               </Button>
               <Button variant="outlined" size="large" startIcon={<FolderSpecialOutlinedIcon />}>
-                <span className="text-white">Create MICS-Specific</span>
+                <span className="text-white">Modify MICS-Specific</span>
               </Button>
             </QuestionBankBox>
           </div>
@@ -66,6 +83,7 @@ const QuestionBank = () => {
         </div>
 
         <CreateQuestions open={openCreateQuestions} handleClose={handleCloseCreateQuestions} />
+        <ModifyStandard open={openModifyStandard} handleClose={handleCloseModifyStandard} />
       </div>
     </PageWrapper>
   );

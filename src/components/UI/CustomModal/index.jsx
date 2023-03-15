@@ -22,8 +22,9 @@ const CustomModal = ({
       <Modal classes={{ root: rootClass, ...classes }} {...res}>
         <div className="modal-wrapper" style={{ maxWidth: width }}>
           {title && <div className="model-header">{title} 
-          <br /><br />
+          
           <p className="mb-2">
+            <br /><br />
             <span className="font-weight-bold">Control Name: </span>
             <span>
               {stateControlData.control_name}
