@@ -5,8 +5,13 @@ import {
   GET_SECTION_3_MICS_ADD_REQUEST,
   GET_SECTION_3_MICS_UPDATE_REQUEST,
   GET_SECTION_3_MICS_DELETE_REQUEST,
+  GET_SECTION_1_MICS_REQUEST,
 } from './QuestionsReducer';
 
+export const getSection1Questions = (payload) => ({
+  type: GET_SECTION_1_MICS_REQUEST,
+  payload,
+});
 export const getSection3Questions = (payload) => ({ type: GET_SECTION_3_MICS_REQUEST, payload });
 
 export const addSection3Questions = (payload) => ({

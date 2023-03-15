@@ -1,3 +1,7 @@
+export const GET_SECTION_1_MICS_REQUEST = 'GET_SECTION_1_MICS_REQUEST';
+export const GET_SECTION_1_MICS_SUCCESS = 'GET_SECTION_1_MICS_SUCCESS';
+export const GET_SECTION_1_MICS_ERROR = 'GET_SECTION_1_MICS_ERROR';
+
 export const GET_SECTION_3_MICS_REQUEST = 'GET_SECTION_3_MICS_REQUEST';
 export const GET_SECTION_3_MICS_SUCCESS = 'GET_SECTION_3_MICS_SUCCESS';
 export const GET_SECTION_3_MICS_ERROR = 'GET_SECTION_3_MICS_ERROR';
@@ -24,81 +28,105 @@ const block = {
 };
 
 const initialState = {
-  question: { ...block, data: [], Level: {} },
-  questionAdd: { ...block },
-  questionUpdate: { ...block },
-  questionDelete: { ...block },
+  question1: { ...block, data: [] },
+  question3: { ...block, data: [], Level: {} },
+  question3Add: { ...block },
+  question3Update: { ...block },
+  question3Delete: { ...block },
 };
 
 export const QuestionsReducer = (state = initialState, { type, payload = {} }) => {
   switch (type) {
+    case GET_SECTION_1_MICS_REQUEST:
+      if (state.question1.data.length > 0) {
+        return { ...state };
+      }
+      return {
+        ...state,
+        question1: { ...state.question1, loading: true },
+      };
+    case GET_SECTION_1_MICS_SUCCESS:
+      return {
+        ...state,
+        question1: {
+          ...state.question1,
+          data: payload.data,
+          loading: false,
+        },
+      };
+    case GET_SECTION_1_MICS_ERROR:
+      return {
+        ...state,
+        question3: { ...state.question1, loading: false },
+      };
+
     case GET_SECTION_3_MICS_REQUEST:
       return {
         ...state,
-        question: { ...state.question, loading: true },
+        question3: { ...state.question3, loading: true },
       };
     case GET_SECTION_3_MICS_SUCCESS:
       return {
         ...state,
-        question: {
-          ...state.question,
+        question3: {
+          ...state.question3,
           data: payload.data,
-          Level: { ...state.question.Level, ...payload.Level },
+          Level: { ...state.question3.Level, ...payload.Level },
           loading: false,
         },
       };
     case GET_SECTION_3_MICS_ERROR:
       return {
         ...state,
-        question: { ...state.question, loading: false },
+        question3: { ...state.question3, loading: false },
       };
 
     case GET_SECTION_3_MICS_ADD_REQUEST:
       return {
         ...state,
-        questionAdd: { ...state.questionAdd, loading: true },
+        question3Add: { ...state.question3Add, loading: true },
       };
     case GET_SECTION_3_MICS_ADD_SUCCESS:
       return {
         ...state,
-        questionAdd: { ...state.questionAdd, loading: false },
+        question3Add: { ...state.question3Add, loading: false },
       };
     case GET_SECTION_3_MICS_ADD_ERROR:
       return {
         ...state,
-        questionAdd: { ...state.questionAdd, loading: false },
+        question3Add: { ...state.question3Add, loading: false },
       };
 
     case GET_SECTION_3_MICS_UPDATE_REQUEST:
       return {
         ...state,
-        questionUpdate: { ...state.questionUpdate, loading: true },
+        question3Update: { ...state.question3Update, loading: true },
       };
     case GET_SECTION_3_MICS_UPDATE_SUCCESS:
       return {
         ...state,
-        questionUpdate: { ...state.questionUpdate, loading: false },
+        question3Update: { ...state.question3Update, loading: false },
       };
     case GET_SECTION_3_MICS_UPDATE_ERROR:
       return {
         ...state,
-        questionUpdate: { ...state.questionUpdate, loading: false },
+        question3Update: { ...state.question3Update, loading: false },
       };
 
     case GET_SECTION_3_MICS_DELETE_REQUEST:
       return {
         ...state,
-        questionDelete: { ...state.questionDelete, loading: true },
+        question3Delete: { ...state.question3Delete, loading: true },
       };
     case GET_SECTION_3_MICS_DELETE_SUCCESS:
       return {
         ...state,
-        questionDelete: { ...state.questionDelete, loading: false },
+        question3Delete: { ...state.question3Delete, loading: false },
       };
     case GET_SECTION_3_MICS_DELETE_ERROR:
       return {
         ...state,
-        questionDelete: { ...state.questionDelete, loading: false },
+        question3Delete: { ...state.question3Delete, loading: false },
       };
 
     //reset block with flag and data
