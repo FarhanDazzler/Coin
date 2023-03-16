@@ -70,6 +70,10 @@ const EditSection1Question = ({ showEditModal, block = {}, setShowEditModal, all
     ]);
   };
 
+  const handleSave = () => {
+    setShowEditModal(null);
+  };
+
   useEffect(() => {
     if (allQuestions.length > 0) {
       const op = allQuestions.map((allQ, i) => {
@@ -159,7 +163,7 @@ const EditSection1Question = ({ showEditModal, block = {}, setShowEditModal, all
               <Button variant="outlined" color="secondary" onClick={() => setShowEditModal(null)}>
                 Cancel
               </Button>
-              <Button color="neutral" className="ml-4" onClick={() => setShowEditModal(null)}>
+              <Button color="neutral" className="ml-4" onClick={handleSave}>
                 Save
               </Button>
             </div>

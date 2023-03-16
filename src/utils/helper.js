@@ -127,7 +127,7 @@ export const handleSelectAns = ({ question = [], ans, data }) => {
           break;
         case blockType.TEXT:
           if (block.child_questions) {
-            const newQuestion = childData.find((v) => v.q_id === block.child_questions);
+            const newQuestion = childData.find((v) => v.q_id === block.child_questions[0]);
             if (newQuestion) {
               if (ans[newQuestion.q_id]) newAnsList[newQuestion.q_id] = ans[newQuestion.q_id];
               newQuestionList.push(newQuestion);

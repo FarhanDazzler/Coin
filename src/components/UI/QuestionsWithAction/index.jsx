@@ -63,6 +63,7 @@ const QuestionsWithAction = ({
         showEditModal={showEditModal}
         setShowEditModal={setShowEditModal}
         allQuestions={allQuestions}
+        // handleSave={handleSave}
       />
     </div>
   );
