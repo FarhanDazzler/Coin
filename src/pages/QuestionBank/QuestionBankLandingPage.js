@@ -27,7 +27,6 @@ const QuestionBank = () => {
   const handleCloseEditModifyMICS = () => {
     setEditModifyMICS('');
   };
-
   return (
     <PageWrapper>
       <div className="container py-5">

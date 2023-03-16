@@ -484,11 +484,11 @@ const ControlSection2 = ({ tableData, setTableData }) => {
                     <Workbook.Column label="Entity_ID" value="Entity_ID" />
                     <Workbook.Column label="Numerator" value="Numerator" />
                     <Workbook.Column label="Denominator" value="Denominator" />
-                    <Workbook.Column label="KPI_Value" value="KPI_Value" />
+                    {/* <Workbook.Column label="KPI_Value" value="KPI_Value" /> */}
                     <Workbook.Column label="Month" value="Month" />
-                    <Workbook.Column label="L1_Result" value="L1_Result" />
+                    {/* <Workbook.Column label="L1_Result" value="L1_Result" />
                     <Workbook.Column label="L2_Result" value="L2_Result" />
-                    <Workbook.Column label="L3_Result" value="L3_Result" />
+                    <Workbook.Column label="L3_Result" value="L3_Result" /> */}
                   </Workbook.Sheet>
                 </Workbook>
               </div>
