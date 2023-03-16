@@ -13,6 +13,7 @@ const OrgStructuresTable = () => {
   const [tableData, setTableData] = useState([]);
 
   const dispatch = useDispatch();
+
   const orgStructures = useSelector(getOrgStructuresSelector);
 
   const TABLE_COLUMNS = [
@@ -76,8 +77,15 @@ const OrgStructuresTable = () => {
 
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
-    setTableData(orgStructures.data);
-  }, []);
+    setTableData(
+      orgStructures.data.map((i, index) => {
+        return {
+          id: index,
+          ...i,
+        };
+      }),
+    );
+  }, [orgStructures.data]);
 
   return (
     <>

@@ -13,9 +13,9 @@ function NavTabsMDM() {
 
   const handleClick = (url, tabId) => () => {
     setActiveTab(tabId);
-    setTimeout(() => {
-      history.push(url);
-    }, 1500);
+    // setTimeout(() => {
+    //   history.push(url);
+    // }, 1500);
   };
   const ActiveTool = ({ number, text }) => (
     <Tooltip title={text} placement="bottom-start">
