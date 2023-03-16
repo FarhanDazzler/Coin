@@ -58,7 +58,7 @@ const QuestionBank = () => {
                 size="large"
                 startIcon={<DescriptionOutlinedIcon />}
                 className="mr-4"
-                onClick={() => handleEditModifyMICS('Standard')}
+                // onClick={() => handleEditModifyMICS('Standard')}
               >
                 <span className="text-white">Modify Standard</span>
               </Button>
@@ -66,7 +66,7 @@ const QuestionBank = () => {
                 variant="outlined"
                 size="large"
                 startIcon={<FolderSpecialOutlinedIcon />}
-                onClick={() => handleEditModifyMICS('MICS-Specific')}
+                // onClick={() => handleEditModifyMICS('MICS-Specific')}
               >
                 <span className="text-white">Modify MICS-Specific</span>
               </Button>
