@@ -2,6 +2,14 @@ export const GET_SECTION_1_MICS_REQUEST = 'GET_SECTION_1_MICS_REQUEST';
 export const GET_SECTION_1_MICS_SUCCESS = 'GET_SECTION_1_MICS_SUCCESS';
 export const GET_SECTION_1_MICS_ERROR = 'GET_SECTION_1_MICS_ERROR';
 
+export const UPDATE_SECTION_1_MICS_REQUEST = 'UPDATE_SECTION_1_MICS_REQUEST';
+export const UPDATE_SECTION_1_MICS_SUCCESS = 'UPDATE_SECTION_1_MICS_SUCCESS';
+export const UPDATE_SECTION_1_MICS_ERROR = 'UPDATE_SECTION_1_MICS_ERROR';
+
+export const DELETE_SECTION_1_MICS_REQUEST = 'DELETE_SECTION_1_MICS_REQUEST';
+export const DELETE_SECTION_1_MICS_SUCCESS = 'DELETE_SECTION_1_MICS_SUCCESS';
+export const DELETE_SECTION_1_MICS_ERROR = 'DELETE_SECTION_1_MICS_ERROR';
+
 export const GET_SECTION_3_MICS_REQUEST = 'GET_SECTION_3_MICS_REQUEST';
 export const GET_SECTION_3_MICS_SUCCESS = 'GET_SECTION_3_MICS_SUCCESS';
 export const GET_SECTION_3_MICS_ERROR = 'GET_SECTION_3_MICS_ERROR';
@@ -29,6 +37,8 @@ const block = {
 
 const initialState = {
   question1: { ...block, data: [] },
+  question1Update: { ...block },
+  question1Delete: { ...block },
   question3: { ...block, data: [], Level: {} },
   question3Add: { ...block },
   question3Update: { ...block },
@@ -58,6 +68,44 @@ export const QuestionsReducer = (state = initialState, { type, payload = {} }) =
       return {
         ...state,
         question3: { ...state.question1, loading: false },
+      };
+
+    case UPDATE_SECTION_1_MICS_REQUEST:
+      return {
+        ...state,
+        question1Update: { ...state.question1Update, loading: true },
+      };
+    case UPDATE_SECTION_1_MICS_SUCCESS:
+      return {
+        ...state,
+        question1Update: {
+          ...state.question1Update,
+          loading: false,
+        },
+      };
+    case UPDATE_SECTION_1_MICS_ERROR:
+      return {
+        ...state,
+        question1Update: { ...state.question1Update, loading: false },
+      };
+
+    case DELETE_SECTION_1_MICS_REQUEST:
+      return {
+        ...state,
+        question1Delete: { ...state.question1Delete, loading: true },
+      };
+    case DELETE_SECTION_1_MICS_SUCCESS:
+      return {
+        ...state,
+        question1Delete: {
+          ...state.question1Delete,
+          loading: false,
+        },
+      };
+    case DELETE_SECTION_1_MICS_ERROR:
+      return {
+        ...state,
+        question1Delete: { ...state.question1Delete, loading: false },
       };
 
     case GET_SECTION_3_MICS_REQUEST:

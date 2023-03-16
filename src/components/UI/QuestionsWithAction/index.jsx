@@ -14,6 +14,7 @@ const QuestionsWithAction = ({
   active,
   handleDelete = () => {},
   allQuestions = [],
+  handleSave = () => {},
 }) => {
   const [showEditModal, setShowEditModal] = useState(null);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
@@ -63,7 +64,7 @@ const QuestionsWithAction = ({
         showEditModal={showEditModal}
         setShowEditModal={setShowEditModal}
         allQuestions={allQuestions}
-        // handleSave={handleSave}
+        handleSave={handleSave}
       />
     </div>
   );

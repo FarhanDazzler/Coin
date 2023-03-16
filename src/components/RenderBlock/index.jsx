@@ -7,19 +7,16 @@ import Input from '../UI/Input';
 import RadioMulti from '../UI/RadioMulti';
 import RadioWithInput from '../UI/RadioWithInput';
 import { useDispatch, useSelector } from 'react-redux';
+import Dropdown from '../UI/Dropdown';
 
 const RenderBlock = ({ blocks = [], handleChange }) => {
   const controlDataResponse = useSelector((state) => state?.controlData?.controlData?.data);
-  console.log("hi",controlDataResponse);
-  console.log("blocks",blocks);
   for (let i = 0; i < blocks.length; i++) {
     let question = blocks[i].question_text;
-    console.log("questions=======>",question)
     question = question.replaceAll('{{org}}', controlDataResponse?.provider_org);
     question = question.replaceAll('{{ReceiverOrg}}', controlDataResponse?.provider_org);
     question = question.replaceAll('{{freq}}', controlDataResponse?.frequency);
     question = question.replaceAll('({{Frequency}})', controlDataResponse?.frequency);
-    console.log("output",question)
     blocks[i].question_text = question;
     blocks[i].label = question;
     // console.log(question);
@@ -33,6 +30,18 @@ const RenderBlock = ({ blocks = [], handleChange }) => {
             return (
               <RenderBlockWrapper key={i}>
                 <Radio
+                  block={block}
+                  label={block.label}
+                  options={block.options}
+                  value={block.value}
+                  handleChange={handleChange}
+                />
+              </RenderBlockWrapper>
+            );
+          case blockType.DROPDOWN:
+            return (
+              <RenderBlockWrapper key={i}>
+                <Dropdown
                   block={block}
                   label={block.label}
                   options={block.options}

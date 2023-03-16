@@ -58,6 +58,7 @@ const ModifyStandard = () => {
             active
             handleDelete={handleDelete}
             allQuestions={section1}
+            // handleSave={handleSave}
           />
         ))}
       </div>
