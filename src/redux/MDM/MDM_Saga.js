@@ -7,6 +7,9 @@ import {
   GET_ORG_STRUCTURES_REQUEST,
   GET_ORG_STRUCTURES_SUCCESS,
   GET_ORG_STRUCTURES_ERROR,
+  GET_ORG_HIERARCHY_REQUEST,
+  GET_ORG_HIERARCHY_SUCCESS,
+  GET_ORG_HIERARCHY_ERROR,
 } from './MDM_Reducer';
 
 async function getOrgStructuresApi(params) {
@@ -29,4 +32,27 @@ function* handleGet_org_structures({ payload }) {
   }
 }
 
-export default all([takeLatest(GET_ORG_STRUCTURES_REQUEST, handleGet_org_structures)]);
+async function getOrgHierarchyApi(params) {
+  return await Axios.get('/get_hierarchy', { params });
+}
+function* handleGet_org_hierarchy({ payload }) {
+  try {
+    const response = yield call(getOrgHierarchyApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_ORG_HIERARCHY_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_ORG_HIERARCHY_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+export default all([
+  takeLatest(GET_ORG_STRUCTURES_REQUEST, handleGet_org_structures),
+  takeLatest(GET_ORG_HIERARCHY_REQUEST, handleGet_org_hierarchy),
+]);

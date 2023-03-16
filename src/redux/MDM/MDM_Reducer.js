@@ -4,6 +4,10 @@ export const GET_ORG_STRUCTURES_REQUEST = 'GET_ORG_STRUCTURES_REQUEST';
 export const GET_ORG_STRUCTURES_SUCCESS = 'GET_ORG_STRUCTURES_SUCCESS';
 export const GET_ORG_STRUCTURES_ERROR = 'GET_ORG_STRUCTURES_ERROR';
 
+export const GET_ORG_HIERARCHY_REQUEST = 'GET_ORG_HIERARCHY_REQUEST';
+export const GET_ORG_HIERARCHY_SUCCESS = 'GET_ORG_HIERARCHY_SUCCESS';
+export const GET_ORG_HIERARCHY_ERROR = 'GET_ORG_STRUCTURES_ERROR';
+
 export const RESET_BLOCK_ASSESSMENT = 'RESET_BLOCK_ASSESSMENT';
 export const RESET_FLAGS_ASSESSMENT = 'RESET_FLAGS_ASSESSMENT';
 
@@ -15,6 +19,7 @@ const block = {
 
 const initialState = {
   orgStructures: { ...block, data: [] },
+  orgHierarchy: { ...block, data: [] },
 };
 
 export const MDMReducer = (state = initialState, { type, payload = {} }) => {
@@ -34,6 +39,23 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
       return {
         ...state,
         orgStructures: { ...state.orgStructures, loading: false },
+      };
+
+    // MDM Org Hierarchy data
+    case GET_ORG_HIERARCHY_REQUEST:
+      return {
+        ...state,
+        orgHierarchy: { ...state.orgHierarchy, loading: true },
+      };
+    case GET_ORG_HIERARCHY_SUCCESS:
+      return {
+        ...state,
+        orgHierarchy: { ...state.orgHierarchy, data: payload, loading: false },
+      };
+    case GET_ORG_HIERARCHY_ERROR:
+      return {
+        ...state,
+        orgHierarchy: { ...state.orgHierarchy, loading: false },
       };
 
     //reset block with flag and data

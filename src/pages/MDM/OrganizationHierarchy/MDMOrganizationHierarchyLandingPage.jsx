@@ -3,9 +3,10 @@ import PageWrapper from '../../../components/wrappers/PageWrapper';
 import '../MDMStyle.scss';
 import NavTabsMDM from '../MDM_Tab_Buttons/TabButtons';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrgStructures } from '../../../redux/MDM/MDM_Action';
+import { getOrgStructures, getOrgHierarchy } from '../../../redux/MDM/MDM_Action';
 import { getOrgStructuresSelector } from '../../../redux/MDM/MDM_Selectors';
 import OrgStructuresTable from './Tables/OrgStructures/OrgStructuresTable';
+import OrgHierarchyTable from './Tables/OrgHierarchy/OrgHierarchyTable';
 
 const MDM_OrganizationHierarchyLandingPage = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const MDM_OrganizationHierarchyLandingPage = () => {
   // API Call using dispatch
   useEffect(() => {
     dispatch(getOrgStructures());
+    dispatch(getOrgHierarchy());
   }, []);
 
   // to select data from redux store using selector
@@ -22,6 +24,7 @@ const MDM_OrganizationHierarchyLandingPage = () => {
   return (
     <PageWrapper>
       <NavTabsMDM />
+      <OrgHierarchyTable />
       <OrgStructuresTable />
       {/*<div className="container py-5" style={{ display: 'flex' }}>
         <div className="col-lg-6 py-4 MDMBoxWrapper" style={{ marginRight: '16px' }}>
