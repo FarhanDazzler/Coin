@@ -4,7 +4,6 @@ import '../MDMStyle.scss';
 import NavTabsMDM from '../MDM_Tab_Buttons/TabButtons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrgStructures, getOrgHierarchy } from '../../../redux/MDM/MDM_Action';
-import { getOrgStructuresSelector } from '../../../redux/MDM/MDM_Selectors';
 import OrgStructuresTable from './Tables/OrgStructures/OrgStructuresTable';
 import OrgHierarchyTable from './Tables/OrgHierarchy/OrgHierarchyTable';
 

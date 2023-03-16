@@ -10,6 +10,9 @@ import {
   GET_ORG_HIERARCHY_REQUEST,
   GET_ORG_HIERARCHY_SUCCESS,
   GET_ORG_HIERARCHY_ERROR,
+  GET_MICS_FRAMEWORK_REQUEST,
+  GET_MICS_FRAMEWORK_SUCCESS,
+  GET_MICS_FRAMEWORK_ERROR,
 } from './MDM_Reducer';
 
 async function getOrgStructuresApi(params) {
@@ -52,7 +55,28 @@ function* handleGet_org_hierarchy({ payload }) {
   }
 }
 
+async function getMicsFrameworkApi(params) {
+  return await Axios.get('/get_mics_framework_details', { params });
+}
+function* handleGet_MicsFramework({ payload }) {
+  try {
+    const response = yield call(getMicsFrameworkApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_MICS_FRAMEWORK_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_MICS_FRAMEWORK_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 export default all([
   takeLatest(GET_ORG_STRUCTURES_REQUEST, handleGet_org_structures),
   takeLatest(GET_ORG_HIERARCHY_REQUEST, handleGet_org_hierarchy),
+  takeLatest(GET_MICS_FRAMEWORK_REQUEST, handleGet_MicsFramework),
 ]);
