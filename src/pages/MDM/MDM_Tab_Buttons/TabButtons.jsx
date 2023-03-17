@@ -15,18 +15,20 @@ function NavTabsMDM() {
     setActiveTab(tabId);
     // setTimeout(() => {
     //   history.push(url);
-    // }, 2000);
+    // }, 1500);
   };
-  const ActiveTool = ({ number, text }) => <Tooltip title={text} placement="bottom-start">
-    <ErrorOutlineIcon color={activeTab === number ? 'black' : '#ffc800'} />
-  </Tooltip>
+  const ActiveTool = ({ number, text }) => (
+    <Tooltip title={text} placement="bottom-start">
+      <ErrorOutlineIcon color={activeTab === number ? 'black' : '#ffc800'} />
+    </Tooltip>
+  );
   const MyComponent = React.memo((props) => {
     return (
-      <div className="col col-lg-12" style={{ marginLeft: '30px' }}>
+      <div className="col col-lg-12" style={{ marginLeft: '160px' }}>
         <Button
           variant="outlined"
           size="small"
-          startIcon={<ActiveTool number={1} text='Free Text' />}
+          startIcon={<ActiveTool number={1} text="Free Text" />}
           className={activeTab === 1 ? 'active-tab-button' : 'mr-4 tabButton'}
           //className="mr-4"
           onClick={handleClick('/master-data-management/organization-hierarchy', 1)}
@@ -37,20 +39,19 @@ function NavTabsMDM() {
         <Button
           variant="outlined"
           size="small"
-          startIcon={<ActiveTool number={2} text='Free Text' />}
+          startIcon={<ActiveTool number={2} text="Free Text" />}
           className={activeTab === 2 ? 'active-tab-button' : 'mr-4 tabButton'}
           onClick={handleClick(
             '/master-data-management/applicability-assignment-of-provider-organization',
             2,
-          )
-          }
+          )}
         >
           Applicability & Assignment of Provider Organization
         </Button>
         <Button
           variant="outlined"
           size="small"
-          startIcon={<ActiveTool number={3} text='Free Text' />}
+          startIcon={<ActiveTool number={3} text="Free Text" />}
           className={activeTab === 3 ? 'active-tab-button' : 'mr-4 tabButton'}
           onClick={handleClick('/master-data-management/co-owner-oversight', 3)}
         >
@@ -59,7 +60,7 @@ function NavTabsMDM() {
         <Button
           variant="outlined"
           size="small"
-          startIcon={<ActiveTool number={4} text='Free Text' />}
+          startIcon={<ActiveTool number={4} text="Free Text" />}
           className={activeTab === 4 ? 'active-tab-button' : 'mr-4 tabButton'}
           onClick={handleClick('/master-data-management/mics-framework', 4)}
         >
@@ -68,7 +69,7 @@ function NavTabsMDM() {
         <Button
           variant="outlined"
           size="small"
-          startIcon={<ActiveTool number={5} text='Free Text' />}
+          startIcon={<ActiveTool number={5} text="Free Text" />}
           className={activeTab === 5 ? 'active-tab-button' : 'mr-4 tabButton'}
           onClick={handleClick('/master-data-management/mega-process-sub-Process', 5)}
         >
