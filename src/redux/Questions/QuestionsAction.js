@@ -8,6 +8,7 @@ import {
   GET_SECTION_1_MICS_REQUEST,
   UPDATE_SECTION_1_MICS_REQUEST,
   DELETE_SECTION_1_MICS_REQUEST,
+  ADD_SECTION_1_MICS_REQUEST,
 } from './QuestionsReducer';
 
 export const getSection1Questions = (payload) => ({
@@ -22,6 +23,12 @@ export const deleteSection1Questions = (payload) => ({
   type: DELETE_SECTION_1_MICS_REQUEST,
   payload,
 });
+
+export const addSection1Questions = (payload) => ({
+  type: ADD_SECTION_1_MICS_REQUEST,
+  payload,
+});
+
 export const getSection3Questions = (payload) => ({ type: GET_SECTION_3_MICS_REQUEST, payload });
 
 export const addSection3Questions = (payload) => ({

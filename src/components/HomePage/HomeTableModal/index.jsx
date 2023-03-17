@@ -19,14 +19,17 @@ import { Loader } from '@mantine/core';
 import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
 import Swal from 'sweetalert2';
 import { useMsal } from '@azure/msal-react';
-import {  getControlDataAction, getControlDataGcdAction } from '../../../redux/ControlData/ControlDataAction';
+import {
+  getControlDataAction,
+  getControlDataGcdAction,
+} from '../../../redux/ControlData/ControlDataAction';
 
 const HomeTableModal = () => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const dispatch = useDispatch();
   const questionsInfo = useSelector(getQuestionsSelector);
-  const [ansSection1, setAnsSection1] = useState({});
+  const [ansSection1, setAnsSection1] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [ansSection3, setAnsSection3] = useState({});
   const [showNoQuestionAns, setShowNoQuestionAns] = useState('');
@@ -48,14 +51,14 @@ const HomeTableModal = () => {
       }),
     );
     let payload = {
-      controlId : Control_ID,
-      coOwner: accounts.length > 0 ? accounts[0].username : ''
-    }
+      controlId: Control_ID,
+      coOwner: accounts.length > 0 ? accounts[0].username : '',
+    };
     let gcdPayload = {
-      controlId : Control_ID,
-    }
-    dispatch(getControlDataAction(payload ));
-    dispatch(getControlDataGcdAction(gcdPayload))
+      controlId: Control_ID,
+    };
+    dispatch(getControlDataAction(payload));
+    dispatch(getControlDataGcdAction(gcdPayload));
   }, []);
 
   useEffect(() => {

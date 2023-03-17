@@ -89,9 +89,11 @@ const EditSection1Question = ({
 
   useEffect(() => {
     if (allQuestions.length > 0) {
-      const op = allQuestions.map((allQ, i) => {
-        return { label: `${i + 1}. ${allQ.question_text}`, value: allQ.q_id };
-      });
+      const op = allQuestions
+        .map((allQ, i) => {
+          return { label: `${i + 1}. ${allQ.question_text}`, value: allQ.q_id };
+        })
+        ?.filter((q) => q.value !== block.q_id);
       setOptions(op);
     }
   }, [allQuestions]);
