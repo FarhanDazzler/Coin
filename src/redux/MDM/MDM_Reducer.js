@@ -12,6 +12,14 @@ export const GET_MICS_FRAMEWORK_REQUEST = 'GET_MICS_FRAMEWORK_REQUEST';
 export const GET_MICS_FRAMEWORK_SUCCESS = 'GET_MICS_FRAMEWORK_SUCCESS';
 export const GET_MICS_FRAMEWORK_ERROR = 'GET_MICS_FRAMEWORK_ERROR';
 
+export const GET_MEGA_AND_SUBPROCESS_VIEW_REQUEST = 'GET_MEGA_AND_SUBPROCESS_VIEW_REQUEST';
+export const GET_MEGA_AND_SUBPROCESS_VIEW_SUCCESS = 'GET_MEGA_AND_SUBPROCESS_VIEW_SUCCESS';
+export const GET_MEGA_AND_SUBPROCESS_VIEW_ERROR = 'GET_MEGA_AND_SUBPROCESS_VIEW_ERROR';
+
+export const GET_MEGA_AND_SUBPROCESS_REQUEST = 'GET_MEGA_AND_SUBPROCESS_REQUEST';
+export const GET_MEGA_AND_SUBPROCESS_SUCCESS = 'GET_MEGA_AND_SUBPROCESS_SUCCESS';
+export const GET_MEGA_AND_SUBPROCESS_ERROR = 'GET_MICS_FRAMEWORK_ERROR';
+
 export const RESET_BLOCK_ASSESSMENT = 'RESET_BLOCK_ASSESSMENT';
 export const RESET_FLAGS_ASSESSMENT = 'RESET_FLAGS_ASSESSMENT';
 
@@ -25,6 +33,8 @@ const initialState = {
   orgStructures: { ...block, data: [] },
   orgHierarchy: { ...block, data: [] },
   micsFramework: { ...block, data: [] },
+  megaAndSubprocessView: { ...block, data: [] },
+  megaAndSubprocess: { ...block, data: [] },
 };
 
 export const MDMReducer = (state = initialState, { type, payload = {} }) => {
@@ -78,6 +88,40 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
       return {
         ...state,
         micsFramework: { ...state.micsFramework, loading: false },
+      };
+
+    // MEGA AND Subprocess view data
+    case GET_MEGA_AND_SUBPROCESS_VIEW_REQUEST:
+      return {
+        ...state,
+        megaAndSubprocessView: { ...state.megaAndSubprocessView, loading: true },
+      };
+    case GET_MEGA_AND_SUBPROCESS_VIEW_SUCCESS:
+      return {
+        ...state,
+        megaAndSubprocessView: { ...state.megaAndSubprocessView, data: payload, loading: false },
+      };
+    case GET_MEGA_AND_SUBPROCESS_VIEW_ERROR:
+      return {
+        ...state,
+        megaAndSubprocessView: { ...state.megaAndSubprocessView, loading: false },
+      };
+
+    // MEGA AND Subprocess data
+    case GET_MEGA_AND_SUBPROCESS_REQUEST:
+      return {
+        ...state,
+        megaAndSubprocess: { ...state.megaAndSubprocess, loading: true },
+      };
+    case GET_MEGA_AND_SUBPROCESS_SUCCESS:
+      return {
+        ...state,
+        megaAndSubprocess: { ...state.megaAndSubprocess, data: payload, loading: false },
+      };
+    case GET_MEGA_AND_SUBPROCESS_ERROR:
+      return {
+        ...state,
+        megaAndSubprocess: { ...state.megaAndSubprocess, loading: false },
       };
 
     //reset block with flag and data
