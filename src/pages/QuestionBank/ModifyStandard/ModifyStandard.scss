@@ -1,0 +1,32 @@
+.modify-standard{
+    .model-header{
+        p{
+            display: none;
+        }
+    }
+    
+}
+.select-light{
+    margin-top: 20px;
+}
+.note {
+    background: #F7F6ED;
+    padding: 4px 12px;
+    p{
+        font-size: 14px;
+        margin: 10px 0;
+    }
+}
+.create-question{
+    .modal-body{
+        height: 400px;
+        max-height: 400px;
+        overflow: hidden;
+        overflow-y: auto;
+    }
+    .position-absolute{
+        bottom: 1rem;
+        right: 0.75rem;
+    }
+    
+}
