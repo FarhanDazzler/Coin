@@ -50,15 +50,7 @@ const HomeTableModal = () => {
         Entity_ID: 'Argentina',
       }),
     );
-    let payload = {
-      controlId: Control_ID,
-      coOwner: accounts.length > 0 ? accounts[0].username : '',
-    };
-    let gcdPayload = {
-      controlId: Control_ID,
-    };
-    dispatch(getControlDataAction(payload));
-    dispatch(getControlDataGcdAction(gcdPayload));
+    
   }, []);
 
   useEffect(() => {

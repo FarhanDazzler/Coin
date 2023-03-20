@@ -12,6 +12,7 @@ const CustomModal = ({
   ...res
 }) => {
   let rootClass = 'custom-modal-wrapper';
+  const stateControlData = useSelector((state) => state?.controlData?.controlData?.data)
   if ('root' in classes) {
     rootClass = `${rootClass} ${classes.root}`;
     delete classes.root;
