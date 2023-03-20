@@ -1,22 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import { Form } from 'react-bootstrap';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import './ModifyStandard.scss';
-import { levels, names, questions, tableHeader } from './../CreateQuestions/constant';
-import { ReactComponent as ExportExcel } from '../../../assets/images/ExportExcel.svg';
-import { ReactComponent as UploadFile } from '../../../assets/images/UploadFile.svg';
-import blockType from '../../../components/RenderBlock/constant';
-import { getFormatQuestions, getQuestionsFormatData } from '../../../utils/helper';
 import CustomModal from '../../../components/UI/CustomModal';
-import Select from '../../../components/UI/Select/Select';
-import CollapseFrame from '../../../components/UI/CollapseFrame';
 import QuestionsWithAction from '../../../components/UI/QuestionsWithAction';
 import info from './../../../assets/images/Info-Circle.svg'
 // import Button from '../../../components/UI/Button';
 import { Button } from '@mantine/core';
-import RenderBlock from '../../../components/RenderBlock';
 import { useDispatch, useSelector } from 'react-redux';
+import { names } from '../CreateQuestions/constant';
 import {
     addSection3Questions,
     deleteSection3Questions,
@@ -27,33 +18,25 @@ import { questionSelector } from '../../../redux/Questions/QuestionsSelectors';
 import { Loader } from 'semantic-ui-react';
 import Swal from 'sweetalert2';
 import { getSection1QuestionDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
+import AddSection1Questions from './AddSection1Question';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 340,
-        },
-    },
-};
 
 const ModifyStandard = ({ open, handleClose }) => {
     const dispatch = useDispatch();
-    const section1Questions = useSelector((state) => state?.section1QuestionData?.data)
+    const section1Questions = useSelector((state) => state?.section1QuestionData?.section1GetQuestion?.data)
+    const AddQuestionSuccess = useSelector((state) => state?.section1QuestionData?.section1AddQuestion)
+    console.log(AddQuestionSuccess);
     console.log(section1Questions);
     const [section1QuestionsData, setection1QuestionsData] = useState([])
-    const [section1, setSection1] = useState(questions);
-    console.log(section1);
     const [template_ID, setTemplate_ID] = useState("Standard");
     const [showAddQuestion, setShowAddQuestion] = useState(false);
-    const [level, setLevel] = useState(['L1']);
-    const [isEdit, setIsEdit] = useState(false);
-    const questionData = useSelector(questionSelector);
-    const [section3, setSection3] = useState([]);
+    const [template2_id, setTemplate2_ID] = useState("");
+    const [selectContrilId, setSelectControlId] = useState(false);
+    const [valueType, setValueType] = useState()
+
     const handleChange = (event) => {
         setTemplate_ID(event.target.value);
+        
     };
 
     useEffect(() => {
@@ -61,75 +44,43 @@ const ModifyStandard = ({ open, handleClose }) => {
             controlId: template_ID
         }
         dispatch(getSection1QuestionDataAction(payload))
-    }, [template_ID])
+    }, [template_ID, AddQuestionSuccess])
     useEffect(() => {
         if (section1Questions.length > 0) {
             console.log("hh", section1Questions);
             setection1QuestionsData(section1Questions);
-        }else{
+        } else {
             setection1QuestionsData([])
         }
 
     }, [section1Questions, template_ID])
-    useEffect(() => {
-        if (section3.length > 0) {
-            setShowAddQuestion(false);
-        } else {
-            setShowAddQuestion(true);
-        }
-    }, [section3]);
+
     const TemplateOptions = [
         { label: 'Template1', value: 'Standard' },
         { label: 'Template2', value: 'ATR_ACCR_01a' },
 
     ];
-
-
     useEffect(() => {
-        const div = document.getElementById('loader');
-        if (div) div.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, [questionData.loading]);
-
-    useEffect(() => {
-        if (questionData.data.length > 0) {
-            const apiQuestion = getQuestionsFormatData(questionData.data);
-            setSection3(getFormatQuestions(apiQuestion, 'isQuestionEdit'));
-            return;
+        if(AddQuestionSuccess?.success){
+            console.log("success")
+            setShowAddQuestion(false);
         }
-        setSection3([]);
-    }, [questionData.data]);
+    }, [AddQuestionSuccess])
 
-
-    const handleSaveQuestion = (saveWithCloseModal = true) => {
-        if (section3.length > 0) {
-            const payload = {
-                Header_Question: section3[0].label,
-                Inner_Questions: JSON.stringify(section3[0].innerOptions),
-                Level: level[0],
-                Control_ID: template_ID[0],
-            };
-            if (questionData.data.length > 0) {
-                dispatch(updateSection3Questions(payload));
-            } else {
-                dispatch(addSection3Questions(payload));
-            }
-            setIsEdit(false);
-            if (saveWithCloseModal) handleClose();
+    const handleAddQuestionClose = () => {
+        setShowAddQuestion(false);
+    }
+    const handleChangeRenderBlock = (value, data) => {
+        if (value === 'delete') {
+          console.log(data);
+          setValueType('delete')
+        }else if(value === 'edit'){
+            setValueType('edit')
+        }else {
+            setValueType();
         }
-    };
-
-    const handleAddQuestion = () => {
-        const payload = {
-            Control_ID: template_ID[0],
-            Header_Question: 'Header question title',
-            Inner_Questions: '',
-            Level: level[0],
-        };
-        // dispatch(addSection3Questions(payload));
-        setIsEdit(true);
-        const newDataQuestion = getQuestionsFormatData([payload]);
-        setSection3(getFormatQuestions(newDataQuestion, 'isQuestionEdit'));
-    };
+       
+      };
 
     return (
         <div>
@@ -159,21 +110,46 @@ const ModifyStandard = ({ open, handleClose }) => {
                         MICS-Specific
                     </Button>
                 </div>
-                <div className="select-light">
-                    <Form.Group className="input-group mb-3">
-                        <Form.Control
-                            as="select"
-                            name="template"
-                            placeholder=""
-                            value={template_ID}
-                            className="form-select"
-                            onChange={handleChange}
-                        >
-                            <option value="Standard">Template1</option>
-                            <option value="ATR_ACCR_01a">Template2</option>
-                        </Form.Control>
-                    </Form.Group>
+                <div className="select-light row">
+                    <div className="col-md-3">
+                        <Form.Group className="input-group mb-3">
+                            <Form.Control
+                                as="select"
+                                name="template"
+                                placeholder=""
+                                value={template_ID}
+                                className="form-select"
+                                onChange={handleChange}
+                            >
+                                <option value="Standard">Template1</option>
+                                <option value="ATR_ACCR_01a">Template2</option>
+                            </Form.Control>
+                        </Form.Group>
+                    </div>
 
+                    {
+                        selectContrilId ?
+                            <div className="col-md-3">
+                                <Form.Group className="input-group mb-3">
+                                    <Form.Control
+                                        as="select"
+                                        name="template"
+                                        placeholder="Select Control Id"
+                                        value={template_ID}
+                                        className="form-select"
+                                        onChange={handleChange}
+                                    >
+                                        <option value="">Select Control ID</option>
+                                        {
+                                            names.map((data, i) => (
+                                                <option key={i} value={data.value}>{data.label}</option>
+                                            ))
+                                        }
+                                    </Form.Control>
+                                </Form.Group>
+                            </div>
+                            : ""
+                    }
                 </div>
                 <div className='note'>
                     <p><span><img src={info} /></span>Any modifications to Standard Questions will reflect in all Assessments & Surveys.</p>
@@ -183,7 +159,7 @@ const ModifyStandard = ({ open, handleClose }) => {
 
                     <div className="pt-5">
                         {section1QuestionsData.map((data, i) => (
-                            <QuestionsWithAction number={i + 1} text={data.question_text} withAction={true} active={true} />
+                            <QuestionsWithAction number={i + 1} text={data.question_text} withAction={true} active={true} data={data} handleChange={handleChangeRenderBlock} />
                         ))}
                         {
                             section1QuestionsData.length == 0 && (
@@ -195,14 +171,12 @@ const ModifyStandard = ({ open, handleClose }) => {
 
 
 
-                    <div>
+                    <div className='d-flex align-items-center justify-content-between'>
                         <div>
-
                             <Button
                                 color="secondary"
                                 variant="default"
-                                onClick={handleAddQuestion}
-
+                                onClick={() => setShowAddQuestion(true)}
                             >
                                 Add Question
                             </Button>
@@ -224,6 +198,7 @@ const ModifyStandard = ({ open, handleClose }) => {
                     </div>
                 </div>
             </CustomModal>
+            <AddSection1Questions controlId={template_ID} open={showAddQuestion} handleClose={handleAddQuestionClose} />
         </div>
     );
 };

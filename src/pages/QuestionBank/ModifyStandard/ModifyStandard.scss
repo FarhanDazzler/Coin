@@ -4,9 +4,9 @@
             display: none;
         }
     }
+    
 }
 .select-light{
-    width: 200px;
     margin-top: 20px;
 }
 .note {
@@ -16,4 +16,17 @@
         font-size: 14px;
         margin: 10px 0;
     }
+}
+.create-question{
+    .modal-body{
+        height: 400px;
+        max-height: 400px;
+        overflow: hidden;
+        overflow-y: auto;
+    }
+    .position-absolute{
+        bottom: 1rem;
+        right: 0.75rem;
+    }
+    
 }
