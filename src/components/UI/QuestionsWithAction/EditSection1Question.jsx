@@ -10,11 +10,17 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 
-const EditSection1Question = ({ showEditModal, block = {}, setShowEditModal, allQuestions }) => {
+const EditSection1Question = ({
+  showEditModal,
+  block = {},
+  setShowEditModal,
+  allQuestions,
+  handleSave,
+}) => {
   const [question, setQuestion] = useState();
   const [questionOptions, setQuestionOptions] = useState([]);
   const [options, setOptions] = useState([]);
-  const [questionChildId, setQuestionChildId] = useState('');
+  const [freeTextChildQId, setFreeTextChildQId] = useState('');
   const handleChangeQuestion = (value) => {
     setQuestion(value);
   };
@@ -53,7 +59,12 @@ const EditSection1Question = ({ showEditModal, block = {}, setShowEditModal, all
   };
 
   const handleDeleteOption = (op) => () => {
-    const updateQ = questionOptions.filter((upOp) => upOp.option_id !== op.option_id);
+    const updateQ = questionOptions.map((upOp) => {
+      if (upOp.option_id === op.option_id) {
+        return { ...upOp, isRemove: true };
+      }
+      return { ...upOp };
+    });
     setQuestionOptions(updateQ);
   };
 
@@ -66,19 +77,23 @@ const EditSection1Question = ({ showEditModal, block = {}, setShowEditModal, all
         option_id: Date.now(),
         option_value: '',
         q_id: block.q_id,
+        isNew: true,
       },
     ]);
   };
 
-  const handleSave = () => {
+  const handleSaveQuestion = () => {
     setShowEditModal(null);
+    handleSave({ question, questionOptions, freeTextChildQId });
   };
 
   useEffect(() => {
     if (allQuestions.length > 0) {
-      const op = allQuestions.map((allQ, i) => {
-        return { label: `${i + 1}. ${allQ.question_text}`, value: allQ.q_id };
-      });
+      const op = allQuestions
+        .map((allQ, i) => {
+          return { label: `${i + 1}. ${allQ.question_text}`, value: allQ.q_id };
+        })
+        ?.filter((q) => q.value !== block.q_id);
       setOptions(op);
     }
   }, [allQuestions]);
@@ -109,8 +124,8 @@ const EditSection1Question = ({ showEditModal, block = {}, setShowEditModal, all
               <FormControl sx={{ width: '100%', color: '#000' }} size="small">
                 <Select
                   placeholder="Select sub question"
-                  value={1}
-                  // onChange={(e) => handleSelectOptions(e, op)}
+                  value={freeTextChildQId}
+                  onChange={({ target: { value } }) => setFreeTextChildQId(value)}
                   options={options}
                   inputProps={{ 'aria-label': 'Without label' }}
                   inputLook
@@ -122,30 +137,33 @@ const EditSection1Question = ({ showEditModal, block = {}, setShowEditModal, all
               <FormControl className="input-wrapper">
                 <FormLabel>Question options</FormLabel>
               </FormControl>
-              {questionOptions.map((op) => (
-                <div className="my-2 d-flex align-items-center" key={op.option_id}>
-                  <Input
-                    value={op.option_value}
-                    block={op}
-                    placeholder="Enter question options"
-                    handleChange={handleChangeOption}
-                  />
-                  <FormControl sx={{ m: 1, width: '30%', color: '#000' }} size="small">
-                    <Select
-                      placeholder="Select sub question"
-                      value={op.child_question}
-                      onChange={(e) => handleSelectOptions(e, op)}
-                      options={options}
-                      inputLook
+              {questionOptions.map((op) => {
+                if (op.isRemove) return;
+                return (
+                  <div className="my-2 d-flex align-items-center" key={op.option_id}>
+                    <Input
+                      value={op.option_value}
+                      block={op}
+                      placeholder="Enter question options"
+                      handleChange={handleChangeOption}
                     />
-                  </FormControl>
-                  <Tooltip title="Delete" placement="top">
-                    <IconButton onClick={handleDeleteOption(op)}>
-                      <DeleteOutlineIcon className="cursor-pointer" />
-                    </IconButton>
-                  </Tooltip>
-                </div>
-              ))}
+                    <FormControl sx={{ m: 1, width: '30%', color: '#000' }} size="small">
+                      <Select
+                        placeholder="Select sub question"
+                        value={op.child_question}
+                        onChange={(e) => handleSelectOptions(e, op)}
+                        options={options}
+                        inputLook
+                      />
+                    </FormControl>
+                    <Tooltip title="Delete" placement="top">
+                      <IconButton onClick={handleDeleteOption(op)}>
+                        <DeleteOutlineIcon className="cursor-pointer" />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
@@ -163,7 +181,7 @@ const EditSection1Question = ({ showEditModal, block = {}, setShowEditModal, all
               <Button variant="outlined" color="secondary" onClick={() => setShowEditModal(null)}>
                 Cancel
               </Button>
-              <Button color="neutral" className="ml-4" onClick={handleSave}>
+              <Button color="neutral" className="ml-4" onClick={handleSaveQuestion}>
                 Save
               </Button>
             </div>

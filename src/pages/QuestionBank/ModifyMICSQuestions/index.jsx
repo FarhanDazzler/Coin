@@ -22,29 +22,32 @@ const ModifyMICSQuestions = ({ open, handleClose, type = '' }) => {
         title={<span>Modify Survey for Existing MICS</span>}
         width={1080}
         onClose={handleClose}
+        bodyClassName="p-0"
       >
-        <div className="d-flex justify-content-center">
-          <Button className="mx-3" color="silver">
-            Template 1
-          </Button>
-          <Button
-            className="mx-3"
-            color={activeType === 'Standard' ? 'neutral' : 'silver'}
-            onClick={() => handleSetType('Standard')}
-          >
-            Standard
-          </Button>
-          <Button
-            className="mx-3"
-            color={activeType === 'MICS-Specific' ? 'neutral' : 'silver'}
-            onClick={() => handleSetType('MICS-Specific')}
-          >
-            MICS-Specific
-          </Button>
-        </div>
+        <div className="p-5">
+          <div className="d-flex justify-content-center">
+            <Button className="mx-3" color="silver">
+              Template 1
+            </Button>
+            <Button
+              className="mx-3"
+              color={activeType === 'Standard' ? 'neutral' : 'silver'}
+              onClick={() => handleSetType('Standard')}
+            >
+              Standard
+            </Button>
+            <Button
+              className="mx-3"
+              color={activeType === 'MICS-Specific' ? 'neutral' : 'silver'}
+              onClick={() => handleSetType('MICS-Specific')}
+            >
+              MICS-Specific
+            </Button>
+          </div>
 
-        {activeType === 'Standard' && <ModifyStandard />}
-        {activeType === 'MICS-Specific' && <MICSSpecific handleClose={handleClose} />}
+          {activeType === 'Standard' && <ModifyStandard />}
+          {activeType === 'MICS-Specific' && <MICSSpecific handleClose={handleClose} />}
+        </div>
       </CustomModal>
     </div>
   );

@@ -8,3 +8,11 @@
     color: #a48f2e !important;
   }
 }
+
+.add-question-btn {
+  position: sticky;
+  top: -1px;
+  background: #fff;
+  z-index: 5;
+  padding: 10px 0;
+}

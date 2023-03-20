@@ -16,6 +16,15 @@ import {
   GET_SECTION_1_MICS_REQUEST,
   GET_SECTION_1_MICS_SUCCESS,
   GET_SECTION_1_MICS_ERROR,
+  UPDATE_SECTION_1_MICS_REQUEST,
+  UPDATE_SECTION_1_MICS_SUCCESS,
+  UPDATE_SECTION_1_MICS_ERROR,
+  DELETE_SECTION_1_MICS_REQUEST,
+  DELETE_SECTION_1_MICS_SUCCESS,
+  DELETE_SECTION_1_MICS_ERROR,
+  ADD_SECTION_1_MICS_SUCCESS,
+  ADD_SECTION_1_MICS_ERROR,
+  ADD_SECTION_1_MICS_REQUEST,
 } from './QuestionsReducer';
 import Swal from 'sweetalert2';
 
@@ -34,6 +43,70 @@ function* handleGetSection1({ payload }) {
   } catch (error) {
     yield put({
       type: GET_SECTION_1_MICS_ERROR,
+      payload: getSimplifiedError(error),
+    });
+  }
+}
+
+async function addSection1Api(payload) {
+  return await Axios.post('/add_Section1_Question', payload);
+}
+function* handleAddSection1({ payload }) {
+  try {
+    const response = yield call(addSection1Api, payload);
+    if (response.success) {
+      yield put({
+        type: GET_SECTION_1_MICS_REQUEST,
+        payload: { Control_ID: payload.Control_ID },
+      });
+      yield put({
+        type: ADD_SECTION_1_MICS_SUCCESS,
+        payload: { data: response.data },
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_SECTION_1_MICS_ERROR,
+      payload: getSimplifiedError(error),
+    });
+  }
+}
+
+async function updateSection1Api(payload) {
+  return await Axios.post('/updateSection1Api', payload);
+}
+function* handleUpdateSection1({ payload }) {
+  try {
+    const response = yield call(updateSection1Api, payload);
+    if (response.success) {
+      yield put({
+        type: UPDATE_SECTION_1_MICS_SUCCESS,
+        payload: {},
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: UPDATE_SECTION_1_MICS_ERROR,
+      payload: getSimplifiedError(error),
+    });
+  }
+}
+
+async function deleteSection1Api(payload) {
+  return await Axios.post('/delete_Section1_Question', payload);
+}
+function* handleDeleteSection1({ payload }) {
+  try {
+    const response = yield call(deleteSection1Api, payload);
+    if (response.success) {
+      yield put({
+        type: DELETE_SECTION_1_MICS_SUCCESS,
+        payload: {},
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: DELETE_SECTION_1_MICS_ERROR,
       payload: getSimplifiedError(error),
     });
   }
@@ -123,6 +196,9 @@ function* handleDeleteSection3({ payload }) {
 
 export default all([
   takeLatest(GET_SECTION_1_MICS_REQUEST, handleGetSection1),
+  takeLatest(UPDATE_SECTION_1_MICS_REQUEST, handleUpdateSection1),
+  takeLatest(ADD_SECTION_1_MICS_REQUEST, handleAddSection1),
+  takeLatest(DELETE_SECTION_1_MICS_REQUEST, handleDeleteSection1),
   takeLatest(GET_SECTION_3_MICS_REQUEST, handleGetSection3),
   takeLatest(GET_SECTION_3_MICS_ADD_REQUEST, handleAddSection3),
   takeLatest(GET_SECTION_3_MICS_UPDATE_REQUEST, handleUpdateSection3),

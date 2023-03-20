@@ -18,6 +18,19 @@ export const getFormatQuestions = (questions, action, startStr) => {
           show: i === 0,
         };
 
+      case blockType.DROPDOWN:
+        const dropdownData = d.options.map((d) => {
+          return { value: d.option_id, label: d.option_value };
+        });
+        return {
+          ...d,
+          isQuestionLabelEdit,
+          label: d.question_text,
+          question_options: d.options,
+          options: dropdownData,
+          show: i === 0,
+        };
+
       case blockType.TEXT:
         return {
           ...d,
@@ -93,6 +106,7 @@ export const handleSelectAns = ({ question = [], ans, data }) => {
       }
       switch (block.question_type) {
         case blockType.RADIO:
+        case blockType.DROPDOWN:
           // find selected question_options
           const matchQuestion = block.question_options.find(
             (o) => o.option_id === newAnsList[block.q_id],
