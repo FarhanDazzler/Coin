@@ -13,7 +13,6 @@ import Select from '../../../components/UI/Select/Select';
 import CollapseFrame from '../../../components/UI/CollapseFrame';
 import QuestionsWithAction from '../../../components/UI/QuestionsWithAction';
 import Button from '../../../components/UI/Button';
-import RenderBlock from '../../../components/RenderBlock';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addSection3Questions,

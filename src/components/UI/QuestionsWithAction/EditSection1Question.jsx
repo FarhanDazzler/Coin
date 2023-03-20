@@ -9,21 +9,47 @@ import Select from '../Select/Select';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
+import DropdownMenu from '../DropdownMenu';
+import { useDispatch } from 'react-redux';
+import {
+  addSection1OptionQuestions,
+  deleteSection1QuestionsOption,
+  updateOptionSection1Questions,
+  updateSection1Questions,
+} from '../../../redux/Questions/QuestionsAction';
 
 const EditSection1Question = ({
   showEditModal,
-  block = {},
+  block: apiBlock = {},
   setShowEditModal,
   allQuestions,
-  handleSave,
 }) => {
+  const dispatch = useDispatch();
+  const [block, setBlock] = useState(apiBlock);
   const [question, setQuestion] = useState();
   const [questionOptions, setQuestionOptions] = useState([]);
   const [options, setOptions] = useState([]);
   const [freeTextChildQId, setFreeTextChildQId] = useState('');
+  const [openMenu, setOpenMenu] = useState();
+  const questionTypeOptions = ['Free Text', 'Radio', 'Dropdown'];
+  console.log('questionOptions', questionOptions);
+  const handleClick = (event) => {
+    setOpenMenu(event.currentTarget);
+  };
+  const handleSelect = (data) => {
+    setBlock({ ...block, question_type: data });
+    handleClose();
+  };
+  const handleClose = () => {
+    setOpenMenu(null);
+  };
   const handleChangeQuestion = (value) => {
     setQuestion(value);
   };
+
+  useEffect(() => {
+    setBlock(apiBlock);
+  }, [apiBlock]);
 
   useEffect(() => {
     if (block.hasOwnProperty('options')) {
@@ -40,7 +66,7 @@ const EditSection1Question = ({
   const handleChangeOption = (val, opBlock) => {
     const updateOp = questionOptions.map((qOp) => {
       if (qOp.option_id === opBlock.option_id) {
-        return { ...qOp, option_value: val };
+        return { ...qOp, option_value: val, isEdit: true };
       }
       return { ...qOp };
     });
@@ -51,7 +77,7 @@ const EditSection1Question = ({
   const handleSelectOptions = ({ target: { value } }, op) => {
     const updateQ = questionOptions.map((upOp) => {
       if (upOp.option_id === op.option_id) {
-        return { ...upOp, child_question: value };
+        return { ...upOp, child_question: value, isEdit: true };
       }
       return { ...upOp };
     });
@@ -83,18 +109,77 @@ const EditSection1Question = ({
   };
 
   const handleSaveQuestion = () => {
-    setShowEditModal(null);
-    handleSave({ question, questionOptions, freeTextChildQId });
+    // setShowEditModal(null);
+    if (apiBlock.question_text !== question || apiBlock.question_type !== block.question_type) {
+      dispatch(
+        updateSection1Questions({
+          q_id: apiBlock.q_id,
+          Control_ID: apiBlock.Control_ID,
+          question_text: question,
+          question_type: block.question_type,
+        }),
+      );
+    }
+
+    const editArray = questionOptions
+      .filter((q) => q.isEdit && !q.isNew)
+      ?.map((b_val) => {
+        const payload = {
+          q_id: apiBlock.q_id,
+          option_id: b_val.option_id,
+          option_value: b_val.option_value,
+          child_question: b_val.child_question,
+          is_Terminating: 0,
+        };
+        if (b_val.child_question === 'is_Terminating') {
+          payload.child_question = 0;
+          payload.is_Terminating = 1;
+        }
+        return payload;
+      });
+    if (editArray.length > 0) dispatch(updateOptionSection1Questions(editArray));
+
+    const deleteArray = questionOptions.filter((q) => q.isRemove);
+
+    deleteArray.forEach(({ option_id }) => {
+      dispatch(deleteSection1QuestionsOption({ option_id }));
+    });
+
+    const addArray = questionOptions
+      .filter((q) => q.isNew)
+      ?.map((b_val) => {
+        const payload = {
+          q_id: apiBlock.q_id,
+          option_value: b_val.option_value,
+          child_question: b_val.child_question,
+          is_Terminating: 0,
+        };
+        if (b_val.child_question === 'is_Terminating') {
+          payload.child_question = 0;
+          payload.is_Terminating = 1;
+        }
+
+        return payload;
+      });
+    if (addArray.length > 0) dispatch(addSection1OptionQuestions(addArray));
   };
 
   useEffect(() => {
     if (allQuestions.length > 0) {
+      // const allIds = [];
+      // allQuestions.forEach((q_list) => {
+      //   q_list.child_questions.forEach((v) => allIds.push(v));
+      // });
       const op = allQuestions
-        .map((allQ, i) => {
+        ?.map((allQ, i) => {
           return { label: `${i + 1}. ${allQ.question_text}`, value: allQ.q_id };
         })
         ?.filter((q) => q.value !== block.q_id);
-      setOptions(op);
+      setOptions([
+        ...op,
+        { label: 'End of survey', value: 'is_Terminating' },
+        { label: 'End of section', value: 0 },
+      ]);
     }
   }, [allQuestions]);
 
@@ -115,9 +200,18 @@ const EditSection1Question = ({
             handleChange={handleChangeQuestion}
             formControlProps={{ className: 'input-wrapper full-input' }}
           />
-
+          <div className="d-flex justify-content-end pt-5">
+            <DropdownMenu
+              options={questionTypeOptions}
+              openMenu={openMenu}
+              handleClick={handleClick}
+              handleClose={handleClose}
+              selected={block.question_type}
+              handleSelect={handleSelect}
+            />
+          </div>
           {block.question_type === 'Free Text' ? (
-            <div className="my-2 pt-4">
+            <div className="my-2 pt-2">
               <FormControl className="input-wrapper">
                 <FormLabel>Sub question</FormLabel>
               </FormControl>
@@ -133,7 +227,7 @@ const EditSection1Question = ({
               </FormControl>
             </div>
           ) : (
-            <div className="mt-6">
+            <div className="mt-2">
               <FormControl className="input-wrapper">
                 <FormLabel>Question options</FormLabel>
               </FormControl>
