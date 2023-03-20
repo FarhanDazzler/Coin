@@ -6,6 +6,7 @@ import controlDataReducer from './ControlData/ControlDataReducer';
 import { QuestionsReducer } from './Questions/QuestionsReducer';
 import csvTampredDataReducer from './CsvTampred/CsvTampredReducer';
 import section1QuestionDataReducer from './QuestionBank/QuestionBankReducer';
+import { MDMReducer } from './MDM/MDM_Reducer';
 
 // we will connect our reducers here
 
@@ -17,7 +18,8 @@ const appReducer = (history) =>
     controlData: controlDataReducer,
     questions: QuestionsReducer,
     csvTampred: csvTampredDataReducer,
-    section1QuestionData : section1QuestionDataReducer
+    section1QuestionData : section1QuestionDataReducer,
+    mdm: MDMReducer,
   });
 
 const createRootReducer = (history) => (state, action) => {

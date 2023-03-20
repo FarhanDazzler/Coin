@@ -3,6 +3,18 @@
   backdrop-filter: blur(14.4828px);
   border-radius: 8.68966px !important;
   color: #fff !important;
+  &.inputLook-text {
+    color: #000 !important;
+    border-radius: 4px !important;
+    .MuiOutlinedInput-input {
+      padding: 5px 22px 5px 8px !important;
+    }
+    &:hover {
+      .MuiOutlinedInput-notchedOutline {
+        border: 1px solid rgba(0, 0, 0, 0.87) !important;
+      }
+    }
+  }
   &:hover {
     .MuiOutlinedInput-notchedOutline {
       border: 0px !important;

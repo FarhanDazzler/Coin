@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PageWrapper from '../../../components/wrappers/PageWrapper';
 import '../MDMStyle.scss';
+import NavTabsMDM from '../MDM_Tab_Buttons/TabButtons';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMicsFramework } from '../../../redux/MDM/MDM_Action';
+import MicsFrameworkTable from './Tables/MicsFramework/MicsFrameworkTable';
 
 const MDM_MICS_FrameworkLandingPage = () => {
+  const dispatch = useDispatch();
+
+  // API Call using dispatch
+  useEffect(() => {
+    dispatch(getMicsFramework());
+  }, []);
+
   return (
     <PageWrapper>
-      <div className="container py-5" style={{ display: 'flex' }}>
-        <div className="col-lg-6 py-4 MDMBoxWrapper" style={{ marginRight: '16px' }}>
-          <h1>MICS Framework</h1>
-        </div>
-      </div>
+      <NavTabsMDM />
+      <MicsFrameworkTable />
     </PageWrapper>
   );
 };

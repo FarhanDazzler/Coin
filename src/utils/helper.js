@@ -18,6 +18,19 @@ export const getFormatQuestions = (questions, action, startStr) => {
           show: i === 0,
         };
 
+      case blockType.DROPDOWN:
+        const dropdownData = d.options.map((d) => {
+          return { value: d.option_id, label: d.option_value };
+        });
+        return {
+          ...d,
+          isQuestionLabelEdit,
+          label: d.question_text,
+          question_options: d.options,
+          options: dropdownData,
+          show: i === 0,
+        };
+
       case blockType.TEXT:
         return {
           ...d,
@@ -86,13 +99,14 @@ export const handleSelectAns = ({ question = [], ans, data }) => {
     if (isTerminating) return;
     // Check current question is selected in existing ans list
     if (newAnsList[block.q_id]) {
-      if (block.is_Terminating) {
+      if (block.is_Terminating || block.options[0]?.is_Terminating) {
         // if this question Terminating then show submit button
         isTerminating = true;
         return;
       }
       switch (block.question_type) {
         case blockType.RADIO:
+        case blockType.DROPDOWN:
           // find selected question_options
           const matchQuestion = block.question_options.find(
             (o) => o.option_id === newAnsList[block.q_id],
@@ -127,7 +141,7 @@ export const handleSelectAns = ({ question = [], ans, data }) => {
           break;
         case blockType.TEXT:
           if (block.child_questions) {
-            const newQuestion = childData.find((v) => v.q_id === block.child_questions);
+            const newQuestion = childData.find((v) => v.q_id === block.child_questions[0]);
             if (newQuestion) {
               if (ans[newQuestion.q_id]) newAnsList[newQuestion.q_id] = ans[newQuestion.q_id];
               newQuestionList.push(newQuestion);

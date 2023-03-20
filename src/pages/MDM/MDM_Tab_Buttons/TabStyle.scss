@@ -1,0 +1,43 @@
+.MuiButton-containedPrimary {
+  background: #323232;
+  color: #fff;
+  border-radius: 8px;
+
+  &.dark-btn {
+    background: rgba(140, 140, 140, 0.14);
+    backdrop-filter: blur(20px);
+  }
+
+  &:hover {
+    color: #fff;
+    background: #262626;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    pointer-events: auto;
+  }
+
+}
+
+.button-radius-8 {
+  border-radius: 8px !important;
+}
+
+.active-tab-button {
+  background-color: #e3af32 !important;
+  color: black !important;
+  border: none;
+  margin-right: 1rem !important;
+  text-transform: capitalize !important;
+}
+
+.tabButton {
+  background-color: #1A1A1A !important;
+  border: none !important;
+  //padding: 12px !important;
+  border-radius: 8px !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  text-transform: capitalize !important;
+}

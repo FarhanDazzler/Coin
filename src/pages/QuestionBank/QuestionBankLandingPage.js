@@ -9,6 +9,7 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import Button from '../../components/UI/Button';
 import QuestionBankTable from './QuestionBankTable';
 import CreateQuestions from './CreateQuestions';
+<<<<<<< HEAD
 import ModifyStandard from './ModifyStandard';
 import { getSection1QuestionDataAction } from '../../redux/QuestionBank/QuestionBankAction';
 
@@ -22,6 +23,14 @@ const QuestionBank = () => {
     }
     dispatch(getSection1QuestionDataAction(payload))
   }, [])
+=======
+import ModifyMICSQuestions from './ModifyMICSQuestions';
+
+const QuestionBank = () => {
+  const [openCreateQuestions, setOpenCreateQuestions] = useState(false);
+  const [editModifyMICS, setEditModifyMICS] = useState('');
+
+>>>>>>> 5bdd206abec304c37bd88fb72f2ec7baccf06af5
   const handleOpenCreateQuestions = () => {
     setOpenCreateQuestions(true);
   };
@@ -35,6 +44,12 @@ const QuestionBank = () => {
     setOpenModifyStandard(false);
   };
 
+  const handleEditModifyMICS = (type) => {
+    setEditModifyMICS(type);
+  };
+  const handleCloseEditModifyMICS = () => {
+    setEditModifyMICS('');
+  };
   return (
     <PageWrapper>
       <div className="container py-5">
@@ -65,25 +80,45 @@ const QuestionBank = () => {
                 size="large"
                 startIcon={<DescriptionOutlinedIcon />}
                 className="mr-4"
+<<<<<<< HEAD
                 onClick={handleOpenModifyStandard}
               >
                 <span className="text-white">Modify Standard</span>
               </Button>
               <Button variant="outlined" size="large" startIcon={<FolderSpecialOutlinedIcon />}>
+=======
+                // onClick={() => handleEditModifyMICS('Standard')}
+              >
+                <span className="text-white">Modify Standard</span>
+              </Button>
+              <Button
+                variant="outlined"
+                size="large"
+                startIcon={<FolderSpecialOutlinedIcon />}
+                // onClick={() => handleEditModifyMICS('MICS-Specific')}
+              >
+>>>>>>> 5bdd206abec304c37bd88fb72f2ec7baccf06af5
                 <span className="text-white">Modify MICS-Specific</span>
               </Button>
             </QuestionBankBox>
           </div>
         </div>
-
         <div className="row">
           <div className="col-12">
             <QuestionBankTable />
           </div>
         </div>
-
+        -Specific
         <CreateQuestions open={openCreateQuestions} handleClose={handleCloseCreateQuestions} />
+<<<<<<< HEAD
         <ModifyStandard open={openModifyStandard} handleClose={handleCloseModifyStandard} />
+=======
+        <ModifyMICSQuestions
+          open={!!editModifyMICS}
+          type={editModifyMICS}
+          handleClose={handleCloseEditModifyMICS}
+        />
+>>>>>>> 5bdd206abec304c37bd88fb72f2ec7baccf06af5
       </div>
     </PageWrapper>
   );

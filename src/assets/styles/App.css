@@ -12098,6 +12098,7 @@ button.bg-dark:focus {
 
 .font-weight-bold {
   font-weight: 700 !important;
+  text-transform: capitalize;
 }
 
 .font-weight-bolder {
