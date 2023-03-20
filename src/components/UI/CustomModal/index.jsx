@@ -12,6 +12,7 @@ const CustomModal = ({
   ...res
 }) => {
   let rootClass = 'custom-modal-wrapper';
+  const stateControlData = useSelector((state) => state?.controlData?.controlData?.data)
   if ('root' in classes) {
     rootClass = `${rootClass} ${classes.root}`;
     delete classes.root;
@@ -20,7 +21,15 @@ const CustomModal = ({
     <div>
       <Modal classes={{ root: rootClass, ...classes }} {...res}>
         <div className="modal-wrapper" style={{ maxWidth: width }}>
-          {title && <div className="model-header">{title}</div>}
+          {title && <div className="model-header">{title} 
+          
+          <p className="mb-2">
+            <br /><br />
+            <span className="font-weight-bold">Control Name: </span>
+            <span>
+              {stateControlData.control_name}
+            </span>
+          </p></div>}
           <div className={`modal-body ${bodyClassName ? bodyClassName : ''}`} id="modal-body">
             {children}
           </div>

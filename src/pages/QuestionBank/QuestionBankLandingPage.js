@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PageWrapper from '../../components/wrappers/PageWrapper';
 import QuestionBankBox from './QuestionBankBox/QuestionBankBox';
 import './questionBankStyles.scss';
@@ -8,17 +9,32 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import Button from '../../components/UI/Button';
 import QuestionBankTable from './QuestionBankTable';
 import CreateQuestions from './CreateQuestions';
+import ModifyStandard from './ModifyStandard';
+import { getSection1QuestionDataAction } from '../../redux/QuestionBank/QuestionBankAction';
 import ModifyMICSQuestions from './ModifyMICSQuestions';
 
 const QuestionBank = () => {
   const [openCreateQuestions, setOpenCreateQuestions] = useState(false);
+  const [openModifyStandard, setOpenModifyStandard] = useState(false);
   const [editModifyMICS, setEditModifyMICS] = useState('');
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    let payload = {
+      controlId : "Standard"
+    }
+    dispatch(getSection1QuestionDataAction(payload))
+  }, [])
   const handleOpenCreateQuestions = () => {
     setOpenCreateQuestions(true);
   };
   const handleCloseCreateQuestions = () => {
     setOpenCreateQuestions(false);
+  };
+  const handleOpenModifyStandard = () => {
+    setOpenModifyStandard(true);
+  };
+  const handleCloseModifyStandard = () => {
+    setOpenModifyStandard(false);
   };
 
   const handleEditModifyMICS = (type) => {
@@ -58,9 +74,11 @@ const QuestionBank = () => {
                 startIcon={<DescriptionOutlinedIcon />}
                 className="mr-4"
                 // onClick={() => handleEditModifyMICS('Standard')}
+                onClick={handleOpenModifyStandard}
               >
                 <span className="text-white">Modify Standard</span>
               </Button>
+             
               <Button
                 variant="outlined"
                 size="large"
@@ -79,6 +97,7 @@ const QuestionBank = () => {
         </div>
         -Specific
         <CreateQuestions open={openCreateQuestions} handleClose={handleCloseCreateQuestions} />
+        <ModifyStandard open={openModifyStandard} handleClose={handleCloseModifyStandard} />
         <ModifyMICSQuestions
           open={!!editModifyMICS}
           type={editModifyMICS}
