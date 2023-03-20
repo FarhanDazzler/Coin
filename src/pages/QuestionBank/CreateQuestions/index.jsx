@@ -21,9 +21,10 @@ import {
   getSection3Questions,
   updateSection3Questions,
 } from '../../../redux/Questions/QuestionsAction';
-import { questionSelector } from '../../../redux/Questions/QuestionsSelectors';
+import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
 import { Loader } from 'semantic-ui-react';
 import Swal from 'sweetalert2';
+import Section3MICSSpecific from '../Section3MICSSpecific';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -43,7 +44,7 @@ const CreateQuestions = ({ open, handleClose }) => {
   const [showAddQuestion, setShowAddQuestion] = useState(false);
   const [level, setLevel] = useState(['L1']);
   const [isEdit, setIsEdit] = useState(false);
-  const questionData = useSelector(questionSelector);
+  const questionData = useSelector(question3Selector);
   const [section3, setSection3] = useState([]);
   const handleChange = (event) => {
     const {
@@ -240,41 +241,14 @@ const CreateQuestions = ({ open, handleClose }) => {
               </div>
             </div>
           </CollapseFrame>
-
           <CollapseFrame title="Section 3 : MICS-Specific" active>
-            <div className="pt-5 px-4">
-              <div className="select-light">
-                <FormControl sx={{ width: 300 }}>
-                  <Select
-                    value={level}
-                    onChange={handleChangeLevel}
-                    renderValue={(selected) => {
-                      if (selected.length === 0) {
-                        return <em>Placeholder</em>;
-                      }
-                      return selected.join(', ');
-                    }}
-                    MenuProps={MenuProps}
-                    inputProps={{ 'aria-label': 'Without label' }}
-                    options={levels}
-                  />
-                </FormControl>
-              </div>
-
-              <div className="pt-5">
-                {questionData.loading ? (
-                  <div className="d-flex w-100 justify-content-center pt-4" id="loader">
-                    <Loader />
-                  </div>
-                ) : (
-                  <div className="d-flex align-items-center">
-                    <RenderBlock blocks={section3} handleChange={handleChangeRenderBlock} />
-                  </div>
-                )}
-              </div>
-            </div>
+            <Section3MICSSpecific
+              level={level}
+              handleChangeLevel={handleChangeLevel}
+              section3={section3}
+              handleChangeRenderBlock={handleChangeRenderBlock}
+            />
           </CollapseFrame>
-
           <div>
             <div>
               {showAddQuestion && !questionData.loading && (

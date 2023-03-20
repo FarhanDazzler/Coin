@@ -1,0 +1,18 @@
+.warningAlert {
+  background: #f7f6ed !important;
+  border-radius: 8px;
+  color: #a48f2e !important;
+  width: max-content;
+  margin: 0 auto;
+  .MuiAlert-icon {
+    color: #a48f2e !important;
+  }
+}
+
+.add-question-btn {
+  position: sticky;
+  top: -1px;
+  background: #fff;
+  z-index: 5;
+  padding: 10px 0;
+}
