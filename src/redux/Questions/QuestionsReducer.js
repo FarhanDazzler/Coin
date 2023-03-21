@@ -14,6 +14,18 @@ export const DELETE_SECTION_1_MICS_REQUEST = 'DELETE_SECTION_1_MICS_REQUEST';
 export const DELETE_SECTION_1_MICS_SUCCESS = 'DELETE_SECTION_1_MICS_SUCCESS';
 export const DELETE_SECTION_1_MICS_ERROR = 'DELETE_SECTION_1_MICS_ERROR';
 
+export const ADD_SECTION_1_OPTION_MICS_REQUEST = 'ADD_SECTION_OPTION_1_MICS_REQUEST';
+export const ADD_SECTION_1_OPTION_MICS_SUCCESS = 'ADD_SECTION_OPTION_1_MICS_SUCCESS';
+export const ADD_SECTION_1_OPTION_MICS_ERROR = 'ADD_SECTION_1_OPTION_MICS_ERROR';
+
+export const UPDATE_SECTION_1_MICS_OPTION_REQUEST = 'UPDATE_SECTION_1_MICS_OPTION_REQUEST';
+export const UPDATE_SECTION_1_MICS_OPTION_SUCCESS = 'UPDATE_SECTION_1_MICS_OPTION_SUCCESS';
+export const UPDATE_SECTION_1_MICS_OPTION_ERROR = 'UPDATE_SECTION_1_MICS_OPTION_ERROR';
+
+export const DELETE_OPTION_SECTION_1_MICS_REQUEST = 'DELETE_OPTION_SECTION_1_MICS_REQUEST';
+export const DELETE_OPTION_SECTION_1_MICS_SUCCESS = 'DELETE_OPTION_SECTION_1_MICS_SUCCESS';
+export const DELETE_OPTION_SECTION_1_MICS_ERROR = 'DELETE_OPTION_SECTION_1_MICS_ERROR';
+
 export const GET_SECTION_3_MICS_REQUEST = 'GET_SECTION_3_MICS_REQUEST';
 export const GET_SECTION_3_MICS_SUCCESS = 'GET_SECTION_3_MICS_SUCCESS';
 export const GET_SECTION_3_MICS_ERROR = 'GET_SECTION_3_MICS_ERROR';
@@ -44,6 +56,9 @@ const initialState = {
   question1Add: { ...block },
   question1Update: { ...block },
   question1Delete: { ...block },
+  question1OptionDelete: { ...block },
+  question1Option: { ...block },
+  question1OptionUpdate: { ...block },
   question3: { ...block, data: [], Level: {} },
   question3Add: { ...block },
   question3Update: { ...block },
@@ -112,6 +127,63 @@ export const QuestionsReducer = (state = initialState, { type, payload = {} }) =
       return {
         ...state,
         question1Update: { ...state.question1Update, loading: false },
+      };
+
+    case ADD_SECTION_1_OPTION_MICS_REQUEST:
+      return {
+        ...state,
+        question1Option: { ...state.question1Option, loading: true },
+      };
+    case ADD_SECTION_1_OPTION_MICS_SUCCESS:
+      return {
+        ...state,
+        question1Option: {
+          ...state.question1Option,
+          loading: false,
+        },
+      };
+    case ADD_SECTION_1_OPTION_MICS_ERROR:
+      return {
+        ...state,
+        question1Option: { ...state.question1Option, loading: false },
+      };
+
+    case UPDATE_SECTION_1_MICS_OPTION_REQUEST:
+      return {
+        ...state,
+        question1OptionUpdate: { ...state.question1OptionUpdate, loading: true },
+      };
+    case UPDATE_SECTION_1_MICS_OPTION_SUCCESS:
+      return {
+        ...state,
+        question1OptionUpdate: {
+          ...state.question1OptionUpdate,
+          loading: false,
+        },
+      };
+    case UPDATE_SECTION_1_MICS_OPTION_ERROR:
+      return {
+        ...state,
+        question1OptionUpdate: { ...state.question1OptionUpdate, loading: false },
+      };
+
+    case DELETE_OPTION_SECTION_1_MICS_REQUEST:
+      return {
+        ...state,
+        question1OptionDelete: { ...state.question1OptionDelete, loading: true },
+      };
+    case DELETE_OPTION_SECTION_1_MICS_SUCCESS:
+      return {
+        ...state,
+        question1OptionDelete: {
+          ...state.question1OptionDelete,
+          loading: false,
+        },
+      };
+    case DELETE_OPTION_SECTION_1_MICS_ERROR:
+      return {
+        ...state,
+        question1OptionDelete: { ...state.question1OptionDelete, loading: false },
       };
 
     case DELETE_SECTION_1_MICS_REQUEST:

@@ -12,7 +12,6 @@ import { question1Selector } from '../../../redux/Questions/QuestionsSelectors';
 import { Loader } from 'semantic-ui-react';
 import Button from '../../../components/UI/Button';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
-import DropdownMenu from '../../../components/UI/DropdownMenu';
 
 const ModifyStandard = () => {
   const dispatch = useDispatch();
@@ -58,7 +57,6 @@ const ModifyStandard = () => {
         Any modifications to Standard Questions will reflect in all assessments & surveys.
       </Alert>
       <div className="add-question-btn d-flex justify-content-end ">
-        <DropdownMenu />
         <Button color="silver" startIcon={<LibraryAddOutlinedIcon />} onClick={handleAddQuestion}>
           Add question
         </Button>
