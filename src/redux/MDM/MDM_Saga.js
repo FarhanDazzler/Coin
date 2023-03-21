@@ -19,6 +19,9 @@ import {
   GET_MEGA_AND_SUBPROCESS_REQUEST,
   GET_MEGA_AND_SUBPROCESS_SUCCESS,
   GET_MEGA_AND_SUBPROCESS_ERROR,
+  GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
+  GET_CONTROL_OWNER_AND_OVERSIGHT_SUCCESS,
+  GET_CONTROL_OWNER_AND_OVERSIGHT_ERROR,
 } from './MDM_Reducer';
 
 async function getOrgStructuresApi(params) {
@@ -121,10 +124,31 @@ function* handleGet_MegaAndSubprocess({ payload }) {
   }
 }
 
+async function getControlOwnerAndOversightApi(params) {
+  return await Axios.get('/get_control_instances', { params });
+}
+function* handleGet_ControlOwnerAndOversight({ payload }) {
+  try {
+    const response = yield call(getControlOwnerAndOversightApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_CONTROL_OWNER_AND_OVERSIGHT_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_CONTROL_OWNER_AND_OVERSIGHT_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 export default all([
   takeLatest(GET_ORG_STRUCTURES_REQUEST, handleGet_org_structures),
   takeLatest(GET_ORG_HIERARCHY_REQUEST, handleGet_org_hierarchy),
   takeLatest(GET_MICS_FRAMEWORK_REQUEST, handleGet_MicsFramework),
   takeLatest(GET_MEGA_AND_SUBPROCESS_VIEW_REQUEST, handleGet_MegaAndSubprocessView),
   takeLatest(GET_MEGA_AND_SUBPROCESS_REQUEST, handleGet_MegaAndSubprocess),
+  takeLatest(GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, handleGet_ControlOwnerAndOversight),
 ]);

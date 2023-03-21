@@ -20,6 +20,10 @@ export const GET_MEGA_AND_SUBPROCESS_REQUEST = 'GET_MEGA_AND_SUBPROCESS_REQUEST'
 export const GET_MEGA_AND_SUBPROCESS_SUCCESS = 'GET_MEGA_AND_SUBPROCESS_SUCCESS';
 export const GET_MEGA_AND_SUBPROCESS_ERROR = 'GET_MICS_FRAMEWORK_ERROR';
 
+export const GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST = 'GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST';
+export const GET_CONTROL_OWNER_AND_OVERSIGHT_SUCCESS = 'GET_CONTROL_OWNER_AND_OVERSIGHT_SUCCESS';
+export const GET_CONTROL_OWNER_AND_OVERSIGHT_ERROR = 'GET_CONTROL_OWNER_AND_OVERSIGHT_ERROR';
+
 export const RESET_BLOCK_ASSESSMENT = 'RESET_BLOCK_ASSESSMENT';
 export const RESET_FLAGS_ASSESSMENT = 'RESET_FLAGS_ASSESSMENT';
 
@@ -35,6 +39,7 @@ const initialState = {
   micsFramework: { ...block, data: [] },
   megaAndSubprocessView: { ...block, data: [] },
   megaAndSubprocess: { ...block, data: [] },
+  controlOwnerAndOversight: { ...block, data: [] },
 };
 
 export const MDMReducer = (state = initialState, { type, payload = {} }) => {
@@ -122,6 +127,27 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
       return {
         ...state,
         megaAndSubprocess: { ...state.megaAndSubprocess, loading: false },
+      };
+
+    // Control Owner & Oversight data
+    case GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST:
+      return {
+        ...state,
+        controlOwnerAndOversight: { ...state.controlOwnerAndOversight, loading: true },
+      };
+    case GET_CONTROL_OWNER_AND_OVERSIGHT_SUCCESS:
+      return {
+        ...state,
+        controlOwnerAndOversight: {
+          ...state.controlOwnerAndOversight,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_CONTROL_OWNER_AND_OVERSIGHT_ERROR:
+      return {
+        ...state,
+        controlOwnerAndOversight: { ...state.controlOwnerAndOversight, loading: false },
       };
 
     //reset block with flag and data
