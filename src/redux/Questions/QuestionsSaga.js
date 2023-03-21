@@ -86,17 +86,18 @@ async function updateSection1Api(payload) {
 }
 function* handleUpdateSection1({ payload }) {
   try {
-    const response = yield call(updateSection1Api, payload);
+    const { loadingId, ...res } = payload;
+    const response = yield call(updateSection1Api, res);
     if (response.success) {
       yield put({
         type: UPDATE_SECTION_1_MICS_SUCCESS,
-        payload: {},
+        payload: { loadingId },
       });
     }
   } catch (error) {
     yield put({
       type: UPDATE_SECTION_1_MICS_ERROR,
-      payload: getSimplifiedError(error),
+      payload: { loadingId: payload.loadingId },
     });
   }
 }
@@ -208,17 +209,18 @@ async function addSection1OptionApi(payload) {
 }
 function* handleAddSection1Option({ payload }) {
   try {
-    const response = yield call(addSection1OptionApi, payload);
+    const { loadingId, addArray } = payload;
+    const response = yield call(addSection1OptionApi, addArray);
     if (response.success) {
       yield put({
         type: ADD_SECTION_1_OPTION_MICS_SUCCESS,
-        payload: { data: response.data },
+        payload: { data: response.data, loadingId },
       });
     }
   } catch (error) {
     yield put({
       type: ADD_SECTION_1_OPTION_MICS_ERROR,
-      payload: getSimplifiedError(error),
+      payload: { loadingId: payload.loadingId },
     });
   }
 }
@@ -228,17 +230,18 @@ async function updateSectionOption1Api(payload) {
 }
 function* handleUpdateOptionSection1({ payload }) {
   try {
-    const response = yield call(updateSectionOption1Api, payload);
+    const { loadingId, editArray } = payload;
+    const response = yield call(updateSectionOption1Api, editArray);
     if (response.success) {
       yield put({
         type: UPDATE_SECTION_1_MICS_OPTION_SUCCESS,
-        payload: {},
+        payload: { loadingId },
       });
     }
   } catch (error) {
     yield put({
       type: UPDATE_SECTION_1_MICS_OPTION_ERROR,
-      payload: getSimplifiedError(error),
+      payload: { loadingId: payload.loadingId },
     });
   }
 }
@@ -248,17 +251,18 @@ async function deleteSection1OptionApi(payload) {
 }
 function* handleDeleteSection1Option({ payload }) {
   try {
-    const response = yield call(deleteSection1OptionApi, payload);
+    const { loadingId, ...res } = payload;
+    const response = yield call(deleteSection1OptionApi, res);
     if (response.success) {
       yield put({
         type: DELETE_OPTION_SECTION_1_MICS_SUCCESS,
-        payload: { data: response.data },
+        payload: { data: response.data, loadingId },
       });
     }
   } catch (error) {
     yield put({
       type: DELETE_OPTION_SECTION_1_MICS_ERROR,
-      payload: getSimplifiedError(error),
+      payload: { loadingId: payload.loadingId },
     });
   }
 }
