@@ -10,13 +10,19 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import DropdownMenu from '../DropdownMenu';
-import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   addSection1OptionQuestions,
   deleteSection1QuestionsOption,
+  getSection1Questions,
   updateOptionSection1Questions,
   updateSection1Questions,
 } from '../../../redux/Questions/QuestionsAction';
+import RemoveWarningModal from '../AttributesRemoveModal';
+import blockType from '../../RenderBlock/constant';
+import { Loader } from '@mantine/core';
+import { question1EditLoadingListSelector } from '../../../redux/Questions/QuestionsSelectors';
 
 const EditSection1Question = ({
   showEditModal,
@@ -30,12 +36,21 @@ const EditSection1Question = ({
   const [questionOptions, setQuestionOptions] = useState([]);
   const [options, setOptions] = useState([]);
   const [freeTextChildQId, setFreeTextChildQId] = useState('');
+  const question1EditLoadingList = useSelector(question1EditLoadingListSelector);
   const [openMenu, setOpenMenu] = useState();
   const questionTypeOptions = ['Free Text', 'Radio', 'Dropdown'];
-  console.log('questionOptions', questionOptions);
+  const [showRemoveModal, setShowRemoveModal] = useState(null);
+  const [saveLoading, setSaveLoading] = useState(false);
   const handleClick = (event) => {
     setOpenMenu(event.currentTarget);
   };
+
+  useEffect(() => {
+    if (saveLoading && question1EditLoadingList.length === 0) {
+      dispatch(getSection1Questions({ Control_ID: 'Standard', disabledLoading: true }));
+    }
+  }, [question1EditLoadingList]);
+
   const handleSelect = (data) => {
     setBlock({ ...block, question_type: data });
     handleClose();
@@ -85,12 +100,12 @@ const EditSection1Question = ({
   };
 
   const handleDeleteOption = (op) => () => {
-    const updateQ = questionOptions.map((upOp) => {
-      if (upOp.option_id === op.option_id) {
-        return { ...upOp, isRemove: true };
-      }
-      return { ...upOp };
-    });
+    setShowRemoveModal(op);
+  };
+
+  const handleDelete = () => {
+    const updateQ = questionOptions.filter((upOp) => upOp.option_id !== showRemoveModal.option_id);
+    dispatch(deleteSection1QuestionsOption({ option_id: showRemoveModal.option_id }));
     setQuestionOptions(updateQ);
   };
 
@@ -109,7 +124,7 @@ const EditSection1Question = ({
   };
 
   const handleSaveQuestion = () => {
-    // setShowEditModal(null);
+    setSaveLoading(true);
     if (apiBlock.question_text !== question || apiBlock.question_type !== block.question_type) {
       dispatch(
         updateSection1Questions({
@@ -117,6 +132,7 @@ const EditSection1Question = ({
           Control_ID: apiBlock.Control_ID,
           question_text: question,
           question_type: block.question_type,
+          loadingId: `${uuidv4()}-updateSection1Questions`,
         }),
       );
     }
@@ -137,13 +153,27 @@ const EditSection1Question = ({
         }
         return payload;
       });
-    if (editArray.length > 0) dispatch(updateOptionSection1Questions(editArray));
+    if (editArray.length > 0)
+      dispatch(
+        updateOptionSection1Questions({
+          editArray,
+          loadingId: `${uuidv4()}-updateOptionSection1Questions`,
+        }),
+      );
 
-    const deleteArray = questionOptions.filter((q) => q.isRemove);
-
-    deleteArray.forEach(({ option_id }) => {
-      dispatch(deleteSection1QuestionsOption({ option_id }));
-    });
+    if (block.question_type !== apiBlock.question_type) {
+      if (block.question_type === blockType.TEXT) {
+        block.options.shift();
+        block.options.forEach(({ option_id }, i) => {
+          dispatch(
+            deleteSection1QuestionsOption({
+              option_id,
+              loadingId: `${uuidv4()}-deleteSection1QuestionsOption--${i}`,
+            }),
+          );
+        });
+      }
+    }
 
     const addArray = questionOptions
       .filter((q) => q.isNew)
@@ -161,15 +191,17 @@ const EditSection1Question = ({
 
         return payload;
       });
-    if (addArray.length > 0) dispatch(addSection1OptionQuestions(addArray));
+    if (addArray.length > 0)
+      dispatch(
+        addSection1OptionQuestions({
+          addArray,
+          loadingId: `${uuidv4()}-addSection1OptionQuestions`,
+        }),
+      );
   };
 
   useEffect(() => {
     if (allQuestions.length > 0) {
-      // const allIds = [];
-      // allQuestions.forEach((q_list) => {
-      //   q_list.child_questions.forEach((v) => allIds.push(v));
-      // });
       const op = allQuestions
         ?.map((allQ, i) => {
           return { label: `${i + 1}. ${allQ.question_text}`, value: allQ.q_id };
@@ -261,6 +293,17 @@ const EditSection1Question = ({
             </div>
           )}
         </div>
+
+        {showRemoveModal && (
+          <RemoveWarningModal
+            onClose={() => setShowRemoveModal(null)}
+            onConfirm={() => {
+              setShowRemoveModal(null);
+              handleDelete(block);
+            }}
+          />
+        )}
+
         <div className="footer-action">
           <div className="d-flex align-items-center justify-content-between">
             <Button
@@ -275,8 +318,13 @@ const EditSection1Question = ({
               <Button variant="outlined" color="secondary" onClick={() => setShowEditModal(null)}>
                 Cancel
               </Button>
-              <Button color="neutral" className="ml-4" onClick={handleSaveQuestion}>
-                Save
+              <Button
+                disabled={saveLoading}
+                color="neutral"
+                className="ml-4"
+                onClick={handleSaveQuestion}
+              >
+                {saveLoading ? <Loader size={22} /> : 'Save'}
               </Button>
             </div>
           </div>

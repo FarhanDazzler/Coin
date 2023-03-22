@@ -59,6 +59,7 @@ const initialState = {
   question1OptionDelete: { ...block },
   question1Option: { ...block },
   question1OptionUpdate: { ...block },
+  question1EditLoadingList: [],
   question3: { ...block, data: [], Level: {} },
   question3Add: { ...block },
   question3Update: { ...block },
@@ -68,7 +69,7 @@ const initialState = {
 export const QuestionsReducer = (state = initialState, { type, payload = {} }) => {
   switch (type) {
     case GET_SECTION_1_MICS_REQUEST:
-      if (state.question1.data.length > 0) {
+      if (state.question1.data.length > 0 && !payload.disabledLoading) {
         return { ...state };
       }
       return {
@@ -114,56 +115,79 @@ export const QuestionsReducer = (state = initialState, { type, payload = {} }) =
       return {
         ...state,
         question1Update: { ...state.question1Update, loading: true },
+        question1EditLoadingList: [...state.question1EditLoadingList, payload.loadingId],
       };
     case UPDATE_SECTION_1_MICS_SUCCESS:
+      const filterUpdateSectionList = state.question1EditLoadingList.filter(
+        (d) => d !== payload.loadingId,
+      );
       return {
         ...state,
         question1Update: {
           ...state.question1Update,
           loading: false,
         },
+        question1EditLoadingList: filterUpdateSectionList,
       };
     case UPDATE_SECTION_1_MICS_ERROR:
+      const filterUpdateSectionListError = state.question1EditLoadingList.filter(
+        (d) => d !== payload.loadingId,
+      );
       return {
         ...state,
         question1Update: { ...state.question1Update, loading: false },
+        question1EditLoadingList: filterUpdateSectionListError,
       };
 
     case ADD_SECTION_1_OPTION_MICS_REQUEST:
       return {
         ...state,
         question1Option: { ...state.question1Option, loading: true },
+        question1EditLoadingList: [...state.question1EditLoadingList, payload.loadingId],
       };
     case ADD_SECTION_1_OPTION_MICS_SUCCESS:
+      const filterList = state.question1EditLoadingList.filter((d) => d !== payload.loadingId);
       return {
         ...state,
         question1Option: {
           ...state.question1Option,
           loading: false,
         },
+        question1EditLoadingList: filterList,
       };
     case ADD_SECTION_1_OPTION_MICS_ERROR:
+      const filterErrorList = state.question1EditLoadingList.filter((d) => d !== payload.loadingId);
       return {
         ...state,
         question1Option: { ...state.question1Option, loading: false },
+        question1EditLoadingList: filterErrorList,
       };
 
     case UPDATE_SECTION_1_MICS_OPTION_REQUEST:
       return {
         ...state,
         question1OptionUpdate: { ...state.question1OptionUpdate, loading: true },
+        question1EditLoadingList: [...state.question1EditLoadingList, payload.loadingId],
       };
     case UPDATE_SECTION_1_MICS_OPTION_SUCCESS:
+      const filterUpdateList = state.question1EditLoadingList.filter(
+        (d) => d !== payload.loadingId,
+      );
       return {
         ...state,
         question1OptionUpdate: {
           ...state.question1OptionUpdate,
           loading: false,
         },
+        question1EditLoadingList: filterUpdateList,
       };
     case UPDATE_SECTION_1_MICS_OPTION_ERROR:
+      const filterUpdateErrorList = state.question1EditLoadingList.filter(
+        (d) => d !== payload.loadingId,
+      );
       return {
         ...state,
+        question1EditLoadingList: filterUpdateErrorList,
         question1OptionUpdate: { ...state.question1OptionUpdate, loading: false },
       };
 
@@ -171,19 +195,28 @@ export const QuestionsReducer = (state = initialState, { type, payload = {} }) =
       return {
         ...state,
         question1OptionDelete: { ...state.question1OptionDelete, loading: true },
+        question1EditLoadingList: [...state.question1EditLoadingList, payload.loadingId],
       };
     case DELETE_OPTION_SECTION_1_MICS_SUCCESS:
+      const filterDeleteList = state.question1EditLoadingList.filter(
+        (d) => d !== payload.loadingId,
+      );
       return {
         ...state,
+        question1EditLoadingList: filterDeleteList,
         question1OptionDelete: {
           ...state.question1OptionDelete,
           loading: false,
         },
       };
     case DELETE_OPTION_SECTION_1_MICS_ERROR:
+      const filterDeleteErrorList = state.question1EditLoadingList.filter(
+        (d) => d !== payload.loadingId,
+      );
       return {
         ...state,
         question1OptionDelete: { ...state.question1OptionDelete, loading: false },
+        question1EditLoadingList: filterDeleteErrorList,
       };
 
     case DELETE_SECTION_1_MICS_REQUEST:

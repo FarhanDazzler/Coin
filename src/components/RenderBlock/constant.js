@@ -3,7 +3,7 @@ const blockType = {
   TEXT: 'Free Text',
   RADIO_WITH_INPUT: 'RadioWithInput',
   RADIO_MULTI: 'RadioMulti',
-  DROPDOWN: ',',
+  DROPDOWN: 'Dropdown',
 };
 
 export default blockType;
