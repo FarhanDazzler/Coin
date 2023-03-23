@@ -10,6 +10,7 @@ import './assets/styles/mixins.scss';
 import TopBar from './parts/TopBar/TopBar';
 import Footer from './parts/Footer/Footer';
 import Login from './pages/Login/Login';
+import Cookies from 'js-cookie';
 import Home_controlOwner from './pages/Home/Home_controlOwner';
 import { UserContext, UserContextProvider } from './context/userContext';
 import dataService from './services/dataService';
@@ -58,6 +59,23 @@ const Pages = () => {
   const [userState, userDispatch] = useContext(UserContext);
 
   useEffect(() => {
+    // main RBAC API Call
+
+    axios
+      .get(
+        `https://acoemicsgrcpwa-devbe.azurewebsites.net/login?User_oid=${accounts[0].idTokenClaims.oid}`,
+      )
+      .then(async (res) => {
+        console.log(res.data, 'User Role User Token');
+        localStorage.setItem('Roles', res?.data.data.roles);
+        Cookies.set('token', res?.data.token);
+        //localStorage.setItem('token', res?.data.token);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // OLD RBAC API CALL
     axios
       .get(
         `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_user_role?User_Email=${accounts[0]?.username}`,
