@@ -5,6 +5,7 @@ import {
   GET_MEGA_AND_SUBPROCESS_VIEW_REQUEST,
   GET_MEGA_AND_SUBPROCESS_REQUEST,
   GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
+  GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
 } from './MDM_Reducer';
 
 export const getOrgStructures = (payload) => ({ type: GET_ORG_STRUCTURES_REQUEST, payload });
@@ -20,5 +21,9 @@ export const getMegaAndSubprocess = (payload) => ({
 });
 export const getControlOwnerAndOversight = (payload) => ({
   type: GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
+  payload,
+});
+export const getApplicabilityAndAssignmentOfProviderOrganization = (payload) => ({
+  type: GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
   payload,
 });

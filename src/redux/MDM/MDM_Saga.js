@@ -22,6 +22,9 @@ import {
   GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
   GET_CONTROL_OWNER_AND_OVERSIGHT_SUCCESS,
   GET_CONTROL_OWNER_AND_OVERSIGHT_ERROR,
+  GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
+  GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_SUCCESS,
+  GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR,
 } from './MDM_Reducer';
 
 async function getOrgStructuresApi(params) {
@@ -144,6 +147,26 @@ function* handleGet_ControlOwnerAndOversight({ payload }) {
   }
 }
 
+async function getApplicabilityAndAssignmentOfProviderOrganizationApi(params) {
+  return await Axios.get('/get_receiver_universe', { params });
+}
+function* handleGet_ApplicabilityAndAssignmentOfProviderOrganization({ payload }) {
+  try {
+    const response = yield call(getApplicabilityAndAssignmentOfProviderOrganizationApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 export default all([
   takeLatest(GET_ORG_STRUCTURES_REQUEST, handleGet_org_structures),
   takeLatest(GET_ORG_HIERARCHY_REQUEST, handleGet_org_hierarchy),
@@ -151,4 +174,8 @@ export default all([
   takeLatest(GET_MEGA_AND_SUBPROCESS_VIEW_REQUEST, handleGet_MegaAndSubprocessView),
   takeLatest(GET_MEGA_AND_SUBPROCESS_REQUEST, handleGet_MegaAndSubprocess),
   takeLatest(GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, handleGet_ControlOwnerAndOversight),
+  takeLatest(
+    GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
+    handleGet_ApplicabilityAndAssignmentOfProviderOrganization,
+  ),
 ]);

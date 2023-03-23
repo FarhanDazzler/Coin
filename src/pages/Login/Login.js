@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-
+import axios from 'axios';
 import '../../assets/styles/Login.css';
 import { Button, Card } from 'react-bootstrap';
 import { loginRequest } from '../../utils/authConfig';
@@ -13,8 +13,10 @@ import { useMsal, useIsAuthenticated } from '@azure/msal-react';
 import { InteractionStatus } from '@azure/msal-browser';
 
 import PageWrapper from '../../components/wrappers/PageWrapper';
+import Cookies from 'js-cookie';
 
 const Login = () => {
+  const { accounts } = useMsal();
   const history = useHistory();
 
   const { instance, inProgress } = useMsal();
@@ -25,6 +27,19 @@ const Login = () => {
   useEffect(() => {
     //console.log(`AUTH LOG = ${isAuthenticated}`);
     if (isAuthenticated) {
+      //console.log(accounts[0], 'Account object');
+      axios
+        .get(`http://localhost:1234/login?User_oid=${accounts[0].idTokenClaims.oid}`)
+        .then(async (res) => {
+          console.log(res.data, 'User Role User Token');
+          localStorage.setItem('Roles', res?.data.data.roles);
+          Cookies.set('token', res?.data.token);
+          //localStorage.setItem('token', res?.data.token);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       // console.log('You are authenticated!');
       // console.log(`Refer: ${document.referrer}`);
       // history.goBack();
