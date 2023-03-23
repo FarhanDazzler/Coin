@@ -38,12 +38,17 @@ const EditSection1Question = ({
   const [freeTextChildQId, setFreeTextChildQId] = useState('');
   const question1EditLoadingList = useSelector(question1EditLoadingListSelector);
   const [openMenu, setOpenMenu] = useState();
-  const questionTypeOptions = ['Free Text', 'Radio', 'Dropdown'];
+  // 'Dropdown'
+  const questionTypeOptions = ['Free Text', 'Radio'];
   const [showRemoveModal, setShowRemoveModal] = useState(null);
   const [saveLoading, setSaveLoading] = useState(false);
   const handleClick = (event) => {
     setOpenMenu(event.currentTarget);
   };
+
+  useEffect(() => {
+    if (questionOptions.length > 0) setFreeTextChildQId(questionOptions[0].child_question);
+  }, [questionOptions]);
 
   useEffect(() => {
     if (saveLoading && question1EditLoadingList.length === 0) {
@@ -105,7 +110,8 @@ const EditSection1Question = ({
 
   const handleDelete = () => {
     const updateQ = questionOptions.filter((upOp) => upOp.option_id !== showRemoveModal.option_id);
-    dispatch(deleteSection1QuestionsOption({ option_id: showRemoveModal.option_id }));
+    if (!showRemoveModal.isNew)
+      dispatch(deleteSection1QuestionsOption({ option_id: showRemoveModal.option_id }));
     setQuestionOptions(updateQ);
   };
 
@@ -124,8 +130,9 @@ const EditSection1Question = ({
   };
 
   const handleSaveQuestion = () => {
-    setSaveLoading(true);
+    let isApiCall = false;
     if (apiBlock.question_text !== question || apiBlock.question_type !== block.question_type) {
+      isApiCall = true;
       dispatch(
         updateSection1Questions({
           q_id: apiBlock.q_id,
@@ -135,6 +142,54 @@ const EditSection1Question = ({
           loadingId: `${uuidv4()}-updateSection1Questions`,
         }),
       );
+    }
+
+    if (block.question_type === blockType.TEXT) {
+      const payload = {
+        q_id: apiBlock.q_id,
+        child_question: freeTextChildQId,
+        is_Terminating: 0,
+        option_value: '',
+      };
+      if (freeTextChildQId === 'is_Terminating') {
+        payload.child_question = 0;
+        payload.is_Terminating = 1;
+      }
+      if (block.options.length > 0 && !block.options[0].isNew) {
+        payload.option_id = block.options[0].option_id;
+        if (block.options[0].child_question !== freeTextChildQId) {
+          isApiCall = true;
+          dispatch(
+            updateOptionSection1Questions({
+              editArray: [{ ...payload }],
+              loadingId: `${uuidv4()}-updateOptionSection1Questions`,
+            }),
+          );
+        }
+      } else {
+        isApiCall = true;
+        dispatch(
+          addSection1OptionQuestions({
+            addArray: [{ ...payload }],
+            loadingId: `${uuidv4()}-addSection1OptionQuestions`,
+          }),
+        );
+      }
+    }
+
+    if (block.question_type !== apiBlock.question_type) {
+      if (block.question_type === blockType.TEXT) {
+        block.options.shift();
+        block.options.forEach(({ option_id }, i) => {
+          isApiCall = true;
+          dispatch(
+            deleteSection1QuestionsOption({
+              option_id,
+              loadingId: `${uuidv4()}-deleteSection1QuestionsOption--${i}`,
+            }),
+          );
+        });
+      }
     }
 
     const editArray = questionOptions
@@ -153,26 +208,14 @@ const EditSection1Question = ({
         }
         return payload;
       });
-    if (editArray.length > 0)
+    if (editArray.length > 0) {
+      isApiCall = true;
       dispatch(
         updateOptionSection1Questions({
           editArray,
           loadingId: `${uuidv4()}-updateOptionSection1Questions`,
         }),
       );
-
-    if (block.question_type !== apiBlock.question_type) {
-      if (block.question_type === blockType.TEXT) {
-        block.options.shift();
-        block.options.forEach(({ option_id }, i) => {
-          dispatch(
-            deleteSection1QuestionsOption({
-              option_id,
-              loadingId: `${uuidv4()}-deleteSection1QuestionsOption--${i}`,
-            }),
-          );
-        });
-      }
     }
 
     const addArray = questionOptions
@@ -191,13 +234,20 @@ const EditSection1Question = ({
 
         return payload;
       });
-    if (addArray.length > 0)
+    if (addArray.length > 0) {
+      isApiCall = true;
       dispatch(
         addSection1OptionQuestions({
           addArray,
           loadingId: `${uuidv4()}-addSection1OptionQuestions`,
         }),
       );
+    }
+    if (isApiCall) {
+      setSaveLoading(true);
+    } else {
+      setShowEditModal(false);
+    }
   };
 
   useEffect(() => {

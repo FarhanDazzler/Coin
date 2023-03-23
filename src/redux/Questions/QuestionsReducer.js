@@ -195,7 +195,7 @@ export const QuestionsReducer = (state = initialState, { type, payload = {} }) =
       return {
         ...state,
         question1OptionDelete: { ...state.question1OptionDelete, loading: true },
-        question1EditLoadingList: [...state.question1EditLoadingList, payload.loadingId],
+        // question1EditLoadingList: [...state.question1EditLoadingList, payload.loadingId],
       };
     case DELETE_OPTION_SECTION_1_MICS_SUCCESS:
       const filterDeleteList = state.question1EditLoadingList.filter(
