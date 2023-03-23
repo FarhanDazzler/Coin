@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PageWrapper from '../../../components/wrappers/PageWrapper';
 import '../MDMStyle.scss';
 import NavTabsMDM from '../MDM_Tab_Buttons/TabButtons';
+import { useDispatch, useSelector } from 'react-redux';
+import { getApplicabilityAndAssignmentOfProviderOrganization } from '../../../redux/MDM/MDM_Action';
+import ApplicabilityAndAssignmentOfProviderOrganizationTable from './Tables/ApplicabilityAndAssignmentOfProviderOrganization/ApplicabilityAndAssignmentOfProviderOrganizationTable';
 
 const MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage = () => {
+  const dispatch = useDispatch();
+
+  // API Call using dispatch
+  useEffect(() => {
+    dispatch(getApplicabilityAndAssignmentOfProviderOrganization());
+  }, []);
+
+  // to select data from redux store using selector
+  // const orgStructures = useSelector(getOrgStructuresSelector);
+  // console.log(orgStructures.data, 'Org Structure data from API');
+
   return (
     <PageWrapper>
       <NavTabsMDM />
-      <div className="container py-5" style={{ display: 'flex' }}>
-        <div className="col-lg-6 py-4 MDMBoxWrapper" style={{ marginRight: '16px' }}>
-          <h1>Applicability & Assignment of Provider Organization</h1>
-        </div>
-      </div>
+      <ApplicabilityAndAssignmentOfProviderOrganizationTable />
     </PageWrapper>
   );
 };
