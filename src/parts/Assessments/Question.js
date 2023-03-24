@@ -7,40 +7,39 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getAssessmentAns } from '../../redux/Assessments/AssessmentAction';
 import ControlActions from '../../components/HomePage/HomeTableModal/ControlActions';
-import { getControlDataAction, getControlDataGcdAction } from '../../redux/ControlData/ControlDataAction';
+import {
+  getControlDataAction,
+  getControlDataGcdAction,
+} from '../../redux/ControlData/ControlDataAction';
 import { useMsal } from '@azure/msal-react';
-import './Questions.scss'
+import './Questions.scss';
+import DashboardTable from '../../components/HomePage/HomePageTable/HomePageTableComponent';
+import PageWrapper from '../../components/wrappers/PageWrapper';
+import HomeTableModal from '../../components/HomePage/HomeTableModal';
 
 const Question = () => {
-  const { Assessment_id } = useParams();
+  // const { Assessment_id } = useParams();
+  const Assessment_id = 'ATR_MJE_01a-K';
   const { accounts } = useMsal();
   const dispatch = useDispatch();
 
   useEffect(() => {
     let payload = {
       controlId: Assessment_id,
-      coOwner: accounts.length > 0 ? accounts[0].username : ''
-    }
+      coOwner: accounts.length > 0 ? accounts[0].username : '',
+    };
     let gcdPayload = {
       controlId: Assessment_id,
-    }
+    };
     dispatch(getControlDataAction(payload));
-    dispatch(getControlDataGcdAction(gcdPayload))
+    dispatch(getControlDataGcdAction(gcdPayload));
     dispatch(getAssessmentAns({ COwner: 'jaymin@ab-inbev.com', Control_ID: Assessment_id }));
   }, []);
 
   return (
-    <>
-      <div className="container text-left pb-5 mb-5">
-        
-          <div className="ass-header">
-                {Assessment_id}
-          </div>
-       
-        <ControlActions control_id={Assessment_id} />
-        <AssessmentForm control_id={Assessment_id} />
-      </div>
-    </>
+    <div className="text-left">
+      <HomeTableModal isModal={false} />
+    </div>
   );
 };
 

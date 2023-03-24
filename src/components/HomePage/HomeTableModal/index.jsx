@@ -23,8 +23,9 @@ import {
   getControlDataAction,
   getControlDataGcdAction,
 } from '../../../redux/ControlData/ControlDataAction';
+import RenderHomeModalTable from './RenderHomeModalTable';
 
-const HomeTableModal = () => {
+const HomeTableModal = ({ isModal = true }) => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const HomeTableModal = () => {
   const [showNoQuestionAns, setShowNoQuestionAns] = useState('');
   const [showMoreSection, setShowMoreSection] = useState(false);
   const [terminating, setTerminating] = useState(false);
-  const Control_ID = query.get('Control_ID');
+  const Control_ID = query.get('Control_ID') || !isModal ? 'ATR_MJE_01a-K' : '';
   const { accounts } = useMsal();
   const handleClose = () => {
     history.push('/new');
@@ -50,7 +51,7 @@ const HomeTableModal = () => {
         Entity_ID: 'Argentina',
       }),
     );
-    
+
   }, []);
 
   useEffect(() => {
@@ -95,53 +96,51 @@ const HomeTableModal = () => {
     });
   };
 
+  if (!isModal)
+    return (
+      <RenderHomeModalTable
+        questionsInfo={questionsInfo}
+        setShowMoreSection={setShowMoreSection}
+        ansSection1={ansSection1}
+        setAnsSection1={setAnsSection1}
+        showMoreSection={showMoreSection}
+        tableData={tableData}
+        setTableData={setTableData}
+        setTerminating={setTerminating}
+        ansSection3={ansSection3}
+        setAnsSection3={setAnsSection3}
+        showNoQuestionAns={showNoQuestionAns}
+        setShowNoQuestionAns={setShowNoQuestionAns}
+        terminating={terminating}
+        handleSubmit={handleSubmit}
+      />
+    );
+
   return (
-    <div>
-      <CustomModal
-        bodyClassName="p-0"
-        open={!!Control_ID}
-        title={Control_ID}
-        width={1080}
-        onClose={handleClose}
-      >
-        <div className="modal-form-body">
-          <ControlActions />
-
-          {questionsInfo.loading ? (
-            <div className="d-flex w-100 align-items-center justify-content-center py-5 my-5">
-              <Loader color="#d3a306" />
-            </div>
-          ) : (
-            <div className="p-5">
-              <ControlSection1
-                setTerminating={setTerminating}
-                setShowMoreSection={setShowMoreSection}
-                ans={ansSection1}
-                setAns={setAnsSection1}
-              />
-              {showMoreSection && (
-                <>
-                  <ControlSection2 tableData={tableData} setTableData={setTableData} />
-                  <ControlSection3
-                    setTerminating={setTerminating}
-                    ans={ansSection3}
-                    setAns={setAnsSection3}
-                    showNoQuestionAns={showNoQuestionAns}
-                    setShowNoQuestionAns={setShowNoQuestionAns}
-                  />
-                </>
-              )}
-
-              {terminating && (
-                <Button color="neutral" className="w-100" id="submit-button" onClick={handleSubmit}>
-                  Submit
-                </Button>
-              )}
-            </div>
-          )}
-        </div>
-      </CustomModal>
-    </div>
+    <CustomModal
+      bodyClassName="p-0"
+      open={!!Control_ID}
+      title={Control_ID}
+      width={1080}
+      onClose={handleClose}
+    >
+      <RenderHomeModalTable
+        questionsInfo={questionsInfo}
+        setShowMoreSection={setShowMoreSection}
+        ansSection1={ansSection1}
+        setAnsSection1={setAnsSection1}
+        showMoreSection={showMoreSection}
+        tableData={tableData}
+        setTableData={setTableData}
+        setTerminating={setTerminating}
+        ansSection3={ansSection3}
+        setAnsSection3={setAnsSection3}
+        showNoQuestionAns={showNoQuestionAns}
+        setShowNoQuestionAns={setShowNoQuestionAns}
+        terminating={terminating}
+        handleSubmit={handleSubmit}
+      />
+    </CustomModal>
   );
 };
 
