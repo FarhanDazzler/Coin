@@ -30,6 +30,12 @@ export const GET_SECTION_3_MICS_DELETE_REQUEST = 'GET_SECTION_3_MICS_DELETE_REQU
 export const GET_SECTION_3_MICS_DELETE_SUCCESS = 'GET_SECTION_3_MICS_DELETE_SUCCESS';
 export const GET_SECTION_3_MICS_DELETE_ERROR = 'GET_SECTION_3_MICS_DELETE_ERROR';
 
+export const GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST =
+  'GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST';
+export const GET_REPOSITORY_OF_CONTROL_ID_DATA_SUCCESS =
+  'GET_REPOSITORY_OF_CONTROL_ID_DATA_SUCCESS';
+export const GET_REPOSITORY_OF_CONTROL_ID_DATA_ERROR = 'GET_REPOSITORY_OF_CONTROL_ID_DATA_ERROR';
+
 export const RESET_BLOCK_QUESTIONS = 'RESET_BLOCK_QUESTIONS';
 export const RESET_FLAGS_QUESTIONS = 'RESET_FLAGS_QUESTIONS';
 
@@ -48,6 +54,7 @@ const initialState = {
   question3Add: { ...block },
   question3Update: { ...block },
   question3Delete: { ...block },
+  getRepositoryOfControlID: { ...block, data: [] },
 };
 
 export const QuestionsReducer = (state = initialState, { type, payload = {} }) => {
@@ -202,6 +209,43 @@ export const QuestionsReducer = (state = initialState, { type, payload = {} }) =
       return {
         ...state,
         question3Delete: { ...state.question3Delete, loading: false },
+      };
+
+    // // GET Repository of Control IDs
+    // case GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST:
+    //   return {
+    //     ...state,
+    //     getRepositoryOfControlID: { ...state.getRepositoryOfControlID, loading: true },
+    //   };
+    // case GET_REPOSITORY_OF_CONTROL_ID_DATA_SUCCESS:
+    //   return {
+    //     ...state,
+    //     getRepositoryOfControlID: { ...state.getRepositoryOfControlID, loading: false },
+    //   };
+    // case GET_REPOSITORY_OF_CONTROL_ID_DATA_ERROR:
+    //   return {
+    //     ...state,
+    //     getRepositoryOfControlID: { ...state.getRepositoryOfControlID, loading: false },
+    //   };
+
+    case GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST:
+      return {
+        ...state,
+        getRepositoryOfControlID: { ...state.getRepositoryOfControlID, loading: true },
+      };
+    case GET_REPOSITORY_OF_CONTROL_ID_DATA_SUCCESS:
+      return {
+        ...state,
+        getRepositoryOfControlID: {
+          ...state.getRepositoryOfControlID,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_REPOSITORY_OF_CONTROL_ID_DATA_ERROR:
+      return {
+        ...state,
+        getRepositoryOfControlID: { ...state.getRepositoryOfControlID, loading: false },
       };
 
     //reset block with flag and data
