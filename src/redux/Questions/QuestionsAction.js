@@ -9,6 +9,7 @@ import {
   UPDATE_SECTION_1_MICS_REQUEST,
   DELETE_SECTION_1_MICS_REQUEST,
   ADD_SECTION_1_MICS_REQUEST,
+  GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST,
 } from './QuestionsReducer';
 
 export const getSection1Questions = (payload) => ({
@@ -51,5 +52,10 @@ export const resetBlockQuestions = (payload) => ({
 
 export const resetFlagsQuestions = (payload) => ({
   type: RESET_FLAGS_QUESTIONS,
+  payload,
+});
+
+export const getRepositoryOfControlID = (payload) => ({
+  type: GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST,
   payload,
 });
