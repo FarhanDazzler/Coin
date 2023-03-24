@@ -258,6 +258,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
         d.setMonth(month - 1);
         // console.log(monthName);
         tData['Month'] = d.toLocaleString('default', { month: 'long' });
+        tData['Type_of_KPI']=tData.isManual?'Manual':'Automated'
       });
 
       const idNumeratorList = table_data.filter((d) => d.Numerator === 'NA').map((v) => v.id);
@@ -507,6 +508,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
                     <Workbook.Column label="Entity_ID" value="Entity_ID" />
                     <Workbook.Column label="Numerator" value="Numerator" />
                     <Workbook.Column label="Denominator" value="Denominator" />
+                    <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
                     {/* <Workbook.Column label="KPI_Value" value="KPI_Value" /> */}
                     <Workbook.Column label="Month" value="Month" />
                     {/* <Workbook.Column label="L1_Result" value="L1_Result" />
