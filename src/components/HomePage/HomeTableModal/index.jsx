@@ -36,7 +36,7 @@ const HomeTableModal = ({ isModal = true }) => {
   const [showNoQuestionAns, setShowNoQuestionAns] = useState('');
   const [showMoreSection, setShowMoreSection] = useState(false);
   const [terminating, setTerminating] = useState(false);
-  const Control_ID = query.get('Control_ID') || 'ATR_MJE_01a-K';
+  const Control_ID = query.get('Control_ID') || !isModal ? 'ATR_MJE_01a-K' : '';
   const { accounts } = useMsal();
   const handleClose = () => {
     history.push('/new');
@@ -47,19 +47,11 @@ const HomeTableModal = ({ isModal = true }) => {
     dispatch(getQuestions({ Control_ID: 'Standard' }));
     dispatch(
       getKPIData({
-        MICS_code: 'ATR_ACCR_01b-K',
+        MICS_code: 'ATR_MJE_01a-K',
         Entity_ID: 'Argentina',
       }),
     );
-    let payload = {
-      controlId: Control_ID,
-      coOwner: accounts.length > 0 ? accounts[0].username : '',
-    };
-    let gcdPayload = {
-      controlId: Control_ID,
-    };
-    dispatch(getControlDataAction(payload));
-    dispatch(getControlDataGcdAction(gcdPayload));
+
   }, []);
 
   useEffect(() => {

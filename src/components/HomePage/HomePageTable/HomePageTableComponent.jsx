@@ -121,7 +121,15 @@ const DashboardTable = () => {
 
   const handleControlIDClick = (id) => {
     //TODO: modal redirect
-    
+    let payload = {
+      controlId: id,
+      coOwner: accounts.length > 0 ? accounts[0].username : '',
+    };
+    let gcdPayload = {
+      controlId: id,
+    };
+    dispatch(getControlDataAction(payload));
+    dispatch(getControlDataGcdAction(gcdPayload));
     history.push(`${history.location.pathname}?Control_ID=${id}`);
   };
 

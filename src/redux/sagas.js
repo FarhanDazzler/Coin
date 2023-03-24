@@ -4,8 +4,9 @@ import AuthSaga from './Auth/AuthSaga';
 import controlData from './ControlData/ControlDataSaga';
 import QuestionsSaga from './Questions/QuestionsSaga';
 import csvTampredData from './CsvTampred/CsvTampredSaga';
+import questionBankData from './QuestionBank/QuestionBankSaga';
 import MDM_Saga from './MDM/MDM_Saga';
 
 export function* sagas() {
-  yield all([AuthSaga, AssessmentSaga, QuestionsSaga, controlData(), csvTampredData(), MDM_Saga]);
+  yield all([AuthSaga, AssessmentSaga, QuestionsSaga, controlData(), csvTampredData(), questionBankData(), MDM_Saga]);
 }

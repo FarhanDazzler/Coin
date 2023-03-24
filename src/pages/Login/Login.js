@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-
+import axios from 'axios';
 import '../../assets/styles/Login.css';
 import { Button, Card } from 'react-bootstrap';
 import { loginRequest } from '../../utils/authConfig';
@@ -14,7 +14,9 @@ import { InteractionStatus } from '@azure/msal-browser';
 
 import PageWrapper from '../../components/wrappers/PageWrapper';
 
+
 const Login = () => {
+  const { accounts } = useMsal();
   const history = useHistory();
 
   const { instance, inProgress } = useMsal();
@@ -25,6 +27,7 @@ const Login = () => {
   useEffect(() => {
     //console.log(`AUTH LOG = ${isAuthenticated}`);
     if (isAuthenticated) {
+      //console.log(accounts[0], 'Account object');
       // console.log('You are authenticated!');
       // console.log(`Refer: ${document.referrer}`);
       // history.goBack();

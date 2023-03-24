@@ -39,7 +39,8 @@ function* getControlData(payload) {
 function getControlDataGcdApiCall(data) {
   console.log("saga", data.payload.data);
   let params = data.payload.data
-  return Axios.get('/get_gcd?ControlID=ATR_MJE_01a-K');
+  console.log("gcd par",params);
+  return Axios.get('/get_gcd?ControlID=' + params.controlId);
 }
 
 function* getControlDataGcd(payload) {

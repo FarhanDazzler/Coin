@@ -85,6 +85,7 @@ const TopBar = (props) => {
               className="d-flex order-lg-2 ml-auto text-left"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
             >
+              
               <span className="golden-text" style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                 {process.env.REACT_APP_STAGE === 'prod' ? null : <strong>{`BETA`}</strong>}
               </span>
