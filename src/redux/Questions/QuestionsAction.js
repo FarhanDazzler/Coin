@@ -9,6 +9,9 @@ import {
   UPDATE_SECTION_1_MICS_REQUEST,
   DELETE_SECTION_1_MICS_REQUEST,
   ADD_SECTION_1_MICS_REQUEST,
+  UPDATE_SECTION_1_MICS_OPTION_REQUEST,
+  DELETE_OPTION_SECTION_1_MICS_REQUEST,
+  ADD_SECTION_1_OPTION_MICS_REQUEST,
   GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST,
 } from './QuestionsReducer';
 
@@ -22,6 +25,21 @@ export const updateSection1Questions = (payload) => ({
 });
 export const deleteSection1Questions = (payload) => ({
   type: DELETE_SECTION_1_MICS_REQUEST,
+  payload,
+});
+
+export const addSection1OptionQuestions = (payload) => ({
+  type: ADD_SECTION_1_OPTION_MICS_REQUEST,
+  payload,
+});
+
+export const updateOptionSection1Questions = (payload) => ({
+  type: UPDATE_SECTION_1_MICS_OPTION_REQUEST,
+  payload,
+});
+
+export const deleteSection1QuestionsOption = (payload) => ({
+  type: DELETE_OPTION_SECTION_1_MICS_REQUEST,
   payload,
 });
 

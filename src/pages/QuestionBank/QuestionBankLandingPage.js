@@ -76,8 +76,7 @@ const QuestionBank = () => {
                 size="large"
                 startIcon={<DescriptionOutlinedIcon />}
                 className="mr-4"
-                // onClick={() => handleEditModifyMICS('Standard')}
-                onClick={handleOpenModifyStandard}
+                onClick={() => handleEditModifyMICS('Standard')}
               >
                 <span className="text-white">Modify Standard</span>
               </Button>

@@ -63,7 +63,7 @@ const Pages = () => {
 
     axios
       .get(
-        `https://acoemicsgrcpwa-devbe.azurewebsites.net/login?User_oid=${accounts[0].idTokenClaims.oid}`,
+        `https://acoemicsgrcpwa-devbe.azurewebsites.net/login?User_oid=${accounts[0]?.idTokenClaims.oid}`,
       )
       .then(async (res) => {
         console.log(res.data, 'User Role User Token');
@@ -87,7 +87,7 @@ const Pages = () => {
       )
       .then(async (res) => {
         console.log(res.data.data[0], 'User Role');
-        localStorage.setItem('user_Role', res?.data.data[0].User_Role);
+        localStorage.setItem('user_Role', res?.data.data[0]?.User_Role);
       })
       .catch((err) => {
         console.log(err);

@@ -123,26 +123,49 @@ const ControlSection2 = ({ tableData, setTableData }) => {
       hidden: true,
     },
     {
+      dataField: 'Expected_Numerator',
+      text: 'Expected Numerator',
+      headerStyle: {
+        ...headerStyles,
+      },
+      editable: false,
+    },
+     {
       dataField: 'Numerator',
       text: 'Numerator',
       headerStyle: {
         ...headerStyles,
       },
-      editable: (value, row, rowIndex, columnIndex) =>
-        editProductIds.idNumeratorList?.includes(row.id),
+      editable: (value, row, rowIndex, columnIndex) => (row.isManual),
       editor: { type: 'number' },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (row.isManual) {
+          return {
+            backgroundColor: 'white',
+            border: '1px solid gold',
+            color: 'black',
+          };
+        }
+    },
+    },
+    {
+      dataField: 'Expected_Denominator',
+      text: 'Expected Denominator',
+      headerStyle: {
+        ...headerStyles,
+      },
+      editable: false,
     },
     {
       dataField: 'Denominator',
       text: 'Denominator',
-      editable: (value, row, rowIndex, columnIndex) =>
-        editProductIds.idDenominatorList?.includes(row.id),
+      editable: (value, row, rowIndex, columnIndex) => (row.isManual),
       editor: { type: 'number' },
       headerStyle: {
         ...headerStyles,
       },
       style: (cell, row, rowIndex, colIndex) => {
-        if (row.sep === 2) {
+        if (row.isManual) {
           return {
             backgroundColor: 'white',
             border: '1px solid gold',
@@ -235,6 +258,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
         d.setMonth(month - 1);
         // console.log(monthName);
         tData['Month'] = d.toLocaleString('default', { month: 'long' });
+        tData['Type_of_KPI']=tData.isManual?'Manual':'Automated'
       });
 
       const idNumeratorList = table_data.filter((d) => d.Numerator === 'NA').map((v) => v.id);
@@ -484,6 +508,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
                     <Workbook.Column label="Entity_ID" value="Entity_ID" />
                     <Workbook.Column label="Numerator" value="Numerator" />
                     <Workbook.Column label="Denominator" value="Denominator" />
+                    <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
                     {/* <Workbook.Column label="KPI_Value" value="KPI_Value" /> */}
                     <Workbook.Column label="Month" value="Month" />
                     {/* <Workbook.Column label="L1_Result" value="L1_Result" />
