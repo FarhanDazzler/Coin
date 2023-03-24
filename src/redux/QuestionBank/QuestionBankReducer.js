@@ -292,6 +292,79 @@ export default function section1QuestionDataReducer(state = getInitialState(), a
 
             };
 
+           
+            case ACTION_DELETE_SECTION1_QUESTIONS_DATA:
+                return {
+                    ...state,
+                    section1DeleteQuestion: {
+                        data: {},
+                        loading: true,
+                        error: '',
+                        success: '',
+                    }
+                };
+            case ACTION_DELETE_SECTION1_QUESTIONS_DATA_SUCCESS:
+                return {
+                    ...state,
+                    section1DeleteQuestion: {
+                        data: action.data,
+                        loading: false,
+                        error: '',
+                        success: 'Section1 Question Deleted successfully',
+                    }
+    
+                };
+            case ACTION_DELETE_SECTION1_QUESTIONS_DATA_FAILED:
+                return {
+                    ...state,
+                    section1DeleteQuestion: {
+                        data: {},
+                        loading: false,
+                        error: 'Failed',
+                        success: '',
+                    }
+    
+    
+                };
+            case ACTION_DELETE_SECTION1_OPTIONS_DATA:
+                return {
+                    ...state,
+                    section1DeleteOption: {
+                        data: {},
+                        loading: false,
+                        error: '',
+                        success: '',
+                    }
+    
+    
+                };
+            case ACTION_DELETE_SECTION1_OPTIONS_DATA_SUCCESS:
+                return {
+                    ...state,
+                    section1DeleteOption: {
+                        data: action.data,
+                        loading: false,
+                        error: '',
+                        success: 'Section1 Option Deleted successfully',
+                    }
+    
+    
+                };
+            case ACTION_DELETE_SECTION1_OPTIONS_DATA_FAILED:
+                return {
+                    ...state,
+                    section1DeleteOption: {
+                        data: {},
+                        loading: false,
+                        error: '',
+                        success: 'Failed',
+                    }
+    
+    
+                };
+    
+    
+
 
         default:
             return state;

@@ -63,7 +63,7 @@ const Pages = () => {
 
     axios
       .get(
-        `https://acoemicsgrcpwa-devbe.azurewebsites.net/login?User_oid=${accounts[0].idTokenClaims.oid}`,
+        `https://acoemicsgrcpwa-devbe.azurewebsites.net/login?User_oid=${accounts[0]?.idTokenClaims.oid}`,
       )
       .then(async (res) => {
         console.log(res.data, 'User Role User Token');

@@ -5,6 +5,7 @@ import { ReactComponent as EditIcon } from '../../../assets/images/Edit.svg';
 import { ReactComponent as Delete } from '../../../assets/images/Trash.svg';
 import RemoveWarningModal from '../AttributesRemoveModal';
 import EditSection1Question from './EditSection1Question';
+import EditSection1QuestionOption from '../../../pages/QuestionBank/ModifyStandard/EditSectionQuestionOption';
 
 const QuestionsWithAction = ({
   number,
@@ -12,9 +13,10 @@ const QuestionsWithAction = ({
   text,
   withAction,
   active,
-  handleDelete = () => {},
+  handleDelete = () => { },
   allQuestions = [],
-  handleSave = () => {},
+  handleSave = () => { },
+  templateType
 }) => {
   const [showEditModal, setShowEditModal] = useState(null);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
@@ -52,20 +54,32 @@ const QuestionsWithAction = ({
       {showRemoveModal && (
         <RemoveWarningModal
           onClose={() => setShowRemoveModal(false)}
+          block={block}
           onConfirm={() => {
             setShowRemoveModal(false);
             handleDelete(block);
           }}
         />
       )}
+      {
+        templateType === "Standard" ?
+          <EditSection1Question
+            block={block}
+            showEditModal={showEditModal}
+            setShowEditModal={setShowEditModal}
+            allQuestions={allQuestions}
+            handleSave={handleSave}
+          />
+          :
+          <EditSection1QuestionOption
+            block={block}
+            showEditModal={showEditModal}
+            setShowEditModal={setShowEditModal}
+            allQuestions={allQuestions}
+            handleSave={handleSave}
+          />
+      }
 
-      <EditSection1Question
-        block={block}
-        showEditModal={showEditModal}
-        setShowEditModal={setShowEditModal}
-        allQuestions={allQuestions}
-        handleSave={handleSave}
-      />
     </div>
   );
 };
