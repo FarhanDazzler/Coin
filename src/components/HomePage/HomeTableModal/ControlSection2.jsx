@@ -123,26 +123,49 @@ const ControlSection2 = ({ tableData, setTableData }) => {
       hidden: true,
     },
     {
+      dataField: 'Expected_Numerator',
+      text: 'Expected Numerator',
+      headerStyle: {
+        ...headerStyles,
+      },
+      editable: false,
+    },
+     {
       dataField: 'Numerator',
       text: 'Numerator',
       headerStyle: {
         ...headerStyles,
       },
-      editable: (value, row, rowIndex, columnIndex) =>
-        editProductIds.idNumeratorList?.includes(row.id),
+      editable: (value, row, rowIndex, columnIndex) => (row.isManual),
       editor: { type: 'number' },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (row.isManual) {
+          return {
+            backgroundColor: 'white',
+            border: '1px solid gold',
+            color: 'black',
+          };
+        }
+    },
+    },
+    {
+      dataField: 'Expected_Denominator',
+      text: 'Expected Denominator',
+      headerStyle: {
+        ...headerStyles,
+      },
+      editable: false,
     },
     {
       dataField: 'Denominator',
       text: 'Denominator',
-      editable: (value, row, rowIndex, columnIndex) =>
-        editProductIds.idDenominatorList?.includes(row.id),
+      editable: (value, row, rowIndex, columnIndex) => (row.isManual),
       editor: { type: 'number' },
       headerStyle: {
         ...headerStyles,
       },
       style: (cell, row, rowIndex, colIndex) => {
-        if (row.sep === 2) {
+        if (row.isManual) {
           return {
             backgroundColor: 'white',
             border: '1px solid gold',

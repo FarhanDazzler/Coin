@@ -46,7 +46,7 @@ const HomeTableModal = () => {
     dispatch(getQuestions({ Control_ID: 'Standard' }));
     dispatch(
       getKPIData({
-        MICS_code: 'ATR_ACCR_01b-K',
+        MICS_code: 'ATR_MJE_01a-K',
         Entity_ID: 'Argentina',
       }),
     );
