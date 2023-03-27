@@ -435,7 +435,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId }) => {
 
       console.log(apiBody, 'API BODY For Section 2');
       dispatch(getCsvTampredDataAction(apiBody));
-      if (!stateCsvTampred?.data) {
+      if (stateCsvTampred?.data === false) {
+        console.log("i am in data update");
         let newDataArray = tableData.map((data, i) => {
           return { ...data, Numerator: excelFile[i].Numerator, Denominator: excelFile[i].Denominator }
 
@@ -443,6 +444,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId }) => {
         setTableData([...newDataArray])
         setScvUpdateData(csvUpdateData + 1)
       }else{
+        console.log("i am in true state");
         setScvUpdateData(0);
       }
 
