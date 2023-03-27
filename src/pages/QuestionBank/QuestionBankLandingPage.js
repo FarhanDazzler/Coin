@@ -85,7 +85,7 @@ const QuestionBank = () => {
                 variant="outlined"
                 size="large"
                 startIcon={<FolderSpecialOutlinedIcon />}
-                // onClick={() => handleEditModifyMICS('MICS-Specific')}
+                onClick={() => handleEditModifyMICS('MICS-Specific')}
               >
                 <span className="text-white">Modify MICS-Specific</span>
               </Button>
