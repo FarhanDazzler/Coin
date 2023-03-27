@@ -14,7 +14,7 @@ import { getCsvTampredDataAction } from '../../../redux/CsvTampred/CsvTampredAct
 
 const headerStyles = { backgroundColor: '#f1c40f', color: '#000000', fontWeight: '700' };
 
-const ControlSection2 = ({ tableData, setTableData }) => {
+const ControlSection2 = ({ tableData, setTableData, controlId }) => {
   const kpiResultData = useSelector(kpiResultSelector);
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   console.log("tamp", stateCsvTampred);
@@ -23,6 +23,13 @@ const ControlSection2 = ({ tableData, setTableData }) => {
     { idNumeratorList: [], idDenominatorList: [] },
   ]);
   const [excelFile, setExcelFile] = useState(null);
+  const [csvUpdateData, setScvUpdateData] = useState(0);
+  useEffect(() => {
+    tableData.map((data, i) => {
+      handleChange('', '', data, i);
+
+    });
+  }, [csvUpdateData])
 
   const columns = [
     {
@@ -275,6 +282,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
   }, [kpiResultData]);
 
   function handleChange(oldValue, newValue, row, column) {
+    console.log("there", row);
     const updateProduct = tableData.map((d) => {
       if (d.id === row.id) {
         row.KPI_Value = (row.Numerator / row.Denominator).toFixed(2);
@@ -431,15 +439,20 @@ const ControlSection2 = ({ tableData, setTableData }) => {
 
       console.log(apiBody, 'API BODY For Section 2');
       dispatch(getCsvTampredDataAction(apiBody));
-      if(!stateCsvTampred?.data){
+      if (!stateCsvTampred?.data) {
         console.log("Hi=>>>>>>>>>>>>>>>>>>>>>")
         let newDataArray = tableData.map((data, i) => {
-          return {...data, Numerator: excelFile[i].Numerator, Denominator: excelFile[i].Denominator}
-              
-      });
-      console.log("new",newDataArray);
-      setTableData([...newDataArray])
+          return { ...data, Numerator: excelFile[i].Numerator, Denominator: excelFile[i].Denominator }
+
+        });
+        console.log("new", newDataArray);
+        setTableData([...newDataArray])
+        setScvUpdateData(csvUpdateData + 1)
+      }else{
+        setScvUpdateData(0);
       }
+
+
 
       var requestParameters = {
         method: 'POST',
@@ -468,6 +481,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
       setTableData(null);
     }
   };
+
 
   const handleFile = (e) => {
     let selectedFile = e.target.files[0];
@@ -506,7 +520,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
             <div className="d-flex align-items-center">
               <div className="row " id="export_button_right">
                 <Workbook
-                  filename="data.xlsx"
+                  filename={`data-${controlId}.xlsx`}
                   element={
                     <button className="export_button">
                       <strong>Export To Excel</strong>

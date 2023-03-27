@@ -21,6 +21,7 @@ const RenderHomeModalTable = ({
   setShowNoQuestionAns,
   terminating,
   handleSubmit,
+  controlId
 }) => {
   return (
     <div className="modal-form-body">
@@ -40,7 +41,7 @@ const RenderHomeModalTable = ({
           />
           {showMoreSection && (
             <>
-              <ControlSection2 tableData={tableData} setTableData={setTableData} />
+              <ControlSection2 tableData={tableData} setTableData={setTableData} controlId={controlId}/>
               <ControlSection3
                 setTerminating={setTerminating}
                 ans={ansSection3}
