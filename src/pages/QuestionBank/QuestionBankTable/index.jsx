@@ -3,25 +3,38 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { TABLE_ROES } from '../../../components/HomePage/HomePageTable/constant';
 import Table from '../../../components/UI/Table';
 import Button from '../../../components/UI/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import './TableStyle.scss';
+
+// geting data from redux
+import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
 
 const QuestionBankTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
 
+  const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
+  console.log(repositoryOfControlID, 'Table data');
+
+  const handleControlIDClick = (id) => {
+    // TODO: Show modal new page
+    // history.push(`${history.location.pathname}?Control_ID=${id}`);
+  };
+
   const TABLE_COLUMNS = [
     {
-      field: 'Zone',
-      headerName: 'Zone',
+      field: 'Mega_Process',
+      headerName: 'Mega Process',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 120,
+      minWidth: 200,
     },
     {
-      field: 'Provider_Org',
-      headerName: 'Provider Org',
+      field: 'Sub_Process',
+      headerName: 'Sub Process',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 180,
+      minWidth: 200,
     },
     {
       field: 'Control_ID',
@@ -41,54 +54,46 @@ const QuestionBankTable = () => {
       },
     },
     {
-      field: 'Status',
-      headerName: 'Status',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 120,
-      renderCell: (row) => {
-        return <span className={'text-yellow-dark'}>{row.row.Status}</span>;
-      },
-    },
-    {
-      field: 'Co_Owner',
-      headerName: 'Co Owner',
+      field: 'Control_Name',
+      headerName: 'Control Name',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Co_Oversight',
-      headerName: 'Co Oversight',
+      field: 'Status',
+      headerName: 'Status',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
   ];
 
-  const handleControlIDClick = (id) => {
-    // TODO: Show modal new page
-    // history.push(`${history.location.pathname}?Control_ID=${id}`);
-  };
-
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
-    setTableData(TABLE_ROES);
-  }, []);
+    setTableData(
+      repositoryOfControlID.data.map((i, index) => {
+        return {
+          id: index,
+          ...i,
+        };
+      }),
+    );
+  }, [repositoryOfControlID.data]);
 
   return (
-    <div>
-      {/*<div className="d-flex justify-content-end mb-5 mt-5">
-        <Button
-          size="large"
-          startIcon={<VisibilityOutlinedIcon style={{ color: 'white' }} />}
-          className="ml-4 dark-btn"
-        >
-          View All
-        </Button>
-  </div> */}
-      <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
-    </div>
+    <>
+      <div className="container mt-5">
+        <div className="row pt-5">
+          <div className="col col-lg-12">
+            <div className="questionBank-table-button">
+              <div className="table-heading">Repository of Control IDs</div>
+            </div>
+            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

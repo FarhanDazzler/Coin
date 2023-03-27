@@ -16,6 +16,8 @@ const headerStyles = { backgroundColor: '#f1c40f', color: '#000000', fontWeight:
 
 const ControlSection2 = ({ tableData, setTableData }) => {
   const kpiResultData = useSelector(kpiResultSelector);
+  const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
+  console.log("tamp", stateCsvTampred);
   const dispatch = useDispatch();
   const [editProductIds, setEditProductIds] = useState([
     { idNumeratorList: [], idDenominatorList: [] },
@@ -123,26 +125,49 @@ const ControlSection2 = ({ tableData, setTableData }) => {
       hidden: true,
     },
     {
+      dataField: 'Expected_Numerator',
+      text: 'Expected Numerator',
+      headerStyle: {
+        ...headerStyles,
+      },
+      editable: false,
+    },
+    {
       dataField: 'Numerator',
       text: 'Numerator',
       headerStyle: {
         ...headerStyles,
       },
-      editable: (value, row, rowIndex, columnIndex) =>
-        editProductIds.idNumeratorList?.includes(row.id),
+      editable: (value, row, rowIndex, columnIndex) => (row.isManual),
       editor: { type: 'number' },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (row.isManual) {
+          return {
+            backgroundColor: 'white',
+            border: '1px solid gold',
+            color: 'black',
+          };
+        }
+      },
+    },
+    {
+      dataField: 'Expected_Denominator',
+      text: 'Expected Denominator',
+      headerStyle: {
+        ...headerStyles,
+      },
+      editable: false,
     },
     {
       dataField: 'Denominator',
       text: 'Denominator',
-      editable: (value, row, rowIndex, columnIndex) =>
-        editProductIds.idDenominatorList?.includes(row.id),
+      editable: (value, row, rowIndex, columnIndex) => (row.isManual),
       editor: { type: 'number' },
       headerStyle: {
         ...headerStyles,
       },
       style: (cell, row, rowIndex, colIndex) => {
-        if (row.sep === 2) {
+        if (row.isManual) {
           return {
             backgroundColor: 'white',
             border: '1px solid gold',
@@ -235,6 +260,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
         d.setMonth(month - 1);
         // console.log(monthName);
         tData['Month'] = d.toLocaleString('default', { month: 'long' });
+        tData['Type_of_KPI'] = tData.isManual ? 'Manual' : 'Automated'
       });
 
       const idNumeratorList = table_data.filter((d) => d.Numerator === 'NA').map((v) => v.id);
@@ -252,7 +278,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
     const updateProduct = tableData.map((d) => {
       if (d.id === row.id) {
         row.KPI_Value = (row.Numerator / row.Denominator).toFixed(2);
-        console.log("row",row);
+        console.log("row", row);
         if (row.Positive_direction === 'Lower is better') {
           if (row.KPI_Value <= row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
             row.L1_Result = 'Pass';
@@ -404,7 +430,16 @@ const ControlSection2 = ({ tableData, setTableData }) => {
       };
 
       console.log(apiBody, 'API BODY For Section 2');
-      dispatch(getCsvTampredDataAction(apiBody ));
+      dispatch(getCsvTampredDataAction(apiBody));
+      if(!stateCsvTampred?.data){
+        console.log("Hi=>>>>>>>>>>>>>>>>>>>>>")
+        let newDataArray = tableData.map((data, i) => {
+          return {...data, Numerator: excelFile[i].Numerator, Denominator: excelFile[i].Denominator}
+              
+      });
+      console.log("new",newDataArray);
+      setTableData([...newDataArray])
+      }
 
       var requestParameters = {
         method: 'POST',
@@ -484,6 +519,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
                     <Workbook.Column label="Entity_ID" value="Entity_ID" />
                     <Workbook.Column label="Numerator" value="Numerator" />
                     <Workbook.Column label="Denominator" value="Denominator" />
+                    <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
                     {/* <Workbook.Column label="KPI_Value" value="KPI_Value" /> */}
                     <Workbook.Column label="Month" value="Month" />
                     {/* <Workbook.Column label="L1_Result" value="L1_Result" />

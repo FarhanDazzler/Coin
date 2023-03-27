@@ -225,12 +225,14 @@ const EditSection1QuestionOption = ({
                 }),
             );
         }
+        isApiCall = false
         if (isApiCall) {
             setSaveLoading(true);
         } else {
-            setSaveLoading(false);
             setShowEditModal(false);
         }
+        
+        console.log("api call===>",isApiCall)
     };
 
     useEffect(() => {

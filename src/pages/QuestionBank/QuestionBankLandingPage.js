@@ -12,18 +12,21 @@ import CreateQuestions from './CreateQuestions';
 import ModifyStandard from './ModifyStandard';
 import { getSection1QuestionDataAction } from '../../redux/QuestionBank/QuestionBankAction';
 import ModifyMICSQuestions from './ModifyMICSQuestions';
+import { getRepositoryOfControlID } from '../../redux/Questions/QuestionsAction';
 
 const QuestionBank = () => {
   const [openCreateQuestions, setOpenCreateQuestions] = useState(false);
   const [openModifyStandard, setOpenModifyStandard] = useState(false);
   const [editModifyMICS, setEditModifyMICS] = useState('');
   const dispatch = useDispatch();
+
   useEffect(() => {
     let payload = {
-      controlId : "Standard"
-    }
-    dispatch(getSection1QuestionDataAction(payload))
-  }, [])
+      controlId: 'Standard',
+    };
+    dispatch(getSection1QuestionDataAction(payload));
+    dispatch(getRepositoryOfControlID());
+  }, []);
   const handleOpenCreateQuestions = () => {
     setOpenCreateQuestions(true);
   };
@@ -73,12 +76,11 @@ const QuestionBank = () => {
                 size="large"
                 startIcon={<DescriptionOutlinedIcon />}
                 className="mr-4"
-                // onClick={() => handleEditModifyMICS('Standard')}
-                onClick={handleOpenModifyStandard}
+                onClick={() => handleEditModifyMICS('Standard')}
               >
                 <span className="text-white">Modify Standard</span>
               </Button>
-             
+
               <Button
                 variant="outlined"
                 size="large"
@@ -95,7 +97,7 @@ const QuestionBank = () => {
             <QuestionBankTable />
           </div>
         </div>
-        -Specific
+        {/*-Specific*/}
         <CreateQuestions open={openCreateQuestions} handleClose={handleCloseCreateQuestions} />
         <ModifyStandard open={openModifyStandard} handleClose={handleCloseModifyStandard} />
         <ModifyMICSQuestions

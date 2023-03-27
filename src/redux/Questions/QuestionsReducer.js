@@ -14,6 +14,18 @@ export const DELETE_SECTION_1_MICS_REQUEST = 'DELETE_SECTION_1_MICS_REQUEST';
 export const DELETE_SECTION_1_MICS_SUCCESS = 'DELETE_SECTION_1_MICS_SUCCESS';
 export const DELETE_SECTION_1_MICS_ERROR = 'DELETE_SECTION_1_MICS_ERROR';
 
+export const ADD_SECTION_1_OPTION_MICS_REQUEST = 'ADD_SECTION_OPTION_1_MICS_REQUEST';
+export const ADD_SECTION_1_OPTION_MICS_SUCCESS = 'ADD_SECTION_OPTION_1_MICS_SUCCESS';
+export const ADD_SECTION_1_OPTION_MICS_ERROR = 'ADD_SECTION_1_OPTION_MICS_ERROR';
+
+export const UPDATE_SECTION_1_MICS_OPTION_REQUEST = 'UPDATE_SECTION_1_MICS_OPTION_REQUEST';
+export const UPDATE_SECTION_1_MICS_OPTION_SUCCESS = 'UPDATE_SECTION_1_MICS_OPTION_SUCCESS';
+export const UPDATE_SECTION_1_MICS_OPTION_ERROR = 'UPDATE_SECTION_1_MICS_OPTION_ERROR';
+
+export const DELETE_OPTION_SECTION_1_MICS_REQUEST = 'DELETE_OPTION_SECTION_1_MICS_REQUEST';
+export const DELETE_OPTION_SECTION_1_MICS_SUCCESS = 'DELETE_OPTION_SECTION_1_MICS_SUCCESS';
+export const DELETE_OPTION_SECTION_1_MICS_ERROR = 'DELETE_OPTION_SECTION_1_MICS_ERROR';
+
 export const GET_SECTION_3_MICS_REQUEST = 'GET_SECTION_3_MICS_REQUEST';
 export const GET_SECTION_3_MICS_SUCCESS = 'GET_SECTION_3_MICS_SUCCESS';
 export const GET_SECTION_3_MICS_ERROR = 'GET_SECTION_3_MICS_ERROR';
@@ -30,6 +42,12 @@ export const GET_SECTION_3_MICS_DELETE_REQUEST = 'GET_SECTION_3_MICS_DELETE_REQU
 export const GET_SECTION_3_MICS_DELETE_SUCCESS = 'GET_SECTION_3_MICS_DELETE_SUCCESS';
 export const GET_SECTION_3_MICS_DELETE_ERROR = 'GET_SECTION_3_MICS_DELETE_ERROR';
 
+export const GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST =
+  'GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST';
+export const GET_REPOSITORY_OF_CONTROL_ID_DATA_SUCCESS =
+  'GET_REPOSITORY_OF_CONTROL_ID_DATA_SUCCESS';
+export const GET_REPOSITORY_OF_CONTROL_ID_DATA_ERROR = 'GET_REPOSITORY_OF_CONTROL_ID_DATA_ERROR';
+
 export const RESET_BLOCK_QUESTIONS = 'RESET_BLOCK_QUESTIONS';
 export const RESET_FLAGS_QUESTIONS = 'RESET_FLAGS_QUESTIONS';
 
@@ -44,16 +62,21 @@ const initialState = {
   question1Add: { ...block },
   question1Update: { ...block },
   question1Delete: { ...block },
+  question1OptionDelete: { ...block },
+  question1Option: { ...block },
+  question1OptionUpdate: { ...block },
+  question1EditLoadingList: [],
   question3: { ...block, data: [], Level: {} },
   question3Add: { ...block },
   question3Update: { ...block },
   question3Delete: { ...block },
+  getRepositoryOfControlID: { ...block, data: [] },
 };
 
 export const QuestionsReducer = (state = initialState, { type, payload = {} }) => {
   switch (type) {
     case GET_SECTION_1_MICS_REQUEST:
-      if (state.question1.data.length > 0) {
+      if (state.question1.data.length > 0 && !payload.disabledLoading) {
         return { ...state };
       }
       return {
@@ -99,19 +122,108 @@ export const QuestionsReducer = (state = initialState, { type, payload = {} }) =
       return {
         ...state,
         question1Update: { ...state.question1Update, loading: true },
+        question1EditLoadingList: [...state.question1EditLoadingList, payload.loadingId],
       };
     case UPDATE_SECTION_1_MICS_SUCCESS:
+      const filterUpdateSectionList = state.question1EditLoadingList.filter(
+        (d) => d !== payload.loadingId,
+      );
       return {
         ...state,
         question1Update: {
           ...state.question1Update,
           loading: false,
         },
+        question1EditLoadingList: filterUpdateSectionList,
       };
     case UPDATE_SECTION_1_MICS_ERROR:
+      const filterUpdateSectionListError = state.question1EditLoadingList.filter(
+        (d) => d !== payload.loadingId,
+      );
       return {
         ...state,
         question1Update: { ...state.question1Update, loading: false },
+        question1EditLoadingList: filterUpdateSectionListError,
+      };
+
+    case ADD_SECTION_1_OPTION_MICS_REQUEST:
+      return {
+        ...state,
+        question1Option: { ...state.question1Option, loading: true },
+        question1EditLoadingList: [...state.question1EditLoadingList, payload.loadingId],
+      };
+    case ADD_SECTION_1_OPTION_MICS_SUCCESS:
+      const filterList = state.question1EditLoadingList.filter((d) => d !== payload.loadingId);
+      return {
+        ...state,
+        question1Option: {
+          ...state.question1Option,
+          loading: false,
+        },
+        question1EditLoadingList: filterList,
+      };
+    case ADD_SECTION_1_OPTION_MICS_ERROR:
+      const filterErrorList = state.question1EditLoadingList.filter((d) => d !== payload.loadingId);
+      return {
+        ...state,
+        question1Option: { ...state.question1Option, loading: false },
+        question1EditLoadingList: filterErrorList,
+      };
+
+    case UPDATE_SECTION_1_MICS_OPTION_REQUEST:
+      return {
+        ...state,
+        question1OptionUpdate: { ...state.question1OptionUpdate, loading: true },
+        question1EditLoadingList: [...state.question1EditLoadingList, payload.loadingId],
+      };
+    case UPDATE_SECTION_1_MICS_OPTION_SUCCESS:
+      const filterUpdateList = state.question1EditLoadingList.filter(
+        (d) => d !== payload.loadingId,
+      );
+      return {
+        ...state,
+        question1OptionUpdate: {
+          ...state.question1OptionUpdate,
+          loading: false,
+        },
+        question1EditLoadingList: filterUpdateList,
+      };
+    case UPDATE_SECTION_1_MICS_OPTION_ERROR:
+      const filterUpdateErrorList = state.question1EditLoadingList.filter(
+        (d) => d !== payload.loadingId,
+      );
+      return {
+        ...state,
+        question1EditLoadingList: filterUpdateErrorList,
+        question1OptionUpdate: { ...state.question1OptionUpdate, loading: false },
+      };
+
+    case DELETE_OPTION_SECTION_1_MICS_REQUEST:
+      return {
+        ...state,
+        question1OptionDelete: { ...state.question1OptionDelete, loading: true },
+        // question1EditLoadingList: [...state.question1EditLoadingList, payload.loadingId],
+      };
+    case DELETE_OPTION_SECTION_1_MICS_SUCCESS:
+      const filterDeleteList = state.question1EditLoadingList.filter(
+        (d) => d !== payload.loadingId,
+      );
+      return {
+        ...state,
+        question1EditLoadingList: filterDeleteList,
+        question1OptionDelete: {
+          ...state.question1OptionDelete,
+          loading: false,
+        },
+      };
+    case DELETE_OPTION_SECTION_1_MICS_ERROR:
+      const filterDeleteErrorList = state.question1EditLoadingList.filter(
+        (d) => d !== payload.loadingId,
+      );
+      return {
+        ...state,
+        question1OptionDelete: { ...state.question1OptionDelete, loading: false },
+        question1EditLoadingList: filterDeleteErrorList,
       };
 
     case DELETE_SECTION_1_MICS_REQUEST:
@@ -202,6 +314,43 @@ export const QuestionsReducer = (state = initialState, { type, payload = {} }) =
       return {
         ...state,
         question3Delete: { ...state.question3Delete, loading: false },
+      };
+
+    // // GET Repository of Control IDs
+    // case GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST:
+    //   return {
+    //     ...state,
+    //     getRepositoryOfControlID: { ...state.getRepositoryOfControlID, loading: true },
+    //   };
+    // case GET_REPOSITORY_OF_CONTROL_ID_DATA_SUCCESS:
+    //   return {
+    //     ...state,
+    //     getRepositoryOfControlID: { ...state.getRepositoryOfControlID, loading: false },
+    //   };
+    // case GET_REPOSITORY_OF_CONTROL_ID_DATA_ERROR:
+    //   return {
+    //     ...state,
+    //     getRepositoryOfControlID: { ...state.getRepositoryOfControlID, loading: false },
+    //   };
+
+    case GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST:
+      return {
+        ...state,
+        getRepositoryOfControlID: { ...state.getRepositoryOfControlID, loading: true },
+      };
+    case GET_REPOSITORY_OF_CONTROL_ID_DATA_SUCCESS:
+      return {
+        ...state,
+        getRepositoryOfControlID: {
+          ...state.getRepositoryOfControlID,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_REPOSITORY_OF_CONTROL_ID_DATA_ERROR:
+      return {
+        ...state,
+        getRepositoryOfControlID: { ...state.getRepositoryOfControlID, loading: false },
       };
 
     //reset block with flag and data
