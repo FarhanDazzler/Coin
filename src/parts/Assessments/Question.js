@@ -37,7 +37,7 @@ const Question = () => {
   }, []);
 
   return (
-    <div className="text-left">
+    <div className="text-left container">
       <HomeTableModal isModal={false} />
     </div>
   );

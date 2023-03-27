@@ -17,34 +17,65 @@ import {
 import { questionSelector } from '../../../redux/Questions/QuestionsSelectors';
 import { Loader } from 'semantic-ui-react';
 import Swal from 'sweetalert2';
-import { getSection1QuestionDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
+import { getSection1QuestionDataAction, deleteSection1OptionDataAction, deleteSection1QuestionDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
 import AddSection1Questions from './AddSection1Question';
+import { deleteSection1Questions } from '../../../redux/Questions/QuestionsAction';
 
 
 const ModifyStandard = ({ open, handleClose }) => {
     const dispatch = useDispatch();
     const section1Questions = useSelector((state) => state?.section1QuestionData?.section1GetQuestion?.data)
     const AddQuestionSuccess = useSelector((state) => state?.section1QuestionData?.section1AddQuestion)
+    const DeleteQuestionSuccess = useSelector((state) => state?.section1QuestionData?.section1DeleteQuestion)
+    const UpdateQuestionSuccess = useSelector((state) => state?.section1QuestionData?.section1EditQuestion)
+    const AddOptionSuccess = useSelector((state) => state?.section1QuestionData?.section1AddOption)
+    const DeleteOptionSuccess = useSelector((state) => state?.section1QuestionData?.section1DeleteOption)
+    const UpdateOptionSuccess = useSelector((state) => state?.section1QuestionData?.section1EditOption)
     console.log(AddQuestionSuccess);
     console.log(section1Questions);
     const [section1QuestionsData, setection1QuestionsData] = useState([])
     const [template_ID, setTemplate_ID] = useState("Standard");
     const [showAddQuestion, setShowAddQuestion] = useState(false);
     const [template2_id, setTemplate2_ID] = useState("");
+    const [finalTemplate_id, setFinalTemplate_ID] = useState("Standard");
     const [selectContrilId, setSelectControlId] = useState(false);
     const [valueType, setValueType] = useState()
 
     const handleChange = (event) => {
         setTemplate_ID(event.target.value);
-        
+        if(event.target.value === "Standard"){
+            setFinalTemplate_ID(event.target.value);
+            setSelectControlId(false);
+            setTemplate2_ID("")
+        }else{
+            setSelectControlId(true);
+        }
     };
+    const handleChangeControlId = (e) => {
+        setTemplate2_ID(e.target.value)
+        if(e.target.value !== "Standard"){
+            setFinalTemplate_ID(e.target.value);
+        }
+    }
+    const handleDeleteQuestion = (data) => {
+        console.log("delete data",data);
+        if(data.options?.length != 0){
+            data.options.forEach(({ option_id }, i) => {
+                dispatch(deleteSection1OptionDataAction({"option_id": option_id}))
+            })
 
+        }
+            dispatch(deleteSection1QuestionDataAction({"q_id" : data?.q_id.toString()}));
+        
+        
+        
+    }
     useEffect(() => {
         let payload = {
-            controlId: template_ID
+            controlId: finalTemplate_id
         }
         dispatch(getSection1QuestionDataAction(payload))
-    }, [template_ID, AddQuestionSuccess])
+    }, [finalTemplate_id, AddQuestionSuccess, DeleteQuestionSuccess, UpdateQuestionSuccess, AddOptionSuccess, UpdateOptionSuccess])
     useEffect(() => {
         if (section1Questions.length > 0) {
             console.log("hh", section1Questions);
@@ -57,11 +88,11 @@ const ModifyStandard = ({ open, handleClose }) => {
 
     const TemplateOptions = [
         { label: 'Template1', value: 'Standard' },
-        { label: 'Template2', value: 'ATR_ACCR_01a' },
+        { label: 'Template2', value: '' },
 
     ];
     useEffect(() => {
-        if(AddQuestionSuccess?.success){
+        if (AddQuestionSuccess?.success) {
             console.log("success")
             setShowAddQuestion(false);
         }
@@ -70,17 +101,6 @@ const ModifyStandard = ({ open, handleClose }) => {
     const handleAddQuestionClose = () => {
         setShowAddQuestion(false);
     }
-    const handleChangeRenderBlock = (value, data) => {
-        if (value === 'delete') {
-          console.log(data);
-          setValueType('delete')
-        }else if(value === 'edit'){
-            setValueType('edit')
-        }else {
-            setValueType();
-        }
-       
-      };
 
     return (
         <div>
@@ -121,8 +141,12 @@ const ModifyStandard = ({ open, handleClose }) => {
                                 className="form-select"
                                 onChange={handleChange}
                             >
-                                <option value="Standard">Template1</option>
-                                <option value="ATR_ACCR_01a">Template2</option>
+                                {
+                                    TemplateOptions.map((data, i) => (
+                                        <option value={data?.value} key={i}>{data?.label}</option>
+                                    ))
+                                }
+                                
                             </Form.Control>
                         </Form.Group>
                     </div>
@@ -135,9 +159,9 @@ const ModifyStandard = ({ open, handleClose }) => {
                                         as="select"
                                         name="template"
                                         placeholder="Select Control Id"
-                                        value={template_ID}
+                                        value={template2_id}
                                         className="form-select"
-                                        onChange={handleChange}
+                                        onChange={handleChangeControlId}
                                     >
                                         <option value="">Select Control ID</option>
                                         {
@@ -159,7 +183,7 @@ const ModifyStandard = ({ open, handleClose }) => {
 
                     <div className="pt-5">
                         {section1QuestionsData.map((data, i) => (
-                            <QuestionsWithAction number={i + 1} text={data.question_text} withAction={true} active={true} data={data} handleChange={handleChangeRenderBlock} />
+                            <QuestionsWithAction templateType={template_ID} number={i + 1} text={data.question_text} withAction={true} active={true} block={data} handleDelete={handleDeleteQuestion} allQuestions={section1Questions} />
                         ))}
                         {
                             section1QuestionsData.length == 0 && (
@@ -198,7 +222,7 @@ const ModifyStandard = ({ open, handleClose }) => {
                     </div>
                 </div>
             </CustomModal>
-            <AddSection1Questions controlId={template_ID} open={showAddQuestion} handleClose={handleAddQuestionClose} />
+            <AddSection1Questions controlId={finalTemplate_id} open={showAddQuestion} handleClose={handleAddQuestionClose} />
         </div>
     );
 };
