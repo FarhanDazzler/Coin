@@ -24,28 +24,7 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
         setQuestionText("");
         setQuestionType();
     }, [open])
-    const handleAddRadioOption = () => {
-        setCreateOptions((prevState) => ([
-            ...prevState,
-            {
-                q_id: 50,
-                option_value: "",
-                child_question: "",
-                is_Terminating: null
-            }
-
-        ]));
-    };
-    const handleRemoveRadioOption = (i) => {
-        let newCreateOptions = [...createOptions];
-        newCreateOptions.splice(i, 1);
-        setCreateOptions(newCreateOptions)
-    }
-    const handleOptionsChange = (i, e) => {
-        let newCreateOptions = [...createOptions];
-        newCreateOptions[i][e.target.name] = e.target.value;
-        setCreateOptions(newCreateOptions);
-    }
+  
     console.log(createOptions);
     const handleAddSubmit = () => {
         let payload = {

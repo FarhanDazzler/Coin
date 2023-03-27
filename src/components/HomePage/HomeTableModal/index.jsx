@@ -139,6 +139,7 @@ const HomeTableModal = ({ isModal = true }) => {
         setShowNoQuestionAns={setShowNoQuestionAns}
         terminating={terminating}
         handleSubmit={handleSubmit}
+        controlId = {Control_ID}
       />
     </CustomModal>
   );

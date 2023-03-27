@@ -14,13 +14,21 @@ import { getCsvTampredDataAction } from '../../../redux/CsvTampred/CsvTampredAct
 
 const headerStyles = { backgroundColor: '#f1c40f', color: '#000000', fontWeight: '700' };
 
-const ControlSection2 = ({ tableData, setTableData }) => {
+const ControlSection2 = ({ tableData, setTableData, controlId }) => {
   const kpiResultData = useSelector(kpiResultSelector);
+  const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();
   const [editProductIds, setEditProductIds] = useState([
     { idNumeratorList: [], idDenominatorList: [] },
   ]);
   const [excelFile, setExcelFile] = useState(null);
+  const [csvUpdateData, setScvUpdateData] = useState(0);
+  useEffect(() => {
+    tableData.map((data, i) => {
+      handleChange('', '', data, i);
+
+    });
+  }, [csvUpdateData])
 
   const columns = [
     {
@@ -130,7 +138,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
       },
       editable: false,
     },
-     {
+    {
       dataField: 'Numerator',
       text: 'Numerator',
       headerStyle: {
@@ -146,7 +154,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
             color: 'black',
           };
         }
-    },
+      },
     },
     {
       dataField: 'Expected_Denominator',
@@ -258,7 +266,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
         d.setMonth(month - 1);
         // console.log(monthName);
         tData['Month'] = d.toLocaleString('default', { month: 'long' });
-        tData['Type_of_KPI']=tData.isManual?'Manual':'Automated'
+        tData['Type_of_KPI'] = tData.isManual ? 'Manual' : 'Automated'
       });
 
       const idNumeratorList = table_data.filter((d) => d.Numerator === 'NA').map((v) => v.id);
@@ -268,7 +276,6 @@ const ControlSection2 = ({ tableData, setTableData }) => {
         idDenominatorList: idDenominatorList,
       });
       setTableData(table_data);
-      console.log(table_data, 'Section 2 data');
     }
   }, [kpiResultData]);
 
@@ -276,7 +283,6 @@ const ControlSection2 = ({ tableData, setTableData }) => {
     const updateProduct = tableData.map((d) => {
       if (d.id === row.id) {
         row.KPI_Value = (row.Numerator / row.Denominator).toFixed(2);
-        console.log("row",row);
         if (row.Positive_direction === 'Lower is better') {
           if (row.KPI_Value <= row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
             row.L1_Result = 'Pass';
@@ -428,7 +434,19 @@ const ControlSection2 = ({ tableData, setTableData }) => {
       };
 
       console.log(apiBody, 'API BODY For Section 2');
-      dispatch(getCsvTampredDataAction(apiBody ));
+      dispatch(getCsvTampredDataAction(apiBody));
+      if (!stateCsvTampred?.data) {
+        let newDataArray = tableData.map((data, i) => {
+          return { ...data, Numerator: excelFile[i].Numerator, Denominator: excelFile[i].Denominator }
+
+        });
+        setTableData([...newDataArray])
+        setScvUpdateData(csvUpdateData + 1)
+      }else{
+        setScvUpdateData(0);
+      }
+
+
 
       var requestParameters = {
         method: 'POST',
@@ -457,6 +475,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
       setTableData(null);
     }
   };
+
 
   const handleFile = (e) => {
     let selectedFile = e.target.files[0];
@@ -495,7 +514,7 @@ const ControlSection2 = ({ tableData, setTableData }) => {
             <div className="d-flex align-items-center">
               <div className="row " id="export_button_right">
                 <Workbook
-                  filename="data.xlsx"
+                  filename={`data-${controlId}.xlsx`}
                   element={
                     <button className="export_button">
                       <strong>Export To Excel</strong>
