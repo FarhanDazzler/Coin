@@ -101,17 +101,6 @@ const ModifyStandard = ({ open, handleClose }) => {
     const handleAddQuestionClose = () => {
         setShowAddQuestion(false);
     }
-    const handleChangeRenderBlock = (value, data) => {
-        if (value === 'delete') {
-            console.log(data);
-            setValueType('delete')
-        } else if (value === 'edit') {
-            setValueType('edit')
-        } else {
-            setValueType();
-        }
-
-    };
 
     return (
         <div>
@@ -233,7 +222,7 @@ const ModifyStandard = ({ open, handleClose }) => {
                     </div>
                 </div>
             </CustomModal>
-            <AddSection1Questions controlId={template_ID} open={showAddQuestion} handleClose={handleAddQuestionClose} />
+            <AddSection1Questions controlId={finalTemplate_id} open={showAddQuestion} handleClose={handleAddQuestionClose} />
         </div>
     );
 };

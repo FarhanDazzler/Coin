@@ -128,7 +128,7 @@ function* addSection1OptionData(payload) {
         type: ACTION_ADD_SECTION1_OPTIONS_DATA_SUCCESS,
         data: response?.data,
       });
-      Swal.fire('Done!', 'Section 1 Options added Successfully', 'success');
+      Swal.fire('Done!', 'Added Successfully', 'success');
     } else {
       yield put({
         type: ACTION_ADD_SECTION1_OPTIONS_DATA_FAILED,
