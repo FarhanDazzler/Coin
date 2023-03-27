@@ -38,8 +38,8 @@ const EditSection1Question = ({
   const [freeTextChildQId, setFreeTextChildQId] = useState('');
   const question1EditLoadingList = useSelector(question1EditLoadingListSelector);
   const [openMenu, setOpenMenu] = useState();
-  // 'Dropdown'
-  const questionTypeOptions = ['Free Text', 'Radio'];
+
+  const questionTypeOptions = ['Free Text', 'Radio', 'Dropdown'];
   const [showRemoveModal, setShowRemoveModal] = useState(null);
   const [saveLoading, setSaveLoading] = useState(false);
   const handleClick = (event) => {
