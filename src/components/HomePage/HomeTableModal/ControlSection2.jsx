@@ -17,7 +17,6 @@ const headerStyles = { backgroundColor: '#f1c40f', color: '#000000', fontWeight:
 const ControlSection2 = ({ tableData, setTableData, controlId }) => {
   const kpiResultData = useSelector(kpiResultSelector);
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
-  console.log("tamp", stateCsvTampred);
   const dispatch = useDispatch();
   const [editProductIds, setEditProductIds] = useState([
     { idNumeratorList: [], idDenominatorList: [] },
@@ -277,16 +276,13 @@ const ControlSection2 = ({ tableData, setTableData, controlId }) => {
         idDenominatorList: idDenominatorList,
       });
       setTableData(table_data);
-      console.log(table_data, 'Section 2 data');
     }
   }, [kpiResultData]);
 
   function handleChange(oldValue, newValue, row, column) {
-    console.log("there", row);
     const updateProduct = tableData.map((d) => {
       if (d.id === row.id) {
         row.KPI_Value = (row.Numerator / row.Denominator).toFixed(2);
-        console.log("row", row);
         if (row.Positive_direction === 'Lower is better') {
           if (row.KPI_Value <= row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
             row.L1_Result = 'Pass';
@@ -440,12 +436,10 @@ const ControlSection2 = ({ tableData, setTableData, controlId }) => {
       console.log(apiBody, 'API BODY For Section 2');
       dispatch(getCsvTampredDataAction(apiBody));
       if (!stateCsvTampred?.data) {
-        console.log("Hi=>>>>>>>>>>>>>>>>>>>>>")
         let newDataArray = tableData.map((data, i) => {
           return { ...data, Numerator: excelFile[i].Numerator, Denominator: excelFile[i].Denominator }
 
         });
-        console.log("new", newDataArray);
         setTableData([...newDataArray])
         setScvUpdateData(csvUpdateData + 1)
       }else{
