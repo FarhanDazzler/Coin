@@ -64,9 +64,9 @@ const ModifyStandard = ({ open, handleClose }) => {
                 dispatch(deleteSection1OptionDataAction({"option_id": option_id}))
             })
 
-        }else{
-            dispatch(deleteSection1QuestionDataAction({"q_id" : data?.q_id.toString()}));
         }
+            dispatch(deleteSection1QuestionDataAction({"q_id" : data?.q_id.toString()}));
+        
         
         
     }
