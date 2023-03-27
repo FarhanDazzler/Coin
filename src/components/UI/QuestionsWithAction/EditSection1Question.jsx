@@ -54,6 +54,7 @@ const EditSection1Question = ({
     if (saveLoading && question1EditLoadingList.length === 0) {
       dispatch(getSection1Questions({ Control_ID: 'Standard', disabledLoading: true }));
       setSaveLoading(false)
+      setShowEditModal(false)
     }
   }, [question1EditLoadingList]);
 
