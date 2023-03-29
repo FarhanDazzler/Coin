@@ -35,6 +35,7 @@ const EditSection1QuestionOption = ({
     const QuestionType = [
         { label: 'Radio', value: 'Radio' },
         { label: 'Text', value: 'Free Text' },
+        { label: 'Dropdown', value: 'Dropdown'}
     ]
     const [showRemoveModal, setShowRemoveModal] = useState(null);
     const [saveLoading, setSaveLoading] = useState(false);
