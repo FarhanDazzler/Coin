@@ -76,7 +76,7 @@ const QuestionBank = () => {
                 size="large"
                 startIcon={<DescriptionOutlinedIcon />}
                 className="mr-4"
-                onClick={() => handleOpenModifyStandard()}
+                onClick={() => handleEditModifyMICS('Standard')}
               >
                 <span className="text-white">Modify Standard</span>
               </Button>
@@ -99,8 +99,8 @@ const QuestionBank = () => {
         </div>
         {/*-Specific*/}
         <CreateQuestions open={openCreateQuestions} handleClose={handleCloseCreateQuestions} />
-        <ModifyStandard open={openModifyStandard} handleClose={handleCloseModifyStandard} />
-        <ModifyMICSQuestions
+        {/* <ModifyStandard open={openModifyStandard} handleClose={handleCloseModifyStandard} /> */}
+        <ModifyStandard
           open={!!editModifyMICS}
           type={editModifyMICS}
           handleClose={handleCloseEditModifyMICS}
