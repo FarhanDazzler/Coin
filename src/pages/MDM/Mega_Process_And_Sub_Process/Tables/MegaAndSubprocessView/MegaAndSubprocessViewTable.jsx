@@ -6,7 +6,15 @@ import { FloatRight } from 'tabler-icons-react';
 import Table from '../../../../../components/UI/Table';
 
 import '../TableStyle.scss';
-import { getMegaAndSubprocessViewSelector } from '../../../../../redux/MDM/MDM_Selectors';
+import {
+  getMegaAndSubprocessViewSelector,
+  megaAndSubprocessManageButtonSelector,
+} from '../../../../../redux/MDM/MDM_Selectors';
+
+import { megaAndSubprocessManageButton } from '../../../../../redux/MDM/MDM_Action';
+import Button from '../../../MDM_Tab_Buttons/Button';
+import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
+import Tooltip from '@mui/material/Tooltip';
 
 const MegaAndSubprocessViewTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -15,6 +23,7 @@ const MegaAndSubprocessViewTable = () => {
   const dispatch = useDispatch();
 
   const megaAndSubprocessView = useSelector(getMegaAndSubprocessViewSelector);
+  const megaAndSubprocessManageButtonState = useSelector(megaAndSubprocessManageButtonSelector);
 
   const TABLE_COLUMNS = [
     {
@@ -59,15 +68,40 @@ const MegaAndSubprocessViewTable = () => {
     );
   }, [megaAndSubprocessView.data]);
 
+  const handleOnclickTableUnhide = () => {
+    dispatch(megaAndSubprocessManageButton(!megaAndSubprocessManageButtonState));
+  };
+  const ActiveTool = ({ number, text }) => (
+    <Tooltip title={text} placement="bottom-start">
+      <ControlPointRoundedIcon color="black" />
+    </Tooltip>
+  );
+
   return (
     <>
       <div className="container mt-5">
         <div className="row pt-5">
           <div className="col col-lg-12">
             <div className="mdm-table-button">
-              <div className="table-heading">
-                <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                Mega Process & Sub-Process Master Data
+              <div className="table-heading" style={{ justifyContent: 'space-between' }}>
+                <div>
+                  <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
+                  <span style={{ paddingLeft: '16px' }}>
+                    {' '}
+                    Mega Process & Sub-Process Master Data
+                  </span>
+                </div>
+                <div>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    startIcon={<ActiveTool text="Free Text" />}
+                    className="active-tab-button"
+                    onClick={handleOnclickTableUnhide}
+                  >
+                    Manage Mega & Sub Processes
+                  </Button>
+                </div>
               </div>
             </div>
             <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />

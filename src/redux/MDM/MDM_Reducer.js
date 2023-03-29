@@ -31,6 +31,9 @@ export const GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_SUCCESS =
 export const GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR =
   'GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR';
 
+export const ORG_OPEN_TABLE_REQUEST = 'ORG_OPEN_TABLE_REQUEST';
+export const MEGA_AND_SUBPROCESS_OPEN_TABLE_REQUEST = 'MEGA_AND_SUBPROCESS_OPEN_TABLE_REQUEST';
+
 export const RESET_BLOCK_ASSESSMENT = 'RESET_BLOCK_ASSESSMENT';
 export const RESET_FLAGS_ASSESSMENT = 'RESET_FLAGS_ASSESSMENT';
 
@@ -48,6 +51,8 @@ const initialState = {
   megaAndSubprocess: { ...block, data: [] },
   controlOwnerAndOversight: { ...block, data: [] },
   applicabilityAndAssignmentOfProviderOrganization: { ...block, data: [] },
+  orgManageButtonValue: false,
+  megaAndSubprocessManageButtonValue: false,
 };
 
 export const MDMReducer = (state = initialState, { type, payload = {} }) => {
@@ -183,6 +188,20 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
           ...state.applicabilityAndAssignmentOfProviderOrganization,
           loading: false,
         },
+      };
+
+    // state for hiding and unhiding tabe
+    case ORG_OPEN_TABLE_REQUEST:
+      return {
+        ...state,
+        orgManageButtonValue: payload,
+      };
+
+    // state for hiding and unhiding tabe
+    case MEGA_AND_SUBPROCESS_OPEN_TABLE_REQUEST:
+      return {
+        ...state,
+        megaAndSubprocessManageButtonValue: payload,
       };
 
     //reset block with flag and data

@@ -6,10 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOrgStructures, getOrgHierarchy } from '../../../redux/MDM/MDM_Action';
 import OrgStructuresTable from './Tables/OrgStructures/OrgStructuresTable';
 import OrgHierarchyTable from './Tables/OrgHierarchy/OrgHierarchyTable';
+import { orgManageButtonSelector } from '../../../redux/MDM/MDM_Selectors';
 
 const MDM_OrganizationHierarchyLandingPage = () => {
   const dispatch = useDispatch();
 
+  const orgManageButtonState = useSelector(orgManageButtonSelector);
   // API Call using dispatch
   useEffect(() => {
     dispatch(getOrgStructures());
@@ -24,12 +26,7 @@ const MDM_OrganizationHierarchyLandingPage = () => {
     <PageWrapper>
       <NavTabsMDM />
       <OrgHierarchyTable />
-      <OrgStructuresTable />
-      {/*<div className="container py-5" style={{ display: 'flex' }}>
-        <div className="col-lg-6 py-4 MDMBoxWrapper" style={{ marginRight: '16px' }}>
-          <h1>Organization Hierarchy Tables</h1>
-        </div>
-      </div>*/}
+      {!!orgManageButtonState && <OrgStructuresTable />}
     </PageWrapper>
   );
 };
