@@ -5,7 +5,8 @@ import CustomModal from '../../../components/UI/CustomModal';
 import QuestionsWithAction from '../../../components/UI/QuestionsWithAction';
 import info from './../../../assets/images/Info-Circle.svg'
 // import Button from '../../../components/UI/Button';
-import { Button } from '@mantine/core';
+// import { Button } from '@mantine/core';
+import Button from '../../../components/UI/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { names } from '../CreateQuestions/constant';
 import {
@@ -20,9 +21,13 @@ import Swal from 'sweetalert2';
 import { getSection1QuestionDataAction, deleteSection1OptionDataAction, deleteSection1QuestionDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
 import AddSection1Questions from './AddSection1Question';
 import { deleteSection1Questions } from '../../../redux/Questions/QuestionsAction';
+import MICSSpecific from '../ModifyMICSQuestions/MICSSpecific';
 
 
-const ModifyStandard = ({ open, handleClose }) => {
+const ModifyStandard = ({ open, handleClose, type = '' }) => {
+    const [activeType, setActiveType] = useState(type);
+
+
     const dispatch = useDispatch();
     const section1Questions = useSelector((state) => state?.section1QuestionData?.section1GetQuestion?.data)
     const AddQuestionSuccess = useSelector((state) => state?.section1QuestionData?.section1AddQuestion)
@@ -40,35 +45,40 @@ const ModifyStandard = ({ open, handleClose }) => {
     const [finalTemplate_id, setFinalTemplate_ID] = useState("Standard");
     const [selectContrilId, setSelectControlId] = useState(false);
     const [valueType, setValueType] = useState()
-
+    const handleSetType = (selectType) => {
+        setActiveType(selectType);
+    };
+    useEffect(() => {
+        setActiveType(type);
+    }, [type]);
     const handleChange = (event) => {
         setTemplate_ID(event.target.value);
-        if(event.target.value === "Standard"){
+        if (event.target.value === "Standard") {
             setFinalTemplate_ID(event.target.value);
             setSelectControlId(false);
             setTemplate2_ID("")
-        }else{
+        } else {
             setSelectControlId(true);
         }
     };
     const handleChangeControlId = (e) => {
         setTemplate2_ID(e.target.value)
-        if(e.target.value !== "Standard"){
+        if (e.target.value !== "Standard") {
             setFinalTemplate_ID(e.target.value);
         }
     }
     const handleDeleteQuestion = (data) => {
-        console.log("delete data",data);
-        if(data.options?.length != 0){
+        console.log("delete data", data);
+        if (data.options?.length != 0) {
             data.options.forEach(({ option_id }, i) => {
-                dispatch(deleteSection1OptionDataAction({"option_id": option_id}))
+                dispatch(deleteSection1OptionDataAction({ "option_id": option_id }))
             })
 
         }
-            dispatch(deleteSection1QuestionDataAction({"q_id" : data?.q_id.toString()}));
-        
-        
-        
+        dispatch(deleteSection1QuestionDataAction({ "q_id": data?.q_id.toString() }));
+
+
+
     }
     useEffect(() => {
         let payload = {
@@ -118,15 +128,17 @@ const ModifyStandard = ({ open, handleClose }) => {
             >
                 <div className='buttons'>
                     <Button
-                        styles={(theme) => ({
-                            root: {
-                                backgroundColor: '#F2C94C',
-                            },
-                        })}>
+                        className="mx-3"
+                        color={activeType === 'Standard' ? 'neutral' : 'silver'}
+                        onClick={() => handleSetType('Standard')}
+                    >
                         Standard
                     </Button>
-                    <span>&nbsp; &nbsp; &nbsp; </span>
-                    <Button variant="default">
+                    <Button
+                        className="mx-3"
+                        color={activeType === 'MICS-Specific' ? 'neutral' : 'silver'}
+                        onClick={() => handleSetType('MICS-Specific')}
+                    >
                         MICS-Specific
                     </Button>
                 </div>
@@ -146,7 +158,7 @@ const ModifyStandard = ({ open, handleClose }) => {
                                         <option value={data?.value} key={i}>{data?.label}</option>
                                     ))
                                 }
-                                
+
                             </Form.Control>
                         </Form.Group>
                     </div>
@@ -178,51 +190,54 @@ const ModifyStandard = ({ open, handleClose }) => {
                 <div className='note'>
                     <p><span><img src={info} /></span>Any modifications to Standard Questions will reflect in all Assessments & Surveys.</p>
                 </div>
+                {activeType === 'Standard' &&
+                    <div className="questions-list-main-wrapper">
 
-                <div className="questions-list-main-wrapper">
-
-                    <div className="pt-5">
-                        {section1QuestionsData.map((data, i) => (
-                            <QuestionsWithAction templateType={template_ID} number={i + 1} text={data.question_text} withAction={true} active={true} block={data} handleDelete={handleDeleteQuestion} allQuestions={section1Questions} />
-                        ))}
-                        {
-                            section1QuestionsData.length == 0 && (
-                                <p>No Question Found</p>
-                            )
-                        }
-                    </div>
-
-
-
-
-                    <div className='d-flex align-items-center justify-content-between'>
-                        <div>
-                            <Button
-                                color="secondary"
-                                variant="default"
-                                onClick={() => setShowAddQuestion(true)}
-                            >
-                                Add Question
-                            </Button>
-
+                        <div className="pt-5">
+                            {section1QuestionsData.map((data, i) => (
+                                <QuestionsWithAction templateType={template_ID} number={i + 1} text={data.question_text} withAction={true} active={true} block={data} handleDelete={handleDeleteQuestion} allQuestions={section1Questions} />
+                            ))}
+                            {
+                                section1QuestionsData.length == 0 && (
+                                    <p>No Question Found</p>
+                                )
+                            }
                         </div>
-                        <div className="d-flex align-items-center justify-content-end">
-                            <Button variant='subtle' onClick={handleClose}>
-                                Cancel
-                            </Button>
-                            <Button
-                                color="secondary"
-                                variant="default"
-                                className="ml-2"
 
-                            >
-                                Save as Draft
-                            </Button>
+
+
+
+                        <div className='d-flex align-items-center justify-content-between'>
+                            <div>
+                                <Button
+                                    color="silver"
+                                    className="mx-3"
+                                    onClick={() => setShowAddQuestion(true)}
+                                >
+                                    Add Question
+                                </Button>
+
+                            </div>
+                            <div className="d-flex align-items-center justify-content-end">
+                                <Button variant='subtle' onClick={handleClose}>
+                                    Cancel
+                                </Button>
+                                <Button
+                                    color="silver"
+                                    // className="mx-3"
+                                    className="ml-2"
+
+                                >
+                                    Save as Draft
+                                </Button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
+                {activeType === 'MICS-Specific' && <MICSSpecific handleClose={handleClose} />}
             </CustomModal>
             <AddSection1Questions controlId={finalTemplate_id} open={showAddQuestion} handleClose={handleAddQuestionClose} />
+
         </div>
     );
 };
