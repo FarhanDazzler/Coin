@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMegaAndSubprocessView, getMegaAndSubprocess } from '../../../redux/MDM/MDM_Action';
 import MegaAndSubprocessViewTable from './Tables/MegaAndSubprocessView/MegaAndSubprocessViewTable';
 import MegaAndSubprocessTable from './Tables/MegaAndSubprocess/MegaAndSubprocessTable';
+import { megaAndSubprocessManageButtonSelector } from '../../../redux/MDM/MDM_Selectors';
 
 const MDM_Mega_Process_Sub_ProcessLandingPage = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,8 @@ const MDM_Mega_Process_Sub_ProcessLandingPage = () => {
     dispatch(getMegaAndSubprocess());
   }, []);
 
+  const megaAndSubprocessManageButtonState = useSelector(megaAndSubprocessManageButtonSelector);
+  
   // to select data from redux store using selector
   // const orgStructures = useSelector(getOrgStructuresSelector);
   // console.log(orgStructures.data, 'Org Structure data from API');
@@ -25,12 +28,7 @@ const MDM_Mega_Process_Sub_ProcessLandingPage = () => {
     <PageWrapper>
       <NavTabsMDM />
       <MegaAndSubprocessViewTable />
-      <MegaAndSubprocessTable />
-      {/*<div className="container py-5" style={{ display: 'flex' }}>
-        <div className="col-lg-6 py-4 MDMBoxWrapper" style={{ marginRight: '16px' }}>
-          <h1>Organization Hierarchy Tables</h1>
-        </div>
-      </div>*/}
+      {!!megaAndSubprocessManageButtonState && <MegaAndSubprocessTable />}
     </PageWrapper>
   );
 };

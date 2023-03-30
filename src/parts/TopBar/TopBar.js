@@ -13,6 +13,7 @@ import { UserContext } from '../../context/userContext';
 import appLogo from '../../assets/images/GCCWhite.png';
 import { useDispatch } from 'react-redux';
 import { setLoginInfo } from '../../redux/Auth/AuthAction';
+import { Form } from 'react-bootstrap';
 
 const TopBar = (props) => {
   const history = useHistory();
@@ -55,6 +56,11 @@ const TopBar = (props) => {
     dispatch(setLoginInfo(accounts));
   }, [accounts]);
 
+  //RBAC
+  const roles = localStorage.getItem('Roles').split(',');
+  console.log(roles, 'ROLES');
+  const [roleValue, setRoleValue] = useState('');
+
   return (
     <div className="top-nav">
       <div className="header py-4">
@@ -85,7 +91,26 @@ const TopBar = (props) => {
               className="d-flex order-lg-2 ml-auto text-left"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
             >
-              
+              {roles.length > 1 && (
+                <div>
+                  <Form.Group className="input-group mb-3">
+                    <Form.Control
+                      as="select"
+                      name=""
+                      placeholder=""
+                      className="rbac-dropdown"
+                      onChange={(e) => setRoleValue(e.target.value)}
+                    >
+                      <option value="">Select Role</option>
+                      {roles.map((data, i) => (
+                        <option value={data} key={i}>
+                          {data}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </Form.Group>
+                </div>
+              )}
               <span className="golden-text" style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                 {process.env.REACT_APP_STAGE === 'prod' ? null : <strong>{`BETA`}</strong>}
               </span>

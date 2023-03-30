@@ -10,6 +10,11 @@ import '../TableStyle.scss';
 // geting data from redux
 import { getMicsFrameworkSelector } from '../../../../../redux/MDM/MDM_Selectors';
 
+import Button from '../../../MDM_Tab_Buttons/Button';
+import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
+import EditIcon from '@mui/icons-material/Edit';
+import Tooltip from '@mui/material/Tooltip';
+
 const MicsFrameworkTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -292,15 +297,56 @@ const MicsFrameworkTable = () => {
     );
   }, [micsFramework.data]);
 
+  const ActiveToolADD = ({ text }) => (
+    <Tooltip title={text} placement="bottom-start">
+      <ControlPointRoundedIcon color="black" />
+    </Tooltip>
+  );
+
+  const ActiveToolEdit = ({ text }) => (
+    <Tooltip title={text} placement="bottom-start">
+      <EditIcon color="black" />
+    </Tooltip>
+  );
+
+  const handleOnclickEdit = () => {
+    // edit code
+  };
+  const handleOnclickAdd = () => {
+    // Add code
+  };
+
   return (
     <>
       <div className="container mt-5">
         <div className="row pt-5">
           <div className="col col-lg-12">
             <div className="mdm-table-button">
-              <div className="table-heading">
-                <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                MICS Framework
+              <div className="table-heading" style={{ justifyContent: 'space-between' }}>
+                <div>
+                  <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
+                  <span style={{ paddingLeft: '16px' }}>Create or Modify Organizations</span>
+                </div>
+                <div>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    startIcon={<ActiveToolEdit text="Free Text" />}
+                    className="edit-button-mdm-table"
+                    onClick={handleOnclickEdit}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    startIcon={<ActiveToolADD text="Free Text" />}
+                    className="add-button-mdm-table"
+                    onClick={handleOnclickAdd}
+                  >
+                    Add New
+                  </Button>
+                </div>
               </div>
             </div>
             <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />

@@ -13,6 +13,7 @@ const MultiSelectButton = (props) => {
     }
   }, [props]);
 
+  console.log(value, 'Value');
   return (
     <MultiSelect
       className="mantine-MultiSelect-wrapper"
@@ -28,7 +29,10 @@ const MultiSelectButton = (props) => {
       clearButtonLabel="Clear selection"
       clearable
       value={value}
-      onChange={setValue}
+      onChange={(e) => {
+        setValue(e);
+        console.log(e);
+      }}
       radius="xl"
       variant="filled"
       size="xs"
