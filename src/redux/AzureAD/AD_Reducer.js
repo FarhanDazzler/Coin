@@ -23,12 +23,12 @@ export const AD_Reducer = (state = initialState, { type, payload = {} }) => {
     case GET_USER_FROM_AD_REQUEST:
       return {
         ...state,
-        userFromAD: { ...state.userFromAD, loading: true },
+        userFromAD: { ...state.userFromAD, loading: true, data: [] },
       };
     case GET_USER_FROM_AD_SUCCESS:
       return {
         ...state,
-        userFromAD: { ...state.userFromAD, data: payload, loading: false },
+        userFromAD: { ...state.userFromAD, data: payload?.user, loading: false },
       };
     case GET_USER_FROM_AD_ERROR:
       return {

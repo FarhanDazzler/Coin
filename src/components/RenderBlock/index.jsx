@@ -8,6 +8,7 @@ import RadioMulti from '../UI/RadioMulti';
 import RadioWithInput from '../UI/RadioWithInput';
 import { useDispatch, useSelector } from 'react-redux';
 import Dropdown from '../UI/Dropdown';
+import InputWidthSelect from '../UI/InputWidthSelect/InputWidthSelect';
 
 const RenderBlock = ({ blocks = [], handleChange }) => {
   const controlDataResponse = useSelector((state) => state?.controlData?.controlData?.data);
@@ -64,7 +65,7 @@ const RenderBlock = ({ blocks = [], handleChange }) => {
               </RenderBlockWrapper>
             );
 
-          case 'RadioWithInput':
+          case blockType.RADIO_WITH_INPUT:
             return (
               <RenderBlockWrapper key={i}>
                 <RadioWithInput
@@ -86,6 +87,13 @@ const RenderBlock = ({ blocks = [], handleChange }) => {
                   block={block}
                   handleChange={handleChange}
                 />
+              </RenderBlockWrapper>
+            );
+
+          case blockType.EMAIL_WIDTH_SELECT:
+            return (
+              <RenderBlockWrapper key={i}>
+                <InputWidthSelect block={block} handleChange={handleChange} />
               </RenderBlockWrapper>
             );
           default:
