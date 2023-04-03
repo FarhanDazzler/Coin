@@ -30,6 +30,7 @@ const RenderBlock = ({ blocks = [], handleChange }) => {
           case blockType.RADIO:
             return (
               <RenderBlockWrapper key={i}>
+                
                 <Radio
                   block={block}
                   label={block.label}

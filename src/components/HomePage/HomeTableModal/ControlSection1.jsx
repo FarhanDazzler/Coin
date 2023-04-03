@@ -17,7 +17,7 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns }) =>
   const [isStart, setIsStart] = useState(false);
   const dispatch = useDispatch();
   const userFromAD = useSelector(getUserFromADSelector);
-
+  
   useEffect(() => {
     if (isStart) dispatch(getUserFromAD({ username: qId2Value }));
   }, [q_id_2_debounce]);
