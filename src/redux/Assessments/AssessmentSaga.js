@@ -22,6 +22,18 @@ import {
   GET_KPI_RESULT_REQUEST,
   GET_KPI_RESULT_SUCCESS,
   GET_KPI_RESULT_ERROR,
+  GET_DRAFT_RESPONSE_REQUEST,
+  GET_DRAFT_RESPONSE_SUCCESS,
+  GET_DRAFT_RESPONSE_ERROR,
+  ADD_UPDATE_DRAFT_RESPONSE_REQUEST,
+  ADD_UPDATE_DRAFT_RESPONSE_SUCCESS,
+  ADD_UPDATE_DRAFT_RESPONSE_ERROR,
+  GET_FINAL_SUBMIT_RESPONSE_REQUEST,
+  GET_FINAL_SUBMIT_RESPONSE_SUCCESS,
+  GET_FINAL_SUBMIT_RESPONSE_ERROR,
+  ADD_UPDATE_FINAL_SUBMIT_RESPONSE_REQUEST,
+  ADD_UPDATE_FINAL_SUBMIT_RESPONSE_SUCCESS,
+  ADD_UPDATE_FINAL_SUBMIT_RESPONSE_ERROR,
 } from './AssessmentReducer';
 import Swal from 'sweetalert2';
 
@@ -125,10 +137,98 @@ function* handleGetKPIData({ payload }) {
   }
 }
 
+// API needs to be added
+async function getDraftResponseApi(params) {
+  return await Axios.get('/', { params });
+}
+function* handleGet_draftResponse({ payload }) {
+  try {
+    const response = yield call(getDraftResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_DRAFT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_DRAFT_RESPONSE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+// API needs to be added
+async function addUpdateDraftResponseApi(params) {
+  return await Axios.get('/', { params });
+}
+function* handle_addUpdateDraftResponse({ payload }) {
+  try {
+    const response = yield call(addUpdateDraftResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_UPDATE_DRAFT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_UPDATE_DRAFT_RESPONSE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+// API needs to be added
+async function getFinalSubmitResponseApi(params) {
+  return await Axios.get('/', { params });
+}
+function* handleGet_FinalSubmitResponse({ payload }) {
+  try {
+    const response = yield call(getFinalSubmitResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_FINAL_SUBMIT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_FINAL_SUBMIT_RESPONSE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+// API needs to be added
+async function addUpdateFinalSubmitResponseApi(params) {
+  return await Axios.get('/', { params });
+}
+function* handle_addUpdateFinalSubmitResponse({ payload }) {
+  try {
+    const response = yield call(addUpdateFinalSubmitResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_UPDATE_FINAL_SUBMIT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_UPDATE_FINAL_SUBMIT_RESPONSE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 export default all([
   takeLatest(GET_ASSESSMENT_RESPONSE_REQUEST, handleGetAssessmentAns),
   takeLatest(ADD_ASSESSMENT_RESPONSE_REQUEST, handleAddAssessmentAns),
   takeLatest(UPDATE_ASSESSMENT_RESPONSE_REQUEST, handleUpdateAssessmentAns),
   takeLatest(GET_QUESTIONS_REQUEST, handleGetQuestions),
   takeLatest(GET_KPI_RESULT_REQUEST, handleGetKPIData),
+  takeLatest(GET_DRAFT_RESPONSE_REQUEST, handleGet_draftResponse),
+  takeLatest(ADD_UPDATE_DRAFT_RESPONSE_REQUEST, handle_addUpdateDraftResponse),
+  takeLatest(GET_FINAL_SUBMIT_RESPONSE_REQUEST, handleGet_FinalSubmitResponse),
+  takeLatest(ADD_UPDATE_FINAL_SUBMIT_RESPONSE_REQUEST, handle_addUpdateFinalSubmitResponse),
 ]);

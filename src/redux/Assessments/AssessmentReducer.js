@@ -28,6 +28,22 @@ export const GET_KPI_RESULT_REQUEST = 'GET_KPI_RESULT_REQUEST';
 export const GET_KPI_RESULT_SUCCESS = 'GET_KPI_RESULT_SUCCESS';
 export const GET_KPI_RESULT_ERROR = 'GET_KPI_RESULT_ERROR';
 
+export const GET_DRAFT_RESPONSE_REQUEST = 'GET_DRAFT_RESPONSE_REQUEST';
+export const GET_DRAFT_RESPONSE_SUCCESS = 'GET_DRAFT_RESPONSE_SUCCESS';
+export const GET_DRAFT_RESPONSE_ERROR = 'GET_DRAFT_RESPONSE_ERROR';
+
+export const ADD_UPDATE_DRAFT_RESPONSE_REQUEST = 'ADD_UPDATE_DRAFT_RESPONSE_REQUEST';
+export const ADD_UPDATE_DRAFT_RESPONSE_SUCCESS = 'ADD_UPDATE_DRAFT_RESPONSE_SUCCESS';
+export const ADD_UPDATE_DRAFT_RESPONSE_ERROR = 'ADD_UPDATE_DRAFT_RESPONSE_ERROR';
+
+export const GET_FINAL_SUBMIT_RESPONSE_REQUEST = 'GET_FINAL_SUBMIT_RESPONSE_REQUEST';
+export const GET_FINAL_SUBMIT_RESPONSE_SUCCESS = 'GET_FINAL_SUBMIT_RESPONSE_SUCCESS';
+export const GET_FINAL_SUBMIT_RESPONSE_ERROR = 'GET_FINAL_SUBMIT_RESPONSE_ERROR';
+
+export const ADD_UPDATE_FINAL_SUBMIT_RESPONSE_REQUEST = 'ADD_UPDATE_FINAL_SUBMIT_RESPONSE_REQUEST';
+export const ADD_UPDATE_FINAL_SUBMIT_RESPONSE_SUCCESS = 'ADD_UPDATE_FINAL_SUBMIT_RESPONSE_SUCCESS';
+export const ADD_UPDATE_FINAL_SUBMIT_RESPONSE_ERROR = 'ADD_UPDATE_FINAL_SUBMIT_RESPONSE_ERROR';
+
 export const RESET_BLOCK_ASSESSMENT = 'RESET_BLOCK_ASSESSMENT';
 export const RESET_FLAGS_ASSESSMENT = 'RESET_FLAGS_ASSESSMENT';
 
@@ -45,6 +61,10 @@ const initialState = {
   updateResponse: { ...block },
   kpiResult: { ...block, data: [] },
   controlData: {},
+  getDraftResponse: { ...block, data: [] },
+  addUpdateDraftResponse: { ...block, data: [] },
+  getFinalSubmitResponse: { ...block, data: [] },
+  addUpdateFinalSubmitResponse: { ...block, data: [] },
 };
 
 export const AssessmentReducer = (state = initialState, { type, payload = {} }) => {
@@ -164,6 +184,78 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
       return {
         ...state,
         kpiResult: { ...state.kpiResult, loading: false },
+      };
+
+    // Get Draft response data
+    case GET_DRAFT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getDraftResponse: { ...state.getDraftResponse, loading: true },
+      };
+    case GET_DRAFT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        getDraftResponse: { ...state.getDraftResponse, data: payload, loading: false },
+      };
+    case GET_DRAFT_RESPONSE_ERROR:
+      return {
+        ...state,
+        getDraftResponse: { ...state.getDraftResponse, loading: false },
+      };
+
+    // Add and Update Draft response data
+    case ADD_UPDATE_DRAFT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        addUpdateDraftResponse: { ...state.addUpdateDraftResponse, loading: true },
+      };
+    case ADD_UPDATE_DRAFT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        addUpdateDraftResponse: { ...state.addUpdateDraftResponse, data: payload, loading: false },
+      };
+    case ADD_UPDATE_DRAFT_RESPONSE_ERROR:
+      return {
+        ...state,
+        addUpdateDraftResponse: { ...state.addUpdateDraftResponse, loading: false },
+      };
+
+    // Get Final Submit response data
+    case GET_FINAL_SUBMIT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getFinalSubmitResponse: { ...state.getFinalSubmitResponse, loading: true },
+      };
+    case GET_FINAL_SUBMIT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        getFinalSubmitResponse: { ...state.getFinalSubmitResponse, data: payload, loading: false },
+      };
+    case GET_FINAL_SUBMIT_RESPONSE_ERROR:
+      return {
+        ...state,
+        getFinalSubmitResponse: { ...state.getFinalSubmitResponse, loading: false },
+      };
+
+    // Add and Update Final Submit response data
+    case ADD_UPDATE_FINAL_SUBMIT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        addUpdateFinalSubmitResponse: { ...state.addUpdateFinalSubmitResponse, loading: true },
+      };
+    case ADD_UPDATE_FINAL_SUBMIT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        addUpdateFinalSubmitResponse: {
+          ...state.addUpdateFinalSubmitResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ADD_UPDATE_FINAL_SUBMIT_RESPONSE_ERROR:
+      return {
+        ...state,
+        addUpdateFinalSubmitResponse: { ...state.addUpdateFinalSubmitResponse, loading: false },
       };
 
     //reset block with flag and data
