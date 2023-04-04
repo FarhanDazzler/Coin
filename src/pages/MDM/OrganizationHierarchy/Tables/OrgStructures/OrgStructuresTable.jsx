@@ -185,7 +185,9 @@ const OrgStructuresTable = () => {
               isProvider: '1',
               Category: '',
               Org_code: '',
-              Org_name: ''
+              Org_name: '',
+              validFrom: '',
+              validTo: ''
             }}
             validationSchema={Yup.object().shape({
               orgType: Yup.string()
@@ -196,6 +198,10 @@ const OrgStructuresTable = () => {
                 .required('Category is required'),
               Org_code: Yup.string()
                 .required('Organization Code is required'),
+              validFrom: Yup.string()
+              .required('Valid Date is required'),
+              validTo: Yup.string()
+              .required('Valid Date is required'),
               Org_name: Yup.string()
                 .required('Organization Name is required'),
             })}
@@ -394,6 +400,70 @@ const OrgStructuresTable = () => {
                           {!!touched.Org_code && (
                             <Form.Control.Feedback type="invalid">
                               {errors.Org_code}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-lg-6">
+                    <div className='row mb-4'>
+                      <div className="col-lg-5">
+                        <Form.Label>Valid From</Form.Label>
+                      </div>
+                      <div className="col-lg-7">
+                        <Form.Group className="input-group mb-3">
+
+                          <Form.Control
+                            type="date"
+                            name="validFrom"
+                            placeholder=""
+                            value={values.validFrom}
+                            isInvalid={Boolean(
+                              touched.validFrom && errors.validFrom
+                            )}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            readOnly={false}
+                            className="form-control"
+                          />
+
+                          {!!touched.validFrom && (
+                            <Form.Control.Feedback type="invalid">
+                              {errors.validFrom}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-lg-6">
+                    <div className='row mb-4'>
+                      <div className="col-lg-5">
+                        <Form.Label>Valid To</Form.Label>
+                      </div>
+                      <div className="col-lg-7">
+                        <Form.Group className="input-group mb-3">
+
+                          <Form.Control
+                            type="date"
+                            name="validTo"
+                            placeholder=""
+                            value={values.validTo}
+                            isInvalid={Boolean(
+                              touched.validTo && errors.validTo
+                            )}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            readOnly={false}
+                            className="form-control"
+                          />
+
+                          {!!touched.validTo && (
+                            <Form.Control.Feedback type="invalid">
+                              {errors.validTo}
                             </Form.Control.Feedback>
                           )}
                         </Form.Group>
