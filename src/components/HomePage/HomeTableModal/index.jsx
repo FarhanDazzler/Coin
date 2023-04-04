@@ -10,19 +10,9 @@ import {
   getKPIData,
   getQuestions,
 } from '../../../redux/Assessments/AssessmentAction';
-import ControlSection1 from './ControlSection1';
-import ControlSection2 from './ControlSection2';
-import ControlSection3 from './ControlSection3';
-import Button from '../../UI/Button';
 import { getQuestionsSelector } from '../../../redux/Assessments/AssessmentSelectors';
-import { Loader } from '@mantine/core';
-import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
 import Swal from 'sweetalert2';
 import { useMsal } from '@azure/msal-react';
-import {
-  getControlDataAction,
-  getControlDataGcdAction,
-} from '../../../redux/ControlData/ControlDataAction';
 import RenderHomeModalTable from './RenderHomeModalTable';
 
 const HomeTableModal = ({ isModal = true }) => {
@@ -51,7 +41,6 @@ const HomeTableModal = ({ isModal = true }) => {
         Entity_ID: 'Argentina',
       }),
     );
-
   }, []);
 
   useEffect(() => {
@@ -139,7 +128,7 @@ const HomeTableModal = ({ isModal = true }) => {
         setShowNoQuestionAns={setShowNoQuestionAns}
         terminating={terminating}
         handleSubmit={handleSubmit}
-        controlId = {Control_ID}
+        controlId={Control_ID}
       />
     </CustomModal>
   );
