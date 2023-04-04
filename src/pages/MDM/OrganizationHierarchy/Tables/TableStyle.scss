@@ -30,3 +30,16 @@
     }
     
 }
+.add-org{
+    .model-header{
+        p{
+            display: none;
+        }
+    }
+    label{
+        margin-right: 5px;
+    }
+    .radio-text{
+        margin-left: 5px;
+    }
+}

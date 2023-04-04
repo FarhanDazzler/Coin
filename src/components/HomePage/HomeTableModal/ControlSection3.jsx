@@ -9,6 +9,7 @@ import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
 import { useHistory } from 'react-router-dom';
 import Input from '../../UI/Input';
 import RenderBlockWrapper from '../../RenderBlock/RenderBlockWrapper';
+import { Form } from 'react-bootstrap';
 
 const ControlSection3 = ({
   setTerminating,
@@ -172,7 +173,7 @@ const ControlSection3 = ({
 
           {showNoQuestion && (
             <RenderBlockWrapper id="noOptionInput">
-              <Input
+              {/* <Input
                 autoFocus
                 formControlProps={{ className: 'input-wrapper full-input' }}
                 label="Based on above response, action plans needs to be created on the failed control. Request you to elaborate the action Plan?
@@ -181,6 +182,24 @@ const ControlSection3 = ({
                 required
                 handleChange={handleChangeNoQuestion}
               />
+              */}
+              <Form.Label>
+              Based on above response, action plans needs to be created on the failed control. Request you to elaborate the action Plan?
+                (Hint: Action plan is a time bound proposition designed to remediate the control breakdown with the objective of ensuring MICS compliance) <span className="text-danger">*</span>
+              </Form.Label>
+              <Form.Group className="input-group mb-3">
+                <Form.Control
+                  type="text"
+                  name=""
+                  placeholder=""
+                  className="form-control"
+                  maxLength="1000"
+                  value={showNoQuestionAns}
+                  onChange={(e) => handleChangeNoQuestion(e.target.value)}
+                />
+
+
+              </Form.Group>
             </RenderBlockWrapper>
           )}
           {questionData.loading && (
