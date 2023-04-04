@@ -25,7 +25,11 @@ import {
   GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
   GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_SUCCESS,
   GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR,
+  ACTION_ADD_ORG_STRUCTURE_DATA,
+  ACTION_ADD_ORG_STRUCTURE_DATA_SUCCESS,
+  ACTION_ADD_ORG_STRUCTURE_DATA_FAILED,
 } from './MDM_Reducer';
+import Swal from 'sweetalert2';
 
 async function getOrgStructuresApi(params) {
   return await Axios.get('/get_org_structures', { params });
@@ -44,6 +48,29 @@ function* handleGet_org_structures({ payload }) {
       type: GET_ORG_STRUCTURES_ERROR,
       // error: getSimplifiedError(error),
     });
+  }
+}
+
+async function addOrgStructuresApi(payload) {
+  return await Axios.post('/add_org_structure', payload);
+}
+function* addOrgStructureData({ payload }) {
+  try {
+    const response = yield call(addOrgStructuresApi, payload);
+    if (response.success) {
+      yield put({
+        type: ACTION_ADD_ORG_STRUCTURE_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }else{
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ACTION_ADD_ORG_STRUCTURE_DATA_FAILED,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
   }
 }
 
@@ -169,6 +196,7 @@ function* handleGet_ApplicabilityAndAssignmentOfProviderOrganization({ payload }
 
 export default all([
   takeLatest(GET_ORG_STRUCTURES_REQUEST, handleGet_org_structures),
+  takeLatest(ACTION_ADD_ORG_STRUCTURE_DATA, addOrgStructureData),
   takeLatest(GET_ORG_HIERARCHY_REQUEST, handleGet_org_hierarchy),
   takeLatest(GET_MICS_FRAMEWORK_REQUEST, handleGet_MicsFramework),
   takeLatest(GET_MEGA_AND_SUBPROCESS_VIEW_REQUEST, handleGet_MegaAndSubprocessView),

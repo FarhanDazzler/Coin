@@ -37,6 +37,14 @@ export const MEGA_AND_SUBPROCESS_OPEN_TABLE_REQUEST = 'MEGA_AND_SUBPROCESS_OPEN_
 export const RESET_BLOCK_ASSESSMENT = 'RESET_BLOCK_ASSESSMENT';
 export const RESET_FLAGS_ASSESSMENT = 'RESET_FLAGS_ASSESSMENT';
 
+// =================== Add Org Structure Data ========================//
+
+export const ACTION_ADD_ORG_STRUCTURE_DATA = 'ACTION_ADD_ORG_STRUCTURE_DATA';
+export const ACTION_ADD_ORG_STRUCTURE_DATA_SUCCESS = 'ACTION_ADD_ORG_STRUCTURE_DATA_SUCCESS';
+export const ACTION_ADD_ORG_STRUCTURE_DATA_FAILED = 'ACTION_ADD_ORG_STRUCTURE_DATA_FAILED';
+
+// =================== Add Org Structure Data ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -45,6 +53,7 @@ const block = {
 
 const initialState = {
   orgStructures: { ...block, data: [] },
+  addOrgStructureData: { ...block, data: [] },
   orgHierarchy: { ...block, data: [] },
   micsFramework: { ...block, data: [] },
   megaAndSubprocessView: { ...block, data: [] },
@@ -222,6 +231,36 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
           ...state[payload.blockType],
           ...block,
         },
+      };
+
+    // Add Org Structure
+    case ACTION_ADD_ORG_STRUCTURE_DATA:
+      return {
+        ...state,
+        addOrgStructureData: {
+          loading: true,
+        }
+
+      };
+    // Add Org Structure
+    case ACTION_ADD_ORG_STRUCTURE_DATA_SUCCESS:
+      return {
+        ...state,
+        addOrgStructureData: {
+          data: payload,
+          loading: false,
+        
+        }
+
+      };
+    // Add Org Structure
+    case ACTION_ADD_ORG_STRUCTURE_DATA_FAILED:
+      return {
+        ...state,
+        addOrgStructureData: {
+          loading: false,
+        }
+
       };
 
     default:
