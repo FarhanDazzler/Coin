@@ -62,6 +62,7 @@ function* addOrgStructureData({ payload }) {
         type: ACTION_ADD_ORG_STRUCTURE_DATA_SUCCESS,
         payload: response.data,
       });
+      Swal.fire('Done!', 'Added Successfully!', 'success');
     }else{
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
