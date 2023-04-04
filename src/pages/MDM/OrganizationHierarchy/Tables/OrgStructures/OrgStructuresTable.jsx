@@ -183,10 +183,9 @@ const OrgStructuresTable = () => {
             initialValues={{
               orgType: '',
               parentEntity: '',
-              isReceiver: '1',
-              isProvider: '1',
+              isReceiver: '',
+              isProvider: '',
               Category: '',
-              Org_code: '',
               Org_name: '',
               validFrom: '',
               validTo: ''
@@ -198,8 +197,6 @@ const OrgStructuresTable = () => {
                 .required('Parent Entity is required'),
               Category: Yup.string()
                 .required('Category is required'),
-              Org_code: Yup.string()
-                .required('Organization Code is required'),
               validFrom: Yup.string()
               .required('Valid Date is required'),
               validTo: Yup.string()
@@ -307,7 +304,7 @@ const OrgStructuresTable = () => {
                         <Form.Group className="input-group mb-3">
                           <div role="group" aria-labelledby="my-radio-group">
                             <label>
-                              <Field className="" type="radio" name="isReceiver" value="1" checked={true}/>
+                              <Field className="" type="radio" name="isReceiver" value="1"/>
                               <span className='radio-text'>Yes</span>
                             </label>
                             <label>
@@ -330,7 +327,7 @@ const OrgStructuresTable = () => {
                         <Form.Group className="input-group mb-3">
                           <div role="group" aria-labelledby="my-radio-group">
                             <label>
-                              <Field type="radio" name="isProvider" value="1" checked={true}/>
+                              <Field type="radio" name="isProvider" value="1" />
                               <span className='radio-text'>Yes</span>
                             </label>
                             <label>
@@ -370,38 +367,6 @@ const OrgStructuresTable = () => {
                           {!!touched.Category && (
                             <Form.Control.Feedback type="invalid">
                               {errors.Category}
-                            </Form.Control.Feedback>
-                          )}
-                        </Form.Group>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-6">
-                    <div className='row mb-4'>
-                      <div className="col-lg-5">
-                        <Form.Label>Organization code</Form.Label>
-                      </div>
-                      <div className="col-lg-7">
-                        <Form.Group className="input-group mb-3">
-
-                          <Form.Control
-                            type="text"
-                            name="Org_code"
-                            placeholder=""
-                            value={values.Org_code}
-                            isInvalid={Boolean(
-                              touched.Org_code && errors.Org_code
-                            )}
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            readOnly={false}
-                            className="form-control"
-                          />
-
-                          {!!touched.Org_code && (
-                            <Form.Control.Feedback type="invalid">
-                              {errors.Org_code}
                             </Form.Control.Feedback>
                           )}
                         </Form.Group>
