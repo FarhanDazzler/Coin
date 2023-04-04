@@ -1,8 +1,23 @@
 import blockType from '../components/RenderBlock/constant';
 
-export const getFormatQuestions = (questions, action, startStr) => {
+export const validateEmail = (email) => {
+  const regexEmail = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+  return regexEmail.test(email);
+};
+
+export const getFormatQuestions = (questions, action, startStr, handOverUser) => {
   const isQuestionLabelEdit = action === 'isQuestionEdit';
   return questions.map((d, i) => {
+    if (handOverUser && d.q_id === 2) {
+      return {
+        ...d,
+        question_type: blockType.EMAIL_WIDTH_SELECT,
+        label: d.question_text,
+        required: true,
+        isQuestionLabelEdit,
+        show: i === 0,
+      };
+    }
     switch (d.question_type) {
       case blockType.RADIO_WITH_INPUT:
       case blockType.RADIO:

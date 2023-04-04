@@ -57,7 +57,7 @@ const TopBar = (props) => {
   }, [accounts]);
 
   //RBAC
-  const roles = localStorage.getItem('Roles')?.split(',');
+  const roles = localStorage.getItem('Roles')?.split(',') || [];
   console.log(roles, 'ROLES');
   const [roleValue, setRoleValue] = useState('');
 
