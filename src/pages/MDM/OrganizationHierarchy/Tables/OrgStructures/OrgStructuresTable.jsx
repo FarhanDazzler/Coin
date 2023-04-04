@@ -126,7 +126,9 @@ const OrgStructuresTable = () => {
       "parent_entity": value.parentEntity,
       "isReceiver": value.isReceiver,
       "isProvider": value.isProvider,
-      "Category": value.Category
+      "Category": value.Category,
+      "Valid_from" : value.validFrom,
+      "Valid_to" : value.validTo
     }
     dispatch(addOrgStructureAction(payload))
   }
