@@ -173,7 +173,7 @@ const OrgStructuresTable = () => {
         title={modalType === "add" ? "Add Organization Hierarchy" : "Edit Organization Hierarchy"}
         bodyClassName="p-0"
       >
-       <OrgStructureModal />
+       <OrgStructureModal setShowModal={setShowModal}/>
       </CustomModal>
     </>
   );
