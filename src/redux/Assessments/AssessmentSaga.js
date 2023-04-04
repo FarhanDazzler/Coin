@@ -34,8 +34,54 @@ import {
   ADD_UPDATE_FINAL_SUBMIT_RESPONSE_REQUEST,
   ADD_UPDATE_FINAL_SUBMIT_RESPONSE_SUCCESS,
   ADD_UPDATE_FINAL_SUBMIT_RESPONSE_ERROR,
+  GET_LATEST_DRAFT_REQUEST,
+  ADD_OR_UPDATE_DRAFT_REQUEST,
+  GET_LATEST_DRAFT_SUCCESS,
+  GET_LATEST_DRAFT_ERROR,
+  ADD_OR_UPDATE_DRAFT_SUCCESS,
+  ADD_OR_UPDATE_DRAFT_ERROR,
 } from './AssessmentReducer';
 import Swal from 'sweetalert2';
+
+async function GetLatestDraftApi(params) {
+  return await Axios.get('/get_latest_draft', { params });
+}
+function* handleGetLatestDraft({ payload }) {
+  try {
+    const response = yield call(GetLatestDraftApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_LATEST_DRAFT_SUCCESS,
+        payload: { data: response.data },
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_LATEST_DRAFT_ERROR,
+      error: getSimplifiedError(error),
+    });
+  }
+}
+
+async function AddOrUpdateDraftApi(payload) {
+  return await Axios.post('/add_or_update_draft/', payload);
+}
+function* handleAddOrUpdateDraft({ payload }) {
+  try {
+    const response = yield call(AddOrUpdateDraftApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_OR_UPDATE_DRAFT_SUCCESS,
+        payload: { data: response.data, Control_ID: payload.Control_ID },
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_OR_UPDATE_DRAFT_ERROR,
+      error: getSimplifiedError(error),
+    });
+  }
+}
 
 async function AssessmentAnsGetApi(params) {
   return await Axios.get('/get_user_response', { params });
@@ -222,6 +268,8 @@ function* handle_addUpdateFinalSubmitResponse({ payload }) {
 }
 
 export default all([
+  takeLatest(GET_LATEST_DRAFT_REQUEST, handleGetLatestDraft),
+  takeLatest(ADD_OR_UPDATE_DRAFT_REQUEST, handleAddOrUpdateDraft),
   takeLatest(GET_ASSESSMENT_RESPONSE_REQUEST, handleGetAssessmentAns),
   takeLatest(ADD_ASSESSMENT_RESPONSE_REQUEST, handleAddAssessmentAns),
   takeLatest(UPDATE_ASSESSMENT_RESPONSE_REQUEST, handleUpdateAssessmentAns),
