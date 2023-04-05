@@ -11,7 +11,8 @@ import moment from 'moment';
 const OrgStructureModal = ({ setShowModal }) => {
     const dispatch = useDispatch();
     const [isProviderValue, setIsProviderValue] = useState("");
-    console.log(isProviderValue);
+    const [isReceiverValue, setIsReceiverValue] = useState("");
+    const [categoryValue, setCategoryValue] = useState("");
     const orgTypeData = [
         {
             value: "Zone",
@@ -94,15 +95,29 @@ const OrgStructureModal = ({ setShowModal }) => {
 
     const handleSaveAdd = (value) => {
         console.log(value);
+
         let payload = {
             "Org_type": value.orgType,
             "Org_name": value.Org_name,
             "parent_entity": value.parentEntity,
-            "isReceiver": parseInt(value.isReceiver),
-            "isProvider": parseInt(value.isProvider),
-            "Category": value.Category,
+            "isReceiver": isReceiverValue,
+            "isProvider": isProviderValue,
+            "Category": value.orgType === "Zone" ? categoryValue : value.Category,
             "Valid_from": value.validFrom,
             "Valid_to": value.validTo
+        }
+        if (value.orgType === "BU" || value.orgType === "Country"
+            && value.parentEntity.slice(0, 2) === "SC") {
+                payload.isProvider = "Yes"
+            setIsReceiverValue("No");
+            setIsProviderValue("Yes")
+        } else if (value.orgType === "Zone") {
+            setCategoryValue("N/A");
+            setIsProviderValue("N/A");
+            setIsReceiverValue("N/A");
+        } else if (value.parentEntity && value.parentEntity.slice(0, 2) !== "SC") {
+            setIsReceiverValue("Yes");
+            setIsProviderValue("Yes")
         }
         dispatch(addOrgStructureAction(payload))
     }
@@ -180,7 +195,7 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                 type="text"
                                                 name="Org_name"
                                                 placeholder=""
-                                                value={"hi"}
+                                                value={values.Org_name}
                                                 isInvalid={Boolean(
                                                     touched.Org_name && errors.Org_name
                                                 )}
@@ -295,31 +310,27 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                 type="text"
                                                 name="isReceiver"
                                                 placeholder="Select Receiver"
-                                                value={values.isReceiver}
+                                                value={
+                                                    values.orgType === "BU" || values.orgType === "Country"
+                                                        && values.parentEntity.slice(0, 2) === "SC" ?
+                                                        "No" :
+                                                        values.orgType === "Zone" ?
+                                                            "N/A"
+                                                            : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
+                                                                "Yes" :
+                                                                ""
+
+
+                                                }
                                                 isInvalid={Boolean(
                                                     touched.isReceiver && errors.isReceiver
                                                 )}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                readOnly={false}
-                                                className="form-select"
-                                            >
+                                                readOnly={true}
+                                                className="form-control"
+                                            />
 
-                                                {
-                                                    values.orgType === "BU" || values.orgType === "Country"
-                                                        && values.parentEntity.slice(0, 2) === "SC" ?
-                                                        <option value="No">No</option> :
-                                                        values.orgType === "Zone" ?
-                                                            <option value="N/A">N/A</option>
-                                                            : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
-                                                                <option value="Yes">Yes</option> :
-                                                                <option value="">Select Receiver</option>
-
-
-                                                }
-
-
-                                            </Form.Control>
                                             <span>{values.isReceiver}</span>
 
                                             {!!touched.isReceiver && (
@@ -340,33 +351,28 @@ const OrgStructureModal = ({ setShowModal }) => {
                                     <div className="col-lg-7">
                                         <Form.Group className="input-group mb-3">
                                             <Form.Control
-                                                as="select"
+                                                type="text"
                                                 name="isProvider"
                                                 placeholder=""
-                                                value={values.isProvider}
+                                                value={
+                                                    values.orgType === "BU" ||
+                                                        values.orgType === "Country" && values.parentEntity.slice(0, 2) === "SC" ?
+                                                        "Yes" :
+                                                        values.orgType === "Zone" ?
+                                                            "N/A"
+                                                            : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
+                                                                "Yes" :
+                                                                ""
+                                                }
                                                 isInvalid={Boolean(
                                                     touched.isProvider && errors.isProvider
                                                 )}
                                                 onBlur={handleBlur}
                                                 onChange={(e) => setIsProviderValue(e.target.value)}
                                                 readOnly={false}
-                                                className="form-select"
-                                            >
+                                                className="form-control"
+                                            />
 
-                                                {
-                                                    values.orgType === "BU" || values.orgType === "Country"
-                                                        && values.parentEntity.slice(0, 2) === "SC" ?
-                                                        <option value="Yes">Yes</option> :
-                                                        values.orgType === "Zone" ?
-                                                            <option value="N/A">N/A</option>
-                                                            : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
-                                                                <option value="Yes">Yes</option> :
-                                                                <option value="">Select Provider</option>
-
-
-                                                }
-
-                                            </Form.Control>
 
                                             {!!touched.isProvider && (
                                                 <Form.Control.Feedback type="invalid">
@@ -408,6 +414,7 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                             <option value="">Select Category</option>
                                                             <option value="Off-Shore">Off-Shore</option>
                                                             <option value="On-Shore">On-Shore</option>
+                                                            <option value="N/A">N/A</option>
                                                         </>
                                                 }
 
