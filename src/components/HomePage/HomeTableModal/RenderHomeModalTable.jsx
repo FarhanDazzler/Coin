@@ -23,6 +23,8 @@ const RenderHomeModalTable = ({
   handleSubmit,
   controlId
 }) => {
+  console.log("hiiiiiiiiiiiiiiiiiiii",ansSection3);
+  console.log("hhhhhhhhhhhhhhhh", Object.keys(ansSection3).length)
   return (
     <div className="modal-form-body">
       <ControlActions />
@@ -41,7 +43,7 @@ const RenderHomeModalTable = ({
           />
           {showMoreSection && (
             <>
-              <ControlSection2 tableData={tableData} setTableData={setTableData} controlId={controlId}/>
+              <ControlSection2 tableData={tableData} setTableData={setTableData} controlId={controlId} />
               <ControlSection3
                 setTerminating={setTerminating}
                 ans={ansSection3}
@@ -53,9 +55,20 @@ const RenderHomeModalTable = ({
           )}
 
           {terminating && (
-            <Button color="neutral" className="w-100" id="submit-button" onClick={handleSubmit}>
-              Submit
-            </Button>
+            <>
+            {
+              Object.keys(ansSection3).length !== 3 && 
+              <div style={{ color: 'red', marginBottom: '10px' }}>
+                Based on above response, the control is assessed as failed because of{' '}
+                {Object.keys(ansSection3).length == 1 ? "L1" : Object.keys(ansSection3).length == 2 ? "L2" : ""} {' '}
+                / inadequate Documentation and inadequate frequency
+              </div>
+            }
+              
+              <Button color="neutral" className="w-100" id="submit-button" onClick={handleSubmit}>
+                Submit
+              </Button></>
+
           )}
         </div>
       )}
