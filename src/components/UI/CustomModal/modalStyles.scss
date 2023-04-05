@@ -7,6 +7,7 @@
   border-radius: 8px;
   overflow: hidden;
   width: 95%;
+  position: relative;
 
   .model-header {
     background: #212121;
@@ -35,4 +36,12 @@
   background: #fff;
   padding: 15px 20px;
   border-top: 1px solid #606060db;
+}
+
+.close-modal-icon {
+  position: absolute;
+  color: #fff;
+  right: 15px;
+  top: 15px;
+  cursor: pointer;
 }

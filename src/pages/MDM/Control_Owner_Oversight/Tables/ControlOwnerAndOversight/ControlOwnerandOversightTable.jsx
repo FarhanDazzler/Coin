@@ -160,15 +160,16 @@ const ControlOwnerAndOversightTable = () => {
 
     setTableData(
       tableDataArray.filter(
-        (i) =>
-          (valueControl_ID.includes(i.Control_ID) || true) &&
-          (valueProvider_entity.includes(i.provider_entity) || true) &&
-          (valueCowner.includes(i.cowner) || true) &&
-          (valueCoversight.includes(i.coversight) || true),
+        (i) => {
+
+          return (valueControl_ID?.length ? valueControl_ID.includes(i.Control_ID) : true) &&
+            (valueProvider_entity?.length ? valueProvider_entity.includes(i.provider_entity) : true) &&
+            (valueCowner?.length ? valueCowner.includes(i.cowner) : true) &&
+            (valueCoversight?.length ? valueCoversight.includes(i.coversight) : true)
+        }
       ),
     );
   }, [valueControl_ID, valueProvider_entity, valueCowner, valueCoversight]);
-
   const TABLE_COLUMNS = [
     {
       field: 'Control_ID',

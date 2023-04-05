@@ -12,6 +12,8 @@ import {
   ADD_UPDATE_DRAFT_RESPONSE_REQUEST,
   GET_FINAL_SUBMIT_RESPONSE_REQUEST,
   ADD_UPDATE_FINAL_SUBMIT_RESPONSE_REQUEST,
+  GET_LATEST_DRAFT_REQUEST,
+  ADD_OR_UPDATE_DRAFT_REQUEST,
 } from './AssessmentReducer';
 
 export const saveAssessmentAns = (payload) => ({ type: SAVE_ANS, payload });
@@ -24,6 +26,16 @@ export const addAssessmentAns = (payload) => ({ type: ADD_ASSESSMENT_RESPONSE_RE
 
 export const updateAssessmentAns = (payload) => ({
   type: UPDATE_ASSESSMENT_RESPONSE_REQUEST,
+  payload,
+});
+
+export const addOrUpdateDraft = (payload) => ({
+  type: ADD_OR_UPDATE_DRAFT_REQUEST,
+  payload,
+});
+
+export const getLatestDraft = (payload) => ({
+  type: GET_LATEST_DRAFT_REQUEST,
   payload,
 });
 

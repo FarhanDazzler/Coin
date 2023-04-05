@@ -6,11 +6,16 @@ import './homeTableModalStyles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addAssessmentAns,
+  addOrUpdateDraft,
   getAssessmentAns,
   getKPIData,
+  getLatestDraft,
   getQuestions,
 } from '../../../redux/Assessments/AssessmentAction';
-import { getQuestionsSelector } from '../../../redux/Assessments/AssessmentSelectors';
+import {
+  getLatestDraftSelector,
+  getQuestionsSelector,
+} from '../../../redux/Assessments/AssessmentSelectors';
 import Swal from 'sweetalert2';
 import { useMsal } from '@azure/msal-react';
 import RenderHomeModalTable from './RenderHomeModalTable';
@@ -19,6 +24,7 @@ const HomeTableModal = ({ isModal = true }) => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const dispatch = useDispatch();
+  const latestDraftData = useSelector(getLatestDraftSelector);
   const questionsInfo = useSelector(getQuestionsSelector);
   const [ansSection1, setAnsSection1] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -31,10 +37,11 @@ const HomeTableModal = ({ isModal = true }) => {
   const handleClose = () => {
     history.push('/new');
   };
-
+  console.log('latestDraftData', latestDraftData);
   useEffect(() => {
     dispatch(getAssessmentAns({ COwner: 'jaymin@ab-inbev.com', Control_ID: Control_ID }));
     dispatch(getQuestions({ Control_ID: 'Standard' }));
+    dispatch(getLatestDraft({ Control_ID: Control_ID }));
     dispatch(
       getKPIData({
         MICS_code: 'ATR_MJE_01a-K',
@@ -64,6 +71,9 @@ const HomeTableModal = ({ isModal = true }) => {
       confirmButtonColor: 'golden',
       cancelButtonColor: 'black',
       confirmButtonText: 'Yes, submit it!',
+      showDenyButton: true,
+      denyButtonText: 'Save draft!',
+      denyButtonColor: 'silver',
     }).then((result) => {
       // debugger
       if (result.isConfirmed) {
@@ -75,12 +85,25 @@ const HomeTableModal = ({ isModal = true }) => {
           Response_Data: JSON.stringify({
             s1: ansSection1,
             s2: tableData,
-            s3: { ansSection3, showNoQuestionAns },
+            s3: ansSection3,
           }),
           Time_Stamp: '01/30/2023',
         };
         dispatch(addAssessmentAns(payload));
         // dispatch(updateAssessmentAns(payload));
+      }
+      if (result.isDenied) {
+        const payload = {
+          Assessment_ID: Control_ID,
+          Latest_response: {
+            s1: ansSection1,
+            s2: tableData,
+            s3: { ansSection3, showNoQuestionAns },
+          },
+        };
+        dispatch(addOrUpdateDraft(payload));
+        Swal.fire('Saved!', '', 'success');
+        history.push('/');
       }
     });
   };
