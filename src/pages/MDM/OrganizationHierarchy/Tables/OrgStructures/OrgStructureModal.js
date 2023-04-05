@@ -37,34 +37,7 @@ const OrgStructureModal = ({ setShowModal }) => {
         },
     ]
 
-    const isReceiverData = [
-        {
-            value: "Yes",
-            label: "Yes"
-        },
-        {
-            value: "No",
-            label: "No"
-        },
-        {
-            value: "N/A",
-            label: "N/A"
-        },
-    ]
-    const categoryData = [
-        {
-            value: "Off-Shore",
-            label: "Off-Shore"
-        },
-        {
-            value: "On-Shore",
-            label: "On-Shore"
-        },
-        {
-            value: "N/A",
-            label: "N/A"
-        },
-    ]
+  
     const handleSaveAdd = (value) => {
         console.log(value);
         let payload = {
@@ -256,7 +229,7 @@ const OrgStructureModal = ({ setShowModal }) => {
                                             <Form.Control
                                                 as="select"
                                                 name="isReceiver"
-                                                placeholder=""
+                                                placeholder="Select Receiver"
                                                 value={values.isReceiver}
                                                 isInvalid={Boolean(
                                                     touched.isReceiver && errors.isReceiver
@@ -266,16 +239,25 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                 readOnly={false}
                                                 className="form-select"
                                             >
+
+                                                {/* {
+                                                    values.orgType === ""
+                                                }
+                                                <option value="Yes">Yes</option> */}
                                                 <option value="">Select Receiver</option>
                                                 {
-                                                    isReceiverData.map((data, i) => (
-                                                        <option value={data?.value} key={i}>
-                                                            {data?.label}
-                                                        </option>
-                                                    ))
+                                                    values.orgType === "BU" ?
+                                                        <option value="No">No</option>:
+                                                        values.orgType === "Zone" ?
+                                                            <option value="N/A">N/A</option>
+                                                        : null
+                                                      
+                                                            
                                                 }
 
+
                                             </Form.Control>
+                                            {values.isReceiver}
 
                                             {!!touched.isReceiver && (
                                                 <Form.Control.Feedback type="invalid">
@@ -308,12 +290,14 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                 className="form-select"
                                             >
                                                 <option value="">Select Provider</option>
+                                                
                                                 {
-                                                    isReceiverData.map((data, i) => (
-                                                        <option value={data?.value} key={i}>
-                                                            {data?.label}
-                                                        </option>
-                                                    ))
+                                                    values.orgType === "BU" ?
+                                                        <option value="Yes">Yes</option>
+                                                        : values.orgType === "Zone" ?
+                                                            <option value="N/A">N/A</option> : null
+                                                            
+                                                            
                                                 }
 
                                             </Form.Control>
@@ -350,13 +334,15 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                 readOnly={false}
                                                 className="form-select"
                                             >
-                                                <option value="">Select Provider</option>
+                                                <option value="">Select Category</option>
                                                 {
-                                                    categoryData.map((data, i) => (
-                                                        <option value={data?.value} key={i}>
-                                                            {data?.label}
-                                                        </option>
-                                                    ))
+                                                    values.orgType === "Zone" ?
+                                                    <option value="N/A">N/A</option> :
+                                                    <>
+                                                    
+                                                    <option value="Off-Shore">Off-Shore</option>
+                                                    <option value="On-Shore">On-Shore</option>
+                                                    </>
                                                 }
 
                                             </Form.Control>
