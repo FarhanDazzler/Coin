@@ -28,6 +28,9 @@ import {
   ACTION_ADD_ORG_STRUCTURE_DATA,
   ACTION_ADD_ORG_STRUCTURE_DATA_SUCCESS,
   ACTION_ADD_ORG_STRUCTURE_DATA_FAILED,
+  ADD_MICS_FRAMEWORK_REQUEST,
+  ADD_MICS_FRAMEWORK_SUCCESS,
+  ADD_MICS_FRAMEWORK_ERROR,
 } from './MDM_Reducer';
 import Swal from 'sweetalert2';
 
@@ -63,7 +66,7 @@ function* addOrgStructureData({ payload }) {
         payload: response.data,
       });
       Swal.fire('Done!', 'Added Successfully!', 'success');
-    }else{
+    } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
   } catch (error) {
@@ -112,6 +115,30 @@ function* handleGet_MicsFramework({ payload }) {
       type: GET_MICS_FRAMEWORK_ERROR,
       // error: getSimplifiedError(error),
     });
+  }
+}
+
+async function addMicsFrameworkApi(payload) {
+  return await Axios.post('/add_mics_framework_details', payload);
+}
+function* addMicsFrameworkData({ payload }) {
+  try {
+    const response = yield call(addMicsFrameworkApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_MICS_FRAMEWORK_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Added Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_MICS_FRAMEWORK_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
   }
 }
 
@@ -200,6 +227,7 @@ export default all([
   takeLatest(ACTION_ADD_ORG_STRUCTURE_DATA, addOrgStructureData),
   takeLatest(GET_ORG_HIERARCHY_REQUEST, handleGet_org_hierarchy),
   takeLatest(GET_MICS_FRAMEWORK_REQUEST, handleGet_MicsFramework),
+  takeLatest(ADD_MICS_FRAMEWORK_REQUEST, addMicsFrameworkData),
   takeLatest(GET_MEGA_AND_SUBPROCESS_VIEW_REQUEST, handleGet_MegaAndSubprocessView),
   takeLatest(GET_MEGA_AND_SUBPROCESS_REQUEST, handleGet_MegaAndSubprocess),
   takeLatest(GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, handleGet_ControlOwnerAndOversight),
