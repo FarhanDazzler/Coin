@@ -10,3 +10,4 @@ export const orgManageButtonSelector = (state) => state.mdm.orgManageButtonValue
 export const megaAndSubprocessManageButtonSelector = (state) =>
   state.mdm.megaAndSubprocessManageButtonValue;
 export const addOrgStructureSelector = (state) => state.mdm.addOrgStructureData;
+export const addMicsFrameworkSelector = (state) => state.mdm.addMicsFramework;
