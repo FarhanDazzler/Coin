@@ -23,8 +23,20 @@ const RenderHomeModalTable = ({
   handleSubmit,
   controlId
 }) => {
-  console.log("hiiiiiiiiiiiiiiiiiiii",ansSection3);
+  console.log("hiiiiiiiiiiiiiiiiiiii", ansSection1);
   console.log("hhhhhhhhhhhhhhhh", Object.keys(ansSection3).length)
+  const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false)
+  React.useEffect(() => {
+    ansSection1.filter((data) => {
+      console.log(data?.q_id);
+      if (data.q_id == "8") {
+        console.log("8")
+        setSection1TerminatingLogicValue(true)
+      }
+    })
+  }, [ansSection1])
+
+  console.log("hi",section1TerminatingLogicValue);
   return (
     <div className="modal-form-body">
       <ControlActions />
@@ -56,15 +68,19 @@ const RenderHomeModalTable = ({
 
           {terminating && (
             <>
-            {
-              Object.keys(ansSection3).length !== 3 && 
-              <div style={{ color: 'red', marginBottom: '10px' }}>
-                Based on above response, the control is assessed as failed because of{' '}
-                {Object.keys(ansSection3).length == 1 ? "L1" : Object.keys(ansSection3).length == 2 ? "L2" : ""} {' '}
-                / inadequate Documentation and inadequate frequency
-              </div>
-            }
-              
+             
+              {
+               section1TerminatingLogicValue || Object.keys(ansSection3).length !== 3 ?
+                <div style={{ color: 'red', marginBottom: '10px' }}>
+                  Based on above response, the control is assessed as failed because of{' '}
+                  {Object.keys(ansSection3).length == 1 ? "L1" : Object.keys(ansSection3).length == 2 ? "L2" : ""} {' '}
+                  {
+                    section1TerminatingLogicValue && '/ inadequate Documentation or inadequate frequency'
+                  }
+
+                </div> : null
+              }
+
               <Button color="neutral" className="w-100" id="submit-button" onClick={handleSubmit}>
                 Submit
               </Button></>
