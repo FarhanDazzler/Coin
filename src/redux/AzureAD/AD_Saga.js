@@ -7,6 +7,8 @@ import {
   GET_USER_FROM_AD_REQUEST,
   GET_USER_FROM_AD_SUCCESS,
   GET_USER_FROM_AD_ERROR,
+  RESET_BLOCK_ASSESSMENT,
+  RESET_FLAGS_ASSESSMENT,
 } from './AD_Reducer';
 
 async function getUserFromADApi(params) {
@@ -15,10 +17,14 @@ async function getUserFromADApi(params) {
 function* handleGet_UserFromAD({ payload }) {
   try {
     const response = yield call(getUserFromADApi, payload);
-    if (response.success) {
+    if (response) {
       yield put({
         type: GET_USER_FROM_AD_SUCCESS,
-        payload: response.data,
+        payload: response.users,
+      });
+      yield put({
+        type: RESET_FLAGS_ASSESSMENT,
+        payload: { blockType: 'userFromAD' },
       });
     }
   } catch (error) {

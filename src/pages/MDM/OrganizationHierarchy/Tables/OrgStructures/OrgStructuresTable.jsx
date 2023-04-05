@@ -11,11 +11,26 @@ import Button from '../../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
+import * as Yup from 'yup';
+import { Formik, Field } from 'formik';
+import { Alert, Form } from 'react-bootstrap';
+import CustomModal from '../../../../../components/UI/CustomModal';
+import OrgStructureModal from './OrgStructureModal';
+import { addOrgStructureSelector } from '../../../../../redux/MDM/MDM_Selectors';
 
 const OrgStructuresTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
-
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState('');
+  const addOrgState = useSelector(addOrgStructureSelector);
+  console.log(addOrgState);
+  useEffect(() => {
+    if(addOrgState){
+      setShowModal(false);
+    setModalType("");
+    }
+  }, [addOrgState])
   const dispatch = useDispatch();
 
   const orgStructures = useSelector(getOrgStructuresSelector);
@@ -104,11 +119,14 @@ const OrgStructuresTable = () => {
   );
 
   const handleOnclickEdit = () => {
-    // edit code
+    setShowModal(true);
+    setModalType("edit");
   };
   const handleOnclickAdd = () => {
-    // Add code
+    setShowModal(true);
+    setModalType("add");
   };
+ 
 
   return (
     <>
@@ -147,6 +165,16 @@ const OrgStructuresTable = () => {
           </div>
         </div>
       </div>
+      <CustomModal
+        className='add-org'
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        width={900}
+        title={modalType === "add" ? "Add Organization Hierarchy" : "Edit Organization Hierarchy"}
+        bodyClassName="p-0"
+      >
+       <OrgStructureModal setShowModal={setShowModal}/>
+      </CustomModal>
     </>
   );
 };

@@ -33,6 +33,7 @@
     "history": "^5.3.0",
     "js-cookie": "^3.0.1",
     "mdb-react-ui-kit": "^3.0.0",
+    "moment": "^2.29.4",
     "msal": "^1.4.12",
     "react": "^17.0.2",
     "react-aad-msal": "^2.3.5",
