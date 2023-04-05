@@ -17,7 +17,7 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns }) =>
   const [isStart, setIsStart] = useState(false);
   const dispatch = useDispatch();
   const userFromAD = useSelector(getUserFromADSelector);
-  
+
   useEffect(() => {
     if (isStart) dispatch(getUserFromAD({ username: qId2Value }));
   }, [q_id_2_debounce]);
@@ -150,7 +150,7 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns }) =>
     <div>
       <CollapseFrame title="Section 1 : Standard" active>
         <div className="mt-5">
-          <RenderBlock blocks={ans} handleChange={handleChange} />
+          <RenderBlock blocks={ans} handleChange={handleChange} userApiStart={isStart} />
           <div id="lastShow" />
           {/*<Table />*/}
         </div>
