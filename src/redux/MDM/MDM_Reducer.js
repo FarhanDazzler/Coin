@@ -45,6 +45,14 @@ export const ACTION_ADD_ORG_STRUCTURE_DATA_FAILED = 'ACTION_ADD_ORG_STRUCTURE_DA
 
 // =================== Add Org Structure Data ========================//
 
+// =================== Add MICS Framework Data ========================//
+
+export const ADD_MICS_FRAMEWORK_REQUEST = 'ADD_MICS_FRAMEWORK_REQUEST';
+export const ADD_MICS_FRAMEWORK_SUCCESS = 'ADD_MICS_FRAMEWORK_SUCCESS';
+export const ADD_MICS_FRAMEWORK_ERROR = 'ADD_MICS_FRAMEWORK_ERROR';
+
+// =================== Add MICS Framework Data ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -56,6 +64,7 @@ const initialState = {
   addOrgStructureData: { ...block, data: [] },
   orgHierarchy: { ...block, data: [] },
   micsFramework: { ...block, data: [] },
+  addMicsFramework: { ...block, data: [] },
   megaAndSubprocessView: { ...block, data: [] },
   megaAndSubprocess: { ...block, data: [] },
   controlOwnerAndOversight: { ...block, data: [] },
@@ -115,6 +124,23 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
       return {
         ...state,
         micsFramework: { ...state.micsFramework, loading: false },
+      };
+
+    // MDM ADD MICS Framework data
+    case ADD_MICS_FRAMEWORK_REQUEST:
+      return {
+        ...state,
+        addMicsFramework: { ...state.addMicsFramework, loading: true },
+      };
+    case ADD_MICS_FRAMEWORK_SUCCESS:
+      return {
+        ...state,
+        addMicsFramework: { ...state.addMicsFramework, data: payload, loading: false },
+      };
+    case ADD_MICS_FRAMEWORK_ERROR:
+      return {
+        ...state,
+        addMicsFramework: { ...state.addMicsFramework, loading: false },
       };
 
     // MEGA AND Subprocess view data
@@ -239,28 +265,22 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
         ...state,
         addOrgStructureData: {
           loading: true,
-        }
-
+        },
       };
-    // Add Org Structure
     case ACTION_ADD_ORG_STRUCTURE_DATA_SUCCESS:
       return {
         ...state,
         addOrgStructureData: {
           data: payload,
           loading: false,
-        
-        }
-
+        },
       };
-    // Add Org Structure
     case ACTION_ADD_ORG_STRUCTURE_DATA_FAILED:
       return {
         ...state,
         addOrgStructureData: {
           loading: false,
-        }
-
+        },
       };
 
     default:

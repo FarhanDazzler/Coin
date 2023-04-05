@@ -8,13 +8,20 @@ import {
   GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
   ORG_OPEN_TABLE_REQUEST,
   MEGA_AND_SUBPROCESS_OPEN_TABLE_REQUEST,
-  ACTION_ADD_ORG_STRUCTURE_DATA
+  ACTION_ADD_ORG_STRUCTURE_DATA,
+  ADD_MICS_FRAMEWORK_REQUEST,
 } from './MDM_Reducer';
 
 export const getOrgStructures = (payload) => ({ type: GET_ORG_STRUCTURES_REQUEST, payload });
-export const addOrgStructureAction = (payload) => ({ type: ACTION_ADD_ORG_STRUCTURE_DATA, payload });
+export const addOrgStructureAction = (payload) => ({
+  type: ACTION_ADD_ORG_STRUCTURE_DATA,
+  payload,
+});
 export const getOrgHierarchy = (payload) => ({ type: GET_ORG_HIERARCHY_REQUEST, payload });
+
 export const getMicsFramework = (payload) => ({ type: GET_MICS_FRAMEWORK_REQUEST, payload });
+export const addMicsFramework = (payload) => ({ type: ADD_MICS_FRAMEWORK_REQUEST, payload });
+
 export const getMegaAndSubprocessView = (payload) => ({
   type: GET_MEGA_AND_SUBPROCESS_VIEW_REQUEST,
   payload,
