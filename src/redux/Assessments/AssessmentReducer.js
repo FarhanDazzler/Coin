@@ -44,6 +44,14 @@ export const ADD_UPDATE_FINAL_SUBMIT_RESPONSE_REQUEST = 'ADD_UPDATE_FINAL_SUBMIT
 export const ADD_UPDATE_FINAL_SUBMIT_RESPONSE_SUCCESS = 'ADD_UPDATE_FINAL_SUBMIT_RESPONSE_SUCCESS';
 export const ADD_UPDATE_FINAL_SUBMIT_RESPONSE_ERROR = 'ADD_UPDATE_FINAL_SUBMIT_RESPONSE_ERROR';
 
+export const ADD_OR_UPDATE_DRAFT_REQUEST = 'ADD_OR_UPDATE_DRAFT_REQUEST';
+export const ADD_OR_UPDATE_DRAFT_SUCCESS = 'ADD_OR_UPDATE_DRAFT_SUCCESS';
+export const ADD_OR_UPDATE_DRAFT_ERROR = 'ADD_OR_UPDATE_DRAFT_ERROR';
+
+export const GET_LATEST_DRAFT_REQUEST = 'GET_LATEST_DRAFT_REQUEST';
+export const GET_LATEST_DRAFT_SUCCESS = 'GET_LATEST_DRAFT_SUCCESS';
+export const GET_LATEST_DRAFT_ERROR = 'GET_LATEST_DRAFT_ERROR';
+
 export const RESET_BLOCK_ASSESSMENT = 'RESET_BLOCK_ASSESSMENT';
 export const RESET_FLAGS_ASSESSMENT = 'RESET_FLAGS_ASSESSMENT';
 
@@ -65,6 +73,8 @@ const initialState = {
   addUpdateDraftResponse: { ...block, data: [] },
   getFinalSubmitResponse: { ...block, data: [] },
   addUpdateFinalSubmitResponse: { ...block, data: [] },
+  addOrEditUpdateDraft: { ...block },
+  getLatestDraft: { ...block, data: { s1: null, s2: null, s3: null } },
 };
 
 export const AssessmentReducer = (state = initialState, { type, payload = {} }) => {
@@ -76,6 +86,44 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
           ...state.sectionAns,
           ...payload,
         },
+      };
+
+    case GET_LATEST_DRAFT_REQUEST:
+      return {
+        ...state,
+        getLatestDraft: { ...state.getLatestDraft, loading: true },
+      };
+    case GET_LATEST_DRAFT_SUCCESS:
+      if (typeof payload.data === 'string') {
+        return {
+          ...state,
+          getLatestDraft: { ...state.getLatestDraft, loading: true },
+        };
+      }
+      return {
+        ...state,
+        getLatestDraft: { ...state.getLatestDraft, data: payload.data, loading: true },
+      };
+    case GET_LATEST_DRAFT_ERROR:
+      return {
+        ...state,
+        getLatestDraft: { ...state.getLatestDraft, loading: true },
+      };
+
+    case ADD_OR_UPDATE_DRAFT_REQUEST:
+      return {
+        ...state,
+        addOrEditUpdateDraft: { ...state.addOrEditUpdateDraft, loading: true },
+      };
+    case ADD_OR_UPDATE_DRAFT_SUCCESS:
+      return {
+        ...state,
+        addOrEditUpdateDraft: { ...state.addOrEditUpdateDraft, loading: true },
+      };
+    case ADD_OR_UPDATE_DRAFT_ERROR:
+      return {
+        ...state,
+        addOrEditUpdateDraft: { ...state.addOrEditUpdateDraft, loading: true },
       };
 
     case GET_ASSESSMENT_RESPONSE_REQUEST:

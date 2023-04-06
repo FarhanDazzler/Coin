@@ -100,24 +100,26 @@ const OrgStructureModal = ({ setShowModal }) => {
             "Org_type": value.orgType,
             "Org_name": value.Org_name,
             "parent_entity": value.parentEntity,
-            "isReceiver": isReceiverValue,
-            "isProvider": isProviderValue,
-            "Category": value.orgType === "Zone" ? categoryValue : value.Category,
+            "isReceiver": value.orgType === "BU" || value.orgType === "Country"
+                && value.parentEntity.slice(0, 2) === "SC" ?
+                "No" :
+                value.orgType === "Zone" ?
+                    "N/A"
+                    : value.parentEntity && value.parentEntity.slice(0, 2) !== "SC" ?
+                        "Yes" :
+                        ""
+            ,
+            "isProvider": value.orgType === "BU" ||
+                value.orgType === "Country" && value.parentEntity.slice(0, 2) === "SC" ?
+                "Yes" :
+                value.orgType === "Zone" ?
+                    "N/A"
+                    : value.parentEntity && value.parentEntity.slice(0, 2) !== "SC" ?
+                        "Yes" :
+                        "",
+            "Category": value.orgType === "Zone" ? "N/A" : value.Category,
             "Valid_from": value.validFrom,
             "Valid_to": value.validTo
-        }
-        if (value.orgType === "BU" || value.orgType === "Country"
-            && value.parentEntity.slice(0, 2) === "SC") {
-                payload.isProvider = "Yes"
-            setIsReceiverValue("No");
-            setIsProviderValue("Yes")
-        } else if (value.orgType === "Zone") {
-            setCategoryValue("N/A");
-            setIsProviderValue("N/A");
-            setIsReceiverValue("N/A");
-        } else if (value.parentEntity && value.parentEntity.slice(0, 2) !== "SC") {
-            setIsReceiverValue("Yes");
-            setIsProviderValue("Yes")
         }
         dispatch(addOrgStructureAction(payload))
     }
@@ -319,8 +321,6 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                             : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
                                                                 "Yes" :
                                                                 ""
-
-
                                                 }
                                                 isInvalid={Boolean(
                                                     touched.isReceiver && errors.isReceiver
