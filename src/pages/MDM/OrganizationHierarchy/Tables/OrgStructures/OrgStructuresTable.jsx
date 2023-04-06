@@ -26,11 +26,11 @@ const OrgStructuresTable = () => {
   const addOrgState = useSelector(addOrgStructureSelector);
   console.log(addOrgState);
   useEffect(() => {
-    if(addOrgState){
+    if (addOrgState) {
       setShowModal(false);
-    setModalType("");
+      setModalType('');
     }
-  }, [addOrgState])
+  }, [addOrgState]);
   const dispatch = useDispatch();
 
   const orgStructures = useSelector(getOrgStructuresSelector);
@@ -120,14 +120,14 @@ const OrgStructuresTable = () => {
 
   const handleOnclickEdit = () => {
     setShowModal(true);
-    setModalType("edit");
+    setModalType('edit');
   };
   const handleOnclickAdd = () => {
     setShowModal(true);
-    setModalType("add");
+    setModalType('add');
   };
- 
 
+  console.log(localStorage.getItem('Roles')?.includes('global_internal_control'), 'Test');
   return (
     <>
       <div className="container mt-5">
@@ -140,24 +140,29 @@ const OrgStructuresTable = () => {
                   <span style={{ paddingLeft: '16px' }}>Create or Modify Organizations</span>
                 </div>
                 <div>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ActiveToolEdit text="Free Text" />}
-                    className="edit-button-mdm-table"
-                    onClick={handleOnclickEdit}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ActiveToolADD text="Free Text" />}
-                    className="add-button-mdm-table"
-                    onClick={handleOnclickAdd}
-                  >
-                    Add New
-                  </Button>
+                  {(localStorage.getItem('Roles')?.includes('global_internal_control') ||
+                    localStorage.getItem('selected_Role')?.includes('global_internal_control')) && (
+                    <>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<ActiveToolEdit text="Free Text" />}
+                        className="edit-button-mdm-table"
+                        onClick={handleOnclickEdit}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<ActiveToolADD text="Free Text" />}
+                        className="add-button-mdm-table"
+                        onClick={handleOnclickAdd}
+                      >
+                        Add New
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -166,14 +171,14 @@ const OrgStructuresTable = () => {
         </div>
       </div>
       <CustomModal
-        className='add-org'
+        className="add-org"
         open={showModal}
         onClose={() => setShowModal(false)}
         width={900}
-        title={modalType === "add" ? "Add Organization Hierarchy" : "Edit Organization Hierarchy"}
+        title={modalType === 'add' ? 'Add Organization Hierarchy' : 'Edit Organization Hierarchy'}
         bodyClassName="p-0"
       >
-       <OrgStructureModal setShowModal={setShowModal}/>
+        <OrgStructureModal setShowModal={setShowModal} />
       </CustomModal>
     </>
   );
