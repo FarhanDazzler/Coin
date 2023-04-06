@@ -142,97 +142,100 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
                         MICS-Specific
                     </Button>
                 </div>
-                <div className="select-light row">
-                    <div className="col-md-3">
-                        <Form.Group className="input-group mb-3">
-                            <Form.Control
-                                as="select"
-                                name="template"
-                                placeholder=""
-                                value={template_ID}
-                                className="form-select"
-                                onChange={handleChange}
-                            >
-                                {
-                                    TemplateOptions.map((data, i) => (
-                                        <option value={data?.value} key={i}>{data?.label}</option>
-                                    ))
-                                }
 
-                            </Form.Control>
-                        </Form.Group>
-                    </div>
-
-                    {
-                        selectContrilId ?
+                {activeType === 'Standard' &&
+                    <>
+                        <div className="select-light row">
                             <div className="col-md-3">
                                 <Form.Group className="input-group mb-3">
                                     <Form.Control
                                         as="select"
                                         name="template"
-                                        placeholder="Select Control Id"
-                                        value={template2_id}
+                                        placeholder=""
+                                        value={template_ID}
                                         className="form-select"
-                                        onChange={handleChangeControlId}
+                                        onChange={handleChange}
                                     >
-                                        <option value="">Select Control ID</option>
                                         {
-                                            names.map((data, i) => (
-                                                <option key={i} value={data.value}>{data.label}</option>
+                                            TemplateOptions.map((data, i) => (
+                                                <option value={data?.value} key={i}>{data?.label}</option>
                                             ))
                                         }
+
                                     </Form.Control>
                                 </Form.Group>
                             </div>
-                            : ""
-                    }
-                </div>
-                <div className='note'>
-                    <p><span><img src={info} /></span>Any modifications to Standard Questions will reflect in all Assessments & Surveys.</p>
-                </div>
-                {activeType === 'Standard' &&
-                    <div className="questions-list-main-wrapper">
 
-                        <div className="pt-5">
-                            {section1QuestionsData.map((data, i) => (
-                                <QuestionsWithAction templateType={template_ID} number={i + 1} text={data.question_text} withAction={true} active={true} block={data} handleDelete={handleDeleteQuestion} allQuestions={section1Questions} />
-                            ))}
                             {
-                                section1QuestionsData.length == 0 && (
-                                    <p>No Question Found</p>
-                                )
+                                selectContrilId ?
+                                    <div className="col-md-3">
+                                        <Form.Group className="input-group mb-3">
+                                            <Form.Control
+                                                as="select"
+                                                name="template"
+                                                placeholder="Select Control Id"
+                                                value={template2_id}
+                                                className="form-select"
+                                                onChange={handleChangeControlId}
+                                            >
+                                                <option value="">Select Control ID</option>
+                                                {
+                                                    names.map((data, i) => (
+                                                        <option key={i} value={data.value}>{data.label}</option>
+                                                    ))
+                                                }
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </div>
+                                    : ""
                             }
                         </div>
+                        <div className='note'>
+                            <p><span><img src={info} /></span>Any modifications to Standard Questions will reflect in all Assessments & Surveys.</p>
+                        </div>
+                        <div className="questions-list-main-wrapper">
 
-
-
-
-                        <div className='d-flex align-items-center justify-content-between'>
-                            <div>
-                                <Button
-                                    color="silver"
-                                    className="mx-3"
-                                    onClick={() => setShowAddQuestion(true)}
-                                >
-                                    Add Question
-                                </Button>
-
+                            <div className="pt-5">
+                                {section1QuestionsData.map((data, i) => (
+                                    <QuestionsWithAction templateType={template_ID} number={i + 1} text={data.question_text} withAction={true} active={true} block={data} handleDelete={handleDeleteQuestion} allQuestions={section1Questions} />
+                                ))}
+                                {
+                                    section1QuestionsData.length == 0 && (
+                                        <p>No Question Found</p>
+                                    )
+                                }
                             </div>
-                            <div className="d-flex align-items-center justify-content-end">
-                                <Button variant='subtle' onClick={handleClose}>
-                                    Cancel
-                                </Button>
-                                <Button
-                                    color="silver"
-                                    // className="mx-3"
-                                    className="ml-2"
 
-                                >
-                                    Save as Draft
-                                </Button>
+
+
+
+                            <div className='d-flex align-items-center justify-content-between'>
+                                <div>
+                                    <Button
+                                        color="silver"
+                                        className="mx-3"
+                                        onClick={() => setShowAddQuestion(true)}
+                                    >
+                                        Add Question
+                                    </Button>
+
+                                </div>
+                                <div className="d-flex align-items-center justify-content-end">
+                                    <Button variant='subtle' onClick={handleClose}>
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        color="silver"
+                                        // className="mx-3"
+                                        className="ml-2"
+
+                                    >
+                                        Save as Draft
+                                    </Button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </>
                 }
                 {activeType === 'MICS-Specific' && <MICSSpecific handleClose={handleClose} />}
             </CustomModal>
