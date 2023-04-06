@@ -2,6 +2,7 @@ import * as React from 'react';
 import Modal from '@mui/material/Modal';
 import './modalStyles.scss';
 import { useDispatch, useSelector } from 'react-redux';
+import CloseIcon from '@mui/icons-material/Close';
 
 const CustomModal = ({
   title = '',
@@ -9,27 +10,32 @@ const CustomModal = ({
   width = 600,
   children,
   classes = {},
+  onClose,
   ...res
 }) => {
   let rootClass = 'custom-modal-wrapper';
-  const stateControlData = useSelector((state) => state?.controlData?.controlData?.data)
+  const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   if ('root' in classes) {
     rootClass = `${rootClass} ${classes.root}`;
     delete classes.root;
   }
   return (
     <div>
-      <Modal classes={{ root: rootClass, ...classes }} {...res}>
+      <Modal classes={{ root: rootClass, ...classes }} onClose={onClose} {...res}>
         <div className="modal-wrapper" style={{ maxWidth: width }}>
-          {title && <div className="model-header">{title} 
-          
-          <p className="mb-2">
-            <br /><br />
-            <span className="font-weight-bold">Control Name: </span>
-            <span>
-              {stateControlData.control_name}
-            </span>
-          </p></div>}
+          <CloseIcon className="close-modal-icon" onClick={onClose} />
+          {title && (
+            <div className="model-header">
+              {title}
+
+              <p className="mb-2">
+                <br />
+                <br />
+                <span className="font-weight-bold">Control Name: </span>
+                <span>{stateControlData.control_name}</span>
+              </p>
+            </div>
+          )}
           <div className={`modal-body ${bodyClassName ? bodyClassName : ''}`} id="modal-body">
             {children}
           </div>
