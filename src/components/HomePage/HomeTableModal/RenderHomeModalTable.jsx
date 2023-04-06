@@ -70,12 +70,12 @@ const RenderHomeModalTable = ({
             <>
              
               {
-               section1TerminatingLogicValue || Object.keys(ansSection3).length !== 3 ?
+               section1TerminatingLogicValue || Object.keys(ansSection3).length !== 0 ?
                 <div style={{ color: 'red', marginBottom: '10px' }}>
                   Based on above response, the control is assessed as failed because of{' '}
-                  {Object.keys(ansSection3).length == 1 ? "L1" : Object.keys(ansSection3).length == 2 ? "L2" : ""} {' '}
+                  {Object.keys(ansSection3).length == 1 ? "L1 /" : Object.keys(ansSection3).length == 2 ? "L2 /" : ""} {'  '}
                   {
-                    section1TerminatingLogicValue && '/ inadequate Documentation or inadequate frequency'
+                    section1TerminatingLogicValue && ' inadequate Documentation or inadequate frequency'
                   }
 
                 </div> : null
