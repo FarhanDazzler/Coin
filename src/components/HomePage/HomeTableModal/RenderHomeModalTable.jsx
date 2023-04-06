@@ -23,24 +23,62 @@ const RenderHomeModalTable = ({
   handleSubmit,
   controlId
 }) => {
-  console.log("hiiiiiiiiiiiiiiiiiiii", ansSection1);
-  console.log("hhhhhhhhhhhhhhhh", Object.keys(ansSection3).length)
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false)
   React.useEffect(() => {
-    if(Object.keys(ansSection3).length !== 0){
-      console.log("i am in")
+    if (Object.keys(ansSection3).length !== 0) {
       ansSection1.find((data) => {
-        console.log(data?.q_id);
+        if (data.q_id == "3") {
+          data.options.find((option) => {
+            if (data.value === option.value) {
+              if (option.label == "Yes") {
+                console.log("q-3 failed with yes")
+                setSection1TerminatingLogicValue(true)
+                
+              }
+            }
+          })
+        }
+        if (data.q_id == "6") {
+          data.options.find((option) => {
+            if (data.value === option.value) {
+              if (option.label == "No") {
+                console.log("q-6 failed with no")
+                setSection1TerminatingLogicValue(true)
+              }
+            }
+          })
+        }
+
+        if (data.q_id == "5") {
+          data.options.find((option) => {
+            if (data.value === option.value) {
+              if (option.label == "Yes - In e-mail box / on my personal laptop" || option.label == "No - Evidence of Control Execution is not Stored") {
+                console.log("q-5 failed with", option.label)
+                setSection1TerminatingLogicValue(true)
+              }
+            }
+          })
+        }
         if (data.q_id == "8") {
-          console.log("8")
+          console.log("q-8 failed")
           setSection1TerminatingLogicValue(true)
-        } 
+        }
+        if (data.q_id == "9") {
+          data.options.find((option) => {
+            if (data.value === option.value) {
+              if (option.label == "Not up to date") {
+                console.log("q-9 failed with", option.label);
+                setSection1TerminatingLogicValue(true)
+              }
+            }
+          })
+        }
       })
     }
-    
+
   }, [ansSection3])
 
-  console.log("hi",section1TerminatingLogicValue);
+  console.log("section1 failed", section1TerminatingLogicValue);
   return (
     <div className="modal-form-body">
       <ControlActions />
@@ -72,19 +110,19 @@ const RenderHomeModalTable = ({
 
           {terminating && (
             <>
-             
-              {
-               section1TerminatingLogicValue || Object.keys(ansSection3).length !== 0 && Object.keys(ansSection3).length !== 3  ?
-                <div style={{ color: 'red', marginBottom: '10px' }}>
-                  
-                  Based on above response, the control is assessed as failed because of{' '}
-                  {Object.keys(ansSection3).length == 1 ? "L1" : Object.keys(ansSection3).length == 2 ? "L2" : ""} {'  '}
-                  {section1TerminatingLogicValue && Object.keys(ansSection3).length !== 0 && Object.keys(ansSection3).length !== 3 && "/"}
-                  {
-                    section1TerminatingLogicValue && ' inadequate Documentation or inadequate frequency'
-                  }
 
-                </div> : null
+              {
+                section1TerminatingLogicValue || Object.keys(ansSection3).length !== 0 && Object.keys(ansSection3).length !== 3 ?
+                  <div style={{ color: 'red', marginBottom: '10px' }}>
+
+                    Based on above response, the control is assessed as failed because of{' '}
+                    {Object.keys(ansSection3).length == 1 ? "L1" : Object.keys(ansSection3).length == 2 ? "L2" : ""} {'  '}
+                    {section1TerminatingLogicValue && Object.keys(ansSection3).length !== 0 && Object.keys(ansSection3).length !== 3 && "/"}
+                    {
+                      section1TerminatingLogicValue && ' inadequate Documentation or inadequate frequency'
+                    }
+
+                  </div> : null
               }
 
               <Button color="neutral" className="w-100" id="submit-button" onClick={handleSubmit}>
