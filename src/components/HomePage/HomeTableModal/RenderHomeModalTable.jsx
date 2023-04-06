@@ -27,14 +27,18 @@ const RenderHomeModalTable = ({
   console.log("hhhhhhhhhhhhhhhh", Object.keys(ansSection3).length)
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false)
   React.useEffect(() => {
-    ansSection1.filter((data) => {
-      console.log(data?.q_id);
-      if (data.q_id == "8") {
-        console.log("8")
-        setSection1TerminatingLogicValue(true)
-      }
-    })
-  }, [ansSection1])
+    if(Object.keys(ansSection3).length !== 0){
+      console.log("i am in")
+      ansSection1.find((data) => {
+        console.log(data?.q_id);
+        if (data.q_id == "8") {
+          console.log("8")
+          setSection1TerminatingLogicValue(true)
+        } 
+      })
+    }
+    
+  }, [ansSection3])
 
   console.log("hi",section1TerminatingLogicValue);
   return (
@@ -70,10 +74,12 @@ const RenderHomeModalTable = ({
             <>
              
               {
-               section1TerminatingLogicValue || Object.keys(ansSection3).length !== 0 ?
+               section1TerminatingLogicValue || Object.keys(ansSection3).length !== 0 && Object.keys(ansSection3).length !== 3  ?
                 <div style={{ color: 'red', marginBottom: '10px' }}>
+                  
                   Based on above response, the control is assessed as failed because of{' '}
-                  {Object.keys(ansSection3).length == 1 ? "L1 /" : Object.keys(ansSection3).length == 2 ? "L2 /" : ""} {'  '}
+                  {Object.keys(ansSection3).length == 1 ? "L1" : Object.keys(ansSection3).length == 2 ? "L2" : ""} {'  '}
+                  {section1TerminatingLogicValue && Object.keys(ansSection3).length !== 0 && Object.keys(ansSection3).length !== 3 && "/"}
                   {
                     section1TerminatingLogicValue && ' inadequate Documentation or inadequate frequency'
                   }
