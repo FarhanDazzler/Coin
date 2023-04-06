@@ -99,7 +99,7 @@ const TopBar = (props) => {
                       name=""
                       placeholder=""
                       className="rbac-dropdown"
-                      onChange={(e) => setRoleValue(e.target.value)}
+                      onChange={(e) => localStorage.setItem('selected_Role', e.target.value)}
                     >
                       <option value="">Select Role</option>
                       {roles.map((data, i) => (
