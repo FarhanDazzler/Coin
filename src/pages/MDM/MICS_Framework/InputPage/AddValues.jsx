@@ -9,10 +9,12 @@ import Button from '../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
+import { addMicsFramework } from '../../../../redux/MDM/MDM_Action';
 
 const AddValues_MDM_Mics_Framework = () => {
   const location = useLocation();
   const history = useHistory();
+  const dispatch = useDispatch();
   const handleOnclickCancel = () => {
     history.push('/master-data-management/mics-framework');
   };
@@ -36,7 +38,7 @@ const AddValues_MDM_Mics_Framework = () => {
       ABI_DAG: value.ABI_DAG,
       AmBev_DAG: value.AmBev_DAG,
       B2B: value.B2B,
-      Fintech: value.Fintech,
+      Fintech: parseInt(value.Fintech),
       Control_Split: parseInt(value.Control_Split),
       Sub_Process: value.Sub_Process,
       Risk: value.Risk,
@@ -56,7 +58,7 @@ const AddValues_MDM_Mics_Framework = () => {
       change_comment: value.change_comment,
       Risk_ID: value.Risk_ID,
     };
-    //dispatch(addOrgStructureAction(payload));
+    dispatch(addMicsFramework(payload));
   };
   return (
     <div>
@@ -147,7 +149,8 @@ const AddValues_MDM_Mics_Framework = () => {
                 try {
                   console.log(values);
                   handleSaveAdd(values);
-                  // resetForm();
+                  resetForm();
+                  history.push('/master-data-management/mics-framework');
                 } catch (error) {
                   const message = error.message || 'Something went wrong';
                   setStatus({ success: false });
@@ -698,7 +701,7 @@ const AddValues_MDM_Mics_Framework = () => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="Fintech"
                               placeholder=""
                               value={values.Fintech}
@@ -706,8 +709,12 @@ const AddValues_MDM_Mics_Framework = () => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select Maturity Relevant</option>
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                            </Form.Control>
 
                             {!!touched.Fintech && (
                               <Form.Control.Feedback type="invalid">
@@ -1235,6 +1242,34 @@ const AddValues_MDM_Mics_Framework = () => {
                         </div>
                       </div>
                     </div>
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
+                          <Form.Label>Risk_ID</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              type="text"
+                              name="Risk_ID"
+                              placeholder=""
+                              value={values.Risk_ID}
+                              isInvalid={Boolean(touched.Risk_ID && errors.Risk_ID)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-control"
+                            />
+
+                            {!!touched.Risk_ID && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Risk_ID}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="d-flex align-items-center justify-content-end">
@@ -1251,8 +1286,6 @@ const AddValues_MDM_Mics_Framework = () => {
                       </Button>
                     </div>
                   </div>
-
-                  {/*<GetParentEntityValue setOrgTypeValue={setOrgTypeValue} />*/}
                 </Form>
               )}
             </Formik>
