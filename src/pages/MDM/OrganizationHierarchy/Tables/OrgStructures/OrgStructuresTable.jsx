@@ -24,6 +24,8 @@ const OrgStructuresTable = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const addOrgState = useSelector(addOrgStructureSelector);
+  const [editTableIndex, setEditTableIndex] = useState([]);
+  console.log(editTableIndex)
   console.log(addOrgState);
   useEffect(() => {
     if (addOrgState) {
@@ -166,7 +168,7 @@ const OrgStructuresTable = () => {
                 </div>
               </div>
             </div>
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} setEditTableIndex={setEditTableIndex} />
           </div>
         </div>
       </div>
