@@ -290,7 +290,6 @@ function* handleGetgetRepositoryOfControlID({ payload }) {
   }
 }
 
-
 export default all([
   takeLatest(GET_SECTION_1_MICS_REQUEST, handleGetSection1),
   takeLatest(UPDATE_SECTION_1_MICS_REQUEST, handleUpdateSection1),

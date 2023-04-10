@@ -19,6 +19,7 @@ import {
 import Swal from 'sweetalert2';
 import { useMsal } from '@azure/msal-react';
 import RenderHomeModalTable from './RenderHomeModalTable';
+import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
 
 const HomeTableModal = ({ isModal = true }) => {
   const history = useHistory();
@@ -32,16 +33,16 @@ const HomeTableModal = ({ isModal = true }) => {
   const [showNoQuestionAns, setShowNoQuestionAns] = useState('');
   const [showMoreSection, setShowMoreSection] = useState(false);
   const [terminating, setTerminating] = useState(false);
-  const Control_ID = query.get('Control_ID') || !isModal ? 'ATR_MJE_01a-K' : '';
+  const Control_ID = query.get('Control_ID') || !isModal ? 'ATR_MJE_01a-Kss' : '';
   const { accounts } = useMsal();
   const handleClose = () => {
     history.push('/new');
   };
-  console.log('latestDraftData', latestDraftData);
+  console.log('@@@@', latestDraftData?.data?.Attempt_no);
   useEffect(() => {
     dispatch(getAssessmentAns({ COwner: 'jaymin@ab-inbev.com', Control_ID: Control_ID }));
     dispatch(getQuestions({ Control_ID: 'Standard' }));
-    dispatch(getLatestDraft({ Control_ID: Control_ID }));
+    dispatch(getLatestDraft({ assessment_id: Control_ID }));
     dispatch(
       getKPIData({
         MICS_code: 'ATR_MJE_01a-K',
@@ -62,18 +63,54 @@ const HomeTableModal = ({ isModal = true }) => {
     };
   }, [terminating]);
 
+  useEffect(() => {
+    if (latestDraftData.data?.Latest_response) {
+      if (latestDraftData.data?.Latest_response.s1)
+        setAnsSection1(latestDraftData.data?.Latest_response.s1);
+
+      if (latestDraftData.data?.Latest_response.s3.length > 0) {
+        const section3Data = latestDraftData.data?.Latest_response?.s3?.reduce(
+          (acc, [k, v]) => ((acc[k] = v), acc),
+          {},
+        );
+        setAnsSection3(section3Data);
+        setShowMoreSection(true);
+        if (section3Data.L2) {
+          setTimeout(() => {
+            dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
+          }, 1000);
+        }
+        if (section3Data.L3) {
+          setTimeout(() => {
+            dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
+          }, 2000);
+        }
+      }
+    }
+  }, [latestDraftData.data]);
+  console.log('latestDraftData?.data?.Attempt_no', latestDraftData?.data?.Attempt_no);
+
   const handleSubmit = () => {
     Swal.fire({
       title: 'Are you sure?',
-      text: '',
+      text: `Remaining response ${
+        latestDraftData?.data?.Attempt_no
+          ? 4 - latestDraftData?.data?.Attempt_no
+          : latestDraftData?.data?.Attempt_no === 0
+          ? '4'
+          : '5'
+      }`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
       cancelButtonColor: 'black',
       confirmButtonText: 'Yes, submit it!',
-      showDenyButton: true,
+      showDenyButton: !(latestDraftData?.data?.Attempt_no >= 5),
       denyButtonText: 'Save draft!',
       denyButtonColor: 'silver',
+      // customClass: {
+      //   denyButton: latestDraftData?.data?.Attempt_no >= 5 ? 'btn-disabled' : '',
+      // },
     }).then((result) => {
       // debugger
       if (result.isConfirmed) {
@@ -84,7 +121,6 @@ const HomeTableModal = ({ isModal = true }) => {
           COwner: 'jaymin@ab-inbev.com',
           Response_Data: JSON.stringify({
             s1: ansSection1,
-            s2: tableData,
             s3: ansSection3,
           }),
           Time_Stamp: '01/30/2023',
@@ -93,17 +129,19 @@ const HomeTableModal = ({ isModal = true }) => {
         // dispatch(updateAssessmentAns(payload));
       }
       if (result.isDenied) {
+        if (latestDraftData?.data?.Attempt_no >= 5) {
+          return;
+        }
         const payload = {
           Assessment_ID: Control_ID,
           Latest_response: {
             s1: ansSection1,
-            s2: tableData,
-            s3: { ansSection3, showNoQuestionAns },
+            s3: Object.entries(ansSection3),
           },
         };
         dispatch(addOrUpdateDraft(payload));
-        Swal.fire('Saved!', '', 'success');
-        history.push('/');
+        // Swal.fire('Saved!', '', 'success');
+        // history.push('/');
       }
     });
   };

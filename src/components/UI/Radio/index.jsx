@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Radio as BaseRadio } from '@mui/material';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -31,7 +31,7 @@ const Radio = ({
           <FormControlLabel
             key={i}
             value={o.value}
-            control={<BaseRadio />}
+            control={<BaseRadio checked={o.value === value} />}
             disabled={disabled}
             label={o.label}
           />
