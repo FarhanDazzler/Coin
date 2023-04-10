@@ -31,6 +31,9 @@ import {
   ADD_MICS_FRAMEWORK_REQUEST,
   ADD_MICS_FRAMEWORK_SUCCESS,
   ADD_MICS_FRAMEWORK_ERROR,
+  ACTION_GET_PARENT_ENTITY_DATA,
+  ACTION_GET_PARENT_ENTITY_DATA_FAILED,
+  ACTION_GET_PARENT_ENTITY_DATA_SUCCESS,
 } from './MDM_Reducer';
 import Swal from 'sweetalert2';
 
@@ -53,7 +56,7 @@ function* handleGet_org_structures({ payload }) {
     });
   }
 }
-
+// Add Org Structure
 async function addOrgStructuresApi(payload) {
   return await Axios.post('/add_org_structure', payload);
 }
@@ -75,6 +78,30 @@ function* addOrgStructureData({ payload }) {
       // error: getSimplifiedError(error),
     });
     Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+// Get Parent Entity
+async function getParentEntityApi(params) {
+  return await Axios.get('/get_parent_entity', { params });
+}
+function* getParentEntityData({ payload }) {
+  try {
+    const response = yield call(getParentEntityApi, payload);
+    if (response.success) {
+      yield put({
+        type: ACTION_GET_PARENT_ENTITY_DATA_SUCCESS,
+        payload: response.data,
+      });
+     
+    } else {
+    
+    }
+  } catch (error) {
+    yield put({
+      type: ACTION_GET_PARENT_ENTITY_DATA_FAILED,
+      // error: getSimplifiedError(error),
+    });
   }
 }
 
@@ -225,6 +252,7 @@ function* handleGet_ApplicabilityAndAssignmentOfProviderOrganization({ payload }
 export default all([
   takeLatest(GET_ORG_STRUCTURES_REQUEST, handleGet_org_structures),
   takeLatest(ACTION_ADD_ORG_STRUCTURE_DATA, addOrgStructureData),
+  takeLatest(ACTION_GET_PARENT_ENTITY_DATA, getParentEntityData),
   takeLatest(GET_ORG_HIERARCHY_REQUEST, handleGet_org_hierarchy),
   takeLatest(GET_MICS_FRAMEWORK_REQUEST, handleGet_MicsFramework),
   takeLatest(ADD_MICS_FRAMEWORK_REQUEST, addMicsFrameworkData),

@@ -10,11 +10,16 @@ import {
   MEGA_AND_SUBPROCESS_OPEN_TABLE_REQUEST,
   ACTION_ADD_ORG_STRUCTURE_DATA,
   ADD_MICS_FRAMEWORK_REQUEST,
+  ACTION_GET_PARENT_ENTITY_DATA,
 } from './MDM_Reducer';
 
 export const getOrgStructures = (payload) => ({ type: GET_ORG_STRUCTURES_REQUEST, payload });
 export const addOrgStructureAction = (payload) => ({
   type: ACTION_ADD_ORG_STRUCTURE_DATA,
+  payload,
+});
+export const getParentEntityAction = (payload) => ({
+  type: ACTION_GET_PARENT_ENTITY_DATA,
   payload,
 });
 export const getOrgHierarchy = (payload) => ({ type: GET_ORG_HIERARCHY_REQUEST, payload });
