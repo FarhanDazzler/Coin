@@ -306,12 +306,9 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                 className="form-select"
                                             >
                                                 <option value="">Select Parent Entity</option>
+                                                
                                                 {
-                                                    values.orgType === "Zone"  && (
-                                                        <option value="Global">Global</option>
-                                                    )
-                                                }
-                                                {
+                                                    values.orgType === "Zone" ?  <option value="Global">Global</option> :
                                                     getParentEntityState?.data && getParentEntityState?.data.map((data, i) => (
                                                         <option value={data[0]} key={i}>
                                                             {data[0]}
