@@ -23,21 +23,21 @@ const AddValues_MDM_Mics_Framework = () => {
       MICS_2021_No: value.MICS_2021_No,
       Control_ID: value.Control_ID,
       Mega_Process: value.Mega_Process,
-      ABI_Key: value.ABI_Key,
-      Ambev_Key: value.Ambev_Key,
-      FCPA: value.FCPA,
+      ABI_Key: parseInt(value.ABI_Key),
+      Ambev_Key: parseInt(value.Ambev_Key),
+      FCPA: parseInt(value.FCPA),
       Frequency: value.Frequency,
-      Preventive_Detective: value.Preventive_Detective,
+      Preventive_Detective: parseInt(value.Preventive_Detective),
       Automation: value.Automation,
       Recommended_Level: value.Recommended_Level,
-      Maturity_Relevant: value.Maturity_Relevant,
-      mics_weight: value.mics_weight,
+      Maturity_Relevant: parseInt(value.Maturity_Relevant),
+      mics_weight: parseInt(value.mics_weight),
       Recommended_Standardization: value.Recommended_Standardization,
       ABI_DAG: value.ABI_DAG,
       AmBev_DAG: value.AmBev_DAG,
       B2B: value.B2B,
       Fintech: value.Fintech,
-      Control_Split: value.Control_Split,
+      Control_Split: parseInt(value.Control_Split),
       Sub_Process: value.Sub_Process,
       Risk: value.Risk,
       Control_name: value.Control_name,
@@ -48,10 +48,10 @@ const AddValues_MDM_Mics_Framework = () => {
       PnL_impact: value.PnL_impact,
       Cash_flow_impact: value.Cash_flow_impact,
       testing_approach: value.testing_approach,
-      L3_KPI: value.L3_KPI,
-      L2_KPI: value.L2_KPI,
-      L1_KPI: value.L1_KPI,
-      Kpi_status: value.Kpi_status,
+      L3_KPI: parseInt(value.L3_KPI),
+      L2_KPI: parseInt(value.L2_KPI),
+      L1_KPI: parseInt(value.L1_KPI),
+      Kpi_status: parseInt(value.Kpi_status),
       Change: value.Change,
       change_comment: value.change_comment,
       Risk_ID: value.Risk_ID,
@@ -145,6 +145,7 @@ const AddValues_MDM_Mics_Framework = () => {
               })}
               onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
                 try {
+                  console.log(values);
                   handleSaveAdd(values);
                   // resetForm();
                 } catch (error) {
@@ -291,7 +292,7 @@ const AddValues_MDM_Mics_Framework = () => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="ABI_Key"
                               placeholder=""
                               value={values.ABI_Key}
@@ -299,8 +300,12 @@ const AddValues_MDM_Mics_Framework = () => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select ABI Key</option>
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                            </Form.Control>
 
                             {!!touched.ABI_Key && (
                               <Form.Control.Feedback type="invalid">
@@ -320,7 +325,7 @@ const AddValues_MDM_Mics_Framework = () => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="Ambev_Key"
                               placeholder=""
                               value={values.Ambev_Key}
@@ -328,8 +333,12 @@ const AddValues_MDM_Mics_Framework = () => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select Ambev Key</option>
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                            </Form.Control>
 
                             {!!touched.Ambev_Key && (
                               <Form.Control.Feedback type="invalid">
@@ -349,7 +358,7 @@ const AddValues_MDM_Mics_Framework = () => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="FCPA"
                               placeholder=""
                               value={values.FCPA}
@@ -357,8 +366,12 @@ const AddValues_MDM_Mics_Framework = () => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select FCPA</option>
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                            </Form.Control>
 
                             {!!touched.FCPA && (
                               <Form.Control.Feedback type="invalid">
@@ -407,7 +420,7 @@ const AddValues_MDM_Mics_Framework = () => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="Preventive_Detective"
                               placeholder=""
                               value={values.Preventive_Detective}
@@ -417,12 +430,16 @@ const AddValues_MDM_Mics_Framework = () => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select Preventive Detective</option>
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                            </Form.Control>
 
-                            {!!touched.Preventive_Detective && (
+                            {!!touched.FCPA && (
                               <Form.Control.Feedback type="invalid">
-                                {errors.Preventive_Detective}
+                                {errors.FCPA}
                               </Form.Control.Feedback>
                             )}
                           </Form.Group>
@@ -498,7 +515,7 @@ const AddValues_MDM_Mics_Framework = () => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="Maturity_Relevant"
                               placeholder=""
                               value={values.Maturity_Relevant}
@@ -508,8 +525,12 @@ const AddValues_MDM_Mics_Framework = () => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select Maturity Relevant</option>
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                            </Form.Control>
 
                             {!!touched.Maturity_Relevant && (
                               <Form.Control.Feedback type="invalid">
@@ -529,7 +550,7 @@ const AddValues_MDM_Mics_Framework = () => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              type="number"
                               name="mics_weight"
                               placeholder=""
                               value={values.mics_weight}
@@ -706,7 +727,7 @@ const AddValues_MDM_Mics_Framework = () => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="Control_Split"
                               placeholder=""
                               value={values.Control_Split}
@@ -714,8 +735,12 @@ const AddValues_MDM_Mics_Framework = () => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select Control Split</option>
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                            </Form.Control>
 
                             {!!touched.Control_Split && (
                               <Form.Control.Feedback type="invalid">
@@ -726,6 +751,7 @@ const AddValues_MDM_Mics_Framework = () => {
                         </div>
                       </div>
                     </div>
+
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
@@ -1028,7 +1054,7 @@ const AddValues_MDM_Mics_Framework = () => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="L3_KPI"
                               placeholder=""
                               value={values.L3_KPI}
@@ -1036,8 +1062,12 @@ const AddValues_MDM_Mics_Framework = () => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select L3 KPI</option>
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                            </Form.Control>
 
                             {!!touched.L3_KPI && (
                               <Form.Control.Feedback type="invalid">
@@ -1057,7 +1087,7 @@ const AddValues_MDM_Mics_Framework = () => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="L2_KPI"
                               placeholder=""
                               value={values.L2_KPI}
@@ -1065,8 +1095,12 @@ const AddValues_MDM_Mics_Framework = () => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select L2 KPI</option>
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                            </Form.Control>
 
                             {!!touched.L2_KPI && (
                               <Form.Control.Feedback type="invalid">
@@ -1086,7 +1120,7 @@ const AddValues_MDM_Mics_Framework = () => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="L1_KPI"
                               placeholder=""
                               value={values.L1_KPI}
@@ -1094,8 +1128,12 @@ const AddValues_MDM_Mics_Framework = () => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select L1 KPI</option>
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                            </Form.Control>
 
                             {!!touched.L1_KPI && (
                               <Form.Control.Feedback type="invalid">
@@ -1115,7 +1153,7 @@ const AddValues_MDM_Mics_Framework = () => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="Kpi_status"
                               placeholder=""
                               value={values.Kpi_status}
@@ -1123,8 +1161,12 @@ const AddValues_MDM_Mics_Framework = () => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select Kpi status</option>
+                              <option value="1">Yes</option>
+                              <option value="0">No</option>
+                            </Form.Control>
 
                             {!!touched.Kpi_status && (
                               <Form.Control.Feedback type="invalid">
