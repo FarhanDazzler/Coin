@@ -1,18 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Yup from 'yup';
-import { Formik, Field } from 'formik';
+import { useFormikContext, Formik, Field } from 'formik';
 import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { addOrgStructureAction } from '../../../../../redux/MDM/MDM_Action';
+import { addOrgStructureAction, getParentEntityAction } from '../../../../../redux/MDM/MDM_Action';
+import { getParentEntitySelector } from '../../../../../redux/MDM/MDM_Selectors';
 import moment from 'moment';
+const GetParentEntityValue = ({setOrgTypeValue}) => {
+    // Grab values and submitForm from context
+    const dispatch = useDispatch();
+    const { values } = useFormikContext();
+    useEffect(() => {
+        console.log("there see", values.orgType);
+        let params = {
+            entity : values.orgType
+        }
+        if(values.orgType){
+            dispatch(getParentEntityAction(params));
+            // resetForm({values:{...values, parentEntity:""}})
+        }
+        
+
+      setOrgTypeValue(values.orgType);
+    }, [values.orgType]);
+    return null;
+  };
 
 const OrgStructureModal = ({ setShowModal }) => {
     const dispatch = useDispatch();
     const [isProviderValue, setIsProviderValue] = useState("");
     const [isReceiverValue, setIsReceiverValue] = useState("");
     const [categoryValue, setCategoryValue] = useState("");
+    const [orgTypeValue, setOrgTypeValue] = useState("");
+    const getParentEntityState = useSelector(getParentEntitySelector);
+    console.log("state=>>>>>>>>>>>>>>>>>>",getParentEntityState);
+    console.log(orgTypeValue);
     const orgTypeData = [
         {
             value: "Zone",
@@ -282,14 +306,13 @@ const OrgStructureModal = ({ setShowModal }) => {
                                             >
                                                 <option value="">Select Parent Entity</option>
                                                 {
-                                                    parentEntityData.map((data, i) => (
-                                                        <option value={data?.value} key={i}>
-                                                            {data?.label}
+                                                    getParentEntityState?.data && getParentEntityState?.data.map((data, i) => (
+                                                        <option value={data[0]} key={i}>
+                                                            {data[0]}
                                                         </option>
                                                     ))
                                                 }
                                             </Form.Control>
-                                            {values.parentEntity}
 
                                             {!!touched.parentEntity && (
                                                 <Form.Control.Feedback type="invalid">
@@ -311,7 +334,7 @@ const OrgStructureModal = ({ setShowModal }) => {
                                             <Form.Control
                                                 type="text"
                                                 name="isReceiver"
-                                                placeholder="Select Receiver"
+                                                placeholder="isReceiver"
                                                 value={
                                                     values.orgType === "BU" || values.orgType === "Country"
                                                         && values.parentEntity.slice(0, 2) === "SC" ?
@@ -353,7 +376,7 @@ const OrgStructureModal = ({ setShowModal }) => {
                                             <Form.Control
                                                 type="text"
                                                 name="isProvider"
-                                                placeholder=""
+                                                placeholder="isProvider"
                                                 value={
                                                     values.orgType === "BU" ||
                                                         values.orgType === "Country" && values.parentEntity.slice(0, 2) === "SC" ?
@@ -368,8 +391,8 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                     touched.isProvider && errors.isProvider
                                                 )}
                                                 onBlur={handleBlur}
-                                                onChange={(e) => setIsProviderValue(e.target.value)}
-                                                readOnly={false}
+                                                onChange={handleChange}
+                                                readOnly={true}
                                                 className="form-control"
                                             />
 
@@ -515,6 +538,7 @@ const OrgStructureModal = ({ setShowModal }) => {
                                 </div>
                             </div>
                         </div>
+                        <GetParentEntityValue setOrgTypeValue={setOrgTypeValue}/>
                     </Form>
                 )}
             </Formik>
