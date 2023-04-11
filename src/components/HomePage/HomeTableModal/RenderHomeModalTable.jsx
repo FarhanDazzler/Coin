@@ -22,6 +22,9 @@ const RenderHomeModalTable = ({
   terminating,
   handleSubmit,
   controlId,
+  setStartEdit,
+  handleSaveDraft,
+  handleSaveDraftProps = {},
 }) => {
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
   React.useEffect(() => {
@@ -94,6 +97,7 @@ const RenderHomeModalTable = ({
             setShowMoreSection={setShowMoreSection}
             ans={ansSection1}
             setAns={setAnsSection1}
+            setStartEdit={setStartEdit}
           />
           {showMoreSection && (
             <>
@@ -101,6 +105,7 @@ const RenderHomeModalTable = ({
                 tableData={tableData}
                 setTableData={setTableData}
                 controlId={controlId}
+                setStartEdit={setStartEdit}
               />
               <ControlSection3
                 setTerminating={setTerminating}
@@ -108,11 +113,12 @@ const RenderHomeModalTable = ({
                 setAns={setAnsSection3}
                 showNoQuestionAns={showNoQuestionAns}
                 setShowNoQuestionAns={setShowNoQuestionAns}
+                setStartEdit={setStartEdit}
               />
             </>
           )}
 
-          {terminating && (
+          {terminating ? (
             <>
               {section1TerminatingLogicValue ||
               (Object.keys(ansSection3).length !== 0 && Object.keys(ansSection3).length !== 3) ? (
@@ -137,6 +143,14 @@ const RenderHomeModalTable = ({
                 Submit
               </Button>
             </>
+          ) : handleSaveDraft ? (
+            <div className="save-draft-btn-wrapper">
+              <Button onClick={handleSaveDraft} {...handleSaveDraftProps}>
+                Save draft!
+              </Button>
+            </div>
+          ) : (
+            <div />
           )}
         </div>
       )}

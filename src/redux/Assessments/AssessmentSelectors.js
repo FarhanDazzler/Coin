@@ -9,3 +9,4 @@ export const getFinalSubmitResponseSelector = (state) => state.assessments.getFi
 export const addUpdateFinalSubmitResponseSelector = (state) =>
   state.assessments.addUpdateFinalSubmitResponse;
 export const getLatestDraftSelector = (state) => state.assessments.getLatestDraft;
+export const addOrEditUpdateDraftSelector = (state) => state.assessments.addOrEditUpdateDraft;

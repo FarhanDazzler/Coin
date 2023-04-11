@@ -24,6 +24,14 @@ export const ADD_ASSESSMENT_RESPONSE_REQUEST = 'ADD_ASSESSMENT_RESPONSE_REQUEST'
 export const ADD_ASSESSMENT_RESPONSE_SUCCESS = 'ADD_ASSESSMENT_RESPONSE_SUCCESS';
 export const ADD_ASSESSMENT_RESPONSE_ERROR = 'ADD_ASSESSMENT_RESPONSE_ERROR';
 
+export const ADD_ASSESSMENT_SECTION_2_REQUEST = 'ADD_ASSESSMENT_SECTION_2_REQUEST';
+export const ADD_ASSESSMENT_SECTION_2_SUCCESS = 'ADD_ASSESSMENT_SECTION_2_SUCCESS';
+export const ADD_ASSESSMENT_SECTION_2_ERROR = 'ADD_ASSESSMENT_SECTION_2_ERROR';
+
+export const GET_ASSESSMENT_SECTION_2_REQUEST = 'GET_ASSESSMENT_SECTION_2_REQUEST';
+export const GET_ASSESSMENT_SECTION_2_SUCCESS = 'GET_ASSESSMENT_SECTION_2_SUCCESS';
+export const GET_ASSESSMENT_SECTION_2_ERROR = 'GET_ASSESSMENT_SECTION_2_ERROR';
+
 export const GET_KPI_RESULT_REQUEST = 'GET_KPI_RESULT_REQUEST';
 export const GET_KPI_RESULT_SUCCESS = 'GET_KPI_RESULT_SUCCESS';
 export const GET_KPI_RESULT_ERROR = 'GET_KPI_RESULT_ERROR';
@@ -66,6 +74,8 @@ const initialState = {
   questions: { ...block, data: [] },
   getResponse: { ...block, data: { s1: null, s2: null, s3: null } },
   addResponse: { ...block },
+  getResponseSection2: { ...block, data: [] },
+  addResponseSection2: { ...block },
   updateResponse: { ...block },
   kpiResult: { ...block, data: [] },
   controlData: {},
@@ -118,12 +128,12 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
     case ADD_OR_UPDATE_DRAFT_SUCCESS:
       return {
         ...state,
-        addOrEditUpdateDraft: { ...state.addOrEditUpdateDraft, loading: true },
+        addOrEditUpdateDraft: { ...state.addOrEditUpdateDraft, loading: false },
       };
     case ADD_OR_UPDATE_DRAFT_ERROR:
       return {
         ...state,
-        addOrEditUpdateDraft: { ...state.addOrEditUpdateDraft, loading: true },
+        addOrEditUpdateDraft: { ...state.addOrEditUpdateDraft, loading: false },
       };
 
     case GET_ASSESSMENT_RESPONSE_REQUEST:
@@ -132,33 +142,31 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
         getResponse: { ...state.getResponse, loading: true },
       };
     case GET_ASSESSMENT_RESPONSE_SUCCESS:
-      const currentResp = payload.data.find((d) => d.Control_ID === payload.Control_ID);
-      if (!currentResp) {
-        return {
-          ...state,
-          getResponse: {
-            ...state.getResponse,
-            loading: false,
-          },
-        };
-      }
-      const dataStr = JSON.parse(currentResp?.Response_Data);
-      const s1Data = new Map(Object.entries(dataStr.s1));
-      const s2Data = JSON.parse(dataStr.s2);
-      const s3Data = new Map(Object.entries(dataStr.s3));
+      // const currentResp = payload?.data?.find((d) => d.Control_ID === payload.Control_ID);
       return {
         ...state,
         getResponse: {
           ...state.getResponse,
           loading: false,
-          data: {
-            ...state.getResponse.data,
-            s1: s1Data,
-            s2: s2Data,
-            s3: s3Data,
-          },
         },
       };
+    // const dataStr = JSON.parse(currentResp?.Response_Data);
+    // const s1Data = new Map(Object.entries(dataStr.s1));
+    // const s2Data = JSON.parse(dataStr.s2);
+    // const s3Data = new Map(Object.entries(dataStr.s3));
+    // return {
+    //   ...state,
+    //   getResponse: {
+    //     ...state.getResponse,
+    //     loading: false,
+    //     data: {
+    //       ...state.getResponse.data,
+    //       s1: s1Data,
+    //       s2: s2Data,
+    //       s3: s3Data,
+    //     },
+    //   },
+    // };
     case GET_ASSESSMENT_RESPONSE_ERROR:
       return {
         ...state,
@@ -184,6 +192,38 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
       return {
         ...state,
         updateResponse: { ...state.updateResponse, loading: false },
+      };
+
+    case GET_ASSESSMENT_SECTION_2_REQUEST:
+      return {
+        ...state,
+        getResponseSection2: { ...state.getResponseSection2, loading: true },
+      };
+    case GET_ASSESSMENT_SECTION_2_SUCCESS:
+      return {
+        ...state,
+        getResponseSection2: { ...state.getResponseSection2, data: payload.data, loading: false },
+      };
+    case GET_ASSESSMENT_SECTION_2_ERROR:
+      return {
+        ...state,
+        getResponseSection2: { ...state.getResponseSection2, loading: false },
+      };
+
+    case ADD_ASSESSMENT_SECTION_2_REQUEST:
+      return {
+        ...state,
+        addResponseSection2: { ...state.addResponseSection2, loading: true },
+      };
+    case ADD_ASSESSMENT_SECTION_2_SUCCESS:
+      return {
+        ...state,
+        addResponseSection2: { ...state.addResponseSection2, loading: false },
+      };
+    case ADD_ASSESSMENT_SECTION_2_ERROR:
+      return {
+        ...state,
+        addResponseSection2: { ...state.addResponseSection2, loading: false },
       };
 
     case ADD_ASSESSMENT_RESPONSE_REQUEST:
