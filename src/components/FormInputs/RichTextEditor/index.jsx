@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import RichTextEditor from 'react-rte';
-
+import CustomModal from '../../UI/CustomModal';
+import Button from '../../../pages/MDM/MDM_Tab_Buttons/Button';
 const toolbarConfig = {
   // Optionally specify the groups to display (displayed in the order listed).
   display: [
@@ -45,11 +46,30 @@ export default class MyStatefulEditor extends Component {
 
   render() {
     return (
-      <RichTextEditor
-        toolbarConfig={toolbarConfig}
-        value={this.state.value}
-        onChange={this.onChange}
-      />
+      <CustomModal
+        className="add-org"
+        open={this.props.showModal}
+        onClose={() => this.props.setShowModal(false)}
+        width={900}
+        title={'Enter value'}
+        bodyClassName="p-0"
+      >
+        <RichTextEditor
+          toolbarConfig={toolbarConfig}
+          value={this.state.value}
+          onChange={this.onChange}
+        />
+        <div className="d-flex align-items-center justify-content-end">
+          <div>
+            <Button variant="outlined" color="secondary" onClick={() => this.props.setShowModal(false)}>
+              Cancel
+            </Button>
+            <Button color="neutral" className="ml-4" onClick={this.props.handleSubmit}>
+            Submit
+            </Button>
+          </div>
+        </div>
+      </CustomModal>
     );
   }
 }
