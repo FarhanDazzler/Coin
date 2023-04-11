@@ -12,6 +12,7 @@ const Table = ({
   components = {},
   componentsProps = {},
   classes,
+  setEditTableIndex
 }) => {
   return (
     <div>
@@ -42,7 +43,7 @@ const Table = ({
         pagination
         checkboxSelection
         onSelectionModelChange={(selected) =>
-          console.log(selected, 'selected fields from table via check')
+          setEditTableIndex(selected)
         }
         disableSelectionOnClick
       />

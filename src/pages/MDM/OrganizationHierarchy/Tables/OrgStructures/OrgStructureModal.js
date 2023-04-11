@@ -28,14 +28,14 @@ const GetParentEntityValue = ({setOrgTypeValue}) => {
     return null;
   };
 
-const OrgStructureModal = ({ setShowModal }) => {
+const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
     const dispatch = useDispatch();
     const [isProviderValue, setIsProviderValue] = useState("");
     const [isReceiverValue, setIsReceiverValue] = useState("");
     const [categoryValue, setCategoryValue] = useState("");
     const [orgTypeValue, setOrgTypeValue] = useState("");
     const getParentEntityState = useSelector(getParentEntitySelector);
-    console.log("state=>>>>>>>>>>>>>>>>>>",getParentEntityState);
+    console.log("state=>>>>>>>>>>>>>>>>>>",ediatbleData);
     console.log(orgTypeValue);
     const orgTypeData = [
         {
@@ -127,7 +127,7 @@ const OrgStructureModal = ({ setShowModal }) => {
             "isReceiver": value.orgType === "BU" || value.orgType === "Country"
                 && value.parentEntity.slice(0, 2) === "SC" ?
                 "No" :
-                value.orgType === "Zone" ?
+                value.orgType === "Zone" || value.orgType === "Cognos" ||  value.orgType === "SAP" ?
                     "N/A"
                     : value.parentEntity && value.parentEntity.slice(0, 2) !== "SC" ?
                         "Yes" :
@@ -136,12 +136,12 @@ const OrgStructureModal = ({ setShowModal }) => {
             "isProvider": value.orgType === "BU" ||
                 value.orgType === "Country" && value.parentEntity.slice(0, 2) === "SC" ?
                 "Yes" :
-                value.orgType === "Zone" ?
+                value.orgType === "Zone" ||  value.orgType === "Cognos" ||  value.orgType === "Plant" ||  value.orgType === "SAP" ?
                     "N/A"
                     : value.parentEntity && value.parentEntity.slice(0, 2) !== "SC" ?
                         "Yes" :
                         "",
-            "Category": value.orgType === "Zone" ? "N/A" : value.Category,
+            "Category": value.orgType === "Zone" || value.orgType === "Cognos" || value.orgType === "SAP" || value.orgType === "Plant" ? "N/A" : value.Category,
             "Valid_from": value.validFrom,
             "Valid_to": value.validTo
         }
@@ -155,14 +155,14 @@ const OrgStructureModal = ({ setShowModal }) => {
             <Formik
                 enableReinitialize
                 initialValues={{
-                    orgType: '',
-                    parentEntity: '',
-                    isReceiver: '',
-                    isProvider: '',
-                    Category: '',
-                    Org_name: '',
-                    validFrom: today ? today : '',
-                    validTo: validToDate ? validToDate : ''
+                    orgType: ediatbleData?.Org_type ? ediatbleData?.Org_type : '',
+                    parentEntity: ediatbleData?.parentEntity ? ediatbleData?.parentEntity : '',
+                    isReceiver: ediatbleData?.isReceiver ? ediatbleData?.isReceiver : '',
+                    isProvider: ediatbleData?.isProvider ? ediatbleData?.isProvider : '',
+                    Category: ediatbleData?.Category ? ediatbleData?.Category : '',
+                    Org_name: ediatbleData?.Org_name ? ediatbleData?.Org_name : '',
+                    validFrom: ediatbleData?.Valid_from ? ediatbleData?.Valid_from : today ? today : '',
+                    validTo: ediatbleData?.Valid_to ? ediatbleData?.Valid_to : validToDate ? validToDate : ''
                 }}
                 validationSchema={Yup.object().shape({
                     orgType: Yup.string()
@@ -326,7 +326,7 @@ const OrgStructureModal = ({ setShowModal }) => {
                                     </div>
                                 </div>
                             </div>
-
+                            
                             <div className="col-lg-6">
                                 <div className='row mb-4'>
                                     <div className="col-lg-5">
@@ -342,11 +342,11 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                     values.orgType === "BU" || values.orgType === "Country"
                                                         && values.parentEntity.slice(0, 2) === "SC" ?
                                                         "No" :
-                                                        values.orgType === "Zone" ?
+                                                        values.orgType === "Zone" || values.orgType === "Cognos" ||  values.orgType === "SAP" ?
                                                             "N/A"
                                                             : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
                                                                 "Yes" :
-                                                                ""
+                                                                values.isReceiver
                                                 }
                                                 isInvalid={Boolean(
                                                     touched.isReceiver && errors.isReceiver
@@ -357,7 +357,7 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                 className="form-control"
                                             />
 
-                                            <span>{values.isReceiver}</span>
+                                            
 
                                             {!!touched.isReceiver && (
                                                 <Form.Control.Feedback type="invalid">
@@ -384,11 +384,11 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                     values.orgType === "BU" ||
                                                         values.orgType === "Country" && values.parentEntity.slice(0, 2) === "SC" ?
                                                         "Yes" :
-                                                        values.orgType === "Zone" ?
+                                                        values.orgType === "Zone" ||  values.orgType === "Cognos" ||  values.orgType === "Plant" ||  values.orgType === "SAP" ?
                                                             "N/A"
                                                             : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
-                                                                "Yes" :
-                                                                ""
+                                                                "Yes" : 
+                                                                values.isProvider
                                                 }
                                                 isInvalid={Boolean(
                                                     touched.isProvider && errors.isProvider
@@ -434,7 +434,7 @@ const OrgStructureModal = ({ setShowModal }) => {
                                             >
 
                                                 {
-                                                    values.orgType === "Zone" ?
+                                                    values.orgType === "Zone" || values.orgType === "Cognos" || values.orgType === "SAP" || values.orgType === "Plant" ?
                                                         <option value="N/A">N/A</option> :
                                                         <>
                                                             <option value="">Select Category</option>
