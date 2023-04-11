@@ -141,7 +141,7 @@ const AddValues_MDM_Mics_Framework = () => {
                 Kpi_status: Yup.string().required('Kpi status  is required'),
                 Change: Yup.string().required('Change is required'),
                 change_comment: Yup.string().required('change comment is required'),
-                Risk_ID: Yup.string().required('Risk_ID is required'),
+                // Risk_ID: Yup.string().required('Risk_ID is required'),
               })}
               onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
                 try {

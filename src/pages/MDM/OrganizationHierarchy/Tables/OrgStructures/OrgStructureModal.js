@@ -28,14 +28,14 @@ const GetParentEntityValue = ({setOrgTypeValue}) => {
     return null;
   };
 
-const OrgStructureModal = ({ setShowModal }) => {
+const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
     const dispatch = useDispatch();
     const [isProviderValue, setIsProviderValue] = useState("");
     const [isReceiverValue, setIsReceiverValue] = useState("");
     const [categoryValue, setCategoryValue] = useState("");
     const [orgTypeValue, setOrgTypeValue] = useState("");
     const getParentEntityState = useSelector(getParentEntitySelector);
-    console.log("state=>>>>>>>>>>>>>>>>>>",getParentEntityState);
+    console.log("state=>>>>>>>>>>>>>>>>>>",ediatbleData);
     console.log(orgTypeValue);
     const orgTypeData = [
         {
@@ -155,14 +155,14 @@ const OrgStructureModal = ({ setShowModal }) => {
             <Formik
                 enableReinitialize
                 initialValues={{
-                    orgType: '',
-                    parentEntity: '',
-                    isReceiver: '',
-                    isProvider: '',
-                    Category: '',
-                    Org_name: '',
-                    validFrom: today ? today : '',
-                    validTo: validToDate ? validToDate : ''
+                    orgType: ediatbleData?.Org_type ? ediatbleData?.Org_type : '',
+                    parentEntity: ediatbleData?.parentEntity ? ediatbleData?.parentEntity : '',
+                    isReceiver: ediatbleData?.isReceiver ? ediatbleData?.isReceiver : '',
+                    isProvider: ediatbleData?.isProvider ? ediatbleData?.isProvider : '',
+                    Category: ediatbleData?.Category ? ediatbleData?.Category : '',
+                    Org_name: ediatbleData?.Org_name ? ediatbleData?.Org_name : '',
+                    validFrom: ediatbleData?.Valid_from ? ediatbleData?.Valid_from : today ? today : '',
+                    validTo: ediatbleData?.Valid_to ? ediatbleData?.Valid_to : validToDate ? validToDate : ''
                 }}
                 validationSchema={Yup.object().shape({
                     orgType: Yup.string()
@@ -326,7 +326,7 @@ const OrgStructureModal = ({ setShowModal }) => {
                                     </div>
                                 </div>
                             </div>
-
+                            <span>{values?.parentEntity}</span>
                             <div className="col-lg-6">
                                 <div className='row mb-4'>
                                     <div className="col-lg-5">
@@ -346,7 +346,7 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                             "N/A"
                                                             : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
                                                                 "Yes" :
-                                                                ""
+                                                                values.isReceiver
                                                 }
                                                 isInvalid={Boolean(
                                                     touched.isReceiver && errors.isReceiver
@@ -357,7 +357,7 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                 className="form-control"
                                             />
 
-                                            <span>{values.isReceiver}</span>
+                                            
 
                                             {!!touched.isReceiver && (
                                                 <Form.Control.Feedback type="invalid">
@@ -388,7 +388,7 @@ const OrgStructureModal = ({ setShowModal }) => {
                                                             "N/A"
                                                             : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
                                                                 "Yes" :
-                                                                ""
+                                                                values.isProvider
                                                 }
                                                 isInvalid={Boolean(
                                                     touched.isProvider && errors.isProvider

@@ -17,6 +17,7 @@ import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import OrgStructureModal from './OrgStructureModal';
 import { addOrgStructureSelector } from '../../../../../redux/MDM/MDM_Selectors';
+import Swal from 'sweetalert2';
 
 const OrgStructuresTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -25,6 +26,7 @@ const OrgStructuresTable = () => {
   const [modalType, setModalType] = useState('');
   const addOrgState = useSelector(addOrgStructureSelector);
   const [editTableIndex, setEditTableIndex] = useState([]);
+  const [editTableData, setEditTableData] = useState();
   console.log(editTableIndex)
   console.log(addOrgState);
   useEffect(() => {
@@ -121,8 +123,19 @@ const OrgStructuresTable = () => {
   );
 
   const handleOnclickEdit = () => {
-    setShowModal(true);
-    setModalType('edit');
+    console.log(tableData);
+    if(editTableIndex.length > 1){
+      Swal.fire('Oops...', 'You can only allow one Organization to edit at a time', 'error');
+    }else if(editTableIndex.length == 1){
+      tableData.find((data, i) => {
+        console.log(i);
+        if(i === editTableIndex[0]){
+          setEditTableData(data);
+        }
+      })
+      setShowModal(true);
+      setModalType('edit');
+    }
   };
   const handleOnclickAdd = () => {
     setShowModal(true);
@@ -180,7 +193,7 @@ const OrgStructuresTable = () => {
         title={modalType === 'add' ? 'Add Organization Hierarchy' : 'Edit Organization Hierarchy'}
         bodyClassName="p-0"
       >
-        <OrgStructureModal setShowModal={setShowModal} />
+        <OrgStructureModal setShowModal={setShowModal} ediatbleData={editTableData} modalType={modalType}/>
       </CustomModal>
     </>
   );
