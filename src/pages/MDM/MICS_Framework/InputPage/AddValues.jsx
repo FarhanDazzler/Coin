@@ -10,11 +10,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { addMicsFramework } from '../../../../redux/MDM/MDM_Action';
+import { addMicsInitialValues, addMicsValidationSchema } from '../../../../utils/constants';
+import MyStatefulEditor from '../../../../components/FormInputs/RichTextEditor';
 
 const AddValues_MDM_Mics_Framework = () => {
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
+  const [showModal, setShowModal] = useState(false);
+  // Handel Rich Text Editor POP up close
+  const handleSubmitRichText = () => {
+    setShowModal(false);
+  };
   const handleOnclickCancel = () => {
     history.push('/master-data-management/mics-framework');
   };
@@ -60,6 +67,19 @@ const AddValues_MDM_Mics_Framework = () => {
     };
     dispatch(addMicsFramework(payload));
   };
+
+  const [micsL1Desc, setMicsL1Desc] = useState('');
+  const [showModalMicsL1Desc, setShowModalMicsL1Desc] = useState(false);
+
+  const onChangeMicsL1Desc = (value) => {
+    setMicsL1Desc(value);
+  };
+
+  const [val, setVal] = useState('');
+  const onChange = (value) => {
+    console.log(value, 'Rich text editor');
+    setVal(value);
+  };
   return (
     <div>
       <PageWrapper>
@@ -68,83 +88,10 @@ const AddValues_MDM_Mics_Framework = () => {
             <Formik
               enableReinitialize
               initialValues={{
-                MICS_2020_No: '',
-                MICS_2021_No: '',
-                Control_ID: '',
-                Mega_Process: '',
-                ABI_Key: '',
-                Ambev_Key: '',
-                FCPA: '',
-                Frequency: '',
-                Preventive_Detective: '',
-                Automation: '',
-                Recommended_Level: '',
-                Maturity_Relevant: '',
-                mics_weight: '',
-                Recommended_Standardization: '',
-                ABI_DAG: '',
-                AmBev_DAG: '',
-                B2B: '',
-                Fintech: '',
-                Control_Split: '',
-                Sub_Process: '',
-                Risk: '',
-                Control_name: '',
-                mics_L1desc: '',
-                mics_L2desc: '',
-                mics_L3desc: '',
-                BS_impact: '',
-                PnL_impact: '',
-                Cash_flow_impact: '',
-                testing_approach: '',
-                L3_KPI: '',
-                L2_KPI: '',
-                L1_KPI: '',
-                Kpi_status: '',
-                Change: '',
-                change_comment: '',
-                Risk_ID: '',
+                ...addMicsInitialValues,
+                mics_L1desc: micsL1Desc,
               }}
-              validationSchema={Yup.object().shape({
-                MICS_2020_No: Yup.string().required('MICS Number is required'),
-                MICS_2021_No: Yup.string().required('MICS Number is required'),
-                Control_ID: Yup.string().required('Control ID is required'),
-                Mega_Process: Yup.string().required('Mega Process is required'),
-                ABI_Key: Yup.string().required('ABI Key is required'),
-                Ambev_Key: Yup.string().required('Ambev Key is required'),
-                FCPA: Yup.string().required('FCPA is required'),
-                Frequency: Yup.string().required('Frequency is required'),
-                Preventive_Detective: Yup.string().required('Preventive Detective is required'),
-                Automation: Yup.string().required('Automation is required'),
-                Recommended_Level: Yup.string().required('Recommended Level is required'),
-                Maturity_Relevant: Yup.string().required('Maturity Relevant is required'),
-                mics_weight: Yup.string().required('mics weight is required'),
-                Recommended_Standardization: Yup.string().required(
-                  'Recommended Standardization is required',
-                ),
-                ABI_DAG: Yup.string().required('ABI DAG is required'),
-                AmBev_DAG: Yup.string().required('AmBev DAG is required'),
-                B2B: Yup.string().required('B2B is required'),
-                Fintech: Yup.string().required('Fintech is required'),
-                Control_Split: Yup.string().required('Control Split is required'),
-                Sub_Process: Yup.string().required('Sub Process is required'),
-                Risk: Yup.string().required('Risk is required'),
-                Control_name: Yup.string().required('Control name is required'),
-                mics_L1desc: Yup.string().required('mics L1 desc is required'),
-                mics_L2desc: Yup.string().required('mics L2 desc is required'),
-                mics_L3desc: Yup.string().required('mics L3 desc is required'),
-                BS_impact: Yup.string().required('BS impact is required'),
-                PnL_impact: Yup.string().required('PnL impact is required'),
-                Cash_flow_impact: Yup.string().required('Cash flow impact is required'),
-                testing_approach: Yup.string().required('testing approach is required'),
-                L3_KPI: Yup.string().required('L3 KPI is required'),
-                L2_KPI: Yup.string().required('L2 KPI is required'),
-                L1_KPI: Yup.string().required('L1 KPI is required'),
-                Kpi_status: Yup.string().required('Kpi status  is required'),
-                Change: Yup.string().required('Change is required'),
-                change_comment: Yup.string().required('change comment is required'),
-                // Risk_ID: Yup.string().required('Risk_ID is required'),
-              })}
+              validationSchema={Yup.object().shape(addMicsValidationSchema)}
               onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
                 try {
                   console.log(values);
@@ -846,6 +793,15 @@ const AddValues_MDM_Mics_Framework = () => {
                       </div>
                     </div>
 
+                    {/*Rich text Editor call*/}
+                    <MyStatefulEditor
+                      markup=""
+                      onChange={onChangeMicsL1Desc}
+                      setShowModal={setShowModal}
+                      showModal={showModal}
+                      handleSubmit={handleSubmitRichText}
+                    />
+
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
@@ -860,7 +816,10 @@ const AddValues_MDM_Mics_Framework = () => {
                               value={values.mics_L1desc}
                               isInvalid={Boolean(touched.mics_L1desc && errors.mics_L1desc)}
                               onBlur={handleBlur}
-                              onChange={handleChange}
+                              onClick={(data) => {
+                                handleChange(data);
+                                setShowModal(true);
+                              }}
                               readOnly={false}
                               className="form-control"
                             />
