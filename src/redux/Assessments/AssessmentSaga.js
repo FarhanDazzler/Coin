@@ -64,7 +64,7 @@ function* handleGetLatestDraft({ payload }) {
 }
 
 async function AddOrUpdateDraftApi(payload) {
-  return await Axios.post('/add_or_update_draft/', payload);
+  return await Axios.post('/add_or_update_draft', payload);
 }
 function* handleAddOrUpdateDraft({ payload }) {
   try {
@@ -73,6 +73,11 @@ function* handleAddOrUpdateDraft({ payload }) {
       yield put({
         type: ADD_OR_UPDATE_DRAFT_SUCCESS,
         payload: { data: response.data, Control_ID: payload.Control_ID },
+      });
+      Swal.fire('Saved!', '', 'success').then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = '/';
+        }
       });
     }
   } catch (error) {

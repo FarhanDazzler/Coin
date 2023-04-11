@@ -40,6 +40,11 @@ const Table = ({
         }}
         pageSize={5}
         pagination
+        checkboxSelection
+        onSelectionModelChange={(selected) =>
+          console.log(selected, 'selected fields from table via check')
+        }
+        disableSelectionOnClick
       />
     </div>
   );

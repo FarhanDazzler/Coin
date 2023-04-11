@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
-
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import Table from '../../../../../components/UI/Table';
 
 import '../TableStyle.scss';
@@ -16,6 +16,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
 
 const MicsFrameworkTable = () => {
+  const history = useHistory();
+  const location = useLocation();
+
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
 
@@ -314,6 +317,7 @@ const MicsFrameworkTable = () => {
   };
   const handleOnclickAdd = () => {
     // Add code
+    history.push('/master-data-management/mics-framework/addNew');
   };
 
   return (

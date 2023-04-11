@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Dropdown from '../UI/Dropdown';
 import InputWidthSelect from '../UI/InputWidthSelect/InputWidthSelect';
 
-const RenderBlock = ({ blocks = [], handleChange }) => {
+const RenderBlock = ({ blocks = [], handleChange, userApiStart }) => {
   const controlDataResponse = useSelector((state) => state?.controlData?.controlData?.data);
   for (let i = 0; i < blocks.length; i++) {
     let question = blocks[i].question_text;
@@ -30,7 +30,6 @@ const RenderBlock = ({ blocks = [], handleChange }) => {
           case blockType.RADIO:
             return (
               <RenderBlockWrapper key={i}>
-                
                 <Radio
                   block={block}
                   label={block.label}
@@ -87,6 +86,7 @@ const RenderBlock = ({ blocks = [], handleChange }) => {
                   required={block.required}
                   block={block}
                   handleChange={handleChange}
+                  value={block.value}
                 />
               </RenderBlockWrapper>
             );
@@ -94,7 +94,11 @@ const RenderBlock = ({ blocks = [], handleChange }) => {
           case blockType.EMAIL_WIDTH_SELECT:
             return (
               <RenderBlockWrapper key={i}>
-                <InputWidthSelect block={block} handleChange={handleChange} />
+                <InputWidthSelect
+                  block={block}
+                  handleChange={handleChange}
+                  userApiStart={userApiStart}
+                />
               </RenderBlockWrapper>
             );
           default:

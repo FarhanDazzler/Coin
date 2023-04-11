@@ -23,10 +23,26 @@ const ControlSection3 = ({
   const Control_ID = query.get('Control_ID');
   const questionData = useSelector(question3Selector);
   const dispatch = useDispatch();
+  const [render, setRender] = useState(false);
   const [questionL1, setQuestionL1] = useState([]);
   const [questionL2, setQuestionL2] = useState([]);
   const [questionL3, setQuestionL3] = useState([]);
   const [showNoQuestion, setShowNoQuestion] = useState(false);
+
+  const setSelectedQuestionAns = (question, ansObj) => {
+    return question.map((q1) => {
+      const updateInnerQ = q1.renderOption.map((innerQ) => {
+        if (ansObj[innerQ.q_id]) {
+          return { ...innerQ, value: ansObj[innerQ.q_id] };
+        }
+        return { ...innerQ };
+      });
+      return {
+        ...q1,
+        renderOption: updateInnerQ,
+      };
+    });
+  };
 
   const [lastAns, setLastAns] = useState('');
   const handleChange = (value, block, parentBlock) => {
@@ -57,6 +73,21 @@ const ControlSection3 = ({
   useEffect(() => {
     setTerminating(showNoQuestionAns.length > 0);
   }, [showNoQuestionAns]);
+
+  useEffect(() => {
+    if (questionL1.length > 0 && ans.L1) {
+      const updateAnsL1 = setSelectedQuestionAns(questionL1, ans.L1);
+      setQuestionL1(updateAnsL1);
+    }
+    if (questionL2.length > 0 && ans.L2) {
+      const updateAnsL2 = setSelectedQuestionAns(questionL2, ans.L2);
+      setQuestionL2(updateAnsL2);
+    }
+    if (questionL3.length > 0 && ans.L3) {
+      const updateAnsL3 = setSelectedQuestionAns(questionL3, ans.L3);
+      setQuestionL3(updateAnsL3);
+    }
+  }, [ans, render, questionData]);
 
   useEffect(() => {
     const updateAns = {};
@@ -134,17 +165,24 @@ const ControlSection3 = ({
   }, [lastAns]);
 
   useEffect(() => {
+    setRender(!render);
     if (questionData.Level?.L1) {
       const apiQuestionL1 = getQuestionsFormatData(questionData.Level?.L1);
-      setQuestionL1(getFormatQuestions(apiQuestionL1, null, 'L1'));
+      if (!questionL1.length > 0) {
+        setQuestionL1(getFormatQuestions(apiQuestionL1, null, 'L1'));
+      }
     }
     if (questionData.Level?.L2 && ans.L1) {
       const apiQuestionL2 = getQuestionsFormatData(questionData.Level?.L2);
-      setQuestionL2(getFormatQuestions(apiQuestionL2, null, 'L2'));
+      if (!questionL2.length > 0) {
+        setQuestionL2(getFormatQuestions(apiQuestionL2, null, 'L2'));
+      }
     }
     if (questionData.Level?.L3 && ans.L2) {
       const apiQuestionL3 = getQuestionsFormatData(questionData.Level?.L3);
-      setQuestionL3(getFormatQuestions(apiQuestionL3, null, 'L3'));
+      if (!questionL3.length > 0) {
+        setQuestionL3(getFormatQuestions(apiQuestionL3, null, 'L3'));
+      }
     }
   }, [questionData.Level]);
 
@@ -184,8 +222,10 @@ const ControlSection3 = ({
               />
               */}
               <Form.Label>
-              Based on above response, action plans needs to be created on the failed control. Request you to elaborate the action Plan?
-                (Hint: Action plan is a time bound proposition designed to remediate the control breakdown with the objective of ensuring MICS compliance) <span className="text-danger">*</span>
+                Based on above response, action plans needs to be created on the failed control.
+                Request you to elaborate the action Plan? (Hint: Action plan is a time bound
+                proposition designed to remediate the control breakdown with the objective of
+                ensuring MICS compliance) <span className="text-danger">*</span>
               </Form.Label>
               <Form.Group className="input-group mb-3">
                 <Form.Control
@@ -197,8 +237,6 @@ const ControlSection3 = ({
                   value={showNoQuestionAns}
                   onChange={(e) => handleChangeNoQuestion(e.target.value)}
                 />
-
-
               </Form.Group>
             </RenderBlockWrapper>
           )}
