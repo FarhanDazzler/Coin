@@ -127,7 +127,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
             "isReceiver": value.orgType === "BU" || value.orgType === "Country"
                 && value.parentEntity.slice(0, 2) === "SC" ?
                 "No" :
-                value.orgType === "Zone" ?
+                value.orgType === "Zone" || value.orgType === "Cognos" ||  value.orgType === "SAP" ?
                     "N/A"
                     : value.parentEntity && value.parentEntity.slice(0, 2) !== "SC" ?
                         "Yes" :
@@ -136,12 +136,12 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
             "isProvider": value.orgType === "BU" ||
                 value.orgType === "Country" && value.parentEntity.slice(0, 2) === "SC" ?
                 "Yes" :
-                value.orgType === "Zone" ?
+                value.orgType === "Zone" ||  value.orgType === "Cognos" ||  value.orgType === "Plant" ||  value.orgType === "SAP" ?
                     "N/A"
                     : value.parentEntity && value.parentEntity.slice(0, 2) !== "SC" ?
                         "Yes" :
                         "",
-            "Category": value.orgType === "Zone" ? "N/A" : value.Category,
+            "Category": value.orgType === "Zone" || value.orgType === "Cognos" || value.orgType === "SAP" || value.orgType === "Plant" ? "N/A" : value.Category,
             "Valid_from": value.validFrom,
             "Valid_to": value.validTo
         }
@@ -326,7 +326,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                                     </div>
                                 </div>
                             </div>
-                            <span>{values?.parentEntity}</span>
+                            
                             <div className="col-lg-6">
                                 <div className='row mb-4'>
                                     <div className="col-lg-5">
@@ -342,7 +342,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                                                     values.orgType === "BU" || values.orgType === "Country"
                                                         && values.parentEntity.slice(0, 2) === "SC" ?
                                                         "No" :
-                                                        values.orgType === "Zone" ?
+                                                        values.orgType === "Zone" || values.orgType === "Cognos" ||  values.orgType === "SAP" ?
                                                             "N/A"
                                                             : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
                                                                 "Yes" :
@@ -384,10 +384,10 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                                                     values.orgType === "BU" ||
                                                         values.orgType === "Country" && values.parentEntity.slice(0, 2) === "SC" ?
                                                         "Yes" :
-                                                        values.orgType === "Zone" ?
+                                                        values.orgType === "Zone" ||  values.orgType === "Cognos" ||  values.orgType === "Plant" ||  values.orgType === "SAP" ?
                                                             "N/A"
                                                             : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
-                                                                "Yes" :
+                                                                "Yes" : 
                                                                 values.isProvider
                                                 }
                                                 isInvalid={Boolean(
@@ -434,7 +434,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                                             >
 
                                                 {
-                                                    values.orgType === "Zone" ?
+                                                    values.orgType === "Zone" || values.orgType === "Cognos" || values.orgType === "SAP" || values.orgType === "Plant" ?
                                                         <option value="N/A">N/A</option> :
                                                         <>
                                                             <option value="">Select Category</option>
