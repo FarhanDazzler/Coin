@@ -62,7 +62,11 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns }) =>
 
       case block.question_type === blockType.EMAIL_WIDTH_SELECT:
         if (block.options[0].is_Terminating === 1) {
-          if (validateEmail(value)) setTerminating(true);
+          if (validateEmail(value)) {
+            userFromAD.data.forEach((element) => {
+              if (element.mail === value) setTerminating(true);
+            });
+          }
           setAns(updateCurrentAns);
           return;
         }
@@ -120,24 +124,6 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns }) =>
       setAns(showData);
     }
   }, [getQuestions.data]);
-
-  // useEffect(() => {
-  //   if (Object.keys(ans).length > 0) {
-  //     const { newQuestionList, newAnsList, isTerminating } = handleSelectAns({
-  //       ans,
-  //       ans,
-  //       data,
-  //     });
-  //     setTerminating(isTerminating);
-  //     setAns(newAnsList);
-  //     setAns(newQuestionList);
-  //     if (newQuestionList.length > 2) {
-  //       setShowMoreSection(newQuestionList.length === Object.keys(newAnsList).length);
-  //     } else {
-  //       setShowMoreSection(false);
-  //     }
-  //   }
-  // }, [lastAns]);
 
   useEffect(() => {
     setTimeout(() => {

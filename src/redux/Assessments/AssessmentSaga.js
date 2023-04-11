@@ -89,7 +89,7 @@ function* handleAddOrUpdateDraft({ payload }) {
 }
 
 async function AssessmentAnsGetApi(params) {
-  return await Axios.get('/get_user_response', { params });
+  return await Axios.get('/get_assessment_response', { params });
 }
 function* handleGetAssessmentAns({ payload }) {
   try {
@@ -109,16 +109,20 @@ function* handleGetAssessmentAns({ payload }) {
 }
 
 async function AssessmentAnsAddApi(payload) {
-  return await Axios.post('/add_user_response/', payload);
+  return await Axios.post('/save_assessment_response/', payload);
 }
-function* handleAddAssessmentAns({ payload }) {
+function* handleAddAssessmentAns({ payload: copyPayload }) {
   try {
+    const { event, ...payload } = copyPayload;
     const response = yield call(AssessmentAnsAddApi, payload);
+    debugger;
     if (response.token) {
       yield put({
         type: ADD_ASSESSMENT_RESPONSE_SUCCESS,
       });
-      Swal.fire('Done!', 'You are now being redirected to the mainpage', 'success');
+      if (event) {
+        event.onSuccess();
+      }
     }
   } catch (error) {
     yield put({

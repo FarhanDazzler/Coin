@@ -61,18 +61,26 @@ export default class MyStatefulEditor extends Component {
         />
         <div className="d-flex align-items-center justify-content-end">
           <div>
-            <Button variant="outlined" color="secondary" onClick={() => {
-              this.props.setShowModal('')
-              // this.setState({ value: '' })
-              // this.state.value.toString("html");
-            }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => {
+                this.props.setShowModal('');
+                // this.setState({ value: '' })
+                // this.state.value.toString("html");
+              }}
+            >
               Cancel
             </Button>
-            <Button color="neutral" className="ml-4" onClick={() => {
-              this.props.handleSubmit()
-              // this.setState({ value: '' })
-              // this.state.value.toString("html");
-            }}>
+            <Button
+              color="neutral"
+              className="ml-4"
+              onClick={() => {
+                this.props.handleSubmit();
+                // this.setState({ value: '' })
+                // this.state.value.toString("html");
+              }}
+            >
               Submit
             </Button>
           </div>
