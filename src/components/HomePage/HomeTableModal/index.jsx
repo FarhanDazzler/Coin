@@ -33,7 +33,7 @@ const HomeTableModal = ({ isModal = true }) => {
   const [showNoQuestionAns, setShowNoQuestionAns] = useState('');
   const [showMoreSection, setShowMoreSection] = useState(false);
   const [terminating, setTerminating] = useState(false);
-  const Control_ID = query.get('Control_ID') || !isModal ? 'ATR_MJE_01a-Kss' : '';
+  const Control_ID = query.get('Control_ID') || !isModal ? 'ATR_MJE_01a-K' : '';
   const { accounts } = useMsal();
   const handleClose = () => {
     history.push('/new');

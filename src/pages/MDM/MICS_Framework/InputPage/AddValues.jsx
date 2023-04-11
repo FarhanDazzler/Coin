@@ -20,7 +20,10 @@ const AddValues_MDM_Mics_Framework = () => {
   const [showModal, setShowModal] = useState(false);
   // Handel Rich Text Editor POP up close
   const handleSubmitRichText = () => {
-    setShowModal(false);
+    setShowModal('');
+    // setMicsL1Desc('')
+    // setMicsL2Desc('')
+    // setMicsL3Desc('')
   };
   const handleOnclickCancel = () => {
     history.push('/master-data-management/mics-framework');
@@ -69,10 +72,20 @@ const AddValues_MDM_Mics_Framework = () => {
   };
 
   const [micsL1Desc, setMicsL1Desc] = useState('');
+  const [micsL2Desc, setMicsL2Desc] = useState('');
+  const [micsL3Desc, setMicsL3Desc] = useState('');
   const [showModalMicsL1Desc, setShowModalMicsL1Desc] = useState(false);
 
   const onChangeMicsL1Desc = (value) => {
-    setMicsL1Desc(value);
+    switch (showModal) {
+      case 'mics_L1desc':
+        return setMicsL1Desc(value);
+      case 'mics_L2desc':
+        return setMicsL2Desc(value);
+      default:
+      case 'mics_L3desc':
+        return setMicsL3Desc(value);
+    }
   };
 
   const [val, setVal] = useState('');
@@ -80,6 +93,7 @@ const AddValues_MDM_Mics_Framework = () => {
     console.log(value, 'Rich text editor');
     setVal(value);
   };
+  console.log('micsL1Desc',micsL1Desc)
   return (
     <div>
       <PageWrapper>
@@ -90,6 +104,8 @@ const AddValues_MDM_Mics_Framework = () => {
               initialValues={{
                 ...addMicsInitialValues,
                 mics_L1desc: micsL1Desc,
+                mics_L2desc: micsL2Desc,
+                mics_L3desc: micsL3Desc,
               }}
               validationSchema={Yup.object().shape(addMicsValidationSchema)}
               onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
@@ -535,7 +551,7 @@ const AddValues_MDM_Mics_Framework = () => {
                               value={values.Recommended_Standardization}
                               isInvalid={Boolean(
                                 touched.Recommended_Standardization &&
-                                  errors.Recommended_Standardization,
+                                errors.Recommended_Standardization,
                               )}
                               onBlur={handleBlur}
                               onChange={handleChange}
@@ -817,9 +833,9 @@ const AddValues_MDM_Mics_Framework = () => {
                               isInvalid={Boolean(touched.mics_L1desc && errors.mics_L1desc)}
                               onBlur={handleBlur}
                               onClick={(data) => {
-                                handleChange(data);
-                                setShowModal(true);
+                                setShowModal('mics_L1desc');
                               }}
+                              onChange={handleChange}
                               readOnly={false}
                               className="form-control"
                             />
@@ -848,6 +864,9 @@ const AddValues_MDM_Mics_Framework = () => {
                               value={values.mics_L2desc}
                               isInvalid={Boolean(touched.mics_L2desc && errors.mics_L2desc)}
                               onBlur={handleBlur}
+                              onClick={(data) => {
+                                setShowModal('mics_L2desc');
+                              }}
                               onChange={handleChange}
                               readOnly={false}
                               className="form-control"
@@ -877,6 +896,9 @@ const AddValues_MDM_Mics_Framework = () => {
                               value={values.mics_L3desc}
                               isInvalid={Boolean(touched.mics_L3desc && errors.mics_L3desc)}
                               onBlur={handleBlur}
+                              onClick={(data) => {
+                                setShowModal('mics_L3desc');
+                              }}
                               onChange={handleChange}
                               readOnly={false}
                               className="form-control"
