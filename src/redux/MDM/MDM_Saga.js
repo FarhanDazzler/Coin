@@ -34,6 +34,9 @@ import {
   ACTION_GET_PARENT_ENTITY_DATA,
   ACTION_GET_PARENT_ENTITY_DATA_FAILED,
   ACTION_GET_PARENT_ENTITY_DATA_SUCCESS,
+  ACTION_UPDATE_ORG_STRUCTURE_DATA,
+  ACTION_UPDATE_ORG_STRUCTURE_DATA_FAILED,
+  ACTION_UPDATE_ORG_STRUCTURE_DATA_SUCCESS,
   ADD_MEGA_AND_SUBPROCESS_REQUEST,
   ADD_MEGA_AND_SUBPROCESS_SUCCESS,
   ADD_MEGA_AND_SUBPROCESS_ERROR,
@@ -59,6 +62,7 @@ function* handleGet_org_structures({ payload }) {
     });
   }
 }
+
 // Add Org Structure
 async function addOrgStructuresApi(payload) {
   return await Axios.post('/add_org_structure', payload);
@@ -84,6 +88,33 @@ function* addOrgStructureData({ payload }) {
   }
 }
 
+
+// Update Org Structure
+async function updateOrgStructuresApi(payload) {
+  return await Axios.post('/update_org_structure', payload);
+}
+function* updateOrgStructureData({ payload }) {
+  try {
+    const response = yield call(updateOrgStructuresApi, payload);
+    if (response.success) {
+      yield put({
+        type: ACTION_UPDATE_ORG_STRUCTURE_DATA_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Updated Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ACTION_UPDATE_ORG_STRUCTURE_DATA_FAILED,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+
 // Get Parent Entity
 async function getParentEntityApi(params) {
   return await Axios.get('/get_parent_entity', { params });
@@ -107,6 +138,7 @@ function* getParentEntityData({ payload }) {
 }
 
 async function getOrgHierarchyApi(params) {
+  console.log("getOrgHierarchyApi=>>>>>>>>>>>>>>>>>>",params)
   return await Axios.get('/get_hierarchy', { params });
 }
 function* handleGet_org_hierarchy({ payload }) {
@@ -277,6 +309,7 @@ function* handleGet_ApplicabilityAndAssignmentOfProviderOrganization({ payload }
 export default all([
   takeLatest(GET_ORG_STRUCTURES_REQUEST, handleGet_org_structures),
   takeLatest(ACTION_ADD_ORG_STRUCTURE_DATA, addOrgStructureData),
+  takeLatest(ACTION_UPDATE_ORG_STRUCTURE_DATA, updateOrgStructureData),
   takeLatest(ACTION_GET_PARENT_ENTITY_DATA, getParentEntityData),
   takeLatest(GET_ORG_HIERARCHY_REQUEST, handleGet_org_hierarchy),
   takeLatest(GET_MICS_FRAMEWORK_REQUEST, handleGet_MicsFramework),

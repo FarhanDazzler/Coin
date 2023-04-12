@@ -11,12 +11,17 @@ import {
   ACTION_ADD_ORG_STRUCTURE_DATA,
   ADD_MICS_FRAMEWORK_REQUEST,
   ACTION_GET_PARENT_ENTITY_DATA,
+  ACTION_UPDATE_ORG_STRUCTURE_DATA,
   ADD_MEGA_AND_SUBPROCESS_REQUEST,
 } from './MDM_Reducer';
 
 export const getOrgStructures = (payload) => ({ type: GET_ORG_STRUCTURES_REQUEST, payload });
 export const addOrgStructureAction = (payload) => ({
   type: ACTION_ADD_ORG_STRUCTURE_DATA,
+  payload,
+});
+export const updateOrgStructureAction = (payload) => ({
+  type: ACTION_UPDATE_ORG_STRUCTURE_DATA,
   payload,
 });
 export const getParentEntityAction = (payload) => ({

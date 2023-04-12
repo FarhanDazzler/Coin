@@ -19,6 +19,9 @@ import { Group } from '@mantine/core';
 import MultiSelectButton from '../../../../../components/Buttons/MultiSelect/MultiSelectButtonComponents.js';
 import { MultiSelect } from '@mantine/core';
 import '../../MultiSelectButtonStyles.scss';
+import AssignModal from './AssignModal';
+import CustomModal from '../../../../../components/UI/CustomModal';
+import Swal from 'sweetalert2';
 
 // Filter buttons
 const FilterButtons = ({
@@ -142,6 +145,9 @@ const ControlOwnerAndOversightTable = () => {
   const [valueProvider_entity, setValueProvider_entity] = useState([]);
   const [valueCowner, setValueCowner] = useState([]);
   const [valueCoversight, setValueCoversight] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [editTableIndex, setEditTableIndex] = useState([]);
+  const [assignTableData, setAssignTableData] = useState();
 
   const controlOwnerAndOversight = useSelector(getControlOwnerAndOversightSelector);
 
@@ -258,7 +264,17 @@ const ControlOwnerAndOversightTable = () => {
     // edit code
   };
   const handleOnclickAdd = () => {
-    // Add code
+    if (editTableIndex.length > 1) {
+      Swal.fire('Oops...', 'You can only allow one Organization to edit at a time', 'error');
+    } else if (editTableIndex.length == 1) {
+      tableData.find((data, i) => {
+        console.log(i);
+        if (i === editTableIndex[0]) {
+          setAssignTableData(data);
+        }
+      })
+      setShowModal(true);
+    }
   };
 
   // Function to remove duplicate value from array
@@ -309,7 +325,7 @@ const ControlOwnerAndOversightTable = () => {
                     className="edit-button-mdm-table"
                     onClick={handleOnclickEdit}
                   >
-                    Edit
+                    Edit LCD
                   </Button>
                   <Button
                     variant="outlined"
@@ -318,15 +334,25 @@ const ControlOwnerAndOversightTable = () => {
                     className="add-button-mdm-table"
                     onClick={handleOnclickAdd}
                   >
-                    Add New
+                    Assign
                   </Button>
                 </div>
               </div>
             </div>
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} setEditTableIndex={setEditTableIndex} />
           </div>
         </div>
       </div>
+      <CustomModal
+        className="add-org"
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        width={900}
+        title={assignTableData?.Control_ID}
+        bodyClassName="p-0"
+      >
+        <AssignModal setShowModal={setShowModal} assignTableData={assignTableData} />
+      </CustomModal>
     </>
   );
 };
