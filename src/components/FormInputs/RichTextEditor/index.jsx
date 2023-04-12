@@ -48,8 +48,8 @@ export default class MyStatefulEditor extends Component {
     return (
       <CustomModal
         className="add-org"
-        open={this.props.showModal}
-        onClose={() => this.props.setShowModal(false)}
+        open={!!this.props?.showModal}
+        onClose={() => this.props.setShowModal('')}
         width={900}
         title={'Enter value'}
         bodyClassName="p-0"
@@ -61,11 +61,19 @@ export default class MyStatefulEditor extends Component {
         />
         <div className="d-flex align-items-center justify-content-end">
           <div>
-            <Button variant="outlined" color="secondary" onClick={() => this.props.setShowModal(false)}>
+            <Button variant="outlined" color="secondary" onClick={() => {
+              this.props.setShowModal('')
+              this.setState({ value: RichTextEditor.createValueFromString("", "html") })
+              // this.state.value.toString("html");
+            }}>
               Cancel
             </Button>
-            <Button color="neutral" className="ml-4" onClick={this.props.handleSubmit}>
-            Submit
+            <Button color="neutral" className="ml-4" onClick={() => {
+              this.props.handleSubmit()
+              this.setState({ value: RichTextEditor.createValueFromString("", "html") })
+              // this.state.value.toString("html");
+            }}>
+              Submit
             </Button>
           </div>
         </div>

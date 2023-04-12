@@ -17,9 +17,11 @@ import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import OrgStructureModal from './OrgStructureModal';
 import { addOrgStructureSelector } from '../../../../../redux/MDM/MDM_Selectors';
+import { getOrgStructures, getOrgHierarchy } from '../../../../../redux/MDM/MDM_Action';
 import Swal from 'sweetalert2';
 
 const OrgStructuresTable = () => {
+  const dispatch = useDispatch();
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -27,15 +29,15 @@ const OrgStructuresTable = () => {
   const addOrgState = useSelector(addOrgStructureSelector);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [editTableData, setEditTableData] = useState();
-  console.log(editTableIndex)
-  console.log(addOrgState);
+
   useEffect(() => {
     if (addOrgState) {
       setShowModal(false);
       setModalType('');
+      dispatch(getOrgStructures());
+      dispatch(getOrgHierarchy());
     }
-  }, [addOrgState]);
-  const dispatch = useDispatch();
+  }, [addOrgState.data]);
 
   const orgStructures = useSelector(getOrgStructuresSelector);
 
@@ -124,15 +126,15 @@ const OrgStructuresTable = () => {
 
   const handleOnclickEdit = () => {
     console.log(tableData);
-    if(editTableIndex.length > 1){
+    if (editTableIndex.length > 1) {
       Swal.fire('Oops...', 'You can only allow one Organization to edit at a time', 'error');
-    }else if(editTableIndex.length == 1){
+    } else if (editTableIndex.length == 1) {
       tableData.find((data, i) => {
         console.log(i);
-        if(i === editTableIndex[0]){
+        if (i === editTableIndex[0]) {
           setEditTableData(data);
         }
-      })
+      });
       setShowModal(true);
       setModalType('edit');
     }
@@ -157,31 +159,36 @@ const OrgStructuresTable = () => {
                 <div>
                   {(localStorage.getItem('Roles')?.includes('global_internal_control') ||
                     localStorage.getItem('selected_Role')?.includes('global_internal_control')) && (
-                    <>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        startIcon={<ActiveToolEdit text="Free Text" />}
-                        className="edit-button-mdm-table"
-                        onClick={handleOnclickEdit}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        startIcon={<ActiveToolADD text="Free Text" />}
-                        className="add-button-mdm-table"
-                        onClick={handleOnclickAdd}
-                      >
-                        Add New
-                      </Button>
-                    </>
-                  )}
+                      <>
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          startIcon={<ActiveToolEdit text="Free Text" />}
+                          className="edit-button-mdm-table"
+                          onClick={handleOnclickEdit}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          startIcon={<ActiveToolADD text="Free Text" />}
+                          className="add-button-mdm-table"
+                          onClick={handleOnclickAdd}
+                        >
+                          Add New
+                        </Button>
+                      </>
+                    )}
                 </div>
               </div>
             </div>
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} setEditTableIndex={setEditTableIndex} />
+            <Table
+              tableData={tableData}
+              tableColumns={tableColumns}
+              columns={tableColumns}
+              setEditTableIndex={setEditTableIndex}
+            />
           </div>
         </div>
       </div>
@@ -193,7 +200,11 @@ const OrgStructuresTable = () => {
         title={modalType === 'add' ? 'Add Organization Hierarchy' : 'Edit Organization Hierarchy'}
         bodyClassName="p-0"
       >
-        <OrgStructureModal setShowModal={setShowModal} ediatbleData={editTableData} modalType={modalType}/>
+        <OrgStructureModal
+          setShowModal={setShowModal}
+          ediatbleData={editTableData}
+          modalType={modalType}
+        />
       </CustomModal>
     </>
   );

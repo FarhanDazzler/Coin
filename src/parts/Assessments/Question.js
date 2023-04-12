@@ -1,20 +1,13 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-
-import Details from '../../components/Sections/Details';
-import AssessmentForm from '../../components/Sections/AssessmentForm';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getAssessmentAns } from '../../redux/Assessments/AssessmentAction';
-import ControlActions from '../../components/HomePage/HomeTableModal/ControlActions';
 import {
   getControlDataAction,
   getControlDataGcdAction,
 } from '../../redux/ControlData/ControlDataAction';
 import { useMsal } from '@azure/msal-react';
 import './Questions.scss';
-import DashboardTable from '../../components/HomePage/HomePageTable/HomePageTableComponent';
-import PageWrapper from '../../components/wrappers/PageWrapper';
 import HomeTableModal from '../../components/HomePage/HomeTableModal';
 
 const Question = () => {

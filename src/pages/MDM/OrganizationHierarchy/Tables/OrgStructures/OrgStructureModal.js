@@ -5,28 +5,28 @@ import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { addOrgStructureAction, getParentEntityAction } from '../../../../../redux/MDM/MDM_Action';
+import { addOrgStructureAction, getParentEntityAction, updateOrgStructureAction } from '../../../../../redux/MDM/MDM_Action';
 import { getParentEntitySelector } from '../../../../../redux/MDM/MDM_Selectors';
 import moment from 'moment';
-const GetParentEntityValue = ({setOrgTypeValue}) => {
+const GetParentEntityValue = ({ setOrgTypeValue }) => {
     // Grab values and submitForm from context
     const dispatch = useDispatch();
     const { values } = useFormikContext();
     useEffect(() => {
         console.log("there see", values.orgType);
         let params = {
-            entity : values.orgType
+            entity: values.orgType
         }
-        if(values.orgType){
+        if (values.orgType) {
             dispatch(getParentEntityAction(params));
             // resetForm({values:{...values, parentEntity:""}})
         }
-        
 
-      setOrgTypeValue(values.orgType);
+
+        setOrgTypeValue(values.orgType);
     }, [values.orgType]);
     return null;
-  };
+};
 
 const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
     const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
     const [categoryValue, setCategoryValue] = useState("");
     const [orgTypeValue, setOrgTypeValue] = useState("");
     const getParentEntityState = useSelector(getParentEntitySelector);
-    console.log("state=>>>>>>>>>>>>>>>>>>",ediatbleData);
+    console.log("state=>>>>>>>>>>>>>>>>>>", ediatbleData);
     console.log(orgTypeValue);
     const orgTypeData = [
         {
@@ -127,25 +127,39 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
             "isReceiver": value.orgType === "BU" || value.orgType === "Country"
                 && value.parentEntity.slice(0, 2) === "SC" ?
                 "No" :
-                value.orgType === "Zone" || value.orgType === "Cognos" ||  value.orgType === "SAP" ?
+                value.orgType === "Zone" || value.orgType === "Cognos" || value.orgType === "SAP" ?
                     "N/A"
                     : value.parentEntity && value.parentEntity.slice(0, 2) !== "SC" ?
                         "Yes" :
-                        ""
+                        value.isReceiver
             ,
             "isProvider": value.orgType === "BU" ||
                 value.orgType === "Country" && value.parentEntity.slice(0, 2) === "SC" ?
                 "Yes" :
-                value.orgType === "Zone" ||  value.orgType === "Cognos" ||  value.orgType === "Plant" ||  value.orgType === "SAP" ?
+                value.orgType === "Zone" || value.orgType === "Cognos" || value.orgType === "Plant" || value.orgType === "SAP" ?
                     "N/A"
                     : value.parentEntity && value.parentEntity.slice(0, 2) !== "SC" ?
                         "Yes" :
-                        "",
+                        value.isProvider,
             "Category": value.orgType === "Zone" || value.orgType === "Cognos" || value.orgType === "SAP" || value.orgType === "Plant" ? "N/A" : value.Category,
             "Valid_from": value.validFrom,
             "Valid_to": value.validTo
         }
-        dispatch(addOrgStructureAction(payload))
+        let editPayload = {
+            ...payload,
+            "Org_code": ediatbleData?.Org_code
+        }
+       
+        if(modalType === "add"){
+            console.log("ADD=>>>>>>>>>>>>>>>>>>");
+            dispatch(addOrgStructureAction(payload));
+            
+        }else{
+            console.log("Edit=>>>>>>>>>>>>>>>>>>");
+            dispatch(updateOrgStructureAction(editPayload));
+            
+        }
+        
     }
     let today = moment().format('YYYY-MM-DD');
     let validToDate = "9999-12-31"
@@ -163,6 +177,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                     Org_name: ediatbleData?.Org_name ? ediatbleData?.Org_name : '',
                     validFrom: ediatbleData?.Valid_from ? ediatbleData?.Valid_from : today ? today : '',
                     validTo: ediatbleData?.Valid_to ? ediatbleData?.Valid_to : validToDate ? validToDate : ''
+
                 }}
                 validationSchema={Yup.object().shape({
                     orgType: Yup.string()
@@ -306,14 +321,14 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                                                 className="form-select"
                                             >
                                                 <option value="">Select Parent Entity</option>
-                                                
+
                                                 {
-                                                    values.orgType === "Zone" ?  <option value="Global">Global</option> :
-                                                    getParentEntityState?.data && getParentEntityState?.data.map((data, i) => (
-                                                        <option value={data[0]} key={i}>
-                                                            {data[0]}
-                                                        </option>
-                                                    ))
+                                                    values.orgType === "Zone" ? <option value="Global">Global</option> :
+                                                        getParentEntityState?.data && getParentEntityState?.data.map((data, i) => (
+                                                            <option value={data[0]} key={i}>
+                                                                {data[0]}
+                                                            </option>
+                                                        ))
                                                 }
                                             </Form.Control>
 
@@ -326,7 +341,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div className="col-lg-6">
                                 <div className='row mb-4'>
                                     <div className="col-lg-5">
@@ -335,29 +350,38 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                                     <div className="col-lg-7">
                                         <Form.Group className="input-group mb-3">
                                             <Form.Control
-                                                type="text"
+                                                as="select"
                                                 name="isReceiver"
                                                 placeholder="isReceiver"
-                                                value={
-                                                    values.orgType === "BU" || values.orgType === "Country"
-                                                        && values.parentEntity.slice(0, 2) === "SC" ?
-                                                        "No" :
-                                                        values.orgType === "Zone" || values.orgType === "Cognos" ||  values.orgType === "SAP" ?
-                                                            "N/A"
-                                                            : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
-                                                                "Yes" :
-                                                                values.isReceiver
-                                                }
+                                                value={values.isReceiver}
                                                 isInvalid={Boolean(
                                                     touched.isReceiver && errors.isReceiver
                                                 )}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                readOnly={true}
-                                                className="form-control"
-                                            />
+                                                readOnly={false}
+                                                className="form-select"
+                                            >
 
-                                            
+                                                {
+                                                    values.orgType === "BU" || values.orgType === "Country"
+                                                        && values.parentEntity.slice(0, 2) === "SC" ?
+                                                        <option value="No">No</option>
+                                                        :
+                                                        values.orgType === "Zone" || values.orgType === "Cognos" || values.orgType === "SAP" ?
+
+                                                            <option value="N/A">N/A</option>
+                                                            : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
+                                                                <option value="Yes">Yes</option> :
+                                                                <>
+                                                                    <option value="">Select isReceiver</option>
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                    <option value="N/A">N/A</option>
+                                                                </>
+
+                                                }
+                                            </Form.Control>
 
                                             {!!touched.isReceiver && (
                                                 <Form.Control.Feedback type="invalid">
@@ -377,28 +401,35 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                                     <div className="col-lg-7">
                                         <Form.Group className="input-group mb-3">
                                             <Form.Control
-                                                type="text"
+                                                as="select"
                                                 name="isProvider"
                                                 placeholder="isProvider"
-                                                value={
-                                                    values.orgType === "BU" ||
-                                                        values.orgType === "Country" && values.parentEntity.slice(0, 2) === "SC" ?
-                                                        "Yes" :
-                                                        values.orgType === "Zone" ||  values.orgType === "Cognos" ||  values.orgType === "Plant" ||  values.orgType === "SAP" ?
-                                                            "N/A"
-                                                            : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
-                                                                "Yes" : 
-                                                                values.isProvider
-                                                }
+                                                value={values.isProvider}
                                                 isInvalid={Boolean(
                                                     touched.isProvider && errors.isProvider
                                                 )}
                                                 onBlur={handleBlur}
                                                 onChange={handleChange}
-                                                readOnly={true}
-                                                className="form-control"
-                                            />
+                                                readOnly={false}
+                                                className="form-select"
+                                            >
+                                                {
+                                                    values.orgType === "BU" ||
+                                                        values.orgType === "Country" && values.parentEntity.slice(0, 2) === "SC" ?
+                                                        <option value="Yes">Yes</option> :
+                                                        values.orgType === "Zone" || values.orgType === "Cognos" || values.orgType === "Plant" || values.orgType === "SAP" ?
+                                                            <option value="N/A">N/A</option>
+                                                            : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
+                                                                <option value="Yes">Yes</option> :
+                                                                <>
+                                                                    <option value="">Select isReceiver</option>
+                                                                    <option value="Yes">Yes</option>
+                                                                    <option value="No">No</option>
+                                                                    <option value="N/A">N/A</option>
+                                                                </>
+                                                }
 
+                                            </Form.Control>
 
                                             {!!touched.isProvider && (
                                                 <Form.Control.Feedback type="invalid">
@@ -541,7 +572,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                                 </div>
                             </div>
                         </div>
-                        <GetParentEntityValue setOrgTypeValue={setOrgTypeValue}/>
+                        <GetParentEntityValue setOrgTypeValue={setOrgTypeValue} />
                     </Form>
                 )}
             </Formik>
