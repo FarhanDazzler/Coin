@@ -63,14 +63,14 @@ export default class MyStatefulEditor extends Component {
           <div>
             <Button variant="outlined" color="secondary" onClick={() => {
               this.props.setShowModal('')
-              // this.setState({ value: '' })
+              this.setState({ value: RichTextEditor.createValueFromString("", "html") })
               // this.state.value.toString("html");
             }}>
               Cancel
             </Button>
             <Button color="neutral" className="ml-4" onClick={() => {
               this.props.handleSubmit()
-              // this.setState({ value: '' })
+              this.setState({ value: RichTextEditor.createValueFromString("", "html") })
               // this.state.value.toString("html");
             }}>
               Submit

@@ -29,8 +29,7 @@ const OrgStructuresTable = () => {
   const addOrgState = useSelector(addOrgStructureSelector);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [editTableData, setEditTableData] = useState();
-  console.log(editTableIndex)
-  console.log(addOrgState);
+
   useEffect(() => {
     if (addOrgState) {
       setShowModal(false);
@@ -135,7 +134,7 @@ const OrgStructuresTable = () => {
         if (i === editTableIndex[0]) {
           setEditTableData(data);
         }
-      })
+      });
       setShowModal(true);
       setModalType('edit');
     }
@@ -184,7 +183,12 @@ const OrgStructuresTable = () => {
                 </div>
               </div>
             </div>
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} setEditTableIndex={setEditTableIndex} />
+            <Table
+              tableData={tableData}
+              tableColumns={tableColumns}
+              columns={tableColumns}
+              setEditTableIndex={setEditTableIndex}
+            />
           </div>
         </div>
       </div>
@@ -196,7 +200,11 @@ const OrgStructuresTable = () => {
         title={modalType === 'add' ? 'Add Organization Hierarchy' : 'Edit Organization Hierarchy'}
         bodyClassName="p-0"
       >
-        <OrgStructureModal setShowModal={setShowModal} ediatbleData={editTableData} modalType={modalType} />
+        <OrgStructureModal
+          setShowModal={setShowModal}
+          ediatbleData={editTableData}
+          modalType={modalType}
+        />
       </CustomModal>
     </>
   );
