@@ -53,8 +53,8 @@ const EditSection1Question = ({
   useEffect(() => {
     if (saveLoading && question1EditLoadingList.length === 0) {
       dispatch(getSection1Questions({ Control_ID: 'Standard', disabledLoading: true }));
-      setSaveLoading(false)
-      setShowEditModal(false)
+      setSaveLoading(false);
+      setShowEditModal(false);
     }
   }, [question1EditLoadingList]);
 
@@ -317,7 +317,7 @@ const EditSection1Question = ({
               </FormControl>
               {questionOptions.map((op) => {
                 if (op.isRemove) return;
-                const selectedData = op?.is_Terminating ? 'is_Terminating' : op?.child_question
+                const selectedData = op?.is_Terminating ? 'is_Terminating' : op?.child_question;
                 return (
                   <div className="my-2 d-flex align-items-center" key={op.option_id}>
                     <Input

@@ -40,6 +40,12 @@ import {
   GET_LATEST_DRAFT_ERROR,
   ADD_OR_UPDATE_DRAFT_SUCCESS,
   ADD_OR_UPDATE_DRAFT_ERROR,
+  ADD_ASSESSMENT_SECTION_2_REQUEST,
+  ADD_ASSESSMENT_SECTION_2_SUCCESS,
+  ADD_ASSESSMENT_SECTION_2_ERROR,
+  GET_ASSESSMENT_SECTION_2_SUCCESS,
+  GET_ASSESSMENT_SECTION_2_ERROR,
+  GET_ASSESSMENT_SECTION_2_REQUEST,
 } from './AssessmentReducer';
 import Swal from 'sweetalert2';
 
@@ -74,11 +80,7 @@ function* handleAddOrUpdateDraft({ payload }) {
         type: ADD_OR_UPDATE_DRAFT_SUCCESS,
         payload: { data: response.data, Control_ID: payload.Control_ID },
       });
-      Swal.fire('Saved!', '', 'success').then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = '/';
-        }
-      });
+      Swal.fire('Saved!', '', 'success');
     }
   } catch (error) {
     yield put({
@@ -89,7 +91,7 @@ function* handleAddOrUpdateDraft({ payload }) {
 }
 
 async function AssessmentAnsGetApi(params) {
-  return await Axios.get('/get_user_response', { params });
+  return await Axios.get('/get_assessment_response', { params });
 }
 function* handleGetAssessmentAns({ payload }) {
   try {
@@ -108,17 +110,71 @@ function* handleGetAssessmentAns({ payload }) {
   }
 }
 
-async function AssessmentAnsAddApi(payload) {
-  return await Axios.post('/add_user_response/', payload);
+async function getAssessmentSection2AnsAddApi(params) {
+  return await Axios.get('/get_KPIs_for_section_2', { params });
 }
-function* handleAddAssessmentAns({ payload }) {
+function* handleGetAssessmentSection2Ans({ payload: copyPayload }) {
   try {
+    const { event, ...payload } = copyPayload;
+    const response = yield call(getAssessmentSection2AnsAddApi, payload);
+    if (response.token) {
+      yield put({
+        type: GET_ASSESSMENT_SECTION_2_SUCCESS,
+        data: response.data,
+      });
+      if (event) {
+        event.onSuccess();
+      }
+    }
+  } catch (error) {
+    yield put({
+      type: GET_ASSESSMENT_SECTION_2_ERROR,
+      error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Internal Server Error: Please refresh page', 'error');
+  }
+}
+
+async function AssessmentSection2AnsAddApi(payload) {
+  return await Axios.post('/save_section_2_response/', payload);
+}
+function* handleAddAssessmentSection2Ans({ payload: copyPayload }) {
+  try {
+    const { event, ...payload } = copyPayload;
+    const response = yield call(AssessmentSection2AnsAddApi, payload);
+    debugger;
+    if (response.token) {
+      yield put({
+        type: ADD_ASSESSMENT_SECTION_2_SUCCESS,
+      });
+      if (event) {
+        event.onSuccess();
+      }
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_ASSESSMENT_SECTION_2_ERROR,
+      error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Internal Server Error: Please refresh page', 'error');
+  }
+}
+
+async function AssessmentAnsAddApi(payload) {
+  return await Axios.post('/save_assessment_response/', payload);
+}
+function* handleAddAssessmentAns({ payload: copyPayload }) {
+  try {
+    const { event, ...payload } = copyPayload;
     const response = yield call(AssessmentAnsAddApi, payload);
+    debugger;
     if (response.token) {
       yield put({
         type: ADD_ASSESSMENT_RESPONSE_SUCCESS,
       });
-      Swal.fire('Done!', 'You are now being redirected to the mainpage', 'success');
+      if (event) {
+        event.onSuccess();
+      }
     }
   } catch (error) {
     yield put({
@@ -276,6 +332,8 @@ export default all([
   takeLatest(GET_LATEST_DRAFT_REQUEST, handleGetLatestDraft),
   takeLatest(ADD_OR_UPDATE_DRAFT_REQUEST, handleAddOrUpdateDraft),
   takeLatest(GET_ASSESSMENT_RESPONSE_REQUEST, handleGetAssessmentAns),
+  takeLatest(ADD_ASSESSMENT_SECTION_2_REQUEST, handleAddAssessmentSection2Ans),
+  takeLatest(GET_ASSESSMENT_SECTION_2_REQUEST, handleGetAssessmentSection2Ans),
   takeLatest(ADD_ASSESSMENT_RESPONSE_REQUEST, handleAddAssessmentAns),
   takeLatest(UPDATE_ASSESSMENT_RESPONSE_REQUEST, handleUpdateAssessmentAns),
   takeLatest(GET_QUESTIONS_REQUEST, handleGetQuestions),

@@ -134,7 +134,7 @@ const HomePage = () => {
         </div> */}
         <FilterButtons />
         <DashboardTable />
-        <HomeTableModal />
+        {Control_ID && <HomeTableModal />}
       </PageWrapper>
     </div>
   );

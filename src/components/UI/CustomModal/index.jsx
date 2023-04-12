@@ -21,7 +21,7 @@ const CustomModal = ({
   }
   return (
     <div>
-      <Modal classes={{ root: rootClass, ...classes }} onClose={onClose} {...res}>
+      <Modal classes={{ root: rootClass, ...classes }} {...res}>
         <div className="modal-wrapper" style={{ maxWidth: width }}>
           <CloseIcon className="close-modal-icon" onClick={onClose} />
           {title && (

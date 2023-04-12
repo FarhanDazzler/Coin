@@ -17,6 +17,7 @@ import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import OrgStructureModal from './OrgStructureModal';
 import { addOrgStructureSelector } from '../../../../../redux/MDM/MDM_Selectors';
+import Swal from 'sweetalert2';
 
 const OrgStructuresTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -24,7 +25,9 @@ const OrgStructuresTable = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const addOrgState = useSelector(addOrgStructureSelector);
-  console.log(addOrgState);
+  const [editTableIndex, setEditTableIndex] = useState([]);
+  const [editTableData, setEditTableData] = useState();
+
   useEffect(() => {
     if (addOrgState) {
       setShowModal(false);
@@ -119,8 +122,19 @@ const OrgStructuresTable = () => {
   );
 
   const handleOnclickEdit = () => {
-    setShowModal(true);
-    setModalType('edit');
+    console.log(tableData);
+    if (editTableIndex.length > 1) {
+      Swal.fire('Oops...', 'You can only allow one Organization to edit at a time', 'error');
+    } else if (editTableIndex.length == 1) {
+      tableData.find((data, i) => {
+        console.log(i);
+        if (i === editTableIndex[0]) {
+          setEditTableData(data);
+        }
+      });
+      setShowModal(true);
+      setModalType('edit');
+    }
   };
   const handleOnclickAdd = () => {
     setShowModal(true);
@@ -166,7 +180,12 @@ const OrgStructuresTable = () => {
                 </div>
               </div>
             </div>
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            <Table
+              tableData={tableData}
+              tableColumns={tableColumns}
+              columns={tableColumns}
+              setEditTableIndex={setEditTableIndex}
+            />
           </div>
         </div>
       </div>
@@ -178,7 +197,11 @@ const OrgStructuresTable = () => {
         title={modalType === 'add' ? 'Add Organization Hierarchy' : 'Edit Organization Hierarchy'}
         bodyClassName="p-0"
       >
-        <OrgStructureModal setShowModal={setShowModal} />
+        <OrgStructureModal
+          setShowModal={setShowModal}
+          ediatbleData={editTableData}
+          modalType={modalType}
+        />
       </CustomModal>
     </>
   );

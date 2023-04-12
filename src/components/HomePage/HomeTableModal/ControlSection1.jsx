@@ -9,7 +9,7 @@ import useDebounce from '../../../hooks/useDebounce';
 import { getUserFromAD } from '../../../redux/AzureAD/AD_Action';
 import { getUserFromADSelector } from '../../../redux/AzureAD/AD_Selectors';
 
-const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns }) => {
+const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns, setStartEdit }) => {
   const getQuestions = useSelector(getQuestionsSelector);
   const [data, setData] = useState([]);
   const [qId2Value, setQId2Value] = useState('');
@@ -40,6 +40,7 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns }) =>
       setIsStart(true);
       setQId2Value(value);
     }
+    setStartEdit(true);
     let updateCurrentAns = ans.map((q) => {
       if (q.q_id === block.q_id) {
         if (block.q_id === 2 && !block.optionSelect) {
@@ -62,7 +63,11 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns }) =>
 
       case block.question_type === blockType.EMAIL_WIDTH_SELECT:
         if (block.options[0].is_Terminating === 1) {
-          if (validateEmail(value)) setTerminating(true);
+          if (validateEmail(value)) {
+            userFromAD.data.forEach((element) => {
+              if (element.mail === value) setTerminating(true);
+            });
+          }
           setAns(updateCurrentAns);
           return;
         }
@@ -120,24 +125,6 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns }) =>
       setAns(showData);
     }
   }, [getQuestions.data]);
-
-  // useEffect(() => {
-  //   if (Object.keys(ans).length > 0) {
-  //     const { newQuestionList, newAnsList, isTerminating } = handleSelectAns({
-  //       ans,
-  //       ans,
-  //       data,
-  //     });
-  //     setTerminating(isTerminating);
-  //     setAns(newAnsList);
-  //     setAns(newQuestionList);
-  //     if (newQuestionList.length > 2) {
-  //       setShowMoreSection(newQuestionList.length === Object.keys(newAnsList).length);
-  //     } else {
-  //       setShowMoreSection(false);
-  //     }
-  //   }
-  // }, [lastAns]);
 
   useEffect(() => {
     setTimeout(() => {

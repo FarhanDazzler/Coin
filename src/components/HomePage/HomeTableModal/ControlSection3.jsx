@@ -17,6 +17,7 @@ const ControlSection3 = ({
   setAns,
   showNoQuestionAns,
   setShowNoQuestionAns,
+  setStartEdit,
 }) => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
@@ -46,6 +47,7 @@ const ControlSection3 = ({
 
   const [lastAns, setLastAns] = useState('');
   const handleChange = (value, block, parentBlock) => {
+    setStartEdit(true);
     setLastAns(value);
     let updateAns = { ...ans };
     if (parentBlock) {
