@@ -101,6 +101,16 @@ export const GET_SUBPROCESS_PREFIX_ERROR = 'GET_SUBPROCESS_PREFIX_ERROR';
 
 // =================== GET SubProcess prefix Data ========================//
 
+// =================== Modify ControlOwner And Oversight Data ========================//
+
+export const MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST =
+  'MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST';
+export const MODIFY_CONTROL_OWNER_AND_OVERSIGHT_SUCCESS =
+  'MODIFY_CONTROL_OWNER_AND_OVERSIGHT_SUCCESS';
+export const MODIFY_CONTROL_OWNER_AND_OVERSIGHT_ERROR = 'MODIFY_CONTROL_OWNER_AND_OVERSIGHT_ERROR';
+
+// =================== Modify ControlOwner And Oversight Data ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -122,6 +132,7 @@ const initialState = {
   getSubprocessParent: { ...block, data: [] },
   getSubprocessPrefix: { ...block, data: [] },
   controlOwnerAndOversight: { ...block, data: [] },
+  modifyControlOwnerAndOversight: { ...block, data: [] },
   applicabilityAndAssignmentOfProviderOrganization: { ...block, data: [] },
   orgManageButtonValue: false,
   megaAndSubprocessManageButtonValue: false,
@@ -318,6 +329,27 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
       return {
         ...state,
         controlOwnerAndOversight: { ...state.controlOwnerAndOversight, loading: false },
+      };
+
+    // Modify Control Owner & Oversight data
+    case MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST:
+      return {
+        ...state,
+        modifyControlOwnerAndOversight: { ...state.modifyControlOwnerAndOversight, loading: true },
+      };
+    case MODIFY_CONTROL_OWNER_AND_OVERSIGHT_SUCCESS:
+      return {
+        ...state,
+        modifyControlOwnerAndOversight: {
+          ...state.modifyControlOwnerAndOversight,
+          data: payload,
+          loading: false,
+        },
+      };
+    case MODIFY_CONTROL_OWNER_AND_OVERSIGHT_ERROR:
+      return {
+        ...state,
+        modifyControlOwnerAndOversight: { ...state.modifyControlOwnerAndOversight, loading: false },
       };
 
     // Applicability & Assignment of Provider Organization

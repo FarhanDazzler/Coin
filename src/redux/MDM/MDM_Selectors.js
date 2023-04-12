@@ -16,3 +16,4 @@ export const addMegaAndSubprocessSelector = (state) => state.mdm.addMegaAndSubpr
 export const getMegaProcessPrefixSelector = (state) => state.mdm.getMegaProcessPrefix;
 export const getSubprocessParentSelector = (state) => state.mdm.getSubprocessParent;
 export const getSubprocessPrefixSelector = (state) => state.mdm.getSubprocessPrefix;
+export const modifyControlOwnerAndOversightSelector = (state) => state.mdm.modifyControlOwnerAndOversight;

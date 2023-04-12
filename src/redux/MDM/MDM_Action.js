@@ -16,6 +16,7 @@ import {
   GET_MEGA_PROCESS_PREFIX_REQUEST,
   GET_SUBPROCESS_PARENT_REQUEST,
   GET_SUBPROCESS_PREFIX_REQUEST,
+  MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
 } from './MDM_Reducer';
 
 export const getOrgStructures = (payload) => ({ type: GET_ORG_STRUCTURES_REQUEST, payload });
@@ -63,6 +64,10 @@ export const getSubprocessPrefix = (payload) => ({
 
 export const getControlOwnerAndOversight = (payload) => ({
   type: GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
+  payload,
+});
+export const modifyControlOwnerAndOversight = (payload) => ({
+  type: MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
   payload,
 });
 export const getApplicabilityAndAssignmentOfProviderOrganization = (payload) => ({

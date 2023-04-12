@@ -49,6 +49,9 @@ import {
   GET_SUBPROCESS_PREFIX_REQUEST,
   GET_SUBPROCESS_PREFIX_SUCCESS,
   GET_SUBPROCESS_PREFIX_ERROR,
+  MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
+  MODIFY_CONTROL_OWNER_AND_OVERSIGHT_SUCCESS,
+  MODIFY_CONTROL_OWNER_AND_OVERSIGHT_ERROR,
 } from './MDM_Reducer';
 import Swal from 'sweetalert2';
 
@@ -359,6 +362,31 @@ function* handleGet_ControlOwnerAndOversight({ payload }) {
   }
 }
 
+// Modify ControlOwner And Oversight
+async function modifyControlOwnerAndOversightApi(payload) {
+  return await Axios.post('/update_cowner_coversight', payload);
+}
+function* modifyControlOwnerAndOversightData({ payload }) {
+  try {
+    const response = yield call(modifyControlOwnerAndOversightApi, payload);
+    if (response.success) {
+      yield put({
+        type: MODIFY_CONTROL_OWNER_AND_OVERSIGHT_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Modify Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: MODIFY_CONTROL_OWNER_AND_OVERSIGHT_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
 async function getApplicabilityAndAssignmentOfProviderOrganizationApi(params) {
   return await Axios.get('/get_receiver_universe', { params });
 }
@@ -398,4 +426,5 @@ export default all([
     GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
     handleGet_ApplicabilityAndAssignmentOfProviderOrganization,
   ),
+  takeLatest(MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, modifyControlOwnerAndOversightData),
 ]);
