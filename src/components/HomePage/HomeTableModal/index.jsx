@@ -17,6 +17,7 @@ import {
   addOrEditUpdateDraftSelector,
   getLatestDraftSelector,
   getQuestionsSelector,
+  getResponseSelector,
 } from '../../../redux/Assessments/AssessmentSelectors';
 import Swal from 'sweetalert2';
 import RenderHomeModalTable from './RenderHomeModalTable';
@@ -26,7 +27,9 @@ const HomeTableModal = ({ isModal = true }) => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const dispatch = useDispatch();
+  const getResponse = useSelector(getResponseSelector);
   const latestDraftData = useSelector(getLatestDraftSelector);
+  const responseData = isModal ? latestDraftData : getResponse;
   const questionsInfo = useSelector(getQuestionsSelector);
   const [ansSection1, setAnsSection1] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -37,17 +40,17 @@ const HomeTableModal = ({ isModal = true }) => {
   const [startEdit, setStartEdit] = useState(false);
   const addOrEditUpdateDraft = useSelector(addOrEditUpdateDraftSelector);
   const Control_ID = query.get('Control_ID') || !isModal ? 'ATR_MJE_01a-K' : '';
-
+  console.log('ansSection1', ansSection1, ansSection3);
   const handleClose = () => {
-    if (startEdit && latestDraftData?.data?.Attempt_no <= 5) {
+    if (startEdit && responseData?.data?.Attempt_no <= 5) {
       Swal.fire({
         title: 'Are you sure?',
         text: `Remaining response ${
-          latestDraftData?.data?.Attempt_no
-            ? latestDraftData?.data?.Attempt_no < 5
-              ? 4 - latestDraftData?.data?.Attempt_no
+          responseData?.data?.Attempt_no
+            ? responseData?.data?.Attempt_no < 5
+              ? 4 - responseData?.data?.Attempt_no
               : 0
-            : latestDraftData?.data?.Attempt_no === 0
+            : responseData?.data?.Attempt_no === 0
             ? '4'
             : '5'
         }`,
@@ -63,7 +66,7 @@ const HomeTableModal = ({ isModal = true }) => {
           history.push('/new');
         }
         if (result.isDenied) {
-          if (latestDraftData?.data?.Attempt_no >= 5) {
+          if (responseData?.data?.Attempt_no >= 5) {
             history.push('/new');
             return;
           }
@@ -92,13 +95,16 @@ const HomeTableModal = ({ isModal = true }) => {
       }),
     );
     setTimeout(() => {
-      dispatch(
-        getAssessmentAns({
-          assessment_id: 'ATR_MJE_01a-K AB InBev India',
-          cowner: 'Avi.Sehgal-ext@ab-inbev.com',
-        }),
-      );
-      dispatch(getLatestDraft({ assessment_id: Control_ID }));
+      if (isModal) {
+        dispatch(getLatestDraft({ assessment_id: Control_ID }));
+      } else {
+        dispatch(
+          getAssessmentAns({
+            assessment_id: Control_ID,
+            cowner: 'Avi.Sehgal-ext@ab-inbev.com',
+          }),
+        );
+      }
 
       dispatch(getAssessmentSection2Ans({ MICS_code: 'ATR_MJE_01a-K', Entity_ID: 'Argentina' }));
     }, 400);
@@ -115,14 +121,14 @@ const HomeTableModal = ({ isModal = true }) => {
       clearTimeout(handle);
     };
   }, [terminating]);
-
+  console.log('responseData', responseData);
   useEffect(() => {
-    if (latestDraftData.data?.Latest_response) {
-      if (latestDraftData.data?.Latest_response.s1)
-        setAnsSection1(latestDraftData.data?.Latest_response.s1);
+    if (responseData.data?.Latest_response) {
+      if (responseData.data?.Latest_response.s1)
+        setAnsSection1(responseData.data?.Latest_response.s1);
 
-      if (latestDraftData.data?.Latest_response.s3.length > 0) {
-        const section3Data = latestDraftData.data?.Latest_response?.s3?.reduce(
+      if (responseData.data?.Latest_response?.s3?.length > 0) {
+        const section3Data = responseData.data?.Latest_response?.s3?.reduce(
           (acc, [k, v]) => ((acc[k] = v), acc),
           {},
         );
@@ -141,17 +147,17 @@ const HomeTableModal = ({ isModal = true }) => {
         }
       }
     }
-  }, [latestDraftData.data]);
+  }, [responseData.data]);
 
   const handleSubmit = () => {
     Swal.fire({
       title: 'Are you sure?',
       text: `Remaining response ${
-        latestDraftData?.data?.Attempt_no
-          ? latestDraftData?.data?.Attempt_no < 5
-            ? 4 - latestDraftData?.data?.Attempt_no
+        responseData?.data?.Attempt_no
+          ? responseData?.data?.Attempt_no < 5
+            ? 4 - responseData?.data?.Attempt_no
             : 0
-          : latestDraftData?.data?.Attempt_no === 0
+          : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
       }`,
@@ -160,7 +166,7 @@ const HomeTableModal = ({ isModal = true }) => {
       confirmButtonColor: 'golden',
       cancelButtonColor: 'black',
       confirmButtonText: 'Yes, submit it!',
-      showDenyButton: !(latestDraftData?.data?.Attempt_no >= 5),
+      showDenyButton: !(responseData?.data?.Attempt_no >= 5),
       denyButtonText: 'Save draft!',
       denyButtonColor: 'silver',
     }).then((result) => {
@@ -183,7 +189,7 @@ const HomeTableModal = ({ isModal = true }) => {
         dispatch(addAssessmentAns(payload));
       }
       if (result.isDenied) {
-        if (latestDraftData?.data?.Attempt_no >= 5) {
+        if (responseData?.data?.Attempt_no >= 5) {
           return;
         }
         const payload = {
@@ -200,7 +206,7 @@ const HomeTableModal = ({ isModal = true }) => {
   };
 
   const handleSaveDraft = () => {
-    if (latestDraftData?.data?.Attempt_no >= 5) {
+    if (responseData?.data?.Attempt_no >= 5) {
       return;
     }
     const payload = {
@@ -233,7 +239,7 @@ const HomeTableModal = ({ isModal = true }) => {
         handleSubmit={handleSubmit}
         handleSaveDraft={handleSaveDraft}
         handleSaveDraftProps={{
-          disabled: latestDraftData?.data?.Attempt_no >= 5,
+          disabled: responseData?.data?.Attempt_no >= 5,
           style: { width: 128 },
           loading: addOrEditUpdateDraft.loading,
         }}
@@ -267,7 +273,7 @@ const HomeTableModal = ({ isModal = true }) => {
         controlId={Control_ID}
         handleSaveDraft={handleSaveDraft}
         handleSaveDraftProps={{
-          disabled: latestDraftData?.data?.Attempt_no >= 5,
+          disabled: responseData?.data?.Attempt_no >= 5,
           style: { width: 128 },
           loading: addOrEditUpdateDraft.loading,
         }}
