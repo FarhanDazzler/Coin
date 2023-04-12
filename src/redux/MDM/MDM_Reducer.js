@@ -69,6 +69,14 @@ export const ADD_MICS_FRAMEWORK_ERROR = 'ADD_MICS_FRAMEWORK_ERROR';
 
 // =================== Add MICS Framework Data ========================//
 
+// =================== Add Mega And Subprocess Data ========================//
+
+export const ADD_MEGA_AND_SUBPROCESS_REQUEST = 'ADD_MEGA_AND_SUBPROCESS_REQUEST';
+export const ADD_MEGA_AND_SUBPROCESS_SUCCESS = 'ADD_MEGA_AND_SUBPROCESS_SUCCESS';
+export const ADD_MEGA_AND_SUBPROCESS_ERROR = 'ADD_MEGA_AND_SUBPROCESS_ERROR';
+
+// =================== Add Mega And Subprocess Data ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -85,6 +93,7 @@ const initialState = {
   addMicsFramework: { ...block, data: [] },
   megaAndSubprocessView: { ...block, data: [] },
   megaAndSubprocess: { ...block, data: [] },
+  addMegaAndSubprocess: { ...block, data: [] },
   controlOwnerAndOversight: { ...block, data: [] },
   applicabilityAndAssignmentOfProviderOrganization: { ...block, data: [] },
   orgManageButtonValue: false,
@@ -193,6 +202,23 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
       return {
         ...state,
         megaAndSubprocess: { ...state.megaAndSubprocess, loading: false },
+      };
+
+    // MDM ADD Mega And Subprocess Data
+    case ADD_MEGA_AND_SUBPROCESS_REQUEST:
+      return {
+        ...state,
+        addMegaAndSubprocess: { ...state.addMegaAndSubprocess, loading: true },
+      };
+    case ADD_MEGA_AND_SUBPROCESS_SUCCESS:
+      return {
+        ...state,
+        addMegaAndSubprocess: { ...state.addMegaAndSubprocess, data: payload, loading: false },
+      };
+    case ADD_MEGA_AND_SUBPROCESS_ERROR:
+      return {
+        ...state,
+        addMegaAndSubprocess: { ...state.addMegaAndSubprocess, loading: false },
       };
 
     // Control Owner & Oversight data
@@ -324,7 +350,7 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
           loading: false,
         },
       };
-          // Get Parent Entity
+    // Get Parent Entity
     case ACTION_GET_PARENT_ENTITY_DATA:
       return {
         ...state,
