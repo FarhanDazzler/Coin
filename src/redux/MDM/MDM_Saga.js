@@ -88,7 +88,6 @@ function* addOrgStructureData({ payload }) {
   }
 }
 
-
 // Update Org Structure
 async function updateOrgStructuresApi(payload) {
   return await Axios.post('/update_org_structure', payload);
@@ -114,7 +113,6 @@ function* updateOrgStructureData({ payload }) {
   }
 }
 
-
 // Get Parent Entity
 async function getParentEntityApi(params) {
   return await Axios.get('/get_parent_entity', { params });
@@ -138,7 +136,7 @@ function* getParentEntityData({ payload }) {
 }
 
 async function getOrgHierarchyApi(params) {
-  console.log("getOrgHierarchyApi=>>>>>>>>>>>>>>>>>>",params)
+  console.log('getOrgHierarchyApi=>>>>>>>>>>>>>>>>>>', params);
   return await Axios.get('/get_hierarchy', { params });
 }
 function* handleGet_org_hierarchy({ payload }) {
@@ -243,7 +241,7 @@ function* handleGet_MegaAndSubprocess({ payload }) {
 }
 
 async function addMegaAndSubprocessApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/add_mega_sub_process', payload);
 }
 function* addMegaAndSubprocessData({ payload }) {
   try {
