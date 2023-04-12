@@ -6,9 +6,10 @@ export const getMegaAndSubprocessSelector = (state) => state.mdm.megaAndSubproce
 export const getControlOwnerAndOversightSelector = (state) => state.mdm.controlOwnerAndOversight;
 export const getApplicabilityAndAssignmentOfProviderOrganizationSelector = (state) =>
   state.mdm.applicabilityAndAssignmentOfProviderOrganization;
-  export const getParentEntitySelector = (state) => state.mdm.getParentEntityData;
+export const getParentEntitySelector = (state) => state.mdm.getParentEntityData;
 export const orgManageButtonSelector = (state) => state.mdm.orgManageButtonValue;
 export const megaAndSubprocessManageButtonSelector = (state) =>
   state.mdm.megaAndSubprocessManageButtonValue;
 export const addOrgStructureSelector = (state) => state.mdm.addOrgStructureData;
 export const addMicsFrameworkSelector = (state) => state.mdm.addMicsFramework;
+export const addMegaAndSubprocessSelector = (state) => state.mdm.addMegaAndSubprocess;

@@ -17,9 +17,11 @@ import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import OrgStructureModal from './OrgStructureModal';
 import { addOrgStructureSelector } from '../../../../../redux/MDM/MDM_Selectors';
+import { getOrgStructures, getOrgHierarchy } from '../../../../../redux/MDM/MDM_Action';
 import Swal from 'sweetalert2';
 
 const OrgStructuresTable = () => {
+  const dispatch = useDispatch();
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -32,9 +34,10 @@ const OrgStructuresTable = () => {
     if (addOrgState) {
       setShowModal(false);
       setModalType('');
+      dispatch(getOrgStructures());
+      dispatch(getOrgHierarchy());
     }
-  }, [addOrgState]);
-  const dispatch = useDispatch();
+  }, [addOrgState.data]);
 
   const orgStructures = useSelector(getOrgStructuresSelector);
 
@@ -156,27 +159,27 @@ const OrgStructuresTable = () => {
                 <div>
                   {(localStorage.getItem('Roles')?.includes('global_internal_control') ||
                     localStorage.getItem('selected_Role')?.includes('global_internal_control')) && (
-                    <>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        startIcon={<ActiveToolEdit text="Free Text" />}
-                        className="edit-button-mdm-table"
-                        onClick={handleOnclickEdit}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        startIcon={<ActiveToolADD text="Free Text" />}
-                        className="add-button-mdm-table"
-                        onClick={handleOnclickAdd}
-                      >
-                        Add New
-                      </Button>
-                    </>
-                  )}
+                      <>
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          startIcon={<ActiveToolEdit text="Free Text" />}
+                          className="edit-button-mdm-table"
+                          onClick={handleOnclickEdit}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          startIcon={<ActiveToolADD text="Free Text" />}
+                          className="add-button-mdm-table"
+                          onClick={handleOnclickAdd}
+                        >
+                          Add New
+                        </Button>
+                      </>
+                    )}
                 </div>
               </div>
             </div>
