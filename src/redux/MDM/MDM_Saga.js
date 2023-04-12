@@ -34,6 +34,9 @@ import {
   ACTION_GET_PARENT_ENTITY_DATA,
   ACTION_GET_PARENT_ENTITY_DATA_FAILED,
   ACTION_GET_PARENT_ENTITY_DATA_SUCCESS,
+  ADD_MEGA_AND_SUBPROCESS_REQUEST,
+  ADD_MEGA_AND_SUBPROCESS_SUCCESS,
+  ADD_MEGA_AND_SUBPROCESS_ERROR,
 } from './MDM_Reducer';
 import Swal from 'sweetalert2';
 
@@ -93,9 +96,7 @@ function* getParentEntityData({ payload }) {
         type: ACTION_GET_PARENT_ENTITY_DATA_SUCCESS,
         payload: response.data,
       });
-     
     } else {
-    
     }
   } catch (error) {
     yield put({
@@ -209,6 +210,30 @@ function* handleGet_MegaAndSubprocess({ payload }) {
   }
 }
 
+async function addMegaAndSubprocessApi(payload) {
+  return await Axios.post('/', payload);
+}
+function* addMegaAndSubprocessData({ payload }) {
+  try {
+    const response = yield call(addMegaAndSubprocessApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_MEGA_AND_SUBPROCESS_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Added Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_MEGA_AND_SUBPROCESS_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
 async function getControlOwnerAndOversightApi(params) {
   return await Axios.get('/get_control_instances', { params });
 }
@@ -263,4 +288,5 @@ export default all([
     GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
     handleGet_ApplicabilityAndAssignmentOfProviderOrganization,
   ),
+  takeLatest(ADD_MEGA_AND_SUBPROCESS_REQUEST, addMegaAndSubprocessData),
 ]);
