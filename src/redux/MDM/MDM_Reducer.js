@@ -45,6 +45,14 @@ export const ACTION_ADD_ORG_STRUCTURE_DATA_FAILED = 'ACTION_ADD_ORG_STRUCTURE_DA
 
 // =================== Add Org Structure Data ========================//
 
+// =================== UPDATE Org Structure Data ========================//
+
+export const ACTION_UPDATE_ORG_STRUCTURE_DATA = 'ACTION_UPDATE_ORG_STRUCTURE_DATA';
+export const ACTION_UPDATE_ORG_STRUCTURE_DATA_SUCCESS = 'ACTION_UPDATE_ORG_STRUCTURE_DATA_SUCCESS';
+export const ACTION_UPDATE_ORG_STRUCTURE_DATA_FAILED = 'ACTION_UPDATE_ORG_STRUCTURE_DATA_FAILED';
+
+// =================== UPDATE Org Structure Data ========================//
+
 // =================== Get Parent ENtity Data ========================//
 
 export const ACTION_GET_PARENT_ENTITY_DATA = 'ACTION_GET_PARENT_ENTITY_DATA';
@@ -70,6 +78,7 @@ const block = {
 const initialState = {
   orgStructures: { ...block, data: [] },
   addOrgStructureData: { ...block, data: [] },
+  updateOrgStructureData: { ...block, data: [] },
   getParentEntityData: { ...block, data: [] },
   orgHierarchy: { ...block, data: [] },
   micsFramework: { ...block, data: [] },
@@ -292,6 +301,29 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
         },
       };
 
+         // UPDATE Org Structure
+    case ACTION_UPDATE_ORG_STRUCTURE_DATA:
+      return {
+        ...state,
+        updateOrgStructureData: {
+          loading: true,
+        },
+      };
+    case ACTION_UPDATE_ORG_STRUCTURE_DATA_SUCCESS:
+      return {
+        ...state,
+        updateOrgStructureData: {
+          data: payload,
+          loading: false,
+        },
+      };
+    case ACTION_UPDATE_ORG_STRUCTURE_DATA_FAILED:
+      return {
+        ...state,
+        updateOrgStructureData: {
+          loading: false,
+        },
+      };
           // Get Parent Entity
     case ACTION_GET_PARENT_ENTITY_DATA:
       return {

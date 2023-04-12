@@ -5,7 +5,7 @@ import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { addOrgStructureAction, getParentEntityAction } from '../../../../../redux/MDM/MDM_Action';
+import { addOrgStructureAction, getParentEntityAction, updateOrgStructureAction } from '../../../../../redux/MDM/MDM_Action';
 import { getParentEntitySelector } from '../../../../../redux/MDM/MDM_Selectors';
 import moment from 'moment';
 const GetParentEntityValue = ({ setOrgTypeValue }) => {
@@ -145,7 +145,21 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
             "Valid_from": value.validFrom,
             "Valid_to": value.validTo
         }
-        dispatch(addOrgStructureAction(payload))
+        let editPayload = {
+            ...payload,
+            "Org_code": ediatbleData?.Org_code
+        }
+       
+        if(modalType === "add"){
+            console.log("ADD=>>>>>>>>>>>>>>>>>>");
+            dispatch(addOrgStructureAction(payload));
+            
+        }else{
+            console.log("Edit=>>>>>>>>>>>>>>>>>>");
+            dispatch(updateOrgStructureAction(editPayload));
+            
+        }
+        
     }
     let today = moment().format('YYYY-MM-DD');
     let validToDate = "9999-12-31"
@@ -163,6 +177,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                     Org_name: ediatbleData?.Org_name ? ediatbleData?.Org_name : '',
                     validFrom: ediatbleData?.Valid_from ? ediatbleData?.Valid_from : today ? today : '',
                     validTo: ediatbleData?.Valid_to ? ediatbleData?.Valid_to : validToDate ? validToDate : ''
+
                 }}
                 validationSchema={Yup.object().shape({
                     orgType: Yup.string()

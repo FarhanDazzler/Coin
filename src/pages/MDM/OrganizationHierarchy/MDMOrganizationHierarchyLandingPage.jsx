@@ -11,13 +11,15 @@ import { addOrgStructureSelector } from '../../../redux/MDM/MDM_Selectors';
 
 const MDM_OrganizationHierarchyLandingPage = () => {
   const dispatch = useDispatch();
-
   const orgManageButtonState = useSelector(orgManageButtonSelector);
   const addOrgStructureState = useSelector(addOrgStructureSelector)
+  console.log("addOrgStructureState",addOrgStructureState)
   // API Call using dispatch
   useEffect(() => {
+    console.log("BU")
     dispatch(getOrgStructures());
     dispatch(getOrgHierarchy());
+    console.log("BU=====>>>>>>>>>>>>>>>>>>>>>>>>>>")
   }, [addOrgStructureState?.data]);
 
   // to select data from redux store using selector
