@@ -77,6 +77,30 @@ export const ADD_MEGA_AND_SUBPROCESS_ERROR = 'ADD_MEGA_AND_SUBPROCESS_ERROR';
 
 // =================== Add Mega And Subprocess Data ========================//
 
+// =================== GET Mega Process prefix Data ========================//
+
+export const GET_MEGA_PROCESS_PREFIX_REQUEST = 'GET_MEGA_PROCESS_PREFIX_REQUEST';
+export const GET_MEGA_PROCESS_PREFIX_SUCCESS = 'GET_MEGA_PROCESS_PREFIX_SUCCESS';
+export const GET_MEGA_PROCESS_PREFIX_ERROR = 'GET_MEGA_PROCESS_PREFIX_ERROR';
+
+// =================== GET Mega Process prefix Data ========================//
+
+// =================== GET SubProcess Parent Data ========================//
+
+export const GET_SUBPROCESS_PARENT_REQUEST = 'GET_SUBPROCESS_PARENT_REQUEST';
+export const GET_SUBPROCESS_PARENT_SUCCESS = 'GET_SUBPROCESS_PARENT_SUCCESS';
+export const GET_SUBPROCESS_PARENT_ERROR = 'GET_SUBPROCESS_PARENT_ERROR';
+
+// =================== GET SubProcess Parent Data ========================//
+
+// =================== GET SubProcess prefix Data ========================//
+
+export const GET_SUBPROCESS_PREFIX_REQUEST = 'GET_SUBPROCESS_PREFIX_REQUEST';
+export const GET_SUBPROCESS_PREFIX_SUCCESS = 'GET_SUBPROCESS_PREFIX_SUCCESS';
+export const GET_SUBPROCESS_PREFIX_ERROR = 'GET_SUBPROCESS_PREFIX_ERROR';
+
+// =================== GET SubProcess prefix Data ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -94,6 +118,9 @@ const initialState = {
   megaAndSubprocessView: { ...block, data: [] },
   megaAndSubprocess: { ...block, data: [] },
   addMegaAndSubprocess: { ...block, data: [] },
+  getMegaProcessPrefix: { ...block, data: [] },
+  getSubprocessParent: { ...block, data: [] },
+  getSubprocessPrefix: { ...block, data: [] },
   controlOwnerAndOversight: { ...block, data: [] },
   applicabilityAndAssignmentOfProviderOrganization: { ...block, data: [] },
   orgManageButtonValue: false,
@@ -221,6 +248,57 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
         addMegaAndSubprocess: { ...state.addMegaAndSubprocess, loading: false },
       };
 
+    // MDM GET Mega Process prefix Data
+    case GET_MEGA_PROCESS_PREFIX_REQUEST:
+      return {
+        ...state,
+        getMegaProcessPrefix: { ...state.getMegaProcessPrefix, loading: true },
+      };
+    case GET_MEGA_PROCESS_PREFIX_SUCCESS:
+      return {
+        ...state,
+        getMegaProcessPrefix: { ...state.getMegaProcessPrefix, data: payload, loading: false },
+      };
+    case GET_MEGA_PROCESS_PREFIX_ERROR:
+      return {
+        ...state,
+        getMegaProcessPrefix: { ...state.getMegaProcessPrefix, loading: false },
+      };
+
+    // MDM GET SubProcess Parent Data
+    case GET_SUBPROCESS_PARENT_REQUEST:
+      return {
+        ...state,
+        getSubprocessParent: { ...state.getSubprocessParent, loading: true },
+      };
+    case GET_SUBPROCESS_PARENT_SUCCESS:
+      return {
+        ...state,
+        getSubprocessParent: { ...state.getSubprocessParent, data: payload, loading: false },
+      };
+    case GET_SUBPROCESS_PARENT_ERROR:
+      return {
+        ...state,
+        getSubprocessParent: { ...state.getSubprocessParent, loading: false },
+      };
+
+    // MDM GET SubProcess prefix Data
+    case GET_SUBPROCESS_PREFIX_REQUEST:
+      return {
+        ...state,
+        getSubprocessPrefix: { ...state.getSubprocessPrefix, loading: true },
+      };
+    case GET_SUBPROCESS_PREFIX_SUCCESS:
+      return {
+        ...state,
+        getSubprocessPrefix: { ...state.getSubprocessPrefix, data: payload, loading: false },
+      };
+    case GET_SUBPROCESS_PREFIX_ERROR:
+      return {
+        ...state,
+        getSubprocessPrefix: { ...state.getSubprocessPrefix, loading: false },
+      };
+
     // Control Owner & Oversight data
     case GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST:
       return {
@@ -327,7 +405,7 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
         },
       };
 
-         // UPDATE Org Structure
+    // UPDATE Org Structure
     case ACTION_UPDATE_ORG_STRUCTURE_DATA:
       return {
         ...state,

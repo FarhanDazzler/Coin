@@ -13,6 +13,9 @@ import {
   ACTION_GET_PARENT_ENTITY_DATA,
   ACTION_UPDATE_ORG_STRUCTURE_DATA,
   ADD_MEGA_AND_SUBPROCESS_REQUEST,
+  GET_MEGA_PROCESS_PREFIX_REQUEST,
+  GET_SUBPROCESS_PARENT_REQUEST,
+  GET_SUBPROCESS_PREFIX_REQUEST,
 } from './MDM_Reducer';
 
 export const getOrgStructures = (payload) => ({ type: GET_ORG_STRUCTURES_REQUEST, payload });
@@ -45,6 +48,19 @@ export const addMegaAndSubprocess = (payload) => ({
   type: ADD_MEGA_AND_SUBPROCESS_REQUEST,
   payload,
 });
+export const getMegaProcessPrefix = (payload) => ({
+  type: GET_MEGA_PROCESS_PREFIX_REQUEST,
+  payload,
+});
+export const getSubprocessParent = (payload) => ({
+  type: GET_SUBPROCESS_PARENT_REQUEST,
+  payload,
+});
+export const getSubprocessPrefix = (payload) => ({
+  type: GET_SUBPROCESS_PREFIX_REQUEST,
+  payload,
+});
+
 export const getControlOwnerAndOversight = (payload) => ({
   type: GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
   payload,
