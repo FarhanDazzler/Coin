@@ -16,7 +16,7 @@ import { Formik, Field } from 'formik';
 import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import OrgStructureModal from './OrgStructureModal';
-import { addOrgStructureSelector } from '../../../../../redux/MDM/MDM_Selectors';
+import { addOrgStructureSelector, updateOrgStructureSelector } from '../../../../../redux/MDM/MDM_Selectors';
 import { getOrgStructures, getOrgHierarchy } from '../../../../../redux/MDM/MDM_Action';
 import Swal from 'sweetalert2';
 
@@ -27,6 +27,7 @@ const OrgStructuresTable = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const addOrgState = useSelector(addOrgStructureSelector);
+  const updateOrgState = useSelector(updateOrgStructureSelector);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [editTableData, setEditTableData] = useState();
 
@@ -37,7 +38,7 @@ const OrgStructuresTable = () => {
       dispatch(getOrgStructures());
       dispatch(getOrgHierarchy());
     }
-  }, [addOrgState.data]);
+  }, [addOrgState.data?.message, updateOrgState?.data?.message]);
 
   const orgStructures = useSelector(getOrgStructuresSelector);
 
