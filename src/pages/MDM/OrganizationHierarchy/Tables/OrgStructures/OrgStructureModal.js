@@ -170,7 +170,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                 enableReinitialize
                 initialValues={{
                     orgType: ediatbleData?.Org_type ? ediatbleData?.Org_type : '',
-                    parentEntity: ediatbleData?.parentEntity ? ediatbleData?.parentEntity : '',
+                    parentEntity: ediatbleData?.parent_entity ? ediatbleData?.parent_entity : '',
                     isReceiver: ediatbleData?.isReceiver ? ediatbleData?.isReceiver : '',
                     isProvider: ediatbleData?.isProvider ? ediatbleData?.isProvider : '',
                     Category: ediatbleData?.Category ? ediatbleData?.Category : '',
