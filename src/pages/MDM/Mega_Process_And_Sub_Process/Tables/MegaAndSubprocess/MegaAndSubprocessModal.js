@@ -6,24 +6,81 @@ import CustomModal from '../../../../../components/UI/CustomModal';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
 // for adding data
-import { addMegaAndSubprocess } from '../../../../../redux/MDM/MDM_Action';
+import {
+  addMegaAndSubprocess,
+  getMegaProcessPrefix,
+  getSubprocessParent,
+  getSubprocessPrefix,
+} from '../../../../../redux/MDM/MDM_Action';
+
+import {
+  getMegaProcessPrefixSelector,
+  getSubprocessParentSelector,
+  getSubprocessPrefixSelector,
+} from '../../../../../redux/MDM/MDM_Selectors';
 // for Updating data
 //import { updateMegaAndSubprocess } from '../../../../../redux/MDM/MDM_Action';
 import moment from 'moment';
 
+const GetFormikFieldValue = ({ setMegaSubProcessValue }) => {
+  // Grab values and submitForm from context
+  const dispatch = useDispatch();
+  const { values } = useFormikContext();
+
+  useEffect(() => {
+    if (values.Type_of_Process === 'Mega Process') {
+      dispatch(getMegaProcessPrefix());
+    } else if (values.Type_of_Process === 'Sub Process') {
+      dispatch(getSubprocessParent());
+      if (values.Parent_Process !== '') {
+        let params = {
+          parent: values.Parent_Process,
+        };
+        dispatch(getSubprocessPrefix(params));
+      }
+    }
+    setMegaSubProcessValue(values);
+  }, [values]);
+  return null;
+};
+
 const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
   const dispatch = useDispatch();
-  console.log('state=>>>>>>>>>>>>>>>>>>', ediatbleData);
+  const [megaSubProcessValue, setMegaSubProcessValue] = useState();
+  const [prefixValue, setPrefixValue] = useState('');
+  console.log('megaSubProcessValue', megaSubProcessValue);
+
+  const getMegaProcessPrefixState = useSelector(getMegaProcessPrefixSelector);
+  const getSubprocessParentState = useSelector(getSubprocessParentSelector);
+  const getSubprocessPrefixState = useSelector(getSubprocessPrefixSelector);
+  console.log(getSubprocessParentState, 'get Subprocess Parent State');
+
+  useEffect(() => {
+    if (megaSubProcessValue?.Type_of_Process === 'Mega Process') {
+      setPrefixValue(getMegaProcessPrefixState?.data);
+    } else if (megaSubProcessValue?.Type_of_Process === 'Sub Process') {
+      setPrefixValue(
+        getSubprocessPrefixState?.data[0]?.Megaprocess_Short.substring(
+          getSubprocessPrefixState?.data[0]?.Megaprocess_Short.indexOf('.') + 1,
+        ),
+      );
+    } else {
+      setPrefixValue('');
+    }
+  }, [getMegaProcessPrefixState, getSubprocessParentState, getSubprocessPrefixState]);
 
   const handleSaveAdd = (value) => {
     console.log(value);
 
     let payload = {
       Type_of_Process: value.Type_of_Process,
-      Parent_Process: value.Parent_Process,
-      Prefix: value.Prefix,
+      Parent_Process: value.Type_of_Process === 'Mega Process' ? '' : value.Parent_Process,
+      Prefix: prefixValue,
       Name_2: value.Name_2,
-      Name_Detailed_Name: value.Name_Detailed_Name,
+      Name_Detailed_Name:
+        value.Type_of_Process === 'Mega Process'
+          ? value.Name_Detailed_Name
+          : value.Parent_Process + ' - ' + value.Name_2,
     };
 
     // Edit Payload for API
@@ -34,7 +91,7 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
     // };
 
     if (modalType === 'add') {
-      console.log('ADD=>>>>>>>>>>>>>>>>>>');
+      console.log(payload, 'ADD=>>>>>>>>>>>>>>>>>>');
       dispatch(addMegaAndSubprocess(payload));
     } else {
       console.log('Edit=>>>>>>>>>>>>>>>>>>');
@@ -57,10 +114,31 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
         }}
         validationSchema={Yup.object().shape({
           Type_of_Process: Yup.string().required('Type of Process is required'),
-          Parent_Process: Yup.string().required('Parent Process is required'),
-          Prefix: Yup.string().required('Prefix is required'),
-          Name_2: Yup.string().required('Name 2 is required'),
-          Name_Detailed_Name: Yup.string().required('Detailed Name is required'),
+          Parent_Process: Yup.string().when('Type_of_Process', {
+            is: 'Sub Process',
+            then: Yup.string()
+            .required('Parent Process is required'),
+          }),
+          Name_2: Yup.string()
+            .when('Type_of_Process', {
+              is: 'Mega Process',
+              then: Yup.string()
+                .matches(/^[aA-zZ\s]+$/, 'Only alphabets are allowed')
+                .max(4, 'Name should be maximum of 4 characters')
+                .required('Name is required!'),
+            })
+            .when('Type_of_Process', {
+              is: 'Sub Process',
+              then: Yup.string()
+                .matches(/^[aA-zZ\s]+$/, 'Only alphabets are allowed')
+                .required('Name is required!'),
+            }),
+          Name_Detailed_Name: Yup.string().when('Type_of_Process', {
+            is: 'Mega Process',
+            then: Yup.string()
+              .matches(/^[aA-zZ\s]+$/, 'Only alphabets are allowed')
+              .required('Name is required!'),
+          }),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
           try {
@@ -95,7 +173,7 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
                   <div className="col-lg-7">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
-                        type="text"
+                        as="select"
                         name="Type_of_Process"
                         placeholder=""
                         value={values.Type_of_Process}
@@ -103,8 +181,12 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
                         onBlur={handleBlur}
                         onChange={handleChange}
                         readOnly={false}
-                        className="form-control"
-                      />
+                        className="form-select"
+                      >
+                        <option value="">Select ABI Key</option>
+                        <option value="Mega Process">Mega Process</option>
+                        <option value="Sub Process">Sub Process</option>
+                      </Form.Control>
 
                       {!!touched.Type_of_Process && (
                         <Form.Control.Feedback type="invalid">
@@ -116,34 +198,43 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
                 </div>
               </div>
 
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-5">
-                    <Form.Label>Parent Process</Form.Label>
-                  </div>
-                  <div className="col-lg-7">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="text"
-                        name="Parent_Process"
-                        placeholder=""
-                        value={values.Parent_Process}
-                        isInvalid={Boolean(touched.Parent_Process && errors.Parent_Process)}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-control"
-                      />
+              {values.Type_of_Process === 'Sub Process' && (
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-5">
+                      <Form.Label>Parent Process</Form.Label>
+                    </div>
+                    <div className="col-lg-7">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          as="select"
+                          name="Parent_Process"
+                          placeholder=""
+                          value={values.Parent_Process}
+                          isInvalid={Boolean(touched.Parent_Process && errors.Parent_Process)}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          readOnly={false}
+                          className="form-select"
+                        >
+                          <option value="">Select ABI Key</option>
+                          {getSubprocessParentState?.data.map((data, i) => (
+                            <option key={i} value={data.Megaprocess_Long}>
+                              {data.Megaprocess_Long}
+                            </option>
+                          ))}
+                        </Form.Control>
 
-                      {!!touched.Parent_Process && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Parent_Process}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group>
+                        {!!touched.Parent_Process && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Parent_Process}
+                          </Form.Control.Feedback>
+                        )}
+                      </Form.Group>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
 
               <div className="col-lg-6">
                 <div className="row mb-4">
@@ -155,20 +246,14 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
                       <Form.Control
                         type="text"
                         name="Prefix"
-                        placeholder=""
+                        placeholder={prefixValue}
                         value={values.Prefix}
                         isInvalid={Boolean(touched.Prefix && errors.Prefix)}
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        readOnly={false}
+                        readOnly={true}
                         className="form-control"
                       />
-
-                      {!!touched.Prefix && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Prefix}
-                        </Form.Control.Feedback>
-                      )}
                     </Form.Group>
                   </div>
                 </div>
@@ -214,11 +299,15 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
                         type="text"
                         name="Name_Detailed_Name"
                         placeholder=""
-                        value={values.Name_Detailed_Name}
+                        value={
+                          values.Type_of_Process === 'Mega Process'
+                            ? values.Name_Detailed_Name
+                            : values.Parent_Process + ' - ' + values.Name_2
+                        }
                         isInvalid={Boolean(touched.Name_Detailed_Name && errors.Name_Detailed_Name)}
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        readOnly={false}
+                        readOnly={values.Type_of_Process === 'Mega Process' ? false : true}
                         className="form-control"
                       />
 
@@ -244,7 +333,7 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
                 </div>
               </div>
             </div>
-            {/*<GetParentEntityValue setOrgTypeValue={setOrgTypeValue} />*/}
+            <GetFormikFieldValue setMegaSubProcessValue={setMegaSubProcessValue} />
           </Form>
         )}
       </Formik>

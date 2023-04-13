@@ -40,6 +40,18 @@ import {
   ADD_MEGA_AND_SUBPROCESS_REQUEST,
   ADD_MEGA_AND_SUBPROCESS_SUCCESS,
   ADD_MEGA_AND_SUBPROCESS_ERROR,
+  GET_MEGA_PROCESS_PREFIX_REQUEST,
+  GET_MEGA_PROCESS_PREFIX_SUCCESS,
+  GET_MEGA_PROCESS_PREFIX_ERROR,
+  GET_SUBPROCESS_PARENT_REQUEST,
+  GET_SUBPROCESS_PARENT_SUCCESS,
+  GET_SUBPROCESS_PARENT_ERROR,
+  GET_SUBPROCESS_PREFIX_REQUEST,
+  GET_SUBPROCESS_PREFIX_SUCCESS,
+  GET_SUBPROCESS_PREFIX_ERROR,
+  MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
+  MODIFY_CONTROL_OWNER_AND_OVERSIGHT_SUCCESS,
+  MODIFY_CONTROL_OWNER_AND_OVERSIGHT_ERROR,
 } from './MDM_Reducer';
 import Swal from 'sweetalert2';
 
@@ -264,6 +276,72 @@ function* addMegaAndSubprocessData({ payload }) {
   }
 }
 
+// GET Mega Process prefix
+async function getMegaProcessPrefixApi(params) {
+  return await Axios.get('/get_mega_process_row', { params });
+}
+function* getMegaProcessPrefixData({ payload }) {
+  try {
+    const response = yield call(getMegaProcessPrefixApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_MEGA_PROCESS_PREFIX_SUCCESS,
+        payload: response.data,
+      });
+    } else {
+    }
+  } catch (error) {
+    yield put({
+      type: GET_MEGA_PROCESS_PREFIX_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+// GET SubProcess Parent
+async function getSubprocessParentApi(params) {
+  return await Axios.get('/get_mega_process_parent', { params });
+}
+function* getSubprocessParentData({ payload }) {
+  try {
+    const response = yield call(getSubprocessParentApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_SUBPROCESS_PARENT_SUCCESS,
+        payload: response.data,
+      });
+    } else {
+    }
+  } catch (error) {
+    yield put({
+      type: GET_SUBPROCESS_PARENT_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+// GET SubProcess prefix
+async function getSubprocessPrefixApi(params) {
+  return await Axios.get('get_mega_process_prefix', { params });
+}
+function* getSubprocessPrefixData({ payload }) {
+  try {
+    const response = yield call(getSubprocessPrefixApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_SUBPROCESS_PREFIX_SUCCESS,
+        payload: response.data,
+      });
+    } else {
+    }
+  } catch (error) {
+    yield put({
+      type: GET_SUBPROCESS_PREFIX_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 async function getControlOwnerAndOversightApi(params) {
   return await Axios.get('/get_control_instances', { params });
 }
@@ -281,6 +359,31 @@ function* handleGet_ControlOwnerAndOversight({ payload }) {
       type: GET_CONTROL_OWNER_AND_OVERSIGHT_ERROR,
       // error: getSimplifiedError(error),
     });
+  }
+}
+
+// Modify ControlOwner And Oversight
+async function modifyControlOwnerAndOversightApi(payload) {
+  return await Axios.post('/update_cowner_coversight', payload);
+}
+function* modifyControlOwnerAndOversightData({ payload }) {
+  try {
+    const response = yield call(modifyControlOwnerAndOversightApi, payload);
+    if (response.success) {
+      yield put({
+        type: MODIFY_CONTROL_OWNER_AND_OVERSIGHT_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Modify Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: MODIFY_CONTROL_OWNER_AND_OVERSIGHT_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
   }
 }
 
@@ -314,10 +417,14 @@ export default all([
   takeLatest(ADD_MICS_FRAMEWORK_REQUEST, addMicsFrameworkData),
   takeLatest(GET_MEGA_AND_SUBPROCESS_VIEW_REQUEST, handleGet_MegaAndSubprocessView),
   takeLatest(GET_MEGA_AND_SUBPROCESS_REQUEST, handleGet_MegaAndSubprocess),
+  takeLatest(ADD_MEGA_AND_SUBPROCESS_REQUEST, addMegaAndSubprocessData),
+  takeLatest(GET_MEGA_PROCESS_PREFIX_REQUEST, getMegaProcessPrefixData),
+  takeLatest(GET_SUBPROCESS_PARENT_REQUEST, getSubprocessParentData),
+  takeLatest(GET_SUBPROCESS_PREFIX_REQUEST, getSubprocessPrefixData),
   takeLatest(GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, handleGet_ControlOwnerAndOversight),
   takeLatest(
     GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
     handleGet_ApplicabilityAndAssignmentOfProviderOrganization,
   ),
-  takeLatest(ADD_MEGA_AND_SUBPROCESS_REQUEST, addMegaAndSubprocessData),
+  takeLatest(MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, modifyControlOwnerAndOversightData),
 ]);

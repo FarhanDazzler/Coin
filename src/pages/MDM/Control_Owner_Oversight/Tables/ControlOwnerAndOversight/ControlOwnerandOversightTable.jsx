@@ -148,7 +148,7 @@ const ControlOwnerAndOversightTable = () => {
   const [showModal, setShowModal] = useState(false);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [assignTableData, setAssignTableData] = useState();
-
+  console.log("assignTableData",assignTableData);
   const controlOwnerAndOversight = useSelector(getControlOwnerAndOversightSelector);
 
   const FilterData = (dataValue, conditionalParam) => {
@@ -264,16 +264,33 @@ const ControlOwnerAndOversightTable = () => {
     // edit code
   };
   const handleOnclickAdd = () => {
-    if (editTableIndex.length > 1) {
-      Swal.fire('Oops...', 'You can only allow one Organization to edit at a time', 'error');
-    } else if (editTableIndex.length == 1) {
+    let assignDataArray = []
+    if (editTableIndex.length == 0) {
+      Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
+    } else if (editTableIndex.length >= 1) {
+
       tableData.find((data, i) => {
         console.log(i);
-        if (i === editTableIndex[0]) {
-          setAssignTableData(data);
-        }
+        editTableIndex.map((dataa) => {
+          if (i === dataa) {
+            assignDataArray.push(data);
+            const coverSightCheck = assignDataArray.every(({ coversight }) => coversight === assignDataArray[0]?.coversight);
+            const cownerCheck = assignDataArray.every(({ cowner }) => cowner === assignDataArray[0]?.cowner);
+            if (cownerCheck === true && coverSightCheck === true) {
+              setAssignTableData(assignDataArray);
+              setShowModal(true);
+            }else{
+              setAssignTableData([]);
+              setShowModal(false);
+              Swal.fire('Oops...', 'Selected Records are not matching with criteria to Assign. Try Selecting other Records', 'error');
+            }
+
+          }
+        })
+        
+
       })
-      setShowModal(true);
+
     }
   };
 
@@ -348,7 +365,7 @@ const ControlOwnerAndOversightTable = () => {
         open={showModal}
         onClose={() => setShowModal(false)}
         width={900}
-        title={assignTableData?.Control_ID}
+        title="Assign Control Owner & Oversight"
         bodyClassName="p-0"
       >
         <AssignModal setShowModal={setShowModal} assignTableData={assignTableData} />

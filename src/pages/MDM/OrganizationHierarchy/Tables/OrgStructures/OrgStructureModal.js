@@ -28,7 +28,7 @@ const GetParentEntityValue = ({ setOrgTypeValue }) => {
     return null;
 };
 
-const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
+const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modalType }) => {
     const dispatch = useDispatch();
     const [isProviderValue, setIsProviderValue] = useState("");
     const [isReceiverValue, setIsReceiverValue] = useState("");
@@ -146,20 +146,27 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
             "Valid_to": value.validTo
         }
         let editPayload = {
-            ...payload,
+            "Org_type": value.orgType,
+            "Org_name": value.Org_name,
+            "parent_entity": value.parentEntity,
+            "isReceiver": value.isReceiver,
+            "isProvider": value.isProvider,
+            "Category": value.Category,
+            "Valid_from": value.validFrom,
+            "Valid_to": value.validTo,
             "Org_code": ediatbleData?.Org_code
         }
-       
-        if(modalType === "add"){
+
+        if (modalType === "add") {
             console.log("ADD=>>>>>>>>>>>>>>>>>>");
             dispatch(addOrgStructureAction(payload));
-            
-        }else{
+
+        } else {
             console.log("Edit=>>>>>>>>>>>>>>>>>>");
             dispatch(updateOrgStructureAction(editPayload));
-            
+
         }
-        
+
     }
     let today = moment().format('YYYY-MM-DD');
     let validToDate = "9999-12-31"
@@ -170,7 +177,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                 enableReinitialize
                 initialValues={{
                     orgType: ediatbleData?.Org_type ? ediatbleData?.Org_type : '',
-                    parentEntity: ediatbleData?.parentEntity ? ediatbleData?.parentEntity : '',
+                    parentEntity: ediatbleData?.parent_entity ? ediatbleData?.parent_entity : '',
                     isReceiver: ediatbleData?.isReceiver ? ediatbleData?.isReceiver : '',
                     isProvider: ediatbleData?.isProvider ? ediatbleData?.isProvider : '',
                     Category: ediatbleData?.Category ? ediatbleData?.Category : '',
@@ -348,6 +355,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                                         <Form.Label>isReceiver</Form.Label>
                                     </div>
                                     <div className="col-lg-7">
+
                                         <Form.Group className="input-group mb-3">
                                             <Form.Control
                                                 as="select"
@@ -364,23 +372,35 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                                             >
 
                                                 {
-                                                    values.orgType === "BU" || values.orgType === "Country"
-                                                        && values.parentEntity.slice(0, 2) === "SC" ?
-                                                        <option value="No">No</option>
-                                                        :
-                                                        values.orgType === "Zone" || values.orgType === "Cognos" || values.orgType === "SAP" ?
+                                                    modalType === "add" ? <>
+                                                        {
 
-                                                            <option value="N/A">N/A</option>
-                                                            : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
-                                                                <option value="Yes">Yes</option> :
-                                                                <>
-                                                                    <option value="">Select isReceiver</option>
-                                                                    <option value="Yes">Yes</option>
-                                                                    <option value="No">No</option>
+                                                            values.orgType === "BU" || values.orgType === "Country"
+                                                                && values.parentEntity.slice(0, 2) === "SC" ?
+                                                                <option value="No">No</option>
+                                                                :
+                                                                values.orgType === "Zone" || values.orgType === "Cognos" || values.orgType === "SAP" ?
+
                                                                     <option value="N/A">N/A</option>
-                                                                </>
+                                                                    : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
+                                                                        <option value="Yes">Yes</option> :
+                                                                        <>
+                                                                            <option value="">Select isReceiver</option>
+                                                                            <option value="Yes">Yes</option>
+                                                                            <option value="No">No</option>
+                                                                            <option value="N/A">N/A</option>
+                                                                        </>
 
+                                                        }
+                                                    </> : <>
+                                                        <option value="">Select isReceiver</option>
+                                                        <option value="Yes">Yes</option>
+                                                        <option value="No">No</option>
+                                                        <option value="N/A">N/A</option>
+                                                    </>
                                                 }
+
+
                                             </Form.Control>
 
                                             {!!touched.isReceiver && (
@@ -414,19 +434,28 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                                                 className="form-select"
                                             >
                                                 {
-                                                    values.orgType === "BU" ||
-                                                        values.orgType === "Country" && values.parentEntity.slice(0, 2) === "SC" ?
-                                                        <option value="Yes">Yes</option> :
-                                                        values.orgType === "Zone" || values.orgType === "Cognos" || values.orgType === "Plant" || values.orgType === "SAP" ?
-                                                            <option value="N/A">N/A</option>
-                                                            : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
+                                                    modalType === "add" ? <>
+                                                        {
+                                                            values.orgType === "BU" ||
+                                                                values.orgType === "Country" && values.parentEntity.slice(0, 2) === "SC" ?
                                                                 <option value="Yes">Yes</option> :
-                                                                <>
-                                                                    <option value="">Select isReceiver</option>
-                                                                    <option value="Yes">Yes</option>
-                                                                    <option value="No">No</option>
+                                                                values.orgType === "Zone" || values.orgType === "Cognos" || values.orgType === "Plant" || values.orgType === "SAP" ?
                                                                     <option value="N/A">N/A</option>
-                                                                </>
+                                                                    : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
+                                                                        <option value="Yes">Yes</option> :
+                                                                        <>
+                                                                            <option value="">Select isProvider</option>
+                                                                            <option value="Yes">Yes</option>
+                                                                            <option value="No">No</option>
+                                                                            <option value="N/A">N/A</option>
+                                                                        </>
+                                                        }
+                                                    </> : <>
+                                                        <option value="">Select isProvider</option>
+                                                        <option value="Yes">Yes</option>
+                                                        <option value="No">No</option>
+                                                        <option value="N/A">N/A</option>
+                                                    </>
                                                 }
 
                                             </Form.Control>
@@ -465,8 +494,18 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                                             >
 
                                                 {
-                                                    values.orgType === "Zone" || values.orgType === "Cognos" || values.orgType === "SAP" || values.orgType === "Plant" ?
-                                                        <option value="N/A">N/A</option> :
+                                                    modalType === "add" ? <>
+                                                        {
+                                                            values.orgType === "Zone" || values.orgType === "Cognos" || values.orgType === "SAP" || values.orgType === "Plant" ?
+                                                                <option value="N/A">N/A</option> :
+                                                                <>
+                                                                    <option value="">Select Category</option>
+                                                                    <option value="Off-Shore">Off-Shore</option>
+                                                                    <option value="On-Shore">On-Shore</option>
+                                                                    <option value="N/A">N/A</option>
+                                                                </>
+                                                        }
+                                                    </> :
                                                         <>
                                                             <option value="">Select Category</option>
                                                             <option value="Off-Shore">Off-Shore</option>
@@ -474,6 +513,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                                                             <option value="N/A">N/A</option>
                                                         </>
                                                 }
+
 
                                             </Form.Control>
 
@@ -558,7 +598,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, modalType }) => {
                             <div className="d-flex align-items-center justify-content-end">
 
                                 <div>
-                                    <Button variant="outlined" color="secondary" onClick={() => setShowModal(false)}>
+                                    <Button variant="outlined" color="secondary" onClick={() => { setShowModal(false); setEditTableData() }}>
                                         Cancel
                                     </Button>
                                     <Button
