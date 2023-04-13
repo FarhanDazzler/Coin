@@ -204,6 +204,7 @@ const OrgStructuresTable = () => {
         <OrgStructureModal
           setShowModal={setShowModal}
           ediatbleData={editTableData}
+          setEditTableData={setEditTableData}
           modalType={modalType}
         />
       </CustomModal>
