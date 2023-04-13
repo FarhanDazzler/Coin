@@ -12,6 +12,8 @@ import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { addMicsFramework } from '../../../../redux/MDM/MDM_Action';
 import { addMicsInitialValues, addMicsValidationSchema } from '../../../../utils/constants';
 import MyStatefulEditor from '../../../../components/FormInputs/RichTextEditor';
+import { ContentState } from 'draft-js';
+import { TextEditor } from '../../../../components/FormInputs/RichTextEditor/RichTextEditor';
 
 const AddValues_MDM_Mics_Framework = () => {
   const location = useLocation();
@@ -93,7 +95,7 @@ const AddValues_MDM_Mics_Framework = () => {
     console.log(value, 'Rich text editor');
     setVal(value);
   };
-  console.log('micsL1Desc',micsL1Desc)
+  console.log('micsL1Desc', micsL1Desc);
   return (
     <div>
       <PageWrapper>
@@ -551,7 +553,7 @@ const AddValues_MDM_Mics_Framework = () => {
                               value={values.Recommended_Standardization}
                               isInvalid={Boolean(
                                 touched.Recommended_Standardization &&
-                                errors.Recommended_Standardization,
+                                  errors.Recommended_Standardization,
                               )}
                               onBlur={handleBlur}
                               onChange={handleChange}
@@ -818,100 +820,23 @@ const AddValues_MDM_Mics_Framework = () => {
                       handleSubmit={handleSubmitRichText}
                     />
 
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
-                          <Form.Label>mics_L1desc</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              type="text"
-                              name="mics_L1desc"
-                              placeholder=""
-                              value={values.mics_L1desc}
-                              isInvalid={Boolean(touched.mics_L1desc && errors.mics_L1desc)}
-                              onBlur={handleBlur}
-                              onClick={(data) => {
-                                setShowModal('mics_L1desc');
-                              }}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-control"
-                            />
+                    <div className="row mb-4">
+                      <p>mics_L1desc</p>
+                      <TextEditor
+                        setFieldValue={(val) => setFieldValue('mics_L1desc', val)}
+                        value={values.mics_L1desc}
+                      />
 
-                            {!!touched.mics_L1desc && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.mics_L1desc}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
-                          <Form.Label>mics_L2desc</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              type="text"
-                              name="mics_L2desc"
-                              placeholder=""
-                              value={values.mics_L2desc}
-                              isInvalid={Boolean(touched.mics_L2desc && errors.mics_L2desc)}
-                              onBlur={handleBlur}
-                              onClick={(data) => {
-                                setShowModal('mics_L2desc');
-                              }}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-control"
-                            />
-
-                            {!!touched.mics_L2desc && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.mics_L2desc}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
-                          <Form.Label>mics_L3desc</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              type="text"
-                              name="mics_L3desc"
-                              placeholder=""
-                              value={values.mics_L3desc}
-                              isInvalid={Boolean(touched.mics_L3desc && errors.mics_L3desc)}
-                              onBlur={handleBlur}
-                              onClick={(data) => {
-                                setShowModal('mics_L3desc');
-                              }}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-control"
-                            />
-
-                            {!!touched.mics_L3desc && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.mics_L3desc}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
-                        </div>
-                      </div>
+                      <p>mics_L2desc</p>
+                      <TextEditor
+                        setFieldValue={(val) => setFieldValue('mics_L2desc', val)}
+                        value={values.mics_L2desc}
+                      />
+                      <p>mics_L3desc</p>
+                      <TextEditor
+                        setFieldValue={(val) => setFieldValue('mics_L3desc', val)}
+                        value={values.mics_L3desc}
+                      />
                     </div>
 
                     <div className="col-lg-6">
