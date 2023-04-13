@@ -136,7 +136,7 @@ function* handleGetAssessmentSection2Ans({ payload: copyPayload }) {
 }
 
 async function AssessmentSection2AnsAddApi(payload) {
-  return await Axios.post('/save_section_2_response/', payload);
+  return await Axios.post('/save_section_2_response', payload);
 }
 function* handleAddAssessmentSection2Ans({ payload: copyPayload }) {
   try {
@@ -161,7 +161,7 @@ function* handleAddAssessmentSection2Ans({ payload: copyPayload }) {
 }
 
 async function AssessmentAnsAddApi(payload) {
-  return await Axios.post('/save_assessment_response/', payload);
+  return await Axios.post('/save_assessment_response', payload);
 }
 function* handleAddAssessmentAns({ payload: copyPayload }) {
   try {
