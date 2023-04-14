@@ -136,13 +136,12 @@ function* handleGetAssessmentSection2Ans({ payload: copyPayload }) {
 }
 
 async function AssessmentSection2AnsAddApi(payload) {
-  return await Axios.post('/save_section_2_response/', payload);
+  return await Axios.post('/save_section_2_response', payload);
 }
 function* handleAddAssessmentSection2Ans({ payload: copyPayload }) {
   try {
     const { event, ...payload } = copyPayload;
     const response = yield call(AssessmentSection2AnsAddApi, payload);
-    debugger;
     if (response.token) {
       yield put({
         type: ADD_ASSESSMENT_SECTION_2_SUCCESS,
@@ -161,14 +160,13 @@ function* handleAddAssessmentSection2Ans({ payload: copyPayload }) {
 }
 
 async function AssessmentAnsAddApi(payload) {
-  return await Axios.post('/save_assessment_response/', payload);
+  return await Axios.post('/save_assessment_response', payload);
 }
 function* handleAddAssessmentAns({ payload: copyPayload }) {
   try {
     const { event, ...payload } = copyPayload;
     const response = yield call(AssessmentAnsAddApi, payload);
-    debugger;
-    if (response.token) {
+    if (response) {
       yield put({
         type: ADD_ASSESSMENT_RESPONSE_SUCCESS,
       });
