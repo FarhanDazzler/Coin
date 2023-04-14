@@ -882,23 +882,24 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     </div>
 
                     {/*Rich text Editor call*/}
-                    <div className="row mb-4">
-                      <p>mics_L1desc</p>
-                      <TextEditor
-                        setFieldValue={(val) => setFieldValue('mics_L1desc', val)}
-                        value={values.mics_L1desc}
-                      />
-
-                      <p>mics_L2desc</p>
-                      <TextEditor
-                        setFieldValue={(val) => setFieldValue('mics_L2desc', val)}
-                        value={values.mics_L2desc}
-                      />
-                      <p>mics_L3desc</p>
-                      <TextEditor
-                        setFieldValue={(val) => setFieldValue('mics_L3desc', val)}
-                        value={values.mics_L3desc}
-                      />
+                    <div className="col-lg-12">
+                      <div className="row mb-8">
+                        <Form.Label className="mt-5">mics_L1desc</Form.Label>
+                        <TextEditor
+                          setFieldValue={(val) => setFieldValue('mics_L1desc', val)}
+                          value={values.mics_L1desc}
+                        />
+                        <Form.Label className="mt-8">mics_L2desc</Form.Label>
+                        <TextEditor
+                          setFieldValue={(val) => setFieldValue('mics_L2desc', val)}
+                          value={values.mics_L2desc}
+                        />
+                        <Form.Label className="mt-8">mics_L3desc</Form.Label>
+                        <TextEditor
+                          setFieldValue={(val) => setFieldValue('mics_L3desc', val)}
+                          value={values.mics_L3desc}
+                        />
+                      </div>
                     </div>
 
                     <div className="col-lg-6">
