@@ -76,11 +76,11 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
       Type_of_Process: value.Type_of_Process,
       Parent_Process: value.Type_of_Process === 'Mega Process' ? '' : value.Parent_Process,
       Prefix: prefixValue,
-      Name_2: value.Name_2,
+      Name_2: value.Name_2.toUpperCase(),
       Name_Detailed_Name:
         value.Type_of_Process === 'Mega Process'
           ? value.Name_Detailed_Name
-          : value.Parent_Process + ' - ' + value.Name_2,
+          : value.Parent_Process + ' - ' + value.Name_2.toUpperCase(),
     };
 
     // Edit Payload for API
@@ -116,8 +116,7 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
           Type_of_Process: Yup.string().required('Type of Process is required'),
           Parent_Process: Yup.string().when('Type_of_Process', {
             is: 'Sub Process',
-            then: Yup.string()
-            .required('Parent Process is required'),
+            then: Yup.string().required('Parent Process is required'),
           }),
           Name_2: Yup.string()
             .when('Type_of_Process', {
@@ -273,7 +272,9 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
                         value={values.Name_2}
                         isInvalid={Boolean(touched.Name_2 && errors.Name_2)}
                         onBlur={handleBlur}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          setFieldValue('Name_2', e.target.value.toUpperCase());
+                        }}
                         readOnly={false}
                         className="form-control"
                       />

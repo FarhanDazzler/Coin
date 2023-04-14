@@ -226,6 +226,7 @@ function* updateMicsFrameworkData({ payload }) {
         type: UPDATE_MICS_FRAMEWORK_SUCCESS,
         payload: response.data,
       });
+      yield put({ type: GET_MICS_FRAMEWORK_REQUEST, payload: '' });
       Swal.fire('Done!', 'Updated Successfully!', 'success');
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
