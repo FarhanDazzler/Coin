@@ -26,7 +26,7 @@ const Question = () => {
     };
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
-    dispatch(getAssessmentAns({ COwner: 'jaymin@ab-inbev.com', Control_ID: Assessment_id }));
+    dispatch(getAssessmentAns({ COwner: accounts[0].username, Control_ID: Assessment_id }));
   }, []);
 
   return (

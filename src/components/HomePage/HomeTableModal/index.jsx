@@ -3,6 +3,7 @@ import CustomModal from '../../UI/CustomModal';
 import { useHistory } from 'react-router-dom';
 import './homeTableModalStyles.scss';
 import { useDispatch, useSelector } from 'react-redux';
+import { useMsal } from '@azure/msal-react';
 import {
   addAssessmentAns,
   addAssessmentSection2Ans,
@@ -25,6 +26,8 @@ import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
 
 const HomeTableModal = ({ isModal = true }) => {
   const history = useHistory();
+  const { accounts } = useMsal();
+
   const query = new URLSearchParams(history.location.search);
   const dispatch = useDispatch();
   const getResponse = useSelector(getResponseSelector);
@@ -47,15 +50,14 @@ const HomeTableModal = ({ isModal = true }) => {
     if (startEdit && responseData?.data?.Attempt_no <= 5) {
       Swal.fire({
         title: 'Do you want save as draft!',
-        text: `Remaining response ${
-          responseData?.data?.Attempt_no
-            ? responseData?.data?.Attempt_no < 5
-              ? 4 - responseData?.data?.Attempt_no
-              : 0
-            : responseData?.data?.Attempt_no === 0
+        text: `Remaining response ${responseData?.data?.Attempt_no
+          ? responseData?.data?.Attempt_no < 5
+            ? 4 - responseData?.data?.Attempt_no
+            : 0
+          : responseData?.data?.Attempt_no === 0
             ? '4'
             : '5'
-        }`,
+          }`,
         icon: 'warning',
         showConfirmButton: false,
         showCancelButton: true,
@@ -103,7 +105,7 @@ const HomeTableModal = ({ isModal = true }) => {
         dispatch(
           getAssessmentAns({
             assessment_id: Control_ID,
-            cowner: 'Avi.Sehgal-ext@ab-inbev.com',
+            cowner: accounts[0]?.username,
           }),
         );
       }
@@ -154,15 +156,14 @@ const HomeTableModal = ({ isModal = true }) => {
   const handleSubmit = () => {
     Swal.fire({
       title: 'Do you want Submit assessment',
-      text: `Remaining response ${
-        responseData?.data?.Attempt_no
-          ? responseData?.data?.Attempt_no < 5
-            ? 4 - responseData?.data?.Attempt_no
-            : 0
-          : responseData?.data?.Attempt_no === 0
+      text: `Remaining response ${responseData?.data?.Attempt_no
+        ? responseData?.data?.Attempt_no < 5
+          ? 4 - responseData?.data?.Attempt_no
+          : 0
+        : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
-      }`,
+        }`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
@@ -252,6 +253,7 @@ const HomeTableModal = ({ isModal = true }) => {
           loading: addOrEditUpdateDraft.loading,
         }}
         setStartEdit={setStartEdit}
+        isModal={true}
       />
     );
 
