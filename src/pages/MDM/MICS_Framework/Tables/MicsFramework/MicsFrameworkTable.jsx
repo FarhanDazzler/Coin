@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import Table from '../../../../../components/UI/Table';
-
+import Swal from 'sweetalert2';
 import '../TableStyle.scss';
 
 // geting data from redux
@@ -18,11 +18,11 @@ import Tooltip from '@mui/material/Tooltip';
 const MicsFrameworkTable = () => {
   const history = useHistory();
   const location = useLocation();
-
+  const dispatch = useDispatch();
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
-
-  const dispatch = useDispatch();
+  const [editTableIndex, setEditTableIndex] = useState([]);
+  const [editTableData, setEditTableData] = useState();
 
   const micsFramework = useSelector(getMicsFrameworkSelector);
 
@@ -314,10 +314,25 @@ const MicsFrameworkTable = () => {
 
   const handleOnclickEdit = () => {
     // edit code
+    console.log(tableData);
+    if (editTableIndex.length > 1) {
+      Swal.fire('Oops...', 'You can only allow one MICS Framework to edit at a time', 'error');
+    } else if (editTableIndex.length == 1) {
+      tableData.find((data, i) => {
+        console.log(i);
+        if (i === editTableIndex[0]) {
+          setEditTableData(data);
+        }
+      });
+      console.log(editTableData, 'Before pushing to edit page');
+      const data = { title: 'Edit MICS Framework', modalType: 'edit' };
+      history.push('/master-data-management/mics-framework/addNew', { data, editTableData });
+    }
   };
   const handleOnclickAdd = () => {
     // Add code
-    history.push('/master-data-management/mics-framework/addNew');
+    const data = { title: 'Add MICS Framework', modalType: 'add' };
+    history.push('/master-data-management/mics-framework/addNew', { data, editTableData });
   };
 
   return (
@@ -353,7 +368,12 @@ const MicsFrameworkTable = () => {
                 </div>
               </div>
             </div>
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            <Table
+              tableData={tableData}
+              tableColumns={tableColumns}
+              columns={tableColumns}
+              setEditTableIndex={setEditTableIndex}
+            />
           </div>
         </div>
       </div>

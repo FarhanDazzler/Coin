@@ -9,24 +9,27 @@ import Button from '../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
-import { addMicsFramework } from '../../../../redux/MDM/MDM_Action';
+import { addMicsFramework, updateMicsFramework } from '../../../../redux/MDM/MDM_Action';
 import { addMicsInitialValues, addMicsValidationSchema } from '../../../../utils/constants';
-import MyStatefulEditor from '../../../../components/FormInputs/RichTextEditor';
+
 import { ContentState } from 'draft-js';
 import { TextEditor } from '../../../../components/FormInputs/RichTextEditor/RichTextEditor';
+import './InputPageStyle.scss';
 
-const AddValues_MDM_Mics_Framework = () => {
+const AddValues_MDM_Mics_Framework = (props) => {
+  // Access passed props from location.state
+
+  const title = props.location.state.data?.title;
+  const modalType = props.location.state.data?.modalType;
+  const editTableData = props.location.state?.editTableData;
+  console.log(editTableData, 'editable Data');
+
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false);
+
   // Handel Rich Text Editor POP up close
-  const handleSubmitRichText = () => {
-    setShowModal('');
-    // setMicsL1Desc('')
-    // setMicsL2Desc('')
-    // setMicsL3Desc('')
-  };
+
   const handleOnclickCancel = () => {
     history.push('/master-data-management/mics-framework');
   };
@@ -73,41 +76,51 @@ const AddValues_MDM_Mics_Framework = () => {
     dispatch(addMicsFramework(payload));
   };
 
-  const [micsL1Desc, setMicsL1Desc] = useState('');
-  const [micsL2Desc, setMicsL2Desc] = useState('');
-  const [micsL3Desc, setMicsL3Desc] = useState('');
-  const [showModalMicsL1Desc, setShowModalMicsL1Desc] = useState(false);
-
-  const onChangeMicsL1Desc = (value) => {
-    switch (showModal) {
-      case 'mics_L1desc':
-        return setMicsL1Desc(value);
-      case 'mics_L2desc':
-        return setMicsL2Desc(value);
-      default:
-      case 'mics_L3desc':
-        return setMicsL3Desc(value);
-    }
-  };
-
-  const [val, setVal] = useState('');
-  const onChange = (value) => {
-    console.log(value, 'Rich text editor');
-    setVal(value);
-  };
-  console.log('micsL1Desc', micsL1Desc);
   return (
     <div>
       <PageWrapper>
         <div className="container">
           <div className="p-5">
+            <h4 className="MDM-inputPage-title">{title}</h4>
             <Formik
               enableReinitialize
               initialValues={{
-                ...addMicsInitialValues,
-                mics_L1desc: micsL1Desc,
-                mics_L2desc: micsL2Desc,
-                mics_L3desc: micsL3Desc,
+                MICS_2020_No: '',
+                MICS_2021_No: '',
+                Control_ID: '',
+                Mega_Process: '',
+                ABI_Key: '',
+                Ambev_Key: '',
+                FCPA: '',
+                Frequency: '',
+                Preventive_Detective: '',
+                Automation: '',
+                Recommended_Level: '',
+                Maturity_Relevant: '',
+                mics_weight: '',
+                Recommended_Standardization: '',
+                ABI_DAG: '',
+                AmBev_DAG: '',
+                B2B: '',
+                Fintech: '',
+                Control_Split: '',
+                Sub_Process: '',
+                Risk: '',
+                Control_name: '',
+                mics_L1desc: '',
+                mics_L2desc: '',
+                mics_L3desc: '',
+                BS_impact: '',
+                PnL_impact: '',
+                Cash_flow_impact: '',
+                testing_approach: '',
+                L3_KPI: '',
+                L2_KPI: '',
+                L1_KPI: '',
+                Kpi_status: '',
+                Change: '',
+                change_comment: '',
+                Risk_ID: '',
               }}
               validationSchema={Yup.object().shape(addMicsValidationSchema)}
               onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
@@ -812,14 +825,6 @@ const AddValues_MDM_Mics_Framework = () => {
                     </div>
 
                     {/*Rich text Editor call*/}
-                    <MyStatefulEditor
-                      markup=""
-                      onChange={onChangeMicsL1Desc}
-                      setShowModal={setShowModal}
-                      showModal={showModal}
-                      handleSubmit={handleSubmitRichText}
-                    />
-
                     <div className="row mb-4">
                       <p>mics_L1desc</p>
                       <TextEditor
