@@ -39,12 +39,14 @@ const HomeTableModal = ({ isModal = true }) => {
   const [terminating, setTerminating] = useState(false);
   const [startEdit, setStartEdit] = useState(false);
   const addOrEditUpdateDraft = useSelector(addOrEditUpdateDraftSelector);
+  const [loading, setLoading] = useState(false);
+
   const Control_ID = query.get('Control_ID') || !isModal ? 'ATR_MJE_01a-K' : '';
   console.log('ansSection1', ansSection1, ansSection3);
   const handleClose = () => {
     if (startEdit && responseData?.data?.Attempt_no <= 5) {
       Swal.fire({
-        title: 'Are you sure?',
+        title: 'Do you want save as draft!',
         text: `Remaining response ${
           responseData?.data?.Attempt_no
             ? responseData?.data?.Attempt_no < 5
@@ -74,7 +76,7 @@ const HomeTableModal = ({ isModal = true }) => {
             Assessment_ID: Control_ID,
             Latest_response: {
               s1: ansSection1,
-              s3: Object.entries(ansSection3),
+              s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
             },
           };
           dispatch(addOrUpdateDraft(payload));
@@ -151,7 +153,7 @@ const HomeTableModal = ({ isModal = true }) => {
 
   const handleSubmit = () => {
     Swal.fire({
-      title: 'Are you sure?',
+      title: 'Do you want Submit assessment',
       text: `Remaining response ${
         responseData?.data?.Attempt_no
           ? responseData?.data?.Attempt_no < 5
@@ -171,17 +173,23 @@ const HomeTableModal = ({ isModal = true }) => {
       denyButtonColor: 'silver',
     }).then((result) => {
       if (result.isConfirmed) {
+        setLoading(true);
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
         const payload = {
           Assessment_ID: 'ATR_MJE_01a-K',
           Assessment_result: 'Pass',
           Latest_response: {
             s1: ansSection1,
-            s3: Object.entries(ansSection3),
+            s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
           },
           event: {
             onSuccess: () => {
-              Swal.fire('Saved!', '', 'success');
+              setLoading(false);
+              if (showNoQuestionAns) {
+                Swal.fire('Your Assesment has been failed', '', 'success');
+              } else {
+                Swal.fire('Your Assesment has been passed', '', 'success');
+              }
               history.push('/new');
             },
           },
@@ -196,7 +204,7 @@ const HomeTableModal = ({ isModal = true }) => {
           Assessment_ID: Control_ID,
           Latest_response: {
             s1: ansSection1,
-            s3: Object.entries(ansSection3),
+            s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
           },
         };
         dispatch(addOrUpdateDraft(payload));
@@ -213,7 +221,7 @@ const HomeTableModal = ({ isModal = true }) => {
       Assessment_ID: Control_ID,
       Latest_response: {
         s1: ansSection1,
-        s3: Object.entries(ansSection3),
+        s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
       },
     };
     dispatch(addOrUpdateDraft(payload));
@@ -272,6 +280,7 @@ const HomeTableModal = ({ isModal = true }) => {
         handleSubmit={handleSubmit}
         controlId={Control_ID}
         handleSaveDraft={handleSaveDraft}
+        loadingSubmit={loading}
         handleSaveDraftProps={{
           disabled: responseData?.data?.Attempt_no >= 5,
           style: { width: 128 },

@@ -25,6 +25,7 @@ const RenderHomeModalTable = ({
   setStartEdit,
   handleSaveDraft,
   handleSaveDraftProps = {},
+  loadingSubmit,
 }) => {
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
   React.useEffect(() => {
@@ -139,7 +140,13 @@ const RenderHomeModalTable = ({
                 </div>
               ) : null}
 
-              <Button color="neutral" className="w-100" id="submit-button" onClick={handleSubmit}>
+              <Button
+                color="neutral"
+                className="w-100"
+                id="submit-button"
+                loading={loadingSubmit}
+                onClick={handleSubmit}
+              >
                 Submit
               </Button>
             </>

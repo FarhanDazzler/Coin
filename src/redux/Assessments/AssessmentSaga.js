@@ -142,7 +142,6 @@ function* handleAddAssessmentSection2Ans({ payload: copyPayload }) {
   try {
     const { event, ...payload } = copyPayload;
     const response = yield call(AssessmentSection2AnsAddApi, payload);
-    debugger;
     if (response.token) {
       yield put({
         type: ADD_ASSESSMENT_SECTION_2_SUCCESS,
@@ -167,8 +166,7 @@ function* handleAddAssessmentAns({ payload: copyPayload }) {
   try {
     const { event, ...payload } = copyPayload;
     const response = yield call(AssessmentAnsAddApi, payload);
-    debugger;
-    if (response.token) {
+    if (response) {
       yield put({
         type: ADD_ASSESSMENT_RESPONSE_SUCCESS,
       });
