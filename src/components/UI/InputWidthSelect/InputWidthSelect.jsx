@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import './styles.scss';
 import { validateEmail } from '../../../utils/helper';
 
-const InputWidthSelect = ({ block = {}, handleChange, userApiStart }) => {
+const InputWidthSelect = ({ block = {}, handleChange, userApiStart,disabled }) => {
   const { label, required, loading, dropDownOption, isDropdownSaveInput = true, value } = block;
   return (
     <div>
@@ -17,6 +17,7 @@ const InputWidthSelect = ({ block = {}, handleChange, userApiStart }) => {
         required={required}
         block={block}
         handleChange={handleChange}
+        disabled={disabled}
       />
       <div>
         {block.loading && (

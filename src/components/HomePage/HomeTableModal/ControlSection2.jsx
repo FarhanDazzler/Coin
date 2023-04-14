@@ -14,7 +14,7 @@ import { getCsvTampredDataAction } from '../../../redux/CsvTampred/CsvTampredAct
 
 const headerStyles = { backgroundColor: '#f1c40f', color: '#000000', fontWeight: '700' };
 
-const ControlSection2 = ({ tableData, setTableData, controlId }) => {
+const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   const kpiResultData = useSelector(kpiResultSelector);
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();

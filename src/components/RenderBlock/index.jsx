@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Dropdown from '../UI/Dropdown';
 import InputWidthSelect from '../UI/InputWidthSelect/InputWidthSelect';
 
-const RenderBlock = ({ blocks = [], handleChange, userApiStart }) => {
+const RenderBlock = ({ blocks = [], handleChange, userApiStart,isModal }) => {
   const controlDataResponse = useSelector((state) => state?.controlData?.controlData?.data);
   for (let i = 0; i < blocks.length; i++) {
     let question = blocks[i].question_text;
@@ -36,6 +36,7 @@ const RenderBlock = ({ blocks = [], handleChange, userApiStart }) => {
                   options={block.options}
                   value={block.value}
                   handleChange={handleChange}
+                  disabled={!isModal}
                 />
               </RenderBlockWrapper>
             );
@@ -48,6 +49,7 @@ const RenderBlock = ({ blocks = [], handleChange, userApiStart }) => {
                   options={block.options}
                   value={block.value}
                   handleChange={handleChange}
+                  disabled={!isModal}
                 />
               </RenderBlockWrapper>
             );
@@ -61,6 +63,7 @@ const RenderBlock = ({ blocks = [], handleChange, userApiStart }) => {
                   renderOption={block.renderOption}
                   handleChange={handleChange}
                   index={i}
+                  disabled={!isModal}
                 />
               </RenderBlockWrapper>
             );
@@ -74,6 +77,7 @@ const RenderBlock = ({ blocks = [], handleChange, userApiStart }) => {
                   options={block.options}
                   value={block.value}
                   handleChange={handleChange}
+                    disabled={!isModal}
                 />
               </RenderBlockWrapper>
             );
@@ -87,6 +91,7 @@ const RenderBlock = ({ blocks = [], handleChange, userApiStart }) => {
                   block={block}
                   handleChange={handleChange}
                   value={block.value}
+                    disabled={!isModal}
                 />
               </RenderBlockWrapper>
             );
@@ -98,6 +103,7 @@ const RenderBlock = ({ blocks = [], handleChange, userApiStart }) => {
                   block={block}
                   handleChange={handleChange}
                   userApiStart={userApiStart}
+                  disabled={!isModal}
                 />
               </RenderBlockWrapper>
             );

@@ -100,6 +100,7 @@ const RenderHomeModalTable = ({
             ans={ansSection1}
             setAns={setAnsSection1}
             setStartEdit={setStartEdit}
+            isModal={!isModal}
           />
           {showMoreSection && (
             <>
@@ -116,6 +117,7 @@ const RenderHomeModalTable = ({
                 showNoQuestionAns={showNoQuestionAns}
                 setShowNoQuestionAns={setShowNoQuestionAns}
                 setStartEdit={setStartEdit}
+                isModal={!isModal}
               />
             </>
           )}

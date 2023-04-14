@@ -9,7 +9,7 @@ import useDebounce from '../../../hooks/useDebounce';
 import { getUserFromAD } from '../../../redux/AzureAD/AD_Action';
 import { getUserFromADSelector } from '../../../redux/AzureAD/AD_Selectors';
 
-const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns, setStartEdit }) => {
+const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns, setStartEdit,isModal }) => {
   const getQuestions = useSelector(getQuestionsSelector);
   const [data, setData] = useState([]);
   const [qId2Value, setQId2Value] = useState('');
@@ -137,7 +137,7 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns, setS
     <div>
       <CollapseFrame title="Section 1 : Standard" active>
         <div className="mt-5">
-          <RenderBlock blocks={ans} handleChange={handleChange} userApiStart={isStart} />
+          <RenderBlock blocks={ans} isModal={isModal} handleChange={handleChange} userApiStart={isStart} />
           <div id="lastShow" />
           {/*<Table />*/}
         </div>
