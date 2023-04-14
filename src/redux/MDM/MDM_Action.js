@@ -13,6 +13,11 @@ import {
   ACTION_GET_PARENT_ENTITY_DATA,
   ACTION_UPDATE_ORG_STRUCTURE_DATA,
   ADD_MEGA_AND_SUBPROCESS_REQUEST,
+  GET_MEGA_PROCESS_PREFIX_REQUEST,
+  GET_SUBPROCESS_PARENT_REQUEST,
+  GET_SUBPROCESS_PREFIX_REQUEST,
+  MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
+  UPDATE_MICS_FRAMEWORK_REQUEST,
 } from './MDM_Reducer';
 
 export const getOrgStructures = (payload) => ({ type: GET_ORG_STRUCTURES_REQUEST, payload });
@@ -32,6 +37,7 @@ export const getOrgHierarchy = (payload) => ({ type: GET_ORG_HIERARCHY_REQUEST, 
 
 export const getMicsFramework = (payload) => ({ type: GET_MICS_FRAMEWORK_REQUEST, payload });
 export const addMicsFramework = (payload) => ({ type: ADD_MICS_FRAMEWORK_REQUEST, payload });
+export const updateMicsFramework = (payload) => ({ type: UPDATE_MICS_FRAMEWORK_REQUEST, payload });
 
 export const getMegaAndSubprocessView = (payload) => ({
   type: GET_MEGA_AND_SUBPROCESS_VIEW_REQUEST,
@@ -45,8 +51,25 @@ export const addMegaAndSubprocess = (payload) => ({
   type: ADD_MEGA_AND_SUBPROCESS_REQUEST,
   payload,
 });
+export const getMegaProcessPrefix = (payload) => ({
+  type: GET_MEGA_PROCESS_PREFIX_REQUEST,
+  payload,
+});
+export const getSubprocessParent = (payload) => ({
+  type: GET_SUBPROCESS_PARENT_REQUEST,
+  payload,
+});
+export const getSubprocessPrefix = (payload) => ({
+  type: GET_SUBPROCESS_PREFIX_REQUEST,
+  payload,
+});
+
 export const getControlOwnerAndOversight = (payload) => ({
   type: GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
+  payload,
+});
+export const modifyControlOwnerAndOversight = (payload) => ({
+  type: MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
   payload,
 });
 export const getApplicabilityAndAssignmentOfProviderOrganization = (payload) => ({

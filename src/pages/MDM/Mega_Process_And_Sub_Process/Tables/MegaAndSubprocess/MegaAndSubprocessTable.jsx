@@ -15,11 +15,38 @@ import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
 
+import * as Yup from 'yup';
+import { Formik, Field } from 'formik';
+import { Alert, Form } from 'react-bootstrap';
+import CustomModal from '../../../../../components/UI/CustomModal';
+import MegaAndSubprocessModal from './MegaAndSubprocessModal';
+import { addMegaAndSubprocessSelector } from '../../../../../redux/MDM/MDM_Selectors';
+import {
+  getMegaAndSubprocessView,
+  getMegaAndSubprocess,
+} from '../../../../../redux/MDM/MDM_Action';
+import Swal from 'sweetalert2';
+
 const MegaAndSubprocessTable = () => {
+  const dispatch = useDispatch();
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState('');
+  const addMegaAndSubprocessState = useSelector(addMegaAndSubprocessSelector);
+  const [editTableIndex, setEditTableIndex] = useState([]);
+  const [editTableData, setEditTableData] = useState();
+  console.log(editTableIndex);
+  console.log(addMegaAndSubprocessState);
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    if (addMegaAndSubprocessState) {
+      setShowModal(false);
+      setModalType('');
+      dispatch(getMegaAndSubprocessView());
+      dispatch(getMegaAndSubprocess());
+    }
+  }, [addMegaAndSubprocessState.data]);
 
   const megaAndSubprocess = useSelector(getMegaAndSubprocessSelector);
 
@@ -87,9 +114,24 @@ const MegaAndSubprocessTable = () => {
 
   const handleOnclickEdit = () => {
     // edit code
+    console.log(tableData);
+    if (editTableIndex.length > 1) {
+      Swal.fire('Oops...', 'You can only allow one Mega and Subprocess to edit at a time', 'error');
+    } else if (editTableIndex.length == 1) {
+      tableData.find((data, i) => {
+        console.log(i);
+        if (i === editTableIndex[0]) {
+          setEditTableData(data);
+        }
+      });
+      setShowModal(true);
+      setModalType('edit');
+    }
   };
   const handleOnclickAdd = () => {
     // Add code
+    setShowModal(true);
+    setModalType('add');
   };
 
   return (
@@ -125,10 +167,29 @@ const MegaAndSubprocessTable = () => {
                 </div>
               </div>
             </div>
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            <Table
+              tableData={tableData}
+              tableColumns={tableColumns}
+              columns={tableColumns}
+              setEditTableIndex={setEditTableIndex}
+            />
           </div>
         </div>
       </div>
+      <CustomModal
+        className="add-org"
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        width={900}
+        title={modalType === 'add' ? 'Add Mega And Subprocess' : 'Edit Mega And Subprocess'}
+        bodyClassName="p-0"
+      >
+        <MegaAndSubprocessModal
+          setShowModal={setShowModal}
+          ediatbleData={editTableData}
+          modalType={modalType}
+        />
+      </CustomModal>
     </>
   );
 };

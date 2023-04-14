@@ -1,44 +1,5 @@
 import * as Yup from 'yup';
 
-const addMicsInitialValues = {
-  MICS_2020_No: '',
-  MICS_2021_No: '',
-  Control_ID: '',
-  Mega_Process: '',
-  ABI_Key: '',
-  Ambev_Key: '',
-  FCPA: '',
-  Frequency: '',
-  Preventive_Detective: '',
-  Automation: '',
-  Recommended_Level: '',
-  Maturity_Relevant: '',
-  mics_weight: '',
-  Recommended_Standardization: '',
-  ABI_DAG: '',
-  AmBev_DAG: '',
-  B2B: '',
-  Fintech: '',
-  Control_Split: '',
-  Sub_Process: '',
-  Risk: '',
-  Control_name: '',
-  mics_L1desc: '',
-  mics_L2desc: '',
-  mics_L3desc: '',
-  BS_impact: '',
-  PnL_impact: '',
-  Cash_flow_impact: '',
-  testing_approach: '',
-  L3_KPI: '',
-  L2_KPI: '',
-  L1_KPI: '',
-  Kpi_status: '',
-  Change: '',
-  change_comment: '',
-  Risk_ID: '',
-};
-
 const addMicsValidationSchema = {
   MICS_2020_No: Yup.string().required('MICS Number is required'),
   MICS_2021_No: Yup.string().required('MICS Number is required'),
@@ -78,4 +39,4 @@ const addMicsValidationSchema = {
   Risk_ID: Yup.string().required('Risk_ID is required'),
 };
 
-export { addMicsInitialValues, addMicsValidationSchema };
+export { addMicsValidationSchema };
