@@ -13,6 +13,7 @@ const Input = ({
   required,
   value,
   fullInput,
+  disabled,
   ...res
 }) => {
   const onChange = ({ target: { value } }) => {
@@ -27,7 +28,7 @@ const Input = ({
           {label} {required && <span className="text-danger">*</span>}
         </FormLabel>
       )}
-      <OutlinedInput required value={value} onChange={onChange} {...res} />
+      <OutlinedInput disabled={disabled} required value={value} onChange={onChange} {...res} />
     </FormControl>
   );
 };

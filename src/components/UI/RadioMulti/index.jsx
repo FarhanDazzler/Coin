@@ -7,7 +7,7 @@ import CustomModal from '../CustomModal';
 import EditRadioMultiQuestion from './EditRadioMultiQuestion';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
-const RadioMulti = ({ block, label, renderOption, handleChange, index }) => {
+const RadioMulti = ({ block, label, renderOption, handleChange, index, disabled }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const handleEditLabel = () => {
@@ -39,6 +39,7 @@ const RadioMulti = ({ block, label, renderOption, handleChange, index }) => {
           return (
             <div className="mb-2" key={`${i}--${index}`}>
               <Radio
+                disabled={disabled}
                 block={firstOption}
                 formControlProps={{ className: 'radio-wrapper side-by-side-radio-wrapper' }}
                 radioGroupProps={{
