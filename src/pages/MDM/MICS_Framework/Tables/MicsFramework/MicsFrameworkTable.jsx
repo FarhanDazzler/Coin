@@ -341,7 +341,7 @@ const MicsFrameworkTable = () => {
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>
                   <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                  <span style={{ paddingLeft: '16px' }}>Create or Modify Organizations</span>
+                  <span style={{ paddingLeft: '16px' }}>MICS Framework Table</span>
                 </div>
                 <div>
                   <Button
