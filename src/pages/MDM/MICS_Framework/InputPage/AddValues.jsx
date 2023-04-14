@@ -9,24 +9,26 @@ import Button from '../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
-import { addMicsFramework } from '../../../../redux/MDM/MDM_Action';
+import { addMicsFramework, updateMicsFramework } from '../../../../redux/MDM/MDM_Action';
 import { addMicsInitialValues, addMicsValidationSchema } from '../../../../utils/constants';
-import MyStatefulEditor from '../../../../components/FormInputs/RichTextEditor';
+
 import { ContentState } from 'draft-js';
 import { TextEditor } from '../../../../components/FormInputs/RichTextEditor/RichTextEditor';
+import './InputPageStyle.scss';
 
-const AddValues_MDM_Mics_Framework = () => {
+const AddValues_MDM_Mics_Framework = (props) => {
+  // Access passed props from location.state
+
+  const title = props.location.state.data?.title;
+  const modalType = props.location.state.data?.modalType;
+  const editTableData = props.location.state.data?.editTableData;
+
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false);
+
   // Handel Rich Text Editor POP up close
-  const handleSubmitRichText = () => {
-    setShowModal('');
-    // setMicsL1Desc('')
-    // setMicsL2Desc('')
-    // setMicsL3Desc('')
-  };
+
   const handleOnclickCancel = () => {
     history.push('/master-data-management/mics-framework');
   };
@@ -70,44 +72,112 @@ const AddValues_MDM_Mics_Framework = () => {
       change_comment: value.change_comment,
       Risk_ID: value.Risk_ID,
     };
-    dispatch(addMicsFramework(payload));
-  };
 
-  const [micsL1Desc, setMicsL1Desc] = useState('');
-  const [micsL2Desc, setMicsL2Desc] = useState('');
-  const [micsL3Desc, setMicsL3Desc] = useState('');
-  const [showModalMicsL1Desc, setShowModalMicsL1Desc] = useState(false);
+    let editPayload = {
+      MICS_2020_No: value.MICS_2020_No,
+      MICS_2021_No: value.MICS_2021_No,
+      Control_ID: editTableData?.Control_ID,
+      Mega_Process: value.Mega_Process,
+      ABI_Key: parseInt(value.ABI_Key),
+      Ambev_Key: parseInt(value.Ambev_Key),
+      FCPA: parseInt(value.FCPA),
+      Frequency: value.Frequency,
+      Preventive_Detective: parseInt(value.Preventive_Detective),
+      Automation: value.Automation,
+      Recommended_Level: value.Recommended_Level,
+      Maturity_Relevant: parseInt(value.Maturity_Relevant),
+      mics_weight: parseInt(value.mics_weight),
+      Recommended_Standardization: value.Recommended_Standardization,
+      ABI_DAG: value.ABI_DAG,
+      AmBev_DAG: value.AmBev_DAG,
+      B2B: value.B2B,
+      Fintech: parseInt(value.Fintech),
+      Control_Split: parseInt(value.Control_Split),
+      Sub_Process: value.Sub_Process,
+      Risk: value.Risk,
+      Control_name: value.Control_name,
+      mics_L1desc: value.mics_L1desc,
+      mics_L2desc: value.mics_L2desc,
+      mics_L3desc: value.mics_L3desc,
+      BS_impact: value.BS_impact,
+      PnL_impact: value.PnL_impact,
+      Cash_flow_impact: value.Cash_flow_impact,
+      testing_approach: value.testing_approach,
+      L3_KPI: parseInt(value.L3_KPI),
+      L2_KPI: parseInt(value.L2_KPI),
+      L1_KPI: parseInt(value.L1_KPI),
+      Kpi_status: parseInt(value.Kpi_status),
+      Change: value.Change,
+      change_comment: value.change_comment,
+      Risk_ID: value.Risk_ID,
+    };
 
-  const onChangeMicsL1Desc = (value) => {
-    switch (showModal) {
-      case 'mics_L1desc':
-        return setMicsL1Desc(value);
-      case 'mics_L2desc':
-        return setMicsL2Desc(value);
-      default:
-      case 'mics_L3desc':
-        return setMicsL3Desc(value);
+    if (modalType === 'add') {
+      console.log('ADD=>>>>>>>>>>>>>>>>>>');
+      dispatch(addMicsFramework(payload));
+    } else {
+      console.log('Edit=>>>>>>>>>>>>>>>>>>');
+      dispatch(updateMicsFramework(editPayload));
     }
   };
 
-  const [val, setVal] = useState('');
-  const onChange = (value) => {
-    console.log(value, 'Rich text editor');
-    setVal(value);
-  };
-  console.log('micsL1Desc', micsL1Desc);
   return (
     <div>
       <PageWrapper>
         <div className="container">
           <div className="p-5">
+            <h4 className="MDM-inputPage-title">{title}</h4>
             <Formik
               enableReinitialize
               initialValues={{
-                ...addMicsInitialValues,
-                mics_L1desc: micsL1Desc,
-                mics_L2desc: micsL2Desc,
-                mics_L3desc: micsL3Desc,
+                MICS_2020_No: editTableData?.MICS_2020_No || '',
+                MICS_2021_No: editTableData?.MICS_2021_No ? editTableData?.MICS_2021_No : '',
+                Control_ID: editTableData?.Control_ID ? editTableData?.Control_ID : '',
+                Mega_Process: editTableData?.Mega_Process ? editTableData?.Mega_Process : '',
+                ABI_Key: editTableData?.ABI_Key ? editTableData?.ABI_Key : '',
+                Ambev_Key: editTableData?.Ambev_Key ? editTableData?.Ambev_Key : '',
+                FCPA: editTableData?.FCPA ? editTableData?.FCPA : '',
+                Frequency: editTableData?.Frequency ? editTableData?.Frequency : '',
+                Preventive_Detective: editTableData?.Preventive_Detective
+                  ? editTableData?.Preventive_Detective
+                  : '',
+                Automation: editTableData?.Automation ? editTableData?.Automation : '',
+                Recommended_Level: editTableData?.Recommended_Level
+                  ? editTableData?.Recommended_Level
+                  : '',
+                Maturity_Relevant: editTableData?.Maturity_Relevant
+                  ? editTableData?.Maturity_Relevant
+                  : '',
+                mics_weight: editTableData?.mics_weight ? editTableData?.mics_weight : '',
+                Recommended_Standardization: editTableData?.Recommended_Standardization
+                  ? editTableData?.Recommended_Standardization
+                  : '',
+                ABI_DAG: editTableData?.ABI_DAG ? editTableData?.ABI_DAG : '',
+                AmBev_DAG: editTableData?.AmBev_DAG ? editTableData?.AmBev_DAG : '',
+                B2B: editTableData?.B2B ? editTableData?.B2B : '',
+                Fintech: editTableData?.Fintech ? editTableData?.Fintech : '',
+                Control_Split: editTableData?.Control_Split ? editTableData?.Control_Split : '',
+                Sub_Process: editTableData?.Sub_Process ? editTableData?.Sub_Process : '',
+                Risk: editTableData?.Risk ? editTableData?.Risk : '',
+                Control_name: editTableData?.Control_name ? editTableData?.Control_name : '',
+                mics_L1desc: editTableData?.mics_L1desc ? editTableData?.mics_L1desc : '',
+                mics_L2desc: editTableData?.mics_L2desc ? editTableData?.mics_L2desc : '',
+                mics_L3desc: editTableData?.mics_L3desc ? editTableData?.mics_L3desc : '',
+                BS_impact: editTableData?.BS_impact ? editTableData?.BS_impact : '',
+                PnL_impact: editTableData?.PnL_impact ? editTableData?.PnL_impact : '',
+                Cash_flow_impact: editTableData?.Cash_flow_impact
+                  ? editTableData?.Cash_flow_impact
+                  : '',
+                testing_approach: editTableData?.testing_approach
+                  ? editTableData?.testing_approach
+                  : '',
+                L3_KPI: editTableData?.L3_KPI ? editTableData?.L3_KPI : '',
+                L2_KPI: editTableData?.L2_KPI ? editTableData?.L2_KPI : '',
+                L1_KPI: editTableData?.L1_KPI ? editTableData?.L1_KPI : '',
+                Kpi_status: editTableData?.Kpi_status ? editTableData?.Kpi_status : '',
+                Change: editTableData?.Change ? editTableData?.Change : '',
+                change_comment: editTableData?.change_comment ? editTableData?.change_comment : '',
+                Risk_ID: editTableData?.Risk_ID ? editTableData?.Risk_ID : '',
               }}
               validationSchema={Yup.object().shape(addMicsValidationSchema)}
               onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
@@ -209,7 +279,7 @@ const AddValues_MDM_Mics_Framework = () => {
                               isInvalid={Boolean(touched.Control_ID && errors.Control_ID)}
                               onBlur={handleBlur}
                               onChange={handleChange}
-                              readOnly={false}
+                              readOnly={modalType === 'add' ? false : true}
                               className="form-control"
                             />
 
@@ -812,31 +882,24 @@ const AddValues_MDM_Mics_Framework = () => {
                     </div>
 
                     {/*Rich text Editor call*/}
-                    <MyStatefulEditor
-                      markup=""
-                      onChange={onChangeMicsL1Desc}
-                      setShowModal={setShowModal}
-                      showModal={showModal}
-                      handleSubmit={handleSubmitRichText}
-                    />
-
-                    <div className="row mb-4">
-                      <p>mics_L1desc</p>
-                      <TextEditor
-                        setFieldValue={(val) => setFieldValue('mics_L1desc', val)}
-                        value={values.mics_L1desc}
-                      />
-
-                      <p>mics_L2desc</p>
-                      <TextEditor
-                        setFieldValue={(val) => setFieldValue('mics_L2desc', val)}
-                        value={values.mics_L2desc}
-                      />
-                      <p>mics_L3desc</p>
-                      <TextEditor
-                        setFieldValue={(val) => setFieldValue('mics_L3desc', val)}
-                        value={values.mics_L3desc}
-                      />
+                    <div className="col-lg-12">
+                      <div className="row mb-8">
+                        <Form.Label className="mt-5">mics_L1desc</Form.Label>
+                        <TextEditor
+                          setFieldValue={(val) => setFieldValue('mics_L1desc', val)}
+                          value={values.mics_L1desc}
+                        />
+                        <Form.Label className="mt-8">mics_L2desc</Form.Label>
+                        <TextEditor
+                          setFieldValue={(val) => setFieldValue('mics_L2desc', val)}
+                          value={values.mics_L2desc}
+                        />
+                        <Form.Label className="mt-8">mics_L3desc</Form.Label>
+                        <TextEditor
+                          setFieldValue={(val) => setFieldValue('mics_L3desc', val)}
+                          value={values.mics_L3desc}
+                        />
+                      </div>
                     </div>
 
                     <div className="col-lg-6">

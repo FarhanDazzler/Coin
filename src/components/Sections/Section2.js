@@ -20,21 +20,15 @@ import * as XLSX from 'xlsx';
 import { RedirectHandler } from '@azure/msal-browser/dist/internals';
 import readXlsxFile from 'read-excel-file';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getResponseSelector,
-  sectionAnsSelector,
-} from '../../redux/Assessments/AssessmentSelectors';
+import { sectionAnsSelector } from '../../redux/Assessments/AssessmentSelectors';
 import { saveAssessmentAns, updateAssessmentAns } from '../../redux/Assessments/AssessmentAction';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 
 function Section2(props) {
-   console.log("props",props);
   //const { ExportCSVButton } = CSVExport;
   const dispatch = useDispatch();
   const sectionAns = useSelector(sectionAnsSelector);
   const history = useHistory();
-
-  // const getResponse = useSelector(getResponseSelector);
   const getResponse = props?.getResponse;
   const [excelFile, setExcelFile] = useState(null);
   const [excelFileError, setExcelFileError] = useState(null);
@@ -1185,7 +1179,7 @@ function Section2(props) {
             Response_Data: JSON.stringify({
               s1: Object.fromEntries(props.result),
               s2: JSON.stringify(table_data),
-              s3: JSON.stringify(["wewe", "wewe"]),
+              s3: JSON.stringify(['wewe', 'wewe']),
             }),
             Time_Stamp: '01/30/2023',
           };
@@ -1479,8 +1473,8 @@ function Section2(props) {
                         onChange={
                           is_action_plan == 1
                             ? (e) => {
-                              action_plan(e);
-                            }
+                                action_plan(e);
+                              }
                             : ''
                         }
                       />
@@ -1587,8 +1581,8 @@ function Section2(props) {
                       ? document == 1 && frequency == 1
                         ? ' / inadequate Documentation and inadequate frequency'
                         : document == 1
-                          ? '/ inadequate Documentation'
-                          : '/ inadequate frequency '
+                        ? '/ inadequate Documentation'
+                        : '/ inadequate frequency '
                       : ' '}
                     {is_kpi_open == 1 ? ' / Failed KPI' : ''}
                   </h6>
@@ -1599,7 +1593,7 @@ function Section2(props) {
                     style={{ fontSize: '20px', height: ' 50px', width: '100%' }}
                     type="submit"
                     disabled={!submit1 || props.textfield.error}
-                  // onSubmit={(e) => submit(props, e, final, hash, setchildterminate)}
+                    // onSubmit={(e) => submit(props, e, final, hash, setchildterminate)}
                   >
                     SUBMIT
                   </Button>{' '}
@@ -1771,7 +1765,7 @@ function Section2(props) {
                                 ans.delete(item.ques_text);
                                 ans.set(item.ques_text, 'yes');
                                 setRadio(e.target.value);
-                                console.log("radio", e.target.value);
+                                console.log('radio', e.target.value);
                                 setans((prev) => new Map([...prev]));
                               }}
                             />
@@ -1782,24 +1776,21 @@ function Section2(props) {
                               Yes
                             </label>
                           </div>
-                          {
-                            radioField === "on" && (
-                              <textarea
-                                row="3"
-                                type="text"
-                                class="form-control"
-                                placeholder="Please enter the value here."
-                                id={item.id}
-                                value={hash.get(item.ques_text)}
-                                onChange={(e) => {
-                                  
-                                  child_terminate(item, e);
-                                }}
-                              >
-                                {/* {ans.get(item.ques_text)} */}
-                              </textarea>
-                            )
-                          }
+                          {radioField === 'on' && (
+                            <textarea
+                              row="3"
+                              type="text"
+                              class="form-control"
+                              placeholder="Please enter the value here."
+                              id={item.id}
+                              value={hash.get(item.ques_text)}
+                              onChange={(e) => {
+                                child_terminate(item, e);
+                              }}
+                            >
+                              {/* {ans.get(item.ques_text)} */}
+                            </textarea>
+                          )}
 
                           {childterminate == true && child_submit.get(item.id) == true ? (
                             <div>
@@ -1863,8 +1854,8 @@ function Section2(props) {
                           ? document == 1 && frequency == 1
                             ? ' / inadequate Documentation and inadequate frequency'
                             : document == 1
-                              ? '/ inadequate Documentation'
-                              : '/ inadequate frequency '
+                            ? '/ inadequate Documentation'
+                            : '/ inadequate frequency '
                           : ' '}
                         {is_kpi_open == 1 ? ' / Failed KPI' : ''}
                       </div>

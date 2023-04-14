@@ -19,3 +19,4 @@ export const getSubprocessParentSelector = (state) => state.mdm.getSubprocessPar
 export const getSubprocessPrefixSelector = (state) => state.mdm.getSubprocessPrefix;
 export const modifyControlOwnerAndOversightSelector = (state) =>
   state.mdm.modifyControlOwnerAndOversight;
+export const updateMicsFrameworkSelector = (state) => state.mdm.updateMicsFramework;
