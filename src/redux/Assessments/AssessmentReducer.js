@@ -72,7 +72,7 @@ const block = {
 const initialState = {
   sectionAns: null,
   questions: { ...block, data: [] },
-  getResponse: { ...block, data: { s1: null, s2: null, s3: null } },
+  getResponse: { ...block, data: null },
   addResponse: { ...block },
   getResponseSection2: { ...block, data: [] },
   addResponseSection2: { ...block },
@@ -148,6 +148,11 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
         getResponse: {
           ...state.getResponse,
           loading: false,
+          data: {
+            ...payload.data,
+            Latest_response: payload.data.latest_response,
+            latest_response: {},
+          },
         },
       };
     // const dataStr = JSON.parse(currentResp?.Response_Data);

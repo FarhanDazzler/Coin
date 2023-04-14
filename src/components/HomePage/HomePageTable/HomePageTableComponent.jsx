@@ -6,7 +6,12 @@ import { useEffect, useState } from 'react';
 import Table from '../../UI/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
-import { getControlDataAction, getControlDataGcdAction } from '../../../redux/ControlData/ControlDataAction';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import {
+  getControlDataAction,
+  getControlDataGcdAction,
+} from '../../../redux/ControlData/ControlDataAction';
+import Button from '../../UI/Button';
 
 const DashboardTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -117,7 +122,30 @@ const DashboardTable = () => {
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
+    {
+      field: 'View',
+      headerName: 'View',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 200,
+      renderCell: (row) => {
+        return (
+          <Button
+            variant="outlined"
+            className={' cursor-pointer'}
+            startIcon={<VisibilityIcon style={{ color: '#d3a306' }} />}
+            onClick={() => handleControlView(row.row.Control_ID)}
+          >
+            View
+          </Button>
+        );
+      },
+    },
   ];
+
+  const handleControlView = (id) => {
+    window.location.href = `/Assessments/${id}`;
+  };
 
   const handleControlIDClick = (id) => {
     //TODO: modal redirect

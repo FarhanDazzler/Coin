@@ -111,6 +111,14 @@ export const MODIFY_CONTROL_OWNER_AND_OVERSIGHT_ERROR = 'MODIFY_CONTROL_OWNER_AN
 
 // =================== Modify ControlOwner And Oversight Data ========================//
 
+// =================== Update Mics Framework Data ========================//
+
+export const UPDATE_MICS_FRAMEWORK_REQUEST = 'UPDATE_MICS_FRAMEWORK_REQUEST';
+export const UPDATE_MICS_FRAMEWORK_SUCCESS = 'UPDATE_MICS_FRAMEWORK_SUCCESS';
+export const UPDATE_MICS_FRAMEWORK_ERROR = 'UPDATE_MICS_FRAMEWORK_ERROR';
+
+// =================== Update Mics Framework Data ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -125,6 +133,7 @@ const initialState = {
   orgHierarchy: { ...block, data: [] },
   micsFramework: { ...block, data: [] },
   addMicsFramework: { ...block, data: [] },
+  updateMicsFramework: { ...block, data: [] },
   megaAndSubprocessView: { ...block, data: [] },
   megaAndSubprocess: { ...block, data: [] },
   addMegaAndSubprocess: { ...block, data: [] },
@@ -206,6 +215,23 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
       return {
         ...state,
         addMicsFramework: { ...state.addMicsFramework, loading: false },
+      };
+
+    // MDM UPDATE MICS Framework data
+    case UPDATE_MICS_FRAMEWORK_REQUEST:
+      return {
+        ...state,
+        updateMicsFramework: { ...state.updateMicsFramework, loading: true },
+      };
+    case UPDATE_MICS_FRAMEWORK_SUCCESS:
+      return {
+        ...state,
+        updateMicsFramework: { ...state.updateMicsFramework, data: payload, loading: false },
+      };
+    case UPDATE_MICS_FRAMEWORK_ERROR:
+      return {
+        ...state,
+        updateMicsFramework: { ...state.updateMicsFramework, loading: false },
       };
 
     // MEGA AND Subprocess view data

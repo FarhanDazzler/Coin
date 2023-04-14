@@ -8,7 +8,7 @@ import Table from '../../../../../components/UI/Table';
 import '../TableStyle.scss';
 
 // geting data from redux
-import { getControlOwnerAndOversightSelector } from '../../../../../redux/MDM/MDM_Selectors';
+import { getControlOwnerAndOversightSelector, modifyControlOwnerAndOversightSelector } from '../../../../../redux/MDM/MDM_Selectors';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import EditIcon from '@mui/icons-material/Edit';
@@ -21,6 +21,7 @@ import { MultiSelect } from '@mantine/core';
 import '../../MultiSelectButtonStyles.scss';
 import AssignModal from './AssignModal';
 import CustomModal from '../../../../../components/UI/CustomModal';
+import LcdModal from './LcdModal';
 import Swal from 'sweetalert2';
 
 // Filter buttons
@@ -146,14 +147,21 @@ const ControlOwnerAndOversightTable = () => {
   const [valueCowner, setValueCowner] = useState([]);
   const [valueCoversight, setValueCoversight] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showLcdModal, setShowLcdModal] = useState(false);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [assignTableData, setAssignTableData] = useState();
   console.log("assignTableData",assignTableData);
   const controlOwnerAndOversight = useSelector(getControlOwnerAndOversightSelector);
-
+  const modifyControlOwnerAndOversightState = useSelector(modifyControlOwnerAndOversightSelector);
+  console.log("modifyControlOwnerAndOversightState=====>>>>", modifyControlOwnerAndOversightState)
   const FilterData = (dataValue, conditionalParam) => {
     return dataValue.filter((i) => i[conditionalParam]);
   };
+  useEffect(() => {
+    console.log(modifyControlOwnerAndOversightState);
+    setShowLcdModal(false);
+    setShowModal(false);
+  }, [modifyControlOwnerAndOversightState.data])
   useEffect(() => {
     if (
       !valueControl_ID.length &&
@@ -261,7 +269,22 @@ const ControlOwnerAndOversightTable = () => {
   );
 
   const handleOnclickEdit = () => {
-    // edit code
+    let assignDataArray = []
+    if (editTableIndex.length >= 1) {
+      tableData.find((data, i) => {
+        console.log(i);
+        editTableIndex.map((dataa) => {
+          if (i === dataa) {
+            assignDataArray.push(data);
+            setAssignTableData(assignDataArray);
+            setShowLcdModal(true);
+          }
+        })
+        
+
+      })
+
+    }
   };
   const handleOnclickAdd = () => {
     let assignDataArray = []
@@ -274,16 +297,16 @@ const ControlOwnerAndOversightTable = () => {
         editTableIndex.map((dataa) => {
           if (i === dataa) {
             assignDataArray.push(data);
-            const coverSightCheck = assignDataArray.every(({ coversight }) => coversight === assignDataArray[0]?.coversight);
-            const cownerCheck = assignDataArray.every(({ cowner }) => cowner === assignDataArray[0]?.cowner);
-            if (cownerCheck === true && coverSightCheck === true) {
+            // const coverSightCheck = assignDataArray.every(({ coversight }) => coversight === assignDataArray[0]?.coversight);
+            // const cownerCheck = assignDataArray.every(({ cowner }) => cowner === assignDataArray[0]?.cowner);
+            // if (cownerCheck === true && coverSightCheck === true) {
               setAssignTableData(assignDataArray);
               setShowModal(true);
-            }else{
-              setAssignTableData([]);
-              setShowModal(false);
-              Swal.fire('Oops...', 'Selected Records are not matching with criteria to Assign. Try Selecting other Records', 'error');
-            }
+            // }else{
+            //   setAssignTableData([]);
+            //   setShowModal(false);
+            //   Swal.fire('Oops...', 'Selected Records are not matching with criteria to Assign. Try Selecting other Records', 'error');
+            // }
 
           }
         })
@@ -369,6 +392,16 @@ const ControlOwnerAndOversightTable = () => {
         bodyClassName="p-0"
       >
         <AssignModal setShowModal={setShowModal} assignTableData={assignTableData} />
+      </CustomModal>
+      <CustomModal
+        className="add-org"
+        open={showLcdModal}
+        onClose={() => setShowLcdModal(false)}
+        width={900}
+        title="Modify LCD"
+        bodyClassName="p-0"
+      >
+        <LcdModal setShowModal={setShowLcdModal} assignTableData={assignTableData} />
       </CustomModal>
     </>
   );

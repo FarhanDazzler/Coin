@@ -18,6 +18,7 @@ const ControlSection3 = ({
   showNoQuestionAns,
   setShowNoQuestionAns,
   setStartEdit,
+  isModal
 }) => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
@@ -201,13 +202,13 @@ const ControlSection3 = ({
         <div className="mt-5" id="section3">
           <>
             {questionL1.length > 0 && (
-              <RenderBlock blocks={questionL1} handleChange={handleChange} />
+              <RenderBlock blocks={questionL1} isModal={isModal} handleChange={handleChange} />
             )}
             {questionL2.length > 0 && (
-              <RenderBlock blocks={questionL2} handleChange={handleChange} />
+              <RenderBlock blocks={questionL2}isModal={isModal} handleChange={handleChange} />
             )}
             {questionL3.length > 0 && (
-              <RenderBlock blocks={questionL3} handleChange={handleChange} />
+              <RenderBlock blocks={questionL3}isModal={isModal} handleChange={handleChange} />
             )}
           </>
 

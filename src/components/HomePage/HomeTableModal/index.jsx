@@ -3,6 +3,7 @@ import CustomModal from '../../UI/CustomModal';
 import { useHistory } from 'react-router-dom';
 import './homeTableModalStyles.scss';
 import { useDispatch, useSelector } from 'react-redux';
+import { useMsal } from '@azure/msal-react';
 import {
   addAssessmentAns,
   addAssessmentSection2Ans,
@@ -17,6 +18,7 @@ import {
   addOrEditUpdateDraftSelector,
   getLatestDraftSelector,
   getQuestionsSelector,
+  getResponseSelector,
 } from '../../../redux/Assessments/AssessmentSelectors';
 import Swal from 'sweetalert2';
 import RenderHomeModalTable from './RenderHomeModalTable';
@@ -24,9 +26,13 @@ import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
 
 const HomeTableModal = ({ isModal = true }) => {
   const history = useHistory();
+  const { accounts } = useMsal();
+
   const query = new URLSearchParams(history.location.search);
   const dispatch = useDispatch();
+  const getResponse = useSelector(getResponseSelector);
   const latestDraftData = useSelector(getLatestDraftSelector);
+  const responseData = isModal ? latestDraftData : getResponse;
   const questionsInfo = useSelector(getQuestionsSelector);
   const [ansSection1, setAnsSection1] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -36,21 +42,22 @@ const HomeTableModal = ({ isModal = true }) => {
   const [terminating, setTerminating] = useState(false);
   const [startEdit, setStartEdit] = useState(false);
   const addOrEditUpdateDraft = useSelector(addOrEditUpdateDraftSelector);
-  const Control_ID = query.get('Control_ID') || !isModal ? 'ATR_MJE_01a-K' : '';
+  const [loading, setLoading] = useState(false);
 
+  const Control_ID = query.get('Control_ID') || !isModal ? 'ATR_MJE_01a-K' : '';
+  console.log('ansSection1', ansSection1, ansSection3);
   const handleClose = () => {
-    if (startEdit && latestDraftData?.data?.Attempt_no <= 5) {
+    if (startEdit && responseData?.data?.Attempt_no <= 5) {
       Swal.fire({
-        title: 'Are you sure?',
-        text: `Remaining response ${
-          latestDraftData?.data?.Attempt_no
-            ? latestDraftData?.data?.Attempt_no < 5
-              ? 4 - latestDraftData?.data?.Attempt_no
-              : 0
-            : latestDraftData?.data?.Attempt_no === 0
+        title: 'Do you want save as draft!',
+        text: `Remaining response ${responseData?.data?.Attempt_no
+          ? responseData?.data?.Attempt_no < 5
+            ? 4 - responseData?.data?.Attempt_no
+            : 0
+          : responseData?.data?.Attempt_no === 0
             ? '4'
             : '5'
-        }`,
+          }`,
         icon: 'warning',
         showConfirmButton: false,
         showCancelButton: true,
@@ -63,7 +70,7 @@ const HomeTableModal = ({ isModal = true }) => {
           history.push('/new');
         }
         if (result.isDenied) {
-          if (latestDraftData?.data?.Attempt_no >= 5) {
+          if (responseData?.data?.Attempt_no >= 5) {
             history.push('/new');
             return;
           }
@@ -71,7 +78,7 @@ const HomeTableModal = ({ isModal = true }) => {
             Assessment_ID: Control_ID,
             Latest_response: {
               s1: ansSection1,
-              s3: Object.entries(ansSection3),
+              s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
             },
           };
           dispatch(addOrUpdateDraft(payload));
@@ -92,13 +99,16 @@ const HomeTableModal = ({ isModal = true }) => {
       }),
     );
     setTimeout(() => {
-      dispatch(
-        getAssessmentAns({
-          assessment_id: 'ATR_MJE_01a-K AB InBev India',
-          cowner: 'Avi.Sehgal-ext@ab-inbev.com',
-        }),
-      );
-      dispatch(getLatestDraft({ assessment_id: Control_ID }));
+      if (isModal) {
+        dispatch(getLatestDraft({ assessment_id: Control_ID }));
+      } else {
+        dispatch(
+          getAssessmentAns({
+            assessment_id: Control_ID,
+            cowner: accounts[0]?.username,
+          }),
+        );
+      }
 
       dispatch(getAssessmentSection2Ans({ MICS_code: 'ATR_MJE_01a-K', Entity_ID: 'Argentina' }));
     }, 400);
@@ -115,14 +125,14 @@ const HomeTableModal = ({ isModal = true }) => {
       clearTimeout(handle);
     };
   }, [terminating]);
-
+  console.log('responseData', responseData);
   useEffect(() => {
-    if (latestDraftData.data?.Latest_response) {
-      if (latestDraftData.data?.Latest_response.s1)
-        setAnsSection1(latestDraftData.data?.Latest_response.s1);
+    if (responseData.data?.Latest_response) {
+      if (responseData.data?.Latest_response.s1)
+        setAnsSection1(responseData.data?.Latest_response.s1);
 
-      if (latestDraftData.data?.Latest_response.s3.length > 0) {
-        const section3Data = latestDraftData.data?.Latest_response?.s3?.reduce(
+      if (responseData.data?.Latest_response?.s3?.length > 0) {
+        const section3Data = responseData.data?.Latest_response?.s3?.reduce(
           (acc, [k, v]) => ((acc[k] = v), acc),
           {},
         );
@@ -141,41 +151,46 @@ const HomeTableModal = ({ isModal = true }) => {
         }
       }
     }
-  }, [latestDraftData.data]);
+  }, [responseData.data]);
 
   const handleSubmit = () => {
     Swal.fire({
-      title: 'Are you sure?',
-      text: `Remaining response ${
-        latestDraftData?.data?.Attempt_no
-          ? latestDraftData?.data?.Attempt_no < 5
-            ? 4 - latestDraftData?.data?.Attempt_no
-            : 0
-          : latestDraftData?.data?.Attempt_no === 0
+      title: 'Do you want Submit assessment',
+      text: `Remaining response ${responseData?.data?.Attempt_no
+        ? responseData?.data?.Attempt_no < 5
+          ? 4 - responseData?.data?.Attempt_no
+          : 0
+        : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
-      }`,
+        }`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
       cancelButtonColor: 'black',
       confirmButtonText: 'Yes, submit it!',
-      showDenyButton: !(latestDraftData?.data?.Attempt_no >= 5),
+      showDenyButton: !(responseData?.data?.Attempt_no >= 5),
       denyButtonText: 'Save draft!',
       denyButtonColor: 'silver',
     }).then((result) => {
       if (result.isConfirmed) {
+        setLoading(true);
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
         const payload = {
           Assessment_ID: 'ATR_MJE_01a-K',
           Assessment_result: 'Pass',
           Latest_response: {
             s1: ansSection1,
-            s3: Object.entries(ansSection3),
+            s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
           },
           event: {
             onSuccess: () => {
-              Swal.fire('Saved!', '', 'success');
+              setLoading(false);
+              if (showNoQuestionAns) {
+                Swal.fire('Your Assesment has been failed', '', 'success');
+              } else {
+                Swal.fire('Your Assesment has been passed', '', 'success');
+              }
               history.push('/new');
             },
           },
@@ -183,14 +198,14 @@ const HomeTableModal = ({ isModal = true }) => {
         dispatch(addAssessmentAns(payload));
       }
       if (result.isDenied) {
-        if (latestDraftData?.data?.Attempt_no >= 5) {
+        if (responseData?.data?.Attempt_no >= 5) {
           return;
         }
         const payload = {
           Assessment_ID: Control_ID,
           Latest_response: {
             s1: ansSection1,
-            s3: Object.entries(ansSection3),
+            s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
           },
         };
         dispatch(addOrUpdateDraft(payload));
@@ -200,14 +215,14 @@ const HomeTableModal = ({ isModal = true }) => {
   };
 
   const handleSaveDraft = () => {
-    if (latestDraftData?.data?.Attempt_no >= 5) {
+    if (responseData?.data?.Attempt_no >= 5) {
       return;
     }
     const payload = {
       Assessment_ID: Control_ID,
       Latest_response: {
         s1: ansSection1,
-        s3: Object.entries(ansSection3),
+        s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
       },
     };
     dispatch(addOrUpdateDraft(payload));
@@ -233,11 +248,12 @@ const HomeTableModal = ({ isModal = true }) => {
         handleSubmit={handleSubmit}
         handleSaveDraft={handleSaveDraft}
         handleSaveDraftProps={{
-          disabled: latestDraftData?.data?.Attempt_no >= 5,
+          disabled: responseData?.data?.Attempt_no >= 5,
           style: { width: 128 },
           loading: addOrEditUpdateDraft.loading,
         }}
         setStartEdit={setStartEdit}
+        isModal={true}
       />
     );
 
@@ -266,8 +282,9 @@ const HomeTableModal = ({ isModal = true }) => {
         handleSubmit={handleSubmit}
         controlId={Control_ID}
         handleSaveDraft={handleSaveDraft}
+        loadingSubmit={loading}
         handleSaveDraftProps={{
-          disabled: latestDraftData?.data?.Attempt_no >= 5,
+          disabled: responseData?.data?.Attempt_no >= 5,
           style: { width: 128 },
           loading: addOrEditUpdateDraft.loading,
         }}

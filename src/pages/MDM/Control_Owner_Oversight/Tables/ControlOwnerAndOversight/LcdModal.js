@@ -14,27 +14,10 @@ import useDebounce from '../../../../../hooks/useDebounce';
 import MyStatefulEditor from '../../../../../components/FormInputs/RichTextEditor';
 import { TextEditor } from '../../../../../components/FormInputs/RichTextEditor/RichTextEditor';
 import { modifyControlOwnerAndOversight } from '../../../../../redux/MDM/MDM_Action';
-import InputWidthSelect from '../../../../../components/UI/InputWidthSelect/InputWidthSelect';
-import AdSearch from './AdSearch';
 
-const GetParentEntityValue = ({ setQId2Value }) => {
-    // Grab values and submitForm from context
-    const { values } = useFormikContext();
-    //console.log(values);
-    useEffect(() => {
-        values.assignTableData.map((data, i) => {
-            console.log("hihihihihihihi", data, i);
-            console.log("set ra", values.assignTableData[i].cowner)
-        })
-        setQId2Value('')
-    }, [values]);
-    return null;
-};
-
-const AssignModal = ({ setShowModal, assignTableData }) => {
+const LcdModal = ({ setShowModal, assignTableData }) => {
     const dispatch = useDispatch();
     const [qId2Value, setQId2Value] = useState('');
-    console.log(qId2Value);
     const q_id_2_debounce = useDebounce(qId2Value, 500);
     const [showModal, setShowModalRichText] = useState(false);
     // Handel Rich Text Editor POP up close
@@ -42,35 +25,29 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
         setShowModalRichText('');
     };
     const [lcdValue, setLcdValue] = useState('');
-    const [isStart, setIsStart] = useState(false);
-    const [block, setBlock] = useState()
 
-    // useEffect(() => {
-    //     dispatch(getUserFromAD({ username: qId2Value }));
-    // }, [q_id_2_debounce]);
-    // const userFromAD = useSelector(getUserFromADSelector);
-
-    // useEffect(() => {
-    //     if (userFromAD.loading) return;
-    //     const apiUserData = userFromAD.data || [];
-    //     const userData = apiUserData.map((d) => ({ value: d.mail, label: d.displayName }));
-    //     const updateAnsObj = { dropDownOption: userData, loading: false }
-    //     setBlock(updateAnsObj)
-
-    // }, [userFromAD.data]);
+    const onChangeMicsL1Desc = (value) => {
+        switch (showModal) {
+            case 'local_control_description':
+                return setLcdValue(value);
+        }
+    };
+    useEffect(() => {
+        dispatch(getUserFromAD({ username: qId2Value }));
+    }, [q_id_2_debounce]);
+    const stateAzureAd = useSelector(getUserFromADSelector)
+    console.log(stateAzureAd)
+    console.log(assignTableData)
     const handleSaveAssign = (value) => {
         const payload = {
             "control_instances": value?.assignTableData
         }
         dispatch(modifyControlOwnerAndOversight(payload));
 
-
     }
-    const handleChangeAd = (value, block) => {
-        setIsStart(true);
-        setQId2Value(value);
-
-    }
+    let today = moment().format('YYYY-MM-DD');
+    let validToDate = "9999-12-31"
+    console.log(validToDate);
     return (
         <>
             <div className="p-5 assign-modal">
@@ -82,13 +59,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
 
                     }}
                     validationSchema={Yup.object().shape({
-                        // assignTableData: Yup.array()
-                        //     .of(
-                        //         Yup.object().shape({
-                        //             local_control_description: Yup.string().required('LCD Required'),
-                        //             cowner: Yup.string().required('cowner Required'),
-                        //         })
-                        //     )
+
 
                     })}
                     onSubmit={async (
@@ -137,7 +108,6 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
 
 
                                             </div>
-                                            <hr />
 
                                             <div className="row">
                                                 {/*Rich text Editor call*/}
@@ -156,81 +126,32 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div className="col-lg-6">
+                                                {/* <div className="col-lg-6">
                                                     <div className='row mb-4'>
-                                                        <div className="col-lg-5">
-                                                            <Form.Label>Control Owner</Form.Label>
+                                                        <div className="col-lg-12">
+                                                            <Form.Label>LCD</Form.Label>
                                                         </div>
-                                                        <div className="col-lg-7">
+                                                        <div className="col-lg-12">
                                                             <Form.Group className="input-group mb-3">
+                                                               
                                                                 <Form.Control
                                                                     type="text"
-                                                                    name={`assignTableData[${i}].cowner`}
-                                                                    placeholder="cowner"
-                                                                    value={values.assignTableData[i].cowner}
-                                                                    isInvalid={Boolean(
-                                                                        touched.cowner && errors.cowner
-                                                                    )}
-                                                                    onBlur={handleBlur}
-                                                                    //setFieldValue={(val) => setFieldValue(`assignTableData[${i}].cowner`, val)}
-                                                                    onChange={(e) => {
-                                                                        setFieldValue(`assignTableData[${i}].cowner`, e.target.value)
-                                                                        setQId2Value(e.target.value)
-                                                                    }}
-                                                                    readOnly={false}
-                                                                    className="form-control"
-                                                                />
-
-
-                                                                {!!touched.cowner && (
-                                                                    <Form.Control.Feedback type="invalid">
-                                                                        {errors.cowner}
-                                                                    </Form.Control.Feedback>
-                                                                )}
-
-                                                            </Form.Group>
-                                                            {/* <AdSearch
-                                                                block={block}
-                                                                handleChange={handleChangeAd}
-                                                                userApiStart={isStart}
-                                                                value={values.assignTableData[i].cowner}
-                                                            /> */}
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div className="col-lg-6">
-                                                    <div className='row mb-4'>
-                                                        <div className="col-lg-5">
-                                                            <Form.Label>Control Oversight</Form.Label>
-                                                        </div>
-                                                        <div className="col-lg-7">
-                                                            <Form.Group className="input-group mb-3">
-
-                                                                <Form.Control
-                                                                    type="text"
-                                                                    name={`assignTableData[${i}].coversight`}
+                                                                    name={`assignTableData[${i}].local_control_description`}
                                                                     placeholder=""
-                                                                    value={values.assignTableData[i].coversight}
-                                                                    isInvalid={Boolean(
-                                                                        touched.coversight && errors.coversight
-                                                                    )}
+                                                                    value={values.assignTableData[i].local_control_description}
+
                                                                     onBlur={handleBlur}
+
                                                                     onChange={handleChange}
                                                                     readOnly={false}
                                                                     className="form-control"
                                                                 />
 
-                                                                {!!touched.coversight && (
-                                                                    <Form.Control.Feedback type="invalid">
-                                                                        {errors.coversight}
-                                                                    </Form.Control.Feedback>
-                                                                )}
+
                                                             </Form.Group>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> */}
 
 
                                             </div>
@@ -257,7 +178,6 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                                         </div>
                                     </div>
                                 </div>
-                                {/* <GetParentEntityValue setQId2Value={setQId2Value} /> */}
                             </Form>
                         </>
 
@@ -269,4 +189,4 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
     )
 }
 
-export default AssignModal;
+export default LcdModal;

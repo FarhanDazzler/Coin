@@ -25,6 +25,8 @@ const RenderHomeModalTable = ({
   setStartEdit,
   handleSaveDraft,
   handleSaveDraftProps = {},
+  loadingSubmit,
+  isModal = false
 }) => {
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
   React.useEffect(() => {
@@ -98,6 +100,7 @@ const RenderHomeModalTable = ({
             ans={ansSection1}
             setAns={setAnsSection1}
             setStartEdit={setStartEdit}
+            isModal={!isModal}
           />
           {showMoreSection && (
             <>
@@ -114,21 +117,22 @@ const RenderHomeModalTable = ({
                 showNoQuestionAns={showNoQuestionAns}
                 setShowNoQuestionAns={setShowNoQuestionAns}
                 setStartEdit={setStartEdit}
+                isModal={!isModal}
               />
             </>
           )}
 
-          {terminating ? (
+          {!isModal && terminating ? (
             <>
               {section1TerminatingLogicValue ||
-              (Object.keys(ansSection3).length !== 0 && Object.keys(ansSection3).length !== 3) ? (
+                (Object.keys(ansSection3).length !== 0 && Object.keys(ansSection3).length !== 3) ? (
                 <div style={{ color: 'red', marginBottom: '10px' }}>
                   Based on above response, the control is assessed as failed because of{' '}
                   {Object.keys(ansSection3).length == 1
                     ? 'L1'
                     : Object.keys(ansSection3).length == 2
-                    ? 'L2'
-                    : ''}{' '}
+                      ? 'L2'
+                      : ''}{' '}
                   {'  '}
                   {section1TerminatingLogicValue &&
                     Object.keys(ansSection3).length !== 0 &&
@@ -139,11 +143,17 @@ const RenderHomeModalTable = ({
                 </div>
               ) : null}
 
-              <Button color="neutral" className="w-100" id="submit-button" onClick={handleSubmit}>
+              <Button
+                color="neutral"
+                className="w-100"
+                id="submit-button"
+                loading={loadingSubmit}
+                onClick={handleSubmit}
+              >
                 Submit
               </Button>
             </>
-          ) : handleSaveDraft ? (
+          ) : handleSaveDraft && !isModal ? (
             <div className="save-draft-btn-wrapper">
               <Button onClick={handleSaveDraft} {...handleSaveDraftProps}>
                 Save draft!

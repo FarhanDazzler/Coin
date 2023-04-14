@@ -17,6 +17,7 @@ import {
   GET_SUBPROCESS_PARENT_REQUEST,
   GET_SUBPROCESS_PREFIX_REQUEST,
   MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
+  UPDATE_MICS_FRAMEWORK_REQUEST,
 } from './MDM_Reducer';
 
 export const getOrgStructures = (payload) => ({ type: GET_ORG_STRUCTURES_REQUEST, payload });
@@ -36,6 +37,7 @@ export const getOrgHierarchy = (payload) => ({ type: GET_ORG_HIERARCHY_REQUEST, 
 
 export const getMicsFramework = (payload) => ({ type: GET_MICS_FRAMEWORK_REQUEST, payload });
 export const addMicsFramework = (payload) => ({ type: ADD_MICS_FRAMEWORK_REQUEST, payload });
+export const updateMicsFramework = (payload) => ({ type: UPDATE_MICS_FRAMEWORK_REQUEST, payload });
 
 export const getMegaAndSubprocessView = (payload) => ({
   type: GET_MEGA_AND_SUBPROCESS_VIEW_REQUEST,
