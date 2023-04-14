@@ -23,7 +23,6 @@ const MicsFrameworkTable = () => {
   const [tableData, setTableData] = useState([]);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [editTableData, setEditTableData] = useState();
-
   const micsFramework = useSelector(getMicsFrameworkSelector);
 
   const TABLE_COLUMNS = [
@@ -318,21 +317,19 @@ const MicsFrameworkTable = () => {
     if (editTableIndex.length > 1) {
       Swal.fire('Oops...', 'You can only allow one MICS Framework to edit at a time', 'error');
     } else if (editTableIndex.length == 1) {
-      tableData.find((data, i) => {
-        console.log(i);
-        if (i === editTableIndex[0]) {
-          setEditTableData(data);
-        }
+      if (!editTableIndex[0]) return;
+      const filterData = tableData[editTableIndex[0]];
+
+      const data = { title: 'Edit MICS Framework', modalType: 'edit', editTableData: filterData };
+      history.push('/master-data-management/mics-framework/addNew', {
+        data,
       });
-      console.log(editTableData, 'Before pushing to edit page');
-      const data = { title: 'Edit MICS Framework', modalType: 'edit' };
-      history.push('/master-data-management/mics-framework/addNew', { data, editTableData });
     }
   };
   const handleOnclickAdd = () => {
     // Add code
-    const data = { title: 'Add MICS Framework', modalType: 'add' };
-    history.push('/master-data-management/mics-framework/addNew', { data, editTableData });
+    const data = { title: 'Add MICS Framework', modalType: 'add', editTableData: null };
+    history.push('/master-data-management/mics-framework/addNew', { data });
   };
 
   return (

@@ -21,8 +21,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
 
   const title = props.location.state.data?.title;
   const modalType = props.location.state.data?.modalType;
-  const editTableData = props.location.state?.editTableData;
-  console.log(editTableData, 'editable Data');
+  const editTableData = props.location.state.data?.editTableData;
 
   const location = useLocation();
   const history = useHistory();
@@ -73,7 +72,53 @@ const AddValues_MDM_Mics_Framework = (props) => {
       change_comment: value.change_comment,
       Risk_ID: value.Risk_ID,
     };
-    dispatch(addMicsFramework(payload));
+
+    let editPayload = {
+      MICS_2020_No: value.MICS_2020_No,
+      MICS_2021_No: value.MICS_2021_No,
+      Control_ID: editTableData?.Control_ID,
+      Mega_Process: value.Mega_Process,
+      ABI_Key: parseInt(value.ABI_Key),
+      Ambev_Key: parseInt(value.Ambev_Key),
+      FCPA: parseInt(value.FCPA),
+      Frequency: value.Frequency,
+      Preventive_Detective: parseInt(value.Preventive_Detective),
+      Automation: value.Automation,
+      Recommended_Level: value.Recommended_Level,
+      Maturity_Relevant: parseInt(value.Maturity_Relevant),
+      mics_weight: parseInt(value.mics_weight),
+      Recommended_Standardization: value.Recommended_Standardization,
+      ABI_DAG: value.ABI_DAG,
+      AmBev_DAG: value.AmBev_DAG,
+      B2B: value.B2B,
+      Fintech: parseInt(value.Fintech),
+      Control_Split: parseInt(value.Control_Split),
+      Sub_Process: value.Sub_Process,
+      Risk: value.Risk,
+      Control_name: value.Control_name,
+      mics_L1desc: value.mics_L1desc,
+      mics_L2desc: value.mics_L2desc,
+      mics_L3desc: value.mics_L3desc,
+      BS_impact: value.BS_impact,
+      PnL_impact: value.PnL_impact,
+      Cash_flow_impact: value.Cash_flow_impact,
+      testing_approach: value.testing_approach,
+      L3_KPI: parseInt(value.L3_KPI),
+      L2_KPI: parseInt(value.L2_KPI),
+      L1_KPI: parseInt(value.L1_KPI),
+      Kpi_status: parseInt(value.Kpi_status),
+      Change: value.Change,
+      change_comment: value.change_comment,
+      Risk_ID: value.Risk_ID,
+    };
+
+    if (modalType === 'add') {
+      console.log('ADD=>>>>>>>>>>>>>>>>>>');
+      dispatch(addMicsFramework(payload));
+    } else {
+      console.log('Edit=>>>>>>>>>>>>>>>>>>');
+      dispatch(updateMicsFramework(editPayload));
+    }
   };
 
   return (
@@ -85,42 +130,54 @@ const AddValues_MDM_Mics_Framework = (props) => {
             <Formik
               enableReinitialize
               initialValues={{
-                MICS_2020_No: '',
-                MICS_2021_No: '',
-                Control_ID: '',
-                Mega_Process: '',
-                ABI_Key: '',
-                Ambev_Key: '',
-                FCPA: '',
-                Frequency: '',
-                Preventive_Detective: '',
-                Automation: '',
-                Recommended_Level: '',
-                Maturity_Relevant: '',
-                mics_weight: '',
-                Recommended_Standardization: '',
-                ABI_DAG: '',
-                AmBev_DAG: '',
-                B2B: '',
-                Fintech: '',
-                Control_Split: '',
-                Sub_Process: '',
-                Risk: '',
-                Control_name: '',
-                mics_L1desc: '',
-                mics_L2desc: '',
-                mics_L3desc: '',
-                BS_impact: '',
-                PnL_impact: '',
-                Cash_flow_impact: '',
-                testing_approach: '',
-                L3_KPI: '',
-                L2_KPI: '',
-                L1_KPI: '',
-                Kpi_status: '',
-                Change: '',
-                change_comment: '',
-                Risk_ID: '',
+                MICS_2020_No: editTableData?.MICS_2020_No || '',
+                MICS_2021_No: editTableData?.MICS_2021_No ? editTableData?.MICS_2021_No : '',
+                Control_ID: editTableData?.Control_ID ? editTableData?.Control_ID : '',
+                Mega_Process: editTableData?.Mega_Process ? editTableData?.Mega_Process : '',
+                ABI_Key: editTableData?.ABI_Key ? editTableData?.ABI_Key : '',
+                Ambev_Key: editTableData?.Ambev_Key ? editTableData?.Ambev_Key : '',
+                FCPA: editTableData?.FCPA ? editTableData?.FCPA : '',
+                Frequency: editTableData?.Frequency ? editTableData?.Frequency : '',
+                Preventive_Detective: editTableData?.Preventive_Detective
+                  ? editTableData?.Preventive_Detective
+                  : '',
+                Automation: editTableData?.Automation ? editTableData?.Automation : '',
+                Recommended_Level: editTableData?.Recommended_Level
+                  ? editTableData?.Recommended_Level
+                  : '',
+                Maturity_Relevant: editTableData?.Maturity_Relevant
+                  ? editTableData?.Maturity_Relevant
+                  : '',
+                mics_weight: editTableData?.mics_weight ? editTableData?.mics_weight : '',
+                Recommended_Standardization: editTableData?.Recommended_Standardization
+                  ? editTableData?.Recommended_Standardization
+                  : '',
+                ABI_DAG: editTableData?.ABI_DAG ? editTableData?.ABI_DAG : '',
+                AmBev_DAG: editTableData?.AmBev_DAG ? editTableData?.AmBev_DAG : '',
+                B2B: editTableData?.B2B ? editTableData?.B2B : '',
+                Fintech: editTableData?.Fintech ? editTableData?.Fintech : '',
+                Control_Split: editTableData?.Control_Split ? editTableData?.Control_Split : '',
+                Sub_Process: editTableData?.Sub_Process ? editTableData?.Sub_Process : '',
+                Risk: editTableData?.Risk ? editTableData?.Risk : '',
+                Control_name: editTableData?.Control_name ? editTableData?.Control_name : '',
+                mics_L1desc: editTableData?.mics_L1desc ? editTableData?.mics_L1desc : '',
+                mics_L2desc: editTableData?.mics_L2desc ? editTableData?.mics_L2desc : '',
+                mics_L3desc: editTableData?.mics_L3desc ? editTableData?.mics_L3desc : '',
+                BS_impact: editTableData?.BS_impact ? editTableData?.BS_impact : '',
+                PnL_impact: editTableData?.PnL_impact ? editTableData?.PnL_impact : '',
+                Cash_flow_impact: editTableData?.Cash_flow_impact
+                  ? editTableData?.Cash_flow_impact
+                  : '',
+                testing_approach: editTableData?.testing_approach
+                  ? editTableData?.testing_approach
+                  : '',
+                L3_KPI: editTableData?.L3_KPI ? editTableData?.L3_KPI : '',
+                L2_KPI: editTableData?.L2_KPI ? editTableData?.L2_KPI : '',
+                L1_KPI: editTableData?.L1_KPI ? editTableData?.L1_KPI : '',
+                Kpi_status: editTableData?.Kpi_status ? editTableData?.Kpi_status : '',
+                Change: editTableData?.Change ? editTableData?.Change : '',
+                change_comment: editTableData?.change_comment ? editTableData?.change_comment : '',
+                Risk_ID: editTableData?.Risk_ID ? editTableData?.Risk_ID : '',
               }}
               validationSchema={Yup.object().shape(addMicsValidationSchema)}
               onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
@@ -222,7 +279,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               isInvalid={Boolean(touched.Control_ID && errors.Control_ID)}
                               onBlur={handleBlur}
                               onChange={handleChange}
-                              readOnly={false}
+                              readOnly={modalType === 'add' ? false : true}
                               className="form-control"
                             />
 
