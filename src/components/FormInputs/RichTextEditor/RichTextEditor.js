@@ -28,6 +28,7 @@ export const TextEditor = ({ value, setFieldValue }) => {
     <div>
       <Editor
         editorState={editorState}
+        toolbarClassName="custom-toolbar"
         wrapperClassName="custom-wrapper"
         editorClassName="custom-editor"
         onEditorStateChange={onEditorStateChange}

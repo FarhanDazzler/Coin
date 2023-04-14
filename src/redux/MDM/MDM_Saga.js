@@ -52,6 +52,9 @@ import {
   MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
   MODIFY_CONTROL_OWNER_AND_OVERSIGHT_SUCCESS,
   MODIFY_CONTROL_OWNER_AND_OVERSIGHT_ERROR,
+  UPDATE_MICS_FRAMEWORK_REQUEST,
+  UPDATE_MICS_FRAMEWORK_SUCCESS,
+  UPDATE_MICS_FRAMEWORK_ERROR,
 } from './MDM_Reducer';
 import Swal from 'sweetalert2';
 
@@ -206,6 +209,30 @@ function* addMicsFrameworkData({ payload }) {
   } catch (error) {
     yield put({
       type: ADD_MICS_FRAMEWORK_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+async function updateMicsFrameworkApi(payload) {
+  return await Axios.post('/update_mics_framework_details', payload);
+}
+function* updateMicsFrameworkData({ payload }) {
+  try {
+    const response = yield call(updateMicsFrameworkApi, payload);
+    if (response.success) {
+      yield put({
+        type: UPDATE_MICS_FRAMEWORK_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Updated Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: UPDATE_MICS_FRAMEWORK_ERROR,
       // error: getSimplifiedError(error),
     });
     Swal.fire('Oops...', 'Something Went Wrong', 'error');
@@ -427,4 +454,5 @@ export default all([
     handleGet_ApplicabilityAndAssignmentOfProviderOrganization,
   ),
   takeLatest(MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, modifyControlOwnerAndOversightData),
+  takeLatest(UPDATE_MICS_FRAMEWORK_REQUEST, updateMicsFrameworkData),
 ]);
