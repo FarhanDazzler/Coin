@@ -1,13 +1,13 @@
 import React from 'react';
-import Input from '../Input';
+import Input from '../../../../../components/UI/Input';
 import { Loader, Select } from '@mantine/core';
 import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import './styles.scss';
-import { validateEmail } from '../../../utils/helper';
+import '../../../../../components/UI/InputWidthSelect/styles.scss';
+import { validateEmail } from '../../../../../utils/helper';
 
-const InputWidthSelect = ({ block = {}, handleChange, userApiStart }) => {
+const AdSearch = ({ block = {}, handleChange, userApiStart }) => {
   const { label, required, loading, dropDownOption, isDropdownSaveInput = true, value } = block;
   console.log(block, "Hi........................")
   return (
@@ -68,4 +68,4 @@ const InputWidthSelect = ({ block = {}, handleChange, userApiStart }) => {
   );
 };
 
-export default InputWidthSelect;
+export default AdSearch;
