@@ -5,6 +5,10 @@ const addMicsValidationSchema = {
   MICS_2021_No: Yup.string().required('MICS Number is required'),
   Control_ID: Yup.string().required('Control ID is required'),
   Mega_Process: Yup.string().required('Mega Process is required'),
+  Category: Yup.string().required('Category is required'),
+  Change_Size: Yup.string().required('Change_Size is required'),
+  DTC: Yup.string().required('DTC is required'),
+  Reviewed: Yup.string().required('Reviewed is required'),
   ABI_Key: Yup.string().required('ABI Key is required'),
   Ambev_Key: Yup.string().required('Ambev Key is required'),
   FCPA: Yup.string().required('FCPA is required'),
@@ -34,9 +38,7 @@ const addMicsValidationSchema = {
   L2_KPI: Yup.string().required('L2 KPI is required'),
   L1_KPI: Yup.string().required('L1 KPI is required'),
   Kpi_status: Yup.string().required('Kpi status  is required'),
-  Change: Yup.string().required('Change is required'),
   change_comment: Yup.string().required('change comment is required'),
-  Risk_ID: Yup.string().required('Risk_ID is required'),
 };
 
 export { addMicsValidationSchema };
