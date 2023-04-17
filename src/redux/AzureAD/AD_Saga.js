@@ -45,12 +45,14 @@ async function isEmailValidADApi(params) {
   return await Axios.get('/is_valid_email_ad', { params });
 }
 function* handle_isEmailValidAD({ payload }) {
+  console.log(payload);
   try {
     const response = yield call(isEmailValidADApi, payload);
-    if (response.success) {
+    console.log(response);
+    if (response.isValid) {
       yield put({
         type: ID_EMAIL_VALID_AD_SUCCESS,
-        payload: response.data,
+        payload: response,
       });
     }
   } catch (error) {
