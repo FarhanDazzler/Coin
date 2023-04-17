@@ -68,9 +68,9 @@ const AddValues_MDM_Mics_Framework = (props) => {
       PnL_impact: value.PnL_impact,
       Cash_flow_impact: value.Cash_flow_impact,
       testing_approach: value.testing_approach,
-      L3_KPI: parseInt(value.L3_KPI),
-      L2_KPI: parseInt(value.L2_KPI),
-      L1_KPI: parseInt(value.L1_KPI),
+      L3_KPI: value.L3_KPI,
+      L2_KPI: value.L2_KPI,
+      L1_KPI: value.L1_KPI,
       Kpi_status: value.Kpi_status,
       change_comment: value.change_comment,
     };
@@ -109,9 +109,9 @@ const AddValues_MDM_Mics_Framework = (props) => {
       PnL_impact: value.PnL_impact,
       Cash_flow_impact: value.Cash_flow_impact,
       testing_approach: value.testing_approach,
-      L3_KPI: parseInt(value.L3_KPI),
-      L2_KPI: parseInt(value.L2_KPI),
-      L1_KPI: parseInt(value.L1_KPI),
+      L3_KPI: value.L3_KPI,
+      L2_KPI: value.L2_KPI,
+      L1_KPI: value.L1_KPI,
       Kpi_status: value.Kpi_status,
       change_comment: value.change_comment,
     };
@@ -1227,8 +1227,8 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               className="form-select"
                             >
                               <option value="">Select L3 KPI</option>
-                              <option value="1">Yes</option>
-                              <option value="0">No</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
                             </Form.Control>
 
                             {!!touched.L3_KPI && (
@@ -1260,8 +1260,8 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               className="form-select"
                             >
                               <option value="">Select L2 KPI</option>
-                              <option value="1">Yes</option>
-                              <option value="0">No</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
                             </Form.Control>
 
                             {!!touched.L2_KPI && (
@@ -1293,8 +1293,8 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               className="form-select"
                             >
                               <option value="">Select L1 KPI</option>
-                              <option value="1">Yes</option>
-                              <option value="0">No</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
                             </Form.Control>
 
                             {!!touched.L1_KPI && (
