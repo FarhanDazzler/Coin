@@ -55,6 +55,12 @@ import {
   UPDATE_MICS_FRAMEWORK_REQUEST,
   UPDATE_MICS_FRAMEWORK_SUCCESS,
   UPDATE_MICS_FRAMEWORK_ERROR,
+  GET_MEGA_PROCESS_MICS_FRAMEWORK_REQUEST,
+  GET_MEGA_PROCESS_MICS_FRAMEWORK_SUCCESS,
+  GET_MEGA_PROCESS_MICS_FRAMEWORK_ERROR,
+  GET_SUB_PROCESS_MICS_FRAMEWORK_REQUEST,
+  GET_SUB_PROCESS_MICS_FRAMEWORK_SUCCESS,
+  GET_SUB_PROCESS_MICS_FRAMEWORK_ERROR,
 } from './MDM_Reducer';
 import Swal from 'sweetalert2';
 
@@ -237,6 +243,46 @@ function* updateMicsFrameworkData({ payload }) {
       // error: getSimplifiedError(error),
     });
     Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+async function getMegaProcessMicsFrameworkApi(params) {
+  return await Axios.get('/get_mega_process_abv', { params });
+}
+function* handleGet_MegaProcessMicsFramework({ payload }) {
+  try {
+    const response = yield call(getMegaProcessMicsFrameworkApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_MEGA_PROCESS_MICS_FRAMEWORK_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_MEGA_PROCESS_MICS_FRAMEWORK_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+async function getSubProcessMicsFrameworkApi(params) {
+  return await Axios.get('/get_sub_process_abv', { params });
+}
+function* handleGet_SubProcessMicsFramework({ payload }) {
+  try {
+    const response = yield call(getSubProcessMicsFrameworkApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_SUB_PROCESS_MICS_FRAMEWORK_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_SUB_PROCESS_MICS_FRAMEWORK_ERROR,
+      // error: getSimplifiedError(error),
+    });
   }
 }
 
@@ -456,4 +502,6 @@ export default all([
   ),
   takeLatest(MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, modifyControlOwnerAndOversightData),
   takeLatest(UPDATE_MICS_FRAMEWORK_REQUEST, updateMicsFrameworkData),
+  takeLatest(GET_MEGA_PROCESS_MICS_FRAMEWORK_REQUEST, handleGet_MegaProcessMicsFramework),
+  takeLatest(GET_SUB_PROCESS_MICS_FRAMEWORK_REQUEST, handleGet_SubProcessMicsFramework),
 ]);
