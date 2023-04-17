@@ -26,37 +26,27 @@ const LcdModal = ({ setShowModal, assignTableData }) => {
     };
     const [lcdValue, setLcdValue] = useState('');
 
-    const onChangeMicsL1Desc = (value) => {
-        switch (showModal) {
-            case 'local_control_description':
-                return setLcdValue(value);
-        }
-    };
-    useEffect(() => {
-        dispatch(getUserFromAD({ username: qId2Value }));
-    }, [q_id_2_debounce]);
-    const stateAzureAd = useSelector(getUserFromADSelector)
-    console.log(stateAzureAd)
-    console.log(assignTableData)
+
     const handleSaveAssign = (value) => {
+        const newState = assignTableData.map(obj => {
+
+            return { ...obj, local_control_description: value.lcd };
+        });
+        console.log(newState);
         const payload = {
-            "control_instances": value?.assignTableData
+            "control_instances": newState
         }
         dispatch(modifyControlOwnerAndOversight(payload));
 
     }
-    let today = moment().format('YYYY-MM-DD');
-    let validToDate = "9999-12-31"
-    console.log(validToDate);
+
     return (
         <>
             <div className="p-5 assign-modal">
                 <Formik
                     enableReinitialize
                     initialValues={{
-
-                        assignTableData
-
+                        lcd: ''
                     }}
                     validationSchema={Yup.object().shape({
 
@@ -91,15 +81,15 @@ const LcdModal = ({ setShowModal, assignTableData }) => {
                     }) => (
                         <>
                             <Form onSubmit={handleSubmit}>
-                                {
-                                    assignTableData.map((data, i) => (
-                                        <div key={i}>
+
+                                <div>
+                                    <Form.Label>Selected Control Id:</Form.Label>
+                                    {
+                                        assignTableData.map((data, i) => (
                                             <div className="row">
                                                 <div className="col-md-6">
                                                     <div className='row mb-4'>
-                                                        <div className="col-md-3">
-                                                            <Form.Label>Control Id:</Form.Label>
-                                                        </div>
+
                                                         <div className="col-md-7 yellow-gradient-text" style={{ fontSize: "0.875rem", fontWeight: "900" }}>
                                                             <p>{data?.control_id_provider_entity}</p>
                                                         </div>
@@ -108,25 +98,28 @@ const LcdModal = ({ setShowModal, assignTableData }) => {
 
 
                                             </div>
+                                        ))
+                                    }
+                                    <hr />
 
-                                            <div className="row">
-                                                {/*Rich text Editor call*/}
+                                    <div className="row">
+                                        {/*Rich text Editor call*/}
+                                        <div className="col-lg-12">
+                                            <div className='row mb-4'>
                                                 <div className="col-lg-12">
-                                                    <div className='row mb-4'>
-                                                        <div className="col-lg-12">
-                                                            <Form.Label>LCD</Form.Label>
-                                                        </div>
-                                                        <div className="col-lg-12">
-                                                            <Form.Group className="input-group mb-3">
-                                                                <TextEditor
-                                                                    setFieldValue={(val) => setFieldValue(`assignTableData[${i}].local_control_description`, val)}
-                                                                    value={values.assignTableData[i].local_control_description}
-                                                                />
-                                                            </Form.Group>
-                                                        </div>
-                                                    </div>
+                                                    <Form.Label>LCD</Form.Label>
                                                 </div>
-                                                {/* <div className="col-lg-6">
+                                                <div className="col-lg-12">
+                                                    <Form.Group className="input-group mb-3">
+                                                        <TextEditor
+                                                            setFieldValue={(val) => setFieldValue("lcd", val)}
+                                                            value={values.lcd}
+                                                        />
+                                                    </Form.Group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* <div className="col-lg-6">
                                                     <div className='row mb-4'>
                                                         <div className="col-lg-12">
                                                             <Form.Label>LCD</Form.Label>
@@ -154,12 +147,11 @@ const LcdModal = ({ setShowModal, assignTableData }) => {
                                                 </div> */}
 
 
-                                            </div>
+                                    </div>
 
-                                        </div>
+                                </div>
 
-                                    ))
-                                }
+
                                 <div className="footer-action">
                                     <div className="d-flex align-items-center justify-content-end">
 

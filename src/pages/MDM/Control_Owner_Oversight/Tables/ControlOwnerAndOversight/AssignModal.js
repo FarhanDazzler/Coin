@@ -21,8 +21,9 @@ import { isEmailValidADSelector } from '../../../../../redux/AzureAD/AD_Selector
 const GetParentEntityValue = ({ setCownerValue }) => {
     // Grab values and submitForm from context
     const { values } = useFormikContext();
+    console.log("values", values);
     useEffect(() => {
-        
+
     }, [values]);
     return null;
 };
@@ -57,15 +58,20 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
     useEffect(() => {
         if (userFromAD.loading) return;
         const apiUserData = userFromAD.data || [];
-       
+
         const userData = apiUserData.map((d) => ({ value: d.mail, label: d.displayName }));
         const updateAnsObj = { dropDownOption: userData, loading: false }
         setBlock(updateAnsObj)
 
     }, [userFromAD.data]);
     const handleSaveAssign = (value) => {
+        const newState = assignTableData.map(obj => {
+
+            return { ...obj, cowner: value.cowner, coversight: value.coversight, valid_from: value.validFrom, valid_to: value.validTo };
+        });
+        console.log(newState);
         const payload = {
-            "control_instances": value?.assignTableData
+            "control_instances": newState
         }
         dispatch(modifyControlOwnerAndOversight(payload));
 
@@ -79,15 +85,18 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
         }
         setBlock({ dropDownOption: [], loading: true })
     }
+    let today = moment().format('YYYY-MM-DD');
+    let validToDate = "9999-12-31"
     return (
         <>
             <div className="p-5 assign-modal">
                 <Formik
                     enableReinitialize
                     initialValues={{
-
-                        assignTableData
-
+                        cowner: '',
+                        coversight: '',
+                        validFrom: today ? today : '',
+                        validTo: validToDate ? validToDate : ''
                     }}
                     validationSchema={Yup.object().shape({
                         // assignTableData: Yup.array()
@@ -97,6 +106,10 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                         //             cowner: Yup.string().required('cowner Required'),
                         //         })
                         //     )
+                        validFrom: Yup.string()
+                            .required('Valid Date is required'),
+                        validTo: Yup.string()
+                            .required('Valid Date is required'),
 
                     })}
                     onSubmit={async (
@@ -104,7 +117,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                         { setErrors, setStatus, setSubmitting, resetForm }
                     ) => {
                         try {
-                            
+
                             handleSaveAssign(values);
 
                             // resetForm();
@@ -128,156 +141,209 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                     }) => (
                         <>
                             <Form onSubmit={handleSubmit}>
-                                {
-                                    assignTableData.map((data, i) => (
-                                        <div key={i}>
-                                            <div className="row">
-                                                <div className="col-md-6">
-                                                    <div className='row mb-4'>
-                                                        <div className="col-md-3">
-                                                            <Form.Label>Control Id:</Form.Label>
-                                                        </div>
-                                                        <div className="col-md-7 yellow-gradient-text" style={{ fontSize: "0.875rem", fontWeight: "900" }}>
-                                                            <p>{data?.control_id_provider_entity}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
+                                    <div>
+                                        <Form.Label>Selected Control Id:</Form.Label>
+                                        {
+                                            assignTableData.map((data, i) => (
+                                                <div className="row">
+                                                    <div className="col-md-6">
+                                                        <div className='row mb-4'>
 
-                                            </div>
-                                            <hr />
-
-                                            <div className="row">
-                                                {/*Rich text Editor call*/}
-                                                <div className="col-lg-12">
-                                                    <div className='row mb-4'>
-                                                        <div className="col-lg-12">
-                                                            <Form.Label>LCD</Form.Label>
-                                                        </div>
-                                                        <div className="col-lg-12">
-                                                            <Form.Group className="input-group mb-3">
-                                                                <TextEditor
-                                                                    setFieldValue={(val) => setFieldValue(`assignTableData[${i}].local_control_description`, val)}
-                                                                    value={values.assignTableData[i].local_control_description}
-                                                                />
-                                                            </Form.Group>
+                                                            <div className="col-md-7 yellow-gradient-text" style={{ fontSize: "0.875rem", fontWeight: "900" }}>
+                                                                <p>{data?.control_id_provider_entity}</p>
+                                                            </div>
                                                         </div>
                                                     </div>
+
+
                                                 </div>
+                                            ))
+                                        }
+                                        <hr />
 
-                                                <div className="col-lg-6">
-                                                    <div className='row mb-4'>
-                                                        <div className="col-lg-4">
-                                                            <Form.Label>Control Owner</Form.Label>
-                                                        </div>
-                                                        <div className="col-lg-8">
-                                                            <Form.Group className="input-group mb-3">
-                                                                <Form.Control
-                                                                    type="text"
-                                                                    name={`assignTableData[${i}].cowner`}
-                                                                    placeholder="cowner"
-                                                                    value={values.assignTableData[i].cowner}
-                                                                    isInvalid={Boolean(
-                                                                        touched.cowner && errors.cowner
-                                                                    )}
-                                                                    onBlur={handleBlur}
-                                                                    //setFieldValue={(val) => setFieldValue(`assignTableData[${i}].cowner`, val)}
-                                                                    onChange={(e) => {
-                                                                        setFieldValue(`assignTableData[${i}].cowner`, e.target.value)
-                                                                        setCownerValue(e.target.value)
-                                                                        handleChangeAd(e.target.value, 'cowner')
-                                                                    }}
-                                                                    readOnly={false}
-                                                                    className="form-control"
-                                                                />
+                                        <div className="row">
 
 
-                                                                {!!touched.cowner && (
-                                                                    <Form.Control.Feedback type="invalid">
-                                                                        {errors.cowner}
-                                                                    </Form.Control.Feedback>
+                                            <div className="col-lg-6">
+                                                <div className='row mb-4'>
+                                                    <div className="col-lg-4">
+                                                        <Form.Label>Control Owner</Form.Label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        <Form.Group className="input-group mb-3">
+                                                            <Form.Control
+                                                                type="text"
+                                                                name="cowner"
+                                                                placeholder=""
+                                                                value={values.cowner}
+                                                                isInvalid={Boolean(
+                                                                    touched.cowner && errors.cowner
                                                                 )}
-
-                                                            </Form.Group>
-                                                            {
-                                                                adMode === "cowner" &&
-                                                                <AdSearch
-
-                                                                    block={block}
-                                                                    userApiStart={isStart}
-                                                                    values={values.assignTableData[i].cowner}
-                                                                    setBlock={setBlock}
-                                                                    setFieldValue={(val) => {
-                                                                        if(!val) return
-                                                                        setFieldValue(`assignTableData[${i}].cowner`, val)
-                                                                    }}
-                                                                />
-                                                            }
+                                                                onBlur={handleBlur}
+                                                                //setFieldValue={(val) => setFieldValue(`assignTableData.cowner`, val)}
+                                                                onChange={(e) => {
+                                                                    setFieldValue("cowner", e.target.value)
+                                                                    setCownerValue(e.target.value)
+                                                                    handleChangeAd(e.target.value, 'cowner')
+                                                                }}
+                                                                readOnly={false}
+                                                                className="form-control"
+                                                            />
 
 
+                                                            {!!touched.cowner && (
+                                                                <Form.Control.Feedback type="invalid">
+                                                                    {errors.cowner}
+                                                                </Form.Control.Feedback>
+                                                            )}
 
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                        </Form.Group>
+                                                        {
+                                                            adMode === "cowner" &&
+                                                            <AdSearch
 
-                                                <div className="col-lg-6">
-                                                    <div className='row mb-4'>
-                                                        <div className="col-lg-4">
-                                                            <Form.Label>Control Oversight</Form.Label>
-                                                        </div>
-                                                        <div className="col-lg-8">
-                                                            <Form.Group className="input-group mb-3">
-
-                                                                <Form.Control
-                                                                    type="text"
-                                                                    name={`assignTableData[${i}].coversight`}
-                                                                    placeholder=""
-                                                                    value={values.assignTableData[i].coversight}
-                                                                    isInvalid={Boolean(
-                                                                        touched.coversight && errors.coversight
-                                                                    )}
-                                                                    onBlur={handleBlur}
-                                                                    onChange={(e) => {
-                                                                        setFieldValue(`assignTableData[${i}].coversight`, e.target.value)
-                                                                        setCoversightValue(e.target.value)
-                                                                        handleChangeAd(e.target.value, 'coversight')
-                                                                    }}
-                                                                    readOnly={false}
-                                                                    className="form-control"
-                                                                />
-
-                                                                {!!touched.coversight && (
-                                                                    <Form.Control.Feedback type="invalid">
-                                                                        {errors.coversight}
-                                                                    </Form.Control.Feedback>
-                                                                )}
-                                                            </Form.Group>
-                                                            {
-                                                                adMode === "coversight" && 
-                                                                <AdSearch
-                                                                
                                                                 block={block}
                                                                 userApiStart={isStart}
-                                                                values={values.assignTableData[i].coversight}
+                                                                values={values.cowner}
                                                                 setBlock={setBlock}
                                                                 setFieldValue={(val) => {
-                                                                    if(!val) return
-                                                                    setFieldValue(`assignTableData[${i}].coversight`, val)
+                                                                    if (!val) return
+                                                                    setFieldValue("cowner", val)
                                                                 }}
                                                             />
-                                                            }
-                                                            
-                                                        </div>
+                                                        }
+
+
+
                                                     </div>
                                                 </div>
-
-
                                             </div>
+
+                                            <div className="col-lg-6">
+                                                <div className='row mb-4'>
+                                                    <div className="col-lg-4">
+                                                        <Form.Label>Control Oversight</Form.Label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        <Form.Group className="input-group mb-3">
+
+                                                            <Form.Control
+                                                                type="text"
+                                                                name="coversight"
+                                                                placeholder=""
+                                                                value={values.coversight}
+                                                                isInvalid={Boolean(
+                                                                    touched.coversight && errors.coversight
+                                                                )}
+                                                                onBlur={handleBlur}
+                                                                onChange={(e) => {
+                                                                    setFieldValue("coversight", e.target.value)
+                                                                    setCoversightValue(e.target.value)
+                                                                    handleChangeAd(e.target.value, 'coversight')
+                                                                }}
+                                                                readOnly={false}
+                                                                className="form-control"
+                                                            />
+
+                                                            {!!touched.coversight && (
+                                                                <Form.Control.Feedback type="invalid">
+                                                                    {errors.coversight}
+                                                                </Form.Control.Feedback>
+                                                            )}
+                                                        </Form.Group>
+                                                        {
+                                                            adMode === "coversight" &&
+                                                            <AdSearch
+
+                                                                block={block}
+                                                                userApiStart={isStart}
+                                                                values={values.coversight}
+                                                                setBlock={setBlock}
+                                                                setFieldValue={(val) => {
+                                                                    if (!val) return
+                                                                    setFieldValue("coversight", val)
+                                                                }}
+                                                            />
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="col-lg-6">
+                                                <div className='row mb-4'>
+                                                    <div className="col-lg-4">
+                                                        <Form.Label>Valid From</Form.Label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        <Form.Group className="input-group mb-3">
+
+                                                            <Form.Control
+                                                                type="date"
+                                                                name="validFrom"
+                                                                placeholder=""
+                                                                value={values.validFrom}
+                                                                isInvalid={Boolean(
+                                                                    touched.validFrom && errors.validFrom
+                                                                )}
+                                                                min={today}
+                                                                onBlur={handleBlur}
+                                                                onChange={handleChange}
+                                                                readOnly={false}
+                                                                className="form-control"
+                                                            />
+
+                                                            {!!touched.validFrom && (
+                                                                <Form.Control.Feedback type="invalid">
+                                                                    {errors.validFrom}
+                                                                </Form.Control.Feedback>
+                                                            )}
+                                                        </Form.Group>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="col-lg-6">
+                                                <div className='row mb-4'>
+                                                    <div className="col-lg-4">
+                                                        <Form.Label>Valid To</Form.Label>
+                                                    </div>
+                                                    <div className="col-lg-8">
+                                                        <Form.Group className="input-group mb-3">
+
+                                                            <Form.Control
+                                                                type="date"
+                                                                name="validTo"
+                                                                placeholder=""
+                                                                value={values.validTo}
+                                                                isInvalid={Boolean(
+                                                                    touched.validTo && errors.validTo
+                                                                )}
+                                                                onBlur={handleBlur}
+                                                                onChange={handleChange}
+                                                                readOnly={false}
+                                                                className="form-control"
+                                                            />
+
+                                                            {!!touched.validTo && (
+                                                                <Form.Control.Feedback type="invalid">
+                                                                    {errors.validTo}
+                                                                </Form.Control.Feedback>
+                                                            )}
+                                                        </Form.Group>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
 
                                         </div>
 
-                                    ))
-                                }
+                                    </div>
+
+
+                                
                                 <div className="footer-action">
                                     <div className="d-flex align-items-center justify-content-end">
 
@@ -296,7 +362,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                                         </div>
                                     </div>
                                 </div>
-                                {/* <GetParentEntityValue setCownerValue={setCownerValue} /> */}
+                                <GetParentEntityValue setCownerValue={setCownerValue} />
                             </Form>
                         </>
 
