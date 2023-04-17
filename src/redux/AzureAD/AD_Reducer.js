@@ -19,6 +19,7 @@ const initialState = {
 };
 
 export const AD_Reducer = (state = initialState, { type, payload = {} }) => {
+  console.log("payload",payload);
   switch (type) {
     // Azure get user from AD data
     case GET_USER_FROM_AD_REQUEST:
