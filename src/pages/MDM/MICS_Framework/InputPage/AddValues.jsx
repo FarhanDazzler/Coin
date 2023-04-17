@@ -39,21 +39,25 @@ const AddValues_MDM_Mics_Framework = (props) => {
       MICS_2021_No: value.MICS_2021_No,
       Control_ID: value.Control_ID,
       Mega_Process: value.Mega_Process,
-      ABI_Key: parseInt(value.ABI_Key),
-      Ambev_Key: parseInt(value.Ambev_Key),
-      FCPA: parseInt(value.FCPA),
+      Category: value.Category,
+      Change_Size: value.Change_Size,
+      DTC: value.DTC,
+      Reviewed: value.Reviewed,
+      ABI_Key: value.ABI_Key,
+      Ambev_Key: value.Ambev_Key,
+      FCPA: value.FCPA,
       Frequency: value.Frequency,
-      Preventive_Detective: parseInt(value.Preventive_Detective),
+      Preventive_Detective: value.Preventive_Detective,
       Automation: value.Automation,
       Recommended_Level: value.Recommended_Level,
-      Maturity_Relevant: parseInt(value.Maturity_Relevant),
+      Maturity_Relevant: value.Maturity_Relevant,
       mics_weight: parseInt(value.mics_weight),
       Recommended_Standardization: value.Recommended_Standardization,
       ABI_DAG: value.ABI_DAG,
       AmBev_DAG: value.AmBev_DAG,
       B2B: value.B2B,
-      Fintech: parseInt(value.Fintech),
-      Control_Split: parseInt(value.Control_Split),
+      Fintech: value.Fintech,
+      Control_Split: value.Control_Split,
       Sub_Process: value.Sub_Process,
       Risk: value.Risk,
       Control_name: value.Control_name,
@@ -67,10 +71,8 @@ const AddValues_MDM_Mics_Framework = (props) => {
       L3_KPI: parseInt(value.L3_KPI),
       L2_KPI: parseInt(value.L2_KPI),
       L1_KPI: parseInt(value.L1_KPI),
-      Kpi_status: parseInt(value.Kpi_status),
-      Change: value.Change,
+      Kpi_status: value.Kpi_status,
       change_comment: value.change_comment,
-      Risk_ID: value.Risk_ID,
     };
 
     let editPayload = {
@@ -78,21 +80,25 @@ const AddValues_MDM_Mics_Framework = (props) => {
       MICS_2021_No: value.MICS_2021_No,
       Control_ID: editTableData?.Control_ID,
       Mega_Process: value.Mega_Process,
-      ABI_Key: parseInt(value.ABI_Key),
-      Ambev_Key: parseInt(value.Ambev_Key),
-      FCPA: parseInt(value.FCPA),
+      Category: value.Category,
+      Change_Size: value.Change_Size,
+      DTC: value.DTC,
+      Reviewed: value.Reviewed,
+      ABI_Key: value.ABI_Key,
+      Ambev_Key: value.Ambev_Key,
+      FCPA: value.FCPA,
       Frequency: value.Frequency,
-      Preventive_Detective: parseInt(value.Preventive_Detective),
+      Preventive_Detective: value.Preventive_Detective,
       Automation: value.Automation,
       Recommended_Level: value.Recommended_Level,
-      Maturity_Relevant: parseInt(value.Maturity_Relevant),
+      Maturity_Relevant: value.Maturity_Relevant,
       mics_weight: parseInt(value.mics_weight),
       Recommended_Standardization: value.Recommended_Standardization,
       ABI_DAG: value.ABI_DAG,
       AmBev_DAG: value.AmBev_DAG,
       B2B: value.B2B,
-      Fintech: parseInt(value.Fintech),
-      Control_Split: parseInt(value.Control_Split),
+      Fintech: value.Fintech,
+      Control_Split: value.Control_Split,
       Sub_Process: value.Sub_Process,
       Risk: value.Risk,
       Control_name: value.Control_name,
@@ -106,10 +112,8 @@ const AddValues_MDM_Mics_Framework = (props) => {
       L3_KPI: parseInt(value.L3_KPI),
       L2_KPI: parseInt(value.L2_KPI),
       L1_KPI: parseInt(value.L1_KPI),
-      Kpi_status: parseInt(value.Kpi_status),
-      Change: value.Change,
+      Kpi_status: value.Kpi_status,
       change_comment: value.change_comment,
-      Risk_ID: value.Risk_ID,
     };
 
     if (modalType === 'add') {
@@ -134,6 +138,10 @@ const AddValues_MDM_Mics_Framework = (props) => {
                 MICS_2021_No: editTableData?.MICS_2021_No ? editTableData?.MICS_2021_No : '',
                 Control_ID: editTableData?.Control_ID ? editTableData?.Control_ID : '',
                 Mega_Process: editTableData?.Mega_Process ? editTableData?.Mega_Process : '',
+                Category: editTableData?.Category ? editTableData?.Category : '',
+                Change_Size: editTableData?.Change_Size ? editTableData?.Change_Size : '',
+                DTC: editTableData?.DTC ? editTableData?.DTC : '',
+                Reviewed: editTableData?.Reviewed ? editTableData?.Reviewed : '',
                 ABI_Key: editTableData?.ABI_Key ? editTableData?.ABI_Key : '',
                 Ambev_Key: editTableData?.Ambev_Key ? editTableData?.Ambev_Key : '',
                 FCPA: editTableData?.FCPA ? editTableData?.FCPA : '',
@@ -175,9 +183,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                 L2_KPI: editTableData?.L2_KPI ? editTableData?.L2_KPI : '',
                 L1_KPI: editTableData?.L1_KPI ? editTableData?.L1_KPI : '',
                 Kpi_status: editTableData?.Kpi_status ? editTableData?.Kpi_status : '',
-                Change: editTableData?.Change ? editTableData?.Change : '',
                 change_comment: editTableData?.change_comment ? editTableData?.change_comment : '',
-                Risk_ID: editTableData?.Risk_ID ? editTableData?.Risk_ID : '',
               }}
               validationSchema={Yup.object().shape(addMicsValidationSchema)}
               onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
@@ -325,6 +331,141 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
+                          <Form.Label>Category</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="Category"
+                              placeholder=""
+                              value={values.Category}
+                              isInvalid={Boolean(touched.Category && errors.Category)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Select Category</option>
+                              <option value="Non IT">Non IT</option>
+                              <option value="IT">IT</option>
+                            </Form.Control>
+
+                            {!!touched.Category && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Category}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
+                          <Form.Label>Change Size</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="Change_Size"
+                              placeholder=""
+                              value={values.Change_Size}
+                              isInvalid={Boolean(touched.Change_Size && errors.Change_Size)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Select Change Size</option>
+                              <option value="New">New</option>
+                              <option value="Delete">Delete</option>
+                              <option value="Large">Large</option>
+                              <option value="Small">Small</option>
+                              <option value="No Change">No Change</option>
+                            </Form.Control>
+
+                            {!!touched.Change_Size && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Change_Size}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
+                          <Form.Label>DTC</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="DTC"
+                              placeholder=""
+                              value={values.DTC}
+                              isInvalid={Boolean(touched.DTC && errors.DTC)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Select DTC</option>
+                              <option value="DTC & Non-DTC">DTC & Non-DTC</option>
+                              <option value="DTC Only">DTC Only</option>
+                            </Form.Control>
+
+                            {!!touched.DTC && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.DTC}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
+                          <Form.Label>Reviewed</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="Reviewed"
+                              placeholder=""
+                              value={values.Reviewed}
+                              isInvalid={Boolean(touched.Reviewed && errors.Reviewed)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Reviewed ?</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
+                            </Form.Control>
+
+                            {!!touched.Reviewed && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Reviewed}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
                           <Form.Label>ABI_Key</Form.Label>
                         </div>
                         <div className="col-lg-7">
@@ -341,8 +482,8 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               className="form-select"
                             >
                               <option value="">Select ABI Key</option>
-                              <option value="1">Yes</option>
-                              <option value="0">No</option>
+                              <option value="Key">Key</option>
+                              <option value="Non Key">Non Key</option>
                             </Form.Control>
 
                             {!!touched.ABI_Key && (
@@ -374,8 +515,8 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               className="form-select"
                             >
                               <option value="">Select Ambev Key</option>
-                              <option value="1">Yes</option>
-                              <option value="0">No</option>
+                              <option value="Key">Key</option>
+                              <option value="Non Key">Non Key</option>
                             </Form.Control>
 
                             {!!touched.Ambev_Key && (
@@ -407,8 +548,8 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               className="form-select"
                             >
                               <option value="">Select FCPA</option>
-                              <option value="1">Yes</option>
-                              <option value="0">No</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
                             </Form.Control>
 
                             {!!touched.FCPA && (
@@ -429,7 +570,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="Frequency"
                               placeholder=""
                               value={values.Frequency}
@@ -437,8 +578,17 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select Frequency</option>
+                              <option value="Annually">Annually</option>
+                              <option value="Semi-Annaually">Semi-Annaually</option>
+                              <option value="Quaterly">Quaterly</option>
+                              <option value="Monthly">Monthly</option>
+                              <option value="Weekly">Weekly</option>
+                              <option value="Daily">Daily</option>
+                              <option value="Event Based">Event Based</option>
+                            </Form.Control>
 
                             {!!touched.Frequency && (
                               <Form.Control.Feedback type="invalid">
@@ -453,7 +603,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Preventive_Detective</Form.Label>
+                          <Form.Label>Preventive/Detective</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -471,13 +621,13 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               className="form-select"
                             >
                               <option value="">Select Preventive Detective</option>
-                              <option value="1">Yes</option>
-                              <option value="0">No</option>
+                              <option value="Preventive">Preventive</option>
+                              <option value="Detective">Detective</option>
                             </Form.Control>
 
-                            {!!touched.FCPA && (
+                            {!!touched.Preventive_Detective && (
                               <Form.Control.Feedback type="invalid">
-                                {errors.FCPA}
+                                {errors.Preventive_Detective}
                               </Form.Control.Feedback>
                             )}
                           </Form.Group>
@@ -493,7 +643,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="Automation"
                               placeholder=""
                               value={values.Automation}
@@ -501,8 +651,13 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select Automation</option>
+                              <option value="Automated">Automated</option>
+                              <option value="IT Dependent">IT Dependent</option>
+                              <option value="Manual">Manual</option>
+                            </Form.Control>
 
                             {!!touched.Automation && (
                               <Form.Control.Feedback type="invalid">
@@ -522,7 +677,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="Recommended_Level"
                               placeholder=""
                               value={values.Recommended_Level}
@@ -532,8 +687,16 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select Recommended Level</option>
+                              <option value="BU HQ">BU HQ</option>
+                              <option value="Global HQ">Global HQ</option>
+                              <option value="NoCC">NoCC</option>
+                              <option value="Site">Site</option>
+                              <option value="Zone HQ">Zone HQ</option>
+                              <option value="Zone Solutions">Zone Solutions</option>
+                            </Form.Control>
 
                             {!!touched.Recommended_Level && (
                               <Form.Control.Feedback type="invalid">
@@ -566,8 +729,8 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               className="form-select"
                             >
                               <option value="">Select Maturity Relevant</option>
-                              <option value="1">Yes</option>
-                              <option value="0">No</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
                             </Form.Control>
 
                             {!!touched.Maturity_Relevant && (
@@ -583,12 +746,12 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>mics_weight</Form.Label>
+                          <Form.Label>Weighting</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="number"
+                              as="select"
                               name="mics_weight"
                               placeholder=""
                               value={values.mics_weight}
@@ -596,8 +759,13 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select Weighting</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="10">10</option>
+                            </Form.Control>
 
                             {!!touched.mics_weight && (
                               <Form.Control.Feedback type="invalid">
@@ -707,7 +875,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="B2B"
                               placeholder=""
                               value={values.B2B}
@@ -715,8 +883,12 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select B2B</option>
+                              <option value="B2B">B2B</option>
+                              <option value="B2B & Non-B2B">B2B & Non-B2B</option>
+                            </Form.Control>
 
                             {!!touched.B2B && (
                               <Form.Control.Feedback type="invalid">
@@ -746,9 +918,9 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               readOnly={false}
                               className="form-select"
                             >
-                              <option value="">Select Maturity Relevant</option>
-                              <option value="1">Yes</option>
-                              <option value="0">No</option>
+                              <option value="">Select Fintech</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
                             </Form.Control>
 
                             {!!touched.Fintech && (
@@ -780,8 +952,8 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               className="form-select"
                             >
                               <option value="">Select Control Split</option>
-                              <option value="1">Yes</option>
-                              <option value="0">No</option>
+                              <option value="Main">Main</option>
+                              <option value="Split">Split</option>
                             </Form.Control>
 
                             {!!touched.Control_Split && (
@@ -905,7 +1077,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>BS_impact</Form.Label>
+                          <Form.Label>Balance Sheet impact</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -963,7 +1135,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Cash_flow_impact</Form.Label>
+                          <Form.Label>Cash Flow impact</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -994,12 +1166,12 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>testing_approach</Form.Label>
+                          <Form.Label>Testing Approach</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="testing_approach"
                               placeholder=""
                               value={values.testing_approach}
@@ -1009,8 +1181,22 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select Testing Approach</option>
+                              <option value="Data Driven Testing (KPI's, system review)">
+                                Data Driven Testing (KPI's, system review)
+                              </option>
+                              <option value="Self-assessment only">Self-assessment only</option>
+                              <option value="Walkthrough">Walkthrough</option>
+                              <option value="Walkthrough (with involvement of the legal/compliance)">
+                                Walkthrough (with involvement of the legal/compliance)
+                              </option>
+                              <option value="Walkthrough by IC">Walkthrough by IC</option>
+                              <option value="Walkthrough by Zone Reporting">
+                                Walkthrough by Zone Reporting
+                              </option>
+                            </Form.Control>
 
                             {!!touched.testing_approach && (
                               <Form.Control.Feedback type="invalid">
@@ -1124,7 +1310,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Kpi_status</Form.Label>
+                          <Form.Label>Key Performance and Risk Indicator Status</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -1140,42 +1326,13 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               className="form-select"
                             >
                               <option value="">Select Kpi status</option>
-                              <option value="1">Yes</option>
-                              <option value="0">No</option>
+                              <option value="KPI Created and Mapped">KPI Created and Mapped</option>
+                              <option value="No KPI">No KPI</option>
                             </Form.Control>
 
                             {!!touched.Kpi_status && (
                               <Form.Control.Feedback type="invalid">
                                 {errors.Kpi_status}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
-                          <Form.Label>Change</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              type="text"
-                              name="Change"
-                              placeholder=""
-                              value={values.Change}
-                              isInvalid={Boolean(touched.Change && errors.Change)}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-control"
-                            />
-
-                            {!!touched.Change && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.Change}
                               </Form.Control.Feedback>
                             )}
                           </Form.Group>
@@ -1205,34 +1362,6 @@ const AddValues_MDM_Mics_Framework = (props) => {
                             {!!touched.change_comment && (
                               <Form.Control.Feedback type="invalid">
                                 {errors.change_comment}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
-                          <Form.Label>Risk_ID</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              type="text"
-                              name="Risk_ID"
-                              placeholder=""
-                              value={values.Risk_ID}
-                              isInvalid={Boolean(touched.Risk_ID && errors.Risk_ID)}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-control"
-                            />
-
-                            {!!touched.Risk_ID && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.Risk_ID}
                               </Form.Control.Feedback>
                             )}
                           </Form.Group>
