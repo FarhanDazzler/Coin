@@ -216,7 +216,7 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
                           readOnly={false}
                           className="form-select"
                         >
-                          <option value="">Select ABI Key</option>
+                          <option value="">Select Parent Process</option>
                           {getSubprocessParentState?.data.map((data, i) => (
                             <option key={i} value={data.Megaprocess_Long}>
                               {data.Megaprocess_Long}
