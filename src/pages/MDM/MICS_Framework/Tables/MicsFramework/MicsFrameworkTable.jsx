@@ -209,13 +209,6 @@ const MicsFrameworkTable = () => {
       minWidth: 200,
     },
     {
-      field: 'Risk_ID',
-      headerName: 'Risk ID',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
-    {
       field: 'mics_L1desc',
       headerName: 'L1 Description',
       flex: 1,
