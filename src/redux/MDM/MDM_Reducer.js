@@ -119,6 +119,22 @@ export const UPDATE_MICS_FRAMEWORK_ERROR = 'UPDATE_MICS_FRAMEWORK_ERROR';
 
 // =================== Update Mics Framework Data ========================//
 
+// =================== GET MegaProcess Mics Framework Data ========================//
+
+export const GET_MEGA_PROCESS_MICS_FRAMEWORK_REQUEST = 'GET_MEGA_PROCESS_MICS_FRAMEWORK_REQUEST';
+export const GET_MEGA_PROCESS_MICS_FRAMEWORK_SUCCESS = 'GET_MEGA_PROCESS_MICS_FRAMEWORK_SUCCESS';
+export const GET_MEGA_PROCESS_MICS_FRAMEWORK_ERROR = 'GET_MEGA_PROCESS_MICS_FRAMEWORK_ERROR';
+
+// =================== GET MegaProcess Mics Framework Data ========================//
+
+// =================== GET SubProcess Mics Framework Data ========================//
+
+export const GET_SUB_PROCESS_MICS_FRAMEWORK_REQUEST = 'GET_SUB_PROCESS_MICS_FRAMEWORK_REQUEST';
+export const GET_SUB_PROCESS_MICS_FRAMEWORK_SUCCESS = 'GET_SUB_PROCESS_MICS_FRAMEWORK_SUCCESS';
+export const GET_SUB_PROCESS_MICS_FRAMEWORK_ERROR = 'GET_SUB_PROCESS_MICS_FRAMEWORK_ERROR';
+
+// =================== GET SubProcess Mics Framework Data ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -134,6 +150,8 @@ const initialState = {
   micsFramework: { ...block, data: [] },
   addMicsFramework: { ...block, data: [] },
   updateMicsFramework: { ...block, data: [] },
+  getMegaProcessMicsFramework: { ...block, data: [] },
+  getSubProcessMicsFramework: { ...block, data: [] },
   megaAndSubprocessView: { ...block, data: [] },
   megaAndSubprocess: { ...block, data: [] },
   addMegaAndSubprocess: { ...block, data: [] },
@@ -232,6 +250,48 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
       return {
         ...state,
         updateMicsFramework: { ...state.updateMicsFramework, loading: false },
+      };
+
+    // MDM GET Mega PRocess MICS Framework data
+    case GET_MEGA_PROCESS_MICS_FRAMEWORK_REQUEST:
+      return {
+        ...state,
+        getMegaProcessMicsFramework: { ...state.getMegaProcessMicsFramework, loading: true },
+      };
+    case GET_MEGA_PROCESS_MICS_FRAMEWORK_SUCCESS:
+      return {
+        ...state,
+        getMegaProcessMicsFramework: {
+          ...state.getMegaProcessMicsFramework,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_MEGA_PROCESS_MICS_FRAMEWORK_ERROR:
+      return {
+        ...state,
+        getMegaProcessMicsFramework: { ...state.getMegaProcessMicsFramework, loading: false },
+      };
+
+    // MDM GET Sub Process MICS Framework data
+    case GET_SUB_PROCESS_MICS_FRAMEWORK_REQUEST:
+      return {
+        ...state,
+        getSubProcessMicsFramework: { ...state.getSubProcessMicsFramework, loading: true },
+      };
+    case GET_SUB_PROCESS_MICS_FRAMEWORK_SUCCESS:
+      return {
+        ...state,
+        getSubProcessMicsFramework: {
+          ...state.getSubProcessMicsFramework,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_SUB_PROCESS_MICS_FRAMEWORK_ERROR:
+      return {
+        ...state,
+        getSubProcessMicsFramework: { ...state.getSubProcessMicsFramework, loading: false },
       };
 
     // MEGA AND Subprocess view data

@@ -9,12 +9,36 @@ import Button from '../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
-import { addMicsFramework, updateMicsFramework } from '../../../../redux/MDM/MDM_Action';
+import {
+  addMicsFramework,
+  updateMicsFramework,
+  getMegaProcessMicsFramework,
+  getSubProcessMicsFramework,
+} from '../../../../redux/MDM/MDM_Action';
+import {
+  getMegaProcessMicsFrameworkSelector,
+  getSubProcessMicsFrameworkSelector,
+} from '../../../../redux/MDM/MDM_Selectors';
 import { addMicsInitialValues, addMicsValidationSchema } from '../../../../utils/constants';
 
 import { ContentState } from 'draft-js';
 import { TextEditor } from '../../../../components/FormInputs/RichTextEditor/RichTextEditor';
 import './InputPageStyle.scss';
+
+const GetFormikFieldValue = () => {
+  // Grab values and submitForm from context
+  const dispatch = useDispatch();
+  const { values } = useFormikContext();
+
+  useEffect(() => {
+    dispatch(getMegaProcessMicsFramework());
+    let params = {
+      mega: values.Mega_Process,
+    };
+    dispatch(getSubProcessMicsFramework(params));
+  }, [values.Mega_Process]);
+  return null;
+};
 
 const AddValues_MDM_Mics_Framework = (props) => {
   // Access passed props from location.state
@@ -23,11 +47,11 @@ const AddValues_MDM_Mics_Framework = (props) => {
   const modalType = props.location.state.data?.modalType;
   const editTableData = props.location.state.data?.editTableData;
 
-  const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
 
-  // Handel Rich Text Editor POP up close
+  const getMegaProcessMicsFrameworkState = useSelector(getMegaProcessMicsFrameworkSelector);
+  const getSubProcessMicsFrameworkState = useSelector(getSubProcessMicsFrameworkSelector);
 
   const handleOnclickCancel = () => {
     history.push('/master-data-management/mics-framework');
@@ -302,12 +326,12 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Mega_Process</Form.Label>
+                          <Form.Label>Mega Process</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
-                              type="text"
+                              as="select"
                               name="Mega_Process"
                               placeholder=""
                               value={values.Mega_Process}
@@ -315,12 +339,55 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
-                              className="form-control"
-                            />
+                              className="form-select"
+                            >
+                              <option value="">Select Mega Process</option>
+                              {getMegaProcessMicsFrameworkState?.data.map((data, i) => (
+                                <option key={i} value={data.Megaprocess_Short}>
+                                  {data.Megaprocess_Short}
+                                </option>
+                              ))}
+                            </Form.Control>
 
                             {!!touched.Mega_Process && (
                               <Form.Control.Feedback type="invalid">
                                 {errors.Mega_Process}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
+                          <Form.Label>Sub Process</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="Sub_Process"
+                              placeholder=""
+                              value={values.Sub_Process}
+                              isInvalid={Boolean(touched.Sub_Process && errors.Sub_Process)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Select Sub Process</option>
+                              {getSubProcessMicsFrameworkState?.data.map((data, i) => (
+                                <option key={i} value={data.Sub_Process_Name}>
+                                  {data.Sub_Process_Name}
+                                </option>
+                              ))}
+                            </Form.Control>
+
+                            {!!touched.Sub_Process && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Sub_Process}
                               </Form.Control.Feedback>
                             )}
                           </Form.Group>
@@ -969,35 +1036,6 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Sub_Process</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              type="text"
-                              name="Sub_Process"
-                              placeholder=""
-                              value={values.Sub_Process}
-                              isInvalid={Boolean(touched.Sub_Process && errors.Sub_Process)}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-control"
-                            />
-
-                            {!!touched.Sub_Process && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.Sub_Process}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
                           <Form.Label>Risk</Form.Label>
                         </div>
                         <div className="col-lg-7">
@@ -1384,6 +1422,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                       </Button>
                     </div>
                   </div>
+                  <GetFormikFieldValue />
                 </Form>
               )}
             </Formik>
