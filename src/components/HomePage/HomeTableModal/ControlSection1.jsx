@@ -9,7 +9,14 @@ import useDebounce from '../../../hooks/useDebounce';
 import { getUserFromAD } from '../../../redux/AzureAD/AD_Action';
 import { getUserFromADSelector } from '../../../redux/AzureAD/AD_Selectors';
 
-const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns, setStartEdit,isModal }) => {
+const ControlSection1 = ({
+  setShowMoreSection,
+  setTerminating,
+  ans,
+  setAns,
+  setStartEdit,
+  isModal,
+}) => {
   const getQuestions = useSelector(getQuestionsSelector);
   const [data, setData] = useState([]);
   const [qId2Value, setQId2Value] = useState('');
@@ -17,18 +24,31 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns, setS
   const [isStart, setIsStart] = useState(false);
   const dispatch = useDispatch();
   const userFromAD = useSelector(getUserFromADSelector);
+  const isValidEmail = validateEmail(qId2Value);
 
   useEffect(() => {
-    if (isStart) dispatch(getUserFromAD({ username: qId2Value }));
+    if (isStart) {
+      dispatch(getUserFromAD({ username: qId2Value, isValidEmail }));
+    }
   }, [q_id_2_debounce]);
 
   useEffect(() => {
     if (userFromAD.loading) return;
-    const apiUserData = userFromAD.data || [];
-    const userData = apiUserData.map((d) => ({ value: d.mail, label: d.displayName }));
+    let userData = [];
+    if (userFromAD.emailCheck) {
+      setTerminating(true);
+    } else {
+      const apiUserData = userFromAD.data || [];
+      userData = apiUserData.map((d) => ({ value: d.mail, label: d.displayName }));
+    }
     const updateAnsObj = ans.map((val) => {
       if (val.q_id === 2) {
-        return { ...val, dropDownOption: userData, loading: false };
+        return {
+          ...val,
+          dropDownOption: userData,
+          emailCheck: userFromAD.emailCheck,
+          loading: false,
+        };
       }
       return { ...val };
     });
@@ -137,7 +157,12 @@ const ControlSection1 = ({ setShowMoreSection, setTerminating, ans, setAns, setS
     <div>
       <CollapseFrame title="Section 1 : Standard" active>
         <div className="mt-5">
-          <RenderBlock blocks={ans} isModal={isModal} handleChange={handleChange} userApiStart={isStart} />
+          <RenderBlock
+            blocks={ans}
+            isModal={isModal}
+            handleChange={handleChange}
+            userApiStart={isStart}
+          />
           <div id="lastShow" />
           {/*<Table />*/}
         </div>
