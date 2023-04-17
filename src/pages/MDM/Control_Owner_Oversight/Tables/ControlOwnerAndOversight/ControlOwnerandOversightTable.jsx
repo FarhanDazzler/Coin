@@ -26,6 +26,7 @@ import AssignModal from './AssignModal';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import LcdModal from './LcdModal';
 import Swal from 'sweetalert2';
+import ReactHtmlParser from 'react-html-parser';
 
 // Filter buttons
 const FilterButtons = ({
@@ -225,7 +226,7 @@ const ControlOwnerAndOversightTable = () => {
       minWidth: 200,
     },
     {
-      field: 'local_control_description',
+      field: ReactHtmlParser('local_control_description'),
       headerName: 'Local Control Desc(LCD)',
       flex: 1,
       cellClassName: 'dashboardCell',
