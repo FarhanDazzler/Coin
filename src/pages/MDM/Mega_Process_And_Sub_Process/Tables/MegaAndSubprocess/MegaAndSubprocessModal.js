@@ -182,7 +182,7 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
                         readOnly={false}
                         className="form-select"
                       >
-                        <option value="">Select ABI Key</option>
+                        <option value="">Select Type of Process</option>
                         <option value="Mega Process">Mega Process</option>
                         <option value="Sub Process">Sub Process</option>
                       </Form.Control>
@@ -216,7 +216,7 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
                           readOnly={false}
                           className="form-select"
                         >
-                          <option value="">Select ABI Key</option>
+                          <option value="">Select Parent Process</option>
                           {getSubprocessParentState?.data.map((data, i) => (
                             <option key={i} value={data.Megaprocess_Long}>
                               {data.Megaprocess_Long}
@@ -273,7 +273,12 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
                         isInvalid={Boolean(touched.Name_2 && errors.Name_2)}
                         onBlur={handleBlur}
                         onChange={(e) => {
-                          setFieldValue('Name_2', e.target.value.toUpperCase());
+                          setFieldValue(
+                            'Name_2',
+                            values.Type_of_Process === 'Mega Process'
+                              ? e.target.value.toUpperCase()
+                              : e.target.value,
+                          );
                         }}
                         readOnly={false}
                         className="form-control"
