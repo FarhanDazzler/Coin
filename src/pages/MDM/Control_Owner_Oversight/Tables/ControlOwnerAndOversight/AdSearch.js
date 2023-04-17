@@ -1,36 +1,55 @@
 import React from 'react';
 import Input from '../../../../../components/UI/Input';
 import { Loader, Select } from '@mantine/core';
+import { useDispatch, useSelector } from 'react-redux';
 import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import '../../../../../components/UI/InputWidthSelect/styles.scss';
 import { validateEmail } from '../../../../../utils/helper';
+import { isEmailValidAD } from '../../../../../redux/AzureAD/AD_Action';
+import { isEmailValidADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
 
-const AdSearch = ({ block = {}, handleChange, userApiStart }) => {
-  const { label, required, loading, dropDownOption, isDropdownSaveInput = true, value } = block;
-  console.log(block, "Hi........................")
+const AdSearch = ({ userApiStart, values, setFieldValue, block = {}, setBlock, mode }) => {
+  console.log(mode, "mode");
+  const { loading, dropDownOption, isDropdownSaveInput = true, value } = block;
+  const dispatch = useDispatch();
+  const isEmailValidADState = useSelector(isEmailValidADSelector);
+  console.log(values, block, "testing");
+  //   console.log(block, "Hi........................")
+  const [adValue, setAdValue] = React.useState("")
+  React.useEffect(() => {
+    if(isEmailValidADState.data?.isValid === true){
+      setFieldValue(adValue);
+      setBlock({dropDownOption: [], loading:false})
+    }
+  }, [isEmailValidADState.data])
+  const handleChange = (value) => {
+    console.log(value, "testing vaue");
+    setAdValue(value)
+    const param = {
+      email: value
+    }
+
+    dispatch(isEmailValidAD(param));
+
+    // setFieldValue(adValue);
+    // setAdValue(value)
+  }
   return (
     <div>
-      <Input
-        value={value}
-        label={label}
-        required={required}
-        block={block}
-        handleChange={handleChange}
-      />
+
       <div>
         {block.loading && (
           <div className="mt-4 ml-8">
             <Loader color="yellow" />
           </div>
         )}
-
-        {!loading && userApiStart && !dropDownOption?.length && !validateEmail(value) && (
+        {!loading && !dropDownOption?.length && !validateEmail(values) && (
           <Typography component="div" variant="body1">
             <Box sx={{ color: 'error.main' }}>This user is not in our list!</Box>
           </Typography>
-        )}
+        )} 
         {!loading && dropDownOption && dropDownOption.length > 0 && (
           <FormControl sx={{ mt: 1, minWidth: 250 }} size="small">
             <Select
@@ -41,7 +60,7 @@ const AdSearch = ({ block = {}, handleChange, userApiStart }) => {
               nothingFound="No options"
               maxDropdownHeight={280}
               onChange={(val) => {
-                if (isDropdownSaveInput) handleChange(val, { ...block, optionSelect: true });
+                if (isDropdownSaveInput) handleChange(val);
               }}
               styles={(theme) => ({
                 item: {

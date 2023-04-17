@@ -16,26 +16,25 @@ import { TextEditor } from '../../../../../components/FormInputs/RichTextEditor/
 import { modifyControlOwnerAndOversight } from '../../../../../redux/MDM/MDM_Action';
 import InputWidthSelect from '../../../../../components/UI/InputWidthSelect/InputWidthSelect';
 import AdSearch from './AdSearch';
+import { isEmailValidADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
 
-const GetParentEntityValue = ({ setQId2Value }) => {
+const GetParentEntityValue = ({ setCownerValue }) => {
     // Grab values and submitForm from context
     const { values } = useFormikContext();
-    //console.log(values);
     useEffect(() => {
-        values.assignTableData.map((data, i) => {
-            console.log("hihihihihihihi", data, i);
-            console.log("set ra", values.assignTableData[i].cowner)
-        })
-        setQId2Value('')
+        
     }, [values]);
     return null;
 };
 
 const AssignModal = ({ setShowModal, assignTableData }) => {
     const dispatch = useDispatch();
-    const [qId2Value, setQId2Value] = useState('');
-    console.log(qId2Value);
-    const q_id_2_debounce = useDebounce(qId2Value, 500);
+    const [cownerValue, setCownerValue] = useState('');
+    const [coversightValue, setCoversightValue] = useState('');
+    const [adMode, setAdMode] = useState("");
+    const isEmailValidADState = useSelector(isEmailValidADSelector);
+    const cownerValue_debounce = useDebounce(cownerValue, 500);
+    const coversightValue_debounce = useDebounce(coversightValue, 500);
     const [showModal, setShowModalRichText] = useState(false);
     // Handel Rich Text Editor POP up close
     const handleSubmitRichText = () => {
@@ -44,20 +43,26 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
     const [lcdValue, setLcdValue] = useState('');
     const [isStart, setIsStart] = useState(false);
     const [block, setBlock] = useState()
+    useEffect(() => {
 
-    // useEffect(() => {
-    //     dispatch(getUserFromAD({ username: qId2Value }));
-    // }, [q_id_2_debounce]);
-    // const userFromAD = useSelector(getUserFromADSelector);
+    }, [isEmailValidADState.data])
+    useEffect(() => {
+        dispatch(getUserFromAD({ username: cownerValue }));
+    }, [cownerValue_debounce]);
+    useEffect(() => {
+        dispatch(getUserFromAD({ username: coversightValue }));
+    }, [coversightValue_debounce]);
+    const userFromAD = useSelector(getUserFromADSelector);
 
-    // useEffect(() => {
-    //     if (userFromAD.loading) return;
-    //     const apiUserData = userFromAD.data || [];
-    //     const userData = apiUserData.map((d) => ({ value: d.mail, label: d.displayName }));
-    //     const updateAnsObj = { dropDownOption: userData, loading: false }
-    //     setBlock(updateAnsObj)
+    useEffect(() => {
+        if (userFromAD.loading) return;
+        const apiUserData = userFromAD.data || [];
+       
+        const userData = apiUserData.map((d) => ({ value: d.mail, label: d.displayName }));
+        const updateAnsObj = { dropDownOption: userData, loading: false }
+        setBlock(updateAnsObj)
 
-    // }, [userFromAD.data]);
+    }, [userFromAD.data]);
     const handleSaveAssign = (value) => {
         const payload = {
             "control_instances": value?.assignTableData
@@ -66,10 +71,13 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
 
 
     }
-    const handleChangeAd = (value, block) => {
-        setIsStart(true);
-        setQId2Value(value);
-
+    const handleChangeAd = (value, mode) => {
+        if (mode === "cowner") {
+            setAdMode("cowner")
+        } else {
+            setAdMode("coversight")
+        }
+        setBlock({ dropDownOption: [], loading: true })
     }
     return (
         <>
@@ -96,7 +104,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                         { setErrors, setStatus, setSubmitting, resetForm }
                     ) => {
                         try {
-                            console.log("values", values)
+                            
                             handleSaveAssign(values);
 
                             // resetForm();
@@ -159,10 +167,10 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
 
                                                 <div className="col-lg-6">
                                                     <div className='row mb-4'>
-                                                        <div className="col-lg-5">
+                                                        <div className="col-lg-4">
                                                             <Form.Label>Control Owner</Form.Label>
                                                         </div>
-                                                        <div className="col-lg-7">
+                                                        <div className="col-lg-8">
                                                             <Form.Group className="input-group mb-3">
                                                                 <Form.Control
                                                                     type="text"
@@ -176,7 +184,8 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                                                                     //setFieldValue={(val) => setFieldValue(`assignTableData[${i}].cowner`, val)}
                                                                     onChange={(e) => {
                                                                         setFieldValue(`assignTableData[${i}].cowner`, e.target.value)
-                                                                        setQId2Value(e.target.value)
+                                                                        setCownerValue(e.target.value)
+                                                                        handleChangeAd(e.target.value, 'cowner')
                                                                     }}
                                                                     readOnly={false}
                                                                     className="form-control"
@@ -190,22 +199,33 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                                                                 )}
 
                                                             </Form.Group>
-                                                            {/* <AdSearch
-                                                                block={block}
-                                                                handleChange={handleChangeAd}
-                                                                userApiStart={isStart}
-                                                                value={values.assignTableData[i].cowner}
-                                                            /> */}
+                                                            {
+                                                                adMode === "cowner" &&
+                                                                <AdSearch
+
+                                                                    block={block}
+                                                                    userApiStart={isStart}
+                                                                    values={values.assignTableData[i].cowner}
+                                                                    setBlock={setBlock}
+                                                                    setFieldValue={(val) => {
+                                                                        if(!val) return
+                                                                        setFieldValue(`assignTableData[${i}].cowner`, val)
+                                                                    }}
+                                                                />
+                                                            }
+
+
+
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div className="col-lg-6">
                                                     <div className='row mb-4'>
-                                                        <div className="col-lg-5">
+                                                        <div className="col-lg-4">
                                                             <Form.Label>Control Oversight</Form.Label>
                                                         </div>
-                                                        <div className="col-lg-7">
+                                                        <div className="col-lg-8">
                                                             <Form.Group className="input-group mb-3">
 
                                                                 <Form.Control
@@ -217,7 +237,11 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                                                                         touched.coversight && errors.coversight
                                                                     )}
                                                                     onBlur={handleBlur}
-                                                                    onChange={handleChange}
+                                                                    onChange={(e) => {
+                                                                        setFieldValue(`assignTableData[${i}].coversight`, e.target.value)
+                                                                        setCoversightValue(e.target.value)
+                                                                        handleChangeAd(e.target.value, 'coversight')
+                                                                    }}
                                                                     readOnly={false}
                                                                     className="form-control"
                                                                 />
@@ -228,6 +252,21 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                                                                     </Form.Control.Feedback>
                                                                 )}
                                                             </Form.Group>
+                                                            {
+                                                                adMode === "coversight" && 
+                                                                <AdSearch
+                                                                
+                                                                block={block}
+                                                                userApiStart={isStart}
+                                                                values={values.assignTableData[i].coversight}
+                                                                setBlock={setBlock}
+                                                                setFieldValue={(val) => {
+                                                                    if(!val) return
+                                                                    setFieldValue(`assignTableData[${i}].coversight`, val)
+                                                                }}
+                                                            />
+                                                            }
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>
@@ -257,7 +296,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                                         </div>
                                     </div>
                                 </div>
-                                {/* <GetParentEntityValue setQId2Value={setQId2Value} /> */}
+                                {/* <GetParentEntityValue setCownerValue={setCownerValue} /> */}
                             </Form>
                         </>
 
