@@ -50,14 +50,15 @@ const HomeTableModal = ({ isModal = true }) => {
     if (startEdit && responseData?.data?.Attempt_no <= 5) {
       Swal.fire({
         title: 'Do you want save as draft!',
-        text: `Remaining response ${responseData?.data?.Attempt_no
-          ? responseData?.data?.Attempt_no < 5
-            ? 4 - responseData?.data?.Attempt_no
-            : 0
-          : responseData?.data?.Attempt_no === 0
+        text: `Remaining response ${
+          responseData?.data?.Attempt_no
+            ? responseData?.data?.Attempt_no < 5
+              ? 4 - responseData?.data?.Attempt_no
+              : 0
+            : responseData?.data?.Attempt_no === 0
             ? '4'
             : '5'
-          }`,
+        }`,
         icon: 'warning',
         showConfirmButton: false,
         showCancelButton: true,
@@ -156,14 +157,15 @@ const HomeTableModal = ({ isModal = true }) => {
   const handleSubmit = () => {
     Swal.fire({
       title: 'Do you want Submit assessment',
-      text: `Remaining response ${responseData?.data?.Attempt_no
-        ? responseData?.data?.Attempt_no < 5
-          ? 4 - responseData?.data?.Attempt_no
-          : 0
-        : responseData?.data?.Attempt_no === 0
+      text: `Remaining response ${
+        responseData?.data?.Attempt_no
+          ? responseData?.data?.Attempt_no < 5
+            ? 4 - responseData?.data?.Attempt_no
+            : 0
+          : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
-        }`,
+      }`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
@@ -199,6 +201,7 @@ const HomeTableModal = ({ isModal = true }) => {
       }
       if (result.isDenied) {
         if (responseData?.data?.Attempt_no >= 5) {
+          Swal.fire("You don't have a limited", '', 'error');
           return;
         }
         const payload = {
@@ -216,17 +219,44 @@ const HomeTableModal = ({ isModal = true }) => {
 
   const handleSaveDraft = () => {
     if (responseData?.data?.Attempt_no >= 5) {
+      Swal.fire("You don't have a limited", '', 'error');
       return;
     }
-    const payload = {
-      Assessment_ID: Control_ID,
-      Latest_response: {
-        s1: ansSection1,
-        s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
-      },
-    };
-    dispatch(addOrUpdateDraft(payload));
-    setStartEdit(false);
+    Swal.fire({
+      title: 'Do you want save draft?',
+      text: `Remaining response ${
+        responseData?.data?.Attempt_no
+          ? responseData?.data?.Attempt_no < 5
+            ? 4 - responseData?.data?.Attempt_no
+            : 0
+          : responseData?.data?.Attempt_no === 0
+          ? '4'
+          : '5'
+      }`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'golden',
+      cancelButtonColor: 'black',
+      confirmButtonText: 'Save draft!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const payload = {
+          Assessment_ID: Control_ID,
+          Latest_response: {
+            s1: ansSection1,
+            s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+          },
+          events: {
+            onSeccess: () => {
+              Swal.fire('Draft saved successfully', '', 'success');
+              history.push('/new');
+            },
+          },
+        };
+        dispatch(addOrUpdateDraft(payload));
+        setStartEdit(false);
+      }
+    });
   };
 
   if (!isModal)

@@ -7,24 +7,25 @@ import {
   GET_USER_FROM_AD_REQUEST,
   GET_USER_FROM_AD_SUCCESS,
   GET_USER_FROM_AD_ERROR,
-  RESET_BLOCK_ASSESSMENT,
   RESET_FLAGS_ASSESSMENT,
-  ID_EMAIL_VALID_AD_REQUEST,
-  ID_EMAIL_VALID_AD_SUCCESS,
-  ID_EMAIL_VALID_AD_ERROR,
 } from './AD_Reducer';
 
 // Azure get user from AD data
-async function getUserFromADApi(params) {
+async function getUserFromADApi(payload) {
+  const { isValidEmail, ...params } = payload;
+  if (isValidEmail) {
+    return await Axios.get('/is_valid_email_ad', { params: { email: params.username } });
+  }
   return await Axios.get('/get_users_from_ad', { params });
 }
+
 function* handleGet_UserFromAD({ payload }) {
   try {
     const response = yield call(getUserFromADApi, payload);
     if (response) {
       yield put({
         type: GET_USER_FROM_AD_SUCCESS,
-        payload: response.users,
+        payload: { users: response.users, emailCheck: response.isValid },
       });
       yield put({
         type: RESET_FLAGS_ASSESSMENT,
@@ -34,7 +35,6 @@ function* handleGet_UserFromAD({ payload }) {
   } catch (error) {
     yield put({
       type: GET_USER_FROM_AD_ERROR,
-      // error: getSimplifiedError(error),
     });
   }
 }
@@ -45,10 +45,8 @@ async function isEmailValidADApi(params) {
   return await Axios.get('/is_valid_email_ad', { params });
 }
 function* handle_isEmailValidAD({ payload }) {
-  console.log(payload);
   try {
     const response = yield call(isEmailValidADApi, payload);
-    console.log(response);
     if (response.isValid) {
       yield put({
         type: ID_EMAIL_VALID_AD_SUCCESS,

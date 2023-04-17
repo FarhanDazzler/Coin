@@ -143,7 +143,9 @@ const MegaAndSubprocessTable = () => {
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>
                   <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                  <span style={{ paddingLeft: '16px' }}>Create or Modify Organizations</span>
+                  <span style={{ paddingLeft: '16px' }}>
+                    Mega Process & Sub-Process Master Data
+                  </span>
                 </div>
                 <div>
                   <Button

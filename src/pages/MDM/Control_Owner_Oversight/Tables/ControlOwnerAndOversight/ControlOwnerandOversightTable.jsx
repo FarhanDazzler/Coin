@@ -8,7 +8,10 @@ import Table from '../../../../../components/UI/Table';
 import '../TableStyle.scss';
 
 // geting data from redux
-import { getControlOwnerAndOversightSelector, modifyControlOwnerAndOversightSelector } from '../../../../../redux/MDM/MDM_Selectors';
+import {
+  getControlOwnerAndOversightSelector,
+  modifyControlOwnerAndOversightSelector,
+} from '../../../../../redux/MDM/MDM_Selectors';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import EditIcon from '@mui/icons-material/Edit';
@@ -150,10 +153,10 @@ const ControlOwnerAndOversightTable = () => {
   const [showLcdModal, setShowLcdModal] = useState(false);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [assignTableData, setAssignTableData] = useState();
-  console.log("assignTableData",assignTableData);
+  console.log('assignTableData', assignTableData);
   const controlOwnerAndOversight = useSelector(getControlOwnerAndOversightSelector);
   const modifyControlOwnerAndOversightState = useSelector(modifyControlOwnerAndOversightSelector);
-  console.log("modifyControlOwnerAndOversightState=====>>>>", modifyControlOwnerAndOversightState)
+  console.log('modifyControlOwnerAndOversightState=====>>>>', modifyControlOwnerAndOversightState);
   const FilterData = (dataValue, conditionalParam) => {
     return dataValue.filter((i) => i[conditionalParam]);
   };
@@ -161,7 +164,7 @@ const ControlOwnerAndOversightTable = () => {
     console.log(modifyControlOwnerAndOversightState);
     setShowLcdModal(false);
     setShowModal(false);
-  }, [modifyControlOwnerAndOversightState.data])
+  }, [modifyControlOwnerAndOversightState.data]);
   useEffect(() => {
     if (
       !valueControl_ID.length &&
@@ -173,15 +176,16 @@ const ControlOwnerAndOversightTable = () => {
     }
 
     setTableData(
-      tableDataArray.filter(
-        (i) => {
-
-          return (valueControl_ID?.length ? valueControl_ID.includes(i.Control_ID) : true) &&
-            (valueProvider_entity?.length ? valueProvider_entity.includes(i.provider_entity) : true) &&
-            (valueCowner?.length ? valueCowner.includes(i.cowner) : true) &&
-            (valueCoversight?.length ? valueCoversight.includes(i.coversight) : true)
-        }
-      ),
+      tableDataArray.filter((i) => {
+        return (
+          (valueControl_ID?.length ? valueControl_ID.includes(i.Control_ID) : true) &&
+          (valueProvider_entity?.length
+            ? valueProvider_entity.includes(i.provider_entity)
+            : true) &&
+          (valueCowner?.length ? valueCowner.includes(i.cowner) : true) &&
+          (valueCoversight?.length ? valueCoversight.includes(i.coversight) : true)
+        );
+      }),
     );
   }, [valueControl_ID, valueProvider_entity, valueCowner, valueCoversight]);
   const TABLE_COLUMNS = [
@@ -269,7 +273,7 @@ const ControlOwnerAndOversightTable = () => {
   );
 
   const handleOnclickEdit = () => {
-    let assignDataArray = []
+    let assignDataArray = [];
     if (editTableIndex.length >= 1) {
       tableData.find((data, i) => {
         console.log(i);
@@ -279,19 +283,15 @@ const ControlOwnerAndOversightTable = () => {
             setAssignTableData(assignDataArray);
             setShowLcdModal(true);
           }
-        })
-        
-
-      })
-
+        });
+      });
     }
   };
   const handleOnclickAdd = () => {
-    let assignDataArray = []
+    let assignDataArray = [];
     if (editTableIndex.length == 0) {
       Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
     } else if (editTableIndex.length >= 1) {
-
       tableData.find((data, i) => {
         console.log(i);
         editTableIndex.map((dataa) => {
@@ -300,20 +300,16 @@ const ControlOwnerAndOversightTable = () => {
             // const coverSightCheck = assignDataArray.every(({ coversight }) => coversight === assignDataArray[0]?.coversight);
             // const cownerCheck = assignDataArray.every(({ cowner }) => cowner === assignDataArray[0]?.cowner);
             // if (cownerCheck === true && coverSightCheck === true) {
-              setAssignTableData(assignDataArray);
-              setShowModal(true);
+            setAssignTableData(assignDataArray);
+            setShowModal(true);
             // }else{
             //   setAssignTableData([]);
             //   setShowModal(false);
             //   Swal.fire('Oops...', 'Selected Records are not matching with criteria to Assign. Try Selecting other Records', 'error');
             // }
-
           }
-        })
-        
-
-      })
-
+        });
+      });
     }
   };
 
@@ -355,7 +351,7 @@ const ControlOwnerAndOversightTable = () => {
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>
                   <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                  <span style={{ paddingLeft: '16px' }}>Create or Modify Organizations</span>
+                  <span style={{ paddingLeft: '16px' }}>Control Owner And Oversight Table</span>
                 </div>
                 <div>
                   <Button
@@ -379,7 +375,12 @@ const ControlOwnerAndOversightTable = () => {
                 </div>
               </div>
             </div>
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} setEditTableIndex={setEditTableIndex} />
+            <Table
+              tableData={tableData}
+              tableColumns={tableColumns}
+              columns={tableColumns}
+              setEditTableIndex={setEditTableIndex}
+            />
           </div>
         </div>
       </div>
