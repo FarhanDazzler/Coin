@@ -182,7 +182,7 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
                         readOnly={false}
                         className="form-select"
                       >
-                        <option value="">Select ABI Key</option>
+                        <option value="">Select Type of Process</option>
                         <option value="Mega Process">Mega Process</option>
                         <option value="Sub Process">Sub Process</option>
                       </Form.Control>
