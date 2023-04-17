@@ -7,9 +7,17 @@ import Box from '@mui/material/Box';
 import './styles.scss';
 import { validateEmail } from '../../../utils/helper';
 
-const InputWidthSelect = ({ block = {}, handleChange, userApiStart,disabled }) => {
-  const { label, required, loading, dropDownOption, isDropdownSaveInput = true, value } = block;
-  console.log(block, "Hi........................")
+const InputWidthSelect = ({ block = {}, handleChange, userApiStart, disabled }) => {
+  const {
+    label,
+    required,
+    loading,
+    dropDownOption,
+    isDropdownSaveInput = true,
+    value,
+    emailCheck,
+  } = block;
+
   return (
     <div>
       <Input
@@ -27,7 +35,7 @@ const InputWidthSelect = ({ block = {}, handleChange, userApiStart,disabled }) =
           </div>
         )}
 
-        {!loading && userApiStart && !dropDownOption?.length && !validateEmail(value) && (
+        {!loading && userApiStart && !dropDownOption?.length && !emailCheck && (
           <Typography component="div" variant="body1">
             <Box sx={{ color: 'error.main' }}>This user is not in our list!</Box>
           </Typography>
