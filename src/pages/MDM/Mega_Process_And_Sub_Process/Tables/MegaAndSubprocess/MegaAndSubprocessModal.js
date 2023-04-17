@@ -273,7 +273,12 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
                         isInvalid={Boolean(touched.Name_2 && errors.Name_2)}
                         onBlur={handleBlur}
                         onChange={(e) => {
-                          setFieldValue('Name_2', e.target.value.toUpperCase());
+                          setFieldValue(
+                            'Name_2',
+                            values.Type_of_Process === 'Mega Process'
+                              ? e.target.value.toUpperCase()
+                              : e.target.value,
+                          );
                         }}
                         readOnly={false}
                         className="form-control"
