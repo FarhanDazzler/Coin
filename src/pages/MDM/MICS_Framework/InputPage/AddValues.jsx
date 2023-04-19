@@ -59,8 +59,6 @@ const AddValues_MDM_Mics_Framework = (props) => {
   const handleSaveAdd = (value) => {
     console.log(value);
     let payload = {
-      MICS_2020_No: value.MICS_2020_No,
-      MICS_2021_No: value.MICS_2021_No,
       Control_ID: value.Control_ID,
       Mega_Process: value.Mega_Process,
       Category: value.Category,
@@ -97,11 +95,12 @@ const AddValues_MDM_Mics_Framework = (props) => {
       L1_KPI: value.L1_KPI,
       Kpi_status: value.Kpi_status,
       change_comment: value.change_comment,
+      Status: value.Status,
     };
 
     let editPayload = {
-      MICS_2020_No: value.MICS_2020_No,
-      MICS_2021_No: value.MICS_2021_No,
+      Previous_MICS1: value.Previous_MICS1,
+      Previous_MICS: value.Previous_MICS,
       Control_ID: editTableData?.Control_ID,
       Mega_Process: value.Mega_Process,
       Category: value.Category,
@@ -138,6 +137,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
       L1_KPI: value.L1_KPI,
       Kpi_status: value.Kpi_status,
       change_comment: value.change_comment,
+      Status: value.Status,
     };
 
     if (modalType === 'add') {
@@ -158,9 +158,10 @@ const AddValues_MDM_Mics_Framework = (props) => {
             <Formik
               enableReinitialize
               initialValues={{
-                MICS_2020_No: editTableData?.MICS_2020_No || '',
-                MICS_2021_No: editTableData?.MICS_2021_No ? editTableData?.MICS_2021_No : '',
+                Previous_MICS1: editTableData?.Previous_MICS1 || '',
+                Previous_MICS: editTableData?.Previous_MICS ? editTableData?.Previous_MICS : '',
                 Control_ID: editTableData?.Control_ID ? editTableData?.Control_ID : '',
+                Status: editTableData?.Status ? editTableData?.Status : '',
                 Mega_Process: editTableData?.Mega_Process ? editTableData?.Mega_Process : '',
                 Category: editTableData?.Category ? editTableData?.Category : '',
                 Change_Size: editTableData?.Change_Size ? editTableData?.Change_Size : '',
@@ -209,7 +210,47 @@ const AddValues_MDM_Mics_Framework = (props) => {
                 Kpi_status: editTableData?.Kpi_status ? editTableData?.Kpi_status : '',
                 change_comment: editTableData?.change_comment ? editTableData?.change_comment : '',
               }}
-              validationSchema={Yup.object().shape(addMicsValidationSchema)}
+              validationSchema={Yup.object().shape({
+                Control_ID: Yup.string().required('Control ID is required'),
+                Status: Yup.string().required('Status ID is required'),
+                Mega_Process: Yup.string().required('Mega Process is required'),
+                Category: Yup.string().required('Category is required'),
+                Change_Size: Yup.string().required('Change_Size is required'),
+                DTC: Yup.string().required('DTC is required'),
+                Reviewed: Yup.string().required('Reviewed is required'),
+                ABI_Key: Yup.string().required('ABI Key is required'),
+                Ambev_Key: Yup.string().required('Ambev Key is required'),
+                FCPA: Yup.string().required('FCPA is required'),
+                Frequency: Yup.string().required('Frequency is required'),
+                Preventive_Detective: Yup.string().required('Preventive Detective is required'),
+                Automation: Yup.string().required('Automation is required'),
+                Recommended_Level: Yup.string().required('Recommended Level is required'),
+                Maturity_Relevant: Yup.string().required('Maturity Relevant is required'),
+                mics_weight: Yup.string().required('mics weight is required'),
+                Recommended_Standardization: Yup.string().required(
+                  'Recommended Standardization is required',
+                ),
+                ABI_DAG: Yup.string().required('ABI DAG is required'),
+                AmBev_DAG: Yup.string().required('AmBev DAG is required'),
+                B2B: Yup.string().required('B2B is required'),
+                Fintech: Yup.string().required('Fintech is required'),
+                Control_Split: Yup.string().required('Control Split is required'),
+                Sub_Process: Yup.string().required('Sub Process is required'),
+                Risk: Yup.string().required('Risk is required'),
+                Control_name: Yup.string().required('Control name is required'),
+                mics_L1desc: Yup.string().required('mics L1 desc is required'),
+                mics_L2desc: Yup.string().required('mics L2 desc is required'),
+                mics_L3desc: Yup.string().required('mics L3 desc is required'),
+                BS_impact: Yup.string().required('BS impact is required'),
+                PnL_impact: Yup.string().required('PnL impact is required'),
+                Cash_flow_impact: Yup.string().required('Cash flow impact is required'),
+                testing_approach: Yup.string().required('testing approach is required'),
+                L3_KPI: Yup.string().required('L3 KPI is required'),
+                L2_KPI: Yup.string().required('L2 KPI is required'),
+                L1_KPI: Yup.string().required('L1 KPI is required'),
+                Kpi_status: Yup.string().required('Kpi status  is required'),
+                change_comment: Yup.string().required('change comment is required'),
+              })}
               onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
                 try {
                   console.log(values);
@@ -236,63 +277,67 @@ const AddValues_MDM_Mics_Framework = (props) => {
               }) => (
                 <Form onSubmit={handleSubmit}>
                   <div className="row">
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
-                          <Form.Label>MICS_2020_No</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              type="text"
-                              name="MICS_2020_No"
-                              placeholder=""
-                              value={values.MICS_2020_No}
-                              isInvalid={Boolean(touched.MICS_2020_No && errors.MICS_2020_No)}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-control"
-                            />
+                    {modalType === 'edit' && (
+                      <div className="col-lg-6">
+                        <div className="row mb-4">
+                          <div className="col-lg-5">
+                            <Form.Label>Previous Year-1 MICS No</Form.Label>
+                          </div>
+                          <div className="col-lg-7">
+                            <Form.Group className="input-group mb-3">
+                              <Form.Control
+                                type="text"
+                                name="Previous_MICS1"
+                                placeholder=""
+                                value={values.Previous_MICS1}
+                                isInvalid={Boolean(touched.Previous_MICS1 && errors.Previous_MICS1)}
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                readOnly={false}
+                                className="form-control"
+                              />
 
-                            {!!touched.MICS_2020_No && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.MICS_2020_No}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
+                              {!!touched.Previous_MICS1 && (
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.Previous_MICS1}
+                                </Form.Control.Feedback>
+                              )}
+                            </Form.Group>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    )}
 
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
-                          <Form.Label>MICS_2021_No</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              type="text"
-                              name="MICS_2021_No"
-                              placeholder=""
-                              value={values.MICS_2021_No}
-                              isInvalid={Boolean(touched.MICS_2021_No && errors.MICS_2021_No)}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-control"
-                            />
+                    {modalType === 'edit' && (
+                      <div className="col-lg-6">
+                        <div className="row mb-4">
+                          <div className="col-lg-5">
+                            <Form.Label>Previous Year MICS No</Form.Label>
+                          </div>
+                          <div className="col-lg-7">
+                            <Form.Group className="input-group mb-3">
+                              <Form.Control
+                                type="text"
+                                name="Previous_MICS"
+                                placeholder=""
+                                value={values.Previous_MICS}
+                                isInvalid={Boolean(touched.Previous_MICS && errors.Previous_MICS)}
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                readOnly={false}
+                                className="form-control"
+                              />
 
-                            {!!touched.MICS_2021_No && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.MICS_2021_No}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
+                              {!!touched.Previous_MICS && (
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.Previous_MICS}
+                                </Form.Control.Feedback>
+                              )}
+                            </Form.Group>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    )}
 
                     <div className="col-lg-6">
                       <div className="row mb-4">
@@ -1400,6 +1445,39 @@ const AddValues_MDM_Mics_Framework = (props) => {
                             {!!touched.change_comment && (
                               <Form.Control.Feedback type="invalid">
                                 {errors.change_comment}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
+                          <Form.Label>Status</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="Status"
+                              placeholder=""
+                              value={values.Status}
+                              isInvalid={Boolean(touched.Status && errors.Status)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Select Status</option>
+                              <option value="Active">Active</option>
+                              <option value="Inactive">Inactive</option>
+                            </Form.Control>
+
+                            {!!touched.Status && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Status}
                               </Form.Control.Feedback>
                             )}
                           </Form.Group>
