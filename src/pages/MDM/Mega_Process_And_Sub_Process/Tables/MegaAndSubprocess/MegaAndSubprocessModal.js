@@ -61,7 +61,7 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
     } else if (megaSubProcessValue?.Type_of_Process === 'Sub Process') {
       setPrefixValue(
         getSubprocessPrefixState?.data[0]?.Megaprocess_Short.substring(
-          getSubprocessPrefixState?.data[0]?.Megaprocess_Short.indexOf('.') + 1,
+          getSubprocessPrefixState?.data[0]?.Megaprocess_Short.indexOf('.') + 2,
         ),
       );
     } else {
@@ -76,7 +76,7 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
       Type_of_Process: value.Type_of_Process,
       Parent_Process: value.Type_of_Process === 'Mega Process' ? '' : value.Parent_Process,
       Prefix: prefixValue,
-      Name_2: value.Name_2.toUpperCase(),
+      Name_2: value.Type_of_Process === 'Mega Process' ? value.Name_2.toUpperCase() : value.Name_2,
       Name_Detailed_Name:
         value.Type_of_Process === 'Mega Process'
           ? value.Name_Detailed_Name
