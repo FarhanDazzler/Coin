@@ -27,6 +27,7 @@ import MDM_Control_Owner_OversightLandingPage from './pages/MDM/Control_Owner_Ov
 import MDM_MICS_FrameworkLandingPage from './pages/MDM/MICS_Framework/MDMMICSFrameworkLandingPage.jsx';
 import AddValues_MDM_Mics_Framework from './pages/MDM/MICS_Framework/InputPage/AddValues';
 import NavTabsMDM from './pages/MDM/MDM_Tab_Buttons/TabButtons.jsx';
+import AssessmentBankLandingPage from './pages/AssessmentBank/AssessmentBankLandingPage';
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -161,6 +162,8 @@ const Pages = () => {
           ) : (
             <Route exact path="/" component={Home_controlOwner} />
           )}
+
+          <Route exact path="/assessmentbank" component={AssessmentBankLandingPage} />
           <Route exact path="/Assessments/:Assessment_id" component={Question} />
           <Route exact path="/questionbank" component={QuestionBank} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
