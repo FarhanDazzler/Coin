@@ -14,6 +14,10 @@ import appLogo from '../../assets/images/GCCWhite.png';
 import { useDispatch } from 'react-redux';
 import { setLoginInfo } from '../../redux/Auth/AuthAction';
 import { Form } from 'react-bootstrap';
+import MultiSelectButton from '../../components/Buttons/MultiSelect/MultiSelectButtonComponents';
+import FormControl from '@mui/material/FormControl';
+import Select from '../../components/UI/Select/Select';
+import { names } from '../../pages/QuestionBank/CreateQuestions/constant';
 
 const TopBar = (props) => {
   const history = useHistory();
@@ -61,6 +65,11 @@ const TopBar = (props) => {
   console.log(roles, 'ROLES');
   const [roleValue, setRoleValue] = useState('');
 
+  const names = [
+    { label: 'REP Letters Module', value: 'REP Letters Module' },
+    { label: 'Self-Assessment Module', value: 'Self-Assessment Module' },
+  ];
+
   return (
     <div className="top-nav">
       <div className="header py-4">
@@ -71,7 +80,11 @@ const TopBar = (props) => {
                 <img
                   src={coinLogo}
                   className="header-brand-img"
-                  style={{ paddingRight: 8, borderRightStyle: 'solid', borderRightColor: 'White' }}
+                  style={{
+                    paddingRight: 8,
+                    borderRightStyle: 'solid',
+                    borderRightColor: 'White',
+                  }}
                   //border-right-style: solid; border-right-color: #92a8d1;
                   //style={{ paddingLeft: '0.5rem', height: '1.5rem' }}
                   //style={{ borderRadius: '40px', height: '2.5rem', marginRight: '1rem' }}
@@ -176,75 +189,89 @@ const TopBar = (props) => {
         style={{ background: 'linear-gradient(90deg,#e3af32 0%,#f4e00f 100%)' }}
       >
         <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg order-lg-first">
-              <ul className="nav nav-tabs border-0 flex-column flex-lg-row">
-                <li className="nav-item">
-                  <a
-                    className={`navbar-link ${
-                      ['/', '/register'].includes(location?.pathname) ? ' active' : ''
-                    }`}
-                    onClick={() => {
-                      history.push('/');
-                    }}
-                  >
-                    <FeatherIcon icon="home" size={14} />
-                    &nbsp;{'Home'}
-                  </a>
-                </li>
-
-                {props.userRole == 'administrational persona' && (
+          <div className="d-flex align-items-center justify-content-between">
+            <div className="row align-items-center">
+              <div className="col-lg order-lg-first">
+                <ul className="nav nav-tabs border-0 flex-column flex-lg-row">
                   <li className="nav-item">
                     <a
                       className={`navbar-link ${
-                        ['/master-data-management', '/register'].includes(location?.pathname)
-                          ? ' active'
-                          : ''
+                        ['/', '/register'].includes(location?.pathname) ? ' active' : ''
                       }`}
                       onClick={() => {
-                        history.push('/master-data-management');
+                        history.push('/');
                       }}
                     >
-                      <FeatherIcon icon="layers" size={14} />
-                      &nbsp;{'Master Data Management'}
+                      <FeatherIcon icon="home" size={14} />
+                      &nbsp;{'Home'}
                     </a>
                   </li>
-                )}
 
-                {props.userRole == 'administrational persona' && (
-                  <li className="nav-item">
-                    <a
-                      className={`navbar-link ${
-                        ['/questionbank', '/register'].includes(location?.pathname) ? ' active' : ''
-                      }`}
-                      onClick={() => {
-                        history.push('/questionbank');
-                      }}
-                    >
-                      <FeatherIcon icon="help-circle" size={14} />
-                      &nbsp;{'Question Bank'}
-                    </a>
-                  </li>
-                )}
+                  {props.userRole == 'administrational persona' && (
+                    <li className="nav-item">
+                      <a
+                        className={`navbar-link ${
+                          ['/master-data-management', '/register'].includes(location?.pathname)
+                            ? ' active'
+                            : ''
+                        }`}
+                        onClick={() => {
+                          history.push('/master-data-management');
+                        }}
+                      >
+                        <FeatherIcon icon="layers" size={14} />
+                        &nbsp;{'Master Data Management'}
+                      </a>
+                    </li>
+                  )}
 
-                {props.userRole == 'administrational persona' && (
-                  <li className="nav-item">
-                    <a
-                      className={`navbar-link ${
-                        ['/assessmentbank', '/register'].includes(location?.pathname)
-                          ? ' active'
-                          : ''
-                      }`}
-                      onClick={() => {
-                        history.push('/assessmentbank');
-                      }}
-                    >
-                      <FeatherIcon icon="clipboard" size={14} />
-                      &nbsp;{'Assessment Bank'}
-                    </a>
-                  </li>
-                )}
-              </ul>
+                  {props.userRole == 'administrational persona' && (
+                    <li className="nav-item">
+                      <a
+                        className={`navbar-link ${
+                          ['/questionbank', '/register'].includes(location?.pathname)
+                            ? ' active'
+                            : ''
+                        }`}
+                        onClick={() => {
+                          history.push('/questionbank');
+                        }}
+                      >
+                        <FeatherIcon icon="help-circle" size={14} />
+                        &nbsp;{'Question Bank'}
+                      </a>
+                    </li>
+                  )}
+
+                  {props.userRole == 'administrational persona' && (
+                    <li className="nav-item">
+                      <a
+                        className={`navbar-link ${
+                          ['/assessmentbank', '/register'].includes(location?.pathname)
+                            ? ' active'
+                            : ''
+                        }`}
+                        onClick={() => {
+                          history.push('/assessmentbank');
+                        }}
+                      >
+                        <FeatherIcon icon="clipboard" size={14} />
+                        &nbsp;{'Assessment Bank'}
+                      </a>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            </div>
+            <div className="select-light mt-0">
+              <FormControl sx={{ width: 210 }}>
+                <Select
+                  defaultValue="REP Letters Module"
+                  size="small"
+                  inputProps={{ 'aria-label': 'Without label' }}
+                  options={names}
+                />
+              </FormControl>
             </div>
           </div>
         </div>
