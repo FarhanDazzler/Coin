@@ -23,3 +23,6 @@ export const updateMicsFrameworkSelector = (state) => state.mdm.updateMicsFramew
 export const getMegaProcessMicsFrameworkSelector = (state) => state.mdm.getMegaProcessMicsFramework;
 export const getSubProcessMicsFrameworkSelector = (state) => state.mdm.getSubProcessMicsFramework;
 export const updateMegaAndSubprocessSelector = (state) => state.mdm.updateMegaAndSubprocess;
+export const assignApplicabilityAndAssignmentOfProviderOrganizationSelector = (state) =>
+  state.mdm.assignApplicabilityAndAssignmentOfProviderOrganization;
+export const getAllProviderEntitiesSelector = (state) => state.mdm.getAllProviderEntities;

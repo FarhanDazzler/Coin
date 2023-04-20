@@ -64,6 +64,15 @@ import {
   UPDATE_MEGA_AND_SUBPROCESS_REQUEST,
   UPDATE_MEGA_AND_SUBPROCESS_SUCCESS,
   UPDATE_MEGA_AND_SUBPROCESS_ERROR,
+  ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
+  ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_SUCCESS,
+  ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR,
+  GET_ALL_PROVIDER_ENTITIES_REQUEST,
+  GET_ALL_PROVIDER_ENTITIES_SUCCESS,
+  GET_ALL_PROVIDER_ENTITIES_ERROR,
+  ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA,
+  ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_FAILED,
+  ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_SUCCESS
 } from './MDM_Reducer';
 import Swal from 'sweetalert2';
 
@@ -463,6 +472,27 @@ function* handleGet_ControlOwnerAndOversight({ payload }) {
   }
 }
 
+async function getControlInstanceHistoryApi(payload) {
+  return await Axios.post('/get_control_instances_history', payload);
+}
+function* handleGet_ControlInstanceHistory({ payload }) {
+  try {
+    const response = yield call(getControlInstanceHistoryApi, payload);
+    if (response.success) {
+      yield put({
+        type: ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    // yield put({
+    //   type: ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_FAILED,
+    //   // error: getSimplifiedError(error),
+    // });
+  }
+}
+
 // Modify ControlOwner And Oversight
 async function modifyControlOwnerAndOversightApi(payload) {
   return await Axios.post('/update_cowner_coversight', payload);
@@ -508,6 +538,52 @@ function* handleGet_ApplicabilityAndAssignmentOfProviderOrganization({ payload }
   }
 }
 
+// Assign Applicability And Assignment Of Provider Organization
+async function assignApplicabilityAndAssignmentOfProviderOrganizationApi(payload) {
+  return await Axios.post('/update_receiver_universe', payload);
+}
+function* assignApplicabilityAndAssignmentOfProviderOrganizationData({ payload }) {
+  try {
+    const response = yield call(assignApplicabilityAndAssignmentOfProviderOrganizationApi, payload);
+    if (response.success) {
+      yield put({
+        type: ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Assined Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+// Get All Provider Entities
+async function getAllProviderEntitiesApi(params) {
+  return await Axios.get('/get_all_provider_entity', { params });
+}
+function* handleGet_AllProviderEntities({ payload }) {
+  try {
+    const response = yield call(getAllProviderEntitiesApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_ALL_PROVIDER_ENTITIES_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_ALL_PROVIDER_ENTITIES_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 export default all([
   takeLatest(GET_ORG_STRUCTURES_REQUEST, handleGet_org_structures),
   takeLatest(ACTION_ADD_ORG_STRUCTURE_DATA, addOrgStructureData),
@@ -527,9 +603,15 @@ export default all([
   takeLatest(GET_SUBPROCESS_PREFIX_REQUEST, getSubprocessPrefixData),
   takeLatest(UPDATE_MEGA_AND_SUBPROCESS_REQUEST, updateMegaAndSubprocessData),
   takeLatest(GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, handleGet_ControlOwnerAndOversight),
+  takeLatest(ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA, handleGet_ControlInstanceHistory),
+  takeLatest(MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, modifyControlOwnerAndOversightData),
   takeLatest(
     GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
     handleGet_ApplicabilityAndAssignmentOfProviderOrganization,
   ),
-  takeLatest(MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, modifyControlOwnerAndOversightData),
+  takeLatest(
+    ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
+    assignApplicabilityAndAssignmentOfProviderOrganizationData,
+  ),
+  takeLatest(GET_ALL_PROVIDER_ENTITIES_REQUEST, handleGet_AllProviderEntities),
 ]);

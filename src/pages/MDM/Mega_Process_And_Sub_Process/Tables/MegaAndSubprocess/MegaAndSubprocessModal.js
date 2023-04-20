@@ -83,7 +83,7 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType, setEdit
       Name_Detailed_Name:
         value.Type_of_Process === 'Mega Process'
           ? value.Name_Detailed_Name
-          : value.Parent_Process + ' - ' + value.Name_2.toUpperCase(),
+          : value.Parent_Process + ' - ' + value,
     };
 
     // Edit Payload for API
