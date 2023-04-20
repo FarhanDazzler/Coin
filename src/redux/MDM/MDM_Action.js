@@ -20,6 +20,7 @@ import {
   UPDATE_MICS_FRAMEWORK_REQUEST,
   GET_MEGA_PROCESS_MICS_FRAMEWORK_REQUEST,
   GET_SUB_PROCESS_MICS_FRAMEWORK_REQUEST,
+  UPDATE_MEGA_AND_SUBPROCESS_REQUEST,
 } from './MDM_Reducer';
 
 export const getOrgStructures = (payload) => ({ type: GET_ORG_STRUCTURES_REQUEST, payload });
@@ -71,6 +72,10 @@ export const getSubprocessParent = (payload) => ({
 });
 export const getSubprocessPrefix = (payload) => ({
   type: GET_SUBPROCESS_PREFIX_REQUEST,
+  payload,
+});
+export const updateMegaAndSubprocess = (payload) => ({
+  type: UPDATE_MEGA_AND_SUBPROCESS_REQUEST,
   payload,
 });
 

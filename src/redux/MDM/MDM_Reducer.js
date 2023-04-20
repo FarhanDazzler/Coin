@@ -101,6 +101,14 @@ export const GET_SUBPROCESS_PREFIX_ERROR = 'GET_SUBPROCESS_PREFIX_ERROR';
 
 // =================== GET SubProcess prefix Data ========================//
 
+// =================== UPDATE Mega And Subprocess Data ========================//
+
+export const UPDATE_MEGA_AND_SUBPROCESS_REQUEST = 'UPDATE_MEGA_AND_SUBPROCESS_REQUEST';
+export const UPDATE_MEGA_AND_SUBPROCESS_SUCCESS = 'UPDATE_MEGA_AND_SUBPROCESS_SUCCESS';
+export const UPDATE_MEGA_AND_SUBPROCESS_ERROR = 'UPDATE_MEGA_AND_SUBPROCESS_ERROR';
+
+// =================== UPDATE Mega And Subprocess Data ========================//
+
 // =================== Modify ControlOwner And Oversight Data ========================//
 
 export const MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST =
@@ -158,6 +166,7 @@ const initialState = {
   getMegaProcessPrefix: { ...block, data: [] },
   getSubprocessParent: { ...block, data: [] },
   getSubprocessPrefix: { ...block, data: [] },
+  updateMegaAndSubprocess: { ...block, data: [] },
   controlOwnerAndOversight: { ...block, data: [] },
   modifyControlOwnerAndOversight: { ...block, data: [] },
   applicabilityAndAssignmentOfProviderOrganization: { ...block, data: [] },
@@ -394,6 +403,27 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
       return {
         ...state,
         getSubprocessPrefix: { ...state.getSubprocessPrefix, loading: false },
+      };
+
+    // MDM UPDATE Mega And Subprocess Data
+    case UPDATE_MEGA_AND_SUBPROCESS_REQUEST:
+      return {
+        ...state,
+        updateMegaAndSubprocess: { ...state.updateMegaAndSubprocess, loading: true },
+      };
+    case UPDATE_MEGA_AND_SUBPROCESS_SUCCESS:
+      return {
+        ...state,
+        updateMegaAndSubprocess: {
+          ...state.updateMegaAndSubprocess,
+          data: payload,
+          loading: false,
+        },
+      };
+    case UPDATE_MEGA_AND_SUBPROCESS_ERROR:
+      return {
+        ...state,
+        updateMegaAndSubprocess: { ...state.updateMegaAndSubprocess, loading: false },
       };
 
     // Control Owner & Oversight data
