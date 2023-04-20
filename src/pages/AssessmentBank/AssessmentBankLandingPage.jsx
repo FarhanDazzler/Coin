@@ -2,6 +2,7 @@ import React from 'react';
 import AssessmentbankTable from '../../components/Assessmentbank/AssessmentbankTable';
 import FilterButtons from '../../components/FilterButtons';
 import PageWrapper from '../../components/wrappers/PageWrapper';
+import NoDataPlaceholder from '../../components/NoDataPlaceholder';
 
 const AssessmentBankLandingPage = () => {
   const options1 = [

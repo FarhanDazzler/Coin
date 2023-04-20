@@ -12,6 +12,7 @@ import {
 import Button from '../UI/Button';
 import Table from '../UI/Table';
 import { getSurveyStatusClass, TABLE_ROES } from './constant';
+import NoDataPlaceholder from '../NoDataPlaceholder';
 
 const AssessmentbankTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -122,7 +123,11 @@ const AssessmentbankTable = () => {
       <div className="container mt-5">
         <div className="row pt-5">
           <div className="col col-lg-12">
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            {tableData.length > 0 ? (
+              <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            ) : (
+              <NoDataPlaceholder />
+            )}
           </div>
         </div>
       </div>
