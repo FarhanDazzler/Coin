@@ -12,6 +12,7 @@ import {
   getControlOwnerAndOversightSelector,
   modifyControlOwnerAndOversightSelector,
 } from '../../../../../redux/MDM/MDM_Selectors';
+import { getControlInstanceHistoryAction } from '../../../../../redux/MDM/MDM_Action';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import EditIcon from '@mui/icons-material/Edit';
@@ -154,6 +155,7 @@ const ControlOwnerAndOversightTable = () => {
   const [showLcdModal, setShowLcdModal] = useState(false);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [assignTableData, setAssignTableData] = useState();
+  const [selectedControlIds, setSelectedControlIds] = useState();
   console.log('assignTableData', assignTableData);
   const controlOwnerAndOversight = useSelector(getControlOwnerAndOversightSelector);
   const modifyControlOwnerAndOversightState = useSelector(modifyControlOwnerAndOversightSelector);
@@ -289,6 +291,8 @@ const ControlOwnerAndOversightTable = () => {
     }
   };
   const handleOnclickAdd = () => {
+    let controlIDArray = []
+    console.log("controlIDArray",controlIDArray)
     let assignDataArray = [];
     if (editTableIndex.length == 0) {
       Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
@@ -298,10 +302,12 @@ const ControlOwnerAndOversightTable = () => {
         editTableIndex.map((dataa) => {
           if (i === dataa) {
             assignDataArray.push(data);
+            controlIDArray.push(data.control_id_provider_entity)
             // const coverSightCheck = assignDataArray.every(({ coversight }) => coversight === assignDataArray[0]?.coversight);
             // const cownerCheck = assignDataArray.every(({ cowner }) => cowner === assignDataArray[0]?.cowner);
             // if (cownerCheck === true && coverSightCheck === true) {
             setAssignTableData(assignDataArray);
+            setSelectedControlIds(controlIDArray)
             setShowModal(true);
             // }else{
             //   setAssignTableData([]);
@@ -311,7 +317,9 @@ const ControlOwnerAndOversightTable = () => {
           }
         });
       });
+      
     }
+    // dispatch(getControlInstanceHistoryAction(controlIDArray))
   };
 
   // Function to remove duplicate value from array
@@ -393,7 +401,7 @@ const ControlOwnerAndOversightTable = () => {
         title="Assign Control Owner & Oversight"
         bodyClassName="p-0"
       >
-        <AssignModal setShowModal={setShowModal} assignTableData={assignTableData} />
+        <AssignModal setShowModal={setShowModal} assignTableData={assignTableData} selectedControlIds={selectedControlIds} />
       </CustomModal>
       <CustomModal
         className="add-org"

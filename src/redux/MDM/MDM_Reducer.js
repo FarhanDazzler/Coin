@@ -61,6 +61,14 @@ export const ACTION_GET_PARENT_ENTITY_DATA_FAILED = 'ACTION_GET_PARENT_ENTITY_DA
 
 // =================== Get Parent ENtity Data ========================//
 
+// =================== GET_CONTROL_INSTANCE_HISTORY_DATA ========================//
+
+export const ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA = 'ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA';
+export const ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_SUCCESS = 'ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA';
+export const ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_FAILED = 'ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA';
+
+// =================== GET_CONTROL_INSTANCE_HISTORY_DATA ========================//
+
 // =================== Add MICS Framework Data ========================//
 
 export const ADD_MICS_FRAMEWORK_REQUEST = 'ADD_MICS_FRAMEWORK_REQUEST';
@@ -190,6 +198,7 @@ const initialState = {
   applicabilityAndAssignmentOfProviderOrganization: { ...block, data: [] },
   assignApplicabilityAndAssignmentOfProviderOrganization: { ...block, data: [] },
   getAllProviderEntities: { ...block, data: [] },
+  getControlInstanceHistory : {...block, data: []},
   orgManageButtonValue: false,
   megaAndSubprocessManageButtonValue: false,
 };
@@ -465,6 +474,28 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
       return {
         ...state,
         controlOwnerAndOversight: { ...state.controlOwnerAndOversight, loading: false },
+      };
+
+       // Control Owner & Oversight data
+    case ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA:
+      return {
+        ...state,
+        getControlInstanceHistory: { ...state.getControlInstanceHistory, loading: true },
+      };
+    case ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_SUCCESS:
+      return {
+        ...state,
+        getControlInstanceHistory: {
+          ...state.getControlInstanceHistory,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_FAILED:
+      debugger
+      return {
+        ...state,
+        getControlInstanceHistory: { ...state.getControlInstanceHistory, loading: false },
       };
 
     // Modify Control Owner & Oversight data

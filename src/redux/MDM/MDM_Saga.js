@@ -70,6 +70,9 @@ import {
   GET_ALL_PROVIDER_ENTITIES_REQUEST,
   GET_ALL_PROVIDER_ENTITIES_SUCCESS,
   GET_ALL_PROVIDER_ENTITIES_ERROR,
+  ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA,
+  ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_FAILED,
+  ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_SUCCESS
 } from './MDM_Reducer';
 import Swal from 'sweetalert2';
 
@@ -469,6 +472,27 @@ function* handleGet_ControlOwnerAndOversight({ payload }) {
   }
 }
 
+async function getControlInstanceHistoryApi(payload) {
+  return await Axios.post('/get_control_instances_history', payload);
+}
+function* handleGet_ControlInstanceHistory({ payload }) {
+  try {
+    const response = yield call(getControlInstanceHistoryApi, payload);
+    if (response.success) {
+      yield put({
+        type: ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    // yield put({
+    //   type: ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_FAILED,
+    //   // error: getSimplifiedError(error),
+    // });
+  }
+}
+
 // Modify ControlOwner And Oversight
 async function modifyControlOwnerAndOversightApi(payload) {
   return await Axios.post('/update_cowner_coversight', payload);
@@ -579,6 +603,7 @@ export default all([
   takeLatest(GET_SUBPROCESS_PREFIX_REQUEST, getSubprocessPrefixData),
   takeLatest(UPDATE_MEGA_AND_SUBPROCESS_REQUEST, updateMegaAndSubprocessData),
   takeLatest(GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, handleGet_ControlOwnerAndOversight),
+  takeLatest(ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA, handleGet_ControlInstanceHistory),
   takeLatest(MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, modifyControlOwnerAndOversightData),
   takeLatest(
     GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
