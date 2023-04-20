@@ -61,6 +61,9 @@ import {
   GET_SUB_PROCESS_MICS_FRAMEWORK_REQUEST,
   GET_SUB_PROCESS_MICS_FRAMEWORK_SUCCESS,
   GET_SUB_PROCESS_MICS_FRAMEWORK_ERROR,
+  UPDATE_MEGA_AND_SUBPROCESS_REQUEST,
+  UPDATE_MEGA_AND_SUBPROCESS_SUCCESS,
+  UPDATE_MEGA_AND_SUBPROCESS_ERROR,
 } from './MDM_Reducer';
 import Swal from 'sweetalert2';
 
@@ -416,6 +419,30 @@ function* getSubprocessPrefixData({ payload }) {
   }
 }
 
+async function updateMegaAndSubprocessApi(payload) {
+  return await Axios.post('/edit_mega_sub_process', payload);
+}
+function* updateMegaAndSubprocessData({ payload }) {
+  try {
+    const response = yield call(updateMegaAndSubprocessApi, payload);
+    if (response.success) {
+      yield put({
+        type: UPDATE_MEGA_AND_SUBPROCESS_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Updated Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: UPDATE_MEGA_AND_SUBPROCESS_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
 async function getControlOwnerAndOversightApi(params) {
   return await Axios.get('/get_control_instances', { params });
 }
@@ -489,19 +516,20 @@ export default all([
   takeLatest(GET_ORG_HIERARCHY_REQUEST, handleGet_org_hierarchy),
   takeLatest(GET_MICS_FRAMEWORK_REQUEST, handleGet_MicsFramework),
   takeLatest(ADD_MICS_FRAMEWORK_REQUEST, addMicsFrameworkData),
+  takeLatest(GET_MEGA_PROCESS_MICS_FRAMEWORK_REQUEST, handleGet_MegaProcessMicsFramework),
+  takeLatest(GET_SUB_PROCESS_MICS_FRAMEWORK_REQUEST, handleGet_SubProcessMicsFramework),
+  takeLatest(UPDATE_MICS_FRAMEWORK_REQUEST, updateMicsFrameworkData),
   takeLatest(GET_MEGA_AND_SUBPROCESS_VIEW_REQUEST, handleGet_MegaAndSubprocessView),
   takeLatest(GET_MEGA_AND_SUBPROCESS_REQUEST, handleGet_MegaAndSubprocess),
   takeLatest(ADD_MEGA_AND_SUBPROCESS_REQUEST, addMegaAndSubprocessData),
   takeLatest(GET_MEGA_PROCESS_PREFIX_REQUEST, getMegaProcessPrefixData),
   takeLatest(GET_SUBPROCESS_PARENT_REQUEST, getSubprocessParentData),
   takeLatest(GET_SUBPROCESS_PREFIX_REQUEST, getSubprocessPrefixData),
+  takeLatest(UPDATE_MEGA_AND_SUBPROCESS_REQUEST, updateMegaAndSubprocessData),
   takeLatest(GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, handleGet_ControlOwnerAndOversight),
   takeLatest(
     GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
     handleGet_ApplicabilityAndAssignmentOfProviderOrganization,
   ),
   takeLatest(MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, modifyControlOwnerAndOversightData),
-  takeLatest(UPDATE_MICS_FRAMEWORK_REQUEST, updateMicsFrameworkData),
-  takeLatest(GET_MEGA_PROCESS_MICS_FRAMEWORK_REQUEST, handleGet_MegaProcessMicsFramework),
-  takeLatest(GET_SUB_PROCESS_MICS_FRAMEWORK_REQUEST, handleGet_SubProcessMicsFramework),
 ]);
