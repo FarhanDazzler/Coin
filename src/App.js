@@ -27,6 +27,7 @@ import MDM_Control_Owner_OversightLandingPage from './pages/MDM/Control_Owner_Ov
 import MDM_MICS_FrameworkLandingPage from './pages/MDM/MICS_Framework/MDMMICSFrameworkLandingPage.jsx';
 import AddValues_MDM_Mics_Framework from './pages/MDM/MICS_Framework/InputPage/AddValues';
 import NavTabsMDM from './pages/MDM/MDM_Tab_Buttons/TabButtons.jsx';
+import AssessmentBankLandingPage from './pages/AssessmentBank/AssessmentBankLandingPage';
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -194,6 +195,11 @@ const Pages = () => {
             exact
             path="/master-data-management/mega-process-sub-Process"
             component={MDM_Mega_Process_Sub_ProcessLandingPage}
+          />
+          <Route
+            exact
+            path="/assessmentbank"
+            component={AssessmentBankLandingPage}
           />
           <Route
             path="*"
