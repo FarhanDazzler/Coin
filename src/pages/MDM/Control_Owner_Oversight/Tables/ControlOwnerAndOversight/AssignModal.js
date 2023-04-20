@@ -5,7 +5,7 @@ import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { addOrgStructureAction, getParentEntityAction, updateOrgStructureAction } from '../../../../../redux/MDM/MDM_Action';
+import { addOrgStructureAction, getParentEntityAction, updateOrgStructureAction, getControlInstanceHistoryAction } from '../../../../../redux/MDM/MDM_Action';
 import { getParentEntitySelector } from '../../../../../redux/MDM/MDM_Selectors';
 import { getUserFromAD } from '../../../../../redux/AzureAD/AD_Action';
 import { getUserFromADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
@@ -28,7 +28,8 @@ const GetParentEntityValue = ({ setCownerValue }) => {
     return null;
 };
 
-const AssignModal = ({ setShowModal, assignTableData }) => {
+const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
+    console.log("selectedControlIds",selectedControlIds);
     const dispatch = useDispatch();
     const [cownerValue, setCownerValue] = useState('');
     const [coversightValue, setCoversightValue] = useState('');
@@ -44,6 +45,13 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
     const [lcdValue, setLcdValue] = useState('');
     const [isStart, setIsStart] = useState(false);
     const [block, setBlock] = useState()
+    useEffect(() => {
+        let payloadForHistory = {
+            "control_instances":selectedControlIds
+        }
+        console.log("payload modal", payloadForHistory)
+        dispatch(getControlInstanceHistoryAction(payloadForHistory))
+    }, [])
     useEffect(() => {
 
     }, [isEmailValidADState.data])
@@ -143,23 +151,17 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                             <Form onSubmit={handleSubmit}>
 
                                     <div>
-                                        <Form.Label>Selected Control Id:</Form.Label>
-                                        {
-                                            assignTableData.map((data, i) => (
-                                                <div className="row">
-                                                    <div className="col-md-6">
-                                                        <div className='row mb-4'>
-
-                                                            <div className="col-md-7 yellow-gradient-text" style={{ fontSize: "0.875rem", fontWeight: "900" }}>
-                                                                <p>{data?.control_id_provider_entity}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                </div>
-                                            ))
-                                        }
+                                       <div className='selected-controls'>
+                                        <table className='table table-bordered'>
+                                            <thead className='thead-light'>
+                                                <tr>
+                                                    <th>Selected Control ID</th>
+                                                    <th>Previous Control Owner</th>
+                                                    <th>Previous Control Oversight</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                       </div>
                                         <hr />
 
                                         <div className="row">
