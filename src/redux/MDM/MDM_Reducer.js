@@ -143,6 +143,24 @@ export const GET_SUB_PROCESS_MICS_FRAMEWORK_ERROR = 'GET_SUB_PROCESS_MICS_FRAMEW
 
 // =================== GET SubProcess Mics Framework Data ========================//
 
+// ============== ASSIGN APPLICABILITY AND ASSIGNMENT OF PROVIDER ORGANIZATION Data ===================//
+
+export const ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST =
+  'ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST';
+export const ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_SUCCESS =
+  'ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_SUCCESS';
+export const ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR =
+  'ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR';
+
+// ============== ASSIGN APPLICABILITY AND ASSIGNMENT OF PROVIDER ORGANIZATION Data ===================//
+// =================== GET All Provider Entities Data ========================//
+
+export const GET_ALL_PROVIDER_ENTITIES_REQUEST = 'GET_ALL_PROVIDER_ENTITIES_REQUEST';
+export const GET_ALL_PROVIDER_ENTITIES_SUCCESS = 'GET_ALL_PROVIDER_ENTITIES_SUCCESS';
+export const GET_ALL_PROVIDER_ENTITIES_ERROR = 'GET_ALL_PROVIDER_ENTITIES_ERROR';
+
+// =================== GET All Provider Entities Data ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -170,6 +188,8 @@ const initialState = {
   controlOwnerAndOversight: { ...block, data: [] },
   modifyControlOwnerAndOversight: { ...block, data: [] },
   applicabilityAndAssignmentOfProviderOrganization: { ...block, data: [] },
+  assignApplicabilityAndAssignmentOfProviderOrganization: { ...block, data: [] },
+  getAllProviderEntities: { ...block, data: [] },
   orgManageButtonValue: false,
   megaAndSubprocessManageButtonValue: false,
 };
@@ -491,6 +511,60 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
         ...state,
         applicabilityAndAssignmentOfProviderOrganization: {
           ...state.applicabilityAndAssignmentOfProviderOrganization,
+          loading: false,
+        },
+      };
+
+    // Assign Applicability & Assignment of Provider Organization
+    case ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST:
+      return {
+        ...state,
+        assignApplicabilityAndAssignmentOfProviderOrganization: {
+          ...state.assignApplicabilityAndAssignmentOfProviderOrganization,
+          loading: true,
+        },
+      };
+    case ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_SUCCESS:
+      return {
+        ...state,
+        assignApplicabilityAndAssignmentOfProviderOrganization: {
+          ...state.assignApplicabilityAndAssignmentOfProviderOrganization,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR:
+      return {
+        ...state,
+        assignApplicabilityAndAssignmentOfProviderOrganization: {
+          ...state.assignApplicabilityAndAssignmentOfProviderOrganization,
+          loading: false,
+        },
+      };
+
+    // Get All Provider Entities
+    case GET_ALL_PROVIDER_ENTITIES_REQUEST:
+      return {
+        ...state,
+        getAllProviderEntities: {
+          ...state.getAllProviderEntities,
+          loading: true,
+        },
+      };
+    case GET_ALL_PROVIDER_ENTITIES_SUCCESS:
+      return {
+        ...state,
+        getAllProviderEntities: {
+          ...state.getAllProviderEntities,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_ALL_PROVIDER_ENTITIES_ERROR:
+      return {
+        ...state,
+        getAllProviderEntities: {
+          ...state.getAllProviderEntities,
           loading: false,
         },
       };
