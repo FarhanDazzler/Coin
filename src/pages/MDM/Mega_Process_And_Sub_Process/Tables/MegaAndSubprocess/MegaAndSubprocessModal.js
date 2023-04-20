@@ -19,7 +19,7 @@ import {
   getSubprocessPrefixSelector,
 } from '../../../../../redux/MDM/MDM_Selectors';
 // for Updating data
-//import { updateMegaAndSubprocess } from '../../../../../redux/MDM/MDM_Action';
+import { updateMegaAndSubprocess } from '../../../../../redux/MDM/MDM_Action';
 import moment from 'moment';
 
 const GetFormikFieldValue = ({ setMegaSubProcessValue }) => {
@@ -32,7 +32,7 @@ const GetFormikFieldValue = ({ setMegaSubProcessValue }) => {
       dispatch(getMegaProcessPrefix());
     } else if (values.Type_of_Process === 'Sub Process') {
       dispatch(getSubprocessParent());
-      if (values.Parent_Process !== '') {
+      if (values.Parent_Process) {
         let params = {
           parent: values.Parent_Process,
         };
@@ -44,7 +44,7 @@ const GetFormikFieldValue = ({ setMegaSubProcessValue }) => {
   return null;
 };
 
-const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
+const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType, setEditTableData }) => {
   const dispatch = useDispatch();
   const [megaSubProcessValue, setMegaSubProcessValue] = useState();
   const [prefixValue, setPrefixValue] = useState('');
@@ -75,7 +75,10 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
     let payload = {
       Type_of_Process: value.Type_of_Process,
       Parent_Process: value.Type_of_Process === 'Mega Process' ? '' : value.Parent_Process,
-      Prefix: prefixValue,
+      Prefix:
+        modalType === 'add' && value.Type_of_Process === 'Mega Process'
+          ? prefixValue
+          : ediatbleData?.Prefix,
       Name_2: value.Type_of_Process === 'Mega Process' ? value.Name_2.toUpperCase() : value.Name_2,
       Name_Detailed_Name:
         value.Type_of_Process === 'Mega Process'
@@ -85,17 +88,17 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
 
     // Edit Payload for API
 
-    // let editPayload = {
-    //   ...payload,
-    //   Org_code: ediatbleData?.Org_code,
-    // };
+    let editPayload = {
+      ...payload,
+      id: ediatbleData?.id,
+    };
 
     if (modalType === 'add') {
       console.log(payload, 'ADD=>>>>>>>>>>>>>>>>>>');
       dispatch(addMegaAndSubprocess(payload));
     } else {
       console.log('Edit=>>>>>>>>>>>>>>>>>>');
-      //dispatch(updateMegaAndSubprocess(editPayload));
+      dispatch(updateMegaAndSubprocess(editPayload));
     }
   };
 
@@ -106,7 +109,10 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
         initialValues={{
           Type_of_Process: ediatbleData?.Type_of_Process ? ediatbleData?.Type_of_Process : '',
           Parent_Process: ediatbleData?.Parent_Process ? ediatbleData?.Parent_Process : '',
-          Prefix: ediatbleData?.Prefix ? ediatbleData?.Prefix : '',
+          Prefix:
+            ediatbleData?.Type_of_Process === 'Mega Process' && ediatbleData?.Prefix
+              ? ediatbleData?.Prefix
+              : '',
           Name_2: ediatbleData?.Name_2 ? ediatbleData?.Name_2 : '',
           Name_Detailed_Name: ediatbleData?.Name_Detailed_Name
             ? ediatbleData?.Name_Detailed_Name
@@ -142,8 +148,7 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
         onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
           try {
             handleSaveAdd(values);
-
-            // resetForm();
+            //resetForm();
           } catch (error) {
             const message = error.message || 'Something went wrong';
             setStatus({ success: false });
@@ -179,7 +184,7 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
                         isInvalid={Boolean(touched.Type_of_Process && errors.Type_of_Process)}
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        readOnly={false}
+                        disabled={modalType === 'add' ? false : true}
                         className="form-select"
                       >
                         <option value="">Select Type of Process</option>
@@ -330,7 +335,14 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType }) => {
             <div className="footer-action">
               <div className="d-flex align-items-center justify-content-end">
                 <div>
-                  <Button variant="outlined" color="secondary" onClick={() => setShowModal(false)}>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                      setShowModal(false);
+                      setEditTableData();
+                    }}
+                  >
                     Cancel
                   </Button>
                   <Button color="neutral" className="ml-4" onClick={handleSubmit}>
