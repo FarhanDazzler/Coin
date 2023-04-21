@@ -19,16 +19,18 @@ const MDM_Mega_Process_Sub_ProcessLandingPage = () => {
   }, []);
 
   const megaAndSubprocessManageButtonState = useSelector(megaAndSubprocessManageButtonSelector);
-  
+
   // to select data from redux store using selector
   // const orgStructures = useSelector(getOrgStructuresSelector);
   // console.log(orgStructures.data, 'Org Structure data from API');
 
   return (
     <PageWrapper>
-      <NavTabsMDM />
-      <MegaAndSubprocessViewTable />
-      {!!megaAndSubprocessManageButtonState && <MegaAndSubprocessTable />}
+      <div className="col col-lg-12">
+        <NavTabsMDM />
+        <MegaAndSubprocessViewTable />
+        {!!megaAndSubprocessManageButtonState && <MegaAndSubprocessTable />}
+      </div>
     </PageWrapper>
   );
 };

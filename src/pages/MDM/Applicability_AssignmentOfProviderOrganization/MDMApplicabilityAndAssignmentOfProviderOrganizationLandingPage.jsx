@@ -20,8 +20,10 @@ const MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage = () => {
 
   return (
     <PageWrapper>
-      <NavTabsMDM />
-      <ApplicabilityAndAssignmentOfProviderOrganizationTable />
+      <div className="col col-lg-12">
+        <NavTabsMDM />
+        <ApplicabilityAndAssignmentOfProviderOrganizationTable />
+      </div>
     </PageWrapper>
   );
 };

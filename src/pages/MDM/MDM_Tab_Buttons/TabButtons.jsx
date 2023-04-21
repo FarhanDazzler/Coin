@@ -28,7 +28,7 @@ function NavTabsMDM() {
   );
   const MyComponent = React.memo((props) => {
     return (
-      <div class="text-center">
+      <div className="text-center">
         <div style={{ paddingLeft: '12px', paddingRight: '12px' }}>
           <Button
             variant="outlined"
