@@ -34,10 +34,17 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     getApplicabilityAndAssignmentOfProviderOrganizationSelector,
   );
 
+  const assignApplicabilityAndAssignmentOfProviderOrganization = useSelector(
+    assignApplicabilityAndAssignmentOfProviderOrganizationSelector,
+  );
+
   // for closing POP after confirm
   useEffect(() => {
     setShowModal(false);
-  }, [applicabilityAndAssignmentOfProviderOrganization.data?.message]);
+  }, [
+    applicabilityAndAssignmentOfProviderOrganization.data?.message,
+    assignApplicabilityAndAssignmentOfProviderOrganization?.data,
+  ]);
 
   const TABLE_COLUMNS = [
     {
