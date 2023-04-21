@@ -62,6 +62,13 @@ const MicsFrameworkTable = () => {
       minWidth: 200,
     },
     {
+      field: 'Sub_Process',
+      headerName: 'Sub Process',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 200,
+    },
+    {
       field: 'ABI_Key',
       headerName: 'ABI Key',
       flex: 1,
@@ -169,13 +176,6 @@ const MicsFrameworkTable = () => {
     {
       field: 'Control_Split',
       headerName: 'Control Split',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
-    {
-      field: 'Sub_Process',
-      headerName: 'Sub Process',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,

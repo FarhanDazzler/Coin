@@ -16,7 +16,10 @@ import { Formik, Field } from 'formik';
 import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import OrgStructureModal from './OrgStructureModal';
-import { addOrgStructureSelector, updateOrgStructureSelector } from '../../../../../redux/MDM/MDM_Selectors';
+import {
+  addOrgStructureSelector,
+  updateOrgStructureSelector,
+} from '../../../../../redux/MDM/MDM_Selectors';
 import { getOrgStructures, getOrgHierarchy } from '../../../../../redux/MDM/MDM_Action';
 import Swal from 'sweetalert2';
 
@@ -44,8 +47,22 @@ const OrgStructuresTable = () => {
 
   const TABLE_COLUMNS = [
     {
+      field: 'Org_name',
+      headerName: 'Organization Name',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 200,
+    },
+    {
+      field: 'Org_code',
+      headerName: 'Organization Code',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 200,
+    },
+    {
       field: 'Org_type',
-      headerName: 'Org_type',
+      headerName: 'Organization Type',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
@@ -59,14 +76,14 @@ const OrgStructuresTable = () => {
     },
     {
       field: 'isReceiver',
-      headerName: 'isReceiver',
+      headerName: 'Is Receiver',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
       field: 'isProvider',
-      headerName: 'isProvider',
+      headerName: 'Is Provider',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
@@ -79,22 +96,15 @@ const OrgStructuresTable = () => {
       minWidth: 200,
     },
     {
-      field: 'Org_name',
-      headerName: 'Org_Name',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
-    {
       field: 'Valid_from',
-      headerName: 'Valid_from',
+      headerName: 'Valid From',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
       field: 'Valid_to',
-      headerName: 'Valid_to',
+      headerName: 'Valid To',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
@@ -160,27 +170,27 @@ const OrgStructuresTable = () => {
                 <div>
                   {(localStorage.getItem('Roles')?.includes('global_internal_control') ||
                     localStorage.getItem('selected_Role')?.includes('global_internal_control')) && (
-                      <>
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          startIcon={<ActiveToolEdit text="Free Text" />}
-                          className="edit-button-mdm-table"
-                          onClick={handleOnclickEdit}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          startIcon={<ActiveToolADD text="Free Text" />}
-                          className="add-button-mdm-table"
-                          onClick={handleOnclickAdd}
-                        >
-                          Add New
-                        </Button>
-                      </>
-                    )}
+                    <>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<ActiveToolEdit text="Free Text" />}
+                        className="edit-button-mdm-table"
+                        onClick={handleOnclickEdit}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<ActiveToolADD text="Free Text" />}
+                        className="add-button-mdm-table"
+                        onClick={handleOnclickAdd}
+                      >
+                        Add New
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

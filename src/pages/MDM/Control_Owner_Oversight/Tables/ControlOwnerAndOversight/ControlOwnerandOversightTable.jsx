@@ -28,7 +28,6 @@ import CustomModal from '../../../../../components/UI/CustomModal';
 import LcdModal from './LcdModal';
 import Swal from 'sweetalert2';
 
-
 // Filter buttons
 const FilterButtons = ({
   Control_ID,
@@ -193,13 +192,6 @@ const ControlOwnerAndOversightTable = () => {
   }, [valueControl_ID, valueProvider_entity, valueCowner, valueCoversight]);
   const TABLE_COLUMNS = [
     {
-      field: 'Control_ID',
-      headerName: 'Control ID',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
-    {
       field: 'zone',
       headerName: 'Zone',
       flex: 1,
@@ -208,7 +200,42 @@ const ControlOwnerAndOversightTable = () => {
     },
     {
       field: 'provider_entity',
-      headerName: 'Provider Org',
+      headerName: 'Provider Organization',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 200,
+    },
+    {
+      field: 'Control_ID',
+      headerName: 'Control ID',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 200,
+    },
+    {
+      field: 'control_id_provider_entity',
+      headerName: 'Provider Organization + Control ID',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 300,
+    },
+    {
+      field: 'local_control_description',
+      headerName: 'Local Control Desc(LCD)',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 500,
+    },
+    {
+      field: 'cowner',
+      headerName: 'Control Owner',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 200,
+    },
+    {
+      field: 'coversight',
+      headerName: 'Control Oversight',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
@@ -223,27 +250,6 @@ const ControlOwnerAndOversightTable = () => {
     {
       field: 'valid_to',
       headerName: 'Valid To',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
-    {
-      field: 'local_control_description',
-      headerName: 'Local Control Desc(LCD)',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
-    {
-      field: 'cowner',
-      headerName: 'Control Owner',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
-    {
-      field: 'coversight',
-      headerName: 'Control Oversight',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
@@ -291,8 +297,8 @@ const ControlOwnerAndOversightTable = () => {
     }
   };
   const handleOnclickAdd = () => {
-    let controlIDArray = []
-    console.log("controlIDArray",controlIDArray)
+    let controlIDArray = [];
+    console.log('controlIDArray', controlIDArray);
     let assignDataArray = [];
     if (editTableIndex.length == 0) {
       Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
@@ -302,12 +308,12 @@ const ControlOwnerAndOversightTable = () => {
         editTableIndex.map((dataa) => {
           if (i === dataa) {
             assignDataArray.push(data);
-            controlIDArray.push(data.control_id_provider_entity)
+            controlIDArray.push(data.control_id_provider_entity);
             // const coverSightCheck = assignDataArray.every(({ coversight }) => coversight === assignDataArray[0]?.coversight);
             // const cownerCheck = assignDataArray.every(({ cowner }) => cowner === assignDataArray[0]?.cowner);
             // if (cownerCheck === true && coverSightCheck === true) {
             setAssignTableData(assignDataArray);
-            setSelectedControlIds(controlIDArray)
+            setSelectedControlIds(controlIDArray);
             setShowModal(true);
             // }else{
             //   setAssignTableData([]);
@@ -317,7 +323,6 @@ const ControlOwnerAndOversightTable = () => {
           }
         });
       });
-      
     }
     // dispatch(getControlInstanceHistoryAction(controlIDArray))
   };
@@ -401,7 +406,11 @@ const ControlOwnerAndOversightTable = () => {
         title="Assign Control Owner & Oversight"
         bodyClassName="p-0"
       >
-        <AssignModal setShowModal={setShowModal} assignTableData={assignTableData} selectedControlIds={selectedControlIds} />
+        <AssignModal
+          setShowModal={setShowModal}
+          assignTableData={assignTableData}
+          selectedControlIds={selectedControlIds}
+        />
       </CustomModal>
       <CustomModal
         className="add-org"
