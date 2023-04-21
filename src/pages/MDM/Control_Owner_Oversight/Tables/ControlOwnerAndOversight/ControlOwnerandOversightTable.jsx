@@ -242,14 +242,14 @@ const ControlOwnerAndOversightTable = () => {
       headerName: 'Control Owner',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 300,
     },
     {
       field: 'cowner_status',
       headerName: 'Control Owner Status',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      minWidth: 200,
       renderCell: (row) => {
         return (
           <span className={class_to_apply(row.row.cowner_status)}>
@@ -263,14 +263,14 @@ const ControlOwnerAndOversightTable = () => {
       headerName: 'Control Oversight',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 300,
     },
     {
       field: 'coversight_status',
       headerName: 'Control Oversight Status',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      minWidth: 200,
       renderCell: (row) => {
         return (
           <span className={class_to_apply(row.row.coversight_status)}>
