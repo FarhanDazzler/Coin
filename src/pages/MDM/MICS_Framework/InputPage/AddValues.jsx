@@ -371,6 +371,39 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
+                          <Form.Label>Category</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="Category"
+                              placeholder=""
+                              value={values.Category}
+                              isInvalid={Boolean(touched.Category && errors.Category)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Select Category</option>
+                              <option value="Non IT">Non IT</option>
+                              <option value="IT">IT</option>
+                            </Form.Control>
+
+                            {!!touched.Category && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Category}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
                           <Form.Label>Mega Process</Form.Label>
                         </div>
                         <div className="col-lg-7">
@@ -433,141 +466,6 @@ const AddValues_MDM_Mics_Framework = (props) => {
                             {!!touched.Sub_Process && (
                               <Form.Control.Feedback type="invalid">
                                 {errors.Sub_Process}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
-                          <Form.Label>Category</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              as="select"
-                              name="Category"
-                              placeholder=""
-                              value={values.Category}
-                              isInvalid={Boolean(touched.Category && errors.Category)}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-select"
-                            >
-                              <option value="">Select Category</option>
-                              <option value="Non IT">Non IT</option>
-                              <option value="IT">IT</option>
-                            </Form.Control>
-
-                            {!!touched.Category && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.Category}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
-                          <Form.Label>Change Size</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              as="select"
-                              name="Change_Size"
-                              placeholder=""
-                              value={values.Change_Size}
-                              isInvalid={Boolean(touched.Change_Size && errors.Change_Size)}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-select"
-                            >
-                              <option value="">Select Change Size</option>
-                              <option value="New">New</option>
-                              <option value="Delete">Delete</option>
-                              <option value="Large">Large</option>
-                              <option value="Small">Small</option>
-                              <option value="No Change">No Change</option>
-                            </Form.Control>
-
-                            {!!touched.Change_Size && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.Change_Size}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
-                          <Form.Label>DTC</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              as="select"
-                              name="DTC"
-                              placeholder=""
-                              value={values.DTC}
-                              isInvalid={Boolean(touched.DTC && errors.DTC)}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-select"
-                            >
-                              <option value="">Select DTC</option>
-                              <option value="DTC & Non-DTC">DTC & Non-DTC</option>
-                              <option value="DTC Only">DTC Only</option>
-                            </Form.Control>
-
-                            {!!touched.DTC && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.DTC}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
-                          <Form.Label>Reviewed</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              as="select"
-                              name="Reviewed"
-                              placeholder=""
-                              value={values.Reviewed}
-                              isInvalid={Boolean(touched.Reviewed && errors.Reviewed)}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-select"
-                            >
-                              <option value="">Reviewed ?</option>
-                              <option value="Yes">Yes</option>
-                              <option value="No">No</option>
-                            </Form.Control>
-
-                            {!!touched.Reviewed && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.Reviewed}
                               </Form.Control.Feedback>
                             )}
                           </Form.Group>
@@ -1048,6 +946,39 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
+                          <Form.Label>DTC</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="DTC"
+                              placeholder=""
+                              value={values.DTC}
+                              isInvalid={Boolean(touched.DTC && errors.DTC)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Select DTC</option>
+                              <option value="DTC & Non-DTC">DTC & Non-DTC</option>
+                              <option value="DTC Only">DTC Only</option>
+                            </Form.Control>
+
+                            {!!touched.DTC && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.DTC}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
                           <Form.Label>Control_Split</Form.Label>
                         </div>
                         <div className="col-lg-7">
@@ -1154,6 +1085,138 @@ const AddValues_MDM_Mics_Framework = (props) => {
                           setFieldValue={(val) => setFieldValue('mics_L3desc', val)}
                           value={values.mics_L3desc}
                         />
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
+                          <Form.Label>Key Performance and Risk Indicator Status</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="Kpi_status"
+                              placeholder=""
+                              value={values.Kpi_status}
+                              isInvalid={Boolean(touched.Kpi_status && errors.Kpi_status)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Select Kpi status</option>
+                              <option value="KPI Created and Mapped">KPI Created and Mapped</option>
+                              <option value="No KPI">No KPI</option>
+                            </Form.Control>
+
+                            {!!touched.Kpi_status && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Kpi_status}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
+                          <Form.Label>L1_KPI</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="L1_KPI"
+                              placeholder=""
+                              value={values.L1_KPI}
+                              isInvalid={Boolean(touched.L1_KPI && errors.L1_KPI)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Select L1 KPI</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
+                            </Form.Control>
+
+                            {!!touched.L1_KPI && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.L1_KPI}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
+                          <Form.Label>L2_KPI</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="L2_KPI"
+                              placeholder=""
+                              value={values.L2_KPI}
+                              isInvalid={Boolean(touched.L2_KPI && errors.L2_KPI)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Select L2 KPI</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
+                            </Form.Control>
+
+                            {!!touched.L2_KPI && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.L2_KPI}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
+                          <Form.Label>L3_KPI</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="L3_KPI"
+                              placeholder=""
+                              value={values.L3_KPI}
+                              isInvalid={Boolean(touched.L3_KPI && errors.L3_KPI)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Select L3 KPI</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
+                            </Form.Control>
+
+                            {!!touched.L3_KPI && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.L3_KPI}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
                       </div>
                     </div>
 
@@ -1294,138 +1357,6 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>L3_KPI</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              as="select"
-                              name="L3_KPI"
-                              placeholder=""
-                              value={values.L3_KPI}
-                              isInvalid={Boolean(touched.L3_KPI && errors.L3_KPI)}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-select"
-                            >
-                              <option value="">Select L3 KPI</option>
-                              <option value="Yes">Yes</option>
-                              <option value="No">No</option>
-                            </Form.Control>
-
-                            {!!touched.L3_KPI && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.L3_KPI}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
-                          <Form.Label>L2_KPI</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              as="select"
-                              name="L2_KPI"
-                              placeholder=""
-                              value={values.L2_KPI}
-                              isInvalid={Boolean(touched.L2_KPI && errors.L2_KPI)}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-select"
-                            >
-                              <option value="">Select L2 KPI</option>
-                              <option value="Yes">Yes</option>
-                              <option value="No">No</option>
-                            </Form.Control>
-
-                            {!!touched.L2_KPI && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.L2_KPI}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
-                          <Form.Label>L1_KPI</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              as="select"
-                              name="L1_KPI"
-                              placeholder=""
-                              value={values.L1_KPI}
-                              isInvalid={Boolean(touched.L1_KPI && errors.L1_KPI)}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-select"
-                            >
-                              <option value="">Select L1 KPI</option>
-                              <option value="Yes">Yes</option>
-                              <option value="No">No</option>
-                            </Form.Control>
-
-                            {!!touched.L1_KPI && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.L1_KPI}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
-                          <Form.Label>Key Performance and Risk Indicator Status</Form.Label>
-                        </div>
-                        <div className="col-lg-7">
-                          <Form.Group className="input-group mb-3">
-                            <Form.Control
-                              as="select"
-                              name="Kpi_status"
-                              placeholder=""
-                              value={values.Kpi_status}
-                              isInvalid={Boolean(touched.Kpi_status && errors.Kpi_status)}
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              readOnly={false}
-                              className="form-select"
-                            >
-                              <option value="">Select Kpi status</option>
-                              <option value="KPI Created and Mapped">KPI Created and Mapped</option>
-                              <option value="No KPI">No KPI</option>
-                            </Form.Control>
-
-                            {!!touched.Kpi_status && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.Kpi_status}
-                              </Form.Control.Feedback>
-                            )}
-                          </Form.Group>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6">
-                      <div className="row mb-4">
-                        <div className="col-lg-5">
                           <Form.Label>change_comment</Form.Label>
                         </div>
                         <div className="col-lg-7">
@@ -1445,6 +1376,75 @@ const AddValues_MDM_Mics_Framework = (props) => {
                             {!!touched.change_comment && (
                               <Form.Control.Feedback type="invalid">
                                 {errors.change_comment}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
+                          <Form.Label>Change Size</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="Change_Size"
+                              placeholder=""
+                              value={values.Change_Size}
+                              isInvalid={Boolean(touched.Change_Size && errors.Change_Size)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Select Change Size</option>
+                              <option value="New">New</option>
+                              <option value="Delete">Delete</option>
+                              <option value="Large">Large</option>
+                              <option value="Small">Small</option>
+                              <option value="No Change">No Change</option>
+                            </Form.Control>
+
+                            {!!touched.Change_Size && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Change_Size}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-5">
+                          <Form.Label>Reviewed</Form.Label>
+                        </div>
+                        <div className="col-lg-7">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="Reviewed"
+                              placeholder=""
+                              value={values.Reviewed}
+                              isInvalid={Boolean(touched.Reviewed && errors.Reviewed)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Reviewed ?</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
+                            </Form.Control>
+
+                            {!!touched.Reviewed && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Reviewed}
                               </Form.Control.Feedback>
                             )}
                           </Form.Group>
