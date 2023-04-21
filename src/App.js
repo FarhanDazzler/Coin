@@ -201,6 +201,11 @@ const Pages = () => {
             component={MDM_Mega_Process_Sub_ProcessLandingPage}
           />
           <Route
+            exact
+            path="/assessmentbank"
+            component={AssessmentBankLandingPage}
+          />
+          <Route
             path="*"
             render={(props) => {
               return (

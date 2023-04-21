@@ -1,0 +1,93 @@
+.schedule-survey {
+    .model-header {
+        p {
+            display: none;
+        }
+    }
+}
+
+
+#schedule-survey {
+    .wrapper{
+        margin: 25px;
+    }
+    .step-header {
+        p {
+            color: rgba(0, 0, 0, 0.4);
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        p.active {
+            color: #000;
+            position: relative;
+        }
+
+        p.active::after {
+            position: absolute;
+            content: "";
+            height: 7px;
+            border-radius: 8px;
+            width: 50px;
+            bottom: -21px;
+            left: 0;
+            background: #EAC144;
+            z-index: 9;
+        }
+    }
+
+    .progress {
+        background: #F5F5F5;
+        height: 7px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+
+    ul.steps {
+        text-align: center;
+        height: 60px;
+        padding: 10px 0;
+
+        li.complete:after {
+            background: #EAC144;
+        }
+
+        li {
+            float: left;
+            width: 25%;
+            height: 2px;
+            background: #EAC144;
+            position: relative;
+            list-style: none;
+
+            &:after {
+                position: absolute;
+                content: "";
+                height: 10px;
+                width: 10px;
+                left: 50%;
+                margin-left: -5px;
+                top: -5px;
+                background: #fff;
+                border: solid 1px #EAC144;
+                -webkit-border-radius: 100%;
+                -moz-border-radius: 100%;
+                -o-border-radius: 100%;
+                -ms-border-radius: 100%;
+                border-radius: 100%;
+            }
+        }
+    }
+
+    .holder {
+        overflow: hidden;
+        background: #fff;
+        padding: 20px;
+        .schedule-survey-btn{
+            text-align: end;
+        }
+    }
+
+}

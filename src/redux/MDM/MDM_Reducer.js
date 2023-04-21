@@ -61,6 +61,14 @@ export const ACTION_GET_PARENT_ENTITY_DATA_FAILED = 'ACTION_GET_PARENT_ENTITY_DA
 
 // =================== Get Parent ENtity Data ========================//
 
+// =================== GET_CONTROL_INSTANCE_HISTORY_DATA ========================//
+
+export const ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA = 'ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA';
+export const ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_SUCCESS = 'ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA';
+export const ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_FAILED = 'ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA';
+
+// =================== GET_CONTROL_INSTANCE_HISTORY_DATA ========================//
+
 // =================== Add MICS Framework Data ========================//
 
 export const ADD_MICS_FRAMEWORK_REQUEST = 'ADD_MICS_FRAMEWORK_REQUEST';
@@ -101,6 +109,14 @@ export const GET_SUBPROCESS_PREFIX_ERROR = 'GET_SUBPROCESS_PREFIX_ERROR';
 
 // =================== GET SubProcess prefix Data ========================//
 
+// =================== UPDATE Mega And Subprocess Data ========================//
+
+export const UPDATE_MEGA_AND_SUBPROCESS_REQUEST = 'UPDATE_MEGA_AND_SUBPROCESS_REQUEST';
+export const UPDATE_MEGA_AND_SUBPROCESS_SUCCESS = 'UPDATE_MEGA_AND_SUBPROCESS_SUCCESS';
+export const UPDATE_MEGA_AND_SUBPROCESS_ERROR = 'UPDATE_MEGA_AND_SUBPROCESS_ERROR';
+
+// =================== UPDATE Mega And Subprocess Data ========================//
+
 // =================== Modify ControlOwner And Oversight Data ========================//
 
 export const MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST =
@@ -135,6 +151,24 @@ export const GET_SUB_PROCESS_MICS_FRAMEWORK_ERROR = 'GET_SUB_PROCESS_MICS_FRAMEW
 
 // =================== GET SubProcess Mics Framework Data ========================//
 
+// ============== ASSIGN APPLICABILITY AND ASSIGNMENT OF PROVIDER ORGANIZATION Data ===================//
+
+export const ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST =
+  'ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST';
+export const ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_SUCCESS =
+  'ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_SUCCESS';
+export const ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR =
+  'ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR';
+
+// ============== ASSIGN APPLICABILITY AND ASSIGNMENT OF PROVIDER ORGANIZATION Data ===================//
+// =================== GET All Provider Entities Data ========================//
+
+export const GET_ALL_PROVIDER_ENTITIES_REQUEST = 'GET_ALL_PROVIDER_ENTITIES_REQUEST';
+export const GET_ALL_PROVIDER_ENTITIES_SUCCESS = 'GET_ALL_PROVIDER_ENTITIES_SUCCESS';
+export const GET_ALL_PROVIDER_ENTITIES_ERROR = 'GET_ALL_PROVIDER_ENTITIES_ERROR';
+
+// =================== GET All Provider Entities Data ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -158,9 +192,13 @@ const initialState = {
   getMegaProcessPrefix: { ...block, data: [] },
   getSubprocessParent: { ...block, data: [] },
   getSubprocessPrefix: { ...block, data: [] },
+  updateMegaAndSubprocess: { ...block, data: [] },
   controlOwnerAndOversight: { ...block, data: [] },
   modifyControlOwnerAndOversight: { ...block, data: [] },
   applicabilityAndAssignmentOfProviderOrganization: { ...block, data: [] },
+  assignApplicabilityAndAssignmentOfProviderOrganization: { ...block, data: [] },
+  getAllProviderEntities: { ...block, data: [] },
+  getControlInstanceHistory : {...block, data: []},
   orgManageButtonValue: false,
   megaAndSubprocessManageButtonValue: false,
 };
@@ -396,6 +434,27 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
         getSubprocessPrefix: { ...state.getSubprocessPrefix, loading: false },
       };
 
+    // MDM UPDATE Mega And Subprocess Data
+    case UPDATE_MEGA_AND_SUBPROCESS_REQUEST:
+      return {
+        ...state,
+        updateMegaAndSubprocess: { ...state.updateMegaAndSubprocess, loading: true },
+      };
+    case UPDATE_MEGA_AND_SUBPROCESS_SUCCESS:
+      return {
+        ...state,
+        updateMegaAndSubprocess: {
+          ...state.updateMegaAndSubprocess,
+          data: payload,
+          loading: false,
+        },
+      };
+    case UPDATE_MEGA_AND_SUBPROCESS_ERROR:
+      return {
+        ...state,
+        updateMegaAndSubprocess: { ...state.updateMegaAndSubprocess, loading: false },
+      };
+
     // Control Owner & Oversight data
     case GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST:
       return {
@@ -415,6 +474,28 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
       return {
         ...state,
         controlOwnerAndOversight: { ...state.controlOwnerAndOversight, loading: false },
+      };
+
+       // Control Owner & Oversight data
+    case ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA:
+      return {
+        ...state,
+        getControlInstanceHistory: { ...state.getControlInstanceHistory, loading: true },
+      };
+    case ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_SUCCESS:
+      return {
+        ...state,
+        getControlInstanceHistory: {
+          ...state.getControlInstanceHistory,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_FAILED:
+      debugger
+      return {
+        ...state,
+        getControlInstanceHistory: { ...state.getControlInstanceHistory, loading: false },
       };
 
     // Modify Control Owner & Oversight data
@@ -461,6 +542,60 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
         ...state,
         applicabilityAndAssignmentOfProviderOrganization: {
           ...state.applicabilityAndAssignmentOfProviderOrganization,
+          loading: false,
+        },
+      };
+
+    // Assign Applicability & Assignment of Provider Organization
+    case ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST:
+      return {
+        ...state,
+        assignApplicabilityAndAssignmentOfProviderOrganization: {
+          ...state.assignApplicabilityAndAssignmentOfProviderOrganization,
+          loading: true,
+        },
+      };
+    case ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_SUCCESS:
+      return {
+        ...state,
+        assignApplicabilityAndAssignmentOfProviderOrganization: {
+          ...state.assignApplicabilityAndAssignmentOfProviderOrganization,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR:
+      return {
+        ...state,
+        assignApplicabilityAndAssignmentOfProviderOrganization: {
+          ...state.assignApplicabilityAndAssignmentOfProviderOrganization,
+          loading: false,
+        },
+      };
+
+    // Get All Provider Entities
+    case GET_ALL_PROVIDER_ENTITIES_REQUEST:
+      return {
+        ...state,
+        getAllProviderEntities: {
+          ...state.getAllProviderEntities,
+          loading: true,
+        },
+      };
+    case GET_ALL_PROVIDER_ENTITIES_SUCCESS:
+      return {
+        ...state,
+        getAllProviderEntities: {
+          ...state.getAllProviderEntities,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_ALL_PROVIDER_ENTITIES_ERROR:
+      return {
+        ...state,
+        getAllProviderEntities: {
+          ...state.getAllProviderEntities,
           loading: false,
         },
       };

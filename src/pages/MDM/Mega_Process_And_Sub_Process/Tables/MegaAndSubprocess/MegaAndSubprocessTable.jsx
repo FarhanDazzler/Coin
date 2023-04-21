@@ -20,7 +20,10 @@ import { Formik, Field } from 'formik';
 import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import MegaAndSubprocessModal from './MegaAndSubprocessModal';
-import { addMegaAndSubprocessSelector } from '../../../../../redux/MDM/MDM_Selectors';
+import {
+  addMegaAndSubprocessSelector,
+  updateMegaAndSubprocessSelector,
+} from '../../../../../redux/MDM/MDM_Selectors';
 import {
   getMegaAndSubprocessView,
   getMegaAndSubprocess,
@@ -34,19 +37,20 @@ const MegaAndSubprocessTable = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
   const addMegaAndSubprocessState = useSelector(addMegaAndSubprocessSelector);
+  const updateMegaAndSubprocessState = useSelector(updateMegaAndSubprocessSelector);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [editTableData, setEditTableData] = useState();
   console.log(editTableIndex);
   console.log(addMegaAndSubprocessState);
 
   useEffect(() => {
-    if (addMegaAndSubprocessState) {
+    if (addMegaAndSubprocessState || updateMegaAndSubprocessState) {
       setShowModal(false);
       setModalType('');
       dispatch(getMegaAndSubprocessView());
       dispatch(getMegaAndSubprocess());
     }
-  }, [addMegaAndSubprocessState.data]);
+  }, [addMegaAndSubprocessState.data, updateMegaAndSubprocessState.data]);
 
   const megaAndSubprocess = useSelector(getMegaAndSubprocessSelector);
 
@@ -118,12 +122,10 @@ const MegaAndSubprocessTable = () => {
     if (editTableIndex.length > 1) {
       Swal.fire('Oops...', 'You can only allow one Mega and Subprocess to edit at a time', 'error');
     } else if (editTableIndex.length == 1) {
-      tableData.find((data, i) => {
-        console.log(i);
-        if (i === editTableIndex[0]) {
-          setEditTableData(data);
-        }
-      });
+      console.log(editTableIndex, 'editTableIndex');
+      const data = tableData.find((data, i) => data.id === editTableIndex[0]);
+      setEditTableData(data);
+      console.log('@@@@@@@@@', data);
       setShowModal(true);
       setModalType('edit');
     }
@@ -190,6 +192,7 @@ const MegaAndSubprocessTable = () => {
           setShowModal={setShowModal}
           ediatbleData={editTableData}
           modalType={modalType}
+          setEditTableData={setEditTableData}
         />
       </CustomModal>
     </>

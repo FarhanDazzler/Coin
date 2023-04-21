@@ -8,22 +8,36 @@ import Table from '../../../../../components/UI/Table';
 import '../TableStyle.scss';
 
 // geting data from redux
-import { getApplicabilityAndAssignmentOfProviderOrganizationSelector } from '../../../../../redux/MDM/MDM_Selectors';
+import {
+  getApplicabilityAndAssignmentOfProviderOrganizationSelector,
+  assignApplicabilityAndAssignmentOfProviderOrganizationSelector,
+} from '../../../../../redux/MDM/MDM_Selectors';
 
 import Button from '../../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
-import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
+
+import AssignModal from './AssignModal';
+import CustomModal from '../../../../../components/UI/CustomModal';
+import Swal from 'sweetalert2';
 
 const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const [assignTableData, setAssignTableData] = useState();
+  const [editTableIndex, setEditTableIndex] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const dispatch = useDispatch();
 
   const applicabilityAndAssignmentOfProviderOrganization = useSelector(
     getApplicabilityAndAssignmentOfProviderOrganizationSelector,
   );
+
+  // for closing POP after confirm
+  useEffect(() => {
+    setShowModal(false);
+  }, [applicabilityAndAssignmentOfProviderOrganization.data?.message]);
 
   const TABLE_COLUMNS = [
     {
@@ -35,7 +49,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     },
     {
       field: 'Entity',
-      headerName: 'Entity',
+      headerName: 'Entity Name',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
@@ -49,17 +63,31 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     },
     {
       field: 'Entity_Control_ID_IsApplicable',
-      headerName: 'Entity*Control_ID*Is_applicable',
+      headerName: 'Entity + Control ID + Is Applicable',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 300,
+    },
+    {
+      field: 'Is_applicable',
+      headerName: 'Applicability',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Is_applicable',
-      headerName: 'Is Applicable',
+      field: 'Provider_Entity',
+      headerName: 'Provider Organization',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
+    },
+    {
+      field: 'control_id_provider_entity',
+      headerName: 'Control ID + Provider Entity',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 300,
     },
     {
       field: 'Reason_for_NA',
@@ -96,34 +124,6 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
-    {
-      field: 'control_id_provider_entity',
-      headerName: 'control_id*provider_entity',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
-    {
-      field: 'Provider_Entity',
-      headerName: 'Provider Entity',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
-    {
-      field: 'Valid_from',
-      headerName: 'Valid From',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
-    {
-      field: 'Valid_to',
-      headerName: 'Valid To',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
   ];
 
   useEffect(() => {
@@ -138,23 +138,29 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     );
   }, [applicabilityAndAssignmentOfProviderOrganization.data]);
 
-  const ActiveToolADD = ({ text }) => (
+  const ActiveToolAssign = ({ text }) => (
     <Tooltip title={text} placement="bottom-start">
       <ControlPointRoundedIcon color="black" />
     </Tooltip>
   );
 
-  const ActiveToolEdit = ({ text }) => (
-    <Tooltip title={text} placement="bottom-start">
-      <EditIcon color="black" />
-    </Tooltip>
-  );
-
-  const handleOnclickEdit = () => {
-    // edit code
-  };
-  const handleOnclickAdd = () => {
-    // Add code
+  const handleOnclickAssign = () => {
+    // Assign code
+    let assignDataArray = [];
+    if (editTableIndex.length == 0) {
+      Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
+    } else if (editTableIndex.length >= 1) {
+      tableData.find((data, i) => {
+        console.log(i);
+        editTableIndex.map((dataa) => {
+          if (i === dataa) {
+            assignDataArray.push(data);
+            setAssignTableData(assignDataArray);
+            setShowModal(true);
+          }
+        });
+      });
+    }
   };
 
   return (
@@ -174,28 +180,34 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
                   <Button
                     variant="outlined"
                     size="small"
-                    startIcon={<ActiveToolEdit text="Free Text" />}
-                    className="edit-button-mdm-table"
-                    onClick={handleOnclickEdit}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ActiveToolADD text="Free Text" />}
+                    startIcon={<ActiveToolAssign text="Free Text" />}
                     className="add-button-mdm-table"
-                    onClick={handleOnclickAdd}
+                    onClick={handleOnclickAssign}
                   >
-                    Add New
+                    Assign
                   </Button>
                 </div>
               </div>
             </div>
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            <Table
+              tableData={tableData}
+              tableColumns={tableColumns}
+              columns={tableColumns}
+              setEditTableIndex={setEditTableIndex}
+            />
           </div>
         </div>
       </div>
+      <CustomModal
+        className="add-org"
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        width={900}
+        title="Assign Applicability And Assignment Of ProviderOrganization"
+        bodyClassName="p-0"
+      >
+        <AssignModal setShowModal={setShowModal} assignTableData={assignTableData} />
+      </CustomModal>
     </>
   );
 };

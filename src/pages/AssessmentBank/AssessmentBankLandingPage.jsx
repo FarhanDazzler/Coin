@@ -1,36 +1,35 @@
-import React from 'react';
-import AssessmentbankTable from '../../components/Assessmentbank/AssessmentbankTable';
-import FilterButtons from '../../components/FilterButtons';
-import PageWrapper from '../../components/wrappers/PageWrapper';
-import NoDataPlaceholder from '../../components/NoDataPlaceholder';
+import React, {useState} from "react";
+import Button from "../MDM/MDM_Tab_Buttons/Button";
+import CustomModal from "../../components/UI/CustomModal";
+import "./AssessmentBankLandingPage.scss";
+import Stepper from "./Stepper";
 
 const AssessmentBankLandingPage = () => {
-  const options1 = [
-    {
-      label: '',
-      value: '',
-    },
-    {
-      label: '',
-      value: '',
-    },
-    {
-      label: '',
-      value: '',
-    },
-  ];
-  return (
-    <PageWrapper>
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <FilterButtons />
-            <AssessmentbankTable />
-          </div>
-        </div>
-      </div>
-    </PageWrapper>
-  );
-};
+    const [showModal, setShowModal] = useState(false);
+    const handleSheduleSurvey = () => {
+        setShowModal(true);
+    }
+    return (
+        <>
+            <Button
+                color="neutral"
+                className="ml-4"
+                onClick={handleSheduleSurvey}
+            >
+                Schedule Survey
+            </Button>
+            <CustomModal
+                className="schedule-survey"
+                open={showModal}
+                onClose={() => setShowModal(false)}
+                width={900}
+                title="Schedule Survey"
+                bodyClassName="p-0"
+            >
+                <Stepper />
+            </CustomModal>
+        </>
+    )
+}
 
-export default AssessmentBankLandingPage;
+export default AssessmentBankLandingPage

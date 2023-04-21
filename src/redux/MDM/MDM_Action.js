@@ -20,6 +20,10 @@ import {
   UPDATE_MICS_FRAMEWORK_REQUEST,
   GET_MEGA_PROCESS_MICS_FRAMEWORK_REQUEST,
   GET_SUB_PROCESS_MICS_FRAMEWORK_REQUEST,
+  UPDATE_MEGA_AND_SUBPROCESS_REQUEST,
+  ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
+  GET_ALL_PROVIDER_ENTITIES_REQUEST,
+  ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA
 } from './MDM_Reducer';
 
 export const getOrgStructures = (payload) => ({ type: GET_ORG_STRUCTURES_REQUEST, payload });
@@ -73,9 +77,17 @@ export const getSubprocessPrefix = (payload) => ({
   type: GET_SUBPROCESS_PREFIX_REQUEST,
   payload,
 });
+export const updateMegaAndSubprocess = (payload) => ({
+  type: UPDATE_MEGA_AND_SUBPROCESS_REQUEST,
+  payload,
+});
 
 export const getControlOwnerAndOversight = (payload) => ({
   type: GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
+  payload,
+});
+export const getControlInstanceHistoryAction = (payload) => ({
+  type: ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA,
   payload,
 });
 export const modifyControlOwnerAndOversight = (payload) => ({
@@ -84,6 +96,14 @@ export const modifyControlOwnerAndOversight = (payload) => ({
 });
 export const getApplicabilityAndAssignmentOfProviderOrganization = (payload) => ({
   type: GET_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
+  payload,
+});
+export const assignApplicabilityAndAssignmentOfProviderOrganization = (payload) => ({
+  type: ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
+  payload,
+});
+export const getAllProviderEntities = (payload) => ({
+  type: GET_ALL_PROVIDER_ENTITIES_REQUEST,
   payload,
 });
 
