@@ -28,6 +28,7 @@ import MDM_MICS_FrameworkLandingPage from './pages/MDM/MICS_Framework/MDMMICSFra
 import AddValues_MDM_Mics_Framework from './pages/MDM/MICS_Framework/InputPage/AddValues';
 import NavTabsMDM from './pages/MDM/MDM_Tab_Buttons/TabButtons.jsx';
 import AssessmentBankLandingPage from './pages/AssessmentBank/AssessmentBankLandingPage';
+import NewHomePage from './components/NewHomePage';
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -154,6 +155,7 @@ const Pages = () => {
             }}
           />
           <Route exact path="/new" component={HomePage} />
+          <Route exact path="/newpage" component={NewHomePage} />
           <Route exact path="/question-bank" component={QuestionBank} />
           {user_role === 'organizational persona' ? (
             <Route exact path="/" component={Home_controlOwner} />
@@ -162,6 +164,8 @@ const Pages = () => {
           ) : (
             <Route exact path="/" component={Home_controlOwner} />
           )}
+
+          <Route exact path="/assessmentbank" component={AssessmentBankLandingPage} />
           <Route exact path="/Assessments/:Assessment_id" component={Question} />
           <Route exact path="/questionbank" component={QuestionBank} />
           <Route exact path="/not-authorized" component={NotAuthorized} />

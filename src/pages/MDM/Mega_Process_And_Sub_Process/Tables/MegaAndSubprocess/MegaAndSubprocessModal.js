@@ -75,15 +75,12 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType, setEdit
     let payload = {
       Type_of_Process: value.Type_of_Process,
       Parent_Process: value.Type_of_Process === 'Mega Process' ? '' : value.Parent_Process,
-      Prefix:
-        modalType === 'add' && value.Type_of_Process === 'Mega Process'
-          ? prefixValue
-          : ediatbleData?.Prefix,
+      Prefix: modalType === 'add' ? prefixValue : ediatbleData?.Prefix,
       Name_2: value.Type_of_Process === 'Mega Process' ? value.Name_2.toUpperCase() : value.Name_2,
       Name_Detailed_Name:
         value.Type_of_Process === 'Mega Process'
           ? value.Name_Detailed_Name
-          : value.Parent_Process + ' - ' + value,
+          : value.Parent_Process + ' - ' + value.Name_2,
     };
 
     // Edit Payload for API

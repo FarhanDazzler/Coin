@@ -2,9 +2,8 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
-
 import Table from '../../../../../components/UI/Table';
-
+import { Messaging } from 'react-cssfx-loading';
 import '../TableStyle.scss';
 
 // geting data from redux
@@ -190,6 +189,18 @@ const ControlOwnerAndOversightTable = () => {
       }),
     );
   }, [valueControl_ID, valueProvider_entity, valueCowner, valueCoversight]);
+
+  const class_to_apply = (item) => {
+    let className = '';
+    if (item.toUpperCase() === 'ACTIVE') {
+      className = 'badge badge-success';
+    }
+    if (item.toUpperCase() === 'INACTIVE') {
+      className = 'badge badge-red';
+    }
+    return className;
+  };
+
   const TABLE_COLUMNS = [
     {
       field: 'zone',
@@ -234,11 +245,39 @@ const ControlOwnerAndOversightTable = () => {
       minWidth: 200,
     },
     {
+      field: 'cowner_status',
+      headerName: 'Control Owner Status',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 100,
+      renderCell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.cowner_status)}>
+            {row.row.cowner === '' ? 'N/A' : row.row.cowner_status}
+          </span>
+        );
+      },
+    },
+    {
       field: 'coversight',
       headerName: 'Control Oversight',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
+    },
+    {
+      field: 'coversight_status',
+      headerName: 'Control Oversight Status',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 100,
+      renderCell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.coversight_status)}>
+            {row.row.coversight === '' ? 'N/A' : row.row.coversight_status}
+          </span>
+        );
+      },
     },
     {
       field: 'valid_from',
@@ -343,6 +382,7 @@ const ControlOwnerAndOversightTable = () => {
   return (
     <>
       <div className="container mt-5">
+        {/*<Messaging color="#fff" width="100px" height="100px" duration="1s" />*/}
         <div className="row pt-5">
           <div className="col col-lg-12">
             <div className="mdm-table-global-filters">
