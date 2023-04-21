@@ -246,7 +246,7 @@ const ControlOwnerAndOversightTable = () => {
     },
     {
       field: 'cowner_status',
-      headerName: 'Status',
+      headerName: 'Control Owner Status',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 100,
@@ -267,7 +267,7 @@ const ControlOwnerAndOversightTable = () => {
     },
     {
       field: 'coversight_status',
-      headerName: 'Status',
+      headerName: 'Control Oversight Status',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 100,
