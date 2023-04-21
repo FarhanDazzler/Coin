@@ -19,7 +19,7 @@ const MultiSelectButton = (props) => {
       className="mantine-MultiSelect-wrapper"
       //data={['React', 'Angular', 'Svelte', 'Vue', 'Riot', 'Next.js', 'Blitz.js']}
       data={data}
-      label={<span className="mantine-MultiSelect-label">{props.label}</span>}
+      label={props.label && <span className="mantine-MultiSelect-label">{props.label}</span>}
       placeholder={props.placeholder}
       searchable
       limit={20}
