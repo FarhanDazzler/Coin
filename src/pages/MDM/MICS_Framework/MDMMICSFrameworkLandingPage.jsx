@@ -16,8 +16,10 @@ const MDM_MICS_FrameworkLandingPage = () => {
 
   return (
     <PageWrapper>
-      <NavTabsMDM />
-      <MicsFrameworkTable />
+      <div className="col col-lg-12">
+        <NavTabsMDM />
+        <MicsFrameworkTable />
+      </div>
     </PageWrapper>
   );
 };
