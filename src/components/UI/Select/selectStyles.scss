@@ -3,6 +3,11 @@
   backdrop-filter: blur(14.4828px);
   border-radius: 8.68966px !important;
   color: #fff !important;
+  svg {
+    color: #fff !important;
+    fill: #fff !important;
+  }
+
   &.inputLook-text {
     color: #000 !important;
     border-radius: 4px !important;

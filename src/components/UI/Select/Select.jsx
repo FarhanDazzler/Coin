@@ -4,11 +4,12 @@ import MenuItem from '@mui/material/MenuItem';
 import { Select as SelectBase } from '@mui/material';
 import './selectStyles.scss';
 
-const Select = ({ options, classes = {}, placeholder, inputLook, ...rest }) => {
+const Select = ({ options, classes = {}, startAdornment, placeholder, inputLook, ...rest }) => {
   return (
     <SelectBase
       input={
         <OutlinedInput
+          startAdornment={startAdornment}
           placeholder={placeholder}
           classes={{ root: `select-options ${inputLook ? 'inputLook-text' : ''}`, ...classes }}
         />

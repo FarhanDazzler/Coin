@@ -49,6 +49,7 @@ const theme = createTheme({
     },
     silver: {
       main: '#F5F5F5',
+      contrastText: '#111',
     },
   },
 });
@@ -200,11 +201,7 @@ const Pages = () => {
             path="/master-data-management/mega-process-sub-Process"
             component={MDM_Mega_Process_Sub_ProcessLandingPage}
           />
-          <Route
-            exact
-            path="/assessmentbank"
-            component={AssessmentBankLandingPage}
-          />
+          <Route exact path="/assessmentbank" component={AssessmentBankLandingPage} />
           <Route
             path="*"
             render={(props) => {

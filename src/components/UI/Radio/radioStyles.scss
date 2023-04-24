@@ -22,3 +22,14 @@
     padding: 5px;
   }
 }
+.white-radio-icon{
+  .Mui-checked {
+    color: #d3a306;
+    svg {
+      color: #d3a306;
+    }
+  }
+  svg {
+    color: #fff;
+  }
+}
