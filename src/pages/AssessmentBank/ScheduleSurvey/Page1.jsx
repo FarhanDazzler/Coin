@@ -25,7 +25,7 @@ const Page1 = ({ handleNext }) => {
   };
 
   const handleSaveAdd = (value) => {
-    console.log(value);
+    //console.log(value);
 
     let payload = {
       Survey_Name: value.Survey_Name,
@@ -44,6 +44,7 @@ const Page1 = ({ handleNext }) => {
       Control_Oversight_Review_Notification_2: value.Control_Oversight_Review_Notification_2,
     };
 
+    console.log(payload, 'Page 1 payload');
     //dispatch(scheduleSurveyPage1Values(payload));
   };
 
@@ -95,6 +96,7 @@ const Page1 = ({ handleNext }) => {
         onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
           try {
             handleSaveAdd(values);
+            handleNext();
             //resetForm();
           } catch (error) {
             const message = error.message || 'Something went wrong';
@@ -121,7 +123,7 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-4">
                     <Form.Label>Survey Name</Form.Label>
                   </div>
-                  <div className="col-lg-8">
+                  <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         type="text"
@@ -150,7 +152,7 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-4">
                     <Form.Label>Question Bank</Form.Label>
                   </div>
-                  <div className="col-lg-8">
+                  <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         as="select"
@@ -183,7 +185,7 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-4">
                     <Form.Label>Assessment_Cycle</Form.Label>
                   </div>
-                  <div className="col-lg-8">
+                  <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         as="select"
@@ -218,7 +220,7 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-4">
                     <Form.Label>Year</Form.Label>
                   </div>
-                  <div className="col-lg-8">
+                  <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         type="date"
@@ -245,7 +247,7 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-4">
                     <Form.Label>KPI From</Form.Label>
                   </div>
-                  <div className="col-lg-8">
+                  <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         type="date"
@@ -274,7 +276,7 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-4">
                     <Form.Label>KPI To</Form.Label>
                   </div>
-                  <div className="col-lg-8">
+                  <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         type="date"
@@ -303,7 +305,7 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-4">
                     <Form.Label>Start Date</Form.Label>
                   </div>
-                  <div className="col-lg-8">
+                  <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         type="date"
@@ -332,7 +334,7 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-4">
                     <Form.Label>Due_Date</Form.Label>
                   </div>
-                  <div className="col-lg-8">
+                  <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         type="date"
@@ -361,7 +363,7 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-4">
                     <Form.Label>Control Owner Reminder 1</Form.Label>
                   </div>
-                  <div className="col-lg-8">
+                  <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         type="date"
@@ -392,7 +394,7 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-4">
                     <Form.Label>Control Owner Reminder 2</Form.Label>
                   </div>
-                  <div className="col-lg-8">
+                  <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         type="date"
@@ -423,7 +425,7 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-4">
                     <Form.Label>Control Oversight Pending Notification 1</Form.Label>
                   </div>
-                  <div className="col-lg-8">
+                  <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         type="date"
@@ -455,7 +457,7 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-4">
                     <Form.Label>Control Oversight Pending Notification 2</Form.Label>
                   </div>
-                  <div className="col-lg-8">
+                  <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         type="date"
@@ -487,7 +489,7 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-4">
                     <Form.Label>Control Oversight Review Notification 1</Form.Label>
                   </div>
-                  <div className="col-lg-8">
+                  <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         type="date"
@@ -519,7 +521,7 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-4">
                     <Form.Label>Control Oversight Review Notification 2</Form.Label>
                   </div>
-                  <div className="col-lg-8">
+                  <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         type="date"
@@ -556,14 +558,7 @@ const Page1 = ({ handleNext }) => {
                   >
                     Cancel
                   </Button>
-                  <Button
-                    color="neutral"
-                    className="ml-4"
-                    onClick={() => {
-                      handleSaveAdd();
-                      handleNext();
-                    }}
-                  >
+                  <Button color="neutral" className="ml-4" onClick={handleSubmit}>
                     Next {'>'}
                   </Button>
                 </div>
