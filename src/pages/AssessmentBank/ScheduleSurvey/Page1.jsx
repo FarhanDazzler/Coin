@@ -5,6 +5,8 @@ import { Alert, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../MDM/MDM_Tab_Buttons/Button';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
+import { Divider, Box } from '@mantine/core';
+import { IconCalendarCheck } from '@tabler/icons-react';
 
 const GetFormikFieldValue = ({ setPage1Value }) => {
   // Grab values and submitForm from context
@@ -358,10 +360,27 @@ const Page1 = ({ handleNext }) => {
                 </div>
               </div>
 
+              <div className="row">
+                <Divider
+                  className="divider"
+                  size="md"
+                  my="xs"
+                  labelPosition="center"
+                  label={
+                    <>
+                      <IconCalendarCheck size={16} />
+                      <Box ml={5}>
+                        <Form.Label>Control Owner:</Form.Label>
+                      </Box>
+                    </>
+                  }
+                />
+              </div>
+
               <div className="col-lg-6">
                 <div className="row mb-4">
                   <div className="col-lg-4">
-                    <Form.Label>Control Owner Reminder 1</Form.Label>
+                    <Form.Label>Reminder 1</Form.Label>
                   </div>
                   <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
@@ -392,7 +411,7 @@ const Page1 = ({ handleNext }) => {
               <div className="col-lg-6">
                 <div className="row mb-4">
                   <div className="col-lg-4">
-                    <Form.Label>Control Owner Reminder 2</Form.Label>
+                    <Form.Label>Reminder 2</Form.Label>
                   </div>
                   <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
@@ -420,130 +439,164 @@ const Page1 = ({ handleNext }) => {
                 </div>
               </div>
 
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Control Oversight Pending Notification 1</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="date"
-                        name="Control_Oversight_Pending_Notification_1"
-                        placeholder=""
-                        value={values.Control_Oversight_Pending_Notification_1}
-                        isInvalid={Boolean(
-                          touched.Control_Oversight_Pending_Notification_1 &&
-                            errors.Control_Oversight_Pending_Notification_1,
-                        )}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-control"
-                      />
+              <div className="row">
+                <Divider
+                  className="divider"
+                  size="md"
+                  my="xs"
+                  labelPosition="center"
+                  label={
+                    <>
+                      <IconCalendarCheck size={16} />
+                      <Box ml={5}>
+                        <Form.Label>Control Oversight Pending:</Form.Label>
+                      </Box>
+                    </>
+                  }
+                />
 
-                      {!!touched.Control_Oversight_Pending_Notification_1 && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Control_Oversight_Pending_Notification_1}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group>
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Notification 1</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          type="date"
+                          name="Control_Oversight_Pending_Notification_1"
+                          placeholder=""
+                          value={values.Control_Oversight_Pending_Notification_1}
+                          isInvalid={Boolean(
+                            touched.Control_Oversight_Pending_Notification_1 &&
+                              errors.Control_Oversight_Pending_Notification_1,
+                          )}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          readOnly={false}
+                          className="form-control"
+                        />
+
+                        {!!touched.Control_Oversight_Pending_Notification_1 && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Control_Oversight_Pending_Notification_1}
+                          </Form.Control.Feedback>
+                        )}
+                      </Form.Group>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Notification 2</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          type="date"
+                          name="Control_Oversight_Pending_Notification_2"
+                          placeholder=""
+                          value={values.Control_Oversight_Pending_Notification_2}
+                          isInvalid={Boolean(
+                            touched.Control_Oversight_Pending_Notification_2 &&
+                              errors.Control_Oversight_Pending_Notification_2,
+                          )}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          readOnly={false}
+                          className="form-control"
+                        />
+
+                        {!!touched.Control_Oversight_Pending_Notification_2 && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Control_Oversight_Pending_Notification_2}
+                          </Form.Control.Feedback>
+                        )}
+                      </Form.Group>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Control Oversight Pending Notification 2</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="date"
-                        name="Control_Oversight_Pending_Notification_2"
-                        placeholder=""
-                        value={values.Control_Oversight_Pending_Notification_2}
-                        isInvalid={Boolean(
-                          touched.Control_Oversight_Pending_Notification_2 &&
-                            errors.Control_Oversight_Pending_Notification_2,
-                        )}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-control"
-                      />
+              <div className="row">
+                <Divider
+                  className="divider"
+                  size="md"
+                  my="xs"
+                  labelPosition="center"
+                  label={
+                    <>
+                      <IconCalendarCheck size={16} />
+                      <Box ml={5}>
+                        <Form.Label>Control Oversight Review :</Form.Label>
+                      </Box>
+                    </>
+                  }
+                />
 
-                      {!!touched.Control_Oversight_Pending_Notification_2 && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Control_Oversight_Pending_Notification_2}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group>
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Notification 1</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          type="date"
+                          name="Control_Oversight_Review_Notification_1"
+                          placeholder=""
+                          value={values.Control_Oversight_Review_Notification_1}
+                          isInvalid={Boolean(
+                            touched.Control_Oversight_Review_Notification_1 &&
+                              errors.Control_Oversight_Review_Notification_1,
+                          )}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          readOnly={false}
+                          className="form-control"
+                        />
+
+                        {!!touched.Control_Oversight_Review_Notification_1 && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Control_Oversight_Review_Notification_1}
+                          </Form.Control.Feedback>
+                        )}
+                      </Form.Group>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Control Oversight Review Notification 1</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="date"
-                        name="Control_Oversight_Review_Notification_1"
-                        placeholder=""
-                        value={values.Control_Oversight_Review_Notification_1}
-                        isInvalid={Boolean(
-                          touched.Control_Oversight_Review_Notification_1 &&
-                            errors.Control_Oversight_Review_Notification_1,
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Notification 2</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          type="date"
+                          name="Control_Oversight_Review_Notification_2"
+                          placeholder=""
+                          value={values.Control_Oversight_Review_Notification_2}
+                          isInvalid={Boolean(
+                            touched.Control_Oversight_Review_Notification_2 &&
+                              errors.Control_Oversight_Review_Notification_2,
+                          )}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          readOnly={false}
+                          className="form-control"
+                        />
+
+                        {!!touched.Control_Oversight_Review_Notification_2 && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Control_Oversight_Review_Notification_2}
+                          </Form.Control.Feedback>
                         )}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-control"
-                      />
-
-                      {!!touched.Control_Oversight_Review_Notification_1 && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Control_Oversight_Review_Notification_1}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Control Oversight Review Notification 2</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="date"
-                        name="Control_Oversight_Review_Notification_2"
-                        placeholder=""
-                        value={values.Control_Oversight_Review_Notification_2}
-                        isInvalid={Boolean(
-                          touched.Control_Oversight_Review_Notification_2 &&
-                            errors.Control_Oversight_Review_Notification_2,
-                        )}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-control"
-                      />
-
-                      {!!touched.Control_Oversight_Review_Notification_2 && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Control_Oversight_Review_Notification_2}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group>
+                      </Form.Group>
+                    </div>
                   </div>
                 </div>
               </div>

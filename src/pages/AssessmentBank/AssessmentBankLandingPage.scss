@@ -124,4 +124,34 @@
     z-index: 999;
   }
 
+  .divider{
+    padding-top: 24px;
+    margin-left: 32px;
+    margin-right: 32px;
+  }
+  .mantine-MultiSelect-wrapper-AssessmentBank {
+    //text-align: center;
+  
+    .mantine-MultiSelect-label {
+      color: #fff !important;
+      //padding-left: 10px;
+    }
+  
+    .mantine-MultiSelect-dropdown {
+      background-color: grey;
+    }
+    .mantine-MultiSelect-input {
+      background-color: #1a1b1e;
+    }
+    .mantine-MultiSelect-searchInput {
+      background-color: #1a1b1e;
+      border-color: transparent;
+      box-shadow: none;
+    }
+  
+    .mantine-MultiSelect-value {
+      background-color: #ffffff;
+    }
+  }
+  
  
