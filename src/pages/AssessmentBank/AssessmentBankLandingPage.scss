@@ -13,14 +13,14 @@
     }
     .step-header {
         p {
-            color: rgba(0, 0, 0, 0.4);
+            color:#808080;
             font-style: normal;
             font-weight: 600;
             font-size: 14px;
         }
 
         p.active {
-            color: #000;
+            color: #ffffff;
             position: relative;
         }
 
@@ -32,13 +32,13 @@
             width: 50px;
             bottom: -21px;
             left: 0;
-            background: #EAC144;
+            background: #e3af32;
             z-index: 9;
         }
     }
 
     .progress {
-        background: #F5F5F5;
+        background: #808080;
         height: 7px;
         border-radius: 8px;
         margin-bottom: 20px;
@@ -83,7 +83,7 @@
 
     .holder {
         overflow: hidden;
-        background: #fff;
+       
         padding: 20px;
         .schedule-survey-btn{
             text-align: end;
@@ -98,3 +98,30 @@
     padding: 30px;
     border-radius: 24px;
   }
+  .AssessmentBankInnerBoxWrapper {
+    background: #000000;
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 24px;
+    
+  }
+
+  .AssessmentBank-inputPage-title {
+    text-align: center !important;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 87.52%;
+    //color: rgba(255, 255, 255, 0.92);
+    color: #e3af32;
+  }
+
+  .footer-action-AssessmentBank {
+    position: sticky;
+    bottom: 0;
+    padding: 15px 20px;
+    
+    z-index: 999;
+  }
+
+ 

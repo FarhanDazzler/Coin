@@ -2,27 +2,33 @@ import React, { useState } from 'react';
 import PageWrapper from '../../../components/wrappers/PageWrapper';
 import '../AssessmentBankLandingPage.scss';
 import Button from '../../MDM/MDM_Tab_Buttons/Button';
+import Page1 from './Page1';
+
 const ScheduleSurveyPage = () => {
   const [step, setStep] = useState(1);
   const handleNext = () => {
     setStep(step + 1);
   };
+
   return (
     <PageWrapper>
       <div className="container py-5">
         <div className="col-lg-12 py-4 AssessmentBankBoxWrapper">
           <div id="schedule-survey" className="content">
             <div className="wrapper">
-              <div className="step-header d-flex justify-content-between">
-                <p className={step === 1 && 'active'}>Details</p>
-                <p className={step === 2 && 'active'}>Select Provider Organization</p>
-                <p className={step === 3 && 'active'}>Select Object</p>
-                <p className={step === 4 && 'active'}>Review & Confirm</p>
+              <div className="AssessmentBankInnerBoxWrapper">
+                <div className="step-header d-flex justify-content-between">
+                  <p className={step === 1 && 'active'}>Details</p>
+                  <p className={step === 2 && 'active'}>Select Provider Organization</p>
+                  <p className={step === 3 && 'active'}>Select Object</p>
+                  <p className={step === 4 && 'active'}>Review & Confirm</p>
+                </div>
+                <div className="progress"></div>
               </div>
-              <div className="progress"></div>
               {step === 1 && (
                 <div className="holder">
-                  <p>1</p>
+                  <Page1 handleNext={handleNext} />
+                  {/*<Page1 handleNext={handleNext} />
                   <div className="t-a-r btns schedule-survey-btn">
                     <Button color="neutral" className="ml-4" onClick={''}>
                       Cancel
@@ -31,7 +37,7 @@ const ScheduleSurveyPage = () => {
                     <Button color="neutral" className="ml-4" onClick={() => handleNext()}>
                       Next {'>'}
                     </Button>
-                  </div>
+                  </div>*/}
                 </div>
               )}
               {step === 2 && (
