@@ -1402,11 +1402,9 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               className="form-select"
                             >
                               <option value="">Select Change Size</option>
-                              <option value="New">New</option>
-                              <option value="Delete">Delete</option>
-                              <option value="Large">Large</option>
-                              <option value="Small">Small</option>
+                              <option value="Change">Change</option>
                               <option value="No Change">No Change</option>
+                              <option value="Small Change">Small Change</option>
                             </Form.Control>
 
                             {!!touched.Change_Size && (

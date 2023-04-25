@@ -19127,7 +19127,11 @@ svg {
 #headerMenuCollapse {
   background-color: #e3af32;
 }
-
+.top-nav {
+  position: sticky;
+  top: -83px;
+  z-index: 999;
+}
 #headerMenuCollapse a {
   color: #000;
 }
@@ -19140,6 +19144,9 @@ svg {
 @media (max-width: 992px) {
   .sidebar-row {
     padding-right: 0.7rem;
+  }
+  .top-nav {
+    top: 0px;
   }
 }
 

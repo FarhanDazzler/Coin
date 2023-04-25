@@ -31,7 +31,6 @@ const MultiSelectButton = (props) => {
       value={value}
       onChange={(e) => {
         setValue(e);
-        console.log(e);
       }}
       radius="xl"
       variant="filled"

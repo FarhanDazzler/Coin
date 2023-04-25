@@ -29,6 +29,7 @@ import AddValues_MDM_Mics_Framework from './pages/MDM/MICS_Framework/InputPage/A
 import NavTabsMDM from './pages/MDM/MDM_Tab_Buttons/TabButtons.jsx';
 import AssessmentBankLandingPage from './pages/AssessmentBank/AssessmentBankLandingPage';
 import NewHomePage from './components/NewHomePage';
+import ScheduleSurveyPage from './pages/AssessmentBank/ScheduleSurvey/ScheduleSurveyPage';
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -49,6 +50,7 @@ const theme = createTheme({
     },
     silver: {
       main: '#F5F5F5',
+      contrastText: '#111',
     },
   },
 });
@@ -200,11 +202,8 @@ const Pages = () => {
             path="/master-data-management/mega-process-sub-Process"
             component={MDM_Mega_Process_Sub_ProcessLandingPage}
           />
-          <Route
-            exact
-            path="/assessmentbank"
-            component={AssessmentBankLandingPage}
-          />
+          <Route exact path="/assessmentbank" component={AssessmentBankLandingPage} />
+          <Route exact path="/assessmentbank/schedule-survey" component={ScheduleSurveyPage} />
           <Route
             path="*"
             render={(props) => {
