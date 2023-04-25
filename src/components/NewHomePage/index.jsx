@@ -6,6 +6,7 @@ import DashboardTable from '../HomePage/HomePageTable/HomePageTableComponent';
 import HomeTableModal from '../HomePage/HomeTableModal';
 import './styles.scss';
 import FilterButtons from '../FilterButtons';
+import ControlOwnerTable from './ControlOwnerTable/ControlOwnerTable';
 
 const NewHomePage = () => {
   const history = useHistory();
@@ -68,7 +69,9 @@ const NewHomePage = () => {
           </div>
         </div>
 
-        <DashboardTable />
+        <ControlOwnerTable tableName="Control Owner" />
+        <ControlOwnerTable tableName="Control Oversight" />
+
         {Control_ID && <HomeTableModal />}
       </PageWrapper>
     </div>
