@@ -7,6 +7,7 @@ import { IconSearch } from '@tabler/icons-react';
 import { Alert, Form } from 'react-bootstrap';
 import Page1 from './Page1';
 import Page2 from './Page2';
+import Page3 from './Page3';
 
 const ScheduleSurveyPage = () => {
   const [step, setStep] = useState(1);
@@ -46,16 +47,6 @@ const ScheduleSurveyPage = () => {
                 {step === 1 && (
                   <div className="holder">
                     <Page1 handleNext={handleNext} />
-                    {/*<Page1 handleNext={handleNext} />
-                  <div className="t-a-r btns schedule-survey-btn">
-                    <Button color="neutral" className="ml-4" onClick={''}>
-                      Cancel
-                    </Button>
-                    &nbsp;&nbsp;&nbsp;
-                    <Button color="neutral" className="ml-4" onClick={() => handleNext()}>
-                      Next {'>'}
-                    </Button>
-                  </div>*/}
                   </div>
                 )}
                 {step === 2 && (
@@ -65,23 +56,7 @@ const ScheduleSurveyPage = () => {
                 )}
                 {step === 3 && (
                   <div className="holder">
-                    <p>3</p>
-                    <div className="t-a-c schedule-survey-btn">
-                      <Button variant="subtle">Cancel</Button>
-                      <Button
-                        color="neutral"
-                        className="ml-4"
-                        onClick={() => {
-                          setStep(2);
-                        }}
-                      >
-                        {'<'} Previous
-                      </Button>
-                      &nbsp;&nbsp;&nbsp;
-                      <Button color="neutral" className="ml-4" onClick={() => handleNext()}>
-                        Next {'>'}
-                      </Button>
-                    </div>
+                    <Page3 handleNext={handleNext} setStep={setStep} />
                   </div>
                 )}
                 {step === 4 && (

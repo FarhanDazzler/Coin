@@ -50,6 +50,7 @@ const Page2 = ({ handleNext, setStep }) => {
       };
       //dispatch(scheduleSurveyPage2Values(payload));
       setSubmitting(false);
+      handleNext();
     },
   });
 
@@ -207,7 +208,6 @@ const Page2 = ({ handleNext, setStep }) => {
               onClick={() => {
                 selectOrganisationFormik.handleSubmit();
                 console.log(selectOrganisationFormik?.values);
-                handleNext();
               }}
             >
               Next {'>'}
