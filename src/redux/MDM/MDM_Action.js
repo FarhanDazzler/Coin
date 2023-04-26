@@ -86,10 +86,10 @@ export const getControlOwnerAndOversight = (payload) => ({
   type: GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
   payload,
 });
-export const getControlInstanceHistoryAction = (payload) => ({
-  type: ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA,
-  payload,
-});
+// export const getControlInstanceHistoryAction = (payload) => ({
+//   type: ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA,
+//   payload,
+// });
 export const modifyControlOwnerAndOversight = (payload) => ({
   type: MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST,
   payload,
