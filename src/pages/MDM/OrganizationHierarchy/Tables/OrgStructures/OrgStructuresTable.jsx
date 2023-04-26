@@ -35,12 +35,11 @@ const OrgStructuresTable = () => {
   const [editTableData, setEditTableData] = useState();
 
   useEffect(() => {
-    if (addOrgState) {
+  
       setShowModal(false);
       setModalType('');
       dispatch(getOrgStructures());
       dispatch(getOrgHierarchy());
-    }
   }, [addOrgState.data?.message, updateOrgState?.data?.message]);
 
   const orgStructures = useSelector(getOrgStructuresSelector);
