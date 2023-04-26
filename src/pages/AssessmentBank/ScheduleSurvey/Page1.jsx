@@ -51,6 +51,7 @@ const Page1 = ({ handleNext }) => {
     console.log(payload, 'Page 1 payload');
     dispatch(ScheduleSurveyPage_1(payload));
     console.log(scheduleSurveyPage_1_State, 'After submit from selector');
+    handleNext();
   };
 
   return (
@@ -101,7 +102,6 @@ const Page1 = ({ handleNext }) => {
         onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
           try {
             handleSaveAdd(values);
-            handleNext();
             //resetForm();
           } catch (error) {
             const message = error.message || 'Something went wrong';

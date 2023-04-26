@@ -31,6 +31,14 @@ export const GET_ALL_PROVIDER_FROM_ENTITY_ERROR = 'GET_ALL_PROVIDER_FROM_ENTITY_
 
 // =================== Get Page 2 drop down Data ========================//
 
+// =================== Get Schedule Survey Page 2 table Data ========================//
+
+export const GET_SCHEDULE_SURVEY_PAGE_2_TABLE_REQUEST = 'GET_SCHEDULE_SURVEY_PAGE_2_TABLE_REQUEST';
+export const GET_SCHEDULE_SURVEY_PAGE_2_TABLE_SUCCESS = 'GET_SCHEDULE_SURVEY_PAGE_2_TABLE_SUCCESS';
+export const GET_SCHEDULE_SURVEY_PAGE_2_TABLE_ERROR = 'GET_SCHEDULE_SURVEY_PAGE_2_TABLE_ERROR';
+
+// =================== Get Schedule Survey Page 2 table Data ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -45,6 +53,7 @@ const initialState = {
   getAll_BU_FromZone: { ...block, data: [] },
   getAllEntityFromBU: { ...block, data: [] },
   getAllProviderFromEntity: { ...block, data: [] },
+  getScheduleSurveyPage_2_table: { ...block, data: [] },
 };
 
 export const AssessmentBankReducer = (state = initialState, { type, payload = {} }) => {
@@ -139,7 +148,28 @@ export const AssessmentBankReducer = (state = initialState, { type, payload = {}
     case GET_ALL_PROVIDER_FROM_ENTITY_ERROR:
       return {
         ...state,
-        getAllProviderFromEntity: { ...state.getAllProviderFromEntity, loading: false },
+        getScheduleSurveyPage_2_table: { ...state.getScheduleSurveyPage_2_table, loading: false },
+      };
+
+    // Get Schedule Survey Page 2 table Data
+    case GET_SCHEDULE_SURVEY_PAGE_2_TABLE_REQUEST:
+      return {
+        ...state,
+        getScheduleSurveyPage_2_table: { ...state.getScheduleSurveyPage_2_table, loading: true },
+      };
+    case GET_SCHEDULE_SURVEY_PAGE_2_TABLE_SUCCESS:
+      return {
+        ...state,
+        getScheduleSurveyPage_2_table: {
+          ...state.getScheduleSurveyPage_2_table,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_SCHEDULE_SURVEY_PAGE_2_TABLE_ERROR:
+      return {
+        ...state,
+        getScheduleSurveyPage_2_table: { ...state.getScheduleSurveyPage_2_table, loading: false },
       };
 
     //reset block with flag and data

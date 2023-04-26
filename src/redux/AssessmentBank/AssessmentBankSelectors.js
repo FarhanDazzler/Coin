@@ -6,3 +6,5 @@ export const getAll_BU_FromZoneSelector = (state) => state.assessmentBank.getAll
 export const getAllEntityFromBUSelector = (state) => state.assessmentBank.getAllEntityFromBU;
 export const getAllProviderFromEntitySelector = (state) =>
   state.assessmentBank.getAllProviderFromEntity;
+export const getScheduleSurveyPage_2_tableSelector = (state) =>
+  state.assessmentBank.getScheduleSurveyPage_2_table;
