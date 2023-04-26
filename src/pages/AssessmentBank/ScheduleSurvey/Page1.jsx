@@ -7,12 +7,13 @@ import Button from '../../MDM/MDM_Tab_Buttons/Button';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { Divider, Box } from '@mantine/core';
 import { IconCalendarCheck } from '@tabler/icons-react';
+import { scheduleSurveyPage_1Selector } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
+import { ScheduleSurveyPage_1 } from '../../../redux/AssessmentBank/AssessmentBankAction';
 
 const GetFormikFieldValue = ({ setPage1Value }) => {
   // Grab values and submitForm from context
   const dispatch = useDispatch();
   const { values } = useFormikContext();
-
   useEffect(() => {}, [values]);
   return null;
 };
@@ -21,6 +22,7 @@ const Page1 = ({ handleNext }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [page1Value, setPage1Value] = useState();
+  const scheduleSurveyPage_1_State = useSelector(scheduleSurveyPage_1Selector);
 
   const handleOnclickCancel = () => {
     history.push('/assessmentbank');
@@ -47,7 +49,8 @@ const Page1 = ({ handleNext }) => {
     };
 
     console.log(payload, 'Page 1 payload');
-    //dispatch(scheduleSurveyPage1Values(payload));
+    dispatch(ScheduleSurveyPage_1(payload));
+    console.log(scheduleSurveyPage_1_State, 'After submit from selector');
   };
 
   return (

@@ -8,6 +8,7 @@ import csvTampredDataReducer from './CsvTampred/CsvTampredReducer';
 import section1QuestionDataReducer from './QuestionBank/QuestionBankReducer';
 import { MDMReducer } from './MDM/MDM_Reducer';
 import { AD_Reducer } from './AzureAD/AD_Reducer';
+import { AssessmentBankReducer } from './AssessmentBank/AssessmentBankReducer';
 
 // we will connect our reducers here
 
@@ -22,6 +23,7 @@ const appReducer = (history) =>
     section1QuestionData: section1QuestionDataReducer,
     mdm: MDMReducer,
     ad: AD_Reducer,
+    assessmentBank: AssessmentBankReducer,
   });
 
 const createRootReducer = (history) => (state, action) => {

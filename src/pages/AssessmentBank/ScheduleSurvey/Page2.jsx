@@ -112,79 +112,85 @@ const Page2 = ({ handleNext, setStep }) => {
           />
         </div>
 
-        <div className="col-lg-6">
-          <MultiSelect
-            className="mantine-MultiSelect-wrapper-AssessmentBank"
-            data={zone}
-            label={<Form.Label className="mantine-MultiSelect-label">{'BU'}</Form.Label>}
-            placeholder={'Select BU'}
-            searchable
-            limit={20}
-            nothingFound="Nothing found"
-            clearButtonLabel="Clear selection"
-            clearable
-            value={buValue}
-            onChange={(e) => {
-              selectOrganisationFormik.setFieldValue('BU', e);
-              setBUValue(e);
-              //console.log(e, 'cowner filter');
-            }}
-            disabled={selectOrganisationFormik.isSubmitting}
-            error={selectOrganisationFormik.errors.BU}
-            radius="xl"
-            variant="filled"
-            size="xs"
-          />
-        </div>
+        {selectOrganisationFormik?.values.Zone.length > 0 && (
+          <div className="col-lg-6">
+            <MultiSelect
+              className="mantine-MultiSelect-wrapper-AssessmentBank"
+              data={zone}
+              label={<Form.Label className="mantine-MultiSelect-label">{'BU'}</Form.Label>}
+              placeholder={'Select BU'}
+              searchable
+              limit={20}
+              nothingFound="Nothing found"
+              clearButtonLabel="Clear selection"
+              clearable
+              value={buValue}
+              onChange={(e) => {
+                selectOrganisationFormik.setFieldValue('BU', e);
+                setBUValue(e);
+                //console.log(e, 'cowner filter');
+              }}
+              disabled={selectOrganisationFormik.isSubmitting}
+              error={selectOrganisationFormik.errors.BU}
+              radius="xl"
+              variant="filled"
+              size="xs"
+            />
+          </div>
+        )}
 
-        <div className="col-lg-6">
-          <MultiSelect
-            className="mantine-MultiSelect-wrapper-AssessmentBank"
-            data={zone}
-            label={<Form.Label className="mantine-MultiSelect-label">{'Entity'}</Form.Label>}
-            placeholder={'Select Entity'}
-            searchable
-            limit={20}
-            nothingFound="Nothing found"
-            clearButtonLabel="Clear selection"
-            clearable
-            value={entityValue}
-            onChange={(e) => {
-              selectOrganisationFormik.setFieldValue('Entity', e);
-              setEntityValue(e);
-              //console.log(e, 'cowner filter');
-            }}
-            disabled={selectOrganisationFormik.isSubmitting}
-            error={selectOrganisationFormik.errors.Entity}
-            radius="xl"
-            variant="filled"
-            size="xs"
-          />
-        </div>
-        <div className="col-lg-6">
-          <MultiSelect
-            className="mantine-MultiSelect-wrapper-AssessmentBank"
-            data={zone}
-            label={<Form.Label className="mantine-MultiSelect-label">{'Provider'}</Form.Label>}
-            placeholder={'Select Provider'}
-            searchable
-            limit={20}
-            nothingFound="Nothing found"
-            clearButtonLabel="Clear selection"
-            clearable
-            value={providerValue}
-            onChange={(e) => {
-              selectOrganisationFormik.setFieldValue('Provider', e);
-              setProviderValue(e);
-              //console.log(e, 'cowner filter');
-            }}
-            disabled={selectOrganisationFormik.isSubmitting}
-            error={selectOrganisationFormik.errors.Provider}
-            radius="xl"
-            variant="filled"
-            size="xs"
-          />
-        </div>
+        {selectOrganisationFormik?.values.BU.length > 0 && (
+          <div className="col-lg-6">
+            <MultiSelect
+              className="mantine-MultiSelect-wrapper-AssessmentBank"
+              data={zone}
+              label={<Form.Label className="mantine-MultiSelect-label">{'Entity'}</Form.Label>}
+              placeholder={'Select Entity'}
+              searchable
+              limit={20}
+              nothingFound="Nothing found"
+              clearButtonLabel="Clear selection"
+              clearable
+              value={entityValue}
+              onChange={(e) => {
+                selectOrganisationFormik.setFieldValue('Entity', e);
+                setEntityValue(e);
+                //console.log(e, 'cowner filter');
+              }}
+              disabled={selectOrganisationFormik.isSubmitting}
+              error={selectOrganisationFormik.errors.Entity}
+              radius="xl"
+              variant="filled"
+              size="xs"
+            />
+          </div>
+        )}
+        {selectOrganisationFormik?.values.Entity.length > 0 && (
+          <div className="col-lg-6">
+            <MultiSelect
+              className="mantine-MultiSelect-wrapper-AssessmentBank"
+              data={zone}
+              label={<Form.Label className="mantine-MultiSelect-label">{'Provider'}</Form.Label>}
+              placeholder={'Select Provider'}
+              searchable
+              limit={20}
+              nothingFound="Nothing found"
+              clearButtonLabel="Clear selection"
+              clearable
+              value={providerValue}
+              onChange={(e) => {
+                selectOrganisationFormik.setFieldValue('Provider', e);
+                setProviderValue(e);
+                //console.log(e, 'cowner filter');
+              }}
+              disabled={selectOrganisationFormik.isSubmitting}
+              error={selectOrganisationFormik.errors.Provider}
+              radius="xl"
+              variant="filled"
+              size="xs"
+            />
+          </div>
+        )}
       </div>
 
       <div className="footer-action-AssessmentBank">
