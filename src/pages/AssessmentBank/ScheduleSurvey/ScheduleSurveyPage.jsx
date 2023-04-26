@@ -8,6 +8,7 @@ import { Alert, Form } from 'react-bootstrap';
 import Page1 from './Page1';
 import Page2 from './Page2';
 import Page3 from './Page3';
+import Page4 from './Page4';
 
 const ScheduleSurveyPage = () => {
   const [step, setStep] = useState(1);
@@ -61,23 +62,7 @@ const ScheduleSurveyPage = () => {
                 )}
                 {step === 4 && (
                   <div className="holder">
-                    <p>4</p>
-                    <div className="t-a-c schedule-survey-btn">
-                      <Button variant="subtle">Cancel</Button>
-                      <Button
-                        color="neutral"
-                        className="ml-4"
-                        onClick={() => {
-                          setStep(3);
-                        }}
-                      >
-                        {'<'} Previous
-                      </Button>
-                      &nbsp;&nbsp;&nbsp;
-                      <Button color="neutral" className="ml-4" onClick={''}>
-                        Confirm
-                      </Button>
-                    </div>
+                    <Page4 handleNext={handleNext} setStep={setStep} />
                   </div>
                 )}
               </div>

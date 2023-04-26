@@ -85,7 +85,7 @@ const Page3 = ({ handleNext, setStep }) => {
         console.log(payload, 'payload with Specific Controls');
         //dispatch(scheduleSurveyPage3Values(payload));
         setSubmitting(false);
-        //handleNext();
+        handleNext();
       } else {
         let payload = {
           selectTheProcedures: values.selectTheProcedures,
@@ -102,7 +102,7 @@ const Page3 = ({ handleNext, setStep }) => {
         console.log(payload, 'payload without Specific Controls');
         //dispatch(scheduleSurveyPage3Values(payload));
         setSubmitting(false);
-        //handleNext();
+        handleNext();
       }
     },
   });
