@@ -45,11 +45,10 @@ const Page2 = ({ handleNext, setStep }) => {
   const getAllProviderFromEntity_State = useSelector(getAllProviderFromEntitySelector);
   const getScheduleSurveyPage_2_table_State = useSelector(getScheduleSurveyPage_2_tableSelector);
 
-  getAllZone_State?.data?.map((i) => i.zone);
-  console.log(
-    getAllZone_State?.data?.map((i) => i.zone),
-    'zone from API',
-  );
+  // console.log(
+  //   getAllZone_State?.data?.map((i) => i.zone),
+  //   'zone from API',
+  // );
 
   const zone = ['Naz', 'afr', 'test'];
 
@@ -78,14 +77,15 @@ const Page2 = ({ handleNext, setStep }) => {
       return errors;
     },
     onSubmit: (values, { setSubmitting }) => {
-      console.log(values, 'page 2 values');
-
       let payload = {
         Zone: values.Zone,
         BU: values.BU,
         Entity: values.Entity,
         Provider: values.Provider,
+        ControlsTable: getScheduleSurveyPage_2_table_State.data,
       };
+
+      console.log(payload, 'page 2 values');
       dispatch(ScheduleSurveyPage_2(payload));
 
       setSubmitting(false);
