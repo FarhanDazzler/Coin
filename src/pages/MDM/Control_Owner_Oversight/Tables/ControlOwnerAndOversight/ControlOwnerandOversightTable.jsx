@@ -442,7 +442,7 @@ const ControlOwnerAndOversightTable = () => {
         className="add-org"
         open={showModal}
         onClose={() => setShowModal(false)}
-        width={900}
+        width={1080}
         title="Assign Control Owner & Oversight"
         bodyClassName="p-0"
       >
