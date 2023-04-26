@@ -5,7 +5,7 @@ import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { getControlInstanceHistoryAction } from '../../../../../redux/MDM/MDM_Action';
+// import { getControlInstanceHistoryAction } from '../../../../../redux/MDM/MDM_Action';
 import { getParentEntitySelector } from '../../../../../redux/MDM/MDM_Selectors';
 import { getUserFromAD } from '../../../../../redux/AzureAD/AD_Action';
 import { getUserFromADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
@@ -13,10 +13,11 @@ import moment from 'moment';
 import useDebounce from '../../../../../hooks/useDebounce';
 import MyStatefulEditor from '../../../../../components/FormInputs/RichTextEditor';
 import { TextEditor } from '../../../../../components/FormInputs/RichTextEditor/RichTextEditor';
-import { modifyControlOwnerAndOversight } from '../../../../../redux/MDM/MDM_Action';
+import { modifyControlOwnerAndOversight, getControlInstanceHistoryAction } from '../../../../../redux/MDM/MDM_Action';
 import InputWidthSelect from '../../../../../components/UI/InputWidthSelect/InputWidthSelect';
 import AdSearch from './AdSearch';
 import { isEmailValidADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
+import { Axios } from '../../../../../api/axios';
 
 const GetParentEntityValue = ({ setCownerValue }) => {
     // Grab values and submitForm from context
@@ -41,22 +42,26 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
     const cownerValue_debounce = useDebounce(cownerValue, 500);
     const coversightValue_debounce = useDebounce(coversightValue, 500);
     const [showModal, setShowModalRichText] = useState(false);
-
-    // Handel Rich Text Editor POP up close
-    const handleSubmitRichText = () => {
-        setShowModalRichText('');
-    };
     const [lcdValue, setLcdValue] = useState('');
     const [isStart, setIsStart] = useState(false);
     const [block, setBlock] = useState()
+    const [historyData, setHistoryData] = useState()
 
 
     useEffect(() => {
-        if(!selectedControlIds) return
+        if (!selectedControlIds) return
         let payloadForHistory = {
             "control_instances": selectedControlIds
         }
-        dispatch(getControlInstanceHistoryAction(payloadForHistory))
+        const getControlInstanceHistoryApi = async () => {
+            const result = await Axios.post('/get_control_instances_history', payloadForHistory);
+            console.log(result);
+            if (result.success) {
+                setHistoryData(result?.data)
+            }
+        }
+        getControlInstanceHistoryApi();
+        //dispatch(getControlInstanceHistoryAction(payloadForHistory))
     }, [])
 
     useEffect(() => {
@@ -83,7 +88,7 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
         setBlock(updateAnsObj)
 
     }, [userFromAD.data]);
-    
+
     const handleSaveAssign = (value) => {
         const newState = assignTableData.map(obj => {
 
@@ -170,8 +175,75 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                                                     <th>Selected Control ID</th>
                                                     <th>Previous Control Owner</th>
                                                     <th>Previous Control Oversight</th>
+                                                    <th>Valid From</th>
+                                                    <th>Valid To</th>
                                                 </tr>
                                             </thead>
+                                            <tbody>
+                                                {
+                                                    historyData && historyData.map((data, i) => (
+                                                        <tr>
+                                                            <td>{data?.control_id_provider_entity}</td>
+                                                            <td>
+                                                                <ul>
+                                                                    {
+                                                                        data?.history[0].map((data, i) => (
+                                                                            
+                                                                                <li>
+                                                                                    {data.cowner}
+                                                                                </li>
+                                                                            
+                                                                        ))
+                                                                    }
+
+                                                                </ul>
+                                                            </td>
+                                                            <td>
+                                                                <ul>
+                                                                    {
+                                                                        data?.history[0].map((data, i) => (
+                                                                          
+                                                                                <li>
+                                                                                    {data.coversight}
+                                                                                </li>
+                                                                            
+                                                                        ))
+                                                                    }
+
+                                                                </ul>
+                                                            </td>
+                                                            <td>
+                                                                <ul>
+                                                                    {
+                                                                        data?.history[0].map((data, i) => (
+                                                                          
+                                                                                <li>
+                                                                                    {data.valid_from}
+                                                                                </li>
+                                                                          
+                                                                        ))
+                                                                    }
+
+                                                                </ul>
+                                                            </td>
+                                                            <td>
+                                                                <ul>
+                                                                    {
+                                                                        data?.history[0].map((data, i) => (
+                                                                            
+                                                                                <li>
+                                                                                    {data.valid_to}
+                                                                                </li>
+                                                                            
+                                                                        ))
+                                                                    }
+
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                }
+                                            </tbody>
                                         </table>
                                     </div>
                                     <hr />
