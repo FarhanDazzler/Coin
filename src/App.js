@@ -29,6 +29,7 @@ import AddValues_MDM_Mics_Framework from './pages/MDM/MICS_Framework/InputPage/A
 import NavTabsMDM from './pages/MDM/MDM_Tab_Buttons/TabButtons.jsx';
 import AssessmentBankLandingPage from './pages/AssessmentBank/AssessmentBankLandingPage';
 import NewHomePage from './components/NewHomePage';
+import { useSelector } from 'react-redux';
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -59,12 +60,22 @@ const Pages = () => {
   const history = useHistory();
   const isAuthenticated = useIsAuthenticated();
   const { instance, accounts, inProgress } = useMsal();
-
+  const userRole = localStorage.getItem('selected_Role');
+  const loginRole = useSelector((state) => state?.auth?.loginRole);
   const [userState, userDispatch] = useContext(UserContext);
+  const role = loginRole ?? userRole;
+
+  const isControlPage = () => {
+    switch (true) {
+      case ['Control owner', 'Control oversight'].includes(role):
+        return true;
+      default:
+        return false;
+    }
+  };
 
   useEffect(() => {
     // main RBAC API Call
-
     axios
       .get(
         `https://acoemicsgrcpwa-devbe.azurewebsites.net/login?User_oid=${accounts[0]?.idTokenClaims.oid}`,
@@ -91,7 +102,7 @@ const Pages = () => {
       )
       .then(async (res) => {
         console.log(res.data.data[0], 'User Role');
-        localStorage.setItem('user_Role', res?.data.data[0]?.User_Role);
+        // localStorage.setItem('user_Role', res?.data.data[0]?.User_Role);
       })
       .catch((err) => {
         console.log(err);
@@ -114,19 +125,7 @@ const Pages = () => {
           account: accounts[0],
         })
         .then((response) => {
-          // apiService
-          //   .getMSProfile(response?.accessToken)
-          //   .then((profile) => {
-          //     console.log(profile);
-          //     userDispatch({
-          //       type: 'SET_JOB_TITLE',
-          //       payload: profile?.jobTitle,
-          //     });
-          //   })
-          //   .catch((err) => console.log(err));
-
           localStorage.setItem('id_token', response?.idToken);
-
           dataService
             .getMSGraphPhoto(response.accessToken)
             .then((image) => {
@@ -155,8 +154,13 @@ const Pages = () => {
               return <Login />;
             }}
           />
-          <Route exact path="/new" component={HomePage} />
-          <Route exact path="/newpage" component={NewHomePage} />
+
+          {isControlPage() ? (
+            <Route exact path="/home" component={NewHomePage} />
+          ) : (
+            <Route exact path="/home" component={HomePage} />
+          )}
+
           <Route exact path="/question-bank" component={QuestionBank} />
           {user_role === 'organizational persona' ? (
             <Route exact path="/" component={Home_controlOwner} />

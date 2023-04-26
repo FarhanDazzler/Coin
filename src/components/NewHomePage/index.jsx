@@ -7,12 +7,14 @@ import HomeTableModal from '../HomePage/HomeTableModal';
 import './styles.scss';
 import FilterButtons from '../FilterButtons';
 import ControlOwnerTable from './ControlOwnerTable/ControlOwnerTable';
+import { useSelector } from 'react-redux';
 
 const NewHomePage = () => {
   const history = useHistory();
+  const userRole = localStorage.getItem('selected_Role');
+  const loginRole = useSelector((state) => state?.auth?.loginRole);
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
-  const userRole = localStorage.getItem('user_Role');
   const { accounts } = useMsal();
   return (
     <div>
@@ -24,7 +26,7 @@ const NewHomePage = () => {
               <h2 className="user-name-home yellow-gradient-text mb-2">
                 {accounts.length > 0 ? accounts[0].name.split('(').join(' (') : 'User Name'}
               </h2>
-              {userRole && <h3 className="user-role">{userRole}</h3>}
+              {(loginRole || userRole) && <h3 className="user-role">{loginRole ?? userRole}</h3>}
             </div>
             <div className="col-lg-8">
               <div className="mb-4">
