@@ -13,7 +13,7 @@ import moment from 'moment';
 import useDebounce from '../../../../../hooks/useDebounce';
 import MyStatefulEditor from '../../../../../components/FormInputs/RichTextEditor';
 import { TextEditor } from '../../../../../components/FormInputs/RichTextEditor/RichTextEditor';
-import { modifyControlOwnerAndOversight } from '../../../../../redux/MDM/MDM_Action';
+import { modifyControlOwnerAndOversight, getControlInstanceHistoryAction } from '../../../../../redux/MDM/MDM_Action';
 import InputWidthSelect from '../../../../../components/UI/InputWidthSelect/InputWidthSelect';
 import AdSearch from './AdSearch';
 import { isEmailValidADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
@@ -169,7 +169,7 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
 
                                 <div>
                                     <div className='selected-controls'>
-                                        <table className='table'>
+                                        <table className='table table-bordered'>
                                             <thead className='thead-light'>
                                                 <tr>
                                                     <th>Selected Control ID</th>
@@ -185,60 +185,60 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                                                         <tr>
                                                             <td>{data?.control_id_provider_entity}</td>
                                                             <td>
-                                                                <table className='table'>
+                                                                <ul>
                                                                     {
                                                                         data?.history[0].map((data, i) => (
-                                                                            <tr>
-                                                                                <td>
+                                                                            
+                                                                                <li>
                                                                                     {data.cowner}
-                                                                                </td>
-                                                                            </tr>
+                                                                                </li>
+                                                                            
                                                                         ))
                                                                     }
 
-                                                                </table>
+                                                                </ul>
                                                             </td>
                                                             <td>
-                                                                <table>
+                                                                <ul>
                                                                     {
                                                                         data?.history[0].map((data, i) => (
-                                                                            <tr>
-                                                                                <td>
+                                                                          
+                                                                                <li>
                                                                                     {data.coversight}
-                                                                                </td>
-                                                                            </tr>
+                                                                                </li>
+                                                                            
                                                                         ))
                                                                     }
 
-                                                                </table>
+                                                                </ul>
                                                             </td>
                                                             <td>
-                                                                <table>
+                                                                <ul>
                                                                     {
                                                                         data?.history[0].map((data, i) => (
-                                                                            <tr>
-                                                                                <td>
+                                                                          
+                                                                                <li>
                                                                                     {data.valid_from}
-                                                                                </td>
-                                                                            </tr>
+                                                                                </li>
+                                                                          
                                                                         ))
                                                                     }
 
-                                                                </table>
+                                                                </ul>
                                                             </td>
                                                             <td>
-                                                                <table>
+                                                                <ul>
                                                                     {
                                                                         data?.history[0].map((data, i) => (
-                                                                            <tr>
-                                                                                <td>
+                                                                            
+                                                                                <li>
                                                                                     {data.valid_to}
-                                                                                </td>
-                                                                            </tr>
+                                                                                </li>
+                                                                            
                                                                         ))
                                                                     }
 
-                                                                </table>
+                                                                </ul>
                                                             </td>
                                                         </tr>
                                                     ))
