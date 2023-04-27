@@ -53,17 +53,17 @@ const Page2 = ({ handleNext, setStep }) => {
   const zone = ['Naz', 'afr', 'test'];
 
   // states to store inputs from multi select buttons
-  const [zoneValue, setZoneValue] = useState([]);
-  const [buValue, setBUValue] = useState([]);
-  const [entityValue, setEntityValue] = useState([]);
-  const [providerValue, setProviderValue] = useState([]);
+  const [zoneValue, setZoneValue] = useState(scheduleSurveyPage_2_State?.Zone || []);
+  const [buValue, setBUValue] = useState(scheduleSurveyPage_2_State?.BU || []);
+  const [entityValue, setEntityValue] = useState(scheduleSurveyPage_2_State?.Entity || []);
+  const [providerValue, setProviderValue] = useState(scheduleSurveyPage_2_State?.Provider || []);
 
   const selectOrganisationFormik = useFormik({
     initialValues: {
-      Zone: [],
-      BU: [],
-      Entity: [],
-      Provider: [],
+      Zone: scheduleSurveyPage_2_State?.Zone || [],
+      BU: scheduleSurveyPage_2_State?.BU || [],
+      Entity: scheduleSurveyPage_2_State?.Entity || [],
+      Provider: scheduleSurveyPage_2_State?.Provider || [],
     },
 
     validate: (values) => {

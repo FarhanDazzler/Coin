@@ -60,20 +60,24 @@ const Page1 = ({ handleNext }) => {
       <Formik
         enableReinitialize
         initialValues={{
-          Survey_Name: '',
-          Question_Bank: '',
-          Assessment_Cycle: '',
-          Year: '',
-          KPI_From: '',
-          KPI_To: '',
-          Start_Date: '',
-          Due_Date: '',
-          Control_Owner_Reminder_1: '',
-          Control_Owner_Reminder_2: '',
-          Control_Oversight_Pending_Notification_1: '',
-          Control_Oversight_Pending_Notification_2: '',
-          Control_Oversight_Review_Notification_1: '',
-          Control_Oversight_Review_Notification_2: '',
+          Survey_Name: scheduleSurveyPage_1_State?.Survey_Name || '',
+          Question_Bank: scheduleSurveyPage_1_State?.Question_Bank || '',
+          Assessment_Cycle: scheduleSurveyPage_1_State?.Assessment_Cycle || '',
+          Year: scheduleSurveyPage_1_State?.Year || '',
+          KPI_From: scheduleSurveyPage_1_State?.KPI_From || '',
+          KPI_To: scheduleSurveyPage_1_State?.KPI_To || '',
+          Start_Date: scheduleSurveyPage_1_State?.Start_Date || '',
+          Due_Date: scheduleSurveyPage_1_State?.Due_Date || '',
+          Control_Owner_Reminder_1: scheduleSurveyPage_1_State?.Control_Owner_Reminder_1 || '',
+          Control_Owner_Reminder_2: scheduleSurveyPage_1_State?.Control_Owner_Reminder_2 || '',
+          Control_Oversight_Pending_Notification_1:
+            scheduleSurveyPage_1_State?.Control_Oversight_Pending_Notification_1 || '',
+          Control_Oversight_Pending_Notification_2:
+            scheduleSurveyPage_1_State?.Control_Oversight_Pending_Notification_2 || '',
+          Control_Oversight_Review_Notification_1:
+            scheduleSurveyPage_1_State?.Control_Oversight_Review_Notification_1 || '',
+          Control_Oversight_Review_Notification_2:
+            scheduleSurveyPage_1_State?.Control_Oversight_Review_Notification_2 || '',
         }}
         validationSchema={Yup.object().shape({
           Survey_Name: Yup.string().required('Survey Name is required'),
