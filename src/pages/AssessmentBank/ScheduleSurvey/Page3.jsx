@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FloatRight } from 'tabler-icons-react';
+import { FloatRight, TableOptions, ListCheck, Selector } from 'tabler-icons-react';
 import * as Yup from 'yup';
 import { Alert, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -235,7 +235,7 @@ const Page3 = ({ handleNext, setStep }) => {
           labelPosition="center"
           label={
             <>
-              <IconCalendarCheck size={16} />
+              <Selector size={16} />
               <Box ml={5}>
                 <Form.Label>Select the procedures:</Form.Label>
               </Box>
@@ -281,7 +281,7 @@ const Page3 = ({ handleNext, setStep }) => {
               labelPosition="center"
               label={
                 <>
-                  <IconCalendarCheck size={16} />
+                  <ListCheck size={16} />
                   <Box ml={5}>
                     <Form.Label>Select by Control Attributes:</Form.Label>
                   </Box>
@@ -508,7 +508,7 @@ const Page3 = ({ handleNext, setStep }) => {
               labelPosition="center"
               label={
                 <>
-                  <IconCalendarCheck size={16} />
+                  <TableOptions size={16} />
                   <Box ml={5}>
                     <Form.Label>Controls Table based on above selection:</Form.Label>
                   </Box>

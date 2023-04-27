@@ -7,6 +7,8 @@ import Button from '../../MDM/MDM_Tab_Buttons/Button';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { Divider, Box } from '@mantine/core';
 import { IconCalendarCheck } from '@tabler/icons-react';
+import { Bell } from 'tabler-icons-react';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { scheduleSurveyPage_1Selector } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
 import { ScheduleSurveyPage_1 } from '../../../redux/AssessmentBank/AssessmentBankAction';
 
@@ -375,7 +377,7 @@ const Page1 = ({ handleNext }) => {
                   labelPosition="center"
                   label={
                     <>
-                      <IconCalendarCheck size={16} />
+                      <ErrorOutlineIcon size={16} />
                       <Box ml={5}>
                         <Form.Label>Control Owner:</Form.Label>
                       </Box>
@@ -454,7 +456,7 @@ const Page1 = ({ handleNext }) => {
                   labelPosition="center"
                   label={
                     <>
-                      <IconCalendarCheck size={16} />
+                      <ErrorOutlineIcon size={16} />
                       <Box ml={5}>
                         <Form.Label>Control Oversight Pending:</Form.Label>
                       </Box>
@@ -535,7 +537,7 @@ const Page1 = ({ handleNext }) => {
                   labelPosition="center"
                   label={
                     <>
-                      <IconCalendarCheck size={16} />
+                      <Bell size={20} />
                       <Box ml={5}>
                         <Form.Label>Control Oversight Review :</Form.Label>
                       </Box>

@@ -153,5 +153,28 @@
       background-color: #ffffff;
     }
   }
+
+  .export_excel_button {
+    display: inline-block;
+    background-color: gold;
+    border-radius: 10px;
+    text-align: center;
+    width: 130px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 10px;
+    margin-bottom: 10px;
+    border: none;
+    padding: 10px;
+    //background: #000 !important;
+    background: #508A3B !important;
+    color: white;
+    padding: 10px;
+  }
+
+  .export_excel_button:hover {
+    background: gold !important;
+    color: #000 !important;
+  }
   
  
