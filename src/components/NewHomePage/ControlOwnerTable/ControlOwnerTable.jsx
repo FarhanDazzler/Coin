@@ -166,7 +166,7 @@ const ControlOwnerTable = ({ tableName }) => {
         </div>
       </div>
 
-      <div className="container-fluid">
+      <div className="container">
         <div className="row pt-5">
           <div className="col col-lg-12">
             <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
