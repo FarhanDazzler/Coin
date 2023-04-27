@@ -12,7 +12,7 @@ import defaultProfilePhoto from '../../assets/images/profile.jpg';
 import { UserContext } from '../../context/userContext';
 import appLogo from '../../assets/images/GCCWhite.png';
 import { useDispatch } from 'react-redux';
-import { setLoginInfo } from '../../redux/Auth/AuthAction';
+import { setLoginInfo, setLoginRole } from '../../redux/Auth/AuthAction';
 import { Form } from 'react-bootstrap';
 import MultiSelectButton from '../../components/Buttons/MultiSelect/MultiSelectButtonComponents';
 import FormControl from '@mui/material/FormControl';
@@ -24,7 +24,7 @@ const TopBar = (props) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const isAuthenticated = useIsAuthenticated();
-
+  const selected_Role = localStorage.getItem('selected_Role');
   const { instance, accounts, inProgress } = useMsal();
   const [isDropDownOpen, setisDropDownOpen] = useState(false);
 
@@ -62,13 +62,24 @@ const TopBar = (props) => {
 
   //RBAC
   const roles = localStorage.getItem('Roles')?.split(',') || [];
-  console.log(roles, 'ROLES');
-  const [roleValue, setRoleValue] = useState('');
+  const [roleValue, setRoleValue] = useState([]);
 
   const names = [
     { label: 'REP Letters Module', value: 'REP Letters Module' },
     { label: 'Self-Assessment Module', value: 'Self-Assessment Module' },
   ];
+
+  useEffect(() => {
+    const userRoles = roles.map((data) => {
+      const str = data.split('_').join(' ');
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    });
+    if (userRoles?.length > 0) {
+      setRoleValue(userRoles);
+      dispatch(setLoginRole(selected_Role ?? userRoles[0]));
+      localStorage.setItem('selected_Role', selected_Role ?? userRoles[0]);
+    }
+  }, []);
 
   return (
     <div className="top-nav">
@@ -104,7 +115,7 @@ const TopBar = (props) => {
               className="d-flex order-lg-2 ml-auto text-left"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
             >
-              {roles.length > 1 && (
+              {roleValue.length > 1 && (
                 <div>
                   <Form.Group className="input-group mb-3">
                     <Form.Control
@@ -112,10 +123,14 @@ const TopBar = (props) => {
                       name=""
                       placeholder=""
                       className="rbac-dropdown"
-                      onChange={(e) => localStorage.setItem('selected_Role', e.target.value)}
+                      onChange={(e) => {
+                        dispatch(setLoginRole(e.target.value));
+                        localStorage.setItem('selected_Role', e.target.value);
+                      }}
+                      defaultValue={selected_Role}
                     >
                       <option value="">Select Role</option>
-                      {roles.map((data, i) => (
+                      {roleValue.map((data, i) => (
                         <option value={data} key={i}>
                           {data}
                         </option>

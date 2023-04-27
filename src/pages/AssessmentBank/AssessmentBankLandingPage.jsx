@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import CustomModal from '../../components/UI/CustomModal';
 import './AssessmentBankLandingPage.scss';
-import Stepper from './Stepper';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 import PageWrapper from '../../components/wrappers/PageWrapper';
 import AssessmentbankTable from '../../components/Assessmentbank/AssessmentbankTable';
 import AssessmentBankFilterButtons from '../../components/Assessmentbank/Filter/AssessmentBankFilterButtons';
 
 const AssessmentBankLandingPage = () => {
-  const [showModal, setShowModal] = useState(false);
+  const history = useHistory();
   const handleSheduleSurvey = () => {
-    setShowModal(true);
+    history.push('/assessmentbank/schedule-survey');
   };
   return (
     <PageWrapper>
@@ -21,17 +21,6 @@ const AssessmentBankLandingPage = () => {
           </div>
         </div>
       </div>
-
-      <CustomModal
-        className="schedule-survey"
-        open={showModal}
-        onClose={() => setShowModal(false)}
-        width={900}
-        title="Schedule Survey"
-        bodyClassName="p-0"
-      >
-        <Stepper />
-      </CustomModal>
     </PageWrapper>
   );
 };

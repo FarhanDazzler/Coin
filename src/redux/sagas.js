@@ -7,6 +7,7 @@ import csvTampredData from './CsvTampred/CsvTampredSaga';
 import questionBankData from './QuestionBank/QuestionBankSaga';
 import MDM_Saga from './MDM/MDM_Saga';
 import AD_Saga from './AzureAD/AD_Saga';
+import AssessmentBankSaga from './AssessmentBank/AssessmentBankSaga';
 
 export function* sagas() {
   yield all([
@@ -18,5 +19,6 @@ export function* sagas() {
     questionBankData(),
     MDM_Saga,
     AD_Saga,
+    AssessmentBankSaga,
   ]);
 }

@@ -5,6 +5,7 @@ import {
   RESET_FLAGS_AUTH,
   LOGOUT,
   SET_LOGIN_USER_INFO,
+  SET_LOGIN_USER_ROLE,
 } from './AuthReducer';
 
 export const signup = (payload) => ({ type: SIGNUP_REQUEST, payload });
@@ -12,6 +13,8 @@ export const signup = (payload) => ({ type: SIGNUP_REQUEST, payload });
 export const login = (payload) => ({ type: LOGIN_REQUEST, payload });
 
 export const setLoginInfo = (payload) => ({ type: SET_LOGIN_USER_INFO, payload });
+
+export const setLoginRole = (payload) => ({ type: SET_LOGIN_USER_ROLE, payload });
 
 export const resetBlockAuth = (payload) => ({
   type: RESET_BLOCK_AUTH,
