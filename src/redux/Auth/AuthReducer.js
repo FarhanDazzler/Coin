@@ -10,6 +10,8 @@ export const LOGIN_ERROR = 'LOGIN_ERROR';
 
 export const SET_LOGIN_USER_INFO = 'SET_LOGIN_USER_INFO';
 
+export const SET_LOGIN_USER_ROLE = 'SET_LOGIN_USER_ROLE';
+
 export const LOGOUT = 'LOGOUT';
 
 export const RESET_BLOCK_AUTH = 'RESET_BLOCK_AUTH';
@@ -27,6 +29,7 @@ const initialState = {
   login: { ...block },
   logout: { ...block },
   loginInfo: {},
+  loginRole: '',
 };
 
 export const AuthReducer = (state = initialState, { payload, type }) => {
@@ -43,6 +46,9 @@ export const AuthReducer = (state = initialState, { payload, type }) => {
         ...state,
         signup: { ...state.signup, loading: false, error: payload },
       };
+
+    case SET_LOGIN_USER_ROLE:
+      return { ...state, loginRole: payload };
 
     case LOGIN_REQUEST:
       return { ...state, login: { ...state.login, loading: true } };
