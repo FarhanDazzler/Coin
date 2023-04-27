@@ -40,7 +40,7 @@ const OrgStructuresTable = () => {
       setModalType('');
       dispatch(getOrgStructures());
       dispatch(getOrgHierarchy());
-  }, [addOrgState.data?.message, updateOrgState?.data?.message]);
+  }, [addOrgState.data, updateOrgState?.data]);
 
   const orgStructures = useSelector(getOrgStructuresSelector);
 
