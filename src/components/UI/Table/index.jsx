@@ -12,7 +12,8 @@ const Table = ({
   components = {},
   componentsProps = {},
   classes,
-  setEditTableIndex
+  setEditTableIndex,
+  loading,
 }) => {
   return (
     <div>
@@ -41,10 +42,9 @@ const Table = ({
         }}
         pageSize={5}
         pagination
+        loading={loading}
         checkboxSelection
-        onSelectionModelChange={(selected) =>
-          setEditTableIndex(selected)
-        }
+        onSelectionModelChange={(selected) => setEditTableIndex(selected)}
         disableSelectionOnClick
       />
     </div>

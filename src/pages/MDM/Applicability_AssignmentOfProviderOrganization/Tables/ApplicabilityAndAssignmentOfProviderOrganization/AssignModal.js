@@ -5,7 +5,10 @@ import { Alert, Form } from 'react-bootstrap';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import '../TableStyle.scss';
-import { getAllProviderEntitiesSelector } from '../../../../../redux/MDM/MDM_Selectors';
+import {
+  assignApplicabilityAndAssignmentOfProviderOrganizationSelector,
+  getAllProviderEntitiesSelector,
+} from '../../../../../redux/MDM/MDM_Selectors';
 // for Updating data
 import {
   getAllProviderEntities,
@@ -26,6 +29,9 @@ const GetFormikFieldValue = () => {
 const AssignModal = ({ setShowModal, assignTableData }) => {
   const dispatch = useDispatch();
   const getAllProviderEntitiesState = useSelector(getAllProviderEntitiesSelector);
+  const assignApplicabilityAndAssignmentOfProviderOrganizationStore = useSelector(
+    assignApplicabilityAndAssignmentOfProviderOrganizationSelector,
+  );
 
   const handleSaveAssign = (value) => {
     const newState = assignTableData.map((obj) => {
@@ -46,7 +52,6 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
     const payload = {
       receivers: newState,
     };
-    console.log(payload, 'payload');
     dispatch(assignApplicabilityAndAssignmentOfProviderOrganization(payload));
   };
   let today = moment().format('YYYY-MM-DD');
@@ -87,7 +92,6 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {
               handleSaveAssign(values);
-
               // resetForm();
             } catch (error) {
               const message = error.message || 'Something went wrong';
@@ -409,7 +413,14 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                       >
                         Cancel
                       </Button>
-                      <Button color="neutral" className="ml-4" onClick={handleSubmit}>
+                      <Button
+                        color="neutral"
+                        loading={
+                          assignApplicabilityAndAssignmentOfProviderOrganizationStore.loading
+                        }
+                        className="ml-4"
+                        onClick={handleSubmit}
+                      >
                         Confirm
                       </Button>
                     </div>

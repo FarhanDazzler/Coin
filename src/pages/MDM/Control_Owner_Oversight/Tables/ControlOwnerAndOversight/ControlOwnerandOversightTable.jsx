@@ -154,10 +154,8 @@ const ControlOwnerAndOversightTable = () => {
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [assignTableData, setAssignTableData] = useState();
   const [selectedControlIds, setSelectedControlIds] = useState();
-  console.log('assignTableData', assignTableData);
   const controlOwnerAndOversight = useSelector(getControlOwnerAndOversightSelector);
   const modifyControlOwnerAndOversightState = useSelector(modifyControlOwnerAndOversightSelector);
-  console.log('modifyControlOwnerAndOversightState=====>>>>', modifyControlOwnerAndOversightState);
   const FilterData = (dataValue, conditionalParam) => {
     return dataValue.filter((i) => i[conditionalParam]);
   };
@@ -434,6 +432,7 @@ const ControlOwnerAndOversightTable = () => {
               tableColumns={tableColumns}
               columns={tableColumns}
               setEditTableIndex={setEditTableIndex}
+              loading={controlOwnerAndOversight.loading}
             />
           </div>
         </div>
