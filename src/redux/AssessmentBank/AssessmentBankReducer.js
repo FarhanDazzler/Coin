@@ -39,6 +39,14 @@ export const GET_SCHEDULE_SURVEY_PAGE_2_TABLE_ERROR = 'GET_SCHEDULE_SURVEY_PAGE_
 
 // =================== Get Schedule Survey Page 2 table Data ========================//
 
+// =================== Get Schedule Survey Page 3 table Data ========================//
+
+export const GET_SCHEDULE_SURVEY_PAGE_3_TABLE_REQUEST = 'GET_SCHEDULE_SURVEY_PAGE_3_TABLE_REQUEST';
+export const GET_SCHEDULE_SURVEY_PAGE_3_TABLE_SUCCESS = 'GET_SCHEDULE_SURVEY_PAGE_3_TABLE_SUCCESS';
+export const GET_SCHEDULE_SURVEY_PAGE_3_TABLE_ERROR = 'GET_SCHEDULE_SURVEY_PAGE_3_TABLE_ERROR';
+
+// =================== Get Schedule Survey Page 3 table Data ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -54,6 +62,7 @@ const initialState = {
   getAllEntityFromBU: { ...block, data: [] },
   getAllProviderFromEntity: { ...block, data: [] },
   getScheduleSurveyPage_2_table: { ...block, data: [] },
+  getScheduleSurveyPage_3_table: { ...block, data: [] },
 };
 
 export const AssessmentBankReducer = (state = initialState, { type, payload = {} }) => {
@@ -170,6 +179,27 @@ export const AssessmentBankReducer = (state = initialState, { type, payload = {}
       return {
         ...state,
         getScheduleSurveyPage_2_table: { ...state.getScheduleSurveyPage_2_table, loading: false },
+      };
+
+    // Get Schedule Survey Page 3 table Data
+    case GET_SCHEDULE_SURVEY_PAGE_3_TABLE_REQUEST:
+      return {
+        ...state,
+        getScheduleSurveyPage_3_table: { ...state.getScheduleSurveyPage_3_table, loading: true },
+      };
+    case GET_SCHEDULE_SURVEY_PAGE_3_TABLE_SUCCESS:
+      return {
+        ...state,
+        getScheduleSurveyPage_3_table: {
+          ...state.getScheduleSurveyPage_3_table,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_SCHEDULE_SURVEY_PAGE_3_TABLE_ERROR:
+      return {
+        ...state,
+        getScheduleSurveyPage_3_table: { ...state.getScheduleSurveyPage_3_table, loading: false },
       };
 
     //reset block with flag and data

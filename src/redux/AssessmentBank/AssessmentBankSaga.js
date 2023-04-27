@@ -19,6 +19,9 @@ import {
   GET_SCHEDULE_SURVEY_PAGE_2_TABLE_REQUEST,
   GET_SCHEDULE_SURVEY_PAGE_2_TABLE_SUCCESS,
   GET_SCHEDULE_SURVEY_PAGE_2_TABLE_ERROR,
+  GET_SCHEDULE_SURVEY_PAGE_3_TABLE_REQUEST,
+  GET_SCHEDULE_SURVEY_PAGE_3_TABLE_SUCCESS,
+  GET_SCHEDULE_SURVEY_PAGE_3_TABLE_ERROR,
 } from './AssessmentBankReducer';
 import Swal from 'sweetalert2';
 
@@ -127,10 +130,32 @@ function* getScheduleSurveyPage_2_tableData({ payload }) {
   }
 }
 
+// Get Schedule Survey Page 3 table Data
+async function getScheduleSurveyPage_3_tableApi(params) {
+  return await Axios.post('/get_all_controls_filter', params);
+}
+function* getScheduleSurveyPage_3_tableData({ payload }) {
+  try {
+    const response = yield call(getScheduleSurveyPage_3_tableApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_SCHEDULE_SURVEY_PAGE_3_TABLE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_SCHEDULE_SURVEY_PAGE_3_TABLE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 export default all([
   takeLatest(GET_ALL_ZONE_REQUEST, handleGet_AllZone),
   takeLatest(GET_ALL_BU_FROM_ZONE_REQUEST, getAll_BU_FromZoneData),
   takeLatest(GET_ALL_ENTITY_FROM_BU_REQUEST, getAllEntityFromBUData),
   takeLatest(GET_ALL_PROVIDER_FROM_ENTITY_REQUEST, getAllProviderFromEntityData),
   takeLatest(GET_SCHEDULE_SURVEY_PAGE_2_TABLE_REQUEST, getScheduleSurveyPage_2_tableData),
+  takeLatest(GET_SCHEDULE_SURVEY_PAGE_3_TABLE_REQUEST, getScheduleSurveyPage_3_tableData),
 ]);

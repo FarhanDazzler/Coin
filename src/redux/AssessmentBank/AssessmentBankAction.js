@@ -7,6 +7,7 @@ import {
   GET_ALL_ENTITY_FROM_BU_REQUEST,
   GET_ALL_PROVIDER_FROM_ENTITY_REQUEST,
   GET_SCHEDULE_SURVEY_PAGE_2_TABLE_REQUEST,
+  GET_SCHEDULE_SURVEY_PAGE_3_TABLE_REQUEST,
 } from './AssessmentBankReducer';
 
 export const ScheduleSurveyPage_1 = (payload) => ({
@@ -46,5 +47,10 @@ export const getAllProviderFromEntity = (payload) => ({
 
 export const getScheduleSurveyPage_2_table = (payload) => ({
   type: GET_SCHEDULE_SURVEY_PAGE_2_TABLE_REQUEST,
+  payload,
+});
+
+export const getScheduleSurveyPage_3_table = (payload) => ({
+  type: GET_SCHEDULE_SURVEY_PAGE_3_TABLE_REQUEST,
   payload,
 });

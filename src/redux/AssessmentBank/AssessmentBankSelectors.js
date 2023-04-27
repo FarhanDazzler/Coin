@@ -8,3 +8,5 @@ export const getAllProviderFromEntitySelector = (state) =>
   state.assessmentBank.getAllProviderFromEntity;
 export const getScheduleSurveyPage_2_tableSelector = (state) =>
   state.assessmentBank.getScheduleSurveyPage_2_table;
+export const getScheduleSurveyPage_3_tableSelector = (state) =>
+  state.assessmentBank.getScheduleSurveyPage_3_table;
