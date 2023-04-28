@@ -156,18 +156,19 @@ const Pages = () => {
           />
 
           {isControlPage() ? (
-            <Route exact path="/home" component={ControlHomePage} />
+            <Route exact path="/" component={ControlHomePage} />
           ) : (
-            <Route exact path="/home" component={InternalControlHomePage} />
+            <Route exact path="/" component={InternalControlHomePage} />
           )}
 
           <Route exact path="/question-bank" component={QuestionBank} />
+
           {user_role === 'organizational persona' ? (
-            <Route exact path="/" component={Home_controlOwner} />
+            <Route exact path="/home" component={Home_controlOwner} />
           ) : user_role === 'administrational persona' ? (
-            <Route exact path="/" component={InternalControlHomePage} />
+            <Route exact path="/home" component={InternalControlHomePage} />
           ) : (
-            <Route exact path="/" component={Home_controlOwner} />
+            <Route exact path="/home" component={Home_controlOwner} />
           )}
 
           <Route exact path="/assessmentbank" component={AssessmentBankLandingPage} />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardTable from './HomePageTable/HomePageTableComponent';
 import './homeStyles.scss';
 import NumberWithText from './NumberWithText';
@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import ProgressBar from './HomePageTable/ProgressBar/ProgressBar';
 import FilterButtons from '../../../../components/FilterButtons';
+import { TABLE_ROES } from './HomePageTable/constant';
 
 const InternalControlHomePage = () => {
   const history = useHistory();
@@ -16,7 +17,29 @@ const InternalControlHomePage = () => {
   const Control_ID = query.get('Control_ID');
   const userRole = localStorage.getItem('selected_Role');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
+  const [statusInfo, setStatusInfo] = useState({
+    notStarted: 0,
+    completed: 0,
+    draft: 0,
+    reAssessed: 0,
+  });
 
+  const getNumberOfItem = (array, itemName) => {
+    return array.filter((val) => val === itemName)?.length;
+  };
+
+  useEffect(() => {
+    const allstatus = TABLE_ROES.map((d) => {
+      return d.Status;
+    });
+    setStatusInfo({
+      notStarted: getNumberOfItem(allstatus, 'Not started'),
+      completed: getNumberOfItem(allstatus, 'Completed'),
+      draft: getNumberOfItem(allstatus, 'Draft'),
+      reAssessed: getNumberOfItem(allstatus, 'Re-assessed'),
+    });
+    console.log('TABLE_ROES', allstatus);
+  }, []);
   const { accounts } = useMsal();
   return (
     <div>
@@ -45,7 +68,7 @@ const InternalControlHomePage = () => {
                   <div>
                     <div className="right-number">
                       <NumberWithText
-                        number={61}
+                        number={statusInfo.notStarted}
                         tooltip={
                           <div>
                             <span className="yellow-text"> Not started : </span>
@@ -59,7 +82,7 @@ const InternalControlHomePage = () => {
                       />
 
                       <NumberWithText
-                        number={12292}
+                        number={statusInfo.completed}
                         tooltip={
                           <div>
                             <span className="yellow-text"> Completed : </span>
@@ -72,7 +95,7 @@ const InternalControlHomePage = () => {
                       />
 
                       <NumberWithText
-                        number={9863}
+                        number={statusInfo.draft}
                         tooltip={
                           <div>
                             <span className="yellow-text"> Draft : </span>
@@ -86,7 +109,7 @@ const InternalControlHomePage = () => {
                       />
 
                       <NumberWithText
-                        number={11}
+                        number={statusInfo.reAssessed}
                         tooltip={
                           <div>
                             <span className="yellow-text"> Re-assessed : </span>
@@ -102,13 +125,7 @@ const InternalControlHomePage = () => {
             </div>
           </div>
         </div>
-        {/* <div className="container">
-          <div className="row mt-5">
-            <div className="col-12 mt-5">
-              <FilterHomePageTable />
-            </div>
-          </div>
-        </div> */}
+
         <FilterButtons />
         <DashboardTable />
         {Control_ID && <HomeTableModal />}
