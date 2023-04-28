@@ -25,6 +25,12 @@ import {
   ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_REQUEST,
   ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_SUCCESS,
   ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_ERROR,
+  GET_ASSESSMENTS_SUMMARY_TABLE_REQUEST,
+  GET_ASSESSMENTS_SUMMARY_TABLE_SUCCESS,
+  GET_ASSESSMENTS_SUMMARY_TABLE_ERROR,
+  GET_ASSESSMENT_DETAILS_TABLE_REQUEST,
+  GET_ASSESSMENT_DETAILS_TABLE_SUCCESS,
+  GET_ASSESSMENT_DETAILS_TABLE_ERROR,
 } from './AssessmentBankReducer';
 import Swal from 'sweetalert2';
 
@@ -179,6 +185,48 @@ function* addAssessmentSchedulingAndTriggeringData({ payload }) {
   }
 }
 
+//Get Assessments Summary Table (Assessment bank Landing Page Table)
+async function getAssessmentsSummaryTableApi(params) {
+  return await Axios.get('/get_all_assessments_data', { params });
+}
+function* handleGet_AssessmentsSummaryTable({ payload }) {
+  try {
+    const response = yield call(getAssessmentsSummaryTableApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_ASSESSMENTS_SUMMARY_TABLE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_ASSESSMENTS_SUMMARY_TABLE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+//Get Assessment Details Table Data
+async function getAssessmentDetailsTableDataApi(params) {
+  return await Axios.get('/get_assessment_master_data', { params });
+}
+function* handleGet_AssessmentDetailsTableData({ payload }) {
+  try {
+    const response = yield call(getAssessmentDetailsTableDataApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_ASSESSMENT_DETAILS_TABLE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_ASSESSMENT_DETAILS_TABLE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 export default all([
   takeLatest(GET_ALL_ZONE_REQUEST, handleGet_AllZone),
   takeLatest(GET_ALL_BU_FROM_ZONE_REQUEST, getAll_BU_FromZoneData),
@@ -190,4 +238,6 @@ export default all([
     ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_REQUEST,
     addAssessmentSchedulingAndTriggeringData,
   ),
+  takeLatest(GET_ASSESSMENTS_SUMMARY_TABLE_REQUEST, handleGet_AssessmentsSummaryTable),
+  takeLatest(GET_ASSESSMENT_DETAILS_TABLE_REQUEST, handleGet_AssessmentDetailsTableData),
 ]);

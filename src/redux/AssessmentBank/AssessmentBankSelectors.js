@@ -12,3 +12,7 @@ export const getScheduleSurveyPage_3_tableSelector = (state) =>
   state.assessmentBank.getScheduleSurveyPage_3_table;
 export const addAssessmentSchedulingAndTriggeringSelector = (state) =>
   state.assessmentBank.addAssessmentSchedulingAndTriggering;
+export const getAssessmentsSummaryTableSelector = (state) =>
+  state.assessmentBank.getAssessmentsSummaryTable;
+export const getAssessmentDetailsTableDataSelector = (state) =>
+  state.assessmentBank.getAssessmentDetailsTableData;
