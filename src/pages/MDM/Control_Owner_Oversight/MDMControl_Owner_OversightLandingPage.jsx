@@ -10,7 +10,6 @@ import { modifyControlOwnerAndOversightSelector } from '../../../redux/MDM/MDM_S
 const MDM_Control_Owner_OversightLandingPage = () => {
   const dispatch = useDispatch();
   const modifyControlOwnerAndOversightState = useSelector(modifyControlOwnerAndOversightSelector);
-  console.log(modifyControlOwnerAndOversightState);
   // API Call using dispatch
   useEffect(() => {
     dispatch(getControlOwnerAndOversight());
