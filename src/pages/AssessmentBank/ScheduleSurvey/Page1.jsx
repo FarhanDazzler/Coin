@@ -59,7 +59,7 @@ const Page1 = ({ handleNext }) => {
   // logic for Year picker
   const years = [];
   const currentYear = new Date().getFullYear();
-  const startYear = 2020; // Change as needed
+  const startYear = 2022; // Change as needed
   for (let year = currentYear; year >= startYear; year--) {
     years.push(year);
   }

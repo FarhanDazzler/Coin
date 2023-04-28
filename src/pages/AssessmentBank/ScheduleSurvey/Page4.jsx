@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { FloatRight, TableExport } from 'tabler-icons-react';
 import * as Yup from 'yup';
 import { Alert, Form } from 'react-bootstrap';
@@ -20,6 +21,7 @@ import {
 const Page4 = ({ handleNext, setStep }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { instance, accounts, inProgress } = useMsal();
 
   const scheduleSurveyPage_1_State = useSelector(scheduleSurveyPage_1Selector);
   const scheduleSurveyPage_2_State = useSelector(scheduleSurveyPage_2Selector);
@@ -30,6 +32,15 @@ const Page4 = ({ handleNext, setStep }) => {
   };
 
   const handleOnclickSubmit = () => {
+    let payload = {
+      Survey_details: scheduleSurveyPage_1_State,
+      Final_controls_instances: scheduleSurveyPage_3_State?.Control_IDs_fromPage_3,
+      Created_By: {
+        Email: accounts[0]?.username,
+        name: accounts[0]?.name ? accounts[0].name : '',
+      },
+    };
+    console.log(payload, 'Page 4 payload');
     //history.push('/assessmentbank');
   };
 
