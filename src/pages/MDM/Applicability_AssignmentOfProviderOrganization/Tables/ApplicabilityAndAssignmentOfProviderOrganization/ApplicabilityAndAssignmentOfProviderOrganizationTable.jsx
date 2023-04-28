@@ -201,6 +201,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
               tableColumns={tableColumns}
               columns={tableColumns}
               setEditTableIndex={setEditTableIndex}
+              loading={applicabilityAndAssignmentOfProviderOrganization.loading}
             />
           </div>
         </div>

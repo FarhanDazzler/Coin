@@ -384,6 +384,7 @@ const MicsFrameworkTable = () => {
               tableColumns={tableColumns}
               columns={tableColumns}
               setEditTableIndex={setEditTableIndex}
+              loading={micsFramework.loading}
             />
           </div>
         </div>

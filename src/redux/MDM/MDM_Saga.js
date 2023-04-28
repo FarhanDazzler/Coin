@@ -72,9 +72,10 @@ import {
   GET_ALL_PROVIDER_ENTITIES_ERROR,
   ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA,
   ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_FAILED,
-  ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_SUCCESS
+  ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_SUCCESS,
 } from './MDM_Reducer';
 import Swal from 'sweetalert2';
+import { getApplicabilityAndAssignmentOfProviderOrganization } from './MDM_Action';
 
 async function getOrgStructuresApi(params) {
   return await Axios.get('/get_org_structures', { params });
@@ -551,6 +552,7 @@ function* assignApplicabilityAndAssignmentOfProviderOrganizationData({ payload }
         payload: response.data,
       });
       Swal.fire('Done!', 'Assined Successfully!', 'success');
+      yield put(getApplicabilityAndAssignmentOfProviderOrganization());
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
