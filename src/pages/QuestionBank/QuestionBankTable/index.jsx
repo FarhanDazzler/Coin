@@ -5,6 +5,8 @@ import Table from '../../../components/UI/Table';
 import Button from '../../../components/UI/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import './TableStyle.scss';
+import CustomModal from '../../../components/UI/CustomModal';
+import ControlidTableModal from './ControlidTableModal';
 
 // geting data from redux
 import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
@@ -12,11 +14,16 @@ import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/Quest
 const QuestionBankTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedControlId, setSelectedControlId] = useState();
 
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
   console.log(repositoryOfControlID, 'Table data');
 
   const handleControlIDClick = (id) => {
+    console.log(id);
+    setShowModal(true);
+    setSelectedControlId(id);
     // TODO: Show modal new page
     // history.push(`${history.location.pathname}?Control_ID=${id}`);
   };
@@ -93,6 +100,16 @@ const QuestionBankTable = () => {
           </div>
         </div>
       </div>
+      <CustomModal
+        className="schedule-survey"
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        width={900}
+        title={selectedControlId}
+        bodyClassName="p-0"
+      >
+        <ControlidTableModal selectedControlId={selectedControlId}/>
+      </CustomModal>
     </>
   );
 };
