@@ -659,7 +659,10 @@ const Page1 = ({ handleNext }) => {
                   <Button
                     variant="outlined"
                     color="secondary"
-                    onClick={() => handleOnclickCancel()}
+                    onClick={() => {
+                      handleOnclickCancel();
+                      dispatch(ScheduleSurveyPage_1({}));
+                    }}
                   >
                     Cancel
                   </Button>

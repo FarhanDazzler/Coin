@@ -536,7 +536,15 @@ const Page3 = ({ handleNext, setStep }) => {
       <div className="footer-action-AssessmentBank">
         <div className="d-flex align-items-center justify-content-end">
           <div>
-            <Button variant="outlined" color="secondary" onClick={() => handleOnclickCancel()}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => {
+                handleOnclickCancel();
+                dispatch(getScheduleSurveyPage_3_table({}));
+                dispatch(ScheduleSurveyPage_3({}));
+              }}
+            >
               Cancel
             </Button>
             <Button
