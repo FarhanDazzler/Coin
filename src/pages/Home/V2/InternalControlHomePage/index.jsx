@@ -1,18 +1,21 @@
 import React from 'react';
 import DashboardTable from './HomePageTable/HomePageTableComponent';
-import PageWrapper from '../wrappers/PageWrapper';
 import './homeStyles.scss';
 import NumberWithText from './NumberWithText';
 import { useMsal } from '@azure/msal-react';
 import { useHistory } from 'react-router-dom';
 import HomeTableModal from './HomeTableModal';
-import ProgressBar from '../HomePageTable/ProgressBar/ProgressBar';
-import FilterButtons from '../FilterButtons';
+import { useSelector } from 'react-redux';
+import PageWrapper from '../../../../components/wrappers/PageWrapper';
+import ProgressBar from './HomePageTable/ProgressBar/ProgressBar';
+import FilterButtons from '../../../../components/FilterButtons';
 
-const HomePage = () => {
+const InternalControlHomePage = () => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
+  const userRole = localStorage.getItem('selected_Role');
+  const loginRole = useSelector((state) => state?.auth?.loginRole);
 
   const { accounts } = useMsal();
   return (
@@ -22,9 +25,10 @@ const HomePage = () => {
           <div className="row pt-5 align-items-center">
             <div className="col-lg-4">
               <h4 className="welcome-text">Welcome</h4>
-              <h2 className="user-name-home yellow-gradient-text">
+              <h2 className="user-name-home yellow-gradient-text mb-2">
                 {accounts.length > 0 ? accounts[0].name.split('(').join(' (') : 'User Name'}
               </h2>
+              {(loginRole || userRole) && <h3 className="user-role">{loginRole ?? userRole}</h3>}
             </div>
             <div className="col-lg-8">
               <div className="home-right-overview">
@@ -113,4 +117,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default InternalControlHomePage;

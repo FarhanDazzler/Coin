@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import { TABLE_ROES } from '../../../components/HomePage/HomePageTable/constant';
 import Table from '../../../components/UI/Table';
-import Button from '../../../components/UI/Button';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './TableStyle.scss';
 
 // geting data from redux

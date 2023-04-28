@@ -15,7 +15,6 @@ import Home_controlOwner from './pages/Home/Home_controlOwner';
 import { UserContext, UserContextProvider } from './context/userContext';
 import dataService from './services/dataService';
 import Question from './parts/Assessments/Question';
-import HomePage from './components/HomePage';
 //import QuestionBank from './components/QuestionBank';
 import QuestionBank from './pages/QuestionBank/QuestionBankLandingPage';
 import NotAuthorized from './pages/NotAuthorized/NotAuthorizedPage';
@@ -26,11 +25,11 @@ import MDM_Mega_Process_Sub_ProcessLandingPage from './pages/MDM/Mega_Process_An
 import MDM_Control_Owner_OversightLandingPage from './pages/MDM/Control_Owner_Oversight/MDMControl_Owner_OversightLandingPage';
 import MDM_MICS_FrameworkLandingPage from './pages/MDM/MICS_Framework/MDMMICSFrameworkLandingPage.jsx';
 import AddValues_MDM_Mics_Framework from './pages/MDM/MICS_Framework/InputPage/AddValues';
-import NavTabsMDM from './pages/MDM/MDM_Tab_Buttons/TabButtons.jsx';
 import AssessmentBankLandingPage from './pages/AssessmentBank/AssessmentBankLandingPage';
-import NewHomePage from './components/NewHomePage';
 import { useSelector } from 'react-redux';
 import ScheduleSurveyPage from './pages/AssessmentBank/ScheduleSurvey/ScheduleSurveyPage';
+import ControlHomePage from './pages/Home/ControlHomePage';
+import InternalControlHomePage from './pages/Home/V2/InternalControlHomePage';
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -157,16 +156,16 @@ const Pages = () => {
           />
 
           {isControlPage() ? (
-            <Route exact path="/home" component={NewHomePage} />
+            <Route exact path="/home" component={ControlHomePage} />
           ) : (
-            <Route exact path="/home" component={HomePage} />
+            <Route exact path="/home" component={InternalControlHomePage} />
           )}
 
           <Route exact path="/question-bank" component={QuestionBank} />
           {user_role === 'organizational persona' ? (
             <Route exact path="/" component={Home_controlOwner} />
           ) : user_role === 'administrational persona' ? (
-            <Route exact path="/" component={HomePage} />
+            <Route exact path="/" component={InternalControlHomePage} />
           ) : (
             <Route exact path="/" component={Home_controlOwner} />
           )}

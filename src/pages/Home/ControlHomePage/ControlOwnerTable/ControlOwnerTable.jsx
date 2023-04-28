@@ -1,19 +1,17 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import '../../../assets/styles/custom.css';
-import { class_to_apply, TABLE_ROES } from './constant';
-import { useEffect, useState } from 'react';
-import Table from '../../UI/Table';
-import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useDispatch } from 'react-redux';
+import { TABLE_ROES } from './constant';
+import Typography from '@mui/material/Typography';
 import {
-  getControlDataAction,
   getControlDataGcdAction,
-} from '../../../redux/ControlData/ControlDataAction';
-import Button from '../../UI/Button';
+  getControlDataAction,
+} from '../../../../redux/ControlData/ControlDataAction';
+import { class_to_apply } from '../../V2/InternalControlHomePage/HomePageTable/constant';
+import Table from '../../../../components/UI/Table';
 
-const DashboardTable = () => {
+const ControlOwnerTable = ({ tableName }) => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const history = useHistory();
@@ -24,20 +22,34 @@ const DashboardTable = () => {
   const TABLE_COLUMNS = [
     {
       field: 'id',
-      headerName: 'ID',
+      headerName: 'id',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 70,
+      minWidth: 50,
+    },
+    {
+      field: 'assessmentCycle',
+      headerName: 'Assessment Cycle',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 120,
+    },
+    {
+      field: 'year',
+      headerName: 'Year',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 120,
     },
     {
       field: 'Zone',
       headerName: 'Zone',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 120,
+      minWidth: 180,
     },
     {
-      field: 'Provider_Org',
+      field: 'providerOrg',
       headerName: 'Provider Org',
       flex: 1,
       cellClassName: 'dashboardCell',
@@ -110,42 +122,19 @@ const DashboardTable = () => {
     },
     {
       field: 'Co_Owner',
-      headerName: 'Co Owner',
+      headerName: 'Control Owner',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
       field: 'Co_Oversight',
-      headerName: 'Co Oversight',
+      headerName: 'Control Oversight',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
-    },
-    {
-      field: 'View',
-      headerName: 'View',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-      renderCell: (row) => {
-        return (
-          <Button
-            variant="outlined"
-            className={' cursor-pointer'}
-            startIcon={<VisibilityIcon style={{ color: '#d3a306' }} />}
-            onClick={() => handleControlView(row.row.Control_ID)}
-          >
-            View
-          </Button>
-        );
-      },
     },
   ];
-
-  const handleControlView = (id) => {
-    window.location.href = `/Assessments/${id}`;
-  };
 
   const handleControlIDClick = (id) => {
     //TODO: modal redirect
@@ -167,10 +156,15 @@ const DashboardTable = () => {
   }, []);
   return (
     <>
-      {/*<div className="rounded-4 shadow-4 float-end mb-3">*/}
-      {/*  <FilterHomePageTable />*/}
-      {/*</div>*/}
       <div className="container mt-5">
+        <div className="row pt-5">
+          <div className="col col-lg-12">
+            <Typography className="table-title">{tableName}</Typography>
+          </div>
+        </div>
+      </div>
+
+      <div className="container">
         <div className="row pt-5">
           <div className="col col-lg-12">
             <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
@@ -181,4 +175,4 @@ const DashboardTable = () => {
   );
 };
 
-export default DashboardTable;
+export default ControlOwnerTable;
