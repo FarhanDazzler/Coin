@@ -47,6 +47,17 @@ export const GET_SCHEDULE_SURVEY_PAGE_3_TABLE_ERROR = 'GET_SCHEDULE_SURVEY_PAGE_
 
 // =================== Get Schedule Survey Page 3 table Data ========================//
 
+// =================== ADD ASSESSMENT SCHEDULING AND TRIGGERING Data ========================//
+
+export const ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_REQUEST =
+  'ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_REQUEST';
+export const ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_SUCCESS =
+  'ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_SUCCESS';
+export const ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_ERROR =
+  'ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_ERROR';
+
+// =================== ADD ASSESSMENT SCHEDULING AND TRIGGERING Data ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -63,6 +74,7 @@ const initialState = {
   getAllProviderFromEntity: { ...block, data: [] },
   getScheduleSurveyPage_2_table: { ...block, data: [] },
   getScheduleSurveyPage_3_table: { ...block, data: [] },
+  addAssessmentSchedulingAndTriggering: { ...block, data: [] },
 };
 
 export const AssessmentBankReducer = (state = initialState, { type, payload = {} }) => {
@@ -200,6 +212,33 @@ export const AssessmentBankReducer = (state = initialState, { type, payload = {}
       return {
         ...state,
         getScheduleSurveyPage_3_table: { ...state.getScheduleSurveyPage_3_table, loading: false },
+      };
+
+    // ADD ASSESSMENT SCHEDULING AND TRIGGERING Data
+    case ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_REQUEST:
+      return {
+        ...state,
+        addAssessmentSchedulingAndTriggering: {
+          ...state.addAssessmentSchedulingAndTriggering,
+          loading: true,
+        },
+      };
+    case ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_SUCCESS:
+      return {
+        ...state,
+        addAssessmentSchedulingAndTriggering: {
+          ...state.addAssessmentSchedulingAndTriggering,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_ERROR:
+      return {
+        ...state,
+        addAssessmentSchedulingAndTriggering: {
+          ...state.addAssessmentSchedulingAndTriggering,
+          loading: false,
+        },
       };
 
     //reset block with flag and data

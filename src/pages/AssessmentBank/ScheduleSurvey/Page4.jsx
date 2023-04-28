@@ -17,6 +17,7 @@ import {
   scheduleSurveyPage_2Selector,
   scheduleSurveyPage_3Selector,
 } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
+import { addAssessmentSchedulingAndTriggering } from '../../../redux/AssessmentBank/AssessmentBankAction';
 
 const Page4 = ({ handleNext, setStep }) => {
   const dispatch = useDispatch();
@@ -41,7 +42,8 @@ const Page4 = ({ handleNext, setStep }) => {
       },
     };
     console.log(payload, 'Page 4 payload');
-    //history.push('/assessmentbank');
+    dispatch(addAssessmentSchedulingAndTriggering(payload));
+    history.push('/assessmentbank');
   };
 
   return (
