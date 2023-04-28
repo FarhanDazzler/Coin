@@ -19,6 +19,12 @@ import {
   GET_SCHEDULE_SURVEY_PAGE_2_TABLE_REQUEST,
   GET_SCHEDULE_SURVEY_PAGE_2_TABLE_SUCCESS,
   GET_SCHEDULE_SURVEY_PAGE_2_TABLE_ERROR,
+  GET_SCHEDULE_SURVEY_PAGE_3_TABLE_REQUEST,
+  GET_SCHEDULE_SURVEY_PAGE_3_TABLE_SUCCESS,
+  GET_SCHEDULE_SURVEY_PAGE_3_TABLE_ERROR,
+  ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_REQUEST,
+  ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_SUCCESS,
+  ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_ERROR,
 } from './AssessmentBankReducer';
 import Swal from 'sweetalert2';
 
@@ -127,10 +133,61 @@ function* getScheduleSurveyPage_2_tableData({ payload }) {
   }
 }
 
+// Get Schedule Survey Page 3 table Data
+async function getScheduleSurveyPage_3_tableApi(params) {
+  return await Axios.post('/get_all_controls_filter', params);
+}
+function* getScheduleSurveyPage_3_tableData({ payload }) {
+  try {
+    const response = yield call(getScheduleSurveyPage_3_tableApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_SCHEDULE_SURVEY_PAGE_3_TABLE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_SCHEDULE_SURVEY_PAGE_3_TABLE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+// ADD ASSESSMENT SCHEDULING AND TRIGGERING Data
+async function addAssessmentSchedulingAndTriggeringApi(payload) {
+  return await Axios.post('/add_assessment_data', payload);
+}
+function* addAssessmentSchedulingAndTriggeringData({ payload }) {
+  try {
+    const response = yield call(addAssessmentSchedulingAndTriggeringApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Assessment Scheduled and Triggered Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
 export default all([
   takeLatest(GET_ALL_ZONE_REQUEST, handleGet_AllZone),
   takeLatest(GET_ALL_BU_FROM_ZONE_REQUEST, getAll_BU_FromZoneData),
   takeLatest(GET_ALL_ENTITY_FROM_BU_REQUEST, getAllEntityFromBUData),
   takeLatest(GET_ALL_PROVIDER_FROM_ENTITY_REQUEST, getAllProviderFromEntityData),
   takeLatest(GET_SCHEDULE_SURVEY_PAGE_2_TABLE_REQUEST, getScheduleSurveyPage_2_tableData),
+  takeLatest(GET_SCHEDULE_SURVEY_PAGE_3_TABLE_REQUEST, getScheduleSurveyPage_3_tableData),
+  takeLatest(
+    ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_REQUEST,
+    addAssessmentSchedulingAndTriggeringData,
+  ),
 ]);
