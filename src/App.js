@@ -31,6 +31,7 @@ import AssessmentBankLandingPage from './pages/AssessmentBank/AssessmentBankLand
 import NewHomePage from './components/NewHomePage';
 import { useSelector } from 'react-redux';
 import ScheduleSurveyPage from './pages/AssessmentBank/ScheduleSurvey/ScheduleSurveyPage';
+import AssessmentDetailsTableData from './pages/AssessmentBank/Table/AssessmentDetailsTableData.jsx';
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -208,6 +209,11 @@ const Pages = () => {
           />
           <Route exact path="/assessmentbank" component={AssessmentBankLandingPage} />
           <Route exact path="/assessmentbank/schedule-survey" component={ScheduleSurveyPage} />
+          <Route
+            exact
+            path="/assessmentbank/assessment-details"
+            component={AssessmentDetailsTableData}
+          />
           <Route
             path="*"
             render={(props) => {
