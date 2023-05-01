@@ -285,11 +285,11 @@ const AssessmentDetailsTableData = (props) => {
 
   const handelRecall = () => {
     //code for Recall Assessment
-    if (editTableIndex.length > 1) {
-      Swal.fire('Oops...', 'You can only allow one Assessment to Recall at a time', 'error');
-    } else if (editTableIndex.length === 1) {
+    if (editTableIndex.length === 0) {
+      Swal.fire('Oops...', 'Please select table for Recalling Assessment', 'error');
+    } else if (editTableIndex.length >= 1) {
       console.log(editTableIndex, 'editTableIndex');
-      const data = tableData.find((data, i) => data.id === editTableIndex[0]);
+      const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
       setEditTableData(data);
       console.log('@@@@@@@@@', data);
     }
@@ -297,6 +297,14 @@ const AssessmentDetailsTableData = (props) => {
 
   const handelTrigger = () => {
     //code for Triggering Assessment
+    if (editTableIndex.length === 0) {
+      Swal.fire('Oops...', 'Please select table for Triggering Assessment', 'error');
+    } else if (editTableIndex.length >= 1) {
+      console.log(editTableIndex, 'editTableIndex');
+      const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
+      setEditTableData(data);
+      console.log('@@@@@@@@@', data);
+    }
   };
 
   return (
