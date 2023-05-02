@@ -32,7 +32,7 @@ const ScheduleSurveyPage = () => {
                 <div className="progress"></div>
 
                 <Divider
-                  className="divider"
+                  className="divider top-divider"
                   size="md"
                   my="xs"
                   labelPosition="center"
