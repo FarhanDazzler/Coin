@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { MultiSelect } from '@mantine/core';
+
+import { Group } from '@mantine/core';
+
 import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
-import './styles.scss';
+
 import ControlOwnerTable from './ControlOwnerTable/ControlOwnerTable';
 import { useSelector } from 'react-redux';
+
 import PageWrapper from '../../../components/wrappers/PageWrapper';
 import FilterButtons from '../../../components/FilterButtons';
 import HomeTableModal from '../V2/InternalControlHomePage/HomeTableModal';
+import { TABLE_ROES } from './ControlOwnerTable/constant';
+
+import './styles.scss';
 
 const ControlHomePage = () => {
   const history = useHistory();
@@ -15,6 +23,29 @@ const ControlHomePage = () => {
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
   const { accounts } = useMsal();
+  const [statusInfo, setStatusInfo] = useState({
+    notStarted: 0,
+    completed: 0,
+    draft: 0,
+    reAssessed: 0,
+  });
+
+  const getNumberOfItem = (array, itemName) => {
+    return array.filter((val) => val === itemName)?.length;
+  };
+
+  useEffect(() => {
+    const allstatus = TABLE_ROES.map((d) => {
+      return d.Status;
+    });
+    setStatusInfo({
+      notStarted: getNumberOfItem(allstatus, 'Not started'),
+      completed: getNumberOfItem(allstatus, 'Completed'),
+      draft: getNumberOfItem(allstatus, 'Draft'),
+      reAssessed: getNumberOfItem(allstatus, 'Re-assessed'),
+    });
+    console.log('TABLE_ROES', allstatus);
+  }, []);
   return (
     <div>
       <PageWrapper>
@@ -32,10 +63,10 @@ const ControlHomePage = () => {
                 <FilterButtons />
               </div>
               <div className="d-flex align-items-center flex-wrap">
-                <AmountInfo amount={12292} infoText={'BU'} />
-                <AmountInfo amount={19} infoText="functional" />
+                {/* <AmountInfo amount={12292} infoText={'BU'} />
+                <AmountInfo amount={19} infoText="functional" /> */}
                 <AmountInfo
-                  amount={732}
+                  amount={statusInfo.notStarted}
                   infoText={
                     <>
                       Assessment <br /> (NOT Started)
@@ -43,7 +74,7 @@ const ControlHomePage = () => {
                   }
                 />
                 <AmountInfo
-                  amount={123}
+                  amount={statusInfo.completed}
                   infoText={
                     <>
                       Assessment <br /> (completed)
@@ -51,7 +82,7 @@ const ControlHomePage = () => {
                   }
                 />
                 <AmountInfo
-                  amount={112}
+                  amount={statusInfo.draft}
                   infoText={
                     <>
                       Assessment <br /> (Draft)
@@ -59,7 +90,7 @@ const ControlHomePage = () => {
                   }
                 />
                 <AmountInfo
-                  amount={4}
+                  amount={statusInfo.reAssessed}
                   infoText={
                     <>
                       Assessment <br /> (incorrect owner)

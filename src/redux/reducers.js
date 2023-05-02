@@ -9,6 +9,7 @@ import section1QuestionDataReducer from './QuestionBank/QuestionBankReducer';
 import { MDMReducer } from './MDM/MDM_Reducer';
 import { AD_Reducer } from './AzureAD/AD_Reducer';
 import { AssessmentBankReducer } from './AssessmentBank/AssessmentBankReducer';
+import { dashBoardReducer } from './DashBoard/DashBoardReducer';
 
 // we will connect our reducers here
 
@@ -24,6 +25,7 @@ const appReducer = (history) =>
     mdm: MDMReducer,
     ad: AD_Reducer,
     assessmentBank: AssessmentBankReducer,
+    dashBoard: dashBoardReducer,
   });
 
 const createRootReducer = (history) => (state, action) => {
