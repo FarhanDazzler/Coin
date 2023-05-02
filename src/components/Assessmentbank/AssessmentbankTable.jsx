@@ -123,7 +123,7 @@ const AssessmentbankTable = () => {
       <div className="container mt-5">
         <div className="row pt-5">
           <div className="col col-lg-12">
-            {tableData.length > 0 ? (
+            {tableData?.length > 0 ? (
               <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
             ) : (
               <NoDataPlaceholder />

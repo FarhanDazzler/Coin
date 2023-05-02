@@ -394,7 +394,7 @@ const AssessmentDetailsTableData = (props) => {
 
               <div className="container mt-5">
                 <div className="row">
-                  {tableData.length > 0 ? (
+                  {tableData?.length > 0 ? (
                     <Table
                       tableData={tableData}
                       tableColumns={tableColumns}
