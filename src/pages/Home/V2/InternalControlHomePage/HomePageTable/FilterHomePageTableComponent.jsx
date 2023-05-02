@@ -7,10 +7,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import FormControl from '@mui/material/FormControl';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import Button from '../../UI/Button';
-import Select from '../../UI/Select/Select';
 import { useState } from 'react';
+import Button from '../../../../../components/UI/Button';
+import Select from '../../../../../components/UI/Select/Select';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import CollapseFrame from '../../UI/CollapseFrame';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFormatQuestions, getQuestionsFormatData } from '../../../utils/helper';
-import RenderBlock from '../../RenderBlock';
-import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
+import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
 import { Loader } from 'semantic-ui-react';
-import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
 import { useHistory } from 'react-router-dom';
-import Input from '../../UI/Input';
-import RenderBlockWrapper from '../../RenderBlock/RenderBlockWrapper';
 import { Form } from 'react-bootstrap';
+import RenderBlock from '../../../../../components/RenderBlock';
+import RenderBlockWrapper from '../../../../../components/RenderBlock/RenderBlockWrapper';
+import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAction';
+import CollapseFrame from '../../../../../components/UI/CollapseFrame';
+import { getFormatQuestions, getQuestionsFormatData } from '../../../../../utils/helper';
 
 const ControlSection3 = ({
   setTerminating,
@@ -18,7 +17,7 @@ const ControlSection3 = ({
   showNoQuestionAns,
   setShowNoQuestionAns,
   setStartEdit,
-  isModal
+  isModal,
 }) => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
@@ -205,10 +204,10 @@ const ControlSection3 = ({
               <RenderBlock blocks={questionL1} isModal={isModal} handleChange={handleChange} />
             )}
             {questionL2.length > 0 && (
-              <RenderBlock blocks={questionL2}isModal={isModal} handleChange={handleChange} />
+              <RenderBlock blocks={questionL2} isModal={isModal} handleChange={handleChange} />
             )}
             {questionL3.length > 0 && (
-              <RenderBlock blocks={questionL3}isModal={isModal} handleChange={handleChange} />
+              <RenderBlock blocks={questionL3} isModal={isModal} handleChange={handleChange} />
             )}
           </>
 

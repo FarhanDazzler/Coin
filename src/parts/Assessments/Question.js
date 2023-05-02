@@ -8,7 +8,7 @@ import {
 } from '../../redux/ControlData/ControlDataAction';
 import { useMsal } from '@azure/msal-react';
 import './Questions.scss';
-import HomeTableModal from '../../components/HomePage/HomeTableModal';
+import HomeTableModal from '../../pages/Home/V2/InternalControlHomePage/HomeTableModal';
 
 const Question = () => {
   // const { Assessment_id } = useParams();

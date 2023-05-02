@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import CollapseFrame from '../../UI/CollapseFrame';
-import RenderBlock from '../../RenderBlock';
 import { useDispatch, useSelector } from 'react-redux';
-import { getQuestionsSelector } from '../../../redux/Assessments/AssessmentSelectors';
-import { getFormatQuestions, handleSelectAns, validateEmail } from '../../../utils/helper';
-import blockType from '../../RenderBlock/constant';
-import useDebounce from '../../../hooks/useDebounce';
-import { getUserFromAD } from '../../../redux/AzureAD/AD_Action';
-import { getUserFromADSelector } from '../../../redux/AzureAD/AD_Selectors';
+import { getQuestionsSelector } from '../../../../../redux/Assessments/AssessmentSelectors';
+import { getFormatQuestions, validateEmail } from '../../../../../utils/helper';
+import { getUserFromAD } from '../../../../../redux/AzureAD/AD_Action';
+import { getUserFromADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
+import useDebounce from '../../../../../hooks/useDebounce';
+import blockType from '../../../../../components/RenderBlock/constant';
+import RenderBlock from '../../../../../components/RenderBlock';
+import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 
 const ControlSection1 = ({
   setShowMoreSection,

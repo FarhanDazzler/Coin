@@ -1,15 +1,14 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
-import PageWrapper from '../wrappers/PageWrapper';
-import DashboardTable from '../HomePage/HomePageTable/HomePageTableComponent';
-import HomeTableModal from '../HomePage/HomeTableModal';
 import './styles.scss';
-import FilterButtons from '../FilterButtons';
 import ControlOwnerTable from './ControlOwnerTable/ControlOwnerTable';
 import { useSelector } from 'react-redux';
+import PageWrapper from '../../../components/wrappers/PageWrapper';
+import FilterButtons from '../../../components/FilterButtons';
+import HomeTableModal from '../V2/InternalControlHomePage/HomeTableModal';
 
-const NewHomePage = () => {
+const ControlHomePage = () => {
   const history = useHistory();
   const userRole = localStorage.getItem('selected_Role');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
@@ -89,4 +88,4 @@ const AmountInfo = ({ amount, infoText }) => {
     </div>
   );
 };
-export default NewHomePage;
+export default ControlHomePage;
