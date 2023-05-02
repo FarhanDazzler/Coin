@@ -6,7 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
 import Table from '../../../components/UI/Table';
 import NoDataPlaceholder from '../../../components/NoDataPlaceholder';
-import { getAssessmentDetailsTableData } from '../../../redux/AssessmentBank/AssessmentBankAction';
+import {
+  getAssessmentDetailsTableData,
+  recallAssessment,
+  reTriggerAssessment,
+} from '../../../redux/AssessmentBank/AssessmentBankAction';
 import { getAssessmentDetailsTableDataSelector } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
 import { MultiSelect } from '@mantine/core';
 import { Group } from '@mantine/core';
@@ -148,6 +152,7 @@ const FilterButtons = ({
 const AssessmentDetailsTableData = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { instance, accounts, inProgress } = useMsal();
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
@@ -286,24 +291,50 @@ const AssessmentDetailsTableData = (props) => {
   const handelRecall = () => {
     //code for Recall Assessment
     if (editTableIndex.length === 0) {
-      Swal.fire('Oops...', 'Please select table for Recalling Assessment', 'error');
+      Swal.fire('Oops...', 'Please select atleast Assessment one for Recalling', 'error');
     } else if (editTableIndex.length >= 1) {
       console.log(editTableIndex, 'editTableIndex');
       const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
-      setEditTableData(data);
+      //setEditTableData(data);
       console.log('@@@@@@@@@', data);
+
+      let payload = {
+        Assessment_ids: data,
+        Modified_By: {
+          Email: accounts[0]?.username,
+          name: accounts[0]?.name ? accounts[0].name : '',
+        },
+      };
+      console.log(payload, 'payload for Recall');
+      dispatch(recallAssessment(payload));
     }
   };
 
   const handelTrigger = () => {
     //code for Triggering Assessment
-    if (editTableIndex.length === 0) {
-      Swal.fire('Oops...', 'Please select table for Triggering Assessment', 'error');
+    const data = tableData?.filter(
+      (data, i) => editTableIndex?.includes(data.id) && data.Survey_Status === 'Recalled',
+    );
+    if (editTableIndex.length === 0 || !data.length) {
+      Swal.fire(
+        'Oops...',
+        'Please select only Recalled Assessments from table for Re-Triggering',
+        'error',
+      );
     } else if (editTableIndex.length >= 1) {
       console.log(editTableIndex, 'editTableIndex');
-      const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
-      setEditTableData(data);
+      //setEditTableData(data);
       console.log('@@@@@@@@@', data);
+
+      let payload = {
+        Assessment_ids: data,
+        Modified_By: {
+          Email: accounts[0]?.username,
+          name: accounts[0]?.name ? accounts[0].name : '',
+        },
+      };
+      console.log(payload, 'payload for Re-Trigger');
+      dispatch(reTriggerAssessment(payload));
     }
   };
 
