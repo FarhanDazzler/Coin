@@ -9,6 +9,8 @@ import {
   GET_SCHEDULE_SURVEY_PAGE_2_TABLE_REQUEST,
   GET_SCHEDULE_SURVEY_PAGE_3_TABLE_REQUEST,
   ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_REQUEST,
+  GET_ASSESSMENTS_SUMMARY_TABLE_REQUEST,
+  GET_ASSESSMENT_DETAILS_TABLE_REQUEST,
 } from './AssessmentBankReducer';
 
 export const ScheduleSurveyPage_1 = (payload) => ({
@@ -58,5 +60,15 @@ export const getScheduleSurveyPage_3_table = (payload) => ({
 
 export const addAssessmentSchedulingAndTriggering = (payload) => ({
   type: ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_REQUEST,
+  payload,
+});
+
+export const getAssessmentsSummaryTable = (payload) => ({
+  type: GET_ASSESSMENTS_SUMMARY_TABLE_REQUEST,
+  payload,
+});
+
+export const getAssessmentDetailsTableData = (payload) => ({
+  type: GET_ASSESSMENT_DETAILS_TABLE_REQUEST,
   payload,
 });

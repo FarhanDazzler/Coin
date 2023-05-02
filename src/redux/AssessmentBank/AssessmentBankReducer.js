@@ -58,6 +58,22 @@ export const ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_ERROR =
 
 // =================== ADD ASSESSMENT SCHEDULING AND TRIGGERING Data ========================//
 
+// =================== Get Assessments Summary Table (Assessment bank Landing Page Table) ========================//
+
+export const GET_ASSESSMENTS_SUMMARY_TABLE_REQUEST = 'GET_ASSESSMENTS_SUMMARY_TABLE_REQUEST';
+export const GET_ASSESSMENTS_SUMMARY_TABLE_SUCCESS = 'GET_ASSESSMENTS_SUMMARY_TABLE_SUCCESS';
+export const GET_ASSESSMENTS_SUMMARY_TABLE_ERROR = 'GET_ASSESSMENTS_SUMMARY_TABLE_ERROR';
+
+// =================== Get Assessments Summary Table (Assessment bank Landing Page Table) ========================//
+
+// =================== Get Assessment Details Table Data ========================//
+
+export const GET_ASSESSMENT_DETAILS_TABLE_REQUEST = 'GET_ASSESSMENT_DETAILS_TABLE_REQUEST';
+export const GET_ASSESSMENT_DETAILS_TABLE_SUCCESS = 'GET_ASSESSMENT_DETAILS_TABLE_SUCCESS';
+export const GET_ASSESSMENT_DETAILS_TABLE_ERROR = 'GET_ASSESSMENT_DETAILS_TABLE_ERROR';
+
+// =================== Get Assessment Details Table Data ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -75,6 +91,8 @@ const initialState = {
   getScheduleSurveyPage_2_table: { ...block, data: [] },
   getScheduleSurveyPage_3_table: { ...block, data: [] },
   addAssessmentSchedulingAndTriggering: { ...block, data: [] },
+  getAssessmentsSummaryTable: { ...block, data: [] },
+  getAssessmentDetailsTableData: { ...block, data: [] },
 };
 
 export const AssessmentBankReducer = (state = initialState, { type, payload = {} }) => {
@@ -237,6 +255,60 @@ export const AssessmentBankReducer = (state = initialState, { type, payload = {}
         ...state,
         addAssessmentSchedulingAndTriggering: {
           ...state.addAssessmentSchedulingAndTriggering,
+          loading: false,
+        },
+      };
+
+    //Get Assessments Summary Table (Assessment bank Landing Page Table)
+    case GET_ASSESSMENTS_SUMMARY_TABLE_REQUEST:
+      return {
+        ...state,
+        getAssessmentsSummaryTable: {
+          ...state.getAssessmentsSummaryTable,
+          loading: true,
+        },
+      };
+    case GET_ASSESSMENTS_SUMMARY_TABLE_SUCCESS:
+      return {
+        ...state,
+        getAssessmentsSummaryTable: {
+          ...state.getAssessmentsSummaryTable,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_ASSESSMENTS_SUMMARY_TABLE_ERROR:
+      return {
+        ...state,
+        getAssessmentsSummaryTable: {
+          ...state.getAssessmentsSummaryTable,
+          loading: false,
+        },
+      };
+
+    //Get Assessment Details Table Data
+    case GET_ASSESSMENT_DETAILS_TABLE_REQUEST:
+      return {
+        ...state,
+        getAssessmentDetailsTableData: {
+          ...state.getAssessmentDetailsTableData,
+          loading: true,
+        },
+      };
+    case GET_ASSESSMENT_DETAILS_TABLE_SUCCESS:
+      return {
+        ...state,
+        getAssessmentDetailsTableData: {
+          ...state.getAssessmentDetailsTableData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_ASSESSMENT_DETAILS_TABLE_ERROR:
+      return {
+        ...state,
+        getAssessmentDetailsTableData: {
+          ...state.getAssessmentDetailsTableData,
           loading: false,
         },
       };

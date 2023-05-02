@@ -1,3 +1,38 @@
+.select-options-background {
+  padding: 16.5px 14px;
+  background: rgba(140, 140, 140, 0.14);
+  backdrop-filter: blur(14.4828px);
+  border-radius: 8.68966px !important;
+  color: #fff !important;
+  cursor: pointer;
+}
+.open-popover {
+  outline: 2px solid #d3a306;
+}
+.popover-title {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.year-side {
+  padding-right: 25px;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.12) ;
+}
+
+.period-side {
+  padding-left: 25px;
+}
+.open-select {
+  transform: rotate(180deg);
+}
+
+.actions-button-wrapper {
+  button {
+    text-transform: capitalize !important;
+  }
+}
+
 .schedule-survey {
     .model-header {
         p {
