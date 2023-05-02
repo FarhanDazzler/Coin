@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PageWrapper from '../../../components/wrappers/PageWrapper';
 import '../AssessmentBankLandingPage.scss';
-import Button from '../../MDM/MDM_Tab_Buttons/Button';
+import './styles.scss';
 import { Divider, Box } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { Alert, Form } from 'react-bootstrap';
