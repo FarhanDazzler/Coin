@@ -190,7 +190,7 @@ const InternalControlTable = (props) => {
     //code for getting Internal Control Home Page table data
     dispatch(
       getDashBoardData({
-        email: accounts[0]?.username,
+        email: 'Vikash.Jha@AB-inbev.com',
       }),
     );
   }, []);
@@ -315,14 +315,13 @@ const InternalControlTable = (props) => {
 
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
-    const updatedData = ''
-    getDashBoardDataState?.data[0]?.cOwnerData?.map((i, index) => {
-      return {
-        id: i.id,
-        ...i,
-      };
-    });
-
+    const updatedData =
+      getDashBoardDataState?.data[0]?.cOwnerData?.map((i, index) => {
+        return {
+          id: i.id,
+          ...i,
+        };
+      });
     setTableData(updatedData);
     setTableDataArray(updatedData);
   }, [getDashBoardDataState?.data]);
@@ -342,7 +341,6 @@ const InternalControlTable = (props) => {
 
   return (
     <>
-      <PageWrapper>
         <div className="container">
           <div className="row">
             <div className="col col-lg-12">
@@ -376,7 +374,7 @@ const InternalControlTable = (props) => {
               </div>
               <div className="container mt-5">
                 <div className="row">
-                  {tableData.length > 0 ? (
+                  {tableData?.length > 0 ? (
                     <Table
                       tableData={tableData}
                       tableColumns={tableColumns}
@@ -388,27 +386,9 @@ const InternalControlTable = (props) => {
                   )}
                 </div>
               </div>
-              <div className="container mt-5">
-                <div className="row">
-                  <div className="d-flex align-items-center justify-content-end">
-                    <div>
-                      <Button
-                        size="large"
-                        startIcon={<ArrowBackIosIcon />}
-                        onClick={() => {
-                          history.push('/assessmentbank');
-                        }}
-                      >
-                        Go Back
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-      </PageWrapper>
     </>
   );
 };
