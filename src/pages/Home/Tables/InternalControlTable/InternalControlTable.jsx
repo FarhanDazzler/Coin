@@ -5,17 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
 import { MultiSelect } from '@mantine/core';
 import { Group } from '@mantine/core';
-import Swal from 'sweetalert2';
-import SettingsBackupRestoreOutlinedIcon from '@mui/icons-material/SettingsBackupRestoreOutlined';
-import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-
 import Table from '../../../../components/UI/Table';
 import NoDataPlaceholder from '../../../../components/NoDataPlaceholder';
-import { getDashBoardData } from '../../../../redux/DashBoard/DashBoardAction';
-import { getDashBoardDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
-import Button from '../../../../components/UI/Button';
-import PageWrapper from '../../../../components/wrappers/PageWrapper';
+import { getInternalControlTableData } from '../../../../redux/DashBoard/DashBoardAction';
+import { getInternalControlDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
+import TableLoader from '../../../../components/UI/TableLoader';
+import { class_to_apply } from '../../V2/InternalControlHomePage/HomePageTable/constant';
 
 // Filter buttons
 const FilterButtons = ({
@@ -189,13 +184,13 @@ const InternalControlTable = (props) => {
   useEffect(() => {
     //code for getting Internal Control Home Page table data
     dispatch(
-      getDashBoardData({
+      getInternalControlTableData({
         email: 'Vikash.Jha@AB-inbev.com',
       }),
     );
   }, []);
 
-  const getDashBoardDataState = useSelector(getDashBoardDataSelector);
+  const getDashBoardDataState = useSelector(getInternalControlDataSelector);
   console.log(getDashBoardDataState, 'getDashBoardDataState');
 
   useEffect(() => {
@@ -216,10 +211,10 @@ const InternalControlTable = (props) => {
           (yearValue?.length ? yearValue.includes(i.Year) : true) &&
           (assessmentCycleValue?.length
             ? assessmentCycleValue.includes(i.Assessment_Cycle) &&
-            (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-            (buValue?.length ? buValue.includes(i.BU) : true) &&
-            (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
-            (providerValue?.length ? providerValue.includes(i.Provider) : true)
+              (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+              (buValue?.length ? buValue.includes(i.BU) : true) &&
+              (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
+              (providerValue?.length ? providerValue.includes(i.Provider) : true)
             : true)
         );
       }),
@@ -261,6 +256,9 @@ const InternalControlTable = (props) => {
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 100,
+      renderCell: (row) => {
+        return <span className={class_to_apply(row.row.Status)}>{row.row.Status}</span>;
+      },
     },
     {
       field: 'KPI_Result',
@@ -268,6 +266,9 @@ const InternalControlTable = (props) => {
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 150,
+      renderCell: (row) => {
+        return <span className={class_to_apply(row.row.KPI_Result)}>{row.row.KPI_Result}</span>;
+      },
     },
     {
       field: 'Assessment_Result',
@@ -275,6 +276,13 @@ const InternalControlTable = (props) => {
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 150,
+      renderCell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.Assessment_Result)}>
+            {row.row.Assessment_Result}
+          </span>
+        );
+      },
     },
     {
       field: 'Compliance_Result',
@@ -282,6 +290,13 @@ const InternalControlTable = (props) => {
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 150,
+      renderCell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.Compliance_Result)}>
+            {row.row.Compliance_Result}
+          </span>
+        );
+      },
     },
     {
       field: 'Control_Owner',
@@ -315,13 +330,12 @@ const InternalControlTable = (props) => {
 
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
-    const updatedData =
-      getDashBoardDataState?.data[0]?.cOwnerData?.map((i, index) => {
-        return {
-          id: i.id,
-          ...i,
-        };
-      });
+    const updatedData = getDashBoardDataState?.data[0]?.cOwnerData?.map((i, index) => {
+      return {
+        id: i.id,
+        ...i,
+      };
+    });
     setTableData(updatedData);
     setTableDataArray(updatedData);
   }, [getDashBoardDataState?.data]);
@@ -337,42 +351,47 @@ const InternalControlTable = (props) => {
   const Receiver = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.Receiver);
   const Provider = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.Provider);
   const year = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.Year);
-  const assessment_Cycle = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.Assessment_Cycle);
+  const assessment_Cycle = getDashBoardDataState?.data[0]?.cOwnerData?.map(
+    (i) => i.Assessment_Cycle,
+  );
 
   return (
     <>
-        <div className="container">
-          <div className="row">
-            <div className="col col-lg-12">
-              <div className="container mt-5">
-                <div className="row">
-                  <div className="col col-lg-12">
-                    <Group spacing="xs" className="actions-button-wrapper">
-                      <FilterButtons
-                        year={removeDuplicates(year)}
-                        assessment_Cycle={removeDuplicates(assessment_Cycle)}
-                        Zone={removeDuplicates(Zone)}
-                        BU={removeDuplicates(BU)}
-                        Receiver={removeDuplicates(Receiver)}
-                        Provider={removeDuplicates(Provider)}
-                        yearValue={yearValue}
-                        assessmentCycleValue={assessmentCycleValue}
-                        zoneValue={zoneValue}
-                        buValue={buValue}
-                        receiverValue={receiverValue}
-                        providerValue={providerValue}
-                        setYearValue={setYearValue}
-                        setAssessmentCycleValue={setAssessmentCycleValue}
-                        setZoneValue={setZoneValue}
-                        setBUValue={setBUValue}
-                        setReceiverValue={setReceiverValue}
-                        setProviderValue={setProviderValue}
-                      />
-                    </Group>
-                  </div>
+      <div className="container">
+        <div className="row">
+          <div className="col col-lg-12">
+            <div className="container mt-5">
+              <div className="row">
+                <div className="col col-lg-12">
+                  <Group spacing="xs" className="actions-button-wrapper">
+                    <FilterButtons
+                      year={removeDuplicates(year)}
+                      assessment_Cycle={removeDuplicates(assessment_Cycle)}
+                      Zone={removeDuplicates(Zone)}
+                      BU={removeDuplicates(BU)}
+                      Receiver={removeDuplicates(Receiver)}
+                      Provider={removeDuplicates(Provider)}
+                      yearValue={yearValue}
+                      assessmentCycleValue={assessmentCycleValue}
+                      zoneValue={zoneValue}
+                      buValue={buValue}
+                      receiverValue={receiverValue}
+                      providerValue={providerValue}
+                      setYearValue={setYearValue}
+                      setAssessmentCycleValue={setAssessmentCycleValue}
+                      setZoneValue={setZoneValue}
+                      setBUValue={setBUValue}
+                      setReceiverValue={setReceiverValue}
+                      setProviderValue={setProviderValue}
+                    />
+                  </Group>
                 </div>
               </div>
-              <div className="container mt-5">
+            </div>
+            <div className="container mt-5">
+              {getDashBoardDataState.loading ? (
+                <TableLoader className="mt-8" />
+              ) : (
                 <div className="row">
                   {tableData?.length > 0 ? (
                     <Table
@@ -385,10 +404,11 @@ const InternalControlTable = (props) => {
                     <NoDataPlaceholder />
                   )}
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
+      </div>
     </>
   );
 };

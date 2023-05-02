@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
-import { useDispatch } from 'react-redux';
-import { TABLE_ROES } from './constant';
+import { useDispatch, useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
 import {
   getControlDataGcdAction,
@@ -10,6 +9,10 @@ import {
 } from '../../../../redux/ControlData/ControlDataAction';
 import { class_to_apply } from '../../V2/InternalControlHomePage/HomePageTable/constant';
 import Table from '../../../../components/UI/Table';
+import { getControlOwnerTableData } from '../../../../redux/DashBoard/DashBoardAction';
+import { getControlOwnerDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
+import TableLoader from '../../../../components/UI/TableLoader';
+import Button from '../../../../components/UI/Button';
 
 const ControlOwnerTable = ({ tableName }) => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -17,7 +20,19 @@ const ControlOwnerTable = ({ tableName }) => {
   const history = useHistory();
   const { accounts } = useMsal();
   const dispatch = useDispatch();
-  const query = new URLSearchParams(history.location.search);
+  const userRole = localStorage.getItem('selected_Role');
+  const loginRole = useSelector((state) => state?.auth?.loginRole);
+  const loginUserRole = loginRole ?? userRole;
+  const getControlOwnerData = useSelector(getControlOwnerDataSelector);
+
+  useEffect(() => {
+    dispatch(
+      getControlOwnerTableData({
+        email: 'Vikash.Jha@AB-inbev.com',
+      }),
+    );
+    setTableColumns(TABLE_COLUMNS);
+  }, []);
 
   const TABLE_COLUMNS = [
     {
@@ -28,14 +43,14 @@ const ControlOwnerTable = ({ tableName }) => {
       minWidth: 50,
     },
     {
-      field: 'assessmentCycle',
+      field: 'Assessment_Cycle',
       headerName: 'Assessment Cycle',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 120,
     },
     {
-      field: 'year',
+      field: 'Year',
       headerName: 'Year',
       flex: 1,
       cellClassName: 'dashboardCell',
@@ -49,7 +64,7 @@ const ControlOwnerTable = ({ tableName }) => {
       minWidth: 180,
     },
     {
-      field: 'providerOrg',
+      field: 'Provider',
       headerName: 'Provider Org',
       flex: 1,
       cellClassName: 'dashboardCell',
@@ -121,18 +136,38 @@ const ControlOwnerTable = ({ tableName }) => {
       },
     },
     {
-      field: 'Co_Owner',
+      field: 'Control_Owner',
       headerName: 'Control Owner',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Co_Oversight',
+      field: 'Control_Oversight',
       headerName: 'Control Oversight',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
+    },
+    {
+      field: '',
+      headerName: 'Action',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 250,
+      renderCell: (row) => {
+        return (
+          <div>
+            <Button
+              className="mr-2"
+              onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
+            >
+              view
+            </Button>
+            <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>assessment</Button>
+          </div>
+        );
+      },
     },
   ];
 
@@ -151,9 +186,12 @@ const ControlOwnerTable = ({ tableName }) => {
   };
 
   useEffect(() => {
-    setTableColumns(TABLE_COLUMNS);
-    setTableData(TABLE_ROES);
-  }, []);
+    if (loginUserRole === 'Control owner') {
+      setTableData(getControlOwnerData.data[0]?.cOwnerData || []);
+    } else {
+      setTableData(getControlOwnerData.data[1]?.cOverSightData || []);
+    }
+  }, [getControlOwnerData.data, loginUserRole]);
   return (
     <>
       <div className="container mt-5">
@@ -165,11 +203,15 @@ const ControlOwnerTable = ({ tableName }) => {
       </div>
 
       <div className="container">
-        <div className="row pt-5">
-          <div className="col col-lg-12">
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+        {getControlOwnerData.loading ? (
+          <TableLoader className="mt-8" />
+        ) : (
+          <div className="row pt-5">
+            <div className="col col-lg-12">
+              <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );
