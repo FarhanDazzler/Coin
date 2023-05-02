@@ -1,6 +1,6 @@
 import React from 'react';
 import Tooltip from '@mui/material/Tooltip';
-import { ReactComponent as InfoIcon } from '../../assets/images/InfoCircle.svg';
+import { ReactComponent as InfoIcon } from '../../../../assets/images/InfoCircle.svg';
 
 const NumberWithText = ({ number, tooltip, subTitle }) => {
   return (

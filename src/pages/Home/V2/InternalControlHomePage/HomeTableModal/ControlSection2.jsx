@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 //import axios from 'axios';
-import CollapseFrame from '../../UI/CollapseFrame';
 import { useDispatch, useSelector } from 'react-redux';
-import { kpiResultSelector } from '../../../redux/Assessments/AssessmentSelectors';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import Workbook from 'react-excel-workbook';
 import readXlsxFile from 'read-excel-file';
-import { Axios } from '../../../api/axios.js';
-import { getCsvTampredDataAction } from '../../../redux/CsvTampred/CsvTampredAction';
+import { kpiResultSelector } from '../../../../../redux/Assessments/AssessmentSelectors';
+import { getCsvTampredDataAction } from '../../../../../redux/CsvTampred/CsvTampredAction';
+import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 
 const headerStyles = { backgroundColor: '#f1c40f', color: '#000000', fontWeight: '700' };
 
@@ -26,9 +25,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   useEffect(() => {
     tableData.map((data, i) => {
       handleChange('', '', data, i);
-
     });
-  }, [csvUpdateData])
+  }, [csvUpdateData]);
 
   const columns = [
     {
@@ -144,7 +142,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       headerStyle: {
         ...headerStyles,
       },
-      editable: (value, row, rowIndex, columnIndex) => (row.isManual),
+      editable: (value, row, rowIndex, columnIndex) => row.isManual,
       editor: { type: 'number' },
       style: (cell, row, rowIndex, colIndex) => {
         if (row.isManual) {
@@ -167,7 +165,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
     {
       dataField: 'Denominator',
       text: 'Denominator',
-      editable: (value, row, rowIndex, columnIndex) => (row.isManual),
+      editable: (value, row, rowIndex, columnIndex) => row.isManual,
       editor: { type: 'number' },
       headerStyle: {
         ...headerStyles,
@@ -266,7 +264,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         d.setMonth(month - 1);
         // console.log(monthName);
         tData['Month'] = d.toLocaleString('default', { month: 'long' });
-        tData['Type_of_KPI'] = tData.isManual ? 'Manual' : 'Automated'
+        tData['Type_of_KPI'] = tData.isManual ? 'Manual' : 'Automated';
       });
 
       const idNumeratorList = table_data.filter((d) => d.Numerator === 'NA').map((v) => v.id);
@@ -436,19 +434,20 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       console.log(apiBody, 'API BODY For Section 2');
       dispatch(getCsvTampredDataAction(apiBody));
       if (stateCsvTampred?.data === false) {
-        console.log("i am in data update");
+        console.log('i am in data update');
         let newDataArray = tableData.map((data, i) => {
-          return { ...data, Numerator: excelFile[i].Numerator, Denominator: excelFile[i].Denominator }
-
+          return {
+            ...data,
+            Numerator: excelFile[i].Numerator,
+            Denominator: excelFile[i].Denominator,
+          };
         });
-        setTableData([...newDataArray])
-        setScvUpdateData(csvUpdateData + 1)
-      }else{
-        console.log("i am in true state");
+        setTableData([...newDataArray]);
+        setScvUpdateData(csvUpdateData + 1);
+      } else {
+        console.log('i am in true state');
         setScvUpdateData(0);
       }
-
-
 
       var requestParameters = {
         method: 'POST',
@@ -477,7 +476,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       setTableData(null);
     }
   };
-
 
   const handleFile = (e) => {
     let selectedFile = e.target.files[0];

@@ -3,8 +3,6 @@ import { useHistory } from 'react-router-dom';
 import '../../../assets/styles/custom.css';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useMsal } from '@azure/msal-react';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import Table from '../../../components/UI/Table';
 import NoDataPlaceholder from '../../../components/NoDataPlaceholder';
 import {

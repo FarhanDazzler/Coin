@@ -4,7 +4,7 @@ import { Loader } from '@mantine/core';
 import ControlSection1 from './ControlSection1';
 import ControlSection2 from './ControlSection2';
 import ControlSection3 from './ControlSection3';
-import Button from '../../UI/Button';
+import Button from '../../../../../components/UI/Button';
 
 const RenderHomeModalTable = ({
   questionsInfo,
@@ -26,7 +26,7 @@ const RenderHomeModalTable = ({
   handleSaveDraft,
   handleSaveDraftProps = {},
   loadingSubmit,
-  isModal = false
+  isModal = false,
 }) => {
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
   React.useEffect(() => {
@@ -125,14 +125,14 @@ const RenderHomeModalTable = ({
           {!isModal && terminating ? (
             <>
               {section1TerminatingLogicValue ||
-                (Object.keys(ansSection3).length !== 0 && Object.keys(ansSection3).length !== 3) ? (
+              (Object.keys(ansSection3).length !== 0 && Object.keys(ansSection3).length !== 3) ? (
                 <div style={{ color: 'red', marginBottom: '10px' }}>
                   Based on above response, the control is assessed as failed because of{' '}
                   {Object.keys(ansSection3).length == 1
                     ? 'L1'
                     : Object.keys(ansSection3).length == 2
-                      ? 'L2'
-                      : ''}{' '}
+                    ? 'L2'
+                    : ''}{' '}
                   {'  '}
                   {section1TerminatingLogicValue &&
                     Object.keys(ansSection3).length !== 0 &&

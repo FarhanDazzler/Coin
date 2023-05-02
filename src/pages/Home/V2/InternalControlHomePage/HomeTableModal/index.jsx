@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import CustomModal from '../../UI/CustomModal';
 import { useHistory } from 'react-router-dom';
 import './homeTableModalStyles.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,16 +12,17 @@ import {
   getKPIData,
   getLatestDraft,
   getQuestions,
-} from '../../../redux/Assessments/AssessmentAction';
+} from '../../../../../redux/Assessments/AssessmentAction';
 import {
   addOrEditUpdateDraftSelector,
   getLatestDraftSelector,
   getQuestionsSelector,
   getResponseSelector,
-} from '../../../redux/Assessments/AssessmentSelectors';
+} from '../../../../../redux/Assessments/AssessmentSelectors';
 import Swal from 'sweetalert2';
 import RenderHomeModalTable from './RenderHomeModalTable';
-import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
+import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAction';
+import CustomModal from '../../../../../components/UI/CustomModal';
 
 const HomeTableModal = ({ isModal = true }) => {
   const history = useHistory();
@@ -45,7 +45,6 @@ const HomeTableModal = ({ isModal = true }) => {
   const [loading, setLoading] = useState(false);
 
   const Control_ID = query.get('Control_ID') || !isModal ? 'ATR_MJE_01a-K' : '';
-  console.log('ansSection1', ansSection1, ansSection3);
   const handleClose = () => {
     if (startEdit && responseData?.data?.Attempt_no <= 5) {
       Swal.fire({
@@ -65,7 +64,6 @@ const HomeTableModal = ({ isModal = true }) => {
         showDenyButton: true,
         denyButtonColor: 'silver',
         denyButtonText: 'Save draft!',
-        denyButtonColor: 'gold',
       }).then((result) => {
         if (result.isDismissed) {
           history.push('/new');

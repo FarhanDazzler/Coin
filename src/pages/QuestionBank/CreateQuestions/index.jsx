@@ -3,7 +3,7 @@ import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import FormControl from '@mui/material/FormControl';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import './createQuestionsStyles.scss';
-import { levels, names, questions, tableHeader } from './constant';
+import { names, questions, tableHeader } from './constant';
 import { ReactComponent as ExportExcel } from '../../../assets/images/ExportExcel.svg';
 import { ReactComponent as UploadFile } from '../../../assets/images/UploadFile.svg';
 import blockType from '../../../components/RenderBlock/constant';
@@ -21,7 +21,6 @@ import {
   updateSection3Questions,
 } from '../../../redux/Questions/QuestionsAction';
 import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
-import { Loader } from 'semantic-ui-react';
 import Swal from 'sweetalert2';
 import Section3MICSSpecific from '../Section3MICSSpecific';
 

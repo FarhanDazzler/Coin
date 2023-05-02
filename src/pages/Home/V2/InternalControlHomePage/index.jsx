@@ -1,19 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardTable from './HomePageTable/HomePageTableComponent';
-import PageWrapper from '../wrappers/PageWrapper';
 import './homeStyles.scss';
 import NumberWithText from './NumberWithText';
 import { useMsal } from '@azure/msal-react';
 import { useHistory } from 'react-router-dom';
 import HomeTableModal from './HomeTableModal';
-import ProgressBar from '../HomePageTable/ProgressBar/ProgressBar';
-import FilterButtons from '../FilterButtons';
+import { useSelector } from 'react-redux';
+import PageWrapper from '../../../../components/wrappers/PageWrapper';
+import ProgressBar from './HomePageTable/ProgressBar/ProgressBar';
+import FilterButtons from '../../../../components/FilterButtons';
+import { TABLE_ROES } from './HomePageTable/constant';
 
-const HomePage = () => {
+const InternalControlHomePage = () => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
+  const userRole = localStorage.getItem('selected_Role');
+  const loginRole = useSelector((state) => state?.auth?.loginRole);
+  const [statusInfo, setStatusInfo] = useState({
+    notStarted: 0,
+    completed: 0,
+    draft: 0,
+    reAssessed: 0,
+  });
 
+  const getNumberOfItem = (array, itemName) => {
+    return array.filter((val) => val === itemName)?.length;
+  };
+
+  useEffect(() => {
+    const allstatus = TABLE_ROES.map((d) => {
+      return d.Status;
+    });
+    setStatusInfo({
+      notStarted: getNumberOfItem(allstatus, 'Not started'),
+      completed: getNumberOfItem(allstatus, 'Completed'),
+      draft: getNumberOfItem(allstatus, 'Draft'),
+      reAssessed: getNumberOfItem(allstatus, 'Re-assessed'),
+    });
+    console.log('TABLE_ROES', allstatus);
+  }, []);
   const { accounts } = useMsal();
   return (
     <div>
@@ -22,9 +48,10 @@ const HomePage = () => {
           <div className="row pt-5 align-items-center">
             <div className="col-lg-4">
               <h4 className="welcome-text">Welcome</h4>
-              <h2 className="user-name-home yellow-gradient-text">
+              <h2 className="user-name-home yellow-gradient-text mb-2">
                 {accounts.length > 0 ? accounts[0].name.split('(').join(' (') : 'User Name'}
               </h2>
+              {(loginRole || userRole) && <h3 className="user-role">{loginRole ?? userRole}</h3>}
             </div>
             <div className="col-lg-8">
               <div className="home-right-overview">
@@ -41,7 +68,7 @@ const HomePage = () => {
                   <div>
                     <div className="right-number">
                       <NumberWithText
-                        number={61}
+                        number={statusInfo.notStarted}
                         tooltip={
                           <div>
                             <span className="yellow-text"> Not started : </span>
@@ -55,7 +82,7 @@ const HomePage = () => {
                       />
 
                       <NumberWithText
-                        number={12292}
+                        number={statusInfo.completed}
                         tooltip={
                           <div>
                             <span className="yellow-text"> Completed : </span>
@@ -68,7 +95,7 @@ const HomePage = () => {
                       />
 
                       <NumberWithText
-                        number={9863}
+                        number={statusInfo.draft}
                         tooltip={
                           <div>
                             <span className="yellow-text"> Draft : </span>
@@ -82,7 +109,7 @@ const HomePage = () => {
                       />
 
                       <NumberWithText
-                        number={11}
+                        number={statusInfo.reAssessed}
                         tooltip={
                           <div>
                             <span className="yellow-text"> Re-assessed : </span>
@@ -98,13 +125,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-        {/* <div className="container">
-          <div className="row mt-5">
-            <div className="col-12 mt-5">
-              <FilterHomePageTable />
-            </div>
-          </div>
-        </div> */}
+
         <FilterButtons />
         <DashboardTable />
         {Control_ID && <HomeTableModal />}
@@ -113,4 +134,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default InternalControlHomePage;
