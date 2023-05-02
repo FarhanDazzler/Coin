@@ -105,10 +105,9 @@ const QuestionBankTable = () => {
         open={showModal}
         onClose={() => setShowModal(false)}
         width={900}
-        title={selectedControlId}
-        bodyClassName="p-0"
+        title={`Questions for ${selectedControlId}`}
       >
-        <ControlidTableModal selectedControlId={selectedControlId}/>
+        <ControlidTableModal selectedControlId={selectedControlId} handleClose={() => setShowModal(false)}/>
       </CustomModal>
     </>
   );

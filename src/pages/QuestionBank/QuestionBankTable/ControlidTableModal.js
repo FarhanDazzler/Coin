@@ -146,7 +146,7 @@ const ControlidTableModal = ({ open, handleClose, type = 'Standard', selectedCon
 
         {activeType === 'Standard' && (
           <>
-            <div className="select-light row">
+            <div className="select-light row pt-5 px-4 ">
               <div className="col-md-3">
                 <Form.Group className="input-group mb-3">
                   <Form.Control
@@ -169,7 +169,7 @@ const ControlidTableModal = ({ open, handleClose, type = 'Standard', selectedCon
               
             </div>
             
-            <div className="questions-list-main-wrapper">
+            <div className="questions-list-main-wrapper pt-5 px-4 ">
               <div className="pt-5">
                 {section1QuestionsData.map((data, i) => (
                   <QuestionsWithAction
@@ -193,7 +193,7 @@ const ControlidTableModal = ({ open, handleClose, type = 'Standard', selectedCon
                 <div className="d-flex align-items-center justify-content-end">
                   <Button color="silver"
                     className="ml-2" onClick={handleClose}>
-                    Ok
+                    Close
                   </Button>
                  
                 </div>
