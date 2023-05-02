@@ -15,12 +15,11 @@ const block = {
 
 const initialState = {
   sectionAns: null,
-  controlOwnerAndOverSightList: { ...block, data: { s1: null, s2: null, s3: null } },
+  controlOwnerAndOverSightList: { ...block, data: [] },
 };
 
 export const dashBoardReducer = (state = initialState, { type, payload = {} }) => {
   switch (type) {
-
     case GET_DASHBOARD_REQUEST:
       return {
         ...state,
@@ -35,15 +34,17 @@ export const dashBoardReducer = (state = initialState, { type, payload = {} }) =
       }
       return {
         ...state,
-        controlOwnerAndOverSightList: { ...state.controlOwnerAndOverSightList, data: payload.data, loading: true },
+        controlOwnerAndOverSightList: {
+          ...state.controlOwnerAndOverSightList,
+          data: payload.data,
+          loading: true,
+        },
       };
     case GET_DASHBOARD_ERROR:
       return {
         ...state,
         controlOwnerAndOverSightList: { ...state.controlOwnerAndOverSightList, loading: true },
       };
-
- 
 
     //reset block with flag and data
     case RESET_BLOCK_DASHBOARD:

@@ -196,6 +196,7 @@ const InternalControlTable = (props) => {
   }, []);
 
   const getDashBoardDataState = useSelector(getDashBoardDataSelector);
+  console.log(getDashBoardDataState, 'getDashBoardDataState');
 
   useEffect(() => {
     if (
@@ -314,9 +315,9 @@ const InternalControlTable = (props) => {
 
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
-    const updatedData = getDashBoardDataState?.data.map((i, index) => {
+    const updatedData = getDashBoardDataState?.data[0]?.cOwnerData.map((i, index) => {
       return {
-        id: index,
+        id: i.id,
         ...i,
       };
     });
@@ -331,12 +332,12 @@ const InternalControlTable = (props) => {
   }
 
   // Arrays for showing data on filters
-  const Zone = getDashBoardDataState?.data.map((i) => i.Zone);
-  const BU = getDashBoardDataState?.data.map((i) => i.BU);
-  const Receiver = getDashBoardDataState?.data.map((i) => i.Receiver);
-  const Provider = getDashBoardDataState?.data.map((i) => i.Provider);
-  const year = getDashBoardDataState?.data.map((i) => i.Year);
-  const assessment_Cycle = getDashBoardDataState?.data.map((i) => i.Assessment_Cycle);
+  const Zone = getDashBoardDataState?.data[0].cOwnerData.map((i) => i.Zone);
+  const BU = getDashBoardDataState?.data[0].cOwnerData.map((i) => i.BU);
+  const Receiver = getDashBoardDataState?.data[0].cOwnerData.map((i) => i.Receiver);
+  const Provider = getDashBoardDataState?.data[0].cOwnerData.map((i) => i.Provider);
+  const year = getDashBoardDataState?.data[0].cOwnerData.map((i) => i.Year);
+  const assessment_Cycle = getDashBoardDataState?.data[0].cOwnerData.map((i) => i.Assessment_Cycle);
 
   return (
     <>
