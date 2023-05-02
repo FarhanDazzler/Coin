@@ -4,14 +4,14 @@ import Cookies from 'js-cookie';
 import { Axios } from '../../api/axios';
 import { getSimplifiedError } from '../../utils/error';
 import {
-GET_DASHBOARD_SUCCESS,
-GET_DASHBOARD_ERROR,
-GET_DASHBOARD_REQUEST
+  GET_DASHBOARD_SUCCESS,
+  GET_DASHBOARD_ERROR,
+  GET_DASHBOARD_REQUEST,
 } from './DashBoardReducer';
 import Swal from 'sweetalert2';
 
 async function getDashboardApi(payload) {
-  return await Axios.post('/add_or_update_draft', payload);
+  return await Axios.get('/get_control_owner_oversight_data', { params: payload });
 }
 function* handleGetDashboard({ payload: copyPayload }) {
   try {
@@ -34,6 +34,4 @@ function* handleGetDashboard({ payload: copyPayload }) {
   }
 }
 
-export default all([
-  takeLatest(GET_DASHBOARD_REQUEST, handleGetDashboard),
-]);
+export default all([takeLatest(GET_DASHBOARD_REQUEST, handleGetDashboard)]);
