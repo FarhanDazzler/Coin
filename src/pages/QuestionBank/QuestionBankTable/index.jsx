@@ -67,13 +67,7 @@ const QuestionBankTable = () => {
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
-    {
-      field: 'Status',
-      headerName: 'Status',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
+    
   ];
 
   useEffect(() => {
