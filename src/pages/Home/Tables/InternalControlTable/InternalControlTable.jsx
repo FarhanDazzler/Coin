@@ -11,157 +11,14 @@ import { getInternalControlTableData } from '../../../../redux/DashBoard/DashBoa
 import { getInternalControlDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
 import TableLoader from '../../../../components/UI/TableLoader';
 import { class_to_apply } from '../../V2/InternalControlHomePage/HomePageTable/constant';
+import FilterButtons from '../../../../components/FilterButtons';
+import Button from '../../../../components/UI/Button';
+import {
+  getControlDataAction,
+  getControlDataGcdAction,
+} from '../../../../redux/ControlData/ControlDataAction';
 
 // Filter buttons
-const FilterButtons = ({
-  year,
-  assessment_Cycle,
-  Zone,
-  BU,
-  Receiver,
-  Provider,
-  yearValue,
-  assessmentCycleValue,
-  zoneValue,
-  buValue,
-  receiverValue,
-  providerValue,
-  setZoneValue,
-  setBUValue,
-  setReceiverValue,
-  setProviderValue,
-  setYearValue,
-  setAssessmentCycleValue,
-}) => {
-  const [searchValue, onSearchChange] = useState('');
-
-  return (
-    <div>
-      <Group spacing="xs">
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={year}
-          label={<span className="mantine-MultiSelect-label">{'Year'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={yearValue}
-          onChange={(e) => {
-            setYearValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={assessment_Cycle}
-          label={<span className="mantine-MultiSelect-label">{'Assessment Cycle'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={assessmentCycleValue}
-          onChange={(e) => {
-            setAssessmentCycleValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={Zone}
-          label={<span className="mantine-MultiSelect-label">{'Zone'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={zoneValue}
-          onChange={(e) => {
-            setZoneValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={BU}
-          label={<span className="mantine-MultiSelect-label">{'BU'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={buValue}
-          onChange={(e) => {
-            setBUValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={Receiver}
-          label={<span className="mantine-MultiSelect-label">{'Receiver Organization'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={receiverValue}
-          onChange={(e) => {
-            setReceiverValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={Provider}
-          label={<span className="mantine-MultiSelect-label">{'Provider Organization'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={providerValue}
-          onChange={(e) => {
-            setProviderValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />
-      </Group>
-    </div>
-  );
-};
 
 const InternalControlTable = (props) => {
   const dispatch = useDispatch();
@@ -190,8 +47,21 @@ const InternalControlTable = (props) => {
     );
   }, []);
 
+  const handleControlIDClick = (id) => {
+    //TODO: modal redirect
+    let payload = {
+      controlId: id,
+      coOwner: accounts.length > 0 ? accounts[0].username : '',
+    };
+    let gcdPayload = {
+      controlId: id,
+    };
+    dispatch(getControlDataAction(payload));
+    dispatch(getControlDataGcdAction(gcdPayload));
+    history.push(`${history.location.pathname}?Control_ID=${id}`);
+  };
+
   const getDashBoardDataState = useSelector(getInternalControlDataSelector);
-  console.log(getDashBoardDataState, 'getDashBoardDataState');
 
   useEffect(() => {
     if (
@@ -211,10 +81,10 @@ const InternalControlTable = (props) => {
           (yearValue?.length ? yearValue.includes(i.Year) : true) &&
           (assessmentCycleValue?.length
             ? assessmentCycleValue.includes(i.Assessment_Cycle) &&
-            (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-            (buValue?.length ? buValue.includes(i.BU) : true) &&
-            (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
-            (providerValue?.length ? providerValue.includes(i.Provider) : true)
+              (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+              (buValue?.length ? buValue.includes(i.BU) : true) &&
+              (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
+              (providerValue?.length ? providerValue.includes(i.Provider) : true)
             : true)
         );
       }),
@@ -222,6 +92,32 @@ const InternalControlTable = (props) => {
   }, [yearValue, assessmentCycleValue, zoneValue, buValue, receiverValue, providerValue]);
 
   const TABLE_COLUMNS = [
+    {
+      field: 'Action',
+      headerName: 'Action',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 270,
+      renderCell: (row) => {
+        return (
+          <div>
+            {row.row.Status === 'Completed' && (
+              <Button
+                className="mr-2"
+                onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
+              >
+                view
+              </Button>
+            )}
+            {['Not started', 'Re-assessed'].includes(row.row.Status) && (
+              <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>
+                Attempt response
+              </Button>
+            )}
+          </div>
+        );
+      },
+    },
     {
       field: 'Zone',
       headerName: 'Zone',
@@ -351,9 +247,7 @@ const InternalControlTable = (props) => {
   const Receiver = getDashBoardDataState?.data?.map((i) => i.Receiver);
   const Provider = getDashBoardDataState?.data?.map((i) => i.Provider);
   const year = getDashBoardDataState?.data?.map((i) => i.Year);
-  const assessment_Cycle = getDashBoardDataState?.data?.map(
-    (i) => i.Assessment_Cycle,
-  );
+  const assessment_Cycle = getDashBoardDataState?.data?.map((i) => i.Assessment_Cycle);
 
   return (
     <>

@@ -8,7 +8,6 @@ import HomeTableModal from './HomeTableModal';
 import { useSelector } from 'react-redux';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import ProgressBar from './HomePageTable/ProgressBar/ProgressBar';
-import FilterButtons from '../../../../components/FilterButtons';
 import { TABLE_ROES } from './HomePageTable/constant';
 import InternalControlTable from '../../Tables/InternalControlTable/InternalControlTable';
 import { getInternalControlDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
@@ -27,7 +26,7 @@ const InternalControlHomePage = () => {
     reAssessed: 0,
   });
 
-  const getNumberOfItem = (array=[], itemName) => {
+  const getNumberOfItem = (array = [], itemName) => {
     return array?.filter((val) => val === itemName)?.length;
   };
 
@@ -41,7 +40,6 @@ const InternalControlHomePage = () => {
       draft: getNumberOfItem(allstatus, 'Draft'),
       reAssessed: getNumberOfItem(allstatus, 'Re-assessed'),
     });
-    console.log('TABLE_ROES', allstatus);
   }, [getControlOwnerData]);
   const { accounts } = useMsal();
   return (
