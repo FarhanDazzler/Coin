@@ -14,7 +14,7 @@ import {
 import Swal from 'sweetalert2';
 
 async function getInternalControlDashboardApi(payload) {
-  return await Axios.get('/get_control_owner_oversight_data', { params: payload });
+  return await Axios.get('/get_ic_control_owner_oversight_data', { params: payload });
 }
 function* handleGetInternalControlData({ payload: copyPayload }) {
   try {

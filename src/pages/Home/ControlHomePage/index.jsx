@@ -76,7 +76,7 @@ const ControlHomePage = () => {
                   amount={statusInfo.completed}
                   infoText={
                     <>
-                      Assessment <br /> (completed)
+                      Assessment <br /> (Completed)
                     </>
                   }
                 />
@@ -92,7 +92,7 @@ const ControlHomePage = () => {
                   amount={statusInfo.reAssessed}
                   infoText={
                     <>
-                      Assessment <br /> (incorrect owner)
+                      Assessment <br /> (Re-assessed)
                     </>
                   }
                 />

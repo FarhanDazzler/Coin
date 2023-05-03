@@ -65,8 +65,8 @@ const TopBar = (props) => {
   const [roleValue, setRoleValue] = useState([]);
 
   const names = [
-    { label: 'REP Letters Module', value: 'REP Letters Module' },
     { label: 'Self-Assessment Module', value: 'Self-Assessment Module' },
+    { label: 'REP Letters Module', value: 'REP Letters Module' },
   ];
 
   useEffect(() => {
@@ -210,9 +210,8 @@ const TopBar = (props) => {
                 <ul className="nav nav-tabs border-0 flex-column flex-lg-row">
                   <li className="nav-item">
                     <a
-                      className={`navbar-link ${
-                        ['/', '/register'].includes(location?.pathname) ? ' active' : ''
-                      }`}
+                      className={`navbar-link ${['/', '/register'].includes(location?.pathname) ? ' active' : ''
+                        }`}
                       onClick={() => {
                         history.push('/');
                       }}
@@ -225,11 +224,10 @@ const TopBar = (props) => {
                   {props.userRole == 'administrational persona' && (
                     <li className="nav-item">
                       <a
-                        className={`navbar-link ${
-                          ['/master-data-management', '/register'].includes(location?.pathname)
+                        className={`navbar-link ${['/master-data-management', '/register'].includes(location?.pathname)
                             ? ' active'
                             : ''
-                        }`}
+                          }`}
                         onClick={() => {
                           history.push('/master-data-management');
                         }}
@@ -243,11 +241,10 @@ const TopBar = (props) => {
                   {props.userRole == 'administrational persona' && (
                     <li className="nav-item">
                       <a
-                        className={`navbar-link ${
-                          ['/questionbank', '/register'].includes(location?.pathname)
+                        className={`navbar-link ${['/questionbank', '/register'].includes(location?.pathname)
                             ? ' active'
                             : ''
-                        }`}
+                          }`}
                         onClick={() => {
                           history.push('/questionbank');
                         }}
@@ -261,11 +258,10 @@ const TopBar = (props) => {
                   {props.userRole == 'administrational persona' && (
                     <li className="nav-item">
                       <a
-                        className={`navbar-link ${
-                          ['/assessmentbank', '/register'].includes(location?.pathname)
+                        className={`navbar-link ${['/assessmentbank', '/register'].includes(location?.pathname)
                             ? ' active'
                             : ''
-                        }`}
+                          }`}
                         onClick={() => {
                           history.push('/assessmentbank');
                         }}
@@ -281,10 +277,13 @@ const TopBar = (props) => {
             <div className="select-light mt-0">
               <FormControl sx={{ width: 210 }}>
                 <Select
-                  defaultValue="REP Letters Module"
+                  defaultValue="Self-Assessment Module"
                   size="small"
                   inputProps={{ 'aria-label': 'Without label' }}
                   options={names}
+                  onChange={(e) => {
+                    history.push(e.target.value === 'REP Letters Module' ? '/REP-Letters' : '/');
+                  }}
                 />
               </FormControl>
             </div>

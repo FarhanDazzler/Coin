@@ -211,10 +211,10 @@ const InternalControlTable = (props) => {
           (yearValue?.length ? yearValue.includes(i.Year) : true) &&
           (assessmentCycleValue?.length
             ? assessmentCycleValue.includes(i.Assessment_Cycle) &&
-              (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-              (buValue?.length ? buValue.includes(i.BU) : true) &&
-              (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
-              (providerValue?.length ? providerValue.includes(i.Provider) : true)
+            (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+            (buValue?.length ? buValue.includes(i.BU) : true) &&
+            (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
+            (providerValue?.length ? providerValue.includes(i.Provider) : true)
             : true)
         );
       }),
@@ -330,7 +330,7 @@ const InternalControlTable = (props) => {
 
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
-    const updatedData = getDashBoardDataState?.data[0]?.cOwnerData?.map((i, index) => {
+    const updatedData = getDashBoardDataState?.data?.map((i, index) => {
       return {
         id: i.id,
         ...i,
@@ -346,12 +346,12 @@ const InternalControlTable = (props) => {
   }
 
   // Arrays for showing data on filters
-  const Zone = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.Zone);
-  const BU = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.BU);
-  const Receiver = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.Receiver);
-  const Provider = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.Provider);
-  const year = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.Year);
-  const assessment_Cycle = getDashBoardDataState?.data[0]?.cOwnerData?.map(
+  const Zone = getDashBoardDataState?.data?.map((i) => i.Zone);
+  const BU = getDashBoardDataState?.data?.map((i) => i.BU);
+  const Receiver = getDashBoardDataState?.data?.map((i) => i.Receiver);
+  const Provider = getDashBoardDataState?.data?.map((i) => i.Provider);
+  const year = getDashBoardDataState?.data?.map((i) => i.Year);
+  const assessment_Cycle = getDashBoardDataState?.data?.map(
     (i) => i.Assessment_Cycle,
   );
 
