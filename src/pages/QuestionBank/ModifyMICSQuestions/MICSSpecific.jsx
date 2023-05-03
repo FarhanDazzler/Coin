@@ -5,7 +5,7 @@ import Select from '../../../components/UI/Select/Select';
 import { names } from '../CreateQuestions/constant';
 import Button from '../../../components/UI/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
+import { question3Selector, getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
 import {
   addSection3Questions,
   deleteSection3Questions,
@@ -35,6 +35,20 @@ const MICSSpecific = ({ handleClose }) => {
   const [control_ID, setControl_ID] = useState(['']);
   const [isEdit, setIsEdit] = useState(false);
   const [showAddQuestion, setShowAddQuestion] = useState(false);
+  const [controlIDList, setControlIDList] = useState([])
+  const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
+  useEffect(() => {
+    if(repositoryOfControlID?.data.length !== 0){
+      console.log("hi buddy",repositoryOfControlID);
+      let controlidArray = [];
+      repositoryOfControlID?.data.map((data) => {
+        controlidArray.push( { label: data.Control_ID, value: data.Control_ID });
+      })
+      console.log("controlidArray",controlidArray);
+      setControlIDList(controlidArray);
+
+    }
+  },[repositoryOfControlID])
   useEffect(() => {
     if (level[0] && control_ID[0])
       dispatch(getSection3Questions({ Level: level[0], Control_ID: control_ID[0] }));
@@ -169,7 +183,7 @@ const MICSSpecific = ({ handleClose }) => {
                   onChange={handleChange}
                   MenuProps={MenuProps}
                   inputProps={{ 'aria-label': 'Without label' }}
-                  options={names}
+                  options={controlIDList}
                 />
               </FormControl>
             </div>

@@ -23,6 +23,7 @@ import {
 import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
 import Swal from 'sweetalert2';
 import Section3MICSSpecific from '../Section3MICSSpecific';
+import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -44,6 +45,20 @@ const CreateQuestions = ({ open, handleClose }) => {
   const [isEdit, setIsEdit] = useState(false);
   const questionData = useSelector(question3Selector);
   const [section3, setSection3] = useState([]);
+  const [controlIDList, setControlIDList] = useState([])
+  const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
+  useEffect(() => {
+    if(repositoryOfControlID?.data.length !== 0){
+      console.log("hi buddy",repositoryOfControlID);
+      let controlidArray = [];
+      repositoryOfControlID?.data.map((data) => {
+        controlidArray.push( { label: data.Control_ID, value: data.Control_ID });
+      })
+      console.log("controlidArray",controlidArray);
+      setControlIDList(controlidArray);
+
+    }
+  },[repositoryOfControlID])
   const handleChange = (event) => {
     const {
       target: { value },
@@ -65,6 +80,7 @@ const CreateQuestions = ({ open, handleClose }) => {
   };
 
   useEffect(() => {
+    console.log("Testing1")
     if (section3.length > 0) {
       setShowAddQuestion(false);
     } else {
@@ -93,11 +109,13 @@ const CreateQuestions = ({ open, handleClose }) => {
   };
 
   useEffect(() => {
+    console.log("Testing2")
     const div = document.getElementById('loader');
     if (div) div.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, [questionData.loading]);
 
   useEffect(() => {
+    console.log("Testing3")
     if (questionData.data.length > 0) {
       const apiQuestion = getQuestionsFormatData(questionData.data);
       setSection3(getFormatQuestions(apiQuestion, 'isQuestionEdit'));
@@ -107,6 +125,7 @@ const CreateQuestions = ({ open, handleClose }) => {
   }, [questionData.data]);
 
   useEffect(() => {
+    console.log("Testing4")
     if (control_ID[0] && level[0]) {
       dispatch(getSection3Questions({ Level: level[0], Control_ID: control_ID[0] }));
     }
@@ -190,91 +209,94 @@ const CreateQuestions = ({ open, handleClose }) => {
               onChange={handleChange}
               MenuProps={MenuProps}
               inputProps={{ 'aria-label': 'Without label' }}
-              options={names}
+              options={controlIDList}
             />
           </FormControl>
         </div>
+        {
+          control_ID[0] !== '' &&
+          <div className="questions-list-main-wrapper">
+            <CollapseFrame
+              title="Section 1 : Standard "
+              centerText={
+                <p className="d-flex m-0 align-items-center">
+                  <InfoOutlinedIcon className="mr-1" /> Standard questions will be common and included
+                  in all new surveys
+                </p>
+              }
+            >
+              <div className="pt-5">
+                {section1.map((data, i) => (
+                  <QuestionsWithAction number={i + 1} text={data.question} />
+                ))}
+              </div>
+            </CollapseFrame>
 
-        <div className="questions-list-main-wrapper">
-          <CollapseFrame
-            title="Section 1 : Standard "
-            centerText={
-              <p className="d-flex m-0 align-items-center">
-                <InfoOutlinedIcon className="mr-1" /> Standard questions will be common and included
-                in all new surveys
-              </p>
-            }
-          >
-            <div className="pt-5">
-              {section1.map((data, i) => (
-                <QuestionsWithAction number={i + 1} text={data.question} />
-              ))}
-            </div>
-          </CollapseFrame>
+            <CollapseFrame title="Section 2 : KPI ">
+              <div className="pt-5 px-4" style={{ opacity: 0.5 }}>
+                <div className="d-flex w-100 align-items-center justify-content-between">
+                  <p className="mb-0 table-section-title">Excel File Upload and Download</p>
+                  <div className="d-flex align-items-center">
+                    <Button color="success" startIcon={<ExportExcel />} className="button-radius-8">
+                      Export to Excel
+                    </Button>
+                    <Button
+                      color="silver"
+                      startIcon={<UploadFile />}
+                      className="ml-3 button-radius-8"
+                    >
+                      Export to Excel
+                    </Button>
+                  </div>
+                </div>
 
-          <CollapseFrame title="Section 2 : KPI ">
-            <div className="pt-5 px-4" style={{ opacity: 0.5 }}>
-              <div className="d-flex w-100 align-items-center justify-content-between">
-                <p className="mb-0 table-section-title">Excel File Upload and Download</p>
-                <div className="d-flex align-items-center">
-                  <Button color="success" startIcon={<ExportExcel />} className="button-radius-8">
-                    Export to Excel
-                  </Button>
-                  <Button
-                    color="silver"
-                    startIcon={<UploadFile />}
-                    className="ml-3 button-radius-8"
-                  >
-                    Export to Excel
-                  </Button>
+                <div className="table-view-wrapper">
+                  <div className="d-flex align-items-center">
+                    {tableHeader.map((val) => (
+                      <div className="table-header-cell">{val}</div>
+                    ))}
+                  </div>
                 </div>
               </div>
-
-              <div className="table-view-wrapper">
-                <div className="d-flex align-items-center">
-                  {tableHeader.map((val) => (
-                    <div className="table-header-cell">{val}</div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </CollapseFrame>
-          <CollapseFrame title="Section 3 : MICS-Specific" active>
-            <Section3MICSSpecific
-              level={level}
-              handleChangeLevel={handleChangeLevel}
-              section3={section3}
-              handleChangeRenderBlock={handleChangeRenderBlock}
-            />
-          </CollapseFrame>
-          <div>
+            </CollapseFrame>
+            <CollapseFrame title="Section 3 : MICS-Specific" active>
+              <Section3MICSSpecific
+                level={level}
+                handleChangeLevel={handleChangeLevel}
+                section3={section3}
+                handleChangeRenderBlock={handleChangeRenderBlock}
+              />
+            </CollapseFrame>
             <div>
-              {showAddQuestion && !questionData.loading && (
+              <div>
+                {showAddQuestion && !questionData.loading && (
+                  <Button
+                    color="secondary"
+                    className="ml-2"
+                    onClick={() => handleAddQuestion()}
+                    disabled={!control_ID[0]}
+                  >
+                    Add Question
+                  </Button>
+                )}
+              </div>
+              <div className="d-flex align-items-center justify-content-end">
+                <Button variant="text" color="secondary" onClick={handleClose}>
+                  Cancel
+                </Button>
                 <Button
                   color="secondary"
                   className="ml-2"
-                  onClick={handleAddQuestion}
                   disabled={!control_ID[0]}
+                  onClick={() => handleSaveQuestion()}
                 >
-                  Add Question
+                  Save
                 </Button>
-              )}
-            </div>
-            <div className="d-flex align-items-center justify-content-end">
-              <Button variant="text" color="secondary" onClick={handleClose}>
-                Cancel
-              </Button>
-              <Button
-                color="secondary"
-                className="ml-2"
-                disabled={!control_ID[0]}
-                onClick={handleSaveQuestion}
-              >
-                Save
-              </Button>
+              </div>
             </div>
           </div>
-        </div>
+        }
+
       </CustomModal>
     </div>
   );

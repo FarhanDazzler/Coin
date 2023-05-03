@@ -26,9 +26,11 @@ import {
 import AddSection1Questions from './AddSection1Question';
 import { deleteSection1Questions } from '../../../redux/Questions/QuestionsAction';
 import MICSSpecific from '../ModifyMICSQuestions/MICSSpecific';
+import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
 
 const ModifyStandard = ({ open, handleClose, type = '' }) => {
   const [activeType, setActiveType] = useState(type);
+  const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
 
   const dispatch = useDispatch();
   const section1Questions = useSelector(
@@ -72,6 +74,7 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
       setSelectControlId(false);
       setTemplate2_ID('');
     } else {
+      setFinalTemplate_ID('e');
       setSelectControlId(true);
     }
   };
@@ -186,10 +189,10 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
                       className="form-select"
                       onChange={handleChangeControlId}
                     >
-                      <option value="">Select Control ID</option>
-                      {names.map((data, i) => (
-                        <option key={i} value={data.value}>
-                          {data.label}
+                      <option value="e">Select Control ID</option>
+                      {repositoryOfControlID?.data.map((data, i) => (
+                        <option key={i} value={data.Control_ID}>
+                          {data.Control_ID}
                         </option>
                       ))}
                     </Form.Control>
@@ -221,7 +224,11 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
                     allQuestions={section1Questions}
                   />
                 ))}
-                {section1QuestionsData.length == 0 && <p>No Question Found</p>}
+                {
+                  finalTemplate_id === 'e' ? <p style={{textAlign: "center", marginBottom : "50px"}}>Select Control ID to get Questions</p> : 
+                  section1QuestionsData.length == 0 && <p style={{textAlign: "center", marginBottom : "50px"}}>No Question Found</p>
+                }
+                
               </div>
 
               <div className="d-flex align-items-center justify-content-between">
