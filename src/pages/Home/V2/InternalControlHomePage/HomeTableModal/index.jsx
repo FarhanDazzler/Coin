@@ -66,11 +66,11 @@ const HomeTableModal = ({ isModal = true }) => {
         denyButtonText: 'Save draft!',
       }).then((result) => {
         if (result.isDismissed) {
-          history.push('/new');
+          history.push('/');
         }
         if (result.isDenied) {
           if (responseData?.data?.Attempt_no >= 5) {
-            history.push('/new');
+            history.push('/');
             return;
           }
           const payload = {
@@ -86,7 +86,7 @@ const HomeTableModal = ({ isModal = true }) => {
       });
       return;
     }
-    history.push('/new');
+    history.push('/');
   };
 
   useEffect(() => {
@@ -191,7 +191,7 @@ const HomeTableModal = ({ isModal = true }) => {
               } else {
                 Swal.fire('Your Assesment has been passed', '', 'success');
               }
-              history.push('/new');
+              history.push('/');
             },
           },
         };
@@ -247,7 +247,7 @@ const HomeTableModal = ({ isModal = true }) => {
           events: {
             onSeccess: () => {
               Swal.fire('Draft saved successfully', '', 'success');
-              history.push('/new');
+              history.push('/');
             },
           },
         };
