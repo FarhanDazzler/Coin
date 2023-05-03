@@ -13,7 +13,6 @@ const MultiSelectButton = (props) => {
     }
   }, [props]);
 
-  console.log(value, 'Value');
   return (
     <MultiSelect
       className="mantine-MultiSelect-wrapper"

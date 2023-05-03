@@ -1,43 +1,70 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import '../../../assets/styles/custom.css';
-import { class_to_apply, TABLE_ROES } from './constant';
-import { useEffect, useState } from 'react';
-import Table from '../../UI/Table';
-import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useDispatch, useSelector } from 'react-redux';
+import Typography from '@mui/material/Typography';
 import {
-  getControlDataAction,
   getControlDataGcdAction,
-} from '../../../redux/ControlData/ControlDataAction';
-import Button from '../../UI/Button';
+  getControlDataAction,
+} from '../../../../redux/ControlData/ControlDataAction';
+import { class_to_apply } from '../../V2/InternalControlHomePage/HomePageTable/constant';
+import Table from '../../../../components/UI/Table';
+import { getControlOwnerTableData } from '../../../../redux/DashBoard/DashBoardAction';
+import { getControlOwnerDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
+import TableLoader from '../../../../components/UI/TableLoader';
+import Button from '../../../../components/UI/Button';
 
-const DashboardTable = () => {
+const ControlOwnerTable = ({ tableName }) => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const history = useHistory();
   const { accounts } = useMsal();
   const dispatch = useDispatch();
-  const query = new URLSearchParams(history.location.search);
+  const userRole = localStorage.getItem('selected_Role');
+  const loginRole = useSelector((state) => state?.auth?.loginRole);
+  const loginUserRole = loginRole ?? userRole;
+  const getControlOwnerData = useSelector(getControlOwnerDataSelector);
+
+  useEffect(() => {
+    dispatch(
+      getControlOwnerTableData({
+        email: 'Vikash.Jha@AB-inbev.com',
+      }),
+    );
+    setTableColumns(TABLE_COLUMNS);
+  }, []);
 
   const TABLE_COLUMNS = [
     {
       field: 'id',
-      headerName: 'ID',
+      headerName: 'id',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 70,
+      minWidth: 50,
+    },
+    {
+      field: 'Assessment_Cycle',
+      headerName: 'Assessment Cycle',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 120,
+    },
+    {
+      field: 'Year',
+      headerName: 'Year',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 120,
     },
     {
       field: 'Zone',
       headerName: 'Zone',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 120,
+      minWidth: 180,
     },
     {
-      field: 'Provider_Org',
+      field: 'Provider',
       headerName: 'Provider Org',
       flex: 1,
       cellClassName: 'dashboardCell',
@@ -109,43 +136,40 @@ const DashboardTable = () => {
       },
     },
     {
-      field: 'Co_Owner',
-      headerName: 'Co Owner',
+      field: 'Control_Owner',
+      headerName: 'Control Owner',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Co_Oversight',
-      headerName: 'Co Oversight',
+      field: 'Control_Oversight',
+      headerName: 'Control Oversight',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'View',
-      headerName: 'View',
+      field: '',
+      headerName: 'Action',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 250,
       renderCell: (row) => {
         return (
-          <Button
-            variant="outlined"
-            className={' cursor-pointer'}
-            startIcon={<VisibilityIcon style={{ color: '#d3a306' }} />}
-            onClick={() => handleControlView(row.row.Control_ID)}
-          >
-            View
-          </Button>
+          <div>
+            <Button
+              className="mr-2"
+              onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
+            >
+              view
+            </Button>
+            <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>assessment</Button>
+          </div>
         );
       },
     },
   ];
-
-  const handleControlView = (id) => {
-    window.location.href = `/Assessments/${id}`;
-  };
 
   const handleControlIDClick = (id) => {
     //TODO: modal redirect
@@ -162,23 +186,35 @@ const DashboardTable = () => {
   };
 
   useEffect(() => {
-    setTableColumns(TABLE_COLUMNS);
-    setTableData(TABLE_ROES);
-  }, []);
+    if (loginUserRole === 'Control owner') {
+      setTableData(getControlOwnerData.data[0]?.cOwnerData || []);
+    } else {
+      setTableData(getControlOwnerData.data[1]?.cOverSightData || []);
+    }
+  }, [getControlOwnerData.data, loginUserRole]);
   return (
     <>
-      {/*<div className="rounded-4 shadow-4 float-end mb-3">*/}
-      {/*  <FilterHomePageTable />*/}
-      {/*</div>*/}
       <div className="container mt-5">
         <div className="row pt-5">
           <div className="col col-lg-12">
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            <Typography className="table-title">{tableName}</Typography>
           </div>
         </div>
+      </div>
+
+      <div className="container">
+        {getControlOwnerData.loading ? (
+          <TableLoader className="mt-8" />
+        ) : (
+          <div className="row pt-5">
+            <div className="col col-lg-12">
+              <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
 };
 
-export default DashboardTable;
+export default ControlOwnerTable;

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import Button from '../../UI/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import ContentLoader from 'react-content-loader';
+import { useSelector } from 'react-redux';
+import Button from '../../../../../components/UI/Button';
 
 const ControlActions = () => {
   const [activeTab, setActiveTab] = useState('');
@@ -11,7 +10,7 @@ const ControlActions = () => {
   };
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   const stateGcdData = useSelector((state) => state?.controlData?.gcd?.data);
-  const isClear = (text) => activeTab === text
+  const isClear = (text) => activeTab === text;
   return (
     <div className="control-actions-wrapper">
       <div className="pb-5 pt-4">
@@ -90,15 +89,11 @@ const ControlActions = () => {
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Control owner: </span>
-              <span>
-                {stateControlData.cowner}
-              </span>
+              <span>{stateControlData.cowner}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Control Oversight: </span>
-              <span>
-                {stateControlData.coversight}
-              </span>
+              <span>{stateControlData.coversight}</span>
             </p>
           </div>
         )}

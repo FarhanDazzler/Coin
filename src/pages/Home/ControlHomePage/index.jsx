@@ -1,21 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
-import PageWrapper from '../wrappers/PageWrapper';
-import DashboardTable from '../HomePage/HomePageTable/HomePageTableComponent';
-import HomeTableModal from '../HomePage/HomeTableModal';
-import './styles.scss';
-import FilterButtons from '../FilterButtons';
 import ControlOwnerTable from './ControlOwnerTable/ControlOwnerTable';
 import { useSelector } from 'react-redux';
+import PageWrapper from '../../../components/wrappers/PageWrapper';
+import FilterButtons from '../../../components/FilterButtons';
+import HomeTableModal from '../V2/InternalControlHomePage/HomeTableModal';
+import './styles.scss';
+import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
 
-const NewHomePage = () => {
+const ControlHomePage = () => {
   const history = useHistory();
   const userRole = localStorage.getItem('selected_Role');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
+  const loginUserRole = loginRole ?? userRole;
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
   const { accounts } = useMsal();
+  const getControlOwnerData = useSelector(getControlOwnerDataSelector);
+  const [statusInfo, setStatusInfo] = useState({
+    notStarted: 0,
+    completed: 0,
+    draft: 0,
+    reAssessed: 0,
+  });
+
+  const getNumberOfItem = (array, itemName) => {
+    return array.filter((val) => val === itemName)?.length;
+  };
+
+  useEffect(() => {
+    const tableData =
+      loginUserRole === 'Control owner'
+        ? getControlOwnerData.data[0]?.cOwnerData || []
+        : getControlOwnerData.data[1]?.cOverSightData || [];
+    const allstatus = tableData.map((d) => {
+      return d.Status;
+    });
+    setStatusInfo({
+      notStarted: getNumberOfItem(allstatus, 'Not started'),
+      completed: getNumberOfItem(allstatus, 'Completed'),
+      draft: getNumberOfItem(allstatus, 'Draft'),
+      reAssessed: getNumberOfItem(allstatus, 'Re-assessed'),
+    });
+  }, [getControlOwnerData.data, loginUserRole]);
+
   return (
     <div>
       <PageWrapper>
@@ -26,17 +55,17 @@ const NewHomePage = () => {
               <h2 className="user-name-home yellow-gradient-text mb-2">
                 {accounts.length > 0 ? accounts[0].name.split('(').join(' (') : 'User Name'}
               </h2>
-              {(loginRole || userRole) && <h3 className="user-role">{loginRole ?? userRole}</h3>}
+              {loginUserRole && <h3 className="user-role">{loginUserRole}</h3>}
             </div>
             <div className="col-lg-8">
               <div className="mb-4">
                 <FilterButtons />
               </div>
               <div className="d-flex align-items-center flex-wrap">
-                <AmountInfo amount={12292} infoText={'BU'} />
-                <AmountInfo amount={19} infoText="functional" />
+                {/* <AmountInfo amount={12292} infoText={'BU'} />
+                <AmountInfo amount={19} infoText="functional" /> */}
                 <AmountInfo
-                  amount={732}
+                  amount={statusInfo.notStarted}
                   infoText={
                     <>
                       Assessment <br /> (NOT Started)
@@ -44,7 +73,7 @@ const NewHomePage = () => {
                   }
                 />
                 <AmountInfo
-                  amount={123}
+                  amount={statusInfo.completed}
                   infoText={
                     <>
                       Assessment <br /> (completed)
@@ -52,7 +81,7 @@ const NewHomePage = () => {
                   }
                 />
                 <AmountInfo
-                  amount={112}
+                  amount={statusInfo.draft}
                   infoText={
                     <>
                       Assessment <br /> (Draft)
@@ -60,7 +89,7 @@ const NewHomePage = () => {
                   }
                 />
                 <AmountInfo
-                  amount={4}
+                  amount={statusInfo.reAssessed}
                   infoText={
                     <>
                       Assessment <br /> (incorrect owner)
@@ -72,8 +101,11 @@ const NewHomePage = () => {
           </div>
         </div>
 
-        <ControlOwnerTable tableName="Control Owner" />
-        <ControlOwnerTable tableName="Control Oversight" />
+        {loginUserRole === 'Control owner' ? (
+          <ControlOwnerTable tableName="Control Owner" />
+        ) : (
+          <ControlOwnerTable tableName="Control Oversight" />
+        )}
 
         {Control_ID && <HomeTableModal />}
       </PageWrapper>
@@ -89,4 +121,4 @@ const AmountInfo = ({ amount, infoText }) => {
     </div>
   );
 };
-export default NewHomePage;
+export default ControlHomePage;

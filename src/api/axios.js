@@ -2,11 +2,6 @@ import axios from 'axios';
 import { setupCache } from 'axios-cache-adapter';
 import Cookies from 'js-cookie';
 
-// Create `axios-cache-adapter` instance
-const cache = setupCache({
-  maxAge: 24 * 60 * 60 * 1000,
-});
-
 //const baseURL = process.env.REACT_APP_API_BASE_URL;
 const baseURL = 'https://acoemicsgrcpwa-devbe.azurewebsites.net';
 //const baseURL = 'http://localhost:1234';
@@ -18,7 +13,6 @@ const getToken = (name = 'token') => {
 const Axios = axios.create({
   baseURL,
   timeout: 80000,
-  adapter: cache.adapter,
 });
 
 Axios.interceptors.request.use(

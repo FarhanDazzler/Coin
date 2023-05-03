@@ -7,6 +7,8 @@ import Button from '../../MDM/MDM_Tab_Buttons/Button';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { Divider, Box } from '@mantine/core';
 import { IconCalendarCheck } from '@tabler/icons-react';
+import { Bell } from 'tabler-icons-react';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { scheduleSurveyPage_1Selector } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
 import { ScheduleSurveyPage_1 } from '../../../redux/AssessmentBank/AssessmentBankAction';
 
@@ -54,26 +56,38 @@ const Page1 = ({ handleNext }) => {
     handleNext();
   };
 
+  // logic for Year picker
+  const years = [];
+  const currentYear = new Date().getFullYear();
+  const startYear = 2022; // Change as needed
+  for (let year = currentYear; year >= startYear; year--) {
+    years.push(year);
+  }
+
   return (
     <div className="p-5">
       <h4 className="AssessmentBank-inputPage-title">Schedule Assessment - MICS</h4>
       <Formik
         enableReinitialize
         initialValues={{
-          Survey_Name: '',
-          Question_Bank: '',
-          Assessment_Cycle: '',
-          Year: '',
-          KPI_From: '',
-          KPI_To: '',
-          Start_Date: '',
-          Due_Date: '',
-          Control_Owner_Reminder_1: '',
-          Control_Owner_Reminder_2: '',
-          Control_Oversight_Pending_Notification_1: '',
-          Control_Oversight_Pending_Notification_2: '',
-          Control_Oversight_Review_Notification_1: '',
-          Control_Oversight_Review_Notification_2: '',
+          Survey_Name: scheduleSurveyPage_1_State?.Survey_Name || '',
+          Question_Bank: scheduleSurveyPage_1_State?.Question_Bank || '',
+          Assessment_Cycle: scheduleSurveyPage_1_State?.Assessment_Cycle || '',
+          Year: scheduleSurveyPage_1_State?.Year || '',
+          KPI_From: scheduleSurveyPage_1_State?.KPI_From || '',
+          KPI_To: scheduleSurveyPage_1_State?.KPI_To || '',
+          Start_Date: scheduleSurveyPage_1_State?.Start_Date || '',
+          Due_Date: scheduleSurveyPage_1_State?.Due_Date || '',
+          Control_Owner_Reminder_1: scheduleSurveyPage_1_State?.Control_Owner_Reminder_1 || '',
+          Control_Owner_Reminder_2: scheduleSurveyPage_1_State?.Control_Owner_Reminder_2 || '',
+          Control_Oversight_Pending_Notification_1:
+            scheduleSurveyPage_1_State?.Control_Oversight_Pending_Notification_1 || '',
+          Control_Oversight_Pending_Notification_2:
+            scheduleSurveyPage_1_State?.Control_Oversight_Pending_Notification_2 || '',
+          Control_Oversight_Review_Notification_1:
+            scheduleSurveyPage_1_State?.Control_Oversight_Review_Notification_1 || '',
+          Control_Oversight_Review_Notification_2:
+            scheduleSurveyPage_1_State?.Control_Oversight_Review_Notification_2 || '',
         }}
         validationSchema={Yup.object().shape({
           Survey_Name: Yup.string().required('Survey Name is required'),
@@ -228,6 +242,40 @@ const Page1 = ({ handleNext }) => {
                   <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
+                        as="select"
+                        name="Year"
+                        placeholder=""
+                        value={values.Year}
+                        isInvalid={Boolean(touched.Year && errors.Year)}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        readOnly={false}
+                        className="form-select"
+                      >
+                        <option value="">Select a year</option>
+                        {years.map((Year) => (
+                          <option key={Year} value={Year}>
+                            {Year}
+                          </option>
+                        ))}
+                      </Form.Control>
+
+                      {!!touched.Year && (
+                        <Form.Control.Feedback type="invalid">{errors.Year}</Form.Control.Feedback>
+                      )}
+                    </Form.Group>
+                  </div>
+                </div>
+              </div>
+
+              {/* <div className="col-lg-6">
+                <div className="row mb-4">
+                  <div className="col-lg-4">
+                    <Form.Label>Year</Form.Label>
+                  </div>
+                  <div className="col-lg-6">
+                    <Form.Group className="input-group mb-3">
+                      <Form.Control
                         type="date"
                         name="Year"
                         placeholder=""
@@ -246,6 +294,7 @@ const Page1 = ({ handleNext }) => {
                   </div>
                 </div>
               </div>
+            */}
 
               <div className="col-lg-6">
                 <div className="row mb-4">
@@ -371,7 +420,6 @@ const Page1 = ({ handleNext }) => {
                   labelPosition="center"
                   label={
                     <>
-                      <IconCalendarCheck size={16} />
                       <Box ml={5}>
                         <Form.Label>Control Owner:</Form.Label>
                       </Box>
@@ -450,9 +498,8 @@ const Page1 = ({ handleNext }) => {
                   labelPosition="center"
                   label={
                     <>
-                      <IconCalendarCheck size={16} />
                       <Box ml={5}>
-                        <Form.Label>Control Oversight Pending:</Form.Label>
+                        <Form.Label>Control Oversight</Form.Label>
                       </Box>
                     </>
                   }
@@ -460,145 +507,132 @@ const Page1 = ({ handleNext }) => {
 
                 <div className="col-lg-6">
                   <div className="row mb-4">
-                    <div className="col-lg-4">
-                      <Form.Label>Notification 1</Form.Label>
+                    <div className="row mb-4">
+                      <Form.Label>Notification for Not Started Assessment :</Form.Label>
                     </div>
-                    <div className="col-lg-6">
-                      <Form.Group className="input-group mb-3">
-                        <Form.Control
-                          type="date"
-                          name="Control_Oversight_Pending_Notification_1"
-                          placeholder=""
-                          value={values.Control_Oversight_Pending_Notification_1}
-                          isInvalid={Boolean(
-                            touched.Control_Oversight_Pending_Notification_1 &&
-                              errors.Control_Oversight_Pending_Notification_1,
-                          )}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          readOnly={false}
-                          className="form-control"
-                        />
+                    <div className="row mb-4">
+                      <div className="col">
+                        <Form.Label>First :</Form.Label>
+                      </div>
+                      <div className="col-lg-6">
+                        <Form.Group className="input-group mb-3">
+                          <Form.Control
+                            type="date"
+                            name="Control_Oversight_Pending_Notification_1"
+                            placeholder=""
+                            value={values.Control_Oversight_Pending_Notification_1}
+                            isInvalid={Boolean(
+                              touched.Control_Oversight_Pending_Notification_1 &&
+                                errors.Control_Oversight_Pending_Notification_1,
+                            )}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            readOnly={false}
+                            className="form-control"
+                          />
 
-                        {!!touched.Control_Oversight_Pending_Notification_1 && (
-                          <Form.Control.Feedback type="invalid">
-                            {errors.Control_Oversight_Pending_Notification_1}
-                          </Form.Control.Feedback>
-                        )}
-                      </Form.Group>
+                          {!!touched.Control_Oversight_Pending_Notification_1 && (
+                            <Form.Control.Feedback type="invalid">
+                              {errors.Control_Oversight_Pending_Notification_1}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                      </div>
+                    </div>
+                    <div className="row mb-4">
+                      <div className="col">
+                        <Form.Label>Second :</Form.Label>
+                      </div>
+                      <div className="col-lg-6">
+                        <Form.Group className="input-group mb-3">
+                          <Form.Control
+                            type="date"
+                            name="Control_Oversight_Pending_Notification_2"
+                            placeholder=""
+                            value={values.Control_Oversight_Pending_Notification_2}
+                            isInvalid={Boolean(
+                              touched.Control_Oversight_Pending_Notification_2 &&
+                                errors.Control_Oversight_Pending_Notification_2,
+                            )}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            readOnly={false}
+                            className="form-control"
+                          />
+
+                          {!!touched.Control_Oversight_Pending_Notification_2 && (
+                            <Form.Control.Feedback type="invalid">
+                              {errors.Control_Oversight_Pending_Notification_2}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="col-lg-6">
                   <div className="row mb-4">
-                    <div className="col-lg-4">
-                      <Form.Label>Notification 2</Form.Label>
+                    <div className="row mb-4">
+                      <Form.Label>Notification for Submmited Assessment :</Form.Label>
                     </div>
-                    <div className="col-lg-6">
-                      <Form.Group className="input-group mb-3">
-                        <Form.Control
-                          type="date"
-                          name="Control_Oversight_Pending_Notification_2"
-                          placeholder=""
-                          value={values.Control_Oversight_Pending_Notification_2}
-                          isInvalid={Boolean(
-                            touched.Control_Oversight_Pending_Notification_2 &&
-                              errors.Control_Oversight_Pending_Notification_2,
+                    <div className="row mb-4">
+                      <div className="col">
+                        <Form.Label>First :</Form.Label>
+                      </div>
+                      <div className="col-lg-6">
+                        <Form.Group className="input-group mb-3">
+                          <Form.Control
+                            type="date"
+                            name="Control_Oversight_Review_Notification_1"
+                            placeholder=""
+                            value={values.Control_Oversight_Review_Notification_1}
+                            isInvalid={Boolean(
+                              touched.Control_Oversight_Review_Notification_1 &&
+                                errors.Control_Oversight_Review_Notification_1,
+                            )}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            readOnly={false}
+                            className="form-control"
+                          />
+
+                          {!!touched.Control_Oversight_Review_Notification_1 && (
+                            <Form.Control.Feedback type="invalid">
+                              {errors.Control_Oversight_Review_Notification_1}
+                            </Form.Control.Feedback>
                           )}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          readOnly={false}
-                          className="form-control"
-                        />
-
-                        {!!touched.Control_Oversight_Pending_Notification_2 && (
-                          <Form.Control.Feedback type="invalid">
-                            {errors.Control_Oversight_Pending_Notification_2}
-                          </Form.Control.Feedback>
-                        )}
-                      </Form.Group>
+                        </Form.Group>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
+                    <div className="row mb-4">
+                      <div className="col">
+                        <Form.Label>Second :</Form.Label>
+                      </div>
+                      <div className="col-lg-6">
+                        <Form.Group className="input-group mb-3">
+                          <Form.Control
+                            type="date"
+                            name="Control_Oversight_Review_Notification_2"
+                            placeholder=""
+                            value={values.Control_Oversight_Review_Notification_2}
+                            isInvalid={Boolean(
+                              touched.Control_Oversight_Review_Notification_2 &&
+                                errors.Control_Oversight_Review_Notification_2,
+                            )}
+                            onBlur={handleBlur}
+                            onChange={handleChange}
+                            readOnly={false}
+                            className="form-control"
+                          />
 
-              <div className="row">
-                <Divider
-                  className="divider"
-                  size="md"
-                  my="xs"
-                  labelPosition="center"
-                  label={
-                    <>
-                      <IconCalendarCheck size={16} />
-                      <Box ml={5}>
-                        <Form.Label>Control Oversight Review :</Form.Label>
-                      </Box>
-                    </>
-                  }
-                />
-
-                <div className="col-lg-6">
-                  <div className="row mb-4">
-                    <div className="col-lg-4">
-                      <Form.Label>Notification 1</Form.Label>
-                    </div>
-                    <div className="col-lg-6">
-                      <Form.Group className="input-group mb-3">
-                        <Form.Control
-                          type="date"
-                          name="Control_Oversight_Review_Notification_1"
-                          placeholder=""
-                          value={values.Control_Oversight_Review_Notification_1}
-                          isInvalid={Boolean(
-                            touched.Control_Oversight_Review_Notification_1 &&
-                              errors.Control_Oversight_Review_Notification_1,
+                          {!!touched.Control_Oversight_Review_Notification_2 && (
+                            <Form.Control.Feedback type="invalid">
+                              {errors.Control_Oversight_Review_Notification_2}
+                            </Form.Control.Feedback>
                           )}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          readOnly={false}
-                          className="form-control"
-                        />
-
-                        {!!touched.Control_Oversight_Review_Notification_1 && (
-                          <Form.Control.Feedback type="invalid">
-                            {errors.Control_Oversight_Review_Notification_1}
-                          </Form.Control.Feedback>
-                        )}
-                      </Form.Group>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-lg-6">
-                  <div className="row mb-4">
-                    <div className="col-lg-4">
-                      <Form.Label>Notification 2</Form.Label>
-                    </div>
-                    <div className="col-lg-6">
-                      <Form.Group className="input-group mb-3">
-                        <Form.Control
-                          type="date"
-                          name="Control_Oversight_Review_Notification_2"
-                          placeholder=""
-                          value={values.Control_Oversight_Review_Notification_2}
-                          isInvalid={Boolean(
-                            touched.Control_Oversight_Review_Notification_2 &&
-                              errors.Control_Oversight_Review_Notification_2,
-                          )}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          readOnly={false}
-                          className="form-control"
-                        />
-
-                        {!!touched.Control_Oversight_Review_Notification_2 && (
-                          <Form.Control.Feedback type="invalid">
-                            {errors.Control_Oversight_Review_Notification_2}
-                          </Form.Control.Feedback>
-                        )}
-                      </Form.Group>
+                        </Form.Group>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -610,7 +644,10 @@ const Page1 = ({ handleNext }) => {
                   <Button
                     variant="outlined"
                     color="secondary"
-                    onClick={() => handleOnclickCancel()}
+                    onClick={() => {
+                      handleOnclickCancel();
+                      dispatch(ScheduleSurveyPage_1({}));
+                    }}
                   >
                     Cancel
                   </Button>

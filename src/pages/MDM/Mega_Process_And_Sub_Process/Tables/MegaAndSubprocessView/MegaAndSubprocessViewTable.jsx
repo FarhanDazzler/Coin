@@ -104,7 +104,12 @@ const MegaAndSubprocessViewTable = () => {
                 </div>
               </div>
             </div>
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            <Table
+              tableData={tableData}
+              loading={megaAndSubprocessView.loading}
+              tableColumns={tableColumns}
+              columns={tableColumns}
+            />
           </div>
         </div>
       </div>

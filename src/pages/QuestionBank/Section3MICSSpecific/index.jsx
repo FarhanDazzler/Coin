@@ -1,5 +1,4 @@
 import React from 'react';
-import CollapseFrame from '../../../components/UI/CollapseFrame';
 import FormControl from '@mui/material/FormControl';
 import Select from '../../../components/UI/Select/Select';
 import { levels } from '../CreateQuestions/constant';

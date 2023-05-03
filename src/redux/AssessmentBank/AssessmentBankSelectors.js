@@ -8,3 +8,13 @@ export const getAllProviderFromEntitySelector = (state) =>
   state.assessmentBank.getAllProviderFromEntity;
 export const getScheduleSurveyPage_2_tableSelector = (state) =>
   state.assessmentBank.getScheduleSurveyPage_2_table;
+export const getScheduleSurveyPage_3_tableSelector = (state) =>
+  state.assessmentBank.getScheduleSurveyPage_3_table;
+export const addAssessmentSchedulingAndTriggeringSelector = (state) =>
+  state.assessmentBank.addAssessmentSchedulingAndTriggering;
+export const getAssessmentsSummaryTableSelector = (state) =>
+  state.assessmentBank.getAssessmentsSummaryTable;
+export const getAssessmentDetailsTableDataSelector = (state) =>
+  state.assessmentBank.getAssessmentDetailsTableData;
+export const recallAssessmentSelector = (state) => state.assessmentBank.recallAssessment;
+export const reTriggerAssessmentSelector = (state) => state.assessmentBank.reTriggerAssessment;

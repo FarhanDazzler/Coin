@@ -1,5 +1,5 @@
 import React from 'react';
-import AssessmentForm from '../../Sections/AssessmentForm';
+import AssessmentForm from '../../../../../components/Sections/AssessmentForm';
 
 const ControlFormModal = ({ Control_ID }) => {
   return (

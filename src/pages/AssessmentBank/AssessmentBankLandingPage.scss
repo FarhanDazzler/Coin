@@ -1,3 +1,38 @@
+.select-options-background {
+  padding: 16.5px 14px;
+  background: rgba(140, 140, 140, 0.14);
+  backdrop-filter: blur(14.4828px);
+  border-radius: 8.68966px !important;
+  color: #fff !important;
+  cursor: pointer;
+}
+.open-popover {
+  outline: 2px solid #d3a306;
+}
+.popover-title {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.year-side {
+  padding-right: 25px;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.12) ;
+}
+
+.period-side {
+  padding-left: 25px;
+}
+.open-select {
+  transform: rotate(180deg);
+}
+
+.actions-button-wrapper {
+  button {
+    text-transform: capitalize !important;
+  }
+}
+
 .schedule-survey {
     .model-header {
         p {
@@ -12,6 +47,7 @@
         margin: 25px;
     }
     .step-header {
+      position: relative;
         p {
             color:#808080;
             font-style: normal;
@@ -21,7 +57,8 @@
 
         p.active {
             color: #ffffff;
-            position: relative;
+           position: relative;
+            
         }
 
         p.active::after {
@@ -29,7 +66,7 @@
             content: "";
             height: 7px;
             border-radius: 8px;
-            width: 50px;
+            width: 100%;
             bottom: -21px;
             left: 0;
             background: #e3af32;
@@ -126,8 +163,8 @@
 
   .divider{
     padding-top: 24px;
-    margin-left: 32px;
-    margin-right: 32px;
+    //margin-left: 32px;
+    //margin-right: 32px;
   }
   .mantine-MultiSelect-wrapper-AssessmentBank {
     //text-align: center;
@@ -152,6 +189,29 @@
     .mantine-MultiSelect-value {
       background-color: #ffffff;
     }
+  }
+
+  .export_excel_button {
+    display: inline-block;
+    background-color: gold;
+    border-radius: 10px;
+    text-align: center;
+    width: 130px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 10px;
+    margin-bottom: 10px;
+    border: none;
+    padding: 10px;
+    //background: #000 !important;
+    background: #508A3B !important;
+    color: white;
+    padding: 10px;
+  }
+
+  .export_excel_button:hover {
+    background: gold !important;
+    color: #000 !important;
   }
   
  

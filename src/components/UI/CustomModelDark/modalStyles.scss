@@ -1,0 +1,51 @@
+.modal-wrapperDark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 95%;
+    position: relative;
+  
+    .model-header {
+      background: black;
+      color: #fff;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 87.52%;
+      padding: 30px 40px;
+    }
+  
+    .modal-bodyDark {
+      max-height: 80vh;
+      overflow: auto;
+      background: #212121;
+    }
+  }
+  .custom-modal-wrapperDark {
+    .MuiBackdrop-root {
+      background: rgba(13, 13, 13, 0.78);
+      backdrop-filter: blur(4.5px);
+    }
+  }
+  
+  .footer-action {
+    position: sticky;
+    bottom: 0;
+    background: #212121;
+    padding: 15px 20px;
+    border-top: 1px solid #606060db;
+    z-index: 999;
+    margin-top: 20px;
+  }
+  
+  .close-modal-icon {
+    position: absolute;
+    color: #fff;
+    right: 15px;
+    top: 15px;
+    cursor: pointer;
+  }
+  

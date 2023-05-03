@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FloatRight, TableOptions, ListCheck, Selector } from 'tabler-icons-react';
 import * as Yup from 'yup';
 import { Alert, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +10,7 @@ import { useFormik } from 'formik';
 import validator from 'validator';
 import { Divider, Box } from '@mantine/core';
 import { IconCalendarCheck } from '@tabler/icons-react';
+import Table from '../../../components/UI/Table';
 import { getMegaProcessMicsFramework } from '../../../redux/MDM/MDM_Action';
 import { getMegaProcessMicsFrameworkSelector } from '../../../redux/MDM/MDM_Selectors';
 import {
@@ -20,6 +22,7 @@ import {
   getAllEntityFromBUSelector,
   getAllProviderFromEntitySelector,
   getScheduleSurveyPage_2_tableSelector,
+  getScheduleSurveyPage_3_tableSelector,
 } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
 import {
   ScheduleSurveyPage_1,
@@ -30,11 +33,15 @@ import {
   getAllEntityFromBU,
   getAllProviderFromEntity,
   getScheduleSurveyPage_2_table,
+  getScheduleSurveyPage_3_table,
 } from '../../../redux/AssessmentBank/AssessmentBankAction';
 
 const Page3 = ({ handleNext, setStep }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const [tableColumns, setTableColumns] = useState([]);
+  const [tableData, setTableData] = useState([]);
 
   // states to store inputs from multi select buttons
   const [frequencyValue, setFrequencyValue] = useState([]);
@@ -51,6 +58,7 @@ const Page3 = ({ handleNext, setStep }) => {
 
   // getting control IDs from page 2
   const scheduleSurveyPage_2_State = useSelector(scheduleSurveyPage_2Selector);
+  const getScheduleSurveyPage_3_table_State = useSelector(getScheduleSurveyPage_3_tableSelector);
 
   useEffect(() => {
     dispatch(getMegaProcessMicsFramework());
@@ -78,16 +86,26 @@ const Page3 = ({ handleNext, setStep }) => {
     },
     onSubmit: (values, { setSubmitting }) => {
       if (values.selectTheProcedures === 'Select All Controls') {
-        let payload = {
+        let params = {
           selectTheProcedures: values.selectTheProcedures,
           Control_IDs: scheduleSurveyPage_2_State.ControlsTable,
         };
-        console.log(payload, 'payload with Specific Controls');
-        //dispatch(scheduleSurveyPage3Values(payload));
+
+        let payload = {
+          selectTheProcedures: values.selectTheProcedures,
+          Control_IDs: scheduleSurveyPage_2_State.ControlsTable,
+          Control_IDs_fromPage_3: getScheduleSurveyPage_3_table_State.data[0].controlInstances,
+        };
+
+        //console.log(params, 'payload with Specific Controls');
+        console.log(payload, 'Page 3 payload');
+        dispatch(getScheduleSurveyPage_3_table(params));
+        dispatch(ScheduleSurveyPage_3(payload));
+
         setSubmitting(false);
         handleNext();
       } else {
-        let payload = {
+        let params = {
           selectTheProcedures: values.selectTheProcedures,
           Control_IDs: scheduleSurveyPage_2_State.ControlsTable,
           Frequency: values.Frequency,
@@ -99,8 +117,19 @@ const Page3 = ({ handleNext, setStep }) => {
           Category: values.Category,
           Recommended_Level: values.Recommended_Level,
         };
-        console.log(payload, 'payload without Specific Controls');
-        //dispatch(scheduleSurveyPage3Values(payload));
+
+        let payload = {
+          selectTheProcedures: values.selectTheProcedures,
+          Control_IDs: scheduleSurveyPage_2_State.ControlsTable,
+          Control_IDs_fromPage_3: getScheduleSurveyPage_3_table_State.data[0].controlInstances,
+        };
+
+        //console.log(params, 'payload without Specific Controls');
+        console.log(payload, 'Page 3 payload');
+
+        dispatch(getScheduleSurveyPage_3_table(params));
+        dispatch(ScheduleSurveyPage_3(payload));
+
         setSubmitting(false);
         handleNext();
       }
@@ -108,12 +137,91 @@ const Page3 = ({ handleNext, setStep }) => {
   });
 
   useEffect(() => {
-    //dispatch(getMegaProcessPrefix(params));
+    let payload = {
+      selectTheProcedures: selectObjectFormik?.values.selectTheProcedures,
+      Control_IDs: scheduleSurveyPage_2_State.ControlsTable,
+      Frequency: selectObjectFormik?.values.Frequency,
+      mics_weight: selectObjectFormik?.values.mics_weight,
+      FCPA: selectObjectFormik?.values.FCPA,
+      ABI_Key: selectObjectFormik?.values.ABI_Key,
+      Mega_Process: selectObjectFormik?.values.Mega_Process,
+      Automation: selectObjectFormik?.values.Automation,
+      Category: selectObjectFormik?.values.Category,
+      Recommended_Level: selectObjectFormik?.values.Recommended_Level,
+    };
+    console.log(payload, 'API Payload without Specific Controls');
+    dispatch(getScheduleSurveyPage_3_table(payload));
   }, [selectObjectFormik?.values]);
 
   const handleOnclickCancel = () => {
     history.push('/assessmentbank');
   };
+
+  // table code below
+
+  const TABLE_COLUMNS = [
+    {
+      field: 'zone',
+      headerName: 'Zone',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 100,
+    },
+    {
+      field: 'Control_ID',
+      headerName: 'Control ID',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 200,
+    },
+    {
+      field: 'provider_entity',
+      headerName: 'Provider Organization',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 200,
+    },
+    {
+      field: 'receiver_entity',
+      headerName: 'Receiver Organization',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 200,
+    },
+    {
+      field: 'control_id_provider_entity',
+      headerName: 'Provider Organization + Control ID',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 300,
+    },
+    {
+      field: 'cowner',
+      headerName: 'Control Owner',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 250,
+    },
+    {
+      field: 'coversight',
+      headerName: 'Control Oversight',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 250,
+    },
+  ];
+
+  useEffect(() => {
+    setTableColumns(TABLE_COLUMNS);
+    setTableData(
+      getScheduleSurveyPage_3_table_State?.data[0]?.controlInstances.map((i, index) => {
+        return {
+          id: index,
+          ...i,
+        };
+      }),
+    );
+  }, [getScheduleSurveyPage_3_table_State?.data[0]?.controlInstances]);
 
   return (
     <div className="p-5">
@@ -127,7 +235,7 @@ const Page3 = ({ handleNext, setStep }) => {
           labelPosition="center"
           label={
             <>
-              <IconCalendarCheck size={16} />
+              <Selector size={16} />
               <Box ml={5}>
                 <Form.Label>Select the procedures:</Form.Label>
               </Box>
@@ -173,7 +281,7 @@ const Page3 = ({ handleNext, setStep }) => {
               labelPosition="center"
               label={
                 <>
-                  <IconCalendarCheck size={16} />
+                  <ListCheck size={16} />
                   <Box ml={5}>
                     <Form.Label>Select by Control Attributes:</Form.Label>
                   </Box>
@@ -391,13 +499,52 @@ const Page3 = ({ handleNext, setStep }) => {
               />
             </div>
           </div>
+
+          <div className="row">
+            <Divider
+              className="divider"
+              size="md"
+              my="xs"
+              labelPosition="center"
+              label={
+                <>
+                  <TableOptions size={16} />
+                  <Box ml={5}>
+                    <Form.Label>Controls Table based on above selection:</Form.Label>
+                  </Box>
+                </>
+              }
+            />
+          </div>
+
+          <div className="row" style={{ paddingTop: '24px' }}>
+            <div className="col col-lg-12">
+              <div className="mdm-table-button">
+                <div className="table-heading" style={{ justifyContent: 'space-between' }}>
+                  <div>
+                    <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
+                    <span style={{ paddingLeft: '16px' }}>Controls Table</span>
+                  </div>
+                </div>
+              </div>
+              <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            </div>
+          </div>
         </>
       )}
 
       <div className="footer-action-AssessmentBank">
         <div className="d-flex align-items-center justify-content-end">
           <div>
-            <Button variant="outlined" color="secondary" onClick={() => handleOnclickCancel()}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => {
+                handleOnclickCancel();
+                dispatch(getScheduleSurveyPage_3_table({}));
+                dispatch(ScheduleSurveyPage_3({}));
+              }}
+            >
               Cancel
             </Button>
             <Button

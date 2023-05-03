@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import './ModifyStandard.scss';
+import './TableStyle.scss';
 import CustomModal from '../../../components/UI/CustomModal';
 import QuestionsWithAction from '../../../components/UI/QuestionsWithAction';
 import info from './../../../assets/images/Info-Circle.svg';
@@ -23,14 +23,10 @@ import {
   deleteSection1OptionDataAction,
   deleteSection1QuestionDataAction,
 } from '../../../redux/QuestionBank/QuestionBankAction';
-import AddSection1Questions from './AddSection1Question';
-import { deleteSection1Questions } from '../../../redux/Questions/QuestionsAction';
-import MICSSpecific from '../ModifyMICSQuestions/MICSSpecific';
-import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
+import ControlidMICSSpecific from './ControlidMICSSpecific';
 
-const ModifyStandard = ({ open, handleClose, type = '' }) => {
+const ControlidTableModal = ({ open, handleClose, type = 'Standard', selectedControlId }) => {
   const [activeType, setActiveType] = useState(type);
-  const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
 
   const dispatch = useDispatch();
   const section1Questions = useSelector(
@@ -68,15 +64,14 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
     setActiveType(type);
   }, [type]);
   const handleChange = (event) => {
-    setTemplate_ID(event.target.value);
-    if (event.target.value === 'Standard') {
-      setFinalTemplate_ID(event.target.value);
-      setSelectControlId(false);
-      setTemplate2_ID('');
-    } else {
-      setFinalTemplate_ID('e');
-      setSelectControlId(true);
-    }
+    setFinalTemplate_ID(event.target.value);
+    // if (event.target.value === 'Standard') {
+    //   setFinalTemplate_ID(event.target.value);
+    // //   setSelectControlId(false);
+    // //   setTemplate2_ID('');
+    // } else {
+    // //   setSelectControlId(true);
+    // }
   };
   const handleChangeControlId = (e) => {
     setTemplate2_ID(e.target.value);
@@ -117,7 +112,7 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
 
   const TemplateOptions = [
     { label: 'Template1', value: 'Standard' },
-    { label: 'Template2', value: '' },
+    { label: 'Template2', value: selectContrilId },
   ];
   useEffect(() => {
     if (AddQuestionSuccess?.success) {
@@ -132,13 +127,6 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
 
   return (
     <div>
-      <CustomModal
-        className="modify-standard"
-        open={open}
-        title={<span>Modify Questions for Existing MICS</span>}
-        width={1080}
-        onClose={handleClose}
-      >
         <div className="buttons">
           <Button
             className="mx-3"
@@ -158,14 +146,14 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
 
         {activeType === 'Standard' && (
           <>
-            <div className="select-light row">
+            <div className="select-light row pt-5 px-4 ">
               <div className="col-md-3">
                 <Form.Group className="input-group mb-3">
                   <Form.Control
                     as="select"
                     name="template"
                     placeholder=""
-                    value={template_ID}
+                    value={finalTemplate_id}
                     className="form-select"
                     onChange={handleChange}
                   >
@@ -178,90 +166,45 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
                 </Form.Group>
               </div>
 
-              {selectContrilId ? (
-                <div className="col-md-3">
-                  <Form.Group className="input-group mb-3">
-                    <Form.Control
-                      as="select"
-                      name="template"
-                      placeholder="Select Control Id"
-                      value={template2_id}
-                      className="form-select"
-                      onChange={handleChangeControlId}
-                    >
-                      <option value="e">Select Control ID</option>
-                      {repositoryOfControlID?.data.map((data, i) => (
-                        <option key={i} value={data.Control_ID}>
-                          {data.Control_ID}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  </Form.Group>
-                </div>
-              ) : (
-                ''
-              )}
+              
             </div>
-            <div className="note">
-              <p>
-                <span>
-                  <img src={info} />
-                </span>
-                Any modifications to Standard Questions will reflect in all Assessments & Surveys.
-              </p>
-            </div>
-            <div className="questions-list-main-wrapper">
+            
+            <div className="questions-list-main-wrapper pt-5 px-4 ">
               <div className="pt-5">
                 {section1QuestionsData.map((data, i) => (
                   <QuestionsWithAction
                     templateType={template_ID}
                     number={i + 1}
                     text={data.question_text}
-                    withAction={true}
+                    withAction={false}
                     active={true}
                     block={data}
-                    handleDelete={handleDeleteQuestion}
+                    
                     allQuestions={section1Questions}
                   />
                 ))}
-                {
-                  finalTemplate_id === 'e' ? <p style={{textAlign: "center", marginBottom : "50px"}}>Select Control ID to get Questions</p> : 
-                  section1QuestionsData.length == 0 && <p style={{textAlign: "center", marginBottom : "50px"}}>No Question Found</p>
-                }
-                
+                {section1QuestionsData.length == 0 && <p>No Question Found</p>}
               </div>
 
               <div className="d-flex align-items-center justify-content-between">
                 <div>
-                  <Button color="silver" className="mx-3" onClick={() => setShowAddQuestion(true)}>
-                    Add Question
-                  </Button>
+                 
                 </div>
                 <div className="d-flex align-items-center justify-content-end">
-                  <Button variant="subtle" onClick={handleClose}>
-                    Cancel
+                  <Button color="silver"
+                    className="ml-2" onClick={handleClose}>
+                    Close
                   </Button>
-                  <Button
-                    color="silver"
-                    // className="mx-3"
-                    className="ml-2"
-                  >
-                    Save as Draft
-                  </Button>
+                 
                 </div>
               </div>
             </div>
           </>
         )}
-        {activeType === 'MICS-Specific' && <MICSSpecific handleClose={handleClose} />}
-      </CustomModal>
-      <AddSection1Questions
-        controlId={finalTemplate_id}
-        open={showAddQuestion}
-        handleClose={handleAddQuestionClose}
-      />
+        {activeType === 'MICS-Specific' && <ControlidMICSSpecific selectedControlId={selectedControlId} handleClose={handleClose} />}
+      
     </div>
   );
 };
 
-export default ModifyStandard;
+export default ControlidTableModal;
