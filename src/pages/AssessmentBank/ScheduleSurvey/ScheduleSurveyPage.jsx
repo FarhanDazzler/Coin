@@ -38,7 +38,6 @@ const ScheduleSurveyPage = () => {
                   labelPosition="center"
                   label={
                     <>
-                      <IconSearch size={16} />
                       <Box ml={5}>
                         <Form.Label>Input Field</Form.Label>
                       </Box>
