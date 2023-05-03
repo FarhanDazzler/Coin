@@ -31,6 +31,12 @@ import {
   GET_ASSESSMENT_DETAILS_TABLE_REQUEST,
   GET_ASSESSMENT_DETAILS_TABLE_SUCCESS,
   GET_ASSESSMENT_DETAILS_TABLE_ERROR,
+  RE_TRIGGER_ASSESSMENT_REQUEST,
+  RE_TRIGGER_ASSESSMENT_SUCCESS,
+  RE_TRIGGER_ASSESSMENT_ERROR,
+  RECALL_ASSESSMENT_REQUEST,
+  RECALL_ASSESSMENT_SUCCESS,
+  RECALL_ASSESSMENT_ERROR,
 } from './AssessmentBankReducer';
 import Swal from 'sweetalert2';
 
@@ -227,6 +233,56 @@ function* handleGet_AssessmentDetailsTableData({ payload }) {
   }
 }
 
+// Recall Assessment
+async function recallAssessmentApi(payload) {
+  return await Axios.post('/recall_assessment', payload);
+}
+function* recallAssessmentData({ payload }) {
+  try {
+    const response = yield call(recallAssessmentApi, payload);
+    if (response.success) {
+      yield put({
+        type: RECALL_ASSESSMENT_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Assessment Recalled Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: RECALL_ASSESSMENT_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+// Re-Trigger Assessment
+async function reTriggerAssessmentApi(payload) {
+  return await Axios.post('/retrigger_assessment', payload);
+}
+function* reTriggerAssessmentData({ payload }) {
+  try {
+    const response = yield call(reTriggerAssessmentApi, payload);
+    if (response.success) {
+      yield put({
+        type: RE_TRIGGER_ASSESSMENT_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Assessment Re-Triggered Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: RE_TRIGGER_ASSESSMENT_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
 export default all([
   takeLatest(GET_ALL_ZONE_REQUEST, handleGet_AllZone),
   takeLatest(GET_ALL_BU_FROM_ZONE_REQUEST, getAll_BU_FromZoneData),
@@ -240,4 +296,6 @@ export default all([
   ),
   takeLatest(GET_ASSESSMENTS_SUMMARY_TABLE_REQUEST, handleGet_AssessmentsSummaryTable),
   takeLatest(GET_ASSESSMENT_DETAILS_TABLE_REQUEST, handleGet_AssessmentDetailsTableData),
+  takeLatest(RECALL_ASSESSMENT_REQUEST, recallAssessmentData),
+  takeLatest(RE_TRIGGER_ASSESSMENT_REQUEST, reTriggerAssessmentData),
 ]);

@@ -10,6 +10,7 @@ import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import ProgressBar from './HomePageTable/ProgressBar/ProgressBar';
 import FilterButtons from '../../../../components/FilterButtons';
 import { TABLE_ROES } from './HomePageTable/constant';
+import InternalControlTable from '../../Tables/InternalControlTable/InternalControlTable';
 
 const InternalControlHomePage = () => {
   const history = useHistory();
@@ -125,9 +126,7 @@ const InternalControlHomePage = () => {
             </div>
           </div>
         </div>
-
-        <FilterButtons />
-        <DashboardTable />
+        <InternalControlTable />
         {Control_ID && <HomeTableModal />}
       </PageWrapper>
     </div>

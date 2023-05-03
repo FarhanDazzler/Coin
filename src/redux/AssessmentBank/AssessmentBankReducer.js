@@ -74,6 +74,22 @@ export const GET_ASSESSMENT_DETAILS_TABLE_ERROR = 'GET_ASSESSMENT_DETAILS_TABLE_
 
 // =================== Get Assessment Details Table Data ========================//
 
+// =================== Recall Assessment ========================//
+
+export const RECALL_ASSESSMENT_REQUEST = 'RECALL_ASSESSMENT_REQUEST';
+export const RECALL_ASSESSMENT_SUCCESS = 'RECALL_ASSESSMENT_SUCCESS';
+export const RECALL_ASSESSMENT_ERROR = 'RECALL_ASSESSMENT_ERROR';
+
+// =================== Recall Assessment ========================//
+
+// =================== Re-Trigger Assessment ========================//
+
+export const RE_TRIGGER_ASSESSMENT_REQUEST = 'RE_TRIGGER_ASSESSMENT_REQUEST';
+export const RE_TRIGGER_ASSESSMENT_SUCCESS = 'RE_TRIGGER_ASSESSMENT_SUCCESS';
+export const RE_TRIGGER_ASSESSMENT_ERROR = 'RE_TRIGGER_ASSESSMENT_ERROR';
+
+// =================== Re-Trigger Assessment ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -93,6 +109,8 @@ const initialState = {
   addAssessmentSchedulingAndTriggering: { ...block, data: [] },
   getAssessmentsSummaryTable: { ...block, data: [] },
   getAssessmentDetailsTableData: { ...block, data: [] },
+  recallAssessment: { ...block, data: [] },
+  reTriggerAssessment: { ...block, data: [] },
 };
 
 export const AssessmentBankReducer = (state = initialState, { type, payload = {} }) => {
@@ -309,6 +327,60 @@ export const AssessmentBankReducer = (state = initialState, { type, payload = {}
         ...state,
         getAssessmentDetailsTableData: {
           ...state.getAssessmentDetailsTableData,
+          loading: false,
+        },
+      };
+
+    //Recall Assessment
+    case RECALL_ASSESSMENT_REQUEST:
+      return {
+        ...state,
+        recallAssessment: {
+          ...state.recallAssessment,
+          loading: true,
+        },
+      };
+    case RECALL_ASSESSMENT_SUCCESS:
+      return {
+        ...state,
+        recallAssessment: {
+          ...state.recallAssessment,
+          data: payload,
+          loading: false,
+        },
+      };
+    case RECALL_ASSESSMENT_ERROR:
+      return {
+        ...state,
+        recallAssessment: {
+          ...state.recallAssessment,
+          loading: false,
+        },
+      };
+
+    //Re-Trigger Assessment
+    case RE_TRIGGER_ASSESSMENT_REQUEST:
+      return {
+        ...state,
+        reTriggerAssessment: {
+          ...state.reTriggerAssessment,
+          loading: true,
+        },
+      };
+    case RE_TRIGGER_ASSESSMENT_SUCCESS:
+      return {
+        ...state,
+        reTriggerAssessment: {
+          ...state.reTriggerAssessment,
+          data: payload,
+          loading: false,
+        },
+      };
+    case RE_TRIGGER_ASSESSMENT_ERROR:
+      return {
+        ...state,
+        reTriggerAssessment: {
+          ...state.reTriggerAssessment,
           loading: false,
         },
       };

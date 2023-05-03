@@ -11,6 +11,8 @@ import {
   ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_REQUEST,
   GET_ASSESSMENTS_SUMMARY_TABLE_REQUEST,
   GET_ASSESSMENT_DETAILS_TABLE_REQUEST,
+  RECALL_ASSESSMENT_REQUEST,
+  RE_TRIGGER_ASSESSMENT_REQUEST,
 } from './AssessmentBankReducer';
 
 export const ScheduleSurveyPage_1 = (payload) => ({
@@ -70,5 +72,15 @@ export const getAssessmentsSummaryTable = (payload) => ({
 
 export const getAssessmentDetailsTableData = (payload) => ({
   type: GET_ASSESSMENT_DETAILS_TABLE_REQUEST,
+  payload,
+});
+
+export const recallAssessment = (payload) => ({
+  type: RECALL_ASSESSMENT_REQUEST,
+  payload,
+});
+
+export const reTriggerAssessment = (payload) => ({
+  type: RE_TRIGGER_ASSESSMENT_REQUEST,
   payload,
 });

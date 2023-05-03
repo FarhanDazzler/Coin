@@ -201,7 +201,7 @@ const AssessmentsSummaryTable = () => {
                 />
               </div>
               <>
-                {tableData.length > 0 ? (
+                {tableData?.length > 0 ? (
                   <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
                 ) : (
                   <NoDataPlaceholder />

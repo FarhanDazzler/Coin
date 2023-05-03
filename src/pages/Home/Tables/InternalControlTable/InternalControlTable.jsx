@@ -1,49 +1,88 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import '../../../assets/styles/custom.css';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
-import Table from '../../../components/UI/Table';
-import NoDataPlaceholder from '../../../components/NoDataPlaceholder';
-import {
-  getAssessmentDetailsTableData,
-  recallAssessment,
-  reTriggerAssessment,
-} from '../../../redux/AssessmentBank/AssessmentBankAction';
-import { getAssessmentDetailsTableDataSelector } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
 import { MultiSelect } from '@mantine/core';
 import { Group } from '@mantine/core';
 import Swal from 'sweetalert2';
-import Button from '../../../components/UI/Button';
-import PageWrapper from '../../../components/wrappers/PageWrapper';
 import SettingsBackupRestoreOutlinedIcon from '@mui/icons-material/SettingsBackupRestoreOutlined';
 import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
+import Table from '../../../../components/UI/Table';
+import NoDataPlaceholder from '../../../../components/NoDataPlaceholder';
+import { getDashBoardData } from '../../../../redux/DashBoard/DashBoardAction';
+import { getDashBoardDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
+import Button from '../../../../components/UI/Button';
+import PageWrapper from '../../../../components/wrappers/PageWrapper';
+
 // Filter buttons
 const FilterButtons = ({
+  year,
+  assessment_Cycle,
   Zone,
   BU,
   Receiver,
   Provider,
-  Mega_Process,
+  yearValue,
+  assessmentCycleValue,
   zoneValue,
   buValue,
   receiverValue,
   providerValue,
-  megaProcessValue,
   setZoneValue,
   setBUValue,
   setReceiverValue,
   setProviderValue,
-  setMegaProcessValue,
+  setYearValue,
+  setAssessmentCycleValue,
 }) => {
   const [searchValue, onSearchChange] = useState('');
 
   return (
     <div>
       <Group spacing="xs">
+        <MultiSelect
+          className="mantine-MultiSelect-wrapper"
+          data={year}
+          label={<span className="mantine-MultiSelect-label">{'Year'}</span>}
+          placeholder={'Select your option'}
+          searchable
+          limit={20}
+          searchValue={searchValue}
+          onSearchChange={onSearchChange}
+          nothingFound="Nothing found"
+          clearButtonLabel="Clear selection"
+          clearable
+          value={yearValue}
+          onChange={(e) => {
+            setYearValue(e);
+          }}
+          radius="xl"
+          variant="filled"
+          size="xs"
+        />
+        <MultiSelect
+          className="mantine-MultiSelect-wrapper"
+          data={assessment_Cycle}
+          label={<span className="mantine-MultiSelect-label">{'Assessment Cycle'}</span>}
+          placeholder={'Select your option'}
+          searchable
+          limit={20}
+          searchValue={searchValue}
+          onSearchChange={onSearchChange}
+          nothingFound="Nothing found"
+          clearButtonLabel="Clear selection"
+          clearable
+          value={assessmentCycleValue}
+          onChange={(e) => {
+            setAssessmentCycleValue(e);
+          }}
+          radius="xl"
+          variant="filled"
+          size="xs"
+        />
         <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={Zone}
@@ -124,32 +163,12 @@ const FilterButtons = ({
           variant="filled"
           size="xs"
         />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={Mega_Process}
-          label={<span className="mantine-MultiSelect-label">{'Mega Process'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={megaProcessValue}
-          onChange={(e) => {
-            setMegaProcessValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />
       </Group>
     </div>
   );
 };
 
-const AssessmentDetailsTableData = (props) => {
+const InternalControlTable = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { instance, accounts, inProgress } = useMsal();
@@ -158,32 +177,35 @@ const AssessmentDetailsTableData = (props) => {
   const [tableDataArray, setTableDataArray] = useState([]);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [editTableData, setEditTableData] = useState();
-  //console.log(editTableIndex);
-
-  useEffect(() => {
-    //code for opening second table in pop up
-    let params = {
-      assessmentName: props.location.state.data?.SurveyName,
-    };
-    dispatch(getAssessmentDetailsTableData(params));
-  }, [props.location.state.data?.SurveyName]);
 
   // multi choice user input State for filters button
+  const [yearValue, setYearValue] = useState([]);
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
   const [receiverValue, setReceiverValue] = useState([]);
   const [providerValue, setProviderValue] = useState([]);
-  const [megaProcessValue, setMegaProcessValue] = useState([]);
 
-  const getAssessmentDetailsTableDataState = useSelector(getAssessmentDetailsTableDataSelector);
+  useEffect(() => {
+    //code for getting Internal Control Home Page table data
+    dispatch(
+      getDashBoardData({
+        email: 'Vikash.Jha@AB-inbev.com',
+      }),
+    );
+  }, []);
+
+  const getDashBoardDataState = useSelector(getDashBoardDataSelector);
+  console.log(getDashBoardDataState, 'getDashBoardDataState');
 
   useEffect(() => {
     if (
+      !yearValue.length &&
+      !assessmentCycleValue.length &&
       !zoneValue.length &&
       !buValue.length &&
       !receiverValue.length &&
-      !providerValue.length &&
-      !megaProcessValue.length
+      !providerValue.length
     ) {
       return setTableData(tableDataArray);
     }
@@ -191,61 +213,89 @@ const AssessmentDetailsTableData = (props) => {
     setTableData(
       tableDataArray.filter((i) => {
         return (
-          (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-          (buValue?.length ? buValue.includes(i.BU) : true) &&
-          (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
-          (providerValue?.length ? providerValue.includes(i.Provider) : true) &&
-          (megaProcessValue?.length ? megaProcessValue.includes(i.Mega_Process) : true)
+          (yearValue?.length ? yearValue.includes(i.Year) : true) &&
+          (assessmentCycleValue?.length
+            ? assessmentCycleValue.includes(i.Assessment_Cycle) &&
+            (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+            (buValue?.length ? buValue.includes(i.BU) : true) &&
+            (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
+            (providerValue?.length ? providerValue.includes(i.Provider) : true)
+            : true)
         );
       }),
     );
-  }, [zoneValue, buValue, receiverValue, providerValue, megaProcessValue]);
+  }, [yearValue, assessmentCycleValue, zoneValue, buValue, receiverValue, providerValue]);
 
   const TABLE_COLUMNS = [
     {
-      field: 'Survey_Name',
-      headerName: 'Assessment Name',
+      field: 'Zone',
+      headerName: 'Zone',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 300,
-    },
-    {
-      field: 'Control_ID',
-      headerName: 'Control ID',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-      renderCell: (row) => {
-        return <span className={'text-yellow cursor-pointer'}>{row.row.Control_ID}</span>;
-      },
+      minWidth: 100,
     },
     {
       field: 'Receiver',
       headerName: 'Receiver Organization',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 250,
+      minWidth: 200,
     },
     {
       field: 'Provider',
       headerName: 'Provider Organization',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 250,
+      minWidth: 200,
+    },
+    {
+      field: 'Control_ID',
+      headerName: 'Control ID',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 150,
+    },
+    {
+      field: 'Status',
+      headerName: 'Status',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 100,
+    },
+    {
+      field: 'KPI_Result',
+      headerName: 'KPI Result',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 150,
+    },
+    {
+      field: 'Assessment_Result',
+      headerName: 'Assessment Result',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 150,
+    },
+    {
+      field: 'Compliance_Result',
+      headerName: 'Compliance_Result',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 150,
     },
     {
       field: 'Control_Owner',
       headerName: 'Control Owner',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 250,
+      minWidth: 200,
     },
     {
       field: 'Control_Oversight',
       headerName: 'Control Oversight',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 250,
+      minWidth: 200,
     },
     {
       field: 'Assessment_Cycle',
@@ -255,8 +305,8 @@ const AssessmentDetailsTableData = (props) => {
       minWidth: 200,
     },
     {
-      field: 'Survey_Status',
-      headerName: 'Survey Status',
+      field: 'Year',
+      headerName: 'Year',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 150,
@@ -265,16 +315,16 @@ const AssessmentDetailsTableData = (props) => {
 
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
-    const updatedData = getAssessmentDetailsTableDataState?.data.map((i, index) => {
-      return {
-        id: index,
-        ...i,
-      };
-    });
-
+    const updatedData =
+      getDashBoardDataState?.data[0]?.cOwnerData?.map((i, index) => {
+        return {
+          id: i.id,
+          ...i,
+        };
+      });
     setTableData(updatedData);
     setTableDataArray(updatedData);
-  }, [getAssessmentDetailsTableDataState?.data]);
+  }, [getDashBoardDataState?.data]);
 
   // Function to remove duplicate value from array
   function removeDuplicates(arr) {
@@ -282,65 +332,15 @@ const AssessmentDetailsTableData = (props) => {
   }
 
   // Arrays for showing data on filters
-  const Zone = getAssessmentDetailsTableDataState?.data.map((i) => i.Zone);
-  const BU = getAssessmentDetailsTableDataState?.data.map((i) => i.BU);
-  const Receiver = getAssessmentDetailsTableDataState?.data.map((i) => i.Receiver);
-  const Provider = getAssessmentDetailsTableDataState?.data.map((i) => i.Provider);
-  const Mega_Process = getAssessmentDetailsTableDataState?.data.map((i) => i.Mega_Process);
-
-  const handelRecall = () => {
-    //code for Recall Assessment
-    if (editTableIndex.length === 0) {
-      Swal.fire('Oops...', 'Please select atleast Assessment one for Recalling', 'error');
-    } else if (editTableIndex.length >= 1) {
-      console.log(editTableIndex, 'editTableIndex');
-      const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
-      //setEditTableData(data);
-      console.log('@@@@@@@@@', data);
-
-      let payload = {
-        Assessment_ids: data,
-        Modified_By: {
-          Email: accounts[0]?.username,
-          name: accounts[0]?.name ? accounts[0].name : '',
-        },
-      };
-      console.log(payload, 'payload for Recall');
-      dispatch(recallAssessment(payload));
-    }
-  };
-
-  const handelTrigger = () => {
-    //code for Triggering Assessment
-    const data = tableData?.filter(
-      (data, i) => editTableIndex?.includes(data.id) && data.Survey_Status === 'Recalled',
-    );
-    if (editTableIndex.length === 0 || !data.length) {
-      Swal.fire(
-        'Oops...',
-        'Please select only Recalled Assessments from table for Re-Triggering',
-        'error',
-      );
-    } else if (editTableIndex.length >= 1) {
-      console.log(editTableIndex, 'editTableIndex');
-      //setEditTableData(data);
-      console.log('@@@@@@@@@', data);
-
-      let payload = {
-        Assessment_ids: data,
-        Modified_By: {
-          Email: accounts[0]?.username,
-          name: accounts[0]?.name ? accounts[0].name : '',
-        },
-      };
-      console.log(payload, 'payload for Re-Trigger');
-      dispatch(reTriggerAssessment(payload));
-    }
-  };
+  const Zone = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.Zone);
+  const BU = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.BU);
+  const Receiver = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.Receiver);
+  const Provider = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.Provider);
+  const year = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.Year);
+  const assessment_Cycle = getDashBoardDataState?.data[0]?.cOwnerData?.map((i) => i.Assessment_Cycle);
 
   return (
     <>
-      <PageWrapper>
         <div className="container">
           <div className="row">
             <div className="col col-lg-12">
@@ -348,50 +348,30 @@ const AssessmentDetailsTableData = (props) => {
                 <div className="row">
                   <div className="col col-lg-12">
                     <Group spacing="xs" className="actions-button-wrapper">
-                      <Button
-                        size="large"
-                        startIcon={<SettingsBackupRestoreOutlinedIcon />}
-                        onClick={handelRecall}
-                      >
-                        Batch Recall
-                      </Button>
-                      <Button
-                        size="large"
-                        startIcon={<CampaignOutlinedIcon />}
-                        onClick={handelTrigger}
-                      >
-                        Batch Re-Trigger
-                      </Button>
-                    </Group>
-                  </div>
-                </div>
-              </div>
-              <div className="container mt-5">
-                <div className="row">
-                  <div className="col col-lg-12">
-                    <Group spacing="xs" className="actions-button-wrapper">
                       <FilterButtons
+                        year={removeDuplicates(year)}
+                        assessment_Cycle={removeDuplicates(assessment_Cycle)}
                         Zone={removeDuplicates(Zone)}
                         BU={removeDuplicates(BU)}
                         Receiver={removeDuplicates(Receiver)}
                         Provider={removeDuplicates(Provider)}
-                        Mega_Process={removeDuplicates(Mega_Process)}
+                        yearValue={yearValue}
+                        assessmentCycleValue={assessmentCycleValue}
                         zoneValue={zoneValue}
                         buValue={buValue}
                         receiverValue={receiverValue}
                         providerValue={providerValue}
-                        megaProcessValue={megaProcessValue}
+                        setYearValue={setYearValue}
+                        setAssessmentCycleValue={setAssessmentCycleValue}
                         setZoneValue={setZoneValue}
                         setBUValue={setBUValue}
                         setReceiverValue={setReceiverValue}
                         setProviderValue={setProviderValue}
-                        setMegaProcessValue={setMegaProcessValue}
                       />
                     </Group>
                   </div>
                 </div>
               </div>
-
               <div className="container mt-5">
                 <div className="row">
                   {tableData?.length > 0 ? (
@@ -406,29 +386,11 @@ const AssessmentDetailsTableData = (props) => {
                   )}
                 </div>
               </div>
-              <div className="container mt-5">
-                <div className="row">
-                  <div className="d-flex align-items-center justify-content-end">
-                    <div>
-                      <Button
-                        size="large"
-                        startIcon={<ArrowBackIosIcon />}
-                        onClick={() => {
-                          history.push('/assessmentbank');
-                        }}
-                      >
-                        Go Back
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-      </PageWrapper>
     </>
   );
 };
 
-export default AssessmentDetailsTableData;
+export default InternalControlTable;
