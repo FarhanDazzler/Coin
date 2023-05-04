@@ -31,6 +31,7 @@ import ScheduleSurveyPage from './pages/AssessmentBank/ScheduleSurvey/ScheduleSu
 import ControlHomePage from './pages/Home/ControlHomePage';
 import InternalControlHomePage from './pages/Home/V2/InternalControlHomePage';
 import AssessmentDetailsTableData from './pages/AssessmentBank/Table/AssessmentDetailsTableData.jsx';
+import REP_Letters_HomePage from './pages/REP_Letters_Module/Home';
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -146,7 +147,9 @@ const Pages = () => {
   return (
     <div className="page">
       <div className="flex-fill">
-        {!['/login'].includes(location?.pathname) && <TopBar userRole={user_role} />}
+        {!['/login'].includes(location?.pathname) && (
+          <TopBar isControlPage={isControlPage()} userRole={user_role} />
+        )}
         {/* <Home /> */}
         <Switch>
           <Route
@@ -163,6 +166,7 @@ const Pages = () => {
           )}
 
           <Route exact path="/question-bank" component={QuestionBank} />
+          <Route exact path="/REP-Letters" component={REP_Letters_HomePage} />
 
           {user_role === 'organizational persona' ? (
             <Route exact path="/home" component={Home_controlOwner} />

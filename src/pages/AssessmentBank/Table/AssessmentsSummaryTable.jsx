@@ -12,6 +12,7 @@ import {
 import {
   getAssessmentsSummaryTableSelector,
   getAssessmentDetailsTableDataSelector,
+  addAssessmentSchedulingAndTriggeringSelector,
 } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
 import { MultiSelect } from '@mantine/core';
 import { Group } from '@mantine/core';
@@ -85,11 +86,13 @@ const AssessmentsSummaryTable = () => {
 
   // multi choice user input State for filters button
   const [yearValue, setYearValue] = useState([]);
+  const {loading} = useSelector(addAssessmentSchedulingAndTriggeringSelector);
+
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
 
   useEffect(() => {
     dispatch(getAssessmentsSummaryTable());
-  }, []);
+  }, [loading]);
 
   const getAssessmentsSummaryTableState = useSelector(getAssessmentsSummaryTableSelector);
 

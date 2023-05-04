@@ -430,8 +430,8 @@ const Page1 = ({ handleNext }) => {
 
               <div className="col-lg-6">
                 <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Reminder 1</Form.Label>
+                  <div className="col-lg-5">
+                    <Form.Label>Pending Intimation - 1</Form.Label>
                   </div>
                   <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
@@ -461,8 +461,8 @@ const Page1 = ({ handleNext }) => {
 
               <div className="col-lg-6">
                 <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Reminder 2</Form.Label>
+                  <div className="col-lg-5">
+                    <Form.Label>Pending Intimation - 2</Form.Label>
                   </div>
                   <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
@@ -512,7 +512,7 @@ const Page1 = ({ handleNext }) => {
                     </div>
                     <div className="row mb-4">
                       <div className="col">
-                        <Form.Label>First :</Form.Label>
+                        <Form.Label>Escalation Notification - 1</Form.Label>
                       </div>
                       <div className="col-lg-6">
                         <Form.Group className="input-group mb-3">
@@ -541,7 +541,7 @@ const Page1 = ({ handleNext }) => {
                     </div>
                     <div className="row mb-4">
                       <div className="col">
-                        <Form.Label>Second :</Form.Label>
+                        <Form.Label>Escalation Notification - 2</Form.Label>
                       </div>
                       <div className="col-lg-6">
                         <Form.Group className="input-group mb-3">
@@ -578,7 +578,7 @@ const Page1 = ({ handleNext }) => {
                     </div>
                     <div className="row mb-4">
                       <div className="col">
-                        <Form.Label>First :</Form.Label>
+                        <Form.Label>Review Notification - 1</Form.Label>
                       </div>
                       <div className="col-lg-6">
                         <Form.Group className="input-group mb-3">
@@ -607,7 +607,7 @@ const Page1 = ({ handleNext }) => {
                     </div>
                     <div className="row mb-4">
                       <div className="col">
-                        <Form.Label>Second :</Form.Label>
+                        <Form.Label>Review Notification - 2</Form.Label>
                       </div>
                       <div className="col-lg-6">
                         <Form.Group className="input-group mb-3">

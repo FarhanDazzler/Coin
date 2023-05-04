@@ -299,11 +299,14 @@ const AssessmentDetailsTableData = (props) => {
       console.log('@@@@@@@@@', data);
 
       let payload = {
-        Assessment_ids: data,
-        Modified_By: {
-          Email: accounts[0]?.username,
-          name: accounts[0]?.name ? accounts[0].name : '',
+        params: {
+          Assessment_ids: data,
+          Modified_By: {
+            Email: accounts[0]?.username,
+            name: accounts[0]?.name ? accounts[0].name : '',
+          },
         },
+        body: props.location.state.data?.SurveyName,
       };
       console.log(payload, 'payload for Recall');
       dispatch(recallAssessment(payload));
@@ -312,26 +315,32 @@ const AssessmentDetailsTableData = (props) => {
 
   const handelTrigger = () => {
     //code for Triggering Assessment
-    const data = tableData?.filter(
-      (data, i) => editTableIndex?.includes(data.id) && data.Survey_Status === 'Recalled',
+    const dataUP = tableData?.filter(
+      (data, i) => editTableIndex?.includes(data.id) && data.Survey_Status !== 'Recalled',
     );
-    if (editTableIndex.length === 0 || !data.length) {
+    if (editTableIndex.length === 0 || dataUP.length) {
       Swal.fire(
         'Oops...',
         'Please select only Recalled Assessments from table for Re-Triggering',
         'error',
       );
     } else if (editTableIndex.length >= 1) {
+      const data = tableData?.filter(
+        (data, i) => editTableIndex?.includes(data.id) && data.Survey_Status === 'Recalled',
+      );
       console.log(editTableIndex, 'editTableIndex');
       //setEditTableData(data);
       console.log('@@@@@@@@@', data);
 
       let payload = {
-        Assessment_ids: data,
-        Modified_By: {
-          Email: accounts[0]?.username,
-          name: accounts[0]?.name ? accounts[0].name : '',
+        params: {
+          Assessment_ids: data,
+          Modified_By: {
+            Email: accounts[0]?.username,
+            name: accounts[0]?.name ? accounts[0].name : '',
+          },
         },
+        body: props.location.state.data?.SurveyName,
       };
       console.log(payload, 'payload for Re-Trigger');
       dispatch(reTriggerAssessment(payload));

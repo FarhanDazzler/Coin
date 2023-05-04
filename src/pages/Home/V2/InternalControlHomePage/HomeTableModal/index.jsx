@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import './homeTableModalStyles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
@@ -24,15 +24,16 @@ import RenderHomeModalTable from './RenderHomeModalTable';
 import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAction';
 import CustomModal from '../../../../../components/UI/CustomModal';
 
-const HomeTableModal = ({ isModal = true }) => {
+const HomeTableModal = ({ isModal = false }) => {
   const history = useHistory();
   const { accounts } = useMsal();
 
   const query = new URLSearchParams(history.location.search);
+  const { Assessment_id = '' } = useParams()
   const dispatch = useDispatch();
   const getResponse = useSelector(getResponseSelector);
   const latestDraftData = useSelector(getLatestDraftSelector);
-  const responseData = isModal ? latestDraftData : getResponse;
+  const responseData = !isModal ? latestDraftData : getResponse;
   const questionsInfo = useSelector(getQuestionsSelector);
   const [ansSection1, setAnsSection1] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -44,20 +45,20 @@ const HomeTableModal = ({ isModal = true }) => {
   const addOrEditUpdateDraft = useSelector(addOrEditUpdateDraftSelector);
   const [loading, setLoading] = useState(false);
 
-  const Control_ID = query.get('Control_ID') || !isModal ? 'ATR_MJE_01a-K' : '';
+  // const Control_ID = query.get('Assessment_id') || !isModal ? 'ATR_MJE_01a-K' : '';
+  const Control_ID = Assessment_id || query.get('Control_ID')
   const handleClose = () => {
     if (startEdit && responseData?.data?.Attempt_no <= 5) {
       Swal.fire({
         title: 'Do you want save as draft!',
-        text: `Remaining response ${
-          responseData?.data?.Attempt_no
-            ? responseData?.data?.Attempt_no < 5
-              ? 4 - responseData?.data?.Attempt_no
-              : 0
-            : responseData?.data?.Attempt_no === 0
+        text: `Remaining response ${responseData?.data?.Attempt_no
+          ? responseData?.data?.Attempt_no < 5
+            ? 4 - responseData?.data?.Attempt_no
+            : 0
+          : responseData?.data?.Attempt_no === 0
             ? '4'
             : '5'
-        }`,
+          }`,
         icon: 'warning',
         showConfirmButton: false,
         showCancelButton: true,
@@ -98,7 +99,7 @@ const HomeTableModal = ({ isModal = true }) => {
       }),
     );
     setTimeout(() => {
-      if (isModal) {
+      if (!isModal) {
         dispatch(getLatestDraft({ assessment_id: Control_ID }));
       } else {
         dispatch(
@@ -109,7 +110,7 @@ const HomeTableModal = ({ isModal = true }) => {
         );
       }
 
-      dispatch(getAssessmentSection2Ans({ MICS_code: 'ATR_MJE_01a-K', Entity_ID: 'Argentina' }));
+      dispatch(getAssessmentSection2Ans({ MICS_code: Control_ID, Entity_ID: 'Argentina' }));
     }, 400);
   }, [Control_ID]);
 
@@ -151,19 +152,17 @@ const HomeTableModal = ({ isModal = true }) => {
       }
     }
   }, [responseData.data]);
-
   const handleSubmit = () => {
     Swal.fire({
       title: 'Do you want Submit assessment',
-      text: `Remaining response ${
-        responseData?.data?.Attempt_no
-          ? responseData?.data?.Attempt_no < 5
-            ? 4 - responseData?.data?.Attempt_no
-            : 0
-          : responseData?.data?.Attempt_no === 0
+      text: `Remaining response ${responseData?.data?.Attempt_no
+        ? responseData?.data?.Attempt_no < 5
+          ? 4 - responseData?.data?.Attempt_no
+          : 0
+        : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
-      }`,
+        }`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
@@ -177,7 +176,7 @@ const HomeTableModal = ({ isModal = true }) => {
         setLoading(true);
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
         const payload = {
-          Assessment_ID: 'ATR_MJE_01a-K',
+          Assessment_ID: Control_ID,
           Assessment_result: 'Pass',
           Latest_response: {
             s1: ansSection1,
@@ -222,15 +221,14 @@ const HomeTableModal = ({ isModal = true }) => {
     }
     Swal.fire({
       title: 'Do you want save draft?',
-      text: `Remaining response ${
-        responseData?.data?.Attempt_no
-          ? responseData?.data?.Attempt_no < 5
-            ? 4 - responseData?.data?.Attempt_no
-            : 0
-          : responseData?.data?.Attempt_no === 0
+      text: `Remaining response ${responseData?.data?.Attempt_no
+        ? responseData?.data?.Attempt_no < 5
+          ? 4 - responseData?.data?.Attempt_no
+          : 0
+        : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
-      }`,
+        }`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
@@ -275,13 +273,13 @@ const HomeTableModal = ({ isModal = true }) => {
         terminating={terminating}
         handleSubmit={handleSubmit}
         handleSaveDraft={handleSaveDraft}
+        loadingSubmit={loading}
         handleSaveDraftProps={{
           disabled: responseData?.data?.Attempt_no >= 5,
           style: { width: 128 },
           loading: addOrEditUpdateDraft.loading,
         }}
         setStartEdit={setStartEdit}
-        isModal={true}
       />
     );
 
@@ -316,6 +314,7 @@ const HomeTableModal = ({ isModal = true }) => {
           style: { width: 128 },
           loading: addOrEditUpdateDraft.loading,
         }}
+        isModal={true}
         setStartEdit={setStartEdit}
       />
     </CustomModal>

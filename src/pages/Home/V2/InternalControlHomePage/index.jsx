@@ -8,9 +8,9 @@ import HomeTableModal from './HomeTableModal';
 import { useSelector } from 'react-redux';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import ProgressBar from './HomePageTable/ProgressBar/ProgressBar';
-import FilterButtons from '../../../../components/FilterButtons';
 import { TABLE_ROES } from './HomePageTable/constant';
 import InternalControlTable from '../../Tables/InternalControlTable/InternalControlTable';
+import { getInternalControlDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
 
 const InternalControlHomePage = () => {
   const history = useHistory();
@@ -18,6 +18,7 @@ const InternalControlHomePage = () => {
   const Control_ID = query.get('Control_ID');
   const userRole = localStorage.getItem('selected_Role');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
+  const getControlOwnerData = useSelector(getInternalControlDataSelector);
   const [statusInfo, setStatusInfo] = useState({
     notStarted: 0,
     completed: 0,
@@ -25,22 +26,21 @@ const InternalControlHomePage = () => {
     reAssessed: 0,
   });
 
-  const getNumberOfItem = (array, itemName) => {
-    return array.filter((val) => val === itemName)?.length;
+  const getNumberOfItem = (array = [], itemName) => {
+    return array?.filter((val) => val === itemName)?.length;
   };
 
   useEffect(() => {
-    const allstatus = TABLE_ROES.map((d) => {
+    const allstatus = getControlOwnerData?.data?.map((d) => {
       return d.Status;
     });
     setStatusInfo({
       notStarted: getNumberOfItem(allstatus, 'Not started'),
       completed: getNumberOfItem(allstatus, 'Completed'),
       draft: getNumberOfItem(allstatus, 'Draft'),
-      reAssessed: getNumberOfItem(allstatus, 'Re-assessed'),
+      reAssessed: getNumberOfItem(allstatus, 'Incorrect Owner'),
     });
-    console.log('TABLE_ROES', allstatus);
-  }, []);
+  }, [getControlOwnerData]);
   const { accounts } = useMsal();
   return (
     <div>
@@ -49,7 +49,7 @@ const InternalControlHomePage = () => {
           <div className="row pt-5 align-items-center">
             <div className="col-lg-4">
               <h4 className="welcome-text">Welcome</h4>
-              <h2 className="user-name-home yellow-gradient-text mb-2">
+              <h2 className="user-name-home yellow-gradient-text mb-2 text-capitalize">
                 {accounts.length > 0 ? accounts[0].name.split('(').join(' (') : 'User Name'}
               </h2>
               {(loginRole || userRole) && <h3 className="user-role">{loginRole ?? userRole}</h3>}
@@ -113,11 +113,11 @@ const InternalControlHomePage = () => {
                         number={statusInfo.reAssessed}
                         tooltip={
                           <div>
-                            <span className="yellow-text"> Re-assessed : </span>
+                            <span className="yellow-text"> Incorrect Owner : </span>
                             <span>if owner has reassessed the already submitted assessment.</span>
                           </div>
                         }
-                        subTitle="Re-assessed"
+                        subTitle="Incorrect Owner"
                       />
                     </div>
                   </div>
@@ -127,7 +127,7 @@ const InternalControlHomePage = () => {
           </div>
         </div>
         <InternalControlTable />
-        {Control_ID && <HomeTableModal />}
+        {Control_ID && <HomeTableModal isModal={true}/>}
       </PageWrapper>
     </div>
   );
