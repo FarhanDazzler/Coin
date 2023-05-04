@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-
 import { useMsal, useIsAuthenticated } from '@azure/msal-react';
-import { loginRequest } from '../../utils/authConfig';
-
 import '../../assets/styles/TopBar.css';
 import FeatherIcon from 'feather-icons-react';
 import abiLogo from '../../assets/images/abi_logo.png';
@@ -65,8 +62,8 @@ const TopBar = (props) => {
   const [roleValue, setRoleValue] = useState([]);
 
   const names = [
-    { label: 'Self-Assessment Module', value: 'Self-Assessment Module' },
-    { label: 'REP Letters Module', value: 'REP Letters Module' },
+    { label: 'Assessment Module', value: 'Assessment Module' },
+    { label: 'Representation Letter Module', value: 'Representation Letter Module' },
   ];
 
   useEffect(() => {
@@ -283,14 +280,16 @@ const TopBar = (props) => {
               </div>
             </div>
             <div className="select-light mt-0">
-              <FormControl sx={{ width: 210 }}>
+              <FormControl sx={{ maxWidth: 270 }}>
                 <Select
-                  defaultValue="Self-Assessment Module"
+                  defaultValue="Assessment Module"
                   size="small"
                   inputProps={{ 'aria-label': 'Without label' }}
                   options={names}
                   onChange={(e) => {
-                    history.push(e.target.value === 'REP Letters Module' ? '/REP-Letters' : '/');
+                    history.push(
+                      e.target.value === 'Representation Letter Module' ? '/REP-Letters' : '/',
+                    );
                   }}
                 />
               </FormControl>

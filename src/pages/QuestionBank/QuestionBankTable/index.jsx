@@ -64,7 +64,6 @@ const QuestionBankTable = () => {
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
-    
   ];
 
   useEffect(() => {
@@ -83,7 +82,7 @@ const QuestionBankTable = () => {
     <>
       <div className="container mt-5">
         <div className="row pt-5">
-          <div className="col col-lg-12">
+          <div className="col-12 col-lg-12">
             <div className="questionBank-table-button">
               <div className="table-heading">Repository of Control IDs</div>
             </div>
@@ -98,7 +97,10 @@ const QuestionBankTable = () => {
         width={900}
         title={`Questions for ${selectedControlId}`}
       >
-        <ControlidTableModal selectedControlId={selectedControlId} handleClose={() => setShowModal(false)}/>
+        <ControlidTableModal
+          selectedControlId={selectedControlId}
+          handleClose={() => setShowModal(false)}
+        />
       </CustomModal>
     </>
   );

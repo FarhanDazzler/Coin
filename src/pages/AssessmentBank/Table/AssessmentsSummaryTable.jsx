@@ -86,7 +86,7 @@ const AssessmentsSummaryTable = () => {
 
   // multi choice user input State for filters button
   const [yearValue, setYearValue] = useState([]);
-  const {loading} = useSelector(addAssessmentSchedulingAndTriggeringSelector);
+  const { loading } = useSelector(addAssessmentSchedulingAndTriggeringSelector);
 
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
 
@@ -192,7 +192,7 @@ const AssessmentsSummaryTable = () => {
       <PageWrapper>
         <div className="container mt-5">
           <div className="row">
-            <div className="col col-lg-12">
+            <div className="col-12 col-lg-12">
               <div className="mdm-table-global-filters">
                 <FilterButtons
                   year={removeDuplicates(year)}

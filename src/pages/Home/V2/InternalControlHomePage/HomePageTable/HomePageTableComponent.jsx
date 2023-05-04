@@ -171,7 +171,7 @@ const DashboardTable = () => {
       {/*</div>*/}
       <div className="container mt-5">
         <div className="row pt-5">
-          <div className="col col-lg-12">
+          <div className="col-12 col-lg-12">
             <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
           </div>
         </div>

@@ -26,7 +26,7 @@ const MDM_Mega_Process_Sub_ProcessLandingPage = () => {
 
   return (
     <PageWrapper>
-      <div className="col col-lg-12">
+      <div className="col-12 col-lg-12">
         <NavTabsMDM />
         <MegaAndSubprocessViewTable />
         {!!megaAndSubprocessManageButtonState && <MegaAndSubprocessTable />}
