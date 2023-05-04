@@ -74,20 +74,19 @@ const InternalControlTable = (props) => {
     ) {
       return setTableData(tableDataArray);
     }
-
+    const updateData = tableDataArray.filter((i) => {
+      return (
+        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
+        (assessmentCycleValue?.length
+          ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
+        (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+        (buValue?.length ? buValue.includes(i.BU) : true) &&
+        (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
+        (providerValue?.length ? providerValue.includes(i.Provider) : true)
+      );
+    })
     setTableData(
-      tableDataArray.filter((i) => {
-        return (
-          (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-          (assessmentCycleValue?.length
-            ? assessmentCycleValue.includes(i.Assessment_Cycle) &&
-            (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-            (buValue?.length ? buValue.includes(i.BU) : true) &&
-            (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
-            (providerValue?.length ? providerValue.includes(i.Provider) : true)
-            : true)
-        );
-      }),
+      updateData
     );
   }, [yearValue, assessmentCycleValue, zoneValue, buValue, receiverValue, providerValue]);
 
