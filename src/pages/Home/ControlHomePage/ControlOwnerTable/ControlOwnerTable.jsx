@@ -68,12 +68,12 @@ const ControlOwnerTable = ({ tableName }) => {
                 // onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
                 onClick={() => handleControlIDClick(row.row.Control_ID)}
               >
-               ReView Assessment
+                ReView Assessment
               </Button>
             )}
             {['Not started', 'Re-assessed'].includes(row.row.Status) && (
-              <Button 
-              onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
+              <Button
+                onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
               >
                 Attempt Assessment
               </Button>
@@ -244,21 +244,19 @@ const ControlOwnerTable = ({ tableName }) => {
     ) {
       return setTableDataArray(tableData);
     }
-
-    setTableDataArray(
-      tableData.filter((i) => {
-        return (
-          (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-          (assessmentCycleValue?.length
-            ? assessmentCycleValue.includes(i.Assessment_Cycle) &&
-            (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-            (buValue?.length ? buValue.includes(i.BU) : true) &&
-            (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
-            (providerValue?.length ? providerValue.includes(i.Provider) : true)
-            : true)
-        );
-      }),
-    );
+    const updatedData = tableData.filter((i) => {
+      return (
+        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
+        (assessmentCycleValue?.length
+          ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
+        (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+        (buValue?.length ? buValue.includes(i.BU) : true) &&
+        (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
+        (providerValue?.length ? providerValue.includes(i.Provider) : true)
+      );
+    })
+    console.log('updatedData', updatedData, assessmentCycleValue)
+    setTableDataArray(updatedData);
   }, [yearValue, assessmentCycleValue, zoneValue, buValue, receiverValue, providerValue, tableData]);
   return (
     <>
