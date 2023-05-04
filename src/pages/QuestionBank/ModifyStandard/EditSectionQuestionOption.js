@@ -55,9 +55,9 @@ const EditSection1QuestionOption = ({
     setQuestion(value.target.value);
   };
 
-  useEffect(() => {
-    setBlock(apiBlock);
-  }, [apiBlock]);
+  // useEffect(() => {
+  //   setBlock(apiBlock);
+  // }, [apiBlock]);
 
   useEffect(() => {
     if (block.hasOwnProperty('options')) {
