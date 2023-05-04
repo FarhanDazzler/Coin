@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PageWrapper from '../../../components/wrappers/PageWrapper';
-import './NotAuthorizedStyles.scss';
+// import './NotAuthorizedStyles.scss';
 
 const REP_Letters_HomePage = () => {
   return (

@@ -13,7 +13,8 @@ import { getControlOwnerTableData } from '../../../../redux/DashBoard/DashBoardA
 import { getControlOwnerDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
 import TableLoader from '../../../../components/UI/TableLoader';
 import Button from '../../../../components/UI/Button';
-
+import { Group } from '@mantine/core';
+import FilterButtons from '../../../../components/FilterButtons';
 const ControlOwnerTable = ({ tableName }) => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -24,6 +25,21 @@ const ControlOwnerTable = ({ tableName }) => {
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const loginUserRole = loginRole ?? userRole;
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
+
+  let controlOwnerData = ([] = []);
+  if (loginUserRole === 'Control owner') {
+    controlOwnerData = getControlOwnerData.data[0]?.cOwnerData || [];
+  } else {
+    controlOwnerData = getControlOwnerData.data[1]?.cOverSightData || [];
+  }
+
+  // multi choice user input State for filters button
+  const [yearValue, setYearValue] = useState([]);
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
+  const [zoneValue, setZoneValue] = useState([]);
+  const [buValue, setBUValue] = useState([]);
+  const [receiverValue, setReceiverValue] = useState([]);
+  const [providerValue, setProviderValue] = useState([]);
 
   useEffect(() => {
     dispatch(
@@ -36,11 +52,37 @@ const ControlOwnerTable = ({ tableName }) => {
 
   const TABLE_COLUMNS = [
     {
+      field: 'Action',
+      headerName: 'Action',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 270,
+      renderCell: (row) => {
+        return (
+          <div>
+            {row.row.Status === 'Completed' && (
+              <Button
+                className="mr-2"
+                onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
+              >
+                view
+              </Button>
+            )}
+            {['Not started', 'Re-assessed'].includes(row.row.Status) && (
+              <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>
+                Attempt response
+              </Button>
+            )}
+          </div>
+        );
+      },
+    },
+    {
       field: 'id',
       headerName: 'id',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 50,
+      minWidth: 100,
     },
     {
       field: 'Assessment_Cycle',
@@ -149,28 +191,14 @@ const ControlOwnerTable = ({ tableName }) => {
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
-    {
-      field: '',
-      headerName: 'Action',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 250,
-      renderCell: (row) => {
-        return (
-          <div>
-            <Button
-              className="mr-2"
-              onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
-            >
-              view
-            </Button>
-            <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>assessment</Button>
-          </div>
-        );
-      },
-    },
   ];
 
+  const Zone = controlOwnerData?.map((i) => i.Zone);
+  const BU = controlOwnerData?.map((i) => i.BU);
+  const Receiver = controlOwnerData?.map((i) => i.Receiver);
+  const Provider = controlOwnerData?.map((i) => i.Provider);
+  const year = controlOwnerData?.map((i) => i.Year);
+  const assessment_Cycle = controlOwnerData?.map((i) => i.Assessment_Cycle);
   const handleControlIDClick = (id) => {
     //TODO: modal redirect
     let payload = {
@@ -184,6 +212,10 @@ const ControlOwnerTable = ({ tableName }) => {
     dispatch(getControlDataGcdAction(gcdPayload));
     history.push(`${history.location.pathname}?Control_ID=${id}`);
   };
+
+  function removeDuplicates(arr) {
+    return [...new Set(arr)];
+  }
 
   useEffect(() => {
     if (loginUserRole === 'Control owner') {
@@ -208,6 +240,31 @@ const ControlOwnerTable = ({ tableName }) => {
         ) : (
           <div className="row pt-5">
             <div className="col col-lg-12">
+              <Group spacing="xs" className="actions-button-wrapper">
+                <FilterButtons
+                  year={removeDuplicates(year)}
+                  assessment_Cycle={removeDuplicates(assessment_Cycle)}
+                  Zone={removeDuplicates(Zone)}
+                  BU={removeDuplicates(BU)}
+                  Receiver={removeDuplicates(Receiver)}
+                  Provider={removeDuplicates(Provider)}
+                  yearValue={yearValue}
+                  assessmentCycleValue={assessmentCycleValue}
+                  zoneValue={zoneValue}
+                  buValue={buValue}
+                  receiverValue={receiverValue}
+                  providerValue={providerValue}
+                  setYearValue={setYearValue}
+                  setAssessmentCycleValue={setAssessmentCycleValue}
+                  setZoneValue={setZoneValue}
+                  setBUValue={setBUValue}
+                  setReceiverValue={setReceiverValue}
+                  setProviderValue={setProviderValue}
+                />
+              </Group>
+            </div>
+
+            <div className="col col-lg-12 mt-5">
               <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
             </div>
           </div>
