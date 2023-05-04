@@ -11,7 +11,7 @@ import coinLogo from '../../assets/images/coin_logo.png';
 import defaultProfilePhoto from '../../assets/images/profile.jpg';
 import { UserContext } from '../../context/userContext';
 import appLogo from '../../assets/images/GCCWhite.png';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLoginInfo, setLoginRole } from '../../redux/Auth/AuthAction';
 import { Form } from 'react-bootstrap';
 import MultiSelectButton from '../../components/Buttons/MultiSelect/MultiSelectButtonComponents';
@@ -65,8 +65,8 @@ const TopBar = (props) => {
   const [roleValue, setRoleValue] = useState([]);
 
   const names = [
-    { label: 'REP Letters Module', value: 'REP Letters Module' },
     { label: 'Self-Assessment Module', value: 'Self-Assessment Module' },
+    { label: 'REP Letters Module', value: 'REP Letters Module' },
   ];
 
   useEffect(() => {
@@ -222,58 +222,62 @@ const TopBar = (props) => {
                     </a>
                   </li>
 
-                  {props.userRole == 'administrational persona' && (
-                    <li className="nav-item">
-                      <a
-                        className={`navbar-link ${
-                          ['/master-data-management', '/register'].includes(location?.pathname)
-                            ? ' active'
-                            : ''
-                        }`}
-                        onClick={() => {
-                          history.push('/master-data-management');
-                        }}
-                      >
-                        <FeatherIcon icon="layers" size={14} />
-                        &nbsp;{'Master Data Management'}
-                      </a>
-                    </li>
-                  )}
+                  {!props.isControlPage && (
+                    <>
+                      {props.userRole == 'administrational persona' && (
+                        <li className="nav-item">
+                          <a
+                            className={`navbar-link ${
+                              ['/master-data-management', '/register'].includes(location?.pathname)
+                                ? ' active'
+                                : ''
+                            }`}
+                            onClick={() => {
+                              history.push('/master-data-management');
+                            }}
+                          >
+                            <FeatherIcon icon="layers" size={14} />
+                            &nbsp;{'Master Data Management'}
+                          </a>
+                        </li>
+                      )}
 
-                  {props.userRole == 'administrational persona' && (
-                    <li className="nav-item">
-                      <a
-                        className={`navbar-link ${
-                          ['/questionbank', '/register'].includes(location?.pathname)
-                            ? ' active'
-                            : ''
-                        }`}
-                        onClick={() => {
-                          history.push('/questionbank');
-                        }}
-                      >
-                        <FeatherIcon icon="help-circle" size={14} />
-                        &nbsp;{'Question Bank'}
-                      </a>
-                    </li>
-                  )}
+                      {props.userRole == 'administrational persona' && (
+                        <li className="nav-item">
+                          <a
+                            className={`navbar-link ${
+                              ['/questionbank', '/register'].includes(location?.pathname)
+                                ? ' active'
+                                : ''
+                            }`}
+                            onClick={() => {
+                              history.push('/questionbank');
+                            }}
+                          >
+                            <FeatherIcon icon="help-circle" size={14} />
+                            &nbsp;{'Question Bank'}
+                          </a>
+                        </li>
+                      )}
 
-                  {props.userRole == 'administrational persona' && (
-                    <li className="nav-item">
-                      <a
-                        className={`navbar-link ${
-                          ['/assessmentbank', '/register'].includes(location?.pathname)
-                            ? ' active'
-                            : ''
-                        }`}
-                        onClick={() => {
-                          history.push('/assessmentbank');
-                        }}
-                      >
-                        <FeatherIcon icon="clipboard" size={14} />
-                        &nbsp;{'Assessment Bank'}
-                      </a>
-                    </li>
+                      {props.userRole == 'administrational persona' && (
+                        <li className="nav-item">
+                          <a
+                            className={`navbar-link ${
+                              ['/assessmentbank', '/register'].includes(location?.pathname)
+                                ? ' active'
+                                : ''
+                            }`}
+                            onClick={() => {
+                              history.push('/assessmentbank');
+                            }}
+                          >
+                            <FeatherIcon icon="clipboard" size={14} />
+                            &nbsp;{'Assessment Bank'}
+                          </a>
+                        </li>
+                      )}
+                    </>
                   )}
                 </ul>
               </div>
@@ -281,10 +285,13 @@ const TopBar = (props) => {
             <div className="select-light mt-0">
               <FormControl sx={{ width: 210 }}>
                 <Select
-                  defaultValue="REP Letters Module"
+                  defaultValue="Self-Assessment Module"
                   size="small"
                   inputProps={{ 'aria-label': 'Without label' }}
                   options={names}
+                  onChange={(e) => {
+                    history.push(e.target.value === 'REP Letters Module' ? '/REP-Letters' : '/');
+                  }}
                 />
               </FormControl>
             </div>

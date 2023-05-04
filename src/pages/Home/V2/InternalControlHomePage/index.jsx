@@ -8,9 +8,9 @@ import HomeTableModal from './HomeTableModal';
 import { useSelector } from 'react-redux';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import ProgressBar from './HomePageTable/ProgressBar/ProgressBar';
-import FilterButtons from '../../../../components/FilterButtons';
 import { TABLE_ROES } from './HomePageTable/constant';
 import InternalControlTable from '../../Tables/InternalControlTable/InternalControlTable';
+import { getInternalControlDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
 
 const InternalControlHomePage = () => {
   const history = useHistory();
@@ -18,6 +18,7 @@ const InternalControlHomePage = () => {
   const Control_ID = query.get('Control_ID');
   const userRole = localStorage.getItem('selected_Role');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
+  const getControlOwnerData = useSelector(getInternalControlDataSelector);
   const [statusInfo, setStatusInfo] = useState({
     notStarted: 0,
     completed: 0,
@@ -25,12 +26,12 @@ const InternalControlHomePage = () => {
     reAssessed: 0,
   });
 
-  const getNumberOfItem = (array, itemName) => {
-    return array.filter((val) => val === itemName)?.length;
+  const getNumberOfItem = (array = [], itemName) => {
+    return array?.filter((val) => val === itemName)?.length;
   };
 
   useEffect(() => {
-    const allstatus = TABLE_ROES.map((d) => {
+    const allstatus = getControlOwnerData?.data?.map((d) => {
       return d.Status;
     });
     setStatusInfo({
@@ -39,8 +40,7 @@ const InternalControlHomePage = () => {
       draft: getNumberOfItem(allstatus, 'Draft'),
       reAssessed: getNumberOfItem(allstatus, 'Re-assessed'),
     });
-    console.log('TABLE_ROES', allstatus);
-  }, []);
+  }, [getControlOwnerData]);
   const { accounts } = useMsal();
   return (
     <div>

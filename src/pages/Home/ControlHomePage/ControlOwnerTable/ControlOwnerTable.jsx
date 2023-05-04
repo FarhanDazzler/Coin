@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
-import { useDispatch } from 'react-redux';
-import { TABLE_ROES } from './constant';
+import { useDispatch, useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
 import {
   getControlDataGcdAction,
@@ -10,32 +9,90 @@ import {
 } from '../../../../redux/ControlData/ControlDataAction';
 import { class_to_apply } from '../../V2/InternalControlHomePage/HomePageTable/constant';
 import Table from '../../../../components/UI/Table';
-
+import { getControlOwnerTableData } from '../../../../redux/DashBoard/DashBoardAction';
+import { getControlOwnerDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
+import TableLoader from '../../../../components/UI/TableLoader';
+import Button from '../../../../components/UI/Button';
+import { Group } from '@mantine/core';
+import FilterButtons from '../../../../components/FilterButtons';
 const ControlOwnerTable = ({ tableName }) => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const history = useHistory();
   const { accounts } = useMsal();
   const dispatch = useDispatch();
-  const query = new URLSearchParams(history.location.search);
+  const userRole = localStorage.getItem('selected_Role');
+  const loginRole = useSelector((state) => state?.auth?.loginRole);
+  const loginUserRole = loginRole ?? userRole;
+  const getControlOwnerData = useSelector(getControlOwnerDataSelector);
+
+  let controlOwnerData = ([] = []);
+  if (loginUserRole === 'Control owner') {
+    controlOwnerData = getControlOwnerData.data[0]?.cOwnerData || [];
+  } else {
+    controlOwnerData = getControlOwnerData.data[1]?.cOverSightData || [];
+  }
+
+  // multi choice user input State for filters button
+  const [yearValue, setYearValue] = useState([]);
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
+  const [zoneValue, setZoneValue] = useState([]);
+  const [buValue, setBUValue] = useState([]);
+  const [receiverValue, setReceiverValue] = useState([]);
+  const [providerValue, setProviderValue] = useState([]);
+
+  useEffect(() => {
+    dispatch(
+      getControlOwnerTableData({
+        email: 'Vikash.Jha@AB-inbev.com',
+      }),
+    );
+    setTableColumns(TABLE_COLUMNS);
+  }, []);
 
   const TABLE_COLUMNS = [
+    {
+      field: 'Action',
+      headerName: 'Action',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      minWidth: 270,
+      renderCell: (row) => {
+        return (
+          <div>
+            {row.row.Status === 'Completed' && (
+              <Button
+                className="mr-2"
+                onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
+              >
+                view
+              </Button>
+            )}
+            {['Not started', 'Re-assessed'].includes(row.row.Status) && (
+              <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>
+                Attempt response
+              </Button>
+            )}
+          </div>
+        );
+      },
+    },
     {
       field: 'id',
       headerName: 'id',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 50,
+      minWidth: 100,
     },
     {
-      field: 'assessmentCycle',
+      field: 'Assessment_Cycle',
       headerName: 'Assessment Cycle',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 120,
     },
     {
-      field: 'year',
+      field: 'Year',
       headerName: 'Year',
       flex: 1,
       cellClassName: 'dashboardCell',
@@ -49,7 +106,7 @@ const ControlOwnerTable = ({ tableName }) => {
       minWidth: 180,
     },
     {
-      field: 'providerOrg',
+      field: 'Provider',
       headerName: 'Provider Org',
       flex: 1,
       cellClassName: 'dashboardCell',
@@ -121,14 +178,14 @@ const ControlOwnerTable = ({ tableName }) => {
       },
     },
     {
-      field: 'Co_Owner',
+      field: 'Control_Owner',
       headerName: 'Control Owner',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Co_Oversight',
+      field: 'Control_Oversight',
       headerName: 'Control Oversight',
       flex: 1,
       cellClassName: 'dashboardCell',
@@ -136,6 +193,12 @@ const ControlOwnerTable = ({ tableName }) => {
     },
   ];
 
+  const Zone = controlOwnerData?.map((i) => i.Zone);
+  const BU = controlOwnerData?.map((i) => i.BU);
+  const Receiver = controlOwnerData?.map((i) => i.Receiver);
+  const Provider = controlOwnerData?.map((i) => i.Provider);
+  const year = controlOwnerData?.map((i) => i.Year);
+  const assessment_Cycle = controlOwnerData?.map((i) => i.Assessment_Cycle);
   const handleControlIDClick = (id) => {
     //TODO: modal redirect
     let payload = {
@@ -150,10 +213,17 @@ const ControlOwnerTable = ({ tableName }) => {
     history.push(`${history.location.pathname}?Control_ID=${id}`);
   };
 
+  function removeDuplicates(arr) {
+    return [...new Set(arr)];
+  }
+
   useEffect(() => {
-    setTableColumns(TABLE_COLUMNS);
-    setTableData(TABLE_ROES);
-  }, []);
+    if (loginUserRole === 'Control owner') {
+      setTableData(getControlOwnerData.data[0]?.cOwnerData || []);
+    } else {
+      setTableData(getControlOwnerData.data[1]?.cOverSightData || []);
+    }
+  }, [getControlOwnerData.data, loginUserRole]);
   return (
     <>
       <div className="container mt-5">
@@ -165,11 +235,40 @@ const ControlOwnerTable = ({ tableName }) => {
       </div>
 
       <div className="container">
-        <div className="row pt-5">
-          <div className="col col-lg-12">
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+        {getControlOwnerData.loading ? (
+          <TableLoader className="mt-8" />
+        ) : (
+          <div className="row pt-5">
+            <div className="col col-lg-12">
+              <Group spacing="xs" className="actions-button-wrapper">
+                <FilterButtons
+                  year={removeDuplicates(year)}
+                  assessment_Cycle={removeDuplicates(assessment_Cycle)}
+                  Zone={removeDuplicates(Zone)}
+                  BU={removeDuplicates(BU)}
+                  Receiver={removeDuplicates(Receiver)}
+                  Provider={removeDuplicates(Provider)}
+                  yearValue={yearValue}
+                  assessmentCycleValue={assessmentCycleValue}
+                  zoneValue={zoneValue}
+                  buValue={buValue}
+                  receiverValue={receiverValue}
+                  providerValue={providerValue}
+                  setYearValue={setYearValue}
+                  setAssessmentCycleValue={setAssessmentCycleValue}
+                  setZoneValue={setZoneValue}
+                  setBUValue={setBUValue}
+                  setReceiverValue={setReceiverValue}
+                  setProviderValue={setProviderValue}
+                />
+              </Group>
+            </div>
+
+            <div className="col col-lg-12 mt-5">
+              <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );

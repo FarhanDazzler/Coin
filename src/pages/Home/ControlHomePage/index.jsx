@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { MultiSelect } from '@mantine/core';
-
-import { Group } from '@mantine/core';
-
 import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
-
 import ControlOwnerTable from './ControlOwnerTable/ControlOwnerTable';
 import { useSelector } from 'react-redux';
-
 import PageWrapper from '../../../components/wrappers/PageWrapper';
-import FilterButtons from '../../../components/FilterButtons';
 import HomeTableModal from '../V2/InternalControlHomePage/HomeTableModal';
-import { TABLE_ROES } from './ControlOwnerTable/constant';
-
 import './styles.scss';
+import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
 
 const ControlHomePage = () => {
   const history = useHistory();
   const userRole = localStorage.getItem('selected_Role');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
+  const loginUserRole = loginRole ?? userRole;
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
   const { accounts } = useMsal();
+  const getControlOwnerData = useSelector(getControlOwnerDataSelector);
   const [statusInfo, setStatusInfo] = useState({
     notStarted: 0,
     completed: 0,
@@ -35,7 +29,11 @@ const ControlHomePage = () => {
   };
 
   useEffect(() => {
-    const allstatus = TABLE_ROES.map((d) => {
+    const tableData =
+      loginUserRole === 'Control owner'
+        ? getControlOwnerData.data[0]?.cOwnerData || []
+        : getControlOwnerData.data[1]?.cOverSightData || [];
+    const allstatus = tableData.map((d) => {
       return d.Status;
     });
     setStatusInfo({
@@ -44,24 +42,21 @@ const ControlHomePage = () => {
       draft: getNumberOfItem(allstatus, 'Draft'),
       reAssessed: getNumberOfItem(allstatus, 'Re-assessed'),
     });
-    console.log('TABLE_ROES', allstatus);
-  }, []);
+  }, [getControlOwnerData.data, loginUserRole]);
+
   return (
     <div>
       <PageWrapper>
         <div className="container">
           <div className="row pt-5 align-items-center">
-            <div className="col-lg-4">
+            <div className="col-lg-4 pt-5">
               <h4 className="welcome-text">Welcome</h4>
               <h2 className="user-name-home yellow-gradient-text mb-2">
                 {accounts.length > 0 ? accounts[0].name.split('(').join(' (') : 'User Name'}
               </h2>
-              {(loginRole || userRole) && <h3 className="user-role">{loginRole ?? userRole}</h3>}
+              {loginUserRole && <h3 className="user-role">{loginUserRole}</h3>}
             </div>
             <div className="col-lg-8">
-              <div className="mb-4">
-                <FilterButtons />
-              </div>
               <div className="d-flex align-items-center flex-wrap">
                 {/* <AmountInfo amount={12292} infoText={'BU'} />
                 <AmountInfo amount={19} infoText="functional" /> */}
@@ -77,7 +72,7 @@ const ControlHomePage = () => {
                   amount={statusInfo.completed}
                   infoText={
                     <>
-                      Assessment <br /> (completed)
+                      Assessment <br /> (Completed)
                     </>
                   }
                 />
@@ -93,7 +88,7 @@ const ControlHomePage = () => {
                   amount={statusInfo.reAssessed}
                   infoText={
                     <>
-                      Assessment <br /> (incorrect owner)
+                      Assessment <br /> (Re-assessed)
                     </>
                   }
                 />
@@ -102,8 +97,11 @@ const ControlHomePage = () => {
           </div>
         </div>
 
-        <ControlOwnerTable tableName="Control Owner" />
-        <ControlOwnerTable tableName="Control Oversight" />
+        {loginUserRole === 'Control owner' ? (
+          <ControlOwnerTable tableName="Control Owner" />
+        ) : (
+          <ControlOwnerTable tableName="Control Oversight" />
+        )}
 
         {Control_ID && <HomeTableModal />}
       </PageWrapper>

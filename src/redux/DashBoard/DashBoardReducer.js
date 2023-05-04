@@ -1,8 +1,12 @@
 import { stopAsyncValidation } from 'redux-form';
 
-export const GET_DASHBOARD_REQUEST = 'GET_DASHBOARD_REQUEST';
-export const GET_DASHBOARD_SUCCESS = 'GET_DASHBOARD_SUCCESS';
-export const GET_DASHBOARD_ERROR = 'GET_DASHBOARD_ERROR';
+export const GET_INTERNAL_CONTROL_TABLE_REQUEST = 'GET_INTERNAL_CONTROL_TABLE_REQUEST';
+export const GET_INTERNAL_CONTROL_TABLE_SUCCESS = 'GET_INTERNAL_CONTROL_TABLE_SUCCESS';
+export const GET_INTERNAL_CONTROL_TABLE_ERROR = 'GET_INTERNAL_CONTROL_TABLE_ERROR';
+
+export const GET_CONTROL_OWNER_TABLE_REQUEST = 'GET_CONTROL_OWNER_TABLE_REQUEST';
+export const GET_CONTROL_OWNER_TABLE_SUCCESS = 'GET_CONTROL_OWNER_TABLE_SUCCESS';
+export const GET_CONTROL_OWNER_TABLE_ERROR = 'GET_CONTROL_OWNER_TABLE_ERROR';
 
 export const RESET_BLOCK_DASHBOARD = 'RESET_BLOCK_DASHBOARD';
 export const RESET_FLAGS_DASHBOARD = 'RESET_FLAGS_DASHBOARD';
@@ -15,35 +19,50 @@ const block = {
 
 const initialState = {
   sectionAns: null,
-  controlOwnerAndOverSightList: { ...block, data: [] },
+  internalControlData: { ...block, data: [] },
+  controlOwnerData: { ...block, data: [] },
 };
 
 export const dashBoardReducer = (state = initialState, { type, payload = {} }) => {
   switch (type) {
-    case GET_DASHBOARD_REQUEST:
+    case GET_INTERNAL_CONTROL_TABLE_REQUEST:
       return {
         ...state,
-        controlOwnerAndOverSightList: { ...state.controlOwnerAndOverSightList, loading: true },
+        internalControlData: { ...state.internalControlData, loading: true },
       };
-    case GET_DASHBOARD_SUCCESS:
-      if (typeof payload.data === 'string') {
-        return {
-          ...state,
-          controlOwnerAndOverSightList: { ...state.controlOwnerAndOverSightList, loading: true },
-        };
-      }
+    case GET_INTERNAL_CONTROL_TABLE_SUCCESS:
       return {
         ...state,
-        controlOwnerAndOverSightList: {
-          ...state.controlOwnerAndOverSightList,
+        internalControlData: {
+          ...state.internalControlData,
           data: payload.data,
-          loading: true,
+          loading: false,
         },
       };
-    case GET_DASHBOARD_ERROR:
+    case GET_INTERNAL_CONTROL_TABLE_ERROR:
       return {
         ...state,
-        controlOwnerAndOverSightList: { ...state.controlOwnerAndOverSightList, loading: true },
+        internalControlData: { ...state.internalControlData, loading: true },
+      };
+
+    case GET_CONTROL_OWNER_TABLE_REQUEST:
+      return {
+        ...state,
+        controlOwnerData: { ...state.controlOwnerData, loading: true },
+      };
+    case GET_CONTROL_OWNER_TABLE_SUCCESS:
+      return {
+        ...state,
+        controlOwnerData: {
+          ...state.controlOwnerData,
+          data: payload.data,
+          loading: false,
+        },
+      };
+    case GET_CONTROL_OWNER_TABLE_ERROR:
+      return {
+        ...state,
+        controlOwnerData: { ...state.controlOwnerData, loading: true },
       };
 
     //reset block with flag and data
