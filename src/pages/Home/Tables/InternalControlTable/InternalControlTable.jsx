@@ -81,10 +81,10 @@ const InternalControlTable = (props) => {
           (yearValue?.length ? yearValue.includes(i.Year) : true) &&
           (assessmentCycleValue?.length
             ? assessmentCycleValue.includes(i.Assessment_Cycle) &&
-              (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-              (buValue?.length ? buValue.includes(i.BU) : true) &&
-              (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
-              (providerValue?.length ? providerValue.includes(i.Provider) : true)
+            (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+            (buValue?.length ? buValue.includes(i.BU) : true) &&
+            (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
+            (providerValue?.length ? providerValue.includes(i.Provider) : true)
             : true)
         );
       }),
@@ -104,16 +104,16 @@ const InternalControlTable = (props) => {
             {row.row.Status === 'Completed' && (
               <Button
                 className="mr-2"
-                onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
+                onClick={() => handleControlIDClick(row.row.Control_ID)}
               >
-                view
+                ReView Assessment
               </Button>
             )}
-            {['Not started', 'Re-assessed'].includes(row.row.Status) && (
+            {/* {['Not started', 'Re-assessed'].includes(row.row.Status) && (
               <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>
                 Attempt response
               </Button>
-            )}
+            )} */}
           </div>
         );
       },
@@ -123,7 +123,7 @@ const InternalControlTable = (props) => {
       headerName: 'Zone',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      minWidth: 180,
     },
     {
       field: 'Receiver',
@@ -144,16 +144,27 @@ const InternalControlTable = (props) => {
       headerName: 'Control ID',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 150,
+      minWidth: 120,
+      renderCell: (row) => {
+        return (
+          <span
+            className={'text-yellow cursor-pointer'}
+            onClick={() => handleControlIDClick(row.row.Control_ID)}
+          >
+            {row.row.Control_ID}
+          </span>
+        );
+      },
     },
+
     {
       field: 'Status',
       headerName: 'Status',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      minWidth: 120,
       renderCell: (row) => {
-        return <span className={class_to_apply(row.row.Status)}>{row.row.Status}</span>;
+        return <span className={'text-yellow-dark'}>{row.row.Status}</span>;
       },
     },
     {
@@ -161,7 +172,7 @@ const InternalControlTable = (props) => {
       headerName: 'KPI Result',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 150,
+      minWidth: 100,
       renderCell: (row) => {
         return <span className={class_to_apply(row.row.KPI_Result)}>{row.row.KPI_Result}</span>;
       },
@@ -171,7 +182,7 @@ const InternalControlTable = (props) => {
       headerName: 'Assessment Result',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 150,
+      minWidth: 100,
       renderCell: (row) => {
         return (
           <span className={class_to_apply(row.row.Assessment_Result)}>
@@ -182,10 +193,10 @@ const InternalControlTable = (props) => {
     },
     {
       field: 'Compliance_Result',
-      headerName: 'Compliance_Result',
+      headerName: 'Compliance Result',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 150,
+      minWidth: 100,
       renderCell: (row) => {
         return (
           <span className={class_to_apply(row.row.Compliance_Result)}>
@@ -213,15 +224,15 @@ const InternalControlTable = (props) => {
       headerName: 'Assessment Cycle',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 120,
     },
     {
       field: 'Year',
       headerName: 'Year',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 150,
-    },
+      minWidth: 120,
+    }
   ];
 
   useEffect(() => {
