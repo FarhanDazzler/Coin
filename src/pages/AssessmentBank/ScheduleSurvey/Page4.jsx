@@ -164,8 +164,10 @@ const Page4 = ({ handleNext, setStep }) => {
               label="control_id_provider_entity"
               value="control_id_provider_entity"
             />
-            <Workbook.Column label="cowner" value="cowner" />
-            <Workbook.Column label="coversight" value="coversight" />
+            <Workbook.Column label="Control Owner" value="cowner" />
+            <Workbook.Column label="Control Owner Status" value="cowner_status" />
+            <Workbook.Column label="Control Oversight" value="coversight" />
+            <Workbook.Column label="Control Oversight Status" value="coversight_status" />
           </Workbook.Sheet>
         </Workbook>
       </div>
