@@ -38,7 +38,7 @@ const InternalControlHomePage = () => {
       notStarted: getNumberOfItem(allstatus, 'Not started'),
       completed: getNumberOfItem(allstatus, 'Completed'),
       draft: getNumberOfItem(allstatus, 'Draft'),
-      reAssessed: getNumberOfItem(allstatus, 'Re-assessed'),
+      reAssessed: getNumberOfItem(allstatus, 'Incorrect Owner'),
     });
   }, [getControlOwnerData]);
   const { accounts } = useMsal();
@@ -49,7 +49,7 @@ const InternalControlHomePage = () => {
           <div className="row pt-5 align-items-center">
             <div className="col-lg-4">
               <h4 className="welcome-text">Welcome</h4>
-              <h2 className="user-name-home yellow-gradient-text mb-2">
+              <h2 className="user-name-home yellow-gradient-text mb-2 text-capitalize">
                 {accounts.length > 0 ? accounts[0].name.split('(').join(' (') : 'User Name'}
               </h2>
               {(loginRole || userRole) && <h3 className="user-role">{loginRole ?? userRole}</h3>}
@@ -113,11 +113,11 @@ const InternalControlHomePage = () => {
                         number={statusInfo.reAssessed}
                         tooltip={
                           <div>
-                            <span className="yellow-text"> Re-assessed : </span>
+                            <span className="yellow-text"> Incorrect Owner : </span>
                             <span>if owner has reassessed the already submitted assessment.</span>
                           </div>
                         }
-                        subTitle="Re-assessed"
+                        subTitle="Incorrect Owner"
                       />
                     </div>
                   </div>
@@ -127,7 +127,7 @@ const InternalControlHomePage = () => {
           </div>
         </div>
         <InternalControlTable />
-        {Control_ID && <HomeTableModal />}
+        {Control_ID && <HomeTableModal isModal={true}/>}
       </PageWrapper>
     </div>
   );
