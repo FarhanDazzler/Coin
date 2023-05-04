@@ -46,7 +46,7 @@ const ControlOwnerTable = ({ tableName }) => {
   useEffect(() => {
     dispatch(
       getControlOwnerTableData({
-        email: 'Vikash.Jha@AB-inbev.com',
+        email: accounts[0]?.username,
       }),
     );
     setTableColumns(TABLE_COLUMNS);
@@ -72,9 +72,7 @@ const ControlOwnerTable = ({ tableName }) => {
               </Button>
             )}
             {['Not started', 'Re-assessed'].includes(row.row.Status) && (
-              <Button
-                onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
-              >
+              <Button onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}>
                 Attempt Assessment
               </Button>
             )}
@@ -196,7 +194,7 @@ const ControlOwnerTable = ({ tableName }) => {
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 120,
-    }
+    },
   ];
 
   const Zone = controlOwnerData?.map((i) => i.Zone);
@@ -231,9 +229,8 @@ const ControlOwnerTable = ({ tableName }) => {
     }
   }, [getControlOwnerData.data, loginUserRole]);
 
-
   useEffect(() => {
-    if (!tableData.length) return
+    if (!tableData.length) return;
     if (
       !yearValue.length &&
       !assessmentCycleValue.length &&
@@ -247,17 +244,24 @@ const ControlOwnerTable = ({ tableName }) => {
     const updatedData = tableData.filter((i) => {
       return (
         (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-        (assessmentCycleValue?.length
-          ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
+        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true) &&
         (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
         (providerValue?.length ? providerValue.includes(i.Provider) : true)
       );
-    })
-    console.log('updatedData', updatedData, assessmentCycleValue)
+    });
+    console.log('updatedData', updatedData, assessmentCycleValue);
     setTableDataArray(updatedData);
-  }, [yearValue, assessmentCycleValue, zoneValue, buValue, receiverValue, providerValue, tableData]);
+  }, [
+    yearValue,
+    assessmentCycleValue,
+    zoneValue,
+    buValue,
+    receiverValue,
+    providerValue,
+    tableData,
+  ]);
   return (
     <>
       <div className="container mt-5">
@@ -299,7 +303,11 @@ const ControlOwnerTable = ({ tableName }) => {
             </div>
 
             <div className="col col-lg-12 mt-5">
-              <Table tableData={tableDataArray} tableColumns={tableColumns} columns={tableColumns} />
+              <Table
+                tableData={tableDataArray}
+                tableColumns={tableColumns}
+                columns={tableColumns}
+              />
             </div>
           </div>
         )}

@@ -239,11 +239,16 @@ async function recallAssessmentApi(payload) {
 }
 function* recallAssessmentData({ payload }) {
   try {
-    const response = yield call(recallAssessmentApi, payload);
+    const params=payload.body
+    const response = yield call(recallAssessmentApi, payload.params);
     if (response.success) {
       yield put({
         type: RECALL_ASSESSMENT_SUCCESS,
         payload: response.data,
+      });
+      yield put({
+        type: GET_ASSESSMENT_DETAILS_TABLE_REQUEST,
+        payload: params,
       });
       Swal.fire('Done!', 'Assessment Recalled Successfully!', 'success');
     } else {
@@ -264,11 +269,16 @@ async function reTriggerAssessmentApi(payload) {
 }
 function* reTriggerAssessmentData({ payload }) {
   try {
-    const response = yield call(reTriggerAssessmentApi, payload);
+    const params=payload.body
+    const response = yield call(reTriggerAssessmentApi, payload.params);
     if (response.success) {
       yield put({
         type: RE_TRIGGER_ASSESSMENT_SUCCESS,
         payload: response.data,
+      });
+      yield put({
+        type: GET_ASSESSMENT_DETAILS_TABLE_REQUEST,
+        payload: params,
       });
       Swal.fire('Done!', 'Assessment Re-Triggered Successfully!', 'success');
     } else {

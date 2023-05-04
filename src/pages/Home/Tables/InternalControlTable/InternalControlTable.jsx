@@ -42,7 +42,7 @@ const InternalControlTable = (props) => {
     //code for getting Internal Control Home Page table data
     dispatch(
       getInternalControlTableData({
-        email: 'Vikash.Jha@AB-inbev.com',
+        email: accounts[0]?.username,
       }),
     );
   }, []);
@@ -77,17 +77,14 @@ const InternalControlTable = (props) => {
     const updateData = tableDataArray.filter((i) => {
       return (
         (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-        (assessmentCycleValue?.length
-          ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
+        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true) &&
         (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
         (providerValue?.length ? providerValue.includes(i.Provider) : true)
       );
-    })
-    setTableData(
-      updateData
-    );
+    });
+    setTableData(updateData);
   }, [yearValue, assessmentCycleValue, zoneValue, buValue, receiverValue, providerValue]);
 
   const TABLE_COLUMNS = [
@@ -101,10 +98,7 @@ const InternalControlTable = (props) => {
         return (
           <div>
             {row.row.Status === 'Completed' && (
-              <Button
-                className="mr-2"
-                onClick={() => handleControlIDClick(row.row.Control_ID)}
-              >
+              <Button className="mr-2" onClick={() => handleControlIDClick(row.row.Control_ID)}>
                 ReView Assessment
               </Button>
             )}
@@ -231,7 +225,7 @@ const InternalControlTable = (props) => {
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 120,
-    }
+    },
   ];
 
   useEffect(() => {

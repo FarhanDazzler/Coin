@@ -13,6 +13,7 @@ import { Divider, Box } from '@mantine/core';
 import Workbook from 'react-excel-workbook';
 import '../AssessmentBankLandingPage.scss';
 import {
+  addAssessmentSchedulingAndTriggeringSelector,
   scheduleSurveyPage_1Selector,
   scheduleSurveyPage_2Selector,
   scheduleSurveyPage_3Selector,
