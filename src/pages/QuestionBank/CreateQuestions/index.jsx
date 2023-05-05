@@ -9,7 +9,7 @@ import { ReactComponent as UploadFile } from '../../../assets/images/UploadFile.
 import blockType from '../../../components/RenderBlock/constant';
 import { getFormatQuestions, getQuestionsFormatData } from '../../../utils/helper';
 import CustomModal from '../../../components/UI/CustomModal';
-import Select from '../../../components/UI/Select/Select';
+//import Select from '../../../components/UI/Select/Select';
 import CollapseFrame from '../../../components/UI/CollapseFrame';
 import QuestionsWithAction from '../../../components/UI/QuestionsWithAction';
 import Button from '../../../components/UI/Button';
@@ -24,6 +24,8 @@ import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
 import Swal from 'sweetalert2';
 import Section3MICSSpecific from '../Section3MICSSpecific';
 import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
+import Select from 'react-select'
+import { Form } from 'react-bootstrap';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -40,6 +42,7 @@ const CreateQuestions = ({ open, handleClose }) => {
   const dispatch = useDispatch();
   const [section1, setSection1] = useState(questions);
   const [control_ID, setControl_ID] = useState(['']);
+  const [controlIDOption, setControlIDOption] = useState()
   const [showAddQuestion, setShowAddQuestion] = useState(false);
   const [level, setLevel] = useState(['L1']);
   const [isEdit, setIsEdit] = useState(false);
@@ -52,7 +55,7 @@ const CreateQuestions = ({ open, handleClose }) => {
       console.log("hi buddy",repositoryOfControlID);
       let controlidArray = [];
       repositoryOfControlID?.data.map((data) => {
-        controlidArray.push( { label: data.Control_ID, value: data.Control_ID });
+        controlidArray.push( { 'label': data.Control_ID, 'value': data.Control_ID });
       })
       console.log("controlidArray",controlidArray);
       setControlIDList(controlidArray);
@@ -60,9 +63,8 @@ const CreateQuestions = ({ open, handleClose }) => {
     }
   },[repositoryOfControlID])
   const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
+    console.log(event);
+    const value = event.value;
     if (isEdit) {
       Swal.fire({
         icon: 'info',
@@ -77,6 +79,7 @@ const CreateQuestions = ({ open, handleClose }) => {
       return;
     }
     setControl_ID(typeof value === 'string' ? value.split(',') : value);
+    setControlIDOption(event)
   };
 
   useEffect(() => {
@@ -191,6 +194,7 @@ const CreateQuestions = ({ open, handleClose }) => {
   return (
     <div>
       <CustomModal
+      bodyClassName="create-question-popup"
         open={open}
         title={
           <span>
@@ -202,16 +206,22 @@ const CreateQuestions = ({ open, handleClose }) => {
         onClose={handleClose}
       >
         <div className="select-light">
-          <FormControl sx={{ width: 300 }}>
+          <Form.Group className='input-group mb-3'>
+            <div style={{width : '300px'}}>
             <Select
+             maxMenuHeight={200}
               placeholder="Control ID * "
-              value={control_ID}
+              value={controlIDOption}
+              defaultValue={controlIDOption}
               onChange={handleChange}
-              MenuProps={MenuProps}
-              inputProps={{ 'aria-label': 'Without label' }}
+              className='l-input'
+              //MenuProps={MenuProps}
+              //inputProps={{ 'aria-label': 'Without label' }}
               options={controlIDList}
             />
-          </FormControl>
+            </div>
+            
+          </Form.Group>
         </div>
         {
           control_ID[0] !== '' &&
