@@ -23,7 +23,7 @@ const AssessmentBankLandingPage = () => {
           <div className="col-12">
             <div className="container mt-5">
               <div className="row">
-                <div className="col col-lg-12">
+                <div className="col-12 col-lg-12">
                   <Group spacing="xs" className="actions-button-wrapper">
                     <Button
                       color="silver"

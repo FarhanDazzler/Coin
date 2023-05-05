@@ -90,7 +90,7 @@ const InternalControlTable = (props) => {
   const TABLE_COLUMNS = [
     {
       field: 'Action',
-      headerName: 'Action',
+      headerName: 'Review',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 270,

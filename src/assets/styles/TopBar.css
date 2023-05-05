@@ -8,18 +8,21 @@
   animation: blinker 3.5s linear infinite;
 }
 
+.rbac-dropdown {
+  text-transform: capitalize;
+}
+
 @keyframes blinker {
   50% {
     opacity: 0;
   }
 }
 
-.rbac-dropdown{
-    color: #e3af32;
-    background-color: #1a1b1e;
-    border-color: transparent;
-    box-shadow: none;
-    border-radius: 15px;
-    margin-right: 15px;
-
+.rbac-dropdown {
+  color: #e3af32;
+  background-color: #1a1b1e;
+  border-color: transparent;
+  box-shadow: none;
+  border-radius: 15px;
+  margin-right: 15px;
 }

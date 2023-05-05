@@ -88,7 +88,7 @@ const ControlHomePage = () => {
                   amount={statusInfo.reAssessed}
                   infoText={
                     <>
-                      Assessment <br /> (Re-assessed)
+                      Assessment <br /> (Re-assess)
                     </>
                   }
                 />

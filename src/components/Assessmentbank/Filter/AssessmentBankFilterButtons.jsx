@@ -54,7 +54,7 @@ const AssessmentBankFilterButtons = ({ handleSheduleSurvey }) => {
   return (
     <div className="container mt-5">
       <div className="row pt-5">
-        <div className="col col-lg-12">
+        <div className="col-12 col-lg-12">
           <Group spacing="xs">
             <FormControl sx={{ width: 130 }}>
               <Select
@@ -88,7 +88,7 @@ const AssessmentBankFilterButtons = ({ handleSheduleSurvey }) => {
             </FormControl>
           </Group>
         </div>
-        <div className="col col-lg-12 pt-5">
+        <div className="col-12 col-lg-12 pt-5">
           <Group spacing="xs" className="actions-button-wrapper">
             <Button
               color="silver"

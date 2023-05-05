@@ -99,7 +99,14 @@ const OrgHierarchyTable = () => {
   }, [orgHierarchy.data]);
 
   const handleOnclickTableUnhide = () => {
+    console.log('@@@');
     dispatch(orgManageButton(!orgManageButtonState));
+    setTimeout(() => {
+      const dom = document.getElementById('ModifyOrganizations');
+      if (dom) {
+        dom.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+      }
+    }, 200);
   };
 
   const ActiveTool = ({ number, text }) => (
@@ -122,7 +129,7 @@ const OrgHierarchyTable = () => {
     <>
       <div className="container mt-5">
         <div className="row pt-5">
-          <div className="col col-lg-12">
+          <div className="col-12 col-lg-12">
             {/*<FilterButtons zone={removeDuplicates(zoneArray)} />*/}
             <div className="mdm-table-button">
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
