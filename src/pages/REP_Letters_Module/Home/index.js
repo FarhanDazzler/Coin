@@ -10,12 +10,12 @@ const REP_Letters_HomePage = () => {
       <PageWrapper>
         <div className="container">
           <div className="row pt-5 align-items-center">
-            <div className="col-lg-4">
-              <h1 className="user-name-home yellow-gradient-text">{`Not Authorized`}</h1>
-            </div>
-            <div className="col-lg-8">
+            <div className="col-lg-8 offset-lg-2 mt-5 pt-5">
               <div className="home-right-overview">
-                <h4 className="welcome-text">{`Sorry REP Letters Module is under Development`}</h4>
+                <div className="text-center pt-3 pb-5">
+                  <h1 className="user-name-home yellow-gradient-text">{`Not Authorized`}</h1>
+                  <h4 className="welcome-text font-22">{`Representation Letters module is under construction`}</h4>
+                </div>
               </div>
             </div>
           </div>

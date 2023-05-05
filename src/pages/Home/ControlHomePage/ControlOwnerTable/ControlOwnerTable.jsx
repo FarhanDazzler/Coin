@@ -55,7 +55,7 @@ const ControlOwnerTable = ({ tableName }) => {
   const TABLE_COLUMNS = [
     {
       field: 'Action',
-      headerName: 'Action',
+      headerName: 'Take Assessment',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 270,
@@ -106,7 +106,7 @@ const ControlOwnerTable = ({ tableName }) => {
       headerName: 'Control ID',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 120,
+      minWidth: 140,
       renderCell: (row) => {
         return (
           <span
@@ -144,7 +144,7 @@ const ControlOwnerTable = ({ tableName }) => {
       headerName: 'Assessment Result',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      minWidth: 150,
       renderCell: (row) => {
         return (
           <span className={class_to_apply(row.row.Assessment_Result)}>
@@ -158,7 +158,7 @@ const ControlOwnerTable = ({ tableName }) => {
       headerName: 'Compliance Result',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      minWidth: 150,
       renderCell: (row) => {
         return (
           <span className={class_to_apply(row.row.Compliance_Result)}>
@@ -172,21 +172,21 @@ const ControlOwnerTable = ({ tableName }) => {
       headerName: 'Control Owner',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 250,
     },
     {
       field: 'Control_Oversight',
       headerName: 'Control Oversight',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 250,
     },
     {
       field: 'Assessment_Cycle',
       headerName: 'Assessment Cycle',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 120,
+      minWidth: 150,
     },
     {
       field: 'Year',
@@ -230,7 +230,7 @@ const ControlOwnerTable = ({ tableName }) => {
   }, [getControlOwnerData.data, loginUserRole]);
 
   useEffect(() => {
-    if (!tableData.length) return;
+    if (!tableData.length) return setTableDataArray([]);
     if (
       !yearValue.length &&
       !assessmentCycleValue.length &&
@@ -251,7 +251,6 @@ const ControlOwnerTable = ({ tableName }) => {
         (providerValue?.length ? providerValue.includes(i.Provider) : true)
       );
     });
-    console.log('updatedData', updatedData, assessmentCycleValue);
     setTableDataArray(updatedData);
   }, [
     yearValue,
@@ -261,12 +260,13 @@ const ControlOwnerTable = ({ tableName }) => {
     receiverValue,
     providerValue,
     tableData,
+    loginUserRole,
   ]);
   return (
     <>
       <div className="container mt-5">
         <div className="row pt-5">
-          <div className="col col-lg-12">
+          <div className="col-12 col-lg-12">
             <Typography className="table-title">{tableName}</Typography>
           </div>
         </div>
@@ -277,7 +277,7 @@ const ControlOwnerTable = ({ tableName }) => {
           <TableLoader className="mt-8" />
         ) : (
           <div className="row pt-5">
-            <div className="col col-lg-12">
+            <div className="col-12 col-lg-12">
               <Group spacing="xs" className="actions-button-wrapper">
                 <FilterButtons
                   year={removeDuplicates(year)}
@@ -302,7 +302,7 @@ const ControlOwnerTable = ({ tableName }) => {
               </Group>
             </div>
 
-            <div className="col col-lg-12 mt-5">
+            <div className="col-12 col-lg-12 mt-5">
               <Table
                 tableData={tableDataArray}
                 tableColumns={tableColumns}
