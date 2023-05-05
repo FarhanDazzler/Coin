@@ -181,6 +181,7 @@ const HomeTableModal = ({ isModal = false }) => {
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+            // s2:,
           },
           event: {
             onSuccess: () => {

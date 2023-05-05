@@ -24,6 +24,7 @@ const InternalControlHomePage = () => {
     completed: 0,
     draft: 0,
     reAssessed: 0,
+    completedRatio:0
   });
 
   const getNumberOfItem = (array = [], itemName) => {
@@ -34,11 +35,13 @@ const InternalControlHomePage = () => {
     const allstatus = getControlOwnerData?.data?.map((d) => {
       return d.Status;
     });
+    const completedAssessment=getNumberOfItem(allstatus, 'Completed')
     setStatusInfo({
       notStarted: getNumberOfItem(allstatus, 'Not started'),
-      completed: getNumberOfItem(allstatus, 'Completed'),
+      completed:completedAssessment ,
       draft: getNumberOfItem(allstatus, 'Draft'),
       reAssessed: getNumberOfItem(allstatus, 'Incorrect Owner'),
+      completedRatio:((completedAssessment/allstatus.length)*100)?.toFixed(0)
     });
   }, [getControlOwnerData]);
   const { accounts } = useMsal();
@@ -55,79 +58,70 @@ const InternalControlHomePage = () => {
               {(loginRole || userRole) && <h3 className="user-role">{loginRole ?? userRole}</h3>}
             </div>
             <div className="col-lg-8">
-              <div className="home-right-overview">
                 <div className="wrapper-info-grid">
-                  <div>
-                    <div className="d-flex align-items-center mt-4">
-                      <ProgressBar />
-                      {/* <div className="ml-2">
-                        <p className="text-white">1st Assessment Cycle</p>
-                      <h2 className="yellow-gradient-text graph-value">60 %</h2>
-                      </div> */}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="right-number">
-                      <NumberWithText
-                        number={statusInfo.notStarted}
-                        tooltip={
-                          <div>
-                            <span className="yellow-text"> Not started : </span>
-                            <span>
-                              Contact Control Owners to complete assessments, and check fallbacks on
-                              GRC.
-                            </span>
-                          </div>
-                        }
-                        subTitle="Not started"
-                      />
-
-                      <NumberWithText
-                        number={statusInfo.completed}
-                        tooltip={
-                          <div>
-                            <span className="yellow-text"> Completed : </span>
-                            <span>
-                              Check if the control results are reflected correctly in scoring.
-                            </span>
-                          </div>
-                        }
-                        subTitle="Completed"
-                      />
-
-                      <NumberWithText
-                        number={statusInfo.draft}
-                        tooltip={
-                          <div>
-                            <span className="yellow-text"> Draft : </span>
-                            <span>
-                              Owner has started & saved the assessment as draft, however not
-                              submitted.
-                            </span>
-                          </div>
-                        }
-                        subTitle="Draft"
-                      />
-
-                      <NumberWithText
-                        number={statusInfo.reAssessed}
-                        tooltip={
-                          <div>
-                            <span className="yellow-text"> Incorrect Owner : </span>
-                            <span>if owner has reassessed the already submitted assessment.</span>
-                          </div>
-                        }
-                        subTitle="Incorrect Owner"
-                      />
-                    </div>
-                  </div>
+              <div className="home-right-overviews h-100 d-flex align-items-center justify-content-center">
+                  <ProgressBar value={statusInfo.completedRatio}/>
                 </div>
+
+                  <div className="right-number home-right-overviews">
+                    <NumberWithText
+                      number={statusInfo.notStarted}
+                      tooltip={
+                        <div>
+                          <span className="yellow-text"> Not started : </span>
+                          <span>
+                            Contact Control Owners to complete assessments, and check fallbacks on
+                            GRC.
+                          </span>
+                        </div>
+                      }
+                      subTitle="Not started"
+                    />
+
+                    <NumberWithText
+                      number={statusInfo.completed}
+                      tooltip={
+                        <div>
+                          <span className="yellow-text"> Completed : </span>
+                          <span>
+                            Check if the control results are reflected correctly in scoring.
+                          </span>
+                        </div>
+                      }
+                      subTitle="Completed"
+                    />
+
+                    <NumberWithText
+                      number={statusInfo.draft}
+                      tooltip={
+                        <div>
+                          <span className="yellow-text"> Draft : </span>
+                          <span>
+                            Owner has started & saved the assessment as draft, however not
+                            submitted.
+                          </span>
+                        </div>
+                      }
+                      subTitle="Draft"
+                    />
+
+                    <NumberWithText
+                      number={statusInfo.reAssessed}
+                      tooltip={
+                        <div>
+                          <span className="yellow-text"> Incorrect Owner : </span>
+                          <span>if owner has reassessed the already submitted assessment.</span>
+                        </div>
+                      }
+                      subTitle="Incorrect Owner"
+                    />
+                  </div>
               </div>
             </div>
           </div>
         </div>
         <InternalControlTable />
-        {Control_ID && <HomeTableModal isModal={true}/>}
+        {Control_ID && <HomeTableModal isModal={true} />}
       </PageWrapper>
     </div>
   );

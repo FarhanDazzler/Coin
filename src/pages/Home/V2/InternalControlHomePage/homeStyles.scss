@@ -12,10 +12,10 @@
   line-height: 85px;
 }
 
-.home-right-overview {
+.home-right-overviews {
   background: rgba(140, 140, 140, 0.14);
   border-radius: 18px;
-  padding: 30px;
+  padding: 15px;
 }
 
 .yellow-gradient-text {
@@ -27,6 +27,7 @@
 .wrapper-info-grid {
   display: grid;
   grid-template-columns: 50% 50%;
+  gap: 10px;
   align-items: center;
 }
 

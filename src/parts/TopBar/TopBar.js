@@ -257,7 +257,7 @@ const TopBar = (props) => {
                         </li>
                       )}
 
-                      {props.userRole == 'administrational persona' && (
+                      {/* {props.userRole == 'administrational persona' && (
                         <li className="nav-item">
                           <a
                             className={`navbar-link ${
@@ -273,7 +273,7 @@ const TopBar = (props) => {
                             &nbsp;{'Assessment Bank'}
                           </a>
                         </li>
-                      )}
+                      )} */}
                     </>
                   )}
                 </ul>
