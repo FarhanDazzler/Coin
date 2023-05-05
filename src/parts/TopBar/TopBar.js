@@ -114,6 +114,7 @@ const TopBar = (props) => {
             >
               {roleValue.length > 1 && (
                 <div>
+                  <span className={'text-yellow ml-2'}>Select Role:</span>
                   <Form.Group className="input-group mb-3">
                     <Form.Control
                       as="select"
@@ -126,7 +127,6 @@ const TopBar = (props) => {
                       }}
                       defaultValue={selected_Role}
                     >
-                      <option value="">Select Role</option>
                       {roleValue.map((data, i) => (
                         <option value={data} key={i}>
                           {data}
