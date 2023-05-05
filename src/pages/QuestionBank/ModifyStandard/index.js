@@ -27,10 +27,24 @@ import AddSection1Questions from './AddSection1Question';
 import { deleteSection1Questions } from '../../../redux/Questions/QuestionsAction';
 import MICSSpecific from '../ModifyMICSQuestions/MICSSpecific';
 import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
+import Select from 'react-select'
 
 const ModifyStandard = ({ open, handleClose, type = '' }) => {
   const [activeType, setActiveType] = useState(type);
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
+  const [controlIDList, setControlIDList] = useState([])
+  useEffect(() => {
+    if (repositoryOfControlID?.data.length !== 0) {
+      console.log("hi buddy", repositoryOfControlID);
+      let controlidArray = [];
+      repositoryOfControlID?.data.map((data) => {
+        controlidArray.push({ 'label': data.Control_ID, 'value': data.Control_ID });
+      })
+      console.log("controlidArray", controlidArray);
+      setControlIDList(controlidArray);
+
+    }
+  }, [repositoryOfControlID])
 
   const dispatch = useDispatch();
   const section1Questions = useSelector(
@@ -55,6 +69,7 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
   console.log(AddQuestionSuccess);
   console.log(section1Questions);
   const [section1QuestionsData, setection1QuestionsData] = useState([]);
+  const [controlIDOption, setControlIDOption] = useState()
   const [template_ID, setTemplate_ID] = useState('Standard');
   const [showAddQuestion, setShowAddQuestion] = useState(false);
   const [template2_id, setTemplate2_ID] = useState('');
@@ -73,15 +88,18 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
       setFinalTemplate_ID(event.target.value);
       setSelectControlId(false);
       setTemplate2_ID('');
+      setControlIDOption('');
     } else {
       setFinalTemplate_ID('e');
       setSelectControlId(true);
     }
   };
   const handleChangeControlId = (e) => {
-    setTemplate2_ID(e.target.value);
-    if (e.target.value !== 'Standard') {
-      setFinalTemplate_ID(e.target.value);
+    setControlIDOption(e);
+    console.log("e", e);
+    setTemplate2_ID(e.value);
+    if (e.value !== 'Standard') {
+      setFinalTemplate_ID(e.value);
     }
   };
   const handleDeleteQuestion = (data) => {
@@ -180,26 +198,25 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
 
               {selectContrilId ? (
                 <div className="col-md-3">
-                  <Form.Group className="input-group mb-3">
-                    <Form.Control
-                      as="select"
-                      name="template"
-                      placeholder="Select Control Id"
-                      value={template2_id}
-                      className="form-select"
-                      onChange={handleChangeControlId}
-                    >
-                      <option value="e">Select Control ID</option>
-                      {repositoryOfControlID?.data.map((data, i) => (
-                        <option key={i} value={data.Control_ID}>
-                          {data.Control_ID}
-                        </option>
-                      ))}
-                    </Form.Control>
+                  <Form.Group className='input-group mb-3'>
+                    <div style={{ width: '300px' }}>
+                      <Select
+                        maxMenuHeight={200}
+                        placeholder="Control ID * "
+                        value={controlIDOption}
+                        defaultValue={controlIDOption}
+                        onChange={(e) => handleChangeControlId(e)}
+                        className='l-input'
+                        //MenuProps={MenuProps}
+                        //inputProps={{ 'aria-label': 'Without label' }}
+                        options={controlIDList}
+                      />
+                    </div>
+
                   </Form.Group>
                 </div>
               ) : (
-                ''
+                ""
               )}
             </div>
             <div className="note">
@@ -225,10 +242,10 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
                   />
                 ))}
                 {
-                  finalTemplate_id === 'e' ? <p style={{textAlign: "center", marginBottom : "50px"}}>Select Control ID to get Questions</p> : 
-                  section1QuestionsData.length == 0 && <p style={{textAlign: "center", marginBottom : "50px"}}>No Question Found</p>
+                  finalTemplate_id === 'e' ? <p style={{ textAlign: "center", marginBottom: "50px" }}>Select Control ID to get Questions</p> :
+                    section1QuestionsData.length == 0 && <p style={{ textAlign: "center", marginBottom: "50px" }}>No Question Found</p>
                 }
-                
+
               </div>
 
               <div className="d-flex align-items-center justify-content-between">

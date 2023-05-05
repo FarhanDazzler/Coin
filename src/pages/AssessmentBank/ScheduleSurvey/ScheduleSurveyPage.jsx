@@ -31,19 +31,6 @@ const ScheduleSurveyPage = () => {
                 </div>
                 <div className="progress"></div>
 
-                <Divider
-                  className="divider top-divider"
-                  size="md"
-                  my="xs"
-                  labelPosition="center"
-                  label={
-                    <>
-                      <Box ml={5}>
-                        <Form.Label>Input Field</Form.Label>
-                      </Box>
-                    </>
-                  }
-                />
                 {step === 1 && (
                   <div className="holder">
                     <Page1 handleNext={handleNext} />
