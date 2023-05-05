@@ -221,7 +221,7 @@ const TopBar = (props) => {
 
                   {!props.isControlPage && (
                     <>
-                      {props.userRole == 'administrational persona' && (
+                      {
                         <li className="nav-item">
                           <a
                             className={`navbar-link ${
@@ -237,9 +237,9 @@ const TopBar = (props) => {
                             &nbsp;{'Master Data Management'}
                           </a>
                         </li>
-                      )}
+                      }
 
-                      {props.userRole == 'administrational persona' && (
+                      {
                         <li className="nav-item">
                           <a
                             className={`navbar-link ${
@@ -255,9 +255,9 @@ const TopBar = (props) => {
                             &nbsp;{'Question Bank'}
                           </a>
                         </li>
-                      )}
+                      }
 
-                      {/* {props.userRole == 'administrational persona' && (
+                      {selected_Role === 'Global internal control' && (
                         <li className="nav-item">
                           <a
                             className={`navbar-link ${
@@ -273,7 +273,7 @@ const TopBar = (props) => {
                             &nbsp;{'Assessment Bank'}
                           </a>
                         </li>
-                      )} */}
+                      )}
                     </>
                   )}
                 </ul>
