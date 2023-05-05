@@ -4,7 +4,7 @@ import { ReactComponent as InfoIcon } from '../../../../assets/images/InfoCircle
 
 const NumberWithText = ({ number, tooltip, subTitle }) => {
   return (
-    <div className="d-flex justify-content-between bg-black mb-2 p-3 px-4 rounded-3">
+    <div className="d-flex justify-content-between bg-black mb-2 p-1 px-4 rounded-3">
       <div className="d-flex align-items-center">
         <Tooltip title={tooltip} arrow>
           <InfoIcon />

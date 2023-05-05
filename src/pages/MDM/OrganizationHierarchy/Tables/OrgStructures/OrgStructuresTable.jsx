@@ -35,11 +35,10 @@ const OrgStructuresTable = () => {
   const [editTableData, setEditTableData] = useState();
 
   useEffect(() => {
-  
-      setShowModal(false);
-      setModalType('');
-      dispatch(getOrgStructures());
-      dispatch(getOrgHierarchy());
+    setShowModal(false);
+    setModalType('');
+    dispatch(getOrgStructures());
+    dispatch(getOrgHierarchy());
   }, [addOrgState.data, updateOrgState?.data]);
 
   const orgStructures = useSelector(getOrgStructuresSelector);
@@ -157,9 +156,9 @@ const OrgStructuresTable = () => {
   console.log(localStorage.getItem('Roles')?.includes('global_internal_control'), 'Test');
   return (
     <>
-      <div className="container mt-5">
+      <div className="container mt-5" id="ModifyOrganizations">
         <div className="row pt-5">
-          <div className="col col-lg-12">
+          <div className="col-12 col-lg-12">
             <div className="mdm-table-button">
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>

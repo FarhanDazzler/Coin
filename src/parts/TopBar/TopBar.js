@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-
 import { useMsal, useIsAuthenticated } from '@azure/msal-react';
-import { loginRequest } from '../../utils/authConfig';
-
 import '../../assets/styles/TopBar.css';
 import FeatherIcon from 'feather-icons-react';
 import abiLogo from '../../assets/images/abi_logo.png';
@@ -65,8 +62,8 @@ const TopBar = (props) => {
   const [roleValue, setRoleValue] = useState([]);
 
   const names = [
-    { label: 'Self-Assessment Module', value: 'Self-Assessment Module' },
-    { label: 'REP Letters Module', value: 'REP Letters Module' },
+    { label: 'Assessment Module', value: 'Assessment Module' },
+    { label: 'Representation Letter Module', value: 'Representation Letter Module' },
   ];
 
   useEffect(() => {
@@ -117,6 +114,7 @@ const TopBar = (props) => {
             >
               {roleValue.length > 1 && (
                 <div>
+                  <span className={'text-yellow ml-2'}>Select Role:</span>
                   <Form.Group className="input-group mb-3">
                     <Form.Control
                       as="select"
@@ -129,7 +127,6 @@ const TopBar = (props) => {
                       }}
                       defaultValue={selected_Role}
                     >
-                      <option value="">Select Role</option>
                       {roleValue.map((data, i) => (
                         <option value={data} key={i}>
                           {data}
@@ -224,7 +221,7 @@ const TopBar = (props) => {
 
                   {!props.isControlPage && (
                     <>
-                      {props.userRole == 'administrational persona' && (
+                      {
                         <li className="nav-item">
                           <a
                             className={`navbar-link ${
@@ -240,9 +237,9 @@ const TopBar = (props) => {
                             &nbsp;{'Master Data Management'}
                           </a>
                         </li>
-                      )}
+                      }
 
-                      {props.userRole == 'administrational persona' && (
+                      {
                         <li className="nav-item">
                           <a
                             className={`navbar-link ${
@@ -258,9 +255,9 @@ const TopBar = (props) => {
                             &nbsp;{'Question Bank'}
                           </a>
                         </li>
-                      )}
+                      }
 
-                      {props.userRole == 'administrational persona' && (
+                      {selected_Role === 'Global internal control' && (
                         <li className="nav-item">
                           <a
                             className={`navbar-link ${
@@ -283,14 +280,16 @@ const TopBar = (props) => {
               </div>
             </div>
             <div className="select-light mt-0">
-              <FormControl sx={{ width: 210 }}>
+              <FormControl sx={{ maxWidth: 270 }}>
                 <Select
-                  defaultValue="Self-Assessment Module"
+                  defaultValue="Assessment Module"
                   size="small"
                   inputProps={{ 'aria-label': 'Without label' }}
                   options={names}
                   onChange={(e) => {
-                    history.push(e.target.value === 'REP Letters Module' ? '/REP-Letters' : '/');
+                    history.push(
+                      e.target.value === 'Representation Letter Module' ? '/REP-Letters' : '/',
+                    );
                   }}
                 />
               </FormControl>

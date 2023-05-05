@@ -132,7 +132,7 @@ const GlobalInternalControl = ({ getControlId }) => {
   return (
     <div className="container mt-5">
       <div className="row">
-        <div className="col col-lg-12">
+        <div className="col-12 col-lg-12">
           <div className="card">
             <div className="card-header">
               <div className="card-title">

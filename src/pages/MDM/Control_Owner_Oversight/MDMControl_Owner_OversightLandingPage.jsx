@@ -21,7 +21,7 @@ const MDM_Control_Owner_OversightLandingPage = () => {
 
   return (
     <PageWrapper>
-      <div className="col col-lg-12">
+      <div className="col-12 col-lg-12">
         <NavTabsMDM />
         <ControlOwnerAndOversightTable />
       </div>

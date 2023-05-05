@@ -148,7 +148,7 @@ const Pages = () => {
     <div className="page">
       <div className="flex-fill">
         {!['/login'].includes(location?.pathname) && (
-          <TopBar isControlPage={isControlPage()} userRole={user_role} />
+          <TopBar isControlPage={isControlPage()} />
         )}
         {/* <Home /> */}
         <Switch>

@@ -518,7 +518,7 @@ const Page3 = ({ handleNext, setStep }) => {
           </div>
 
           <div className="row" style={{ paddingTop: '24px' }}>
-            <div className="col col-lg-12">
+            <div className="col-12 col-lg-12">
               <div className="mdm-table-button">
                 <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                   <div>

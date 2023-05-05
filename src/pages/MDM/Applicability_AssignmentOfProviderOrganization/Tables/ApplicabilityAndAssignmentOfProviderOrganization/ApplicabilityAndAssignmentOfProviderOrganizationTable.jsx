@@ -56,7 +56,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     },
     {
       field: 'Entity',
-      headerName: 'Entity Name',
+      headerName: 'Receiver Organization',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
@@ -70,7 +70,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     },
     {
       field: 'Entity_Control_ID_IsApplicable',
-      headerName: 'Entity + Control ID + Is Applicable',
+      headerName: 'Entity + Control ID',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 300,
@@ -91,7 +91,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     },
     {
       field: 'control_id_provider_entity',
-      headerName: 'Control ID + Provider Entity',
+      headerName: 'Control ID + Provider Organization',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 300,
@@ -174,7 +174,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     <>
       <div className="container mt-5">
         <div className="row pt-5">
-          <div className="col col-lg-12">
+          <div className="col-12 col-lg-12">
             <div className="mdm-table-button">
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>

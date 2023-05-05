@@ -296,7 +296,7 @@ const Page2 = ({ handleNext, setStep }) => {
 
       {selectOrganisationFormik?.values.Provider.length > 0 && (
         <div className="row" style={{ paddingTop: '24px' }}>
-          <div className="col col-lg-12">
+          <div className="col-12 col-lg-12">
             <div className="mdm-table-button">
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>

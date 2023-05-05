@@ -10,7 +10,7 @@ const MDM = () => {
         <div className="col-lg-6 py-4 MDMBoxWrapper" style={{ marginRight: '16px' }}>
           <MDMBox
             title="Organization Hierarchy"
-            description="Create or modify a Receiver or Provider Organization within the Organization Hierarchy."
+            description="Create or modify a Organization within the Organization Hierarchy"
             url="/master-data-management/organization-hierarchy"
           />
           <MDMBox
