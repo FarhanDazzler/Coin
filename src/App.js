@@ -16,6 +16,8 @@ import { UserContext, UserContextProvider } from './context/userContext';
 import dataService from './services/dataService';
 import Question from './parts/Assessments/Question';
 //import QuestionBank from './components/QuestionBank';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import QuestionBank from './pages/QuestionBank/QuestionBankLandingPage';
 import NotAuthorized from './pages/NotAuthorized/NotAuthorizedPage';
 import MDM from './pages/MDM/MDMLandingPage';
@@ -146,10 +148,9 @@ const Pages = () => {
 
   return (
     <div className="page">
+      <ToastContainer autoClose={15000} />
       <div className="flex-fill">
-        {!['/login'].includes(location?.pathname) && (
-          <TopBar isControlPage={isControlPage()} />
-        )}
+        {!['/login'].includes(location?.pathname) && <TopBar isControlPage={isControlPage()} />}
         {/* <Home /> */}
         <Switch>
           <Route
