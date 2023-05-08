@@ -41,7 +41,8 @@ const InternalControlHomePage = () => {
       completed:completedAssessment ,
       draft: getNumberOfItem(allstatus, 'Draft'),
       reAssessed: getNumberOfItem(allstatus, 'Incorrect Owner'),
-      completedRatio:((completedAssessment/allstatus.length)*100)?.toFixed(0)
+      completedRatio:((completedAssessment/allstatus.length)*100)?.toFixed(0),
+      total:allstatus?.length
     });
   }, [getControlOwnerData]);
   const { accounts } = useMsal();
@@ -114,6 +115,16 @@ const InternalControlHomePage = () => {
                         </div>
                       }
                       subTitle="Incorrect Owner"
+                    />
+                     <NumberWithText
+                      number={statusInfo.total}
+                      tooltip={
+                        <div>
+                          <span className="yellow-text"> Total : </span>
+                          <span>Total number of assessment.</span>
+                        </div>
+                      }
+                      subTitle="Total"
                     />
                   </div>
               </div>

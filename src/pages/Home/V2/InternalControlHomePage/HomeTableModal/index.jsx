@@ -152,6 +152,7 @@ const HomeTableModal = ({ isModal = false }) => {
       }
     }
   }, [responseData.data]);
+  
   const handleSubmit = () => {
     Swal.fire({
       title: 'Do you want Submit assessment',
