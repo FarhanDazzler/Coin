@@ -52,7 +52,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
       headerName: 'Zone',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 90,
     },
     {
       field: 'Entity',
@@ -80,7 +80,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
       headerName: 'Applicability',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 110,
     },
     {
       field: 'Provider_Entity',
@@ -112,7 +112,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     },
     {
       field: 'Entity_Weight',
-      headerName: 'Weight',
+      headerName: 'Entity Weight',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
