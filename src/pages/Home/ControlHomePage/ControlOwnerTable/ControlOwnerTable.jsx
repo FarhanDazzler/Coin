@@ -55,10 +55,10 @@ const ControlOwnerTable = ({ tableName }) => {
   const TABLE_COLUMNS = [
     {
       field: 'Action',
-      headerName: 'Take Assessment',
+      headerName: 'Action',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 270,
+      minWidth: 200,
       renderCell: (row) => {
         return (
           <div>
@@ -68,12 +68,12 @@ const ControlOwnerTable = ({ tableName }) => {
                 // onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
                 onClick={() => handleControlIDClick(row.row.Control_ID)}
               >
-                ReView Assessment
+                Review
               </Button>
             )}
             {['Not started', 'Re-assessed'].includes(row.row.Status) && (
               <Button onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}>
-                Attempt Assessment
+                Take Assessment
               </Button>
             )}
           </div>
@@ -85,7 +85,7 @@ const ControlOwnerTable = ({ tableName }) => {
       headerName: 'Zone',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 180,
+      minWidth: 90,
     },
     {
       field: 'Receiver',
@@ -193,7 +193,7 @@ const ControlOwnerTable = ({ tableName }) => {
       headerName: 'Year',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 120,
+      minWidth: 100,
     },
   ];
 
@@ -264,13 +264,13 @@ const ControlOwnerTable = ({ tableName }) => {
   ]);
   return (
     <>
-      <div className="container mt-5">
+      {/*<div className="container mt-5">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
             <Typography className="table-title">{tableName}</Typography>
           </div>
         </div>
-      </div>
+  </div> */}
 
       <div className="container">
         {getControlOwnerData.loading ? (
