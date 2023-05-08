@@ -214,7 +214,7 @@ function* handleGet_AssessmentsSummaryTable({ payload }) {
 
 //Get Assessment Details Table Data
 async function getAssessmentDetailsTableDataApi(params) {
-  return await Axios.get('/get_assessment_master_data', { params });
+  return await Axios.post('/get_assessment_master_data', { params });
 }
 function* handleGet_AssessmentDetailsTableData({ payload }) {
   try {
@@ -239,7 +239,7 @@ async function recallAssessmentApi(payload) {
 }
 function* recallAssessmentData({ payload }) {
   try {
-    const params=payload.body
+    const params = payload.body;
     const response = yield call(recallAssessmentApi, payload.params);
     if (response.success) {
       yield put({
@@ -269,7 +269,7 @@ async function reTriggerAssessmentApi(payload) {
 }
 function* reTriggerAssessmentData({ payload }) {
   try {
-    const params=payload.body
+    const params = payload.body;
     const response = yield call(reTriggerAssessmentApi, payload.params);
     if (response.success) {
       yield put({

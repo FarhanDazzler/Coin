@@ -164,9 +164,19 @@ const AssessmentDetailsTableData = (props) => {
     //code for opening second table in pop up
     let params = {
       assessmentName: props.location.state.data?.SurveyName,
+      Created_On: props.location.state.data?.Created_On,
+      Created_By: props.location.state.data?.Created_By,
+      Assessment_Cycle: props.location.state.data?.Assessment_Cycle,
+      Year: props.location.state.data?.Year,
     };
     dispatch(getAssessmentDetailsTableData(params));
-  }, [props.location.state.data?.SurveyName]);
+  }, [
+    props.location.state.data?.SurveyName,
+    props.location.state.data?.Created_On,
+    props.location.state.data?.Created_By,
+    props.location.state.data?.Assessment_Cycle,
+    props.location.state.data?.Year,
+  ]);
 
   // multi choice user input State for filters button
   const [zoneValue, setZoneValue] = useState([]);

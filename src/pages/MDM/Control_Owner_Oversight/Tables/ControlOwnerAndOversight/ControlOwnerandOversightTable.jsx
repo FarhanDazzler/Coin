@@ -72,7 +72,7 @@ const FilterButtons = ({
         <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={provider_entity}
-          label={<span className="mantine-MultiSelect-label">{'Provider Org'}</span>}
+          label={<span className="mantine-MultiSelect-label">{'Provider Organization'}</span>}
           placeholder={'Select your option'}
           searchable
           limit={20}
@@ -276,20 +276,6 @@ const ControlOwnerAndOversightTable = () => {
           </span>
         );
       },
-    },
-    {
-      field: 'valid_from',
-      headerName: 'Valid From',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
-    {
-      field: 'valid_to',
-      headerName: 'Valid To',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
     },
   ];
 
