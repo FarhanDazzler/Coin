@@ -257,7 +257,7 @@ const TopBar = (props) => {
                         </li>
                       }
 
-                      {selected_Role === 'Global internal control' && (
+                      {
                         <li className="nav-item">
                           <a
                             className={`navbar-link ${
@@ -273,7 +273,7 @@ const TopBar = (props) => {
                             &nbsp;{'Assessment Bank'}
                           </a>
                         </li>
-                      )}
+                      }
                     </>
                   )}
                 </ul>
