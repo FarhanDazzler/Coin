@@ -64,7 +64,7 @@ const ControlHomePage = () => {
                   amount={statusInfo.notStarted}
                   infoText={
                     <>
-                      Assessment <br /> (NOT Started)
+                      NOT Started
                     </>
                   }
                 />
@@ -72,7 +72,7 @@ const ControlHomePage = () => {
                   amount={statusInfo.completed}
                   infoText={
                     <>
-                      Assessment <br /> (Completed)
+                      Completed
                     </>
                   }
                 />
@@ -80,7 +80,7 @@ const ControlHomePage = () => {
                   amount={statusInfo.draft}
                   infoText={
                     <>
-                      Assessment <br /> (Draft)
+                      Draft
                     </>
                   }
                 />
@@ -88,7 +88,7 @@ const ControlHomePage = () => {
                   amount={statusInfo.reAssessed}
                   infoText={
                     <>
-                      Assessment <br /> (Re-assess)
+                      Re-assess
                     </>
                   }
                 />

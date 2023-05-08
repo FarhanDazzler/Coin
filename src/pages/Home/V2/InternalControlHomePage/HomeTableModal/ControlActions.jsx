@@ -40,12 +40,12 @@ const ControlActions = () => {
         {activeTab === 'GCD' && (
           <div>
             {isReadMore ? (
-              <p>{stateGcdData[0].mics_L1desc.slice(0, 600)}</p>
+              <p dangerouslySetInnerHTML={{__html:stateGcdData[0].mics_L1desc.slice(0, 600)}}/>
             ) : (
               <>
-                <p>{stateGcdData[0]?.mics_L1desc}</p>
-                <p>{stateGcdData[0]?.mics_L2desc}</p>
-                <p>{stateGcdData[0]?.mics_L3desc}</p>
+               <p dangerouslySetInnerHTML={{__html:stateGcdData[0]?.mics_L1desc}}/>
+               <p dangerouslySetInnerHTML={{__html:stateGcdData[0]?.mics_L2desc}}/>
+               <p dangerouslySetInnerHTML={{__html:stateGcdData[0]?.mics_L3desc}}/>
               </>
             )}
 
@@ -58,7 +58,7 @@ const ControlActions = () => {
         )}
         {activeTab === 'LCD' && (
           <div>
-            <p className="font-weight-bold mb-2">{stateControlData.lcd}</p>
+            <p className="mb-2" dangerouslySetInnerHTML={{__html:stateControlData.lcd}}/>
           </div>
         )}
         {activeTab === 'Scope' && (

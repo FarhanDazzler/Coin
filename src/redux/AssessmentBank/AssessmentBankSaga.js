@@ -214,7 +214,7 @@ function* handleGet_AssessmentsSummaryTable({ payload }) {
 
 //Get Assessment Details Table Data
 async function getAssessmentDetailsTableDataApi(params) {
-  return await Axios.post('/get_assessment_master_data', { params });
+  return await Axios.post('/get_assessment_master_data', params);
 }
 function* handleGet_AssessmentDetailsTableData({ payload }) {
   try {
