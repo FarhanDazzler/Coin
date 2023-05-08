@@ -316,7 +316,13 @@ const AssessmentDetailsTableData = (props) => {
             name: accounts[0]?.name ? accounts[0].name : '',
           },
         },
-        body: props.location.state.data?.SurveyName,
+        body: {
+          assessmentName: props.location.state.data?.SurveyName,
+          Created_On: props.location.state.data?.Created_On,
+          Created_By: props.location.state.data?.Created_By,
+          Assessment_Cycle: props.location.state.data?.Assessment_Cycle,
+          Year: props.location.state.data?.Year,
+        },
       };
       console.log(payload, 'payload for Recall');
       dispatch(recallAssessment(payload));
@@ -350,7 +356,13 @@ const AssessmentDetailsTableData = (props) => {
             name: accounts[0]?.name ? accounts[0].name : '',
           },
         },
-        body: props.location.state.data?.SurveyName,
+        body: {
+          assessmentName: props.location.state.data?.SurveyName,
+          Created_On: props.location.state.data?.Created_On,
+          Created_By: props.location.state.data?.Created_By,
+          Assessment_Cycle: props.location.state.data?.Assessment_Cycle,
+          Year: props.location.state.data?.Year,
+        },
       };
       console.log(payload, 'payload for Re-Trigger');
       dispatch(reTriggerAssessment(payload));
