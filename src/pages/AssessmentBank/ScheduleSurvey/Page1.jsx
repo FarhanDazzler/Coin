@@ -98,20 +98,6 @@ const Page1 = ({ handleNext }) => {
           KPI_To: Yup.string().required('KPI To is required'),
           Start_Date: Yup.string().required('Start Date is required'),
           Due_Date: Yup.string().required('Due Date is required'),
-          Control_Owner_Reminder_1: Yup.string().required('Control Owner Reminder 1 is required'),
-          Control_Owner_Reminder_2: Yup.string().required('Control Owner Reminder 2 is required'),
-          Control_Oversight_Pending_Notification_1: Yup.string().required(
-            'Control Oversight Pending Notification 1 is required',
-          ),
-          Control_Oversight_Pending_Notification_2: Yup.string().required(
-            'Control Oversight Pending Notification 2 is required',
-          ),
-          Control_Oversight_Review_Notification_1: Yup.string().required(
-            'Control Oversight Review Notification 1 is required',
-          ),
-          Control_Oversight_Review_Notification_2: Yup.string().required(
-            'Control Oversight Review Notification 2 is required',
-          ),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
           try {

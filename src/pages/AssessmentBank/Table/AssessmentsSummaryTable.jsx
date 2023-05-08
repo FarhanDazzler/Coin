@@ -111,9 +111,15 @@ const AssessmentsSummaryTable = () => {
     );
   }, [yearValue, assessmentCycleValue]);
 
-  const handleSurveyNameClick = (Survey_Name) => {
+  const handleSurveyNameClick = (Survey_Name, Created_On, Created_By, Assessment_Cycle, Year) => {
     //code for opening second table in pop up
-    const data = { SurveyName: Survey_Name };
+    const data = {
+      SurveyName: Survey_Name,
+      Created_On: Created_On,
+      Created_By: Created_By,
+      Assessment_Cycle: Assessment_Cycle,
+      Year: Year,
+    };
     history.push('/assessmentbank/assessment-details', { data });
   };
 
@@ -128,7 +134,15 @@ const AssessmentsSummaryTable = () => {
         return (
           <span
             className={'text-yellow cursor-pointer'}
-            onClick={() => handleSurveyNameClick(row.row.Survey_Name)}
+            onClick={() =>
+              handleSurveyNameClick(
+                row.row.Survey_Name,
+                row.row.Created_On,
+                row.row.Created_By,
+                row.row.Assessment_Cycle,
+                row.row.Year,
+              )
+            }
           >
             {row.row.Survey_Name}
           </span>
