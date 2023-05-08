@@ -169,7 +169,7 @@ const ControlOwnerTable = ({ tableName }) => {
     },
     {
       field: 'Control_Owner',
-      headerName: 'Control Owner',
+      headerName: "Control \nOwner",
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 250,

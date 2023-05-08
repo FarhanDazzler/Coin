@@ -198,22 +198,31 @@ const MicsFrameworkTable = () => {
       field: 'mics_L1desc',
       headerName: 'L1 Description',
       flex: 1,
+      renderCell: (row) => {
+        return <p dangerouslySetInnerHTML={{__html:row.row.mics_L1desc}}/>
+      },
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 500,
     },
     {
       field: 'mics_L2desc',
       headerName: 'L2 Description',
       flex: 1,
+      renderCell: (row) => {
+        return <p dangerouslySetInnerHTML={{__html:row.row.mics_L2desc}}/>
+      },
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 500,
     },
     {
       field: 'mics_L3desc',
       headerName: 'L3 Description',
       flex: 1,
+      renderCell: (row) => {
+        return <p dangerouslySetInnerHTML={{__html:row.row.mics_L3desc}}/>
+      },
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 500,
     },
     {
       field: 'Kpi_status',

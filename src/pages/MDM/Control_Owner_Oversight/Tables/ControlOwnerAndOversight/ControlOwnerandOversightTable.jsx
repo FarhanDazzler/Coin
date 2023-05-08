@@ -232,6 +232,7 @@ const ControlOwnerAndOversightTable = () => {
       field: 'local_control_description',
       headerName: 'Local Control Desc(LCD)',
       flex: 1,
+      renderCell: (row) => { return <p dangerouslySetInnerHTML={{__html:row.row.local_control_description}}/> },
       cellClassName: 'dashboardCell',
       minWidth: 500,
     },
