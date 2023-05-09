@@ -29,8 +29,11 @@ const LcdModal = ({ setShowModal, assignTableData }) => {
 
     const handleSaveAssign = (value) => {
         const newState = assignTableData.map(obj => {
+            if(value.lcd !== ""){
+                return { ...obj, local_control_description: value.lcd };
+            }
 
-            return { ...obj, local_control_description: value.lcd };
+            return { ...obj};
         });
         console.log(newState);
         const payload = {
