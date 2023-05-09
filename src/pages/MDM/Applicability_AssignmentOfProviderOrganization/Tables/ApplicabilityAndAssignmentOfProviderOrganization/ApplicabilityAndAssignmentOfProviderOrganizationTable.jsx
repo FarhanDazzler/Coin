@@ -166,7 +166,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
       //console.log(tableData.filter((data, i) => editTableIndex.includes(i + '')));
     }
   };
-
+  console.log('@@@@@@@', tableData, tableColumns);
   return (
     <>
       <div className="container mt-5">

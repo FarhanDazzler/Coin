@@ -31,7 +31,7 @@ const Table2 = ({
     //do something when the row selection changes...
     //console.info({ rowSelection }, Object.keys(rowSelection));
     console.info('keys', Object.keys(rowSelection));
-    setEditTableIndex(Object.keys(rowSelection));
+    setEditTableIndex && setEditTableIndex(Object.keys(rowSelection));
   }, [rowSelection]);
 
   return (
