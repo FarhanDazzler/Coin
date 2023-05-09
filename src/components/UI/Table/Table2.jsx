@@ -8,6 +8,9 @@ import './tableStyles.scss';
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
+    primary: {
+      main: '#e3af32',
+    },
   },
 });
 
