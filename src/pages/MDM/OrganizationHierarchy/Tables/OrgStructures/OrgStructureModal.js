@@ -289,7 +289,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                                                 {
                                                     orgTypeData.map((data, i) => (
                                                         <option value={data?.value} key={i}>
-                                                            {data?.label}
+                                                            {data?.label === "Country" ? "Entity" : data?.label}
                                                         </option>
                                                     ))
                                                 }

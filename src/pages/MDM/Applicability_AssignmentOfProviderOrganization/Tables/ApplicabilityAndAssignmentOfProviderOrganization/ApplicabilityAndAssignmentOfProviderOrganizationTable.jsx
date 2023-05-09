@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
 
 import Table from '../../../../../components/UI/Table';
+import Table2 from '../../../../../components/UI/Table/Table2';
 
 import '../TableStyle.scss';
 
@@ -48,85 +49,85 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'Zone',
-      headerName: 'Zone',
+      accessorKey: 'Zone',
+      header: 'Zone',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 90,
     },
     {
-      field: 'Entity',
-      headerName: 'Receiver Organization',
+      accessorKey: 'Entity',
+      header: 'Receiver Organization',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Control_ID',
-      headerName: 'Control ID',
+      accessorKey: 'Control_ID',
+      header: 'Control ID',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Entity_Control_ID_IsApplicable',
-      headerName: 'Entity + Control ID',
+      accessorKey: 'Entity_Control_ID_IsApplicable',
+      header: 'Entity + Control ID',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 300,
     },
     {
-      field: 'Is_applicable',
-      headerName: 'Applicability',
+      accessorKey: 'Is_applicable',
+      header: 'Applicability',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 110,
     },
     {
-      field: 'Provider_Entity',
-      headerName: 'Provider Organization',
+      accessorKey: 'Provider_Entity',
+      header: 'Provider Organization',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'control_id_provider_entity',
-      headerName: 'Control ID + Provider Organization',
+      accessorKey: 'control_id_provider_entity',
+      header: 'Control ID + Provider Organization',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 300,
     },
     {
-      field: 'Reason_for_NA',
-      headerName: 'Reason for NA',
+      accessorKey: 'Reason_for_NA',
+      header: 'Reason for NA',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Global_Approved',
-      headerName: 'Global Approved',
+      accessorKey: 'Global_Approved',
+      header: 'Global Approved',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Entity_Weight',
-      headerName: 'Entity Weight',
+      accessorKey: 'Entity_Weight',
+      header: 'Entity Weight',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'is_SOX_scope',
-      headerName: 'Is SOX scope',
+      accessorKey: 'is_SOX_scope',
+      header: 'Is SOX scope',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'is_FSI_Entity',
-      headerName: 'Is FSI Entity',
+      accessorKey: 'is_FSI_Entity',
+      header: 'Is FSI Entity',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
@@ -152,21 +153,17 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
   );
 
   const handleOnclickAssign = () => {
+    console.log(editTableIndex, 'editTableIndex');
     // Assign code
-    let assignDataArray = [];
-    if (editTableIndex.length == 0) {
+    if (editTableIndex.length === 0) {
       Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
     } else if (editTableIndex.length >= 1) {
-      tableData.find((data, i) => {
-        console.log(i);
-        editTableIndex.map((dataa) => {
-          if (i === dataa) {
-            assignDataArray.push(data);
-            setAssignTableData(assignDataArray);
-            setShowModal(true);
-          }
-        });
-      });
+      const filterData = tableData.filter((data, i) => editTableIndex.includes(i + ''));
+      if (filterData?.length) {
+        setAssignTableData(filterData);
+        setShowModal(true);
+      }
+      //console.log(tableData.filter((data, i) => editTableIndex.includes(i + '')));
     }
   };
 
@@ -196,7 +193,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
                 </div>
               </div>
             </div>
-            <Table
+            <Table2
               tableData={tableData}
               tableColumns={tableColumns}
               columns={tableColumns}
