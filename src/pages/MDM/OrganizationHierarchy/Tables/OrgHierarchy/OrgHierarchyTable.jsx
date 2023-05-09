@@ -99,14 +99,13 @@ const OrgHierarchyTable = () => {
   }, [orgHierarchy.data]);
 
   const handleOnclickTableUnhide = () => {
-    console.log('@@@');
     dispatch(orgManageButton(!orgManageButtonState));
     setTimeout(() => {
       const dom = document.getElementById('ModifyOrganizations');
       if (dom) {
         dom.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
       }
-    }, 200);
+    }, 500);
   };
 
   const ActiveTool = ({ number, text }) => (

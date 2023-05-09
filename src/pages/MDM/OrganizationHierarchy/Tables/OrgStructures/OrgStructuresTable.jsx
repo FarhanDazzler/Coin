@@ -153,7 +153,6 @@ const OrgStructuresTable = () => {
     setModalType('add');
   };
 
-  console.log(localStorage.getItem('Roles')?.includes('global_internal_control'), 'Test');
   return (
     <>
       <div className="container mt-5" id="ModifyOrganizations">

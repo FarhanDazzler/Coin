@@ -1,8 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import MaterialReactTable from 'material-react-table';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import cs from 'classnames';
 import './tableStyles.scss';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 const Table2 = ({
   tableData,
@@ -25,17 +32,19 @@ const Table2 = ({
   }, [rowSelection]);
 
   return (
-    <div>
-      <MaterialReactTable
-        columns={tableColumns}
-        data={tableData}
-        initialState={{ showColumnFilters: true }}
-        enableRowSelection
-        getRowId={(row) => row.id} //give each row a more useful id
-        onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
-        state={{ rowSelection }} //pass our managed row selection state to the table to use
-      />
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <div className="materialReactTableWrapper">
+        <MaterialReactTable
+          columns={tableColumns}
+          data={tableData}
+          initialState={{ showColumnFilters: true }}
+          enableRowSelection
+          getRowId={(row) => row.id} //give each row a more useful id
+          onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
+          state={{ rowSelection, isLoading: loading }} //pass our managed row selection state to the table to use
+        />
+      </div>
+    </ThemeProvider>
   );
 
   //   return (
