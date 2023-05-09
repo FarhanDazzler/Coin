@@ -60,20 +60,20 @@ const ControlOwnerTable = ({ tableName }) => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 200,
-      renderCell: (row) => {
+      Cell: (row) => {
         return (
           <div>
-            {row.row.Status === 'Completed' && (
+            {row.row.original.Status === 'Completed' && (
               <Button
                 className="mr-2"
-                // onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
-                onClick={() => handleControlIDClick(row.row.Control_ID)}
+                // onClick={() => history.push(`/Assessments/${row.row.original.Control_ID}`)}
+                onClick={() => handleControlIDClick(row.row.original.Control_ID)}
               >
                 Review
               </Button>
             )}
-            {['Not started', 'Re-assessed'].includes(row.row.Status) && (
-              <Button onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}>
+            {['Not started', 'Re-assessed'].includes(row.row.original.Status) && (
+              <Button onClick={() => history.push(`/Assessments/${row.row.original.Control_ID}`)}>
                 Take Assessment
               </Button>
             )}
@@ -116,6 +116,16 @@ const ControlOwnerTable = ({ tableName }) => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 140,
+      Cell: (row) => {
+        return (
+          <span
+            className={'text-yellow cursor-pointer'}
+            onClick={() => handleControlIDClick(row.row.original.Control_ID)}
+          >
+            {row.row.original.Control_ID}
+          </span>
+        );
+      },
     },
 
     {
@@ -126,6 +136,9 @@ const ControlOwnerTable = ({ tableName }) => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 120,
+      Cell: (row) => {
+        return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
+      },
     },
     {
       accessorKey: 'KPI_Result',
@@ -135,6 +148,13 @@ const ControlOwnerTable = ({ tableName }) => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 100,
+      Cell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.original.KPI_Result)}>
+            {row.row.original.KPI_Result}
+          </span>
+        );
+      },
     },
     {
       accessorKey: 'Assessment_Result',
@@ -144,6 +164,13 @@ const ControlOwnerTable = ({ tableName }) => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 150,
+      Cell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.original.Assessment_Result)}>
+            {row.row.original.Assessment_Result}
+          </span>
+        );
+      },
     },
     {
       accessorKey: 'Compliance_Result',
@@ -153,6 +180,13 @@ const ControlOwnerTable = ({ tableName }) => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 150,
+      Cell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.original.Compliance_Result)}>
+            {row.row.original.Compliance_Result}
+          </span>
+        );
+      },
     },
     {
       accessorKey: 'Control_Owner',

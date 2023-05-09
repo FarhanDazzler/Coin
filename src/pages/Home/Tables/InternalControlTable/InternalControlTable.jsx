@@ -97,6 +97,22 @@ const InternalControlTable = (props) => {
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 120,
+      Cell: (row) => {
+        return (
+          <div>
+            {row.row.original.Status === 'Completed' && (
+              <Button onClick={() => handleControlIDClick(row.row.original.Control_ID)}>
+                Review
+              </Button>
+            )}
+            {/* {['Not started', 'Re-assessed'].includes(row.row.original.Status) && (
+              <Button onClick={() => handleControlIDClick(row.row.original.Control_ID)}>
+                Attempt response
+              </Button>
+            )} */}
+          </div>
+        );
+      },
     },
     {
       accessorKey: 'Zone',
@@ -133,6 +149,16 @@ const InternalControlTable = (props) => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 140,
+      Cell: (row) => {
+        return (
+          <span
+            className={'text-yellow cursor-pointer'}
+            onClick={() => handleControlIDClick(row.row.original.Control_ID)}
+          >
+            {row.row.original.Control_ID}
+          </span>
+        );
+      },
     },
 
     {
@@ -143,6 +169,9 @@ const InternalControlTable = (props) => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 120,
+      Cell: (row) => {
+        return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
+      },
     },
     {
       accessorKey: 'KPI_Result',
@@ -152,6 +181,13 @@ const InternalControlTable = (props) => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 100,
+      Cell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.original.KPI_Result)}>
+            {row.row.original.KPI_Result}
+          </span>
+        );
+      },
     },
     {
       accessorKey: 'Assessment_Result',
@@ -161,6 +197,13 @@ const InternalControlTable = (props) => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 150,
+      Cell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.original.Assessment_Result)}>
+            {row.row.original.Assessment_Result}
+          </span>
+        );
+      },
     },
     {
       accessorKey: 'Compliance_Result',
@@ -170,6 +213,13 @@ const InternalControlTable = (props) => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 150,
+      Cell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.original.Compliance_Result)}>
+            {row.row.original.Compliance_Result}
+          </span>
+        );
+      },
     },
     {
       accessorKey: 'Control_Owner',
