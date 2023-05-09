@@ -163,7 +163,9 @@ const OrgStructuresTable = () => {
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>
                   <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                  <span style={{ paddingLeft: '16px' }}>Create or Modify Organizations</span>
+                  <span style={{ paddingLeft: '16px' }}>
+                    Create or modify a Organization within the Organization Hierarchy
+                  </span>
                 </div>
                 <div>
                   {(localStorage.getItem('Roles')?.includes('global_internal_control') ||

@@ -90,17 +90,15 @@ const InternalControlTable = (props) => {
   const TABLE_COLUMNS = [
     {
       field: 'Action',
-      headerName: 'Review',
+      headerName: 'Action',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 270,
+      minWidth: 120,
       renderCell: (row) => {
         return (
           <div>
             {row.row.Status === 'Completed' && (
-              <Button className="mr-2" onClick={() => handleControlIDClick(row.row.Control_ID)}>
-                ReView Assessment
-              </Button>
+              <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>Review</Button>
             )}
             {/* {['Not started', 'Re-assessed'].includes(row.row.Status) && (
               <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>
@@ -116,7 +114,7 @@ const InternalControlTable = (props) => {
       headerName: 'Zone',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 180,
+      minWidth: 90,
     },
     {
       field: 'Receiver',
@@ -137,7 +135,7 @@ const InternalControlTable = (props) => {
       headerName: 'Control ID',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 120,
+      minWidth: 140,
       renderCell: (row) => {
         return (
           <span
@@ -175,7 +173,7 @@ const InternalControlTable = (props) => {
       headerName: 'Assessment Result',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      minWidth: 150,
       renderCell: (row) => {
         return (
           <span className={class_to_apply(row.row.Assessment_Result)}>
@@ -189,7 +187,7 @@ const InternalControlTable = (props) => {
       headerName: 'Compliance Result',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      minWidth: 150,
       renderCell: (row) => {
         return (
           <span className={class_to_apply(row.row.Compliance_Result)}>
@@ -217,14 +215,14 @@ const InternalControlTable = (props) => {
       headerName: 'Assessment Cycle',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 120,
+      minWidth: 150,
     },
     {
       field: 'Year',
       headerName: 'Year',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 120,
+      minWidth: 100,
     },
   ];
 
