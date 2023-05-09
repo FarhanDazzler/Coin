@@ -90,9 +90,22 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
     }, [userFromAD.data]);
 
     const handleSaveAssign = (value) => {
-        const newState = assignTableData.map(obj => {
 
-            return { ...obj, cowner: value.cowner, coversight: value.coversight, valid_from: value.validFrom, valid_to: value.validTo };
+        const newState = assignTableData.map(obj => {
+            if(value.cowner !== ""){
+                return{...obj, cowner: value.cowner}
+            }
+            if(value.coversight !== ""){
+                return{...obj, coversight: value.coversight}
+            }
+            if(value.validFrom !== ""){
+                return{...obj, valid_from: value.validFrom}
+            }
+            if(value.validTo !== ""){
+                return{...obj, valid_to: value.validTo}
+            }
+
+            return { ...obj};
         });
         console.log(newState);
         const payload = {
