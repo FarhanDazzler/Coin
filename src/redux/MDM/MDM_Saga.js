@@ -551,7 +551,7 @@ function* assignApplicabilityAndAssignmentOfProviderOrganizationData({ payload }
         type: ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_SUCCESS,
         payload: response.data,
       });
-      Swal.fire('Done!', 'Assined Successfully!', 'success');
+      Swal.fire('Done!', 'Updated Successfully!', 'success');
       yield put(getApplicabilityAndAssignmentOfProviderOrganization());
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
