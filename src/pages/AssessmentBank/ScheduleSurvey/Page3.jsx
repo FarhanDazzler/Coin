@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 import { FloatRight, TableOptions, ListCheck, Selector } from 'tabler-icons-react';
 import * as Yup from 'yup';
 import { Alert, Form } from 'react-bootstrap';
@@ -42,8 +43,24 @@ const Page3 = ({ handleNext, setStep }) => {
 
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const [editTableIndex, setEditTableIndex] = useState([]);
+
+  useEffect(() => {
+    dispatch(getAllZone());
+  }, []);
+
+  const scheduleSurveyPage_3_State = useSelector(scheduleSurveyPage_3Selector);
+  const getAllZone_State = useSelector(getAllZoneSelector);
+  const getAll_BU_FromZone_State = useSelector(getAll_BU_FromZoneSelector);
+  const getAllEntityFromBU_State = useSelector(getAllEntityFromBUSelector);
+  const getAllProviderFromEntity_State = useSelector(getAllProviderFromEntitySelector);
+  const getScheduleSurveyPage_2_table_State = useSelector(getScheduleSurveyPage_2_tableSelector);
 
   // states to store inputs from multi select buttons
+  const [zoneValue, setZoneValue] = useState(scheduleSurveyPage_3_State?.Zone || []);
+  const [buValue, setBUValue] = useState(scheduleSurveyPage_3_State?.BU || []);
+  const [entityValue, setEntityValue] = useState(scheduleSurveyPage_3_State?.Entity || []);
+  const [providerValue, setProviderValue] = useState(scheduleSurveyPage_3_State?.Provider || []);
   const [frequencyValue, setFrequencyValue] = useState([]);
   const [micsWeightValue, setMicsWeightValue] = useState([]);
   const [FCPAValue, setFCPAValue] = useState([]);
@@ -55,9 +72,6 @@ const Page3 = ({ handleNext, setStep }) => {
 
   // getting Mega Process dropdown values from API
   const getMegaProcessMicsFrameworkState = useSelector(getMegaProcessMicsFrameworkSelector);
-
-  // getting control IDs from page 2
-  const scheduleSurveyPage_2_State = useSelector(scheduleSurveyPage_2Selector);
   const getScheduleSurveyPage_3_table_State = useSelector(getScheduleSurveyPage_3_tableSelector);
 
   useEffect(() => {
@@ -66,6 +80,10 @@ const Page3 = ({ handleNext, setStep }) => {
 
   const selectObjectFormik = useFormik({
     initialValues: {
+      Zone: scheduleSurveyPage_3_State?.Zone || [],
+      BU: scheduleSurveyPage_3_State?.BU || [],
+      Entity: scheduleSurveyPage_3_State?.Entity || [],
+      Provider: scheduleSurveyPage_3_State?.Provider || [],
       selectTheProcedures: null,
       Frequency: [],
       mics_weight: [],
@@ -79,55 +97,57 @@ const Page3 = ({ handleNext, setStep }) => {
 
     validate: (values) => {
       const errors = {};
-
-      if (!values.selectTheProcedures) errors.selectTheProcedures = 'Please Select the procedures';
-
+      if (values.Zone && values.Zone.length === 0) errors.Zone = 'Zone is required';
+      if (values.BU && values.BU.length === 0) errors.BU = 'BU is required';
+      if (values.Entity && values.Entity.length === 0) errors.Entity = 'Entity is required';
+      if (values.Provider && values.Provider.length === 0) errors.Provider = 'Provider is required';
       return errors;
     },
     onSubmit: (values, { setSubmitting }) => {
-      if (values.selectTheProcedures === 'Select All Controls') {
-        let params = {
-          selectTheProcedures: values.selectTheProcedures,
-          Control_IDs: scheduleSurveyPage_2_State.ControlsTable,
-        };
+      //code for selected item from table
+      if (editTableIndex.length === 0) {
+        Swal.fire({
+          title: 'Are you sure?',
+          text: 'All Control Instatnces Selected !',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: 'gold',
+          cancelButtonColor: 'black',
+          confirmButtonText: 'Yes, submit it!',
+        }).then((res) => {
+          if (res.isConfirmed) {
+            let payload = {
+              Zone: values.Zone,
+              BU: values.BU,
+              Entity: values.Entity,
+              Provider: values.Provider,
+              Control_IDs: getScheduleSurveyPage_2_table_State.data,
+              Control_IDs_fromPage_3: getScheduleSurveyPage_3_table_State.data[0].controlInstances,
+              SelectedDataFromPage3: getScheduleSurveyPage_3_table_State.data[0].controlInstances,
+            };
+            console.log(payload, 'Page 3 payload');
+            dispatch(ScheduleSurveyPage_3(payload));
+
+            setSubmitting(false);
+            handleNext();
+          }
+        });
+      } else if (editTableIndex.length >= 1) {
+        console.log(editTableIndex, 'editTableIndex');
+        const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
+
+        console.log('@@@@@@@@@', data);
 
         let payload = {
-          selectTheProcedures: values.selectTheProcedures,
-          Control_IDs: scheduleSurveyPage_2_State.ControlsTable,
+          Zone: values.Zone,
+          BU: values.BU,
+          Entity: values.Entity,
+          Provider: values.Provider,
+          Control_IDs: getScheduleSurveyPage_2_table_State.data,
           Control_IDs_fromPage_3: getScheduleSurveyPage_3_table_State.data[0].controlInstances,
+          SelectedDataFromPage3: data,
         };
-
-        //console.log(params, 'payload with Specific Controls');
         console.log(payload, 'Page 3 payload');
-        dispatch(getScheduleSurveyPage_3_table(params));
-        dispatch(ScheduleSurveyPage_3(payload));
-
-        setSubmitting(false);
-        handleNext();
-      } else {
-        let params = {
-          selectTheProcedures: values.selectTheProcedures,
-          Control_IDs: scheduleSurveyPage_2_State.ControlsTable,
-          Frequency: values.Frequency,
-          mics_weight: values.mics_weight,
-          FCPA: values.FCPA,
-          ABI_Key: values.ABI_Key,
-          Mega_Process: values.Mega_Process,
-          Automation: values.Automation,
-          Category: values.Category,
-          Recommended_Level: values.Recommended_Level,
-        };
-
-        let payload = {
-          selectTheProcedures: values.selectTheProcedures,
-          Control_IDs: scheduleSurveyPage_2_State.ControlsTable,
-          Control_IDs_fromPage_3: getScheduleSurveyPage_3_table_State.data[0].controlInstances,
-        };
-
-        //console.log(params, 'payload without Specific Controls');
-        console.log(payload, 'Page 3 payload');
-
-        dispatch(getScheduleSurveyPage_3_table(params));
         dispatch(ScheduleSurveyPage_3(payload));
 
         setSubmitting(false);
@@ -135,23 +155,68 @@ const Page3 = ({ handleNext, setStep }) => {
       }
     },
   });
-
   useEffect(() => {
-    let payload = {
-      selectTheProcedures: selectObjectFormik?.values.selectTheProcedures,
-      Control_IDs: scheduleSurveyPage_2_State.ControlsTable,
-      Frequency: selectObjectFormik?.values.Frequency,
-      mics_weight: selectObjectFormik?.values.mics_weight,
-      FCPA: selectObjectFormik?.values.FCPA,
-      ABI_Key: selectObjectFormik?.values.ABI_Key,
-      Mega_Process: selectObjectFormik?.values.Mega_Process,
-      Automation: selectObjectFormik?.values.Automation,
-      Category: selectObjectFormik?.values.Category,
-      Recommended_Level: selectObjectFormik?.values.Recommended_Level,
-    };
-    console.log(payload, 'API Payload without Specific Controls');
-    dispatch(getScheduleSurveyPage_3_table(payload));
+    if (selectObjectFormik?.values.Zone.length > 0) {
+      let params = {
+        zones: selectObjectFormik?.values.Zone,
+      };
+      dispatch(getAll_BU_FromZone(params));
+    }
+    if (selectObjectFormik?.values.BU.length > 0) {
+      let params = {
+        bus: selectObjectFormik?.values.BU,
+      };
+
+      dispatch(getAllEntityFromBU(params));
+    }
+    if (selectObjectFormik?.values.Entity.length > 0) {
+      let params = {
+        entities: selectObjectFormik?.values.Entity,
+      };
+      dispatch(getAllProviderFromEntity(params));
+    }
+    if (selectObjectFormik?.values.Provider.length > 0) {
+      let params = {
+        controls: selectObjectFormik?.values.Provider,
+      };
+      dispatch(getScheduleSurveyPage_2_table(params));
+    }
+    if (getScheduleSurveyPage_2_table_State?.data) {
+      let payload = {
+        selectTheProcedures: 'Select Specific Controls',
+        Control_IDs: getScheduleSurveyPage_2_table_State?.data,
+        Frequency: selectObjectFormik?.values.Frequency,
+        mics_weight: selectObjectFormik?.values.mics_weight,
+        FCPA: selectObjectFormik?.values.FCPA,
+        ABI_Key: selectObjectFormik?.values.ABI_Key,
+        Mega_Process: selectObjectFormik?.values.Mega_Process,
+        Automation: selectObjectFormik?.values.Automation,
+        Category: selectObjectFormik?.values.Category,
+        Recommended_Level: selectObjectFormik?.values.Recommended_Level,
+      };
+      console.log(payload, 'API Payload with Specific Controls');
+      dispatch(getScheduleSurveyPage_3_table(payload));
+    }
   }, [selectObjectFormik?.values]);
+
+  // useEffect(() => {
+  //   if (getScheduleSurveyPage_2_table_State?.data) {
+  //     let payload = {
+  //       selectTheProcedures: 'Select Specific Controls',
+  //       Control_IDs: getScheduleSurveyPage_2_table_State?.data,
+  //       Frequency: selectObjectFormik?.values.Frequency,
+  //       mics_weight: selectObjectFormik?.values.mics_weight,
+  //       FCPA: selectObjectFormik?.values.FCPA,
+  //       ABI_Key: selectObjectFormik?.values.ABI_Key,
+  //       Mega_Process: selectObjectFormik?.values.Mega_Process,
+  //       Automation: selectObjectFormik?.values.Automation,
+  //       Category: selectObjectFormik?.values.Category,
+  //       Recommended_Level: selectObjectFormik?.values.Recommended_Level,
+  //     };
+  //     console.log(payload, 'API Payload with Specific Controls one time');
+  //     dispatch(getScheduleSurveyPage_3_table(payload));
+  //   }
+  // }, []);
 
   const handleOnclickCancel = () => {
     history.push('/assessmentbank');
@@ -225,53 +290,115 @@ const Page3 = ({ handleNext, setStep }) => {
 
   return (
     <div className="p-5">
-      <h4 className="AssessmentBank-inputPage-title">Select Object(s)/Specific controls</h4>
-
+      <h4 className="AssessmentBank-inputPage-title">Select Provider Organisation</h4>
       <div className="row">
-        <Divider
-          className="divider"
-          size="md"
-          my="xs"
-          labelPosition="center"
-          label={
-            <>
-              <Selector size={16} />
-              <Box ml={5}>
-                <Form.Label>Select the procedures:</Form.Label>
-              </Box>
-            </>
-          }
-        />
-      </div>
-      <div className="row">
-        <div className="col-lg-4" style={{ paddingTop: '5px' }}>
-          <Form.Label>Procedures:</Form.Label>
-        </div>
-        <div className="col-lg-4">
-          <Select
-            name="selectTheProcedures"
-            key="selectTheProcedures"
-            label=""
-            placeholder="Select the procedures:"
-            data={['Select All Controls', 'Select Specific Controls']}
+        <div className="col-lg-6">
+          <MultiSelect
+            className="mantine-MultiSelect-wrapper-AssessmentBank"
+            data={getAllZone_State?.data?.map((i) => i.zone) || []}
+            label={<Form.Label className="mantine-MultiSelect-label">{'Zone'}</Form.Label>}
+            placeholder={'Select Zone'}
             searchable
-            radius={'lg'}
-            maxDropdownHeight={400}
+            limit={20}
+            nothingFound="Nothing found"
+            clearButtonLabel="Clear selection"
+            clearable
+            value={zoneValue}
             onChange={(e) => {
-              console.log(e);
-              selectObjectFormik.setFieldValue('selectTheProcedures', e);
-              if (e === 'Select All Controls') {
-                selectObjectFormik.handleSubmit();
-              }
+              selectObjectFormik.setFieldValue('Zone', e);
+              setZoneValue(e);
+              //console.log(e, 'cowner filter');
             }}
-            value={selectObjectFormik.values.selectTheProcedures}
-            error={selectObjectFormik.errors.selectTheProcedures}
             disabled={selectObjectFormik.isSubmitting}
+            error={selectObjectFormik.errors.Zone}
+            radius="xl"
+            variant="filled"
+            size="xs"
           />
         </div>
+
+        {selectObjectFormik?.values.Zone.length > 0 && (
+          <div className="col-lg-6">
+            <MultiSelect
+              className="mantine-MultiSelect-wrapper-AssessmentBank"
+              data={getAll_BU_FromZone_State?.data?.map((i) => i.BU) || []}
+              label={<Form.Label className="mantine-MultiSelect-label">{'BU'}</Form.Label>}
+              placeholder={'Select BU'}
+              searchable
+              limit={20}
+              nothingFound="Nothing found"
+              clearButtonLabel="Clear selection"
+              clearable
+              value={buValue}
+              onChange={(e) => {
+                selectObjectFormik.setFieldValue('BU', e);
+                setBUValue(e);
+                //console.log(e, 'cowner filter');
+              }}
+              disabled={selectObjectFormik.isSubmitting}
+              error={selectObjectFormik.errors.BU}
+              radius="xl"
+              variant="filled"
+              size="xs"
+            />
+          </div>
+        )}
+
+        {selectObjectFormik?.values.BU.length > 0 && (
+          <div className="col-lg-6">
+            <MultiSelect
+              className="mantine-MultiSelect-wrapper-AssessmentBank"
+              data={getAllEntityFromBU_State?.data?.map((i) => i.country_entity) || []}
+              label={<Form.Label className="mantine-MultiSelect-label">{'Entity'}</Form.Label>}
+              placeholder={'Select Entity'}
+              searchable
+              limit={20}
+              nothingFound="Nothing found"
+              clearButtonLabel="Clear selection"
+              clearable
+              value={entityValue}
+              onChange={(e) => {
+                selectObjectFormik.setFieldValue('Entity', e);
+                setEntityValue(e);
+                //console.log(e, 'cowner filter');
+              }}
+              disabled={selectObjectFormik.isSubmitting}
+              error={selectObjectFormik.errors.Entity}
+              radius="xl"
+              variant="filled"
+              size="xs"
+            />
+          </div>
+        )}
+        {selectObjectFormik?.values.Entity.length > 0 && (
+          <div className="col-lg-6">
+            <MultiSelect
+              className="mantine-MultiSelect-wrapper-AssessmentBank"
+              data={getAllProviderFromEntity_State?.data?.map((i) => i.Provider_Entity) || []}
+              label={<Form.Label className="mantine-MultiSelect-label">{'Provider'}</Form.Label>}
+              placeholder={'Select Provider'}
+              searchable
+              limit={20}
+              nothingFound="Nothing found"
+              clearButtonLabel="Clear selection"
+              clearable
+              value={providerValue}
+              onChange={(e) => {
+                selectObjectFormik.setFieldValue('Provider', e);
+                setProviderValue(e);
+                //console.log(e, 'cowner filter');
+              }}
+              disabled={selectObjectFormik.isSubmitting}
+              error={selectObjectFormik.errors.Provider}
+              radius="xl"
+              variant="filled"
+              size="xs"
+            />
+          </div>
+        )}
       </div>
 
-      {selectObjectFormik?.values.selectTheProcedures === 'Select Specific Controls' && (
+      {selectObjectFormik?.values.Provider.length > 0 && (
         <>
           <div className="row">
             <Divider
@@ -527,7 +654,12 @@ const Page3 = ({ handleNext, setStep }) => {
                   </div>
                 </div>
               </div>
-              <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+              <Table
+                tableData={tableData}
+                tableColumns={tableColumns}
+                columns={tableColumns}
+                setEditTableIndex={setEditTableIndex}
+              />
             </div>
           </div>
         </>
@@ -551,7 +683,7 @@ const Page3 = ({ handleNext, setStep }) => {
               color="neutral"
               className="ml-4"
               onClick={() => {
-                setStep(2);
+                setStep(1);
               }}
             >
               {'<'} Previous
