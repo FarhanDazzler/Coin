@@ -3,6 +3,21 @@ export const names = [
   { label: 'ATR_ACCR_01a', value: 'ATR_ACCR_01a' },
 ];
 
+export const months = [
+  { label: '1', value: 'Jan' },
+  { label: '2', value: 'Feb' },
+  { label: '3', value: 'Mar' },
+  { label: '4', value: 'Apr' },
+  { label: '5', value: 'May' },
+  { label: '6', value: 'Jun' },
+  { label: '7', value: 'Jul' },
+  { label: '8', value: 'Aug' },
+  { label: '9', value: 'Sep' },
+  { label: '10', value: 'Oct' },
+  { label: '11', value: 'Nov' },
+  { label: '12', value: 'Dec' },
+]
+
 export const levels = [
   { label: 'L1', value: 'L1' },
   { label: 'L2', value: 'L2' },

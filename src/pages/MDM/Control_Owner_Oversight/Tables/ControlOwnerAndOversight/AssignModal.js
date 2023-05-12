@@ -31,7 +31,8 @@ const GetParentEntityValue = ({ setCownerValue }) => {
 };
 
 const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
-  console.log('selectedControlIds', selectedControlIds);
+
+  console.log('selectedControlIds', assignTableData);
   const dispatch = useDispatch();
 
   const userFromAD = useSelector(getUserFromADSelector);
@@ -131,8 +132,8 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
         <Formik
           enableReinitialize
           initialValues={{
-            cowner: '',
-            coversight: '',
+            cowner: assignTableData.length === 1 ? assignTableData[0]?.cowner : '',
+            coversight: assignTableData.length === 1 ? assignTableData[0]?.coversight : '',
             cownerValidFrom: today ? today : '',
             cownerValidTo: validToDate ? validToDate : '',
             coversightValidFrom : today ? today : '',
