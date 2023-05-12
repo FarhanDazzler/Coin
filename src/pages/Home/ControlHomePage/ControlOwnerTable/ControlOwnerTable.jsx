@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import { useDispatch, useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
@@ -23,6 +23,7 @@ const ControlOwnerTable = ({ tableName }) => {
   const token=Cookies.get('token')
 
   const history = useHistory();
+ 
   const { accounts } = useMsal();
   const dispatch = useDispatch();
   const userRole = localStorage.getItem('selected_Role');
@@ -74,7 +75,7 @@ const ControlOwnerTable = ({ tableName }) => {
               </Button>
             )}
             {['Not started', 'Re-assessed'].includes(row.row.Status) && (
-              <Button onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}>
+              <Button onClick={() => history.push(`/Assessments/${row.row.Control_ID}`,row.row)}>
                 Take Assessment
               </Button>
             )}
