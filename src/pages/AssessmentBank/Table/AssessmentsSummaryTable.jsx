@@ -215,6 +215,7 @@ const AssessmentsSummaryTable = () => {
                   assessmentCycleValue={assessmentCycleValue}
                   setYearValue={setYearValue}
                   setAssessmentCycleValue={setAssessmentCycleValue}
+                  
                 />
               </div>
               <>
