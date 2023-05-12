@@ -16,5 +16,8 @@ export const getAssessmentsSummaryTableSelector = (state) =>
   state.assessmentBank.getAssessmentsSummaryTable;
 export const getAssessmentDetailsTableDataSelector = (state) =>
   state.assessmentBank.getAssessmentDetailsTableData;
+  export const getAssessmentCycleDataSelector = (state) =>
+  state.assessmentBank.getAssessmentCycleData;
 export const recallAssessmentSelector = (state) => state.assessmentBank.recallAssessment;
 export const reTriggerAssessmentSelector = (state) => state.assessmentBank.reTriggerAssessment;
+

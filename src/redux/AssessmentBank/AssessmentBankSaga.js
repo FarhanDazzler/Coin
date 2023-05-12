@@ -31,6 +31,9 @@ import {
   GET_ASSESSMENT_DETAILS_TABLE_REQUEST,
   GET_ASSESSMENT_DETAILS_TABLE_SUCCESS,
   GET_ASSESSMENT_DETAILS_TABLE_ERROR,
+  GET_ASSESSMENT_CYCLE_ERROR,
+  GET_ASSESSMENT_CYCLE_REQUEST,
+  GET_ASSESSMENT_CYCLE_SUCCESS,
   RE_TRIGGER_ASSESSMENT_REQUEST,
   RE_TRIGGER_ASSESSMENT_SUCCESS,
   RE_TRIGGER_ASSESSMENT_ERROR,
@@ -233,6 +236,27 @@ function* handleGet_AssessmentDetailsTableData({ payload }) {
   }
 }
 
+//Get Assessment Cycle Data
+async function getAssessmentCycleDataApi(params) {
+  return await Axios.get('/get_assessment_cycle');
+}
+function* handleGet_AssessmentCycleData({ payload }) {
+  try {
+    const response = yield call(getAssessmentCycleDataApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_ASSESSMENT_CYCLE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_ASSESSMENT_CYCLE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 // Recall Assessment
 async function recallAssessmentApi(payload) {
   return await Axios.post('/recall_assessment', payload);
@@ -306,6 +330,7 @@ export default all([
   ),
   takeLatest(GET_ASSESSMENTS_SUMMARY_TABLE_REQUEST, handleGet_AssessmentsSummaryTable),
   takeLatest(GET_ASSESSMENT_DETAILS_TABLE_REQUEST, handleGet_AssessmentDetailsTableData),
+  takeLatest(GET_ASSESSMENT_CYCLE_REQUEST, handleGet_AssessmentCycleData),
   takeLatest(RECALL_ASSESSMENT_REQUEST, recallAssessmentData),
   takeLatest(RE_TRIGGER_ASSESSMENT_REQUEST, reTriggerAssessmentData),
 ]);
