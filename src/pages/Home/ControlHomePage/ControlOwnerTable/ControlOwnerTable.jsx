@@ -74,7 +74,7 @@ const ControlOwnerTable = ({ tableName }) => {
                 Review
               </Button>
             )}
-            {['Not started', 'Re-assessed'].includes(row.row.Status) && (
+            {['Not started', 'Re-assessed','Drafted'].includes(row.row.Status) && (
               <Button onClick={() => history.push(`/Assessments/${row.row.Control_ID}`,row.row)}>
                 Take Assessment
               </Button>
@@ -90,13 +90,13 @@ const ControlOwnerTable = ({ tableName }) => {
       cellClassName: 'dashboardCell',
       minWidth: 90,
     },
-    {
-      field: 'Receiver',
-      headerName: 'Receiver Organization',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
+    // {
+    //   field: 'Receiver',
+    //   headerName: 'Receiver Organization',
+    //   flex: 1,
+    //   cellClassName: 'dashboardCell',
+    //   minWidth: 200,
+    // },
     {
       field: 'Provider',
       headerName: 'Provider Organization',
@@ -114,7 +114,7 @@ const ControlOwnerTable = ({ tableName }) => {
         return (
           <span
             className={'text-yellow cursor-pointer'}
-            onClick={() => handleControlIDClick(row.row.Control_ID)}
+            // onClick={() => handleControlIDClick(row.row.Control_ID)}
           >
             {row.row.Control_ID}
           </span>
@@ -301,6 +301,7 @@ const ControlOwnerTable = ({ tableName }) => {
                   setBUValue={setBUValue}
                   setReceiverValue={setReceiverValue}
                   setProviderValue={setProviderValue}
+                  isHide={true}
                 />
               </Group>
             </div>

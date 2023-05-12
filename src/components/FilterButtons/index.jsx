@@ -20,6 +20,7 @@ const FilterButtons = ({
   setProviderValue,
   setYearValue,
   setAssessmentCycleValue,
+  isHide=false
 }) => {
   const [searchValue, onSearchChange] = useState('');
 
@@ -106,7 +107,7 @@ const FilterButtons = ({
           variant="filled"
           size="xs"
         />
-        <MultiSelect
+       {!isHide&& <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={Receiver}
           label={<span className="mantine-MultiSelect-label">{'Receiver Organization'}</span>}
@@ -125,7 +126,7 @@ const FilterButtons = ({
           radius="xl"
           variant="filled"
           size="xs"
-        />
+        />}
         <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={Provider}
