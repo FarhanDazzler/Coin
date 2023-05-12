@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import { useDispatch, useSelector } from 'react-redux';
-import Typography from '@mui/material/Typography';
 import {
   getControlDataGcdAction,
   getControlDataAction,
 } from '../../../../redux/ControlData/ControlDataAction';
 import { class_to_apply } from '../../V2/InternalControlHomePage/HomePageTable/constant';
-import Table from '../../../../components/UI/Table';
 import { getControlOwnerTableData } from '../../../../redux/DashBoard/DashBoardAction';
 import { getControlOwnerDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
 import TableLoader from '../../../../components/UI/TableLoader';
 import Button from '../../../../components/UI/Button';
 import { Group } from '@mantine/core';
 import FilterButtons from '../../../../components/FilterButtons';
+import Table2 from '../../../../components/UI/Table/Table2';
 import Cookies from 'js-cookie';
+//TODO:Replace new table with desgin
 const ControlOwnerTable = ({ tableName }) => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -23,7 +23,6 @@ const ControlOwnerTable = ({ tableName }) => {
   const token=Cookies.get('token')
 
   const history = useHistory();
- 
   const { accounts } = useMsal();
   const dispatch = useDispatch();
   const userRole = localStorage.getItem('selected_Role');
@@ -57,25 +56,27 @@ const ControlOwnerTable = ({ tableName }) => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'Action',
-      headerName: 'Action',
+      accessorKey: 'Action',
+      id: 'Action',
+      header: 'Action',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 200,
-      renderCell: (row) => {
+      Cell: (row) => {
         return (
           <div>
-            {row.row.Status === 'Completed' && (
+            {row.row.original.Status === 'Completed' && (
               <Button
                 className="mr-2"
-                // onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
-                onClick={() => handleControlIDClick(row.row.Control_ID)}
+                // onClick={() => history.push(`/Assessments/${row.row.original.Control_ID}`)}
+                onClick={() => handleControlIDClick(row.row.original.Control_ID)}
               >
                 Review
               </Button>
             )}
-            {['Not started', 'Re-assessed'].includes(row.row.Status) && (
-              <Button onClick={() => history.push(`/Assessments/${row.row.Control_ID}`,row.row)}>
+            {['Not started', 'Re-assessed'].includes(row.row.original.Status) && (
+              <Button onClick={() => history.push(`/Assessments/${row.row.original.Control_ID}`)}>
                 Take Assessment
               </Button>
             )}
@@ -84,117 +85,145 @@ const ControlOwnerTable = ({ tableName }) => {
       },
     },
     {
-      field: 'Zone',
-      headerName: 'Zone',
+      accessorKey: 'Zone',
+      id: 'Zone',
+      header: 'Zone',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 90,
     },
     {
-      field: 'Receiver',
-      headerName: 'Receiver Organization',
+      accessorKey: 'Receiver',
+      id: 'Receiver',
+      header: 'Receiver Organization',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Provider',
-      headerName: 'Provider Organization',
+      accessorKey: 'Provider',
+      id: 'Provider',
+      header: 'Provider Organization',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Control_ID',
-      headerName: 'Control ID',
+      accessorKey: 'Control_ID',
+      id: 'Control_ID',
+      header: 'Control ID',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 140,
-      renderCell: (row) => {
+      Cell: (row) => {
         return (
           <span
             className={'text-yellow cursor-pointer'}
-            onClick={() => handleControlIDClick(row.row.Control_ID)}
+            onClick={() => handleControlIDClick(row.row.original.Control_ID)}
           >
-            {row.row.Control_ID}
+            {row.row.original.Control_ID}
           </span>
         );
       },
     },
 
     {
-      field: 'Status',
-      headerName: 'Status',
+      accessorKey: 'Status',
+      id: 'Status',
+      header: 'Status',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 120,
-      renderCell: (row) => {
-        return <span className={'text-yellow-dark'}>{row.row.Status}</span>;
+      Cell: (row) => {
+        return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
       },
     },
     {
-      field: 'KPI_Result',
-      headerName: 'KPI Result',
+      accessorKey: 'KPI_Result',
+      id: 'KPI_Result',
+      header: 'KPI Result',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 100,
-      renderCell: (row) => {
-        return <span className={class_to_apply(row.row.KPI_Result)}>{row.row.KPI_Result}</span>;
-      },
-    },
-    {
-      field: 'Assessment_Result',
-      headerName: 'Assessment Result',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 150,
-      renderCell: (row) => {
+      Cell: (row) => {
         return (
-          <span className={class_to_apply(row.row.Assessment_Result)}>
-            {row.row.Assessment_Result}
+          <span className={class_to_apply(row.row.original.KPI_Result)}>
+            {row.row.original.KPI_Result}
           </span>
         );
       },
     },
     {
-      field: 'Compliance_Result',
-      headerName: 'Compliance Result',
+      accessorKey: 'Assessment_Result',
+      id: 'Assessment_Result',
+      header: 'Assessment Result',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 150,
-      renderCell: (row) => {
+      Cell: (row) => {
         return (
-          <span className={class_to_apply(row.row.Compliance_Result)}>
-            {row.row.Compliance_Result}
+          <span className={class_to_apply(row.row.original.Assessment_Result)}>
+            {row.row.original.Assessment_Result}
           </span>
         );
       },
     },
     {
-      field: 'Control_Owner',
-      headerName: "Control \nOwner",
+      accessorKey: 'Compliance_Result',
+      id: 'Compliance_Result',
+      header: 'Compliance Result',
       flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      minWidth: 150,
+      Cell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.original.Compliance_Result)}>
+            {row.row.original.Compliance_Result}
+          </span>
+        );
+      },
+    },
+    {
+      accessorKey: 'Control_Owner',
+      id: 'Control_Owner',
+      header: 'Control \nOwner',
+      flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 250,
     },
     {
-      field: 'Control_Oversight',
-      headerName: 'Control Oversight',
+      accessorKey: 'Control_Oversight',
+      id: 'Control_Oversight',
+      header: 'Control Oversight',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 250,
     },
     {
-      field: 'Assessment_Cycle',
-      headerName: 'Assessment Cycle',
+      accessorKey: 'Assessment_Cycle',
+      id: 'Assessment_Cycle',
+      header: 'Assessment Cycle',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 150,
     },
     {
-      field: 'Year',
-      headerName: 'Year',
+      accessorKey: 'Year',
+      id: 'Year',
+      header: 'Year',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 100,
     },
@@ -276,44 +305,40 @@ const ControlOwnerTable = ({ tableName }) => {
   </div> */}
 
       <div className="container">
-        {getControlOwnerData.loading ? (
-          <TableLoader className="mt-8" />
-        ) : (
-          <div className="row pt-5">
-            <div className="col-12 col-lg-12">
-              <Group spacing="xs" className="actions-button-wrapper">
-                <FilterButtons
-                  year={removeDuplicates(year)}
-                  assessment_Cycle={removeDuplicates(assessment_Cycle)}
-                  Zone={removeDuplicates(Zone)}
-                  BU={removeDuplicates(BU)}
-                  Receiver={removeDuplicates(Receiver)}
-                  Provider={removeDuplicates(Provider)}
-                  yearValue={yearValue}
-                  assessmentCycleValue={assessmentCycleValue}
-                  zoneValue={zoneValue}
-                  buValue={buValue}
-                  receiverValue={receiverValue}
-                  providerValue={providerValue}
-                  setYearValue={setYearValue}
-                  setAssessmentCycleValue={setAssessmentCycleValue}
-                  setZoneValue={setZoneValue}
-                  setBUValue={setBUValue}
-                  setReceiverValue={setReceiverValue}
-                  setProviderValue={setProviderValue}
-                />
-              </Group>
-            </div>
-
-            <div className="col-12 col-lg-12 mt-5">
-              <Table
-                tableData={tableDataArray}
-                tableColumns={tableColumns}
-                columns={tableColumns}
+        <div className="row pt-5">
+          <div className="col-12 col-lg-12">
+            <Group spacing="xs" className="actions-button-wrapper">
+              <FilterButtons
+                year={removeDuplicates(year)}
+                assessment_Cycle={removeDuplicates(assessment_Cycle)}
+                Zone={removeDuplicates(Zone)}
+                BU={removeDuplicates(BU)}
+                Receiver={removeDuplicates(Receiver)}
+                Provider={removeDuplicates(Provider)}
+                yearValue={yearValue}
+                assessmentCycleValue={assessmentCycleValue}
+                zoneValue={zoneValue}
+                buValue={buValue}
+                receiverValue={receiverValue}
+                providerValue={providerValue}
+                setYearValue={setYearValue}
+                setAssessmentCycleValue={setAssessmentCycleValue}
+                setZoneValue={setZoneValue}
+                setBUValue={setBUValue}
+                setReceiverValue={setReceiverValue}
+                setProviderValue={setProviderValue}
               />
-            </div>
+            </Group>
           </div>
-        )}
+
+          <div className="col-12 col-lg-12 mt-5">
+            <Table2
+              tableData={tableDataArray}
+              loading={getControlOwnerData.loading}
+              tableColumns={tableColumns}
+            />
+          </div>
+        </div>
       </div>
     </>
   );

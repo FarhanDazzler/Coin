@@ -24,12 +24,12 @@ import RenderHomeModalTable from './RenderHomeModalTable';
 import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAction';
 import CustomModal from '../../../../../components/UI/CustomModal';
 
-const HomeTableModal = ({ isModal = false }) => {
+const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
   const { accounts } = useMsal();
 
   const query = new URLSearchParams(history.location.search);
-  const { Assessment_id = '' } = useParams()
+  const { Assessment_id = '' } = useParams();
   const dispatch = useDispatch();
   const getResponse = useSelector(getResponseSelector);
   const latestDraftData = useSelector(getLatestDraftSelector);
@@ -46,19 +46,20 @@ const HomeTableModal = ({ isModal = false }) => {
   const [loading, setLoading] = useState(false);
 
   // const Control_ID = query.get('Assessment_id') || !isModal ? 'ATR_MJE_01a-K' : '';
-  const Control_ID = Assessment_id || query.get('Control_ID')
+  const Control_ID = Assessment_id || query.get('Control_ID');
   const handleClose = () => {
     if (startEdit && responseData?.data?.Attempt_no <= 5) {
       Swal.fire({
         title: 'Do you want save as draft!',
-        text: `Remaining response ${responseData?.data?.Attempt_no
-          ? responseData?.data?.Attempt_no < 5
-            ? 4 - responseData?.data?.Attempt_no
-            : 0
-          : responseData?.data?.Attempt_no === 0
+        text: `Remaining response ${
+          responseData?.data?.Attempt_no
+            ? responseData?.data?.Attempt_no < 5
+              ? 4 - responseData?.data?.Attempt_no
+              : 0
+            : responseData?.data?.Attempt_no === 0
             ? '4'
             : '5'
-          }`,
+        }`,
         icon: 'warning',
         showConfirmButton: false,
         showCancelButton: true,
@@ -89,13 +90,13 @@ const HomeTableModal = ({ isModal = false }) => {
     }
     history.push('/');
   };
-
   useEffect(() => {
-    dispatch(getQuestions({ Control_ID: 'Standard' }));
+    dispatch(getQuestions({ Control_ID: activeData.Question_Bank==='Template1'?
+    'Standard':activeData.Control_ID }));
     dispatch(
       getKPIData({
-        MICS_code: Control_ID,
-        Entity_ID: 'Argentina',
+        MICS_code: activeData.Control_ID||Control_ID,
+        Entity_ID: activeData.Provider,
       }),
     );
     setTimeout(() => {
@@ -152,18 +153,19 @@ const HomeTableModal = ({ isModal = false }) => {
       }
     }
   }, [responseData.data]);
-  
+
   const handleSubmit = () => {
     Swal.fire({
       title: 'Do you want Submit assessment',
-      text: `Remaining response ${responseData?.data?.Attempt_no
-        ? responseData?.data?.Attempt_no < 5
-          ? 4 - responseData?.data?.Attempt_no
-          : 0
-        : responseData?.data?.Attempt_no === 0
+      text: `Remaining response ${
+        responseData?.data?.Attempt_no
+          ? responseData?.data?.Attempt_no < 5
+            ? 4 - responseData?.data?.Attempt_no
+            : 0
+          : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
-        }`,
+      }`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
@@ -177,13 +179,13 @@ const HomeTableModal = ({ isModal = false }) => {
         setLoading(true);
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
         const payload = {
-          Assessment_ID: Control_ID,
+          Assessment_ID: '31599B92-7E74-4A40-99AF-716B122BB4A2',
           Assessment_result: 'Pass',
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
-            // s2:,
           },
+          kpis: tableData,
           event: {
             onSuccess: () => {
               setLoading(false);
@@ -204,7 +206,7 @@ const HomeTableModal = ({ isModal = false }) => {
           return;
         }
         const payload = {
-          Assessment_ID: Control_ID,
+          Assessment_ID: activeData.id,
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
@@ -223,14 +225,15 @@ const HomeTableModal = ({ isModal = false }) => {
     }
     Swal.fire({
       title: 'Do you want save draft?',
-      text: `Remaining response ${responseData?.data?.Attempt_no
-        ? responseData?.data?.Attempt_no < 5
-          ? 4 - responseData?.data?.Attempt_no
-          : 0
-        : responseData?.data?.Attempt_no === 0
+      text: `Remaining response ${
+        responseData?.data?.Attempt_no
+          ? responseData?.data?.Attempt_no < 5
+            ? 4 - responseData?.data?.Attempt_no
+            : 0
+          : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
-        }`,
+      }`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
@@ -239,7 +242,7 @@ const HomeTableModal = ({ isModal = false }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         const payload = {
-          Assessment_ID: Control_ID,
+          Assessment_ID: activeData.id||Control_ID,
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),

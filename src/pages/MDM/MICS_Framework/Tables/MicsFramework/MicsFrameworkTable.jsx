@@ -52,154 +52,154 @@ const MicsFrameworkTable = () => {
       headerName: 'Category',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'Mega_Process',
       headerName: 'Mega Process',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 140,
     },
     {
       field: 'Sub_Process',
       headerName: 'Sub Process',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 230,
     },
     {
       field: 'ABI_Key',
       headerName: 'ABI Key',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'Ambev_Key',
       headerName: 'Ambev Key',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'FCPA',
       headerName: 'FCPA',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'Frequency',
       headerName: 'Frequency',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 150,
     },
     {
       field: 'Preventive_Detective',
       headerName: 'Preventive/Detective',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 170,
     },
     {
       field: 'Automation',
       headerName: 'Automation',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 140,
     },
     {
       field: 'Recommended_Level',
       headerName: 'Recommended Level',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 170,
     },
     {
       field: 'Maturity_Relevant',
       headerName: 'Maturity Relevant',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 160,
     },
     {
       field: 'mics_weight',
       headerName: 'MICS Weight',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 120,
     },
     {
       field: 'Recommended_Standardization',
       headerName: 'Recommended Standardization',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 350,
     },
     {
       field: 'ABI_DAG',
       headerName: 'ABI DAG',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'AmBev_DAG',
       headerName: 'AmBev DAG',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'B2B',
       headerName: 'B2B',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'Fintech',
       headerName: 'Fintech',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'DTC',
       headerName: 'DTC',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 140,
     },
     {
       field: 'Control_Split',
       headerName: 'Control Split',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 120,
     },
     {
       field: 'Risk',
       headerName: 'Risk',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 350,
     },
     {
       field: 'Control_name',
       headerName: 'Control Name',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 350,
     },
     {
       field: 'mics_L1desc',
       headerName: 'L1 Description',
       flex: 1,
       renderCell: (row) => {
-        return <p dangerouslySetInnerHTML={{__html:row.row.mics_L1desc}}/>
+        return <p dangerouslySetInnerHTML={{ __html: row.row.mics_L1desc }} />;
       },
       cellClassName: 'dashboardCell',
       minWidth: 500,
@@ -209,7 +209,7 @@ const MicsFrameworkTable = () => {
       headerName: 'L2 Description',
       flex: 1,
       renderCell: (row) => {
-        return <p dangerouslySetInnerHTML={{__html:row.row.mics_L2desc}}/>
+        return <p dangerouslySetInnerHTML={{ __html: row.row.mics_L2desc }} />;
       },
       cellClassName: 'dashboardCell',
       minWidth: 500,
@@ -219,7 +219,7 @@ const MicsFrameworkTable = () => {
       headerName: 'L3 Description',
       flex: 1,
       renderCell: (row) => {
-        return <p dangerouslySetInnerHTML={{__html:row.row.mics_L3desc}}/>
+        return <p dangerouslySetInnerHTML={{ __html: row.row.mics_L3desc }} />;
       },
       cellClassName: 'dashboardCell',
       minWidth: 500,
@@ -229,28 +229,28 @@ const MicsFrameworkTable = () => {
       headerName: 'Kpi Status',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'L1_KPI',
       headerName: 'L1 KPI',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'L2_KPI',
       headerName: 'L2 KPI',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'L3_KPI',
       headerName: 'L3 KPI',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'BS_impact',
@@ -299,14 +299,14 @@ const MicsFrameworkTable = () => {
       headerName: 'Reviewed',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'Status',
       headerName: 'Status',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
   ];
 
@@ -366,26 +366,28 @@ const MicsFrameworkTable = () => {
                   <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
                   <span style={{ paddingLeft: '16px' }}>MICS Framework Table</span>
                 </div>
-                <div>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ActiveToolEdit text="Free Text" />}
-                    className="edit-button-mdm-table"
-                    onClick={handleOnclickEdit}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ActiveToolADD text="Free Text" />}
-                    className="add-button-mdm-table"
-                    onClick={handleOnclickAdd}
-                  >
-                    Add New
-                  </Button>
-                </div>
+                {localStorage.getItem('selected_Role') === 'Global internal control' && (
+                  <div>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      startIcon={<ActiveToolEdit text="Free Text" />}
+                      className="edit-button-mdm-table"
+                      onClick={handleOnclickEdit}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      startIcon={<ActiveToolADD text="Free Text" />}
+                      className="add-button-mdm-table"
+                      onClick={handleOnclickAdd}
+                    >
+                      Add New
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
             <Table

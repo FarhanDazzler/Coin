@@ -91,17 +91,19 @@ const MegaAndSubprocessViewTable = () => {
                     Mega Process & Sub-Process Master Data
                   </span>
                 </div>
-                <div>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ActiveTool text="Free Text" />}
-                    className="active-tab-button"
-                    onClick={handleOnclickTableUnhide}
-                  >
-                    Manage Mega & Sub Processes
-                  </Button>
-                </div>
+                {localStorage.getItem('selected_Role') === 'Global internal control' && (
+                  <div>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      startIcon={<ActiveTool text="Free Text" />}
+                      className="active-tab-button"
+                      onClick={handleOnclickTableUnhide}
+                    >
+                      Manage Mega & Sub Processes
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
             <Table

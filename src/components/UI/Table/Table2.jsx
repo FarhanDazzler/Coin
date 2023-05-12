@@ -1,8 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import MaterialReactTable from 'material-react-table';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import cs from 'classnames';
 import './tableStyles.scss';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#e3af32',
+    },
+  },
+});
 
 const Table2 = ({
   tableData,
@@ -21,21 +31,23 @@ const Table2 = ({
     //do something when the row selection changes...
     //console.info({ rowSelection }, Object.keys(rowSelection));
     console.info('keys', Object.keys(rowSelection));
-    setEditTableIndex(Object.keys(rowSelection));
+    setEditTableIndex && setEditTableIndex(Object.keys(rowSelection));
   }, [rowSelection]);
 
   return (
-    <div>
-      <MaterialReactTable
-        columns={tableColumns}
-        data={tableData}
-        initialState={{ showColumnFilters: true }}
-        enableRowSelection
-        getRowId={(row) => row.id} //give each row a more useful id
-        onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
-        state={{ rowSelection }} //pass our managed row selection state to the table to use
-      />
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <div className="materialReactTableWrapper">
+        <MaterialReactTable
+          columns={tableColumns}
+          data={tableData}
+          initialState={{ showColumnFilters: true }}
+          enableRowSelection
+          getRowId={(row) => row.id} //give each row a more useful id
+          onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
+          state={{ rowSelection, isLoading: loading }} //pass our managed row selection state to the table to use
+        />
+      </div>
+    </ThemeProvider>
   );
 
   //   return (

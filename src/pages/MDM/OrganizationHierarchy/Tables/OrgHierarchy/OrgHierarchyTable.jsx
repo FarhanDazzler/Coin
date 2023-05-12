@@ -47,28 +47,28 @@ const OrgHierarchyTable = () => {
       headerName: 'Zone',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 80,
     },
     {
       field: 'BU',
       headerName: 'BU',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 230,
     },
     {
       field: 'country_entity',
       headerName: 'Entity',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 90,
     },
     {
       field: 'cognos_entity',
       headerName: 'Cognos',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 90,
     },
     {
       field: 'sap_company_code',
@@ -99,14 +99,13 @@ const OrgHierarchyTable = () => {
   }, [orgHierarchy.data]);
 
   const handleOnclickTableUnhide = () => {
-    console.log('@@@');
     dispatch(orgManageButton(!orgManageButtonState));
     setTimeout(() => {
       const dom = document.getElementById('ModifyOrganizations');
       if (dom) {
         dom.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
       }
-    }, 200);
+    }, 500);
   };
 
   const ActiveTool = ({ number, text }) => (
