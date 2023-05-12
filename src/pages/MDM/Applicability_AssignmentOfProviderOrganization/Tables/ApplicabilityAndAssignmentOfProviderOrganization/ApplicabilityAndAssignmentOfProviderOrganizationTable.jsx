@@ -258,15 +258,17 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
                   >
                     Assign Provider
                   </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ActiveToolGlobalApprove text="Free Text" />}
-                    className="add-button-mdm-table"
-                    onClick={handleOnclickGlobalApprove}
-                  >
-                    Global Approved
-                  </Button>
+                  {localStorage.getItem('selected_Role') === 'Global internal control' && (
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      startIcon={<ActiveToolGlobalApprove text="Free Text" />}
+                      className="add-button-mdm-table"
+                      onClick={handleOnclickGlobalApprove}
+                    >
+                      Global Approved
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

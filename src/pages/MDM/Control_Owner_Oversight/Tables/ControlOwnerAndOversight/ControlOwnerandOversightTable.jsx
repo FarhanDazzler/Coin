@@ -205,7 +205,7 @@ const ControlOwnerAndOversightTable = () => {
       headerName: 'Zone',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 80,
     },
     {
       field: 'provider_entity',
@@ -232,7 +232,9 @@ const ControlOwnerAndOversightTable = () => {
       field: 'local_control_description',
       headerName: 'Local Control Desc(LCD)',
       flex: 1,
-      renderCell: (row) => { return <p dangerouslySetInnerHTML={{__html:row.row.local_control_description}}/> },
+      renderCell: (row) => {
+        return <p dangerouslySetInnerHTML={{ __html: row.row.local_control_description }} />;
+      },
       cellClassName: 'dashboardCell',
       minWidth: 500,
     },
@@ -248,7 +250,7 @@ const ControlOwnerAndOversightTable = () => {
       headerName: 'Control Owner Status',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 180,
       renderCell: (row) => {
         return (
           <span className={class_to_apply(row.row.cowner_status)}>
@@ -269,7 +271,7 @@ const ControlOwnerAndOversightTable = () => {
       headerName: 'Control Oversight Status',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 190,
       renderCell: (row) => {
         return (
           <span className={class_to_apply(row.row.coversight_status)}>
