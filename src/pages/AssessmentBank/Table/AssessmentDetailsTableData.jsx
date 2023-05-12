@@ -38,6 +38,7 @@ const FilterButtons = ({
   setReceiverValue,
   setProviderValue,
   setMegaProcessValue,
+  isHide=false
 }) => {
   const [searchValue, onSearchChange] = useState('');
 
@@ -84,7 +85,7 @@ const FilterButtons = ({
           variant="filled"
           size="xs"
         />
-        <MultiSelect
+       {!isHide&& <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={Receiver}
           label={<span className="mantine-MultiSelect-label">{'Receiver Organization'}</span>}
@@ -103,7 +104,7 @@ const FilterButtons = ({
           radius="xl"
           variant="filled"
           size="xs"
-        />
+        />}
         <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={Provider}
@@ -229,13 +230,13 @@ const AssessmentDetailsTableData = (props) => {
         return <span className={'text-yellow cursor-pointer'}>{row.row.Control_ID}</span>;
       },
     },
-    {
-      field: 'Receiver',
-      headerName: 'Receiver Organization',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 250,
-    },
+    // {
+    //   field: 'Receiver',
+    //   headerName: 'Receiver Organization',
+    //   flex: 1,
+    //   cellClassName: 'dashboardCell',
+    //   minWidth: 250,
+    // },
     {
       field: 'Provider',
       headerName: 'Provider Organization',
@@ -417,6 +418,7 @@ const AssessmentDetailsTableData = (props) => {
                         setReceiverValue={setReceiverValue}
                         setProviderValue={setProviderValue}
                         setMegaProcessValue={setMegaProcessValue}
+                        isHide
                       />
                     </Group>
                   </div>

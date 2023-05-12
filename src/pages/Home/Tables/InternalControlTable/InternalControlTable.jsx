@@ -118,13 +118,13 @@ const InternalControlTable = (props) => {
       cellClassName: 'dashboardCell',
       minWidth: 90,
     },
-    {
-      field: 'Receiver',
-      headerName: 'Receiver Organization',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
-    },
+    // {
+    //   field: 'Receiver',
+    //   headerName: 'Receiver Organization',
+    //   flex: 1,
+    //   cellClassName: 'dashboardCell',
+    //   minWidth: 200,
+    // },
     {
       field: 'Provider',
       headerName: 'Provider Organization',
@@ -142,7 +142,7 @@ const InternalControlTable = (props) => {
         return (
           <span
             className={'text-yellow cursor-pointer'}
-            onClick={() => handleControlIDClick(row.row.Control_ID)}
+            // onClick={() => handleControlIDClick(row.row.Control_ID)}
           >
             {row.row.Control_ID}
           </span>
@@ -281,6 +281,7 @@ const InternalControlTable = (props) => {
                       setBUValue={setBUValue}
                       setReceiverValue={setReceiverValue}
                       setProviderValue={setProviderValue}
+                      isHide
                     />
                   </Group>
                 </div>

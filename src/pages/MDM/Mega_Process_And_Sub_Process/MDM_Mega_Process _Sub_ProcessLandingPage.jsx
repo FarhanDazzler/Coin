@@ -29,7 +29,9 @@ const MDM_Mega_Process_Sub_ProcessLandingPage = () => {
       <div className="col-12 col-lg-12">
         <NavTabsMDM />
         <MegaAndSubprocessViewTable />
-        {!!megaAndSubprocessManageButtonState && <MegaAndSubprocessTable />}
+        {localStorage.getItem('selected_Role') === 'Global internal control' && (
+          <>{!!megaAndSubprocessManageButtonState && <MegaAndSubprocessTable />}</>
+        )}
       </div>
     </PageWrapper>
   );

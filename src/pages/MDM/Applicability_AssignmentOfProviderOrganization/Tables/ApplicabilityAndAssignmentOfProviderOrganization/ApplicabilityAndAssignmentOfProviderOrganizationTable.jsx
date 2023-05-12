@@ -72,7 +72,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
       headerName: 'Control ID',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 160,
     },
     {
       field: 'Entity_Control_ID_IsApplicable',
@@ -114,28 +114,28 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
       headerName: 'Global Approved',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 150,
     },
     {
       field: 'Entity_Weight',
       headerName: 'Entity Weight',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 140,
     },
     {
       field: 'is_SOX_scope',
       headerName: 'Is SOX scope',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 130,
     },
     {
       field: 'is_FSI_Entity',
       headerName: 'Is FSI Entity',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 130,
     },
   ];
 

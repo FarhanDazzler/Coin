@@ -49,63 +49,63 @@ const OrgStructuresTable = () => {
       headerName: 'Organization Name',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 150,
     },
     {
       field: 'Org_code',
       headerName: 'Organization Code',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 150,
     },
     {
       field: 'Org_type',
       headerName: 'Organization Type',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 150,
     },
     {
       field: 'parent_entity',
       headerName: 'Parent Entity',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 110,
     },
     {
       field: 'isReceiver',
       headerName: 'Is Receiver',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 110,
     },
     {
       field: 'isProvider',
       headerName: 'Is Provider',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 110,
     },
     {
       field: 'Category',
       headerName: 'Category',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'Valid_from',
       headerName: 'Valid From',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'Valid_to',
       headerName: 'Valid To',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
   ];
 
@@ -163,7 +163,7 @@ const OrgStructuresTable = () => {
                 <div>
                   <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
                   <span style={{ paddingLeft: '16px' }}>
-                    Create or modify a Organization within the Organization Hierarchy
+                    Create or modify an Organization within the Organization Hierarchy
                   </span>
                 </div>
                 <div>
