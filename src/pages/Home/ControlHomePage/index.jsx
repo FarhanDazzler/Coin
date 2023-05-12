@@ -29,6 +29,7 @@ const ControlHomePage = () => {
   };
 
   useEffect(() => {
+    if(!userRole) history.push("/not-authorized")
     const tableData =
       loginUserRole === 'Control owner'
         ? getControlOwnerData.data[0]?.cOwnerData || []
