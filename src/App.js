@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { InteractionStatus, PublicClientApplication } from '@azure/msal-browser';
 import { loginRequest, msalConfig } from './utils/authConfig';
@@ -16,6 +16,8 @@ import { UserContext, UserContextProvider } from './context/userContext';
 import dataService from './services/dataService';
 import Question from './parts/Assessments/Question';
 //import QuestionBank from './components/QuestionBank';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import QuestionBank from './pages/QuestionBank/QuestionBankLandingPage';
 import NotAuthorized from './pages/NotAuthorized/NotAuthorizedPage';
 import MDM from './pages/MDM/MDMLandingPage';
@@ -63,8 +65,10 @@ const Pages = () => {
   const isAuthenticated = useIsAuthenticated();
   const { instance, accounts, inProgress } = useMsal();
   const userRole = localStorage.getItem('selected_Role');
+  const userData = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const [userState, userDispatch] = useContext(UserContext);
+  const [userToken, setUserToken] = useState('');
   const role = loginRole ?? userRole;
 
   const isControlPage = () => {
@@ -75,9 +79,7 @@ const Pages = () => {
         return false;
     }
   };
-
-  useEffect(() => {
-    // main RBAC API Call
+  const getUserData = () => {
     axios
       .get(
         `https://acoemicsgrcpwa-devbe.azurewebsites.net/login?User_oid=${accounts[0]?.idTokenClaims.oid}`,
@@ -86,30 +88,35 @@ const Pages = () => {
         console.log(res.data, 'User Role User Token');
         localStorage.setItem('Roles', res?.data.data.roles);
         Cookies.set('token', res?.data.token);
+        setUserToken(res?.data.token)
+        axios
+        .get(
+          `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_user_role?User_Email=${accounts[0]?.username}`,
+          {
+            headers: {
+              Authorization: `Bearer ${res?.data.token}`,
+            },
+          },
+        )
+        .then(async (res) => {
+          console.log(res.data.data[0], 'User Role');
+          // localStorage.setItem('user_Role', res?.data.data[0]?.User_Role);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
         //localStorage.setItem('token', res?.data.token);
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+  useEffect(() => {
+    // main RBAC API Call
+    getUserData();
+  }, [accounts]);
 
-    // OLD RBAC API CALL
-    axios
-      .get(
-        `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_user_role?User_Email=${accounts[0]?.username}`,
-        {
-          headers: {
-            Authorization: `Bearer ${Cookies.get('token')}`,
-          },
-        },
-      )
-      .then(async (res) => {
-        console.log(res.data.data[0], 'User Role');
-        // localStorage.setItem('user_Role', res?.data.data[0]?.User_Role);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+
 
   const user_role = localStorage.getItem('user_Role');
 
@@ -146,10 +153,9 @@ const Pages = () => {
 
   return (
     <div className="page">
+      <ToastContainer autoClose={15000} />
       <div className="flex-fill">
-        {!['/login'].includes(location?.pathname) && (
-          <TopBar isControlPage={isControlPage()} />
-        )}
+        {!['/login'].includes(location?.pathname) && <TopBar isControlPage={isControlPage()} />}
         {/* <Home /> */}
         <Switch>
           <Route

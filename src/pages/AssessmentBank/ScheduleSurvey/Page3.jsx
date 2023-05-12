@@ -275,9 +275,11 @@ const Page3 = ({ handleNext, setStep }) => {
       minWidth: 250,
     },
   ];
-
-  useEffect(() => {
+  useEffect(()=>{
     setTableColumns(TABLE_COLUMNS);
+  },[])
+  useEffect(() => {
+    if(!getScheduleSurveyPage_3_table_State?.data[0]?.controlInstances) return
     setTableData(
       getScheduleSurveyPage_3_table_State?.data[0]?.controlInstances.map((i, index) => {
         return {

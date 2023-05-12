@@ -11,10 +11,11 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
 } from './AuthReducer';
+import { toast } from 'react-toastify';
 
 async function signup(payload) {
   // console.log(`payload`, payload)
-  return await Axios.post('/signup/',payload);
+  return await Axios.post('/signup/', payload);
 }
 function* handleSignup({ payload }) {
   try {
@@ -23,11 +24,21 @@ function* handleSignup({ payload }) {
       yield put({
         type: SIGNUP_SUCCESS,
       });
+      toast('Signup Successful ', {
+        type: 'success',
+        position: 'top-right',
+        toastId: 'Select_platform',
+      });
     }
   } catch (error) {
     yield put({
       type: SIGNUP_ERROR,
       error: getSimplifiedError(error),
+    });
+    toast(getSimplifiedError(error), {
+      type: 'error',
+      position: 'top-right',
+      toastId: 'Select_platform',
     });
   }
 }

@@ -225,7 +225,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
       });
     }
   };
-
+  console.log('@@@@@@@', tableData, tableColumns);
   return (
     <>
       <div className="container mt-5">

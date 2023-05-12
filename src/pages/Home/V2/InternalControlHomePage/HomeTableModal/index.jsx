@@ -177,13 +177,13 @@ const HomeTableModal = ({ isModal = false }) => {
         setLoading(true);
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
         const payload = {
-          Assessment_ID: Control_ID,
+          Assessment_ID: '31599B92-7E74-4A40-99AF-716B122BB4A2',
           Assessment_result: 'Pass',
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
-            // s2:,
           },
+          kpis:tableData,
           event: {
             onSuccess: () => {
               setLoading(false);
