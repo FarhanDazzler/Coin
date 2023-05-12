@@ -297,7 +297,7 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                               type="date"
                               name="cownerValidFrom"
                               placeholder=""
-                              value={values.cownerValidFrom}
+                              value={values.cowner !== "" ? values.cownerValidFrom : ""}
                               isInvalid={Boolean(touched.cownerValidFrom && errors.cownerValidFrom)}
                               min={today}
                               onBlur={handleBlur}
@@ -395,7 +395,7 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                               type="date"
                               name="coversightValidFrom"
                               placeholder=""
-                              value={values.coversightValidFrom}
+                              value={values.coversight !== "" ? values.coversightValidFrom : ""}
                               isInvalid={Boolean(touched.coversightValidFrom && errors.coversightValidFrom)}
                               min={today}
                               onBlur={handleBlur}
