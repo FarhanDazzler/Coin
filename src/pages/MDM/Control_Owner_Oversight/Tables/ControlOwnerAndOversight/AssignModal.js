@@ -26,7 +26,7 @@ const GetParentEntityValue = ({ setCownerValue }) => {
   // Grab values and submitForm from context
   const { values } = useFormikContext();
   console.log('values', values);
-  useEffect(() => {}, [values]);
+  useEffect(() => { }, [values]);
   return null;
 };
 
@@ -64,7 +64,7 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
     //dispatch(getControlInstanceHistoryAction(payloadForHistory))
   }, []);
 
-  useEffect(() => {}, [isEmailValidADState.data]);
+  useEffect(() => { }, [isEmailValidADState.data]);
 
   useEffect(() => {
     if (!cownerValue) return;
@@ -86,18 +86,25 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
   }, [userFromAD.data]);
 
   const handleSaveAssign = (value) => {
+    console.log(value);
     const newState = assignTableData.map((obj) => {
       if (value.cowner !== '') {
-        return { ...obj, cowner: value.cowner };
+        return { ...obj, cowner: value.cowner, cowner_valid_from: value.cownerValidFrom };
       }
       if (value.coversight !== '') {
-        return { ...obj, coversight: value.coversight };
+        return { ...obj, coversight: value.coversight, coversight_valid_from: value.coversightValidFrom };
       }
-      if (value.validFrom !== '') {
-        return { ...obj, valid_from: value.validFrom };
+      if (value.cownerValidFrom !== '') {
+        return { ...obj, cowner_valid_from: value.cownerValidFrom };
       }
-      if (value.validTo !== '') {
-        return { ...obj, valid_to: value.validTo };
+      if (value.cownerValidTo !== '') {
+        return { ...obj, cowner_valid_to: value.cownerValidTo };
+      }
+      if (value.coversightValidFrom !== '') {
+        return { ...obj, coversight_valid_from: value.coversightValidFrom };
+      }
+      if (value.coversightValidTo !== '') {
+        return { ...obj, coversight_valid_to: value.coversightValidTo };
       }
 
       return { ...obj };
@@ -126,8 +133,10 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
           initialValues={{
             cowner: '',
             coversight: '',
-            validFrom: today ? today : '',
-            validTo: validToDate ? validToDate : '',
+            cownerValidFrom: today ? today : '',
+            cownerValidTo: validToDate ? validToDate : '',
+            coversightValidFrom : today ? today : '',
+            coversightValidTo: validToDate ? validToDate : '',
           }}
           validationSchema={Yup.object().shape({
             // assignTableData: Yup.array()
@@ -137,8 +146,8 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
             //             cowner: Yup.string().required('cowner Required'),
             //         })
             //     )
-            validFrom: Yup.string().required('Valid Date is required'),
-            validTo: Yup.string().required('Valid Date is required'),
+            // cownerValidFrom: Yup.string().required('Valid Date is required'),
+            // cownerValidTo: Yup.string().required('Valid Date is required'),
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {
@@ -173,8 +182,10 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                           <th>Selected Control ID</th>
                           <th>Previous Control Owner</th>
                           <th>Previous Control Oversight</th>
-                          <th>Valid From</th>
-                          <th>Valid To</th>
+                          <th>Control Owner Valid From</th>
+                          <th>Control Owner Valid To</th>
+                          <th>Control Oversight Valid From</th>
+                          <th>Control Oversight Valid To</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -199,14 +210,28 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                               <td>
                                 <ul>
                                   {data?.history[0].map((data, i) => (
-                                    <li>{data.valid_from}</li>
+                                    <li>{data.cowner_valid_from}</li>
                                   ))}
                                 </ul>
                               </td>
                               <td>
                                 <ul>
                                   {data?.history[0].map((data, i) => (
-                                    <li>{data.valid_to}</li>
+                                    <li>{data.cowner_valid_to}</li>
+                                  ))}
+                                </ul>
+                              </td>
+                              <td>
+                                <ul>
+                                  {data?.history[0].map((data, i) => (
+                                    <li>{data.coversight_valid_from}</li>
+                                  ))}
+                                </ul>
+                              </td>
+                              <td>
+                                <ul>
+                                  {data?.history[0].map((data, i) => (
+                                    <li>{data.coversight_valid_to}</li>
                                   ))}
                                 </ul>
                               </td>
@@ -262,6 +287,59 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                           )}
                         </div>
                       </div>
+                      <div className="row mb-4">
+                        <div className="col-lg-4">
+                          <Form.Label>Control Owner Valid From</Form.Label>
+                        </div>
+                        <div className="col-lg-8">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              type="date"
+                              name="cownerValidFrom"
+                              placeholder=""
+                              value={values.cownerValidFrom}
+                              isInvalid={Boolean(touched.cownerValidFrom && errors.cownerValidFrom)}
+                              min={today}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-control"
+                            />
+
+                            {!!touched.cownerValidFrom && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.cownerValidFrom}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                      <div className="row mb-4">
+                        <div className="col-lg-4">
+                          <Form.Label>Control Owner Valid To</Form.Label>
+                        </div>
+                        <div className="col-lg-8">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              type="date"
+                              name="cownerValidTo"
+                              placeholder=""
+                              value={values.cownerValidTo}
+                              isInvalid={Boolean(touched.cownerValidTo && errors.cownerValidTo)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-control"
+                            />
+
+                            {!!touched.cownerValidTo && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.cownerValidTo}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
                     </div>
 
                     <div className="col-lg-6">
@@ -307,21 +385,18 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                           )}
                         </div>
                       </div>
-                    </div>
-
-                    <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-4">
-                          <Form.Label>Valid From</Form.Label>
+                          <Form.Label>Control Oversight Valid From</Form.Label>
                         </div>
                         <div className="col-lg-8">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
                               type="date"
-                              name="validFrom"
+                              name="coversightValidFrom"
                               placeholder=""
-                              value={values.validFrom}
-                              isInvalid={Boolean(touched.validFrom && errors.validFrom)}
+                              value={values.coversightValidFrom}
+                              isInvalid={Boolean(touched.coversightValidFrom && errors.coversightValidFrom)}
                               min={today}
                               onBlur={handleBlur}
                               onChange={handleChange}
@@ -329,44 +404,42 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                               className="form-control"
                             />
 
-                            {!!touched.validFrom && (
+                            {!!touched.coversightValidFrom && (
                               <Form.Control.Feedback type="invalid">
-                                {errors.validFrom}
+                                {errors.coversightValidFrom}
                               </Form.Control.Feedback>
                             )}
                           </Form.Group>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-4">
-                          <Form.Label>Valid To</Form.Label>
+                          <Form.Label>Control Oversight Valid To</Form.Label>
                         </div>
                         <div className="col-lg-8">
                           <Form.Group className="input-group mb-3">
                             <Form.Control
                               type="date"
-                              name="validTo"
+                              name="coversightValidTo"
                               placeholder=""
-                              value={values.validTo}
-                              isInvalid={Boolean(touched.validTo && errors.validTo)}
+                              value={values.coversightValidTo}
+                              isInvalid={Boolean(touched.coversightValidTo && errors.coversightValidTo)}
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
                               className="form-control"
                             />
 
-                            {!!touched.validTo && (
+                            {!!touched.coversightValidTo && (
                               <Form.Control.Feedback type="invalid">
-                                {errors.validTo}
+                                {errors.coversightValidTo}
                               </Form.Control.Feedback>
                             )}
                           </Form.Group>
                         </div>
                       </div>
                     </div>
+
                   </div>
                 </div>
 

@@ -18,12 +18,15 @@ import {
   getControlDataGcdAction,
 } from '../../../../redux/ControlData/ControlDataAction';
 import Table2 from '../../../../components/UI/Table/Table2';
+import Cookies from 'js-cookie';
 //TODO:Replace with new desgine 
 // Filter buttons
 
 const InternalControlTable = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const token=Cookies.get('token')
+
   const { instance, accounts, inProgress } = useMsal();
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -46,7 +49,7 @@ const InternalControlTable = (props) => {
         email: accounts[0]?.username,
       }),
     );
-  }, []);
+  }, [token]);
 
   const handleControlIDClick = (id) => {
     //TODO: modal redirect

@@ -311,7 +311,7 @@ const ControlOwnerAndOversightTable = () => {
       tableData.find((data, i) => {
         console.log(i);
         editTableIndex.map((dataa) => {
-          if (i === dataa) {
+          if (data.id === dataa) {
             assignDataArray.push(data);
             setAssignTableData(assignDataArray);
             setShowLcdModal(true);
@@ -322,15 +322,15 @@ const ControlOwnerAndOversightTable = () => {
   };
   const handleOnclickAdd = () => {
     let controlIDArray = [];
-    console.log('controlIDArray', controlIDArray);
+    console.log('controlIDArray', editTableIndex);
     let assignDataArray = [];
     if (editTableIndex.length == 0) {
       Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
     } else if (editTableIndex.length >= 1) {
       tableData.find((data, i) => {
-        console.log(i);
+        console.log(data);
         editTableIndex.map((dataa) => {
-          if (i === dataa) {
+          if (data.id === dataa) {
             assignDataArray.push(data);
             controlIDArray.push(data.control_id_provider_entity);
             // const coverSightCheck = assignDataArray.every(({ coversight }) => coversight === assignDataArray[0]?.coversight);

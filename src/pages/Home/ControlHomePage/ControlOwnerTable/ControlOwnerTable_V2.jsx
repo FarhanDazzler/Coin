@@ -14,11 +14,13 @@ import Button from '../../../../components/UI/Button';
 import { Group } from '@mantine/core';
 import FilterButtons from '../../../../components/FilterButtons';
 import Table2 from '../../../../components/UI/Table/Table2';
+import Cookies from 'js-cookie';
 //TODO:Replace new table with desgin
 const ControlOwnerTable = ({ tableName }) => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
+  const token=Cookies.get('token')
 
   const history = useHistory();
   const { accounts } = useMsal();
@@ -50,7 +52,7 @@ const ControlOwnerTable = ({ tableName }) => {
       }),
     );
     setTableColumns(TABLE_COLUMNS);
-  }, []);
+  }, [token]);
 
   const TABLE_COLUMNS = [
     {

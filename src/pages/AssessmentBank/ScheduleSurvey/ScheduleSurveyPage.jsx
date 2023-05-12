@@ -26,8 +26,7 @@ const ScheduleSurveyPage = () => {
                 <div className="step-header d-flex justify-content-between">
                   <p className={step === 1 && 'active'}>Details</p>
                   <p className={step === 2 && 'active'}>Select Provider Organization</p>
-                  <p className={step === 3 && 'active'}>Select Object</p>
-                  <p className={step === 4 && 'active'}>Review & Confirm</p>
+                  <p className={step === 3 && 'active'}>Review & Confirm</p>
                 </div>
                 <div className="progress"></div>
 
@@ -38,15 +37,10 @@ const ScheduleSurveyPage = () => {
                 )}
                 {step === 2 && (
                   <div className="holder">
-                    <Page2 handleNext={handleNext} setStep={setStep} />
-                  </div>
-                )}
-                {step === 3 && (
-                  <div className="holder">
                     <Page3 handleNext={handleNext} setStep={setStep} />
                   </div>
                 )}
-                {step === 4 && (
+                {step === 3 && (
                   <div className="holder">
                     <Page4 handleNext={handleNext} setStep={setStep} />
                   </div>
