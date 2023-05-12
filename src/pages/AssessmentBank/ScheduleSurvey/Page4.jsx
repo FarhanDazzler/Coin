@@ -49,7 +49,7 @@ const Page4 = ({ handleNext, setStep }) => {
 
   return (
     <div className="p-5">
-      <h4 className="AssessmentBank-inputPage-title">Review & Confirm</h4>
+      <h4 className="AssessmentBank-inputPage-sub-title">Review & Confirm</h4>
       <div className="row">
         <div className="col-lg-6">
           <div className="row mb-4">

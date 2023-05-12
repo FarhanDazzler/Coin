@@ -134,8 +134,8 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
   }, [section1Questions, template_ID]);
 
   const TemplateOptions = [
-    { label: 'Template1', value: 'Standard' },
-    { label: 'Template2', value: '' },
+    { label: 'Default Template', value: 'Standard' },
+    { label: 'Custom Template', value: '' },
   ];
   useEffect(() => {
     if (AddQuestionSuccess?.success) {

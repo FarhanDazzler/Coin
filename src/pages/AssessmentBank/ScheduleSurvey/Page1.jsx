@@ -13,6 +13,7 @@ import { scheduleSurveyPage_1Selector, getAssessmentCycleDataSelector } from '..
 import { ScheduleSurveyPage_1, getAssessmentCycleAction } from '../../../redux/AssessmentBank/AssessmentBankAction';
 import moment from 'moment';
 import { YearPicker, MonthPicker, DayPicker } from "react-dropdown-date";
+import { months } from '../../QuestionBank/CreateQuestions/constant';
 
 const GetFormikFieldValue = ({ setPage1Value }) => {
   // Grab values and submitForm from context
@@ -23,40 +24,20 @@ const GetFormikFieldValue = ({ setPage1Value }) => {
 };
 
 const Page1 = ({ handleNext }) => {
-  const test = {
-    "data": [
-      {
-        "assessmentCylce": "Assessment Cycle 2"
-      },
-      {
-        "kpi_from": "March 2023"
-      },
-      {
-        "kpi_to": "May 2023"
-      }
-    ],
-    "env": "dev",
-    "error": false,
-    "success": true
-  }
-  console.log("test", test);
   const dispatch = useDispatch();
   const history = useHistory();
   const [page1Value, setPage1Value] = useState();
   const scheduleSurveyPage_1_State = useSelector(scheduleSurveyPage_1Selector);
   const getAssessmentCycleDataState = useSelector(getAssessmentCycleDataSelector);
-  let kpiFromMonth = moment(test.data[1].kpi_from).format('M');
-  let kpiFromYear = moment(test.data[1].kpi_from).format('YYYY');
-  let kpiToMonth = moment(test.data[2].kpi_to).format('M');
-  let kpiToYear = moment(test.data[2].kpi_to).format('YYYY');
+  let kpiFromMonth = moment(getAssessmentCycleDataState?.data[1]?.kpi_from).format('M');
+  let kpiFromYear = moment(getAssessmentCycleDataState?.data[1]?.kpi_from).format('YYYY');
+  let kpiToMonth = moment(getAssessmentCycleDataState?.data[2]?.kpi_to).format('M');
+  let kpiToYear = moment(getAssessmentCycleDataState?.data[2]?.kpi_to).format('YYYY');
   let kpiDay = moment("1").format('DD');
   console.log("today", kpiToMonth);
-  const [kpiFromData, setKpiFromData] = useState({ year: kpiFromYear, month: parseInt(kpiFromMonth), day: kpiDay });
+  const [kpiFromData, setKpiFromData] = useState({ year: kpiFromYear, month: kpiFromMonth, day: kpiDay });
+  const [kpiFromMonthData, setKpiFromMonthData] = useState();
   const [kpiToData, setKpiToData] = useState({ year: kpiToYear, month: kpiToMonth, day: kpiDay });
-  const [kpiFromMonthData, setKpiFromMonthData] = useState(kpiFromMonth);
-  const [kpiFromYearData, setKpiFromYearData] = useState(kpiFromYear);
-  const [kpiToMonthData, setKpiToMonthData] = useState(kpiToMonth);
-  const [kpiToYearData, setKpiToYearData] = useState(kpiToYear);
   console.log("getAssessmentCycleDataState", getAssessmentCycleDataState);
   const [workingDays, setWorkingDays] = useState()
   useEffect(() => {
@@ -75,8 +56,10 @@ const Page1 = ({ handleNext }) => {
       Question_Bank: value.Question_Bank,
       Assessment_Cycle: value.Assessment_Cycle,
       Year: value.Year,
-      KPI_From: value.KPI_From,
-      KPI_To: value.KPI_To,
+      KPI_From_Year: value.KPI_From_Year,
+      KPI_From_month: value.KPI_From_month,
+      KPI_To_Month: value.KPI_To_Month,
+      KPI_To_Year: value.KPI_To_Year,
       Start_Date: value.Start_Date,
       Due_Date: value.Due_Date,
       Control_Owner_Reminder_1: value.Control_Owner_Reminder_1,
@@ -97,15 +80,15 @@ const Page1 = ({ handleNext }) => {
   // logic for Year picker
   const years = [];
   const currentYear = new Date().getFullYear();
-  const startYear = 2022; // Change as needed
+  const startYear = 2021; // Change as needed
   for (let year = currentYear; year >= startYear; year--) {
     years.push(year);
   }
- 
+
 
   return (
     <div className="p-5">
-      <h4 className="AssessmentBank-inputPage-title">Schedule Assessment - MICS</h4>
+      <h4 className="AssessmentBank-inputPage-sub-title">Select Assessment Details</h4>
       <Formik
         enableReinitialize
         initialValues={{
@@ -113,16 +96,18 @@ const Page1 = ({ handleNext }) => {
           Question_Bank: scheduleSurveyPage_1_State?.Question_Bank || 'Template1',
           Assessment_Cycle: scheduleSurveyPage_1_State?.Assessment_Cycle || getAssessmentCycleDataState?.data[0]?.assessmentCylce || '',
           Year: scheduleSurveyPage_1_State?.Year || currentYear || '',
-          KPI_From: scheduleSurveyPage_1_State?.KPI_From || '',
-          KPI_To: scheduleSurveyPage_1_State?.KPI_To || '',
-          Start_Date: scheduleSurveyPage_1_State?.Start_Date || moment().format('YYYY-MM-DD') || '',
-          Due_Date: scheduleSurveyPage_1_State?.Due_Date || moment().add(9, 'days').format('YYYY-MM-DD') || '',
-          Control_Owner_Reminder_1: scheduleSurveyPage_1_State?.Control_Owner_Reminder_1 || moment( kpiFromData.year + "-" + kpiFromData.month + "-" + kpiFromData.day).add(3, 'days').format("YYYY-MM-DD") || '',
-          Control_Owner_Reminder_2: scheduleSurveyPage_1_State?.Control_Owner_Reminder_2 || moment( kpiToData.year + "-" + kpiToData.month + "-" + kpiToData.day).add(3, 'days').format("YYYY-MM-DD") || '',
+          KPI_From_Year: kpiFromYear || '',
+          KPI_From_month: kpiFromMonth || '',
+          KPI_To_Month: kpiToMonth || '',
+          KPI_To_Year: kpiToYear || '',
+          Start_Date: scheduleSurveyPage_1_State?.Start_Date || getAssessmentCycleDataState?.data[3]?.start_date || '',
+          Due_Date: scheduleSurveyPage_1_State?.Due_Date || getAssessmentCycleDataState?.data[4]?.end_date || '',
+          Control_Owner_Reminder_1: scheduleSurveyPage_1_State?.Control_Owner_Reminder_1 || getAssessmentCycleDataState?.data[5]?.reminder1 || '',
+          Control_Owner_Reminder_2: scheduleSurveyPage_1_State?.Control_Owner_Reminder_2 || getAssessmentCycleDataState?.data[6]?.reminder2 || '',
           Control_Oversight_Pending_Notification_1:
-            scheduleSurveyPage_1_State?.Control_Oversight_Pending_Notification_1 || '',
+            scheduleSurveyPage_1_State?.Control_Oversight_Pending_Notification_1 || getAssessmentCycleDataState?.data[7]?.notification1 || '',
           Control_Oversight_Pending_Notification_2:
-            scheduleSurveyPage_1_State?.Control_Oversight_Pending_Notification_2 || '',
+            scheduleSurveyPage_1_State?.Control_Oversight_Pending_Notification_2 || getAssessmentCycleDataState?.data[8]?.notification2 || '',
           Control_Oversight_Review_Notification_1:
             scheduleSurveyPage_1_State?.Control_Oversight_Review_Notification_1 || '',
           Control_Oversight_Review_Notification_2:
@@ -133,8 +118,8 @@ const Page1 = ({ handleNext }) => {
           Question_Bank: Yup.string().required('Question Bank is required'),
           Assessment_Cycle: Yup.string().required('Assessment Cycle is required'),
           Year: Yup.string().required('Year is required'),
-          KPI_From: Yup.string().required('KPI From is required'),
-          KPI_To: Yup.string().required('KPI To is required'),
+          // KPI_From_Year: Yup.string().required('KPI From is required'),
+          // KPI_To: Yup.string().required('KPI To is required'),
           Start_Date: Yup.string().required('Start Date is required'),
           Due_Date: Yup.string().required('Due Date is required'),
         })}
@@ -194,7 +179,7 @@ const Page1 = ({ handleNext }) => {
               <div className="col-lg-6">
                 <div className="row mb-4">
                   <div className="col-lg-4">
-                    <Form.Label>Question Bank</Form.Label>
+                    <Form.Label>Template</Form.Label>
                   </div>
                   <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
@@ -210,7 +195,7 @@ const Page1 = ({ handleNext }) => {
                         readOnly={false}
                         className="form-select"
                       >
-                        <option value="">Select Question_Bank</option>
+                        <option value="">Select Template</option>
                         <option value="Template1">Default Template</option>
                         <option value="Template2">Custom Template</option>
                       </Form.Control>
@@ -325,59 +310,66 @@ const Page1 = ({ handleNext }) => {
               <div className="col-lg-6">
                 <div className="row mb-4">
                   <div className="col-lg-4">
-                    <Form.Label>KPI From{kpiFromData?.month}</Form.Label>
+                    <Form.Label>KPI From</Form.Label>
                   </div>
                   <div className="col-lg-6">
-                    <MonthPicker
-                       name={'month'}
-                      //defaultValue={"MM"}
-                      short // to get months as numbers
-                       
-                      value={kpiFromData.month} // mandatory
-                      onChange={(month) => {
-                        // mandatory
-                        let m = parseInt(month)
-                        console.log(m);
-                        setKpiFromData((prev) => ({ ...prev, month }));
+                    <div className='row'>
+                      <div className='col-lg-6'>
+                        <Form.Group className="input-group mb-3">
+                          <Form.Control
+                            as="select"
+                            name="KPI_From_month"
+                            defaultValue={values.KPI_From_month}
+                            placeholder=""
+                            value={values.KPI_From_month}
+                            onChange={handleChange}
+                            readOnly={false}
+                            className="form-select"
+                          >
+                            {
+                              months.map((data, i) => (
+                                <option key={i} value={data.label}>{data.value}</option>
+                              ))
+                            }
+                          </Form.Control>
 
-                      }}
-                      id={"month"}
-                      // classes={`dropdown ${dayError ? "error" : ""}`}
-                      optionClasses={"option"}
-                    />
-                    <YearPicker
-                      defaultValue={"YYYY"}
-                      start={2010} // default is 1900
-                      //end={2020} // default is current year
-                      reverse // default is ASCENDING
-                      value={kpiFromData.year} // mandatory
-                      onChange={(year) => {
-                        // mandatory
-                        setKpiFromData((prev) => ({ ...prev, year }));
-                      }}
-                      id={"year"}
-                      // classes={`dropdown ${yearError ? "error" : ""}`}
-                      optionClasses={"option"}
-                    />
-                    {/* <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="date"
-                        name="KPI_From"
-                        placeholder=""
-                        value={values.KPI_From}
-                        isInvalid={Boolean(touched.KPI_From && errors.KPI_From)}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-control"
-                      />
+                          {!!touched.KPI_From_month && (
+                            <Form.Control.Feedback type="invalid">
+                              {errors.KPI_From_month}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                      </div>
+                      <div className='col-lg-6'>
+                        <Form.Group className="input-group mb-3">
+                          <Form.Control
+                            as="select"
+                            name="KPI_From_Year"
+                            defaultValue={values.KPI_From_Year}
+                            placeholder=""
+                            value={values.KPI_From_Year}
+                            onChange={handleChange}
+                            readOnly={false}
+                            className="form-select"
+                          >
+                            <option value="">Select a year</option>
+                            {years.map((Year) => (
+                              <option key={Year} value={Year}>
+                                {Year}
+                              </option>
+                            ))}
+                          </Form.Control>
 
-                      {!!touched.KPI_From && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.KPI_From}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group> */}
+                          {!!touched.KPI_From_Year && (
+                            <Form.Control.Feedback type="invalid">
+                              {errors.KPI_From_Year}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                      </div>
+
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -388,56 +380,63 @@ const Page1 = ({ handleNext }) => {
                     <Form.Label>KPI To</Form.Label>
                   </div>
                   <div className="col-lg-6">
-                    <MonthPicker
-                      name="KPI_To"
-                      defaultValue={"MM"}
-                      numeric // to get months as numbers
-                      endYearGiven // mandatory if end={} is given in YearPicker
-                      year={kpiToData.year} // mandatory
-                      value={kpiToData.month} // mandatory
-                      onChange={(month) => {
-                        // mandatory
-                        setKpiToData((prev) => ({ ...prev, month }));
+                    <div className='row'>
+                      <div className='col-lg-6'>
+                        <Form.Group className="input-group mb-3">
+                          <Form.Control
+                            as="select"
+                            name="KPI_To_Month"
+                            defaultValue={values.KPI_To_Month}
+                            placeholder=""
+                            value={values.KPI_To_Month}
+                            onChange={handleChange}
+                            readOnly={false}
+                            className="form-select"
+                          >
+                            {
+                              months.map((data, i) => (
+                                <option key={i} value={data.label}>{data.value}</option>
+                              ))
+                            }
+                          </Form.Control>
 
-                      }}
-                      id={"month"}
-                      // classes={`dropdown ${dayError ? "error" : ""}`}
-                      optionClasses={"option"}
-                    />
-                    <YearPicker
-                      defaultValue={"YYYY"}
-                      start={2010} // default is 1900
-                      //end={2020} // default is current year
-                      reverse // default is ASCENDING
-                      value={kpiToData.year} // mandatory
-                      onChange={(year) => {
-                        // mandatory
-                        setKpiToData((prev) => ({ ...prev, year }));
-                      }}
-                      id={"year"}
-                      // classes={`dropdown ${yearError ? "error" : ""}`}
-                      optionClasses={"option"}
-                    />
+                          {!!touched.KPI_To_Month && (
+                            <Form.Control.Feedback type="invalid">
+                              {errors.KPI_To_Month}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                      </div>
+                      <div className='col-lg-6'>
+                        <Form.Group className="input-group mb-3">
+                          <Form.Control
+                            as="select"
+                            name="KPI_To_Year"
+                            defaultValue={values.KPI_To_Year}
+                            placeholder=""
+                            value={values.KPI_To_Year}
+                            onChange={handleChange}
+                            readOnly={false}
+                            className="form-select"
+                          >
+                            <option value="">Select a year</option>
+                            {years.map((Year) => (
+                              <option key={Year} value={Year}>
+                                {Year}
+                              </option>
+                            ))}
+                          </Form.Control>
 
-                    {/* <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="date"
-                        name="KPI_To"
-                        placeholder=""
-                        value={values.KPI_To}
-                        isInvalid={Boolean(touched.KPI_To && errors.KPI_To)}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-control"
-                      />
+                          {!!touched.KPI_To_Year && (
+                            <Form.Control.Feedback type="invalid">
+                              {errors.KPI_To_Year}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                      </div>
 
-                      {!!touched.KPI_To && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.KPI_To}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group> */}
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -445,7 +444,7 @@ const Page1 = ({ handleNext }) => {
               <div className="col-lg-6">
                 <div className="row mb-4">
                   <div className="col-lg-4">
-                    <Form.Label>Start Date{values.Start_Date}</Form.Label>
+                    <Form.Label>Start Date</Form.Label>
                   </div>
                   <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
@@ -474,7 +473,7 @@ const Page1 = ({ handleNext }) => {
               <div className="col-lg-6">
                 <div className="row mb-4">
                   <div className="col-lg-4">
-                    <Form.Label>Due_Date{values.Due_Date}</Form.Label>
+                    <Form.Label>Due_Date</Form.Label>
                   </div>
                   <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
@@ -519,7 +518,7 @@ const Page1 = ({ handleNext }) => {
               <div className="col-lg-6">
                 <div className="row mb-4">
                   <div className="col-lg-5">
-                    <Form.Label>Reminder - 1 {values.Control_Owner_Reminder_1}</Form.Label>
+                    <Form.Label>Reminder - 1</Form.Label>
                   </div>
                   <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
@@ -596,11 +595,11 @@ const Page1 = ({ handleNext }) => {
                 <div className="col-lg-12">
                   <div className="row mb-4">
                     <div className="row mb-4">
-                      <Form.Label>Notification for Not Started Assessment :</Form.Label>
+                      
                     </div>
                     <div className="row mb-4 col-lg-6">
                       <div className="col">
-                        <Form.Label>Escalation Notification - 1</Form.Label>
+                        <Form.Label>Notification - 1</Form.Label>
                       </div>
                       <div className="col-lg-6">
                         <Form.Group className="input-group mb-3">
@@ -629,7 +628,7 @@ const Page1 = ({ handleNext }) => {
                     </div>
                     <div className="row mb-4 col-lg-6">
                       <div className="col">
-                        <Form.Label>Escalation Notification - 2</Form.Label>
+                        <Form.Label>Notification - 2</Form.Label>
                       </div>
                       <div className="col-lg-6">
                         <Form.Group className="input-group mb-3">
