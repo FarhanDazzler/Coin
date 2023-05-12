@@ -17,8 +17,9 @@ import {
   getControlDataAction,
   getControlDataGcdAction,
 } from '../../../../redux/ControlData/ControlDataAction';
+import Table2 from '../../../../components/UI/Table/Table2';
 import Cookies from 'js-cookie';
-
+//TODO:Replace with new desgine 
 // Filter buttons
 
 const InternalControlTable = (props) => {
@@ -40,6 +41,7 @@ const InternalControlTable = (props) => {
   const [buValue, setBUValue] = useState([]);
   const [receiverValue, setReceiverValue] = useState([]);
   const [providerValue, setProviderValue] = useState([]);
+
   useEffect(() => {
     //code for getting Internal Control Home Page table data
     dispatch(
@@ -91,19 +93,23 @@ const InternalControlTable = (props) => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'Action',
-      headerName: 'Action',
+      accessorKey: 'Action',
+      header: 'Action',
+      id: 'Action',
+      columnDefType: 'data',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 120,
-      renderCell: (row) => {
+      Cell: (row) => {
         return (
           <div>
-            {row.row.Status === 'Completed' && (
-              <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>Review</Button>
+            {row.row.original.Status === 'Completed' && (
+              <Button onClick={() => handleControlIDClick(row.row.original.Control_ID)}>
+                Review
+              </Button>
             )}
-            {/* {['Not started', 'Re-assessed'].includes(row.row.Status) && (
-              <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>
+            {/* {['Not started', 'Re-assessed'].includes(row.row.original.Status) && (
+              <Button onClick={() => handleControlIDClick(row.row.original.Control_ID)}>
                 Attempt response
               </Button>
             )} */}
@@ -112,117 +118,145 @@ const InternalControlTable = (props) => {
       },
     },
     {
-      field: 'Zone',
-      headerName: 'Zone',
+      accessorKey: 'Zone',
+      header: 'Zone',
+      id: 'Zone',
+      columnDefType: 'data',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 90,
     },
     {
-      field: 'Receiver',
-      headerName: 'Receiver Organization',
+      accessorKey: 'Receiver',
+      header: 'Receiver Organization',
+      id: 'Receiver_Organization',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Provider',
-      headerName: 'Provider Organization',
+      accessorKey: 'Provider',
+      header: 'Provider Organization',
+      id: 'Provider_Organization',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Control_ID',
-      headerName: 'Control ID',
+      accessorKey: 'Control_ID',
+      header: 'Control ID',
+      id: 'Control_ID',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 140,
-      renderCell: (row) => {
+      Cell: (row) => {
         return (
           <span
             className={'text-yellow cursor-pointer'}
-            onClick={() => handleControlIDClick(row.row.Control_ID)}
+            onClick={() => handleControlIDClick(row.row.original.Control_ID)}
           >
-            {row.row.Control_ID}
+            {row.row.original.Control_ID}
           </span>
         );
       },
     },
 
     {
-      field: 'Status',
-      headerName: 'Status',
+      accessorKey: 'Status',
+      header: 'Status',
+      id: 'Status',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 120,
-      renderCell: (row) => {
-        return <span className={'text-yellow-dark'}>{row.row.Status}</span>;
+      Cell: (row) => {
+        return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
       },
     },
     {
-      field: 'KPI_Result',
-      headerName: 'KPI Result',
+      accessorKey: 'KPI_Result',
+      header: 'KPI Result',
+      id: 'KPI_Result',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 100,
-      renderCell: (row) => {
-        return <span className={class_to_apply(row.row.KPI_Result)}>{row.row.KPI_Result}</span>;
-      },
-    },
-    {
-      field: 'Assessment_Result',
-      headerName: 'Assessment Result',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 150,
-      renderCell: (row) => {
+      Cell: (row) => {
         return (
-          <span className={class_to_apply(row.row.Assessment_Result)}>
-            {row.row.Assessment_Result}
+          <span className={class_to_apply(row.row.original.KPI_Result)}>
+            {row.row.original.KPI_Result}
           </span>
         );
       },
     },
     {
-      field: 'Compliance_Result',
-      headerName: 'Compliance Result',
+      accessorKey: 'Assessment_Result',
+      header: 'Assessment Result',
+      id: 'Assessment_Result',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 150,
-      renderCell: (row) => {
+      Cell: (row) => {
         return (
-          <span className={class_to_apply(row.row.Compliance_Result)}>
-            {row.row.Compliance_Result}
+          <span className={class_to_apply(row.row.original.Assessment_Result)}>
+            {row.row.original.Assessment_Result}
           </span>
         );
       },
     },
     {
-      field: 'Control_Owner',
-      headerName: 'Control Owner',
+      accessorKey: 'Compliance_Result',
+      header: 'Compliance Result',
+      id: 'Compliance_Result',
       flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      minWidth: 150,
+      Cell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.original.Compliance_Result)}>
+            {row.row.original.Compliance_Result}
+          </span>
+        );
+      },
+    },
+    {
+      accessorKey: 'Control_Owner',
+      id: 'Control_Owner',
+      header: 'Control Owner',
+      flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Control_Oversight',
-      headerName: 'Control Oversight',
+      accessorKey: 'Control_Oversight',
+      id: 'Control_Oversight',
+      header: 'Control Oversight',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 200,
     },
     {
-      field: 'Assessment_Cycle',
-      headerName: 'Assessment Cycle',
+      accessorKey: 'Assessment_Cycle',
+      id: 'Assessment_Cycle',
+      header: 'Assessment Cycle',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 150,
     },
     {
-      field: 'Year',
-      headerName: 'Year',
+      accessorKey: 'Year',
+      id: 'Year',
+      header: 'Year',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 100,
     },
@@ -287,22 +321,19 @@ const InternalControlTable = (props) => {
               </div>
             </div>
             <div className="container mt-5">
-              {getDashBoardDataState.loading ? (
-                <TableLoader className="mt-8" />
-              ) : (
-                <div className="row">
-                  {tableData?.length > 0 ? (
-                    <Table
-                      tableData={tableData}
-                      tableColumns={tableColumns}
-                      columns={tableColumns}
-                      setEditTableIndex={setEditTableIndex}
-                    />
-                  ) : (
-                    <NoDataPlaceholder />
-                  )}
-                </div>
-              )}
+              <div className="row">
+                {tableData?.length > 0 || getDashBoardDataState.loading ? (
+                  <Table2
+                    tableData={tableData}
+                    tableColumns={tableColumns}
+                    columns={tableColumns}
+                    loading={getDashBoardDataState.loading}
+                    setEditTableIndex={setEditTableIndex}
+                  />
+                ) : (
+                  <NoDataPlaceholder />
+                )}
+              </div>
             </div>
           </div>
         </div>

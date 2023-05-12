@@ -49,49 +49,51 @@ const QuestionBank = () => {
   return (
     <PageWrapper>
       <div className="container py-5">
-        <div className="row py-3">
-          <div className="col-lg-5 py-4">
-            <QuestionBankBox
-              title="Create Questions for New MICS"
-              description="Define MICS-Specific questions to create a new survey."
-            >
-              <Button
-                variant="outlined"
-                size="large"
-                startIcon={<NoteAddOutlinedIcon />}
-                onClick={handleOpenCreateQuestions}
+        {localStorage.getItem('selected_Role') === 'Global internal control' && (
+          <div className="row py-3">
+            <div className="col-lg-5 py-4">
+              <QuestionBankBox
+                title="Create Questions for New MICS"
+                description="Define MICS-Specific questions to create a new survey."
               >
-                <span className="text-white">Create MICS-Specific</span>
-              </Button>
-            </QuestionBankBox>
-          </div>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  startIcon={<NoteAddOutlinedIcon />}
+                  onClick={handleOpenCreateQuestions}
+                >
+                  <span className="text-white">Create MICS-Specific</span>
+                </Button>
+              </QuestionBankBox>
+            </div>
 
-          <div className="col-lg-7 py-4">
-            <QuestionBankBox
-              title="Modify Questions for Existing MICS"
-              description="Add, delete, edit, and rearrange questions for any existing assessments."
-            >
-              <Button
-                variant="outlined"
-                size="large"
-                startIcon={<DescriptionOutlinedIcon />}
-                className="mr-4"
-                onClick={() => handleEditModifyMICS('Standard')}
+            <div className="col-lg-7 py-4">
+              <QuestionBankBox
+                title="Modify Questions for Existing MICS"
+                description="Add, delete, edit, and rearrange questions for any existing assessments."
               >
-                <span className="text-white">Modify Standard</span>
-              </Button>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  startIcon={<DescriptionOutlinedIcon />}
+                  className="mr-4"
+                  onClick={() => handleEditModifyMICS('Standard')}
+                >
+                  <span className="text-white">Modify Standard</span>
+                </Button>
 
-              <Button
-                variant="outlined"
-                size="large"
-                startIcon={<FolderSpecialOutlinedIcon />}
-                onClick={() => handleEditModifyMICS('MICS-Specific')}
-              >
-                <span className="text-white">Modify MICS-Specific</span>
-              </Button>
-            </QuestionBankBox>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  startIcon={<FolderSpecialOutlinedIcon />}
+                  onClick={() => handleEditModifyMICS('MICS-Specific')}
+                >
+                  <span className="text-white">Modify MICS-Specific</span>
+                </Button>
+              </QuestionBankBox>
+            </div>
           </div>
-        </div>
+        )}
         <div className="row">
           <div className="col-12">
             <QuestionBankTable />

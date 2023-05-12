@@ -32,11 +32,12 @@
 }
 
 .MDM-assign-pop{
+    max-height: 140px !important;
     border: 2px solid #212121;
     border-radius: 1rem;
     padding: 10px;
     overflow-y: auto;
     overflow-x: hidden;
     height: auto;
-    margin-bottom: 24px;
+    margin-bottom: 24px; 
 }

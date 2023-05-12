@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
-
+import EditIcon from '@mui/icons-material/Edit';
 import Table from '../../../../../components/UI/Table';
 
 import '../TableStyle.scss';
@@ -18,6 +18,8 @@ import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import Tooltip from '@mui/material/Tooltip';
 
 import AssignModal from './AssignModal';
+import EditModal from './EditModal';
+import GlobalApprove from './GlobalApprove';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import Swal from 'sweetalert2';
 
@@ -27,6 +29,8 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
   const [assignTableData, setAssignTableData] = useState();
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showGlobalApproveModal, setShowGlobalApproveModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -41,8 +45,10 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
   // for closing POP after confirm
   useEffect(() => {
     setShowModal(false);
+    setShowGlobalApproveModal(false);
+    setShowEditModal(false);
   }, [
-    applicabilityAndAssignmentOfProviderOrganization.data?.message,
+    applicabilityAndAssignmentOfProviderOrganization?.data,
     assignApplicabilityAndAssignmentOfProviderOrganization?.data,
   ]);
 
@@ -151,6 +157,18 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     </Tooltip>
   );
 
+  const ActiveToolGlobalApprove = ({ text }) => (
+    <Tooltip title={text} placement="bottom-start">
+      <ControlPointRoundedIcon color="black" />
+    </Tooltip>
+  );
+
+  const ActiveToolEdit = ({ text }) => (
+    <Tooltip title={text} placement="bottom-start">
+      <EditIcon color="black" />
+    </Tooltip>
+  );
+
   const handleOnclickAssign = () => {
     // Assign code
     let assignDataArray = [];
@@ -158,7 +176,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
       Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
     } else if (editTableIndex.length >= 1) {
       tableData.find((data, i) => {
-        console.log(i);
+        //console.log(i);
         editTableIndex.map((dataa) => {
           if (i === dataa) {
             assignDataArray.push(data);
@@ -170,6 +188,44 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     }
   };
 
+  const handleOnclickGlobalApprove = () => {
+    // Assign code
+    let assignDataArray = [];
+    if (editTableIndex.length == 0) {
+      Swal.fire('Oops...', 'You need to select table first to Approve', 'error');
+    } else if (editTableIndex.length >= 1) {
+      tableData.find((data, i) => {
+        //console.log(i);
+        editTableIndex.map((dataa) => {
+          if (i === dataa) {
+            assignDataArray.push(data);
+            setAssignTableData(assignDataArray);
+            setShowGlobalApproveModal(true);
+          }
+        });
+      });
+    }
+  };
+
+  const handleOnclickEdit = () => {
+    // Assign code
+    let assignDataArray = [];
+    if (editTableIndex.length == 0) {
+      Swal.fire('Oops...', 'You need to select table first to Edit', 'error');
+    } else if (editTableIndex.length >= 1) {
+      tableData.find((data, i) => {
+        //console.log(i);
+        editTableIndex.map((dataa) => {
+          if (i === dataa) {
+            assignDataArray.push(data);
+            setAssignTableData(assignDataArray);
+            setShowEditModal(true);
+          }
+        });
+      });
+    }
+  };
+  console.log('@@@@@@@', tableData, tableColumns);
   return (
     <>
       <div className="container mt-5">
@@ -187,12 +243,32 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
                   <Button
                     variant="outlined"
                     size="small"
+                    startIcon={<ActiveToolEdit text="Free Text" />}
+                    className="edit-button-mdm-table"
+                    onClick={handleOnclickEdit}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="small"
                     startIcon={<ActiveToolAssign text="Free Text" />}
                     className="add-button-mdm-table"
                     onClick={handleOnclickAssign}
                   >
-                    Assign
+                    Assign Provider
                   </Button>
+                  {localStorage.getItem('selected_Role') === 'Global internal control' && (
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      startIcon={<ActiveToolGlobalApprove text="Free Text" />}
+                      className="add-button-mdm-table"
+                      onClick={handleOnclickGlobalApprove}
+                    >
+                      Global Approved
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
@@ -211,10 +287,33 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
         open={showModal}
         onClose={() => setShowModal(false)}
         width={900}
-        title="Assign Applicability And Assignment Of ProviderOrganization"
+        title="Assign Applicability And Assignment Of Provider Organization"
         bodyClassName="p-0"
       >
         <AssignModal setShowModal={setShowModal} assignTableData={assignTableData} />
+      </CustomModal>
+      <CustomModal
+        className="add-org"
+        open={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        width={900}
+        title="Edit"
+        bodyClassName="p-0"
+      >
+        <EditModal setShowEditModal={setShowEditModal} assignTableData={assignTableData} />
+      </CustomModal>
+      <CustomModal
+        className="add-org"
+        open={showGlobalApproveModal}
+        onClose={() => setShowGlobalApproveModal(false)}
+        width={900}
+        title="Global Approve"
+        bodyClassName="p-0"
+      >
+        <GlobalApprove
+          setShowGlobalApproveModal={setShowGlobalApproveModal}
+          assignTableData={assignTableData}
+        />
       </CustomModal>
     </>
   );

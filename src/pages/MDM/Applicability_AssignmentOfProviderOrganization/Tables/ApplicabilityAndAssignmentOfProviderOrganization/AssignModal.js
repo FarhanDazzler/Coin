@@ -32,12 +32,8 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
       return {
         ...obj,
         Is_applicable: value.Is_applicable,
-        Provider_Entity: value.Provider_Entity,
-        Reason_for_NA: value.Reason_for_NA,
-        Global_Approved: value.Global_Approved,
-        Entity_Weight: value.Entity_Weight,
-        is_SOX_scope: value.is_SOX_scope,
-        is_FSI_Entity: value.is_FSI_Entity,
+        Provider_Entity: value.Is_applicable === 'Yes' ? value.Provider_Entity : '',
+        Reason_for_NA: value.Is_applicable === 'No' ? value.Reason_for_NA : '',
         Valid_to: value.Valid_to,
         Valid_from: value.Valid_from,
       };
@@ -60,10 +56,6 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
             Is_applicable: '',
             Provider_Entity: '',
             Reason_for_NA: '',
-            Global_Approved: '',
-            Entity_Weight: '',
-            is_SOX_scope: '',
-            is_FSI_Entity: '',
             Valid_from: today ? today : '',
             Valid_to: validToDate ? validToDate : '',
           }}
@@ -76,10 +68,6 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
             Reason_for_NA: Yup.string().when('Is_applicable', {
               is: 'No',
               then: Yup.string().required('Reason for NA is required'),
-            }),
-            Global_Approved: Yup.string().when('Is_applicable', {
-              is: 'No',
-              then: Yup.string().required('Global Approved is required'),
             }),
             Valid_from: Yup.string().required('Valid From Date is required'),
             Valid_to: Yup.string().required('Valid To Date is required'),
@@ -145,198 +133,80 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                     </div>
                   </div>
 
-                  <div className="col-lg-6">
-                    <div className="row mb-4">
-                      <div className="col-lg-5">
-                        <Form.Label>Provider Organization</Form.Label>
-                      </div>
-                      <div className="col-lg-7">
-                        <Form.Group className="input-group mb-3">
-                          <Form.Control
-                            as="select"
-                            name="Provider_Entity"
-                            placeholder=""
-                            value={values.Provider_Entity}
-                            isInvalid={Boolean(touched.Provider_Entity && errors.Provider_Entity)}
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            disabled={values.Is_applicable === 'Yes' ? false : true}
-                            className="form-select"
-                          >
-                            <option value="">Select Provider Organization</option>
-                            {getAllProviderEntitiesState?.data.map((data, i) => (
-                              <option key={i} value={data.Org_name}>
-                                {data.Org_name}
-                              </option>
-                            ))}
-                          </Form.Control>
+                  {values.Is_applicable === 'Yes' && (
+                    <>
+                      <div className="col-lg-6">
+                        <div className="row mb-4">
+                          <div className="col-lg-5">
+                            <Form.Label>Provider Organization</Form.Label>
+                          </div>
+                          <div className="col-lg-7">
+                            <Form.Group className="input-group mb-3">
+                              <Form.Control
+                                as="select"
+                                name="Provider_Entity"
+                                placeholder=""
+                                value={values.Is_applicable === 'Yes' ? values.Provider_Entity : ''}
+                                isInvalid={Boolean(
+                                  touched.Provider_Entity && errors.Provider_Entity,
+                                )}
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                disabled={values.Is_applicable === 'Yes' ? false : true}
+                                className="form-select"
+                              >
+                                <option value="">Select Provider Organization</option>
+                                {getAllProviderEntitiesState?.data.map((data, i) => (
+                                  <option key={i} value={data.Org_name}>
+                                    {data.Org_name}
+                                  </option>
+                                ))}
+                              </Form.Control>
 
-                          {!!touched.Provider_Entity && (
-                            <Form.Control.Feedback type="invalid">
-                              {errors.Provider_Entity}
-                            </Form.Control.Feedback>
-                          )}
-                        </Form.Group>
+                              {!!touched.Provider_Entity && (
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.Provider_Entity}
+                                </Form.Control.Feedback>
+                              )}
+                            </Form.Group>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    </>
+                  )}
 
-                  <div className="col-lg-6">
-                    <div className="row mb-4">
-                      <div className="col-lg-5">
-                        <Form.Label>Reason for NA</Form.Label>
-                      </div>
-                      <div className="col-lg-7">
-                        <Form.Group className="input-group mb-3">
-                          <Form.Control
-                            type="text"
-                            name="Reason_for_NA"
-                            placeholder=""
-                            value={values.Reason_for_NA}
-                            isInvalid={Boolean(touched.Reason_for_NA && errors.Reason_for_NA)}
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            readOnly={values.Is_applicable === 'No' ? false : true}
-                            className="form-control"
-                          />
+                  {values.Is_applicable === 'No' && (
+                    <>
+                      <div className="col-lg-6">
+                        <div className="row mb-4">
+                          <div className="col-lg-5">
+                            <Form.Label>Reason for NA</Form.Label>
+                          </div>
+                          <div className="col-lg-7">
+                            <Form.Group className="input-group mb-3">
+                              <Form.Control
+                                type="text"
+                                name="Reason_for_NA"
+                                placeholder=""
+                                value={values.Is_applicable === 'No' ? values.Reason_for_NA : ''}
+                                isInvalid={Boolean(touched.Reason_for_NA && errors.Reason_for_NA)}
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                readOnly={values.Is_applicable === 'No' ? false : true}
+                                className="form-control"
+                              />
 
-                          {!!touched.Reason_for_NA && (
-                            <Form.Control.Feedback type="invalid">
-                              {errors.Reason_for_NA}
-                            </Form.Control.Feedback>
-                          )}
-                        </Form.Group>
+                              {!!touched.Reason_for_NA && (
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.Reason_for_NA}
+                                </Form.Control.Feedback>
+                              )}
+                            </Form.Group>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-6">
-                    <div className="row mb-4">
-                      <div className="col-lg-5">
-                        <Form.Label>Global Approval</Form.Label>
-                      </div>
-                      <div className="col-lg-7">
-                        <Form.Group className="input-group mb-3">
-                          <Form.Control
-                            as="select"
-                            name="Global_Approved"
-                            placeholder=""
-                            value={values.Global_Approved}
-                            isInvalid={Boolean(touched.Global_Approved && errors.Global_Approved)}
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            disabled={values.Is_applicable === 'No' ? false : true}
-                            className="form-select"
-                          >
-                            <option value="">Global Approved ?</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                          </Form.Control>
-
-                          {!!touched.Global_Approved && (
-                            <Form.Control.Feedback type="invalid">
-                              {errors.Global_Approved}
-                            </Form.Control.Feedback>
-                          )}
-                        </Form.Group>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-6">
-                    <div className="row mb-4">
-                      <div className="col-lg-5">
-                        <Form.Label>Entity Weight</Form.Label>
-                      </div>
-                      <div className="col-lg-7">
-                        <Form.Group className="input-group mb-3">
-                          <Form.Control
-                            type="number"
-                            name="Entity_Weight"
-                            placeholder=""
-                            value={values.Entity_Weight}
-                            isInvalid={Boolean(touched.Entity_Weight && errors.Entity_Weight)}
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            readOnly={false}
-                            className="form-control"
-                          />
-
-                          {!!touched.Entity_Weight && (
-                            <Form.Control.Feedback type="invalid">
-                              {errors.Entity_Weight}
-                            </Form.Control.Feedback>
-                          )}
-                        </Form.Group>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-6">
-                    <div className="row mb-4">
-                      <div className="col-lg-5">
-                        <Form.Label>Is SOX?</Form.Label>
-                      </div>
-                      <div className="col-lg-7">
-                        <Form.Group className="input-group mb-3">
-                          <Form.Control
-                            as="select"
-                            name="is_SOX_scope"
-                            placeholder=""
-                            value={values.is_SOX_scope}
-                            isInvalid={Boolean(touched.is_SOX_scope && errors.is_SOX_scope)}
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            readOnly={false}
-                            className="form-select"
-                          >
-                            <option value="">Select Option</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                          </Form.Control>
-
-                          {!!touched.is_SOX_scope && (
-                            <Form.Control.Feedback type="invalid">
-                              {errors.is_SOX_scope}
-                            </Form.Control.Feedback>
-                          )}
-                        </Form.Group>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-6">
-                    <div className="row mb-4">
-                      <div className="col-lg-5">
-                        <Form.Label>IS FSI Entity?</Form.Label>
-                      </div>
-                      <div className="col-lg-7">
-                        <Form.Group className="input-group mb-3">
-                          <Form.Control
-                            as="select"
-                            name="is_FSI_Entity"
-                            placeholder=""
-                            value={values.is_FSI_Entity}
-                            isInvalid={Boolean(touched.is_FSI_Entity && errors.is_FSI_Entity)}
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            readOnly={false}
-                            className="form-select"
-                          >
-                            <option value="">Select Option</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                          </Form.Control>
-
-                          {!!touched.is_FSI_Entity && (
-                            <Form.Control.Feedback type="invalid">
-                              {errors.is_FSI_Entity}
-                            </Form.Control.Feedback>
-                          )}
-                        </Form.Group>
-                      </div>
-                    </div>
-                  </div>
+                    </>
+                  )}
 
                   <div className="col-lg-6">
                     <div className="row mb-4">
