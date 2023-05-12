@@ -219,7 +219,7 @@ const ControlOwnerAndOversightTable = () => {
       headerName: 'Control ID',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 160,
     },
     {
       field: 'control_id_provider_entity',

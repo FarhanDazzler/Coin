@@ -90,10 +90,10 @@ const LcdModal = ({ setShowModal, assignTableData }) => {
                                     {
                                         assignTableData.map((data, i) => (
                                             <div className="row">
-                                                <div className="col-md-6">
+                                                <div className="col-md-12 selected-controls">
                                                     <div className='row mb-4'>
 
-                                                        <div className="col-md-7 yellow-gradient-text" style={{ fontSize: "0.875rem", fontWeight: "900" }}>
+                                                        <div className="col-md-7" style={{ fontSize: "0.875rem", fontWeight: "900" }}>
                                                             <p>{data?.control_id_provider_entity}</p>
                                                         </div>
                                                     </div>

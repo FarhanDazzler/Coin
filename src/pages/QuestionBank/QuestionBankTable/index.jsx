@@ -31,7 +31,7 @@ const QuestionBankTable = () => {
       headerName: 'Mega Process',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'Sub_Process',
@@ -45,7 +45,7 @@ const QuestionBankTable = () => {
       headerName: 'Control ID',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 120,
+      minWidth: 90,
       renderCell: (row) => {
         return (
           <span
@@ -62,7 +62,7 @@ const QuestionBankTable = () => {
       headerName: 'Control Name',
       flex: 1,
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      minWidth: 500,
     },
   ];
 
