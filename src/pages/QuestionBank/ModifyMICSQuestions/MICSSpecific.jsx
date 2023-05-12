@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Section3MICSSpecific from '../Section3MICSSpecific';
 import FormControl from '@mui/material/FormControl';
-import Select from '../../../components/UI/Select/Select';
+//import Select from '../../../components/UI/Select/Select';
 import { names } from '../CreateQuestions/constant';
 import Button from '../../../components/UI/Button';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +15,7 @@ import {
 import Swal from 'sweetalert2';
 import { getFormatQuestions, getQuestionsFormatData } from '../../../utils/helper';
 import blockType from '../../../components/RenderBlock/constant';
+import Select from 'react-select'
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -38,20 +39,20 @@ const MICSSpecific = ({ handleClose }) => {
   const [controlIDList, setControlIDList] = useState([])
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
   useEffect(() => {
-    if(repositoryOfControlID?.data.length !== 0){
-      console.log("hi buddy",repositoryOfControlID);
+    if (repositoryOfControlID?.data.length !== 0) {
+      console.log("hi buddy", repositoryOfControlID);
       let controlidArray = [];
       repositoryOfControlID?.data.map((data) => {
-        controlidArray.push( { label: data.Control_ID, value: data.Control_ID });
+        controlidArray.push({ label: data.Control_ID, value: data.Control_ID });
       })
-      console.log("controlidArray",controlidArray);
+      console.log("controlidArray", controlidArray);
       setControlIDList(controlidArray);
 
     }
-  },[repositoryOfControlID])
+  }, [repositoryOfControlID])
   useEffect(() => {
-    if (level[0] && control_ID[0])
-      dispatch(getSection3Questions({ Level: level[0], Control_ID: control_ID[0] }));
+    if (level[0] && control_ID.value)
+      dispatch(getSection3Questions({ Level: level[0], Control_ID: control_ID.value }));
   }, [level, control_ID]);
 
   const handleChangeLevel = (event) => {
@@ -74,10 +75,8 @@ const MICSSpecific = ({ handleClose }) => {
     setLevel(typeof value === 'string' ? value.split(',') : value);
   };
 
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
+  const handleChange = (value) => {
+   
     if (isEdit) {
       Swal.fire({
         icon: 'info',
@@ -96,7 +95,7 @@ const MICSSpecific = ({ handleClose }) => {
 
   const handleAddQuestion = () => {
     const payload = {
-      Control_ID: control_ID[0],
+      Control_ID: control_ID.value,
       Header_Question: 'Header question title',
       Inner_Questions: '',
       Level: level[0],
@@ -113,7 +112,7 @@ const MICSSpecific = ({ handleClose }) => {
         Header_Question: section3[0].label,
         Inner_Questions: JSON.stringify(section3[0].innerOptions),
         Level: level[0],
-        Control_ID: control_ID[0],
+        Control_ID: control_ID.value,
       };
       if (questionData.data.length > 0) {
         dispatch(updateSection3Questions(payload));
@@ -130,7 +129,7 @@ const MICSSpecific = ({ handleClose }) => {
       const updateSection3 = section3.filter((section) => section.Control_ID !== block.Control_ID);
       setSection3(updateSection3);
       if (questionData.data.length > 0)
-        dispatch(deleteSection3Questions({ Control_ID: control_ID[0], Level: level[0] }));
+        dispatch(deleteSection3Questions({ Control_ID: control_ID.value, Level: level[0] }));
       return;
     }
     setIsEdit(true);
@@ -178,6 +177,7 @@ const MICSSpecific = ({ handleClose }) => {
             <div className="select-light mr-4">
               <FormControl sx={{ width: 300 }}>
                 <Select
+                className='controlIdSelect'
                   placeholder="Control ID * "
                   value={control_ID}
                   onChange={handleChange}
@@ -185,13 +185,14 @@ const MICSSpecific = ({ handleClose }) => {
                   inputProps={{ 'aria-label': 'Without label' }}
                   options={controlIDList}
                 />
+               
               </FormControl>
             </div>
           }
         />
       </div>
 
-      {control_ID[0] && (
+      {control_ID.value && (
         <div>
           <div>
             {showAddQuestion && !questionData.loading && (
@@ -199,7 +200,7 @@ const MICSSpecific = ({ handleClose }) => {
                 color="secondary"
                 className="ml-2"
                 onClick={handleAddQuestion}
-                disabled={!control_ID[0]}
+                disabled={!control_ID.value}
               >
                 Add Question
               </Button>

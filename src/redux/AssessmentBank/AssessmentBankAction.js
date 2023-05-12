@@ -13,6 +13,7 @@ import {
   GET_ASSESSMENT_DETAILS_TABLE_REQUEST,
   RECALL_ASSESSMENT_REQUEST,
   RE_TRIGGER_ASSESSMENT_REQUEST,
+  GET_ASSESSMENT_CYCLE_REQUEST
 } from './AssessmentBankReducer';
 
 export const ScheduleSurveyPage_1 = (payload) => ({
@@ -72,6 +73,11 @@ export const getAssessmentsSummaryTable = (payload) => ({
 
 export const getAssessmentDetailsTableData = (payload) => ({
   type: GET_ASSESSMENT_DETAILS_TABLE_REQUEST,
+  payload,
+});
+
+export const getAssessmentCycleAction = (payload) => ({
+  type: GET_ASSESSMENT_CYCLE_REQUEST,
   payload,
 });
 

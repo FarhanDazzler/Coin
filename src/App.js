@@ -99,6 +99,7 @@ const Pages = () => {
           },
         )
         .then(async (res) => {
+
           console.log(res.data.data[0], 'User Role');
           // localStorage.setItem('user_Role', res?.data.data[0]?.User_Role);
         })

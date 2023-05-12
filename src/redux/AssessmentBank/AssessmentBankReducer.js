@@ -74,6 +74,14 @@ export const GET_ASSESSMENT_DETAILS_TABLE_ERROR = 'GET_ASSESSMENT_DETAILS_TABLE_
 
 // =================== Get Assessment Details Table Data ========================//
 
+// =================== Get Assessment CYCLE Data ========================//
+
+export const GET_ASSESSMENT_CYCLE_REQUEST = 'GET_ASSESSMENT_CYCLE_REQUEST';
+export const GET_ASSESSMENT_CYCLE_SUCCESS = 'GET_ASSESSMENT_CYCLE_SUCCESS';
+export const GET_ASSESSMENT_CYCLE_ERROR = 'GET_ASSESSMENT_CYCLE_ERROR';
+
+// =================== Get Assessment CYCLE Data ========================//
+
 // =================== Recall Assessment ========================//
 
 export const RECALL_ASSESSMENT_REQUEST = 'RECALL_ASSESSMENT_REQUEST';
@@ -109,6 +117,7 @@ const initialState = {
   addAssessmentSchedulingAndTriggering: { ...block, data: [] },
   getAssessmentsSummaryTable: { ...block, data: [] },
   getAssessmentDetailsTableData: { ...block, data: [] },
+  getAssessmentCycleData: { ...block, data: [] },
   recallAssessment: { ...block, data: [] },
   reTriggerAssessment: { ...block, data: [] },
 };
@@ -327,6 +336,33 @@ export const AssessmentBankReducer = (state = initialState, { type, payload = {}
         ...state,
         getAssessmentDetailsTableData: {
           ...state.getAssessmentDetailsTableData,
+          loading: false,
+        },
+      };
+
+          //Get Assessment Cycle Data
+    case GET_ASSESSMENT_CYCLE_REQUEST:
+      return {
+        ...state,
+        getAssessmentCycleData: {
+          ...state.getAssessmentCycleData,
+          loading: true,
+        },
+      };
+    case GET_ASSESSMENT_CYCLE_SUCCESS:
+      return {
+        ...state,
+        getAssessmentCycleData: {
+          ...state.getAssessmentCycleData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_ASSESSMENT_CYCLE_ERROR:
+      return {
+        ...state,
+        getAssessmentCycleData: {
+          ...state.getAssessmentCycleData,
           loading: false,
         },
       };

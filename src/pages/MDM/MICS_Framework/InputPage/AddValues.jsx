@@ -342,7 +342,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Control_ID</Form.Label>
+                          <Form.Label>Control ID</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -476,7 +476,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>ABI_Key</Form.Label>
+                          <Form.Label>ABI Key</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -509,7 +509,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Ambev_Key</Form.Label>
+                          <Form.Label>Ambev Key</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -592,8 +592,8 @@ const AddValues_MDM_Mics_Framework = (props) => {
                             >
                               <option value="">Select Frequency</option>
                               <option value="Annually">Annually</option>
-                              <option value="Semi-Annaually">Semi-Annaually</option>
-                              <option value="Quaterly">Quaterly</option>
+                              <option value="Semi-Annually">Semi-Annually</option>
+                              <option value="Quarterly">Quarterly</option>
                               <option value="Monthly">Monthly</option>
                               <option value="Weekly">Weekly</option>
                               <option value="Daily">Daily</option>
@@ -682,7 +682,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Recommended_Level</Form.Label>
+                          <Form.Label>Recommended Level</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -721,7 +721,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Maturity_Relevant</Form.Label>
+                          <Form.Label>Maturity Relevant</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -756,7 +756,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Weighting</Form.Label>
+                          <Form.Label>MICS Weight</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -771,7 +771,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               readOnly={false}
                               className="form-select"
                             >
-                              <option value="">Select Weighting</option>
+                              <option value="">Select Weight</option>
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="10">10</option>
@@ -790,7 +790,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Recommended_Standardization</Form.Label>
+                          <Form.Label>Recommended Standardization</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -822,7 +822,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>ABI_DAG</Form.Label>
+                          <Form.Label>ABI DAG</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -851,7 +851,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>AmBev_DAG</Form.Label>
+                          <Form.Label>AmBev DAG</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -913,7 +913,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Fintech</Form.Label>
+                          <Form.Label>FinTech</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -928,7 +928,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               readOnly={false}
                               className="form-select"
                             >
-                              <option value="">Select Fintech</option>
+                              <option value="">Select FinTech</option>
                               <option value="Yes">Yes</option>
                               <option value="No">No</option>
                             </Form.Control>
@@ -979,7 +979,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Control_Split</Form.Label>
+                          <Form.Label>Control Split</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -1041,7 +1041,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Control_name</Form.Label>
+                          <Form.Label>Control Name</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -1070,17 +1070,17 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     {/*Rich text Editor call*/}
                     <div className="col-lg-12">
                       <div className="row mb-8">
-                        <Form.Label className="mt-5">mics_L1desc</Form.Label>
+                        <Form.Label className="mt-5">MICS L1 Description</Form.Label>
                         <TextEditor
                           setFieldValue={(val) => setFieldValue('mics_L1desc', val)}
                           value={values.mics_L1desc}
                         />
-                        <Form.Label className="mt-8">mics_L2desc</Form.Label>
+                        <Form.Label className="mt-8">MICS L2 Description</Form.Label>
                         <TextEditor
                           setFieldValue={(val) => setFieldValue('mics_L2desc', val)}
                           value={values.mics_L2desc}
                         />
-                        <Form.Label className="mt-8">mics_L3desc</Form.Label>
+                        <Form.Label className="mt-8">MICS L3 Description</Form.Label>
                         <TextEditor
                           setFieldValue={(val) => setFieldValue('mics_L3desc', val)}
                           value={values.mics_L3desc}
@@ -1124,7 +1124,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>L1_KPI</Form.Label>
+                          <Form.Label>L1 KPI</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -1157,7 +1157,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>L2_KPI</Form.Label>
+                          <Form.Label>L2 KPI</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -1190,7 +1190,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>L3_KPI</Form.Label>
+                          <Form.Label>L3 KPI</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -1223,7 +1223,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Balance Sheet impact</Form.Label>
+                          <Form.Label>Balance Sheet Impact</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -1252,7 +1252,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>PnL_impact</Form.Label>
+                          <Form.Label>PnL Impact</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -1281,7 +1281,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>Cash Flow impact</Form.Label>
+                          <Form.Label>Cash Flow Impact</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">
@@ -1357,7 +1357,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-5">
-                          <Form.Label>change_comment</Form.Label>
+                          <Form.Label>Change Comment</Form.Label>
                         </div>
                         <div className="col-lg-7">
                           <Form.Group className="input-group mb-3">

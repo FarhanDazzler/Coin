@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import './homeTableModalStyles.scss';
 import { useDispatch, useSelector } from 'react-redux';
+import CloseIcon from '@mui/icons-material/Close';
 import { useMsal } from '@azure/msal-react';
 import {
   addAssessmentAns,
@@ -27,8 +28,9 @@ import CustomModal from '../../../../../components/UI/CustomModal';
 const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
   const { accounts } = useMsal();
-
+  console.log('activeData', activeData);
   const query = new URLSearchParams(history.location.search);
+  const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   const { Assessment_id = '' } = useParams();
   const dispatch = useDispatch();
   const getResponse = useSelector(getResponseSelector);
@@ -91,11 +93,14 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     history.push('/');
   };
   useEffect(() => {
-    dispatch(getQuestions({ Control_ID: activeData.Question_Bank==='Template1'?
-    'Standard':activeData.Control_ID }));
+    dispatch(
+      getQuestions({
+        Control_ID: activeData.Question_Bank === 'Template1' ? 'Standard' : activeData.Control_ID,
+      }),
+    );
     dispatch(
       getKPIData({
-        MICS_code: activeData.Control_ID||Control_ID,
+        MICS_code: activeData.Control_ID || Control_ID,
         Entity_ID: activeData.Provider,
       }),
     );
@@ -111,7 +116,14 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         );
       }
 
-      dispatch(getAssessmentSection2Ans({ MICS_code: Control_ID, Entity_ID: 'Argentina' }));
+      dispatch(
+        getAssessmentSection2Ans({
+          MICS_code: Control_ID,
+          Entity_ID: 'Argentina',
+          KPI_From: activeData.KPI_From||"",
+          KPI_To: activeData.KPI_To||"",
+        }),
+      );
     }, 400);
   }, [Control_ID]);
 
@@ -139,6 +151,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         );
         setAnsSection3(section3Data);
         setShowMoreSection(true);
+
         if (section3Data.L2) {
           setTimeout(() => {
             dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
@@ -242,7 +255,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         const payload = {
-          Assessment_ID: activeData.id||Control_ID,
+          Assessment_ID: activeData.id || Control_ID,
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
@@ -262,30 +275,42 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
 
   if (!isModal)
     return (
-      <RenderHomeModalTable
-        questionsInfo={questionsInfo}
-        setShowMoreSection={setShowMoreSection}
-        ansSection1={ansSection1}
-        setAnsSection1={setAnsSection1}
-        showMoreSection={showMoreSection}
-        tableData={tableData}
-        setTableData={setTableData}
-        setTerminating={setTerminating}
-        ansSection3={ansSection3}
-        setAnsSection3={setAnsSection3}
-        showNoQuestionAns={showNoQuestionAns}
-        setShowNoQuestionAns={setShowNoQuestionAns}
-        terminating={terminating}
-        handleSubmit={handleSubmit}
-        handleSaveDraft={handleSaveDraft}
-        loadingSubmit={loading}
-        handleSaveDraftProps={{
-          disabled: responseData?.data?.Attempt_no >= 5,
-          style: { width: 128 },
-          loading: addOrEditUpdateDraft.loading,
-        }}
-        setStartEdit={setStartEdit}
-      />
+      <>
+        {Control_ID && (
+          <div className="topBar">
+            <div className="mb-2">
+              <CloseIcon className="close-modal-icon" onClick={handleClose} />
+              {Control_ID}
+            </div>
+            <span className="font-weight-bold">Control Name: </span>
+            <span>{stateControlData.control_name}</span>
+          </div>
+        )}
+        <RenderHomeModalTable
+          questionsInfo={questionsInfo}
+          setShowMoreSection={setShowMoreSection}
+          ansSection1={ansSection1}
+          setAnsSection1={setAnsSection1}
+          showMoreSection={showMoreSection}
+          tableData={tableData}
+          setTableData={setTableData}
+          setTerminating={setTerminating}
+          ansSection3={ansSection3}
+          setAnsSection3={setAnsSection3}
+          showNoQuestionAns={showNoQuestionAns}
+          setShowNoQuestionAns={setShowNoQuestionAns}
+          terminating={terminating}
+          handleSubmit={handleSubmit}
+          handleSaveDraft={handleSaveDraft}
+          loadingSubmit={loading}
+          handleSaveDraftProps={{
+            disabled: responseData?.data?.Attempt_no >= 5,
+            style: { width: 128 },
+            loading: addOrEditUpdateDraft.loading,
+          }}
+          setStartEdit={setStartEdit}
+        />
+      </>
     );
 
   return (

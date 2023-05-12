@@ -32,6 +32,7 @@ const InternalControlHomePage = () => {
   };
 
   useEffect(() => {
+    if(!userRole) history.push("/not-authorized")
     const allstatus = getControlOwnerData?.data?.map((d) => {
       return d.Status;
     });

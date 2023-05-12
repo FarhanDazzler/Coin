@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
 import { Loader } from 'semantic-ui-react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import RenderBlock from '../../../../../components/RenderBlock';
 import RenderBlockWrapper from '../../../../../components/RenderBlock/RenderBlockWrapper';
@@ -20,8 +20,9 @@ const ControlSection3 = ({
   isModal,
 }) => {
   const history = useHistory();
+  const { Assessment_id = '' } = useParams();
   const query = new URLSearchParams(history.location.search);
-  const Control_ID = query.get('Control_ID');
+  const Control_ID =Assessment_id|| query.get('Control_ID');
   const questionData = useSelector(question3Selector);
   const dispatch = useDispatch();
   const [render, setRender] = useState(false);
