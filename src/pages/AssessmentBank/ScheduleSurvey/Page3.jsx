@@ -108,7 +108,7 @@ const Page3 = ({ handleNext, setStep }) => {
       if (editTableIndex.length === 0) {
         Swal.fire({
           title: 'Are you sure?',
-          text: 'All Control Instatnces Selected !',
+          text: 'All Control Instatnces Selected.',
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: 'gold',
@@ -199,24 +199,24 @@ const Page3 = ({ handleNext, setStep }) => {
     }
   }, [selectObjectFormik?.values]);
 
-  // useEffect(() => {
-  //   if (getScheduleSurveyPage_2_table_State?.data) {
-  //     let payload = {
-  //       selectTheProcedures: 'Select Specific Controls',
-  //       Control_IDs: getScheduleSurveyPage_2_table_State?.data,
-  //       Frequency: selectObjectFormik?.values.Frequency,
-  //       mics_weight: selectObjectFormik?.values.mics_weight,
-  //       FCPA: selectObjectFormik?.values.FCPA,
-  //       ABI_Key: selectObjectFormik?.values.ABI_Key,
-  //       Mega_Process: selectObjectFormik?.values.Mega_Process,
-  //       Automation: selectObjectFormik?.values.Automation,
-  //       Category: selectObjectFormik?.values.Category,
-  //       Recommended_Level: selectObjectFormik?.values.Recommended_Level,
-  //     };
-  //     console.log(payload, 'API Payload with Specific Controls one time');
-  //     dispatch(getScheduleSurveyPage_3_table(payload));
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (getScheduleSurveyPage_2_table_State?.data) {
+      let payload = {
+        selectTheProcedures: 'Select Specific Controls',
+        Control_IDs: getScheduleSurveyPage_2_table_State?.data,
+        Frequency: selectObjectFormik?.values.Frequency,
+        mics_weight: selectObjectFormik?.values.mics_weight,
+        FCPA: selectObjectFormik?.values.FCPA,
+        ABI_Key: selectObjectFormik?.values.ABI_Key,
+        Mega_Process: selectObjectFormik?.values.Mega_Process,
+        Automation: selectObjectFormik?.values.Automation,
+        Category: selectObjectFormik?.values.Category,
+        Recommended_Level: selectObjectFormik?.values.Recommended_Level,
+      };
+      console.log(payload, 'API Payload with Specific Controls one time');
+      dispatch(getScheduleSurveyPage_3_table(payload));
+    }
+  }, []);
 
   const handleOnclickCancel = () => {
     history.push('/assessmentbank');
@@ -275,11 +275,11 @@ const Page3 = ({ handleNext, setStep }) => {
       minWidth: 250,
     },
   ];
-  useEffect(()=>{
-    setTableColumns(TABLE_COLUMNS);
-  },[])
   useEffect(() => {
-    if(!getScheduleSurveyPage_3_table_State?.data[0]?.controlInstances) return
+    setTableColumns(TABLE_COLUMNS);
+  }, []);
+  useEffect(() => {
+    if (!getScheduleSurveyPage_3_table_State?.data[0]?.controlInstances) return;
     setTableData(
       getScheduleSurveyPage_3_table_State?.data[0]?.controlInstances.map((i, index) => {
         return {
