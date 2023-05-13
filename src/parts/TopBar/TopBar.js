@@ -200,7 +200,7 @@ const TopBar = (props) => {
         id="headerMenuCollapse"
         style={{ background: 'linear-gradient(90deg,#e3af32 0%,#f4e00f 100%)' }}
       >
-        <div className="container">
+       {!['/login','/not-authorized'].includes(location?.pathname)&& <div className="container">
           <div className="d-flex align-items-center justify-content-between">
             <div className="row align-items-center">
               <div className="col-lg order-lg-first">
@@ -295,7 +295,7 @@ const TopBar = (props) => {
               </FormControl>
             </div>
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   );
