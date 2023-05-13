@@ -292,7 +292,7 @@ const Page3 = ({ handleNext, setStep }) => {
 
   return (
     <div className="p-5">
-      <h4 className="AssessmentBank-inputPage-title">Select Provider Organisation</h4>
+      <h4 className="AssessmentBank-inputPage-sub-title">Select Provider Organisation</h4>
       <div className="row">
         <div className="col-lg-6">
           <MultiSelect

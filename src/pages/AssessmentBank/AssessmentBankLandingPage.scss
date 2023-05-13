@@ -45,6 +45,7 @@
 #schedule-survey {
     .wrapper{
         margin: 25px;
+        margin-top: 10px;
     }
     .step-header {
       position: relative;
@@ -78,7 +79,7 @@
         background: #808080;
         height: 7px;
         border-radius: 8px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
 
 
@@ -122,6 +123,7 @@
         overflow: hidden;
        
         padding: 20px;
+        padding-top: 0;
         .schedule-survey-btn{
             text-align: end;
         }
@@ -149,6 +151,17 @@
     font-weight: 600;
     font-size: 28px;
     line-height: 87.52%;
+    margin-bottom: 28px;
+    //color: rgba(255, 255, 255, 0.92);
+    color: #e3af32;
+  }
+  .AssessmentBank-inputPage-sub-title {
+    text-align: center !important;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 87.52%;
+    margin-bottom: 34px;
     //color: rgba(255, 255, 255, 0.92);
     color: #e3af32;
   }
