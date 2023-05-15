@@ -88,24 +88,23 @@ const Pages = () => {
         console.log(res.data, 'User Role User Token');
         localStorage.setItem('Roles', res?.data.data.roles);
         Cookies.set('token', res?.data.token);
-        setUserToken(res?.data.token)
+        setUserToken(res?.data.token);
         axios
-        .get(
-          `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_user_role?User_Email=${accounts[0]?.username}`,
-          {
-            headers: {
-              Authorization: `Bearer ${res?.data.token}`,
+          .get(
+            `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_user_role?User_Email=${accounts[0]?.username}`,
+            {
+              headers: {
+                Authorization: `Bearer ${res?.data.token}`,
+              },
             },
-          },
-        )
-        .then(async (res) => {
-
-          console.log(res.data.data[0], 'User Role');
-          // localStorage.setItem('user_Role', res?.data.data[0]?.User_Role);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+          )
+          .then(async (res) => {
+            console.log(res.data.data[0], 'User Role');
+            // localStorage.setItem('user_Role', res?.data.data[0]?.User_Role);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         //localStorage.setItem('token', res?.data.token);
       })
       .catch((err) => {
@@ -114,10 +113,8 @@ const Pages = () => {
   };
   useEffect(() => {
     // main RBAC API Call
-    getUserData();
+    if (accounts.length > 0) getUserData();
   }, [accounts]);
-
-
 
   const user_role = localStorage.getItem('user_Role');
 

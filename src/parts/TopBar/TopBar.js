@@ -49,6 +49,7 @@ const TopBar = (props) => {
     // console.log('logout');
     instance.logout({
       account: accounts[0],
+      x,
       // account: accounts.length > 0 ? accounts[0] : null,
     });
   };
@@ -67,17 +68,22 @@ const TopBar = (props) => {
   ];
 
   useEffect(() => {
-    if(roles[0] ==='undefined'|| selected_Role) return
-    const userRoles = roles.map((data) => {
-      const str = data.split('_').join(' ');
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    });
-    if (userRoles?.length > 0) {
-      setRoleValue(userRoles);
-      dispatch(setLoginRole(selected_Role ?? userRoles[0]));
-      localStorage.setItem('selected_Role', selected_Role ?? userRoles[0]);
-    }
-  }, [roles]);
+    setTimeout(() => {
+      if (roles[0] === 'undefined') return;
+      const userRoles = roles.map((data) => {
+        const str = data.split('_').join(' ');
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      });
+      console.log('userRoles?.length', userRoles);
+      if (userRoles?.length > 0) {
+        setRoleValue(userRoles);
+        dispatch(setLoginRole(selected_Role ?? userRoles[0]));
+        localStorage.setItem('selected_Role', selected_Role ?? userRoles[0]);
+      }
+    }, 500);
+  }, [roles.length]);
+
+  console.log('roles', roles);
 
   return (
     <div className="top-nav">
@@ -201,102 +207,106 @@ const TopBar = (props) => {
         id="headerMenuCollapse"
         style={{ background: 'linear-gradient(90deg,#e3af32 0%,#f4e00f 100%)' }}
       >
-       {!['/login','/not-authorized'].includes(location?.pathname)&& <div className="container">
-          <div className="d-flex align-items-center justify-content-between">
-            <div className="row align-items-center">
-              <div className="col-lg order-lg-first">
-                <ul className="nav nav-tabs border-0 flex-column flex-lg-row">
-                  <li className="nav-item">
-                    <a
-                      className={`navbar-link ${
-                        ['/', '/register'].includes(location?.pathname) ? ' active' : ''
-                      }`}
-                      onClick={() => {
-                        history.push('/');
-                      }}
-                    >
-                      <FeatherIcon icon="home" size={14} />
-                      &nbsp;{'Home'}
-                    </a>
-                  </li>
+        {!['/login', '/not-authorized'].includes(location?.pathname) && (
+          <div className="container">
+            <div className="d-flex align-items-center justify-content-between">
+              <div className="row align-items-center">
+                <div className="col-lg order-lg-first">
+                  <ul className="nav nav-tabs border-0 flex-column flex-lg-row">
+                    <li className="nav-item">
+                      <a
+                        className={`navbar-link ${
+                          ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+                        }`}
+                        onClick={() => {
+                          history.push('/');
+                        }}
+                      >
+                        <FeatherIcon icon="home" size={14} />
+                        &nbsp;{'Home'}
+                      </a>
+                    </li>
 
-                  {!props.isControlPage && (
-                    <>
-                      {
-                        <li className="nav-item">
-                          <a
-                            className={`navbar-link ${
-                              ['/master-data-management', '/register'].includes(location?.pathname)
-                                ? ' active'
-                                : ''
-                            }`}
-                            onClick={() => {
-                              history.push('/master-data-management');
-                            }}
-                          >
-                            <FeatherIcon icon="layers" size={14} />
-                            &nbsp;{'Master Data Management'}
-                          </a>
-                        </li>
-                      }
+                    {!props.isControlPage && (
+                      <>
+                        {
+                          <li className="nav-item">
+                            <a
+                              className={`navbar-link ${
+                                ['/master-data-management', '/register'].includes(
+                                  location?.pathname,
+                                )
+                                  ? ' active'
+                                  : ''
+                              }`}
+                              onClick={() => {
+                                history.push('/master-data-management');
+                              }}
+                            >
+                              <FeatherIcon icon="layers" size={14} />
+                              &nbsp;{'Master Data Management'}
+                            </a>
+                          </li>
+                        }
 
-                      {
-                        <li className="nav-item">
-                          <a
-                            className={`navbar-link ${
-                              ['/questionbank', '/register'].includes(location?.pathname)
-                                ? ' active'
-                                : ''
-                            }`}
-                            onClick={() => {
-                              history.push('/questionbank');
-                            }}
-                          >
-                            <FeatherIcon icon="help-circle" size={14} />
-                            &nbsp;{'Question Bank'}
-                          </a>
-                        </li>
-                      }
+                        {
+                          <li className="nav-item">
+                            <a
+                              className={`navbar-link ${
+                                ['/questionbank', '/register'].includes(location?.pathname)
+                                  ? ' active'
+                                  : ''
+                              }`}
+                              onClick={() => {
+                                history.push('/questionbank');
+                              }}
+                            >
+                              <FeatherIcon icon="help-circle" size={14} />
+                              &nbsp;{'Question Bank'}
+                            </a>
+                          </li>
+                        }
 
-                      {
-                        <li className="nav-item">
-                          <a
-                            className={`navbar-link ${
-                              ['/assessmentbank', '/register'].includes(location?.pathname)
-                                ? ' active'
-                                : ''
-                            }`}
-                            onClick={() => {
-                              history.push('/assessmentbank');
-                            }}
-                          >
-                            <FeatherIcon icon="clipboard" size={14} />
-                            &nbsp;{'Assessment Bank'}
-                          </a>
-                        </li>
-                      }
-                    </>
-                  )}
-                </ul>
+                        {
+                          <li className="nav-item">
+                            <a
+                              className={`navbar-link ${
+                                ['/assessmentbank', '/register'].includes(location?.pathname)
+                                  ? ' active'
+                                  : ''
+                              }`}
+                              onClick={() => {
+                                history.push('/assessmentbank');
+                              }}
+                            >
+                              <FeatherIcon icon="clipboard" size={14} />
+                              &nbsp;{'Assessment Bank'}
+                            </a>
+                          </li>
+                        }
+                      </>
+                    )}
+                  </ul>
+                </div>
+              </div>
+              <div className="select-light mt-0">
+                <FormControl sx={{ maxWidth: 270 }}>
+                  <Select
+                    defaultValue="Assessment Module"
+                    size="small"
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    options={names}
+                    onChange={(e) => {
+                      history.push(
+                        e.target.value === 'Representation Letter Module' ? '/REP-Letters' : '/',
+                      );
+                    }}
+                  />
+                </FormControl>
               </div>
             </div>
-            <div className="select-light mt-0">
-              <FormControl sx={{ maxWidth: 270 }}>
-                <Select
-                  defaultValue="Assessment Module"
-                  size="small"
-                  inputProps={{ 'aria-label': 'Without label' }}
-                  options={names}
-                  onChange={(e) => {
-                    history.push(
-                      e.target.value === 'Representation Letter Module' ? '/REP-Letters' : '/',
-                    );
-                  }}
-                />
-              </FormControl>
-            </div>
           </div>
-        </div>}
+        )}
       </div>
     </div>
   );
