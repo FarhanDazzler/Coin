@@ -62,7 +62,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     },
     {
       field: 'Entity',
-      headerName: 'Receiver Organization',
+      headerName: 'Entity / Receiver',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 200,
