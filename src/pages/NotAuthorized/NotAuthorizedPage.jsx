@@ -9,7 +9,7 @@ const NotAuthorized = (props) => {
   const history = useHistory();
   const userRole = localStorage.getItem('Roles');
   useEffect(()=>{
-    if(userRole) history.push("/")
+    if(userRole && userRole !=='undefined') history.push("/")
   },[userRole])
   return (
      <div>

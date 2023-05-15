@@ -67,6 +67,7 @@ const TopBar = (props) => {
   ];
 
   useEffect(() => {
+    if(roles[0] ==='undefined'|| selected_Role) return
     const userRoles = roles.map((data) => {
       const str = data.split('_').join(' ');
       return str.charAt(0).toUpperCase() + str.slice(1);
