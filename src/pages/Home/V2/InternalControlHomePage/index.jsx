@@ -16,7 +16,7 @@ const InternalControlHomePage = () => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
-  const userRole = localStorage.getItem('selected_Role');
+  const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const getControlOwnerData = useSelector(getInternalControlDataSelector);
   const [statusInfo, setStatusInfo] = useState({
@@ -45,7 +45,7 @@ const InternalControlHomePage = () => {
       completedRatio:((completedAssessment/allstatus.length)*100)?.toFixed(0),
       total:allstatus?.length
     });
-  }, [getControlOwnerData]);
+  }, [getControlOwnerData,userRole]);
   const { accounts } = useMsal();
   return (
     <div>

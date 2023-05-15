@@ -10,7 +10,7 @@ import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardS
 
 const ControlHomePage = () => {
   const history = useHistory();
-  const userRole = localStorage.getItem('selected_Role');
+  const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const loginUserRole = loginRole ?? userRole;
   const query = new URLSearchParams(history.location.search);
@@ -43,7 +43,7 @@ const ControlHomePage = () => {
       draft: getNumberOfItem(allstatus, 'Draft'),
       reAssessed: getNumberOfItem(allstatus, 'Re-assessed'),
     });
-  }, [getControlOwnerData.data, loginUserRole]);
+  }, [getControlOwnerData.data, loginUserRole,userRole]);
 
   return (
     <div>
