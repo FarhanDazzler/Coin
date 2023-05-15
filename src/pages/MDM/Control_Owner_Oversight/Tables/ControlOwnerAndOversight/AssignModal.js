@@ -88,9 +88,10 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
 
   const handleSaveAssign = (value) => {
     console.log(value);
-    let updateObj={...obj}
+    
     const newState = assignTableData.map((obj) => {
       console.log("objjjj",obj)
+      let updateObj={...obj}
       if (value.cowner !== '') {
         updateObj.cowner = value.cowner;
         updateObj.cowner_valid_from =value.cownerValidFrom ;
