@@ -88,29 +88,31 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
 
   const handleSaveAssign = (value) => {
     console.log(value);
+    let updateObj={...obj}
     const newState = assignTableData.map((obj) => {
       console.log("objjjj",obj)
       if (value.cowner !== '') {
-        return { ...obj, cowner: value.cowner, cowner_valid_from: value.cownerValidFrom };
+        updateObj.cowner = value.cowner;
+        updateObj.cowner_valid_from =value.cownerValidFrom ;
       }
       if (value.coversight !== "" || value.coversight !== '') {
-        console.log("I am here")
-        return { ...obj, coversight: value.coversight, coversight_valid_from: value.coversightValidFrom };
+        updateObj.coversight = value.coversight;
+        updateObj.coversight_valid_from= value.coversightValidFrom;
       }
       if (value.cownerValidFrom !== '') {
-        return { ...obj, cowner_valid_from: value.cownerValidFrom };
+        updateObj.cowner_valid_from =value.cownerValidFrom;
       }
       if (value.cownerValidTo !== '') {
-        return { ...obj, cowner_valid_to: value.cownerValidTo };
+        updateObj.cowner_valid_to =value.cownerValidTo
       }
       if (value.coversightValidFrom !== '') {
-        return { ...obj, coversight_valid_from: value.coversightValidFrom };
+        updateObj.coversight_valid_from= value.coversightValidFrom;
       }
-      if (value.coversightValidTo !== '') {
-        return { ...obj, coversight_valid_to: value.coversightValidTo };
-      }
+      // if (value.coversightValidTo !== '') {
+      //   return { ...obj, coversight_valid_to: value.coversightValidTo };
+      // }
 
-      return { ...obj };
+      return { ...updateObj };
     });
     console.log(newState);
     const payload = {
