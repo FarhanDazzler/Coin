@@ -10,9 +10,10 @@ import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardS
 
 const ControlHomePage = () => {
   const history = useHistory();
-  const userRole = localStorage.getItem('selected_Role');
+  const selectedUserRole = localStorage.getItem('selected_Role');
+  const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
-  const loginUserRole = loginRole ?? userRole;
+  const loginUserRole = loginRole ?? selectedUserRole;
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
   const { accounts } = useMsal();
@@ -29,7 +30,7 @@ const ControlHomePage = () => {
   };
 
   useEffect(() => {
-    if(!userRole) history.push("/not-authorized")
+    if(!userRole?.length || userRole==='undefined') history.push("/not-authorized")
     const tableData =
       loginUserRole === 'Control owner'
         ? getControlOwnerData.data[0]?.cOwnerData || []
@@ -43,7 +44,7 @@ const ControlHomePage = () => {
       draft: getNumberOfItem(allstatus, 'Draft'),
       reAssessed: getNumberOfItem(allstatus, 'Re-assessed'),
     });
-  }, [getControlOwnerData.data, loginUserRole]);
+  }, [getControlOwnerData.data, loginUserRole,userRole]);
 
   return (
     <div>

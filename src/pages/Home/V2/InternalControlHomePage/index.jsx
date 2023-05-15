@@ -16,7 +16,8 @@ const InternalControlHomePage = () => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
-  const userRole = localStorage.getItem('selected_Role');
+  const selectedUserRole = localStorage.getItem('selected_Role');
+  const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const getControlOwnerData = useSelector(getInternalControlDataSelector);
   const [statusInfo, setStatusInfo] = useState({
@@ -30,9 +31,8 @@ const InternalControlHomePage = () => {
   const getNumberOfItem = (array = [], itemName) => {
     return array?.filter((val) => val === itemName)?.length;
   };
-
   useEffect(() => {
-    if(!userRole) history.push("/not-authorized")
+    if(!userRole?.length || userRole==='undefined') history.push("/not-authorized")
     const allstatus = getControlOwnerData?.data?.map((d) => {
       return d.Status;
     });
@@ -45,7 +45,7 @@ const InternalControlHomePage = () => {
       completedRatio:((completedAssessment/allstatus.length)*100)?.toFixed(0),
       total:allstatus?.length
     });
-  }, [getControlOwnerData]);
+  }, [getControlOwnerData,userRole]);
   const { accounts } = useMsal();
   return (
     <div>
@@ -57,7 +57,7 @@ const InternalControlHomePage = () => {
               <h2 className="user-name-home yellow-gradient-text mb-2 text-capitalize">
                 {accounts.length > 0 ? accounts[0].name.split('(').join(' (') : 'User Name'}
               </h2>
-              {(loginRole || userRole) && <h3 className="user-role">{loginRole ?? userRole}</h3>}
+              {(loginRole || selectedUserRole) && <h3 className="user-role">{loginRole ?? selectedUserRole}</h3>}
             </div>
             <div className="col-lg-8">
                 <div className="wrapper-info-grid">

@@ -67,6 +67,7 @@ const TopBar = (props) => {
   ];
 
   useEffect(() => {
+    if(roles[0] ==='undefined'|| selected_Role) return
     const userRoles = roles.map((data) => {
       const str = data.split('_').join(' ');
       return str.charAt(0).toUpperCase() + str.slice(1);
@@ -76,7 +77,7 @@ const TopBar = (props) => {
       dispatch(setLoginRole(selected_Role ?? userRoles[0]));
       localStorage.setItem('selected_Role', selected_Role ?? userRoles[0]);
     }
-  }, []);
+  }, [roles]);
 
   return (
     <div className="top-nav">
