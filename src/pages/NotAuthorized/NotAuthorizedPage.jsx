@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 // import TopBar from '../../parts/TopBar/TopBar';
 import PageWrapper from '../../components/wrappers/PageWrapper';
 import './NotAuthorizedStyles.scss';
 
 const NotAuthorized = (props) => {
+  const history = useHistory();
+  const userRole = localStorage.getItem('Roles');
+  useEffect(()=>{
+    if(userRole) history.push("/")
+  },[userRole])
   return (
      <div>
      <PageWrapper>

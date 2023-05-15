@@ -76,7 +76,7 @@ const TopBar = (props) => {
       dispatch(setLoginRole(selected_Role ?? userRoles[0]));
       localStorage.setItem('selected_Role', selected_Role ?? userRoles[0]);
     }
-  }, []);
+  }, [roles]);
 
   return (
     <div className="top-nav">
