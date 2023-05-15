@@ -66,8 +66,8 @@ const Page1 = ({ handleNext }) => {
       Control_Owner_Reminder_2: value.Control_Owner_Reminder_2,
       Control_Oversight_Pending_Notification_1: value.Control_Oversight_Pending_Notification_1,
       Control_Oversight_Pending_Notification_2: value.Control_Oversight_Pending_Notification_2,
-      Control_Oversight_Review_Notification_1: value.Control_Oversight_Review_Notification_1,
-      Control_Oversight_Review_Notification_2: value.Control_Oversight_Review_Notification_2,
+      // Control_Oversight_Review_Notification_1: value.Control_Oversight_Review_Notification_1,
+      // Control_Oversight_Review_Notification_2: value.Control_Oversight_Review_Notification_2,
     };
 
     console.log(payload, 'Page 1 payload');
