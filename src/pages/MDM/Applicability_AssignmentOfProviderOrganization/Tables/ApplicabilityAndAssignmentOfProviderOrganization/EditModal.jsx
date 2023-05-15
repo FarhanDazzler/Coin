@@ -26,17 +26,27 @@ const EditModal = ({ setShowEditModal, assignTableData }) => {
   const dispatch = useDispatch();
 
   const handleSaveAssign = (value) => {
+    console.log(value);
     const newState = assignTableData.map((obj) => {
-      if (value.is_SOX_scope !== '') {
-        return { ...obj, is_SOX_scope: value.is_SOX_scope };
-      }
+     let updateObj={...obj}
+
       if (value.is_FSI_Entity !== '') {
-        return { ...obj, is_FSI_Entity: value.is_FSI_Entity };
+        console.log("value.is_FSI_Entity", value.is_FSI_Entity)
+        updateObj.is_FSI_Entity= value.is_FSI_Entity
+        // return { ...obj, is_FSI_Entity: value.is_FSI_Entity };
       }
-      // if (value.Entity_Weight !== '') {
-      //   return { ...obj, Entity_Weight: value.Entity_Weight };
-      // }
-      return { ...obj };
+
+      if (value.is_SOX_scope !== '') {
+        updateObj.is_SOX_scope= value.is_SOX_scope 
+        // return { ...obj, is_SOX_scope: value.is_SOX_scope };
+      }
+
+      if (value.Entity_Weight !== '') {
+        updateObj. Entity_Weight= value.Entity_Weight
+        // return { ...obj, Entity_Weight: value.Entity_Weight };
+      }
+      console.log("update obj",updateObj);
+      return { ...updateObj };
     });
     //console.log(newState);
     const payload = {
