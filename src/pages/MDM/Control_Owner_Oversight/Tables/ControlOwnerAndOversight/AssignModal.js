@@ -89,10 +89,12 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
   const handleSaveAssign = (value) => {
     console.log(value);
     const newState = assignTableData.map((obj) => {
+      console.log("objjjj",obj)
       if (value.cowner !== '') {
         return { ...obj, cowner: value.cowner, cowner_valid_from: value.cownerValidFrom };
       }
-      if (value.coversight !== '') {
+      if (value.coversight !== "" || value.coversight !== '') {
+        console.log("I am here")
         return { ...obj, coversight: value.coversight, coversight_valid_from: value.coversightValidFrom };
       }
       if (value.cownerValidFrom !== '') {
