@@ -106,7 +106,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     );
     setTimeout(() => {
       if (!isModal) {
-        dispatch(getLatestDraft({ assessment_id: Control_ID }));
+        dispatch(getLatestDraft({ assessment_id: activeData.id||Control_ID }));
       } else {
         dispatch(
           getAssessmentAns({
@@ -192,7 +192,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         setLoading(true);
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
         const payload = {
-          Assessment_ID: '31599B92-7E74-4A40-99AF-716B122BB4A2',
+          Assessment_ID: activeData.id,
           Assessment_result: 'Pass',
           Latest_response: {
             s1: ansSection1,
@@ -219,7 +219,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           return;
         }
         const payload = {
-          Assessment_ID: activeData.id,
+          Assessment_ID: activeData?.id,
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
@@ -255,7 +255,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         const payload = {
-          Assessment_ID: activeData.id || Control_ID,
+          Assessment_ID: activeData.id,
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
