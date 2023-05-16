@@ -510,7 +510,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                                                                         <option value="">Select Category</option>
                                                                         <option value="Off-Shore">Off Shore</option>
                                                                         <option value="Near Shore">Near Shore</option>
-                                                                        <option value="Near Shore">In-Country</option>
+                                                                        <option value="In-Country">In-Country</option>
                                                                         <option value="N/A">N/A</option>
                                                                     </>
                                                         }
