@@ -49,7 +49,6 @@ const TopBar = (props) => {
     // console.log('logout');
     instance.logout({
       account: accounts[0],
-      x,
       // account: accounts.length > 0 ? accounts[0] : null,
     });
   };
