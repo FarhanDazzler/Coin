@@ -376,14 +376,13 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                                                         {
 
                                                             values.orgType === "BU" || values.orgType === "Country"
-                                                                && values.parentEntity.slice(0, 2) === "SC" || values.Org_name.slice(0, 3) === "SSC" ?
+                                                                && values.Org_name.slice(0, 3) === "SSC" ?
                                                                 <option value="No">No</option>
                                                                 :
                                                                 values.orgType === "Zone" || values.orgType === "Cognos" || values.orgType === "SAP" ?
 
                                                                     <option value="N/A">N/A</option>
-                                                                    : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
-                                                                        <option value="Yes">Yes</option> : values.Org_name.slice(0, 3) !== "SSC" ?
+                                                                    : values.orgType === "Country" && values.Org_name.slice(0, 3) !== "SSC" ?
                                                                             <>
                                                                                 <option value="">Select isReceiver</option>
                                                                                 <option value="Yes">Yes</option>
@@ -442,12 +441,11 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                                                     modalType === "add" ? <>
                                                         {
                                                             values.orgType === "BU" ||
-                                                                values.orgType === "Country" && values.parentEntity.slice(0, 2) === "SC" || values.Org_name.slice(0, 3) === "SSC" ?
+                                                            values.orgType === "Country" && values.Org_name.slice(0, 3) === "SSC" ?
                                                                 <option value="Yes">Yes</option> :
                                                                 values.orgType === "Zone" || values.orgType === "Cognos" || values.orgType === "Plant" || values.orgType === "SAP" ?
                                                                     <option value="N/A">N/A</option>
-                                                                    : values.parentEntity && values.parentEntity.slice(0, 2) !== "SC" ?
-                                                                        <option value="Yes">Yes</option> : values.Org_name.slice(0, 3) !== "SSC" ?
+                                                                    : values.orgType === "Country" || values.orgType === "Country" && values.Org_name.slice(0, 3) !== "SSC" ?
                                                                             <>
                                                                                 <option value="">Select isProvider</option>
                                                                                 <option value="Yes">Yes</option>
