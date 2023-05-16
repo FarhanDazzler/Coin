@@ -89,22 +89,25 @@ const Pages = () => {
         localStorage.setItem('Roles', res?.data.data.roles);
         Cookies.set('token', res?.data.token);
         setUserToken(res?.data.token);
+        if(accounts[0]?.username)
+       {
         axios
-          .get(
-            `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_user_role?User_Email=${accounts[0]?.username}`,
-            {
-              headers: {
-                Authorization: `Bearer ${res?.data.token}`,
-              },
+        .get(
+          `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_user_role?User_Email=${accounts[0]?.username}`,
+          {
+            headers: {
+              Authorization: `Bearer ${res?.data.token}`,
             },
-          )
-          .then(async (res) => {
-            console.log(res.data.data[0], 'User Role');
-            // localStorage.setItem('user_Role', res?.data.data[0]?.User_Role);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+          },
+        )
+        .then(async (res) => {
+          console.log(res.data.data[0], 'User Role');
+          // localStorage.setItem('user_Role', res?.data.data[0]?.User_Role);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+       }
         //localStorage.setItem('token', res?.data.token);
       })
       .catch((err) => {
