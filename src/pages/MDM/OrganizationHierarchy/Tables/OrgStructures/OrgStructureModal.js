@@ -125,22 +125,18 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
             "Org_name": value.Org_name,
             "parent_entity": value.parentEntity,
             "isReceiver": value.orgType === "BU" || value.orgType === "Country"
-                && value.parentEntity.slice(0, 2) === "SC" ?
+                && value.Org_name.slice(0, 3) === "SSC" ?
                 "No" :
                 value.orgType === "Zone" || value.orgType === "Cognos" || value.orgType === "SAP" ?
                     "N/A"
-                    : value.parentEntity && value.parentEntity.slice(0, 2) !== "SC" ?
-                        "Yes" :
-                        value.isReceiver
+                    : value.isReceiver
             ,
             "isProvider": value.orgType === "BU" ||
-                value.orgType === "Country" && value.parentEntity.slice(0, 2) === "SC" ?
+                value.orgType === "Country" && value.Org_name.slice(0, 3) === "SSC" ?
                 "Yes" :
                 value.orgType === "Zone" || value.orgType === "Cognos" || value.orgType === "Plant" || value.orgType === "SAP" ?
                     "N/A"
-                    : value.parentEntity && value.parentEntity.slice(0, 2) !== "SC" ?
-                        "Yes" :
-                        value.isProvider,
+                    : value.isProvider,
             "Category": value.orgType === "Zone" || value.orgType === "Cognos" || value.orgType === "SAP" || value.orgType === "Plant" ? "N/A" : value.Category,
             "Valid_from": value.validFrom,
             "Valid_to": value.validTo
@@ -383,17 +379,17 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
 
                                                                     <option value="N/A">N/A</option>
                                                                     : values.orgType === "Country" && values.Org_name.slice(0, 3) !== "SSC" ?
-                                                                            <>
-                                                                                <option value="">Select isReceiver</option>
-                                                                                <option value="Yes">Yes</option>
-                                                                                <option value="No">No</option>
-                                                                            </> :
-                                                                            <>
-                                                                                <option value="">Select isReceiver</option>
-                                                                                <option value="Yes">Yes</option>
-                                                                                <option value="No">No</option>
-                                                                                <option value="N/A">N/A</option>
-                                                                            </>
+                                                                        <>
+                                                                            <option value="">Select isReceiver</option>
+                                                                            <option value="Yes">Yes</option>
+                                                                            <option value="No">No</option>
+                                                                        </> :
+                                                                        <>
+                                                                            <option value="">Select isReceiver</option>
+                                                                            <option value="Yes">Yes</option>
+                                                                            <option value="No">No</option>
+                                                                            <option value="N/A">N/A</option>
+                                                                        </>
 
                                                         }
                                                     </> : <>
@@ -441,22 +437,22 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                                                     modalType === "add" ? <>
                                                         {
                                                             values.orgType === "BU" ||
-                                                            values.orgType === "Country" && values.Org_name.slice(0, 3) === "SSC" ?
+                                                                values.orgType === "Country" && values.Org_name.slice(0, 3) === "SSC" ?
                                                                 <option value="Yes">Yes</option> :
                                                                 values.orgType === "Zone" || values.orgType === "Cognos" || values.orgType === "Plant" || values.orgType === "SAP" ?
                                                                     <option value="N/A">N/A</option>
                                                                     : values.orgType === "Country" || values.orgType === "Country" && values.Org_name.slice(0, 3) !== "SSC" ?
-                                                                            <>
-                                                                                <option value="">Select isProvider</option>
-                                                                                <option value="Yes">Yes</option>
-                                                                                <option value="No">No</option>
-                                                                            </> :
-                                                                            <>
-                                                                                <option value="">Select isProvider</option>
-                                                                                <option value="Yes">Yes</option>
-                                                                                <option value="No">No</option>
-                                                                                <option value="N/A">N/A</option>
-                                                                            </>
+                                                                        <>
+                                                                            <option value="">Select isProvider</option>
+                                                                            <option value="Yes">Yes</option>
+                                                                            <option value="No">No</option>
+                                                                        </> :
+                                                                        <>
+                                                                            <option value="">Select isProvider</option>
+                                                                            <option value="Yes">Yes</option>
+                                                                            <option value="No">No</option>
+                                                                            <option value="N/A">N/A</option>
+                                                                        </>
                                                         }
                                                     </> : <>
                                                         <option value="">Select isProvider</option>
@@ -506,19 +502,20 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                                                         {
                                                             values.orgType === "Zone" || values.orgType === "Cognos" || values.orgType === "SAP" || values.orgType === "Plant" ?
                                                                 <option value="N/A">N/A</option> :
-                                                                    <>
-                                                                        <option value="">Select Category</option>
-                                                                        <option value="Off-Shore">Off Shore</option>
-                                                                        <option value="Near Shore">Near Shore</option>
-                                                                        <option value="In-Country">In-Country</option>
-                                                                        <option value="N/A">N/A</option>
-                                                                    </>
+                                                                <>
+                                                                    <option value="">Select Category</option>
+                                                                    <option value="Off-Shore">Off Shore</option>
+                                                                    <option value="Near Shore">Near Shore</option>
+                                                                    <option value="In-Country">In-Country</option>
+                                                                    <option value="N/A">N/A</option>
+                                                                </>
                                                         }
                                                     </> :
                                                         <>
                                                             <option value="">Select Category</option>
-                                                            <option value="Off-Shore">Off-Shore</option>
-                                                            <option value="On-Shore">On-Shore</option>
+                                                            <option value="Off-Shore">Off Shore</option>
+                                                            <option value="Near Shore">Near Shore</option>
+                                                            <option value="In-Country">In-Country</option>
                                                             <option value="N/A">N/A</option>
                                                         </>
                                                 }
