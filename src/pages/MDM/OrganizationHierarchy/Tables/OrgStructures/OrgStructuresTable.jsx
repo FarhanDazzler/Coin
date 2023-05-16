@@ -167,8 +167,7 @@ const OrgStructuresTable = () => {
                   </span>
                 </div>
                 <div>
-                  {(localStorage.getItem('Roles')?.includes('global_internal_control') ||
-                    localStorage.getItem('selected_Role')?.includes('global_internal_control')) && (
+                
                     <>
                       <Button
                         variant="outlined"
@@ -189,7 +188,7 @@ const OrgStructuresTable = () => {
                         Add New
                       </Button>
                     </>
-                  )}
+                  
                 </div>
               </div>
             </div>
