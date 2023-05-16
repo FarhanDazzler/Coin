@@ -29,11 +29,11 @@ const LcdModal = ({ setShowModal, assignTableData }) => {
 
     const handleSaveAssign = (value) => {
         const newState = assignTableData.map(obj => {
-            if(value.lcd !== ""){
+            if (value.lcd !== "") {
                 return { ...obj, local_control_description: value.lcd };
             }
 
-            return { ...obj};
+            return { ...obj };
         });
         console.log(newState);
         const payload = {
@@ -86,23 +86,27 @@ const LcdModal = ({ setShowModal, assignTableData }) => {
                             <Form onSubmit={handleSubmit}>
 
                                 <div>
-                                    <Form.Label>Selected Control Id:</Form.Label>
-                                    {
-                                        assignTableData.map((data, i) => (
-                                            <div className="row">
-                                                <div className="col-md-12 selected-controls">
-                                                    <div className='row mb-4'>
+                                    <Form.Label>Selected Control Id's</Form.Label>
+                                    <div className='selected-controls'>
 
-                                                        <div className="col-md-7" style={{ fontSize: "0.875rem", fontWeight: "900" }}>
-                                                            <p>{data?.control_id_provider_entity}</p>
+                                        {
+                                            assignTableData.map((data, i) => (
+                                                <div className="row">
+                                                    <div className="col-md-12">
+                                                        <div className='row mb-4'>
+
+                                                            <div className="col-md-7" style={{ fontSize: "0.875rem", fontWeight: "900" }}>
+                                                                <p>{data?.control_id_provider_entity}</p>
+                                                            </div>
                                                         </div>
                                                     </div>
+
+
                                                 </div>
+                                            ))
+                                        }
+                                    </div>
 
-
-                                            </div>
-                                        ))
-                                    }
                                     <hr />
 
                                     <div className="row">
