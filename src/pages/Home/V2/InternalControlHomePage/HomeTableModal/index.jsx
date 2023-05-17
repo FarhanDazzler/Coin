@@ -28,7 +28,6 @@ import CustomModal from '../../../../../components/UI/CustomModal';
 const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
   const { accounts } = useMsal();
-  console.log('activeData', activeData);
   const query = new URLSearchParams(history.location.search);
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   const { Assessment_id = '' } = useParams();
@@ -106,7 +105,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     );
     setTimeout(() => {
       if (!isModal) {
-        dispatch(getLatestDraft({ assessment_id: activeData.id||Control_ID }));
+        dispatch(getLatestDraft({ assessment_id: activeData.id || Control_ID }));
       } else {
         dispatch(
           getAssessmentAns({
@@ -120,8 +119,8 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         getAssessmentSection2Ans({
           MICS_code: Control_ID,
           Entity_ID: 'Argentina',
-          KPI_From: activeData.KPI_From||"",
-          KPI_To: activeData.KPI_To||"",
+          KPI_From: activeData.KPI_From || '',
+          KPI_To: activeData.KPI_To || '',
         }),
       );
     }, 400);
@@ -138,7 +137,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       clearTimeout(handle);
     };
   }, [terminating]);
-  console.log('responseData', responseData);
+
   useEffect(() => {
     if (responseData.data?.Latest_response) {
       if (responseData.data?.Latest_response.s1)
@@ -191,9 +190,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       if (result.isConfirmed) {
         setLoading(true);
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
+        const s1FailObj = ansSection1.find((ans) =>
+          ['Text With Select', 'Dropdown'].includes(ans.question_type),
+        );
         const payload = {
           Assessment_ID: activeData.id,
-          Assessment_result: 'Pass',
+          Assessment_result: showNoQuestionAns || s1FailObj ? 'Fail' : 'Pass',
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
