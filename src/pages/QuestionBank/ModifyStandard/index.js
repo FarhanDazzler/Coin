@@ -250,21 +250,24 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
 
               <div className="d-flex align-items-center justify-content-between">
                 <div>
-                  <Button color="silver" className="mx-3" onClick={() => setShowAddQuestion(true)}>
-                    Add Question
-                  </Button>
+                 
+                      <Button color="silver" disabled={section1QuestionsData.length == 0} className="mx-3" onClick={() => setShowAddQuestion(true)}>
+                        Add Question
+                      </Button>
+                  
+
                 </div>
                 <div className="d-flex align-items-center justify-content-end">
                   <Button variant="subtle" onClick={handleClose}>
                     Cancel
                   </Button>
-                  <Button
+                  {/* <Button
                     color="silver"
                     // className="mx-3"
                     className="ml-2"
                   >
                     Save as Draft
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </div>

@@ -17,6 +17,11 @@
         margin: 10px 0;
     }
 }
+.modify-standard{
+    .modal-body{
+        min-height: 50vh;
+    }
+}
 .create-question{
     .modal-body{
         height: 400px;

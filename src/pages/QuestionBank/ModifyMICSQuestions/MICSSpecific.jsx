@@ -178,6 +178,7 @@ const MICSSpecific = ({ handleClose }) => {
               <FormControl sx={{ width: 300 }}>
                 <Select
                 className='controlIdSelect'
+                maxMenuHeight={200}
                   placeholder="Control ID * "
                   value={control_ID}
                   onChange={handleChange}
