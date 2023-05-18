@@ -69,7 +69,7 @@ const ControlOwnerTable = ({ tableName }) => {
               <Button
                 className="mr-2"
                 // onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
-                onClick={() => handleControlIDClick(row.row.Control_ID)}
+                onClick={() => handleControlIDClick(row.row.Control_ID,row.row)}
               >
                 Review
               </Button>
@@ -206,7 +206,7 @@ const ControlOwnerTable = ({ tableName }) => {
   const Provider = controlOwnerData?.map((i) => i.Provider);
   const year = controlOwnerData?.map((i) => i.Year);
   const assessment_Cycle = controlOwnerData?.map((i) => i.Assessment_Cycle);
-  const handleControlIDClick = (id) => {
+  const handleControlIDClick = (id,row) => {
     //TODO: modal redirect
     let payload = {
       controlId: id,
@@ -217,7 +217,7 @@ const ControlOwnerTable = ({ tableName }) => {
     };
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
-    history.push(`${history.location.pathname}?Control_ID=${id}`);
+    history.push(`${history.location.pathname}?Control_ID=${id}`,row);
   };
 
   function removeDuplicates(arr) {

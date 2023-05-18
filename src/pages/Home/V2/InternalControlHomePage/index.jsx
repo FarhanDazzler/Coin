@@ -3,7 +3,7 @@ import DashboardTable from './HomePageTable/HomePageTableComponent';
 import './homeStyles.scss';
 import NumberWithText from './NumberWithText';
 import { useMsal } from '@azure/msal-react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import HomeTableModal from './HomeTableModal';
 import { useSelector } from 'react-redux';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
@@ -14,6 +14,7 @@ import { getInternalControlDataSelector } from '../../../../redux/DashBoard/Dash
 
 const InternalControlHomePage = () => {
   const history = useHistory();
+  const {state} = useLocation();
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
   const selectedUserRole = localStorage.getItem('selected_Role');
@@ -133,7 +134,7 @@ const InternalControlHomePage = () => {
           </div>
         </div>
         <InternalControlTable />
-        {Control_ID && <HomeTableModal isModal={true} />}
+        {Control_ID && <HomeTableModal isModal={true}  activeData={state}/>}
       </PageWrapper>
     </div>
   );
