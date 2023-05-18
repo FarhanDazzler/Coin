@@ -199,7 +199,7 @@ const Page3 = ({ handleNext, setStep }) => {
       console.log(payload, 'API Payload with Specific Controls');
       dispatch(getScheduleSurveyPage_3_table(payload));
     }
-  }, [selectObjectFormik?.values]);
+  }, [selectObjectFormik?.values, getScheduleSurveyPage_2_table_State?.data]);
 
   useEffect(() => {
     if (getScheduleSurveyPage_2_table_State?.data) {
