@@ -251,7 +251,7 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
               <div className="d-flex align-items-center justify-content-between">
                 <div>
                  
-                      <Button color="silver" disabled={section1QuestionsData.length == 0} className="mx-3" onClick={() => setShowAddQuestion(true)}>
+                      <Button color="silver" disabled={finalTemplate_id === 'e'} className="mx-3" onClick={() => setShowAddQuestion(true)}>
                         Add Question
                       </Button>
                   
