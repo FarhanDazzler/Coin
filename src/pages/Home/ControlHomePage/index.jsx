@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import ControlOwnerTable from './ControlOwnerTable/ControlOwnerTable';
 import { useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardS
 
 const ControlHomePage = () => {
   const history = useHistory();
+  const {state} = useLocation();
   const selectedUserRole = localStorage.getItem('selected_Role');
   const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
@@ -105,7 +106,7 @@ const ControlHomePage = () => {
           <ControlOwnerTable tableName="Control Oversight" />
         )}
 
-        {Control_ID && <HomeTableModal isModal={true}/>}
+        {Control_ID && <HomeTableModal isModal={true} activeData={state}/>}
       </PageWrapper>
     </div>
   );

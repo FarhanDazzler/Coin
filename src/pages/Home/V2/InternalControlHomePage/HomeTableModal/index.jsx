@@ -34,7 +34,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const dispatch = useDispatch();
   const getResponse = useSelector(getResponseSelector);
   const latestDraftData = useSelector(getLatestDraftSelector);
-  const responseData = !isModal ? latestDraftData : getResponse;
+  const responseData = !getResponse?.data?.Latest_Response ? latestDraftData : getResponse;
   const questionsInfo = useSelector(getQuestionsSelector);
   const [ansSection1, setAnsSection1] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -45,9 +45,9 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const [startEdit, setStartEdit] = useState(false);
   const addOrEditUpdateDraft = useSelector(addOrEditUpdateDraftSelector);
   const [loading, setLoading] = useState(false);
-
   // const Control_ID = query.get('Assessment_id') || !isModal ? 'ATR_MJE_01a-K' : '';
   const Control_ID = Assessment_id || query.get('Control_ID');
+  const responseUpdatedData=responseData.data?.Latest_Response||responseData.data?.Latest_response
   const handleClose = () => {
     if (startEdit && responseData?.data?.Attempt_no <= 5) {
       Swal.fire({
@@ -109,7 +109,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       } else {
         dispatch(
           getAssessmentAns({
-            assessment_id: Control_ID,
+            assessment_id: activeData.id||Control_ID,
             cowner: accounts[0]?.username,
           }),
         );
@@ -117,8 +117,8 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
 
       dispatch(
         getAssessmentSection2Ans({
-          MICS_code: Control_ID,
-          Entity_ID: 'Argentina',
+          MICS_code: activeData.id || Control_ID ,
+          Entity_ID: activeData.Provider,
           KPI_From: activeData.KPI_From || '',
           KPI_To: activeData.KPI_To || '',
         }),
@@ -139,12 +139,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   }, [terminating]);
 
   useEffect(() => {
-    if (responseData.data?.Latest_response) {
-      if (responseData.data?.Latest_response.s1)
-        setAnsSection1(responseData.data?.Latest_response.s1);
+    if (responseUpdatedData) {
+      if (responseUpdatedData.s1)
+        setAnsSection1(responseUpdatedData.s1);
 
-      if (responseData.data?.Latest_response?.s3?.length > 0) {
-        const section3Data = responseData.data?.Latest_response?.s3?.reduce(
+      if (responseUpdatedData?.s3?.length > 0) {
+        const section3Data = responseUpdatedData?.s3?.reduce(
           (acc, [k, v]) => ((acc[k] = v), acc),
           {},
         );
@@ -153,12 +153,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
 
         if (section3Data.L2) {
           setTimeout(() => {
-            dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
+            dispatch(getSection3Questions({ Level: 'L2', Control_ID: activeData.id||Control_ID }));
           }, 1000);
         }
         if (section3Data.L3) {
           setTimeout(() => {
-            dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
+            dispatch(getSection3Questions({ Level: 'L3', Control_ID: activeData.id||Control_ID }));
             setTerminating(true);
           }, 2000);
         }
@@ -275,6 +275,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       }
     });
   };
+  
 
   if (!isModal)
     return (
@@ -315,7 +316,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         />
       </>
     );
-
   return (
     <CustomModal
       bodyClassName="p-0"
