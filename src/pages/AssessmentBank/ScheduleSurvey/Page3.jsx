@@ -218,13 +218,11 @@ const Page3 = ({ handleNext, setStep }) => {
       console.log(payload, 'API Payload with Specific Controls one time');
       dispatch(getScheduleSurveyPage_3_table(payload));
     }
-  }, []);
+  }, [getScheduleSurveyPage_2_table_State?.data]);
 
   const handleOnclickCancel = () => {
     history.push('/assessmentbank');
   };
-
-  // table code below
 
   const TABLE_COLUMNS = [
     {
@@ -280,6 +278,7 @@ const Page3 = ({ handleNext, setStep }) => {
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
   }, []);
+
   useEffect(() => {
     if (!getScheduleSurveyPage_3_table_State?.data[0]?.controlInstances) return;
     setTableData(
