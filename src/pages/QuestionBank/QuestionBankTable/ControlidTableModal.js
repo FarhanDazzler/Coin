@@ -112,7 +112,7 @@ const ControlidTableModal = ({ open, handleClose, type = 'Standard', selectedCon
 
   const TemplateOptions = [
     { label: 'Default Template', value: 'Standard' },
-    { label: 'Custom Template', value: selectContrilId },
+    { label: 'Custom Template', value: selectedControlId },
   ];
   useEffect(() => {
     if (AddQuestionSuccess?.success) {
