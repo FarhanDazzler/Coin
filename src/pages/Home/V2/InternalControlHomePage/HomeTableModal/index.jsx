@@ -191,8 +191,9 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         setLoading(true);
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
         const s1FailObj = ansSection1.find((ans) =>
-          ['Text With Select', 'Dropdown'].includes(ans.question_type),
+          ['Text With Select','Free Text', 'Dropdown'].includes(ans.question_type),
         );
+        
         const payload = {
           Assessment_ID: activeData.id,
           Assessment_result: showNoQuestionAns || s1FailObj ? 'Fail' : 'Pass',
