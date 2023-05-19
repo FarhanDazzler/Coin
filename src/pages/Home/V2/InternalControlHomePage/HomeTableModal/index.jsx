@@ -205,7 +205,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           event: {
             onSuccess: () => {
               setLoading(false);
-              if (showNoQuestionAns) {
+              if (showNoQuestionAns || s1FailObj) {
                 Swal.fire('Your Assesment has been failed', '', 'success');
               } else {
                 Swal.fire('Your Assesment has been passed', '', 'success');
