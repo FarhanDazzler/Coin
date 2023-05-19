@@ -138,7 +138,7 @@ const MegaAndSubprocessTable = () => {
 
   return (
     <>
-      <div className="container mt-5">
+      <div className="container mt-5" id='MegaAndSubprocessManage'>
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
             <div className="mdm-table-button">
