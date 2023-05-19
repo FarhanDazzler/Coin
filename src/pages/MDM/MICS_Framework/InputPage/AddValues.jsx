@@ -929,8 +929,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               className="form-select"
                             >
                               <option value="">Select FinTech</option>
-                              <option value="Yes">Yes</option>
-                              <option value="No">No</option>
+                              <option value="Fintech Only">Fintech Only</option>
                             </Form.Control>
 
                             {!!touched.Fintech && (
@@ -964,6 +963,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               <option value="">Select DTC</option>
                               <option value="DTC & Non-DTC">DTC & Non-DTC</option>
                               <option value="DTC Only">DTC Only</option>
+                              <option value="Non DTC">Non DTC</option>
                             </Form.Control>
 
                             {!!touched.DTC && (

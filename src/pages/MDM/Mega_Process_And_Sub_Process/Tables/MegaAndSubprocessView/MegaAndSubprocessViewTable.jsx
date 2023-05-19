@@ -70,6 +70,12 @@ const MegaAndSubprocessViewTable = () => {
 
   const handleOnclickTableUnhide = () => {
     dispatch(megaAndSubprocessManageButton(!megaAndSubprocessManageButtonState));
+    setTimeout(() => {
+      const dom = document.getElementById('MegaAndSubprocessManage');
+      if (dom) {
+        dom.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+      }
+    }, 500);
   };
   const ActiveTool = ({ number, text }) => (
     <Tooltip title={text} placement="bottom-start">
