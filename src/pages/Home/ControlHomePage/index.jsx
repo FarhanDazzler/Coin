@@ -42,7 +42,7 @@ const ControlHomePage = () => {
     setStatusInfo({
       notStarted: getNumberOfItem(allstatus, 'Not started'),
       completed: getNumberOfItem(allstatus, 'Completed'),
-      draft: getNumberOfItem(allstatus, 'Draft'),
+      draft: getNumberOfItem(allstatus, 'Drafted'),
       reAssessed: getNumberOfItem(allstatus, 'Re-assessed'),
     });
   }, [getControlOwnerData.data, loginUserRole,userRole]);

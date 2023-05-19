@@ -41,7 +41,7 @@ const InternalControlHomePage = () => {
     setStatusInfo({
       notStarted: getNumberOfItem(allstatus, 'Not started'),
       completed:completedAssessment ,
-      draft: getNumberOfItem(allstatus, 'Draft'),
+      draft: getNumberOfItem(allstatus, 'Drafted'),
       reAssessed: getNumberOfItem(allstatus, 'Incorrect Owner'),
       completedRatio:((completedAssessment/allstatus.length)*100)?.toFixed(0),
       total:allstatus?.length
