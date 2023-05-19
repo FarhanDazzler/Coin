@@ -42,7 +42,7 @@ const InternalControlHomePage = () => {
       notStarted: getNumberOfItem(allstatus, 'Not started'),
       completed:completedAssessment ,
       draft: getNumberOfItem(allstatus, 'Drafted'),
-      reAssessed: getNumberOfItem(allstatus, 'Incorrect Owner'),
+      reAssessed: getNumberOfItem(allstatus, 'Re-Triggered'),
       completedRatio:((completedAssessment/allstatus.length)*100)?.toFixed(0),
       total:allstatus?.length
     });
@@ -98,7 +98,7 @@ const InternalControlHomePage = () => {
                       number={statusInfo.draft}
                       tooltip={
                         <div>
-                          <span className="yellow-text"> Draft : </span>
+                          <span className="yellow-text"> Drafted : </span>
                           <span>
                             Owner has started & saved the assessment as draft, however not
                             submitted.
