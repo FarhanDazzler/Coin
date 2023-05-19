@@ -34,6 +34,7 @@ import ControlHomePage from './pages/Home/ControlHomePage';
 import InternalControlHomePage from './pages/Home/V2/InternalControlHomePage';
 import AssessmentDetailsTableData from './pages/AssessmentBank/Table/AssessmentDetailsTableData.jsx';
 import REP_Letters_HomePage from './pages/REP_Letters_Module/Home';
+import POC from './pages/TestPages_For_POC_only/POC.jsx';
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -89,25 +90,24 @@ const Pages = () => {
         localStorage.setItem('Roles', res?.data.data.roles);
         Cookies.set('token', res?.data.token);
         setUserToken(res?.data.token);
-        if(accounts[0]?.username)
-       {
-        axios
-        .get(
-          `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_user_role?User_Email=${accounts[0]?.username}`,
-          {
-            headers: {
-              Authorization: `Bearer ${res?.data.token}`,
-            },
-          },
-        )
-        .then(async (res) => {
-          console.log(res.data.data[0], 'User Role');
-          // localStorage.setItem('user_Role', res?.data.data[0]?.User_Role);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-       }
+        if (accounts[0]?.username) {
+          axios
+            .get(
+              `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_user_role?User_Email=${accounts[0]?.username}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${res?.data.token}`,
+                },
+              },
+            )
+            .then(async (res) => {
+              console.log(res.data.data[0], 'User Role');
+              // localStorage.setItem('user_Role', res?.data.data[0]?.User_Role);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
         //localStorage.setItem('token', res?.data.token);
       })
       .catch((err) => {
@@ -225,6 +225,7 @@ const Pages = () => {
             path="/assessmentbank/assessment-details"
             component={AssessmentDetailsTableData}
           />
+          <Route exact path="/POC" component={POC} />
           <Route
             path="*"
             render={(props) => {
