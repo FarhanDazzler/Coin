@@ -25,8 +25,8 @@ function* handleGetInternalControlData({ payload: copyPayload }) {
         type: GET_INTERNAL_CONTROL_TABLE_SUCCESS,
         payload: { data: response.data, Control_ID: payload.Control_ID },
       });
-      if (events?.onSeccess) {
-        events.onSeccess();
+      if (events?.onSuccess) {
+        events.onSuccess();
       }
     }
   } catch (error) {
@@ -49,8 +49,8 @@ function* handleGetControlOwnerData({ payload: copyPayload }) {
         type: GET_CONTROL_OWNER_TABLE_SUCCESS,
         payload: { data: response.data, Control_ID: payload.Control_ID },
       });
-      if (events?.onSeccess) {
-        events.onSeccess();
+      if (events?.onSuccess) {
+        events.onSuccess();
       }
     }
   } catch (error) {

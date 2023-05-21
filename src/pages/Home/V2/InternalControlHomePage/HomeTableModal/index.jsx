@@ -47,7 +47,8 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const [loading, setLoading] = useState(false);
   // const Control_ID = query.get('Assessment_id') || !isModal ? 'ATR_MJE_01a-K' : '';
   const Control_ID = Assessment_id || query.get('Control_ID');
-  const responseUpdatedData=responseData.data?.Latest_Response||responseData.data?.Latest_response
+  const responseUpdatedData =
+    responseData.data?.Latest_Response || responseData.data?.Latest_response;
   const handleClose = () => {
     if (startEdit && responseData?.data?.Attempt_no <= 5) {
       Swal.fire({
@@ -109,7 +110,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       } else {
         dispatch(
           getAssessmentAns({
-            assessment_id: activeData.id||Control_ID,
+            assessment_id: activeData.id || Control_ID,
             cowner: accounts[0]?.username,
           }),
         );
@@ -117,7 +118,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
 
       dispatch(
         getAssessmentSection2Ans({
-          MICS_code: activeData.id || Control_ID ,
+          MICS_code: activeData.id || Control_ID,
           Entity_ID: activeData.Provider,
           KPI_From: activeData.KPI_From || '',
           KPI_To: activeData.KPI_To || '',
@@ -140,8 +141,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
 
   useEffect(() => {
     if (responseUpdatedData) {
-      if (responseUpdatedData.s1)
-        setAnsSection1(responseUpdatedData.s1);
+      if (responseUpdatedData.s1) setAnsSection1(responseUpdatedData.s1);
 
       if (responseUpdatedData?.s3?.length > 0) {
         const section3Data = responseUpdatedData?.s3?.reduce(
@@ -153,12 +153,24 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
 
         if (section3Data.L2) {
           setTimeout(() => {
-            dispatch(getSection3Questions({ Level: 'L2', Control_ID: activeData.id||Control_ID }));
+            dispatch(
+              getSection3Questions({
+                Level: 'L2',
+                Control_ID: Control_ID,
+                Assessment_ID: activeData.id,
+              }),
+            );
           }, 1000);
         }
         if (section3Data.L3) {
           setTimeout(() => {
-            dispatch(getSection3Questions({ Level: 'L3', Control_ID: activeData.id||Control_ID }));
+            dispatch(
+              getSection3Questions({
+                Level: 'L3',
+                Control_ID: Control_ID,
+                Assessment_ID: activeData.id,
+              }),
+            );
             setTerminating(true);
           }, 2000);
         }
@@ -191,9 +203,9 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         setLoading(true);
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
         const s1FailObj = ansSection1.find((ans) =>
-          ['Text With Select','Free Text', 'Dropdown'].includes(ans.question_type),
+          ['Text With Select', 'Free Text', 'Dropdown'].includes(ans.question_type),
         );
-        
+
         const payload = {
           Assessment_ID: activeData.id,
           Assessment_result: showNoQuestionAns || s1FailObj ? 'Fail' : 'Pass',
@@ -226,6 +238,11 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+          },
+          events: {
+            onSuccess: () => {
+              history.push('/');
+            },
           },
         };
         dispatch(addOrUpdateDraft(payload));
@@ -264,7 +281,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
           },
           events: {
-            onSeccess: () => {
+            onSuccess: () => {
               Swal.fire('Draft saved successfully', '', 'success');
               history.push('/');
             },
@@ -275,7 +292,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       }
     });
   };
-  
 
   if (!isModal)
     return (
