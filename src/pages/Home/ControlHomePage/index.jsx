@@ -42,8 +42,8 @@ const ControlHomePage = () => {
     setStatusInfo({
       notStarted: getNumberOfItem(allstatus, 'Not started'),
       completed: getNumberOfItem(allstatus, 'Completed'),
-      draft: getNumberOfItem(allstatus, 'Draft'),
-      reAssessed: getNumberOfItem(allstatus, 'Re-assessed'),
+      draft: getNumberOfItem(allstatus, 'Drafted'),
+      reAssessed: getNumberOfItem(allstatus, 'Re-Triggered'),
     });
   }, [getControlOwnerData.data, loginUserRole,userRole]);
 
@@ -83,7 +83,7 @@ const ControlHomePage = () => {
                   amount={statusInfo.draft}
                   infoText={
                     <>
-                      Draft
+                      Drafted
                     </>
                   }
                 />
