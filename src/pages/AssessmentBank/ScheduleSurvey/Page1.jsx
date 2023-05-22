@@ -229,10 +229,10 @@ const Page1 = ({ handleNext }) => {
                         className="form-select"
                       >
                         <option value="">Select Assessment Cycle</option>
-                        <option value="AssessmentCycle1">Assessment Cycle 1</option>
+                        <option value="Assessment Cycle 1">Assessment Cycle 1</option>
                         <option value="Assessment Cycle 2">Assessment Cycle 2</option>
-                        <option value="AssessmentCycle3">Assessment Cycle 3</option>
-                        <option value="AssessmentCycle4">Assessment Cycle 4</option>
+                        <option value="Assessment Cycle 3">Assessment Cycle 3</option>
+                        <option value="Assessment Cycle 4">Assessment Cycle 4</option>
                       </Form.Control>
 
                       {!!touched.Assessment_Cycle && (

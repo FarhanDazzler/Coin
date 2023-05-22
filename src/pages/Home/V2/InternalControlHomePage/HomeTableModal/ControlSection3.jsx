@@ -9,6 +9,7 @@ import RenderBlockWrapper from '../../../../../components/RenderBlock/RenderBloc
 import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAction';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import { getFormatQuestions, getQuestionsFormatData } from '../../../../../utils/helper';
+import { useLocation } from 'react-router';
 
 const ControlSection3 = ({
   setTerminating,
@@ -20,9 +21,10 @@ const ControlSection3 = ({
   isModal,
 }) => {
   const history = useHistory();
+  const { state } = useLocation();
   const { Assessment_id = '' } = useParams();
   const query = new URLSearchParams(history.location.search);
-  const Control_ID =Assessment_id|| query.get('Control_ID');
+  const Control_ID = Assessment_id || query.get('Control_ID');
   const questionData = useSelector(question3Selector);
   const dispatch = useDispatch();
   const [render, setRender] = useState(false);
@@ -62,7 +64,9 @@ const ControlSection3 = ({
   const handleChangeNoQuestion = (val) => setShowNoQuestionAns(val);
 
   useEffect(() => {
-    dispatch(getSection3Questions({ Level: 'L1', Control_ID: Control_ID }));
+    dispatch(
+      getSection3Questions({ Level: 'L1', Control_ID: Control_ID, Assessment_ID: state.id }),
+    );
   }, []);
 
   useEffect(() => {
