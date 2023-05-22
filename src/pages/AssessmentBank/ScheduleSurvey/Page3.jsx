@@ -674,6 +674,7 @@ const Page3 = ({ handleNext, setStep }) => {
               onClick={() => {
                 handleOnclickCancel();
                 dispatch(getScheduleSurveyPage_3_table({}));
+                dispatch(getScheduleSurveyPage_2_table({}));
                 dispatch(ScheduleSurveyPage_3({}));
                 dispatch(ScheduleSurveyPage_2({}));
                 dispatch(ScheduleSurveyPage_1({}));
