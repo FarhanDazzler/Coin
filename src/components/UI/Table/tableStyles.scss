@@ -2,13 +2,14 @@
   th.MuiTableCell-root.MuiTableCell-head {
     position: relative;
   }
-  .Mui-TableHeadCell-Content.MuiBox-root {
-    padding-bottom: 40px;
+  .MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered {
+    padding-top: 10px;
+    
   }
   .MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered {
-    position: absolute;
-    bottom: 12px;
-    width: calc(100% - 35px);
+    // position: absolute;
+    // bottom: 12px;
+    // width: calc(100% - 35px);
   }
 }
 .main-table-wrapper {

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import MaterialReactTable from 'material-react-table';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { FloatRight } from 'tabler-icons-react';
 
 import cs from 'classnames';
 import './tableStyles.scss';
@@ -45,6 +46,12 @@ const Table2 = ({
           getRowId={(row) => row.id} //give each row a more useful id
           onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
           state={{ rowSelection, isLoading: loading }} //pass our managed row selection state to the table to use
+          renderTopToolbarCustomActions={({ table }) => (
+            <div style={{ padding: 10 }}>
+              <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
+              <span style={{ paddingLeft: '16px' }}>Table Name</span>
+            </div>
+          )}
         />
       </div>
     </ThemeProvider>
