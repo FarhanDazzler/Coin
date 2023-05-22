@@ -55,7 +55,7 @@ const Page3 = ({ handleNext, setStep }) => {
   const getAllEntityFromBU_State = useSelector(getAllEntityFromBUSelector);
   const getAllProviderFromEntity_State = useSelector(getAllProviderFromEntitySelector);
   const getScheduleSurveyPage_2_table_State = useSelector(getScheduleSurveyPage_2_tableSelector);
-  console.log("getScheduleSurveyPage_2_table_State",getScheduleSurveyPage_2_table_State);
+  console.log('getScheduleSurveyPage_2_table_State', getScheduleSurveyPage_2_table_State);
 
   // states to store inputs from multi select buttons
   const [zoneValue, setZoneValue] = useState(scheduleSurveyPage_3_State?.Zone || []);
@@ -74,7 +74,7 @@ const Page3 = ({ handleNext, setStep }) => {
   // getting Mega Process dropdown values from API
   const getMegaProcessMicsFrameworkState = useSelector(getMegaProcessMicsFrameworkSelector);
   const getScheduleSurveyPage_3_table_State = useSelector(getScheduleSurveyPage_3_tableSelector);
-  console.log("getScheduleSurveyPage_3_table_State", getScheduleSurveyPage_3_table_State);
+  console.log('getScheduleSurveyPage_3_table_State', getScheduleSurveyPage_3_table_State);
 
   useEffect(() => {
     dispatch(getMegaProcessMicsFramework());
@@ -678,6 +678,8 @@ const Page3 = ({ handleNext, setStep }) => {
                 handleOnclickCancel();
                 dispatch(getScheduleSurveyPage_3_table({}));
                 dispatch(ScheduleSurveyPage_3({}));
+                dispatch(ScheduleSurveyPage_2({}));
+                dispatch(ScheduleSurveyPage_1({}));
               }}
             >
               Cancel

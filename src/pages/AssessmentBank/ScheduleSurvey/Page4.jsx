@@ -13,12 +13,19 @@ import { Divider, Box } from '@mantine/core';
 import Workbook from 'react-excel-workbook';
 import '../AssessmentBankLandingPage.scss';
 import {
-  addAssessmentSchedulingAndTriggeringSelector,
+  ScheduleSurveyPage_1,
+  ScheduleSurveyPage_2,
+  ScheduleSurveyPage_3,
+  getScheduleSurveyPage_2_table,
+  getScheduleSurveyPage_3_table,
+} from '../../../redux/AssessmentBank/AssessmentBankAction';
+import {
   scheduleSurveyPage_1Selector,
   scheduleSurveyPage_2Selector,
   scheduleSurveyPage_3Selector,
 } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
 import { addAssessmentSchedulingAndTriggering } from '../../../redux/AssessmentBank/AssessmentBankAction';
+import { months } from '../../QuestionBank/CreateQuestions/constant';
 
 const Page4 = ({ handleNext, setStep }) => {
   const dispatch = useDispatch();
@@ -32,6 +39,10 @@ const Page4 = ({ handleNext, setStep }) => {
   const handleOnclickCancel = () => {
     history.push('/assessmentbank');
   };
+  // console.log(
+  //   months.find((obj) => obj['label'] === scheduleSurveyPage_1_State.KPI_From_month).value,
+  //   'Months',
+  // );
 
   const handleOnclickSubmit = () => {
     let payload = {
@@ -65,7 +76,11 @@ const Page4 = ({ handleNext, setStep }) => {
             <div className="col-lg-6">
               <span className="grey-text font-weight-bold">Question Bank:</span>
             </div>
-            <div className="col-lg-6">{scheduleSurveyPage_1_State.Question_Bank}</div>
+            <div className="col-lg-6">
+              {scheduleSurveyPage_1_State.Question_Bank === 'Template1'
+                ? 'Default Template'
+                : 'Custom Template'}
+            </div>
           </div>
         </div>
 
@@ -92,7 +107,12 @@ const Page4 = ({ handleNext, setStep }) => {
             <div className="col-lg-6">
               <span className="grey-text font-weight-bold">KPI From:</span>
             </div>
-            <div className="col-lg-6">{scheduleSurveyPage_1_State.KPI_From}</div>
+            <div className="col-lg-6">
+              {months.find((obj) => obj['label'] === scheduleSurveyPage_1_State.KPI_From_month)
+                .value +
+                '/' +
+                scheduleSurveyPage_1_State.KPI_From_Year}
+            </div>
           </div>
         </div>
 
@@ -101,7 +121,12 @@ const Page4 = ({ handleNext, setStep }) => {
             <div className="col-lg-6">
               <span className="grey-text font-weight-bold">KPI To:</span>
             </div>
-            <div className="col-lg-6">{scheduleSurveyPage_1_State.KPI_To}</div>
+            <div className="col-lg-6">
+              {months.find((obj) => obj['label'] === scheduleSurveyPage_1_State.KPI_To_Month)
+                .value +
+                '/' +
+                scheduleSurveyPage_1_State.KPI_To_Year}
+            </div>
           </div>
         </div>
 
@@ -176,7 +201,18 @@ const Page4 = ({ handleNext, setStep }) => {
       <div className="footer-action-AssessmentBank">
         <div className="d-flex align-items-center justify-content-end">
           <div>
-            <Button variant="outlined" color="secondary" onClick={() => handleOnclickCancel()}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => {
+                handleOnclickCancel();
+                dispatch(getScheduleSurveyPage_3_table({}));
+                dispatch(ScheduleSurveyPage_3({}));
+                dispatch(getScheduleSurveyPage_2_table({}));
+                dispatch(ScheduleSurveyPage_2({}));
+                dispatch(ScheduleSurveyPage_1({}));
+              }}
+            >
               Cancel
             </Button>
             <Button
