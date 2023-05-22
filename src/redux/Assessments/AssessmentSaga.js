@@ -81,8 +81,8 @@ function* handleAddOrUpdateDraft({ payload: copyPayload }) {
         type: ADD_OR_UPDATE_DRAFT_SUCCESS,
         payload: { data: response.data, Control_ID: payload.Control_ID },
       });
-      if (events?.onSeccess) {
-        events.onSeccess();
+      if (events?.onSuccess) {
+        events.onSuccess();
       }
     }
   } catch (error) {

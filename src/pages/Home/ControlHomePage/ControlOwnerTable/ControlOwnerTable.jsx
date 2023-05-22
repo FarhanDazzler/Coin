@@ -20,10 +20,10 @@ const ControlOwnerTable = ({ tableName }) => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
-  const token=Cookies.get('token')
+  const token = Cookies.get('token');
 
   const history = useHistory();
- 
+
   const { accounts } = useMsal();
   const dispatch = useDispatch();
   const userRole = localStorage.getItem('selected_Role');
@@ -69,13 +69,13 @@ const ControlOwnerTable = ({ tableName }) => {
               <Button
                 className="mr-2"
                 // onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
-                onClick={() => handleControlIDClick(row.row.Control_ID,row.row)}
+                onClick={() => handleControlIDClick(row.row.Control_ID, row.row)}
               >
                 Review
               </Button>
             )}
-            {['Not started', 'Re-assessed','Drafted'].includes(row.row.Status) && (
-              <Button onClick={() => history.push(`/Assessments/${row.row.Control_ID}`,row.row)}>
+            {['Not started', 'Re-assessed', 'Drafted'].includes(row.row.Status) && (
+              <Button onClick={() => history.push(`/Assessments/${row.row.Control_ID}`, row.row)}>
                 Take Assessment
               </Button>
             )}
@@ -172,7 +172,7 @@ const ControlOwnerTable = ({ tableName }) => {
     },
     {
       field: 'Control_Owner',
-      headerName: "Control \nOwner",
+      headerName: 'Control \nOwner',
       flex: 1,
       cellClassName: 'dashboardCell',
       minWidth: 250,
@@ -206,7 +206,7 @@ const ControlOwnerTable = ({ tableName }) => {
   const Provider = controlOwnerData?.map((i) => i.Provider);
   const year = controlOwnerData?.map((i) => i.Year);
   const assessment_Cycle = controlOwnerData?.map((i) => i.Assessment_Cycle);
-  const handleControlIDClick = (id,row) => {
+  const handleControlIDClick = (id, row) => {
     //TODO: modal redirect
     let payload = {
       controlId: id,
@@ -217,7 +217,7 @@ const ControlOwnerTable = ({ tableName }) => {
     };
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
-    history.push(`${history.location.pathname}?Control_ID=${id}`,row);
+    history.push(`${history.location.pathname}?Control_ID=${id}`, row);
   };
 
   function removeDuplicates(arr) {
