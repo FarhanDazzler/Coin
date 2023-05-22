@@ -42,10 +42,9 @@ const Table2 = ({
     fieldSeparator: ',',
     quoteStrings: '"',
     decimalSeparator: '.',
-    showLabels: true,
+    useTextFile: false,
     useBom: true,
-    useKeysAsHeaders: false,
-    headers: tableColumns.map((c) => c.header),
+    useKeysAsHeaders: true,
   };
 
   const csvExporter = new ExportToCsv(csvOptions);
@@ -70,11 +69,11 @@ const Table2 = ({
           onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
           state={{ rowSelection, isLoading: loading }} //pass our managed row selection state to the table to use
           renderTopToolbarCustomActions={({ table }) => (
-            <div style={{ padding: 10 }}>
-              <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-              <span style={{ paddingLeft: '16px' }}>Table Name</span>
+            <div style={{ padding: '4px 10px' }}>
+              {/*<FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />*/}
+              {/*<span style={{ paddingLeft: '16px' }}>Table Name</span>*/}
               <>
-                <Box sx={{ display: 'flex', gap: '1rem', p: '0.5rem', flexWrap: 'wrap' }}>
+                <Box sx={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                   <Button
                     color="primary"
                     //export all data that is currently in the table (ignore pagination, sorting, filtering, etc.)
