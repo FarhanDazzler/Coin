@@ -77,7 +77,7 @@ const ControlActions = () => {
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Assessment Cycle: </span>
-              <span>{1}</span>
+              <span>{stateControlData?.assessment_cycle}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Frequency of control: </span>
