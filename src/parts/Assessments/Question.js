@@ -26,7 +26,7 @@ const Question = () => {
   useEffect(() => {
     let payload = {
       controlId: Id,
-      coOwner: accounts.length > 0 ? accounts[0].username : '',
+      coOwner: state?.Control_Owner,
     };
     let gcdPayload = {
       controlId: Id,
