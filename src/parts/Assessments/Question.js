@@ -33,7 +33,7 @@ const Question = () => {
     };
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
-    dispatch(getAssessmentAns({ COwner: accounts[0].username, Control_ID: state.id }));
+    dispatch(getAssessmentAns({ COwner: state?.Control_Owner, Control_ID: state.id }));
   }, []);
   return (
     <div className="text-left container">

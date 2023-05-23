@@ -4,7 +4,9 @@
   }
   .MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered {
     padding-top: 10px;
-    
+  }
+  .Mui-TableHeadCell-Content.MuiBox-root {
+    justify-content: center;
   }
   .MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered {
     // position: absolute;
@@ -141,3 +143,6 @@
     }
   }
 
+td.MuiTableCell-root.MuiTableCell-body {
+  text-align: center;
+}
