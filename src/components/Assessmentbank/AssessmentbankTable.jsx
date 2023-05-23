@@ -114,7 +114,6 @@ const AssessmentbankTable = () => {
     setTableData(TABLE_ROES);
   }, []);
 
-  console.log('tableData', tableData, tableColumns);
   return (
     <>
       {/*<div className="rounded-4 shadow-4 float-end mb-3">*/}
