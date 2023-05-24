@@ -53,7 +53,7 @@ const InternalControlTable = (props) => {
     //TODO: modal redirect
     let payload = {
       controlId: id,
-      coOwner: accounts.length > 0 ? accounts[0].username : '',
+      coOwner: row.Control_Owner,
     };
     let gcdPayload = {
       controlId: id,
