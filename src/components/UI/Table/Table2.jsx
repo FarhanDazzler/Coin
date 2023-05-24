@@ -73,7 +73,9 @@ const Table2 = ({
               {/*<FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />*/}
               {/*<span style={{ paddingLeft: '16px' }}>Table Name</span>*/}
               <>
-                <Box sx={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <Box sx={{ display: 'flex',
+                //  gap: '1rem', flexWrap: 'wrap' 
+                 }}>
                   <Button
                     color="primary"
                     //export all data that is currently in the table (ignore pagination, sorting, filtering, etc.)
