@@ -23,7 +23,9 @@ const Dropdown = ({
   };
 
   return (
-    <FormControl className="dropdown-wrapper" {...formControlProps} size="small">
+    <FormControl 
+    disabled={disabled}
+    className="dropdown-wrapper" {...formControlProps} size="small">
       {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
       <Select
         labelId={uuidv4()}
