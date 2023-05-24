@@ -49,18 +49,18 @@ const InternalControlTable = (props) => {
     );
   }, [token]);
 
-  const handleControlIDClick = (id) => {
+  const handleControlIDClick = (id,row) => {
     //TODO: modal redirect
     let payload = {
       controlId: id,
-      coOwner: accounts.length > 0 ? accounts[0].username : '',
+      coOwner: row.Control_Owner,
     };
     let gcdPayload = {
       controlId: id,
     };
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
-    history.push(`${history.location.pathname}?Control_ID=${id}`);
+    history.push(`${history.location.pathname}?Control_ID=${id}`,row);
   };
 
   const getDashBoardDataState = useSelector(getInternalControlDataSelector);
@@ -100,7 +100,7 @@ const InternalControlTable = (props) => {
         return (
           <div>
             {row.row.Status === 'Completed' && (
-              <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>Review</Button>
+              <Button onClick={() => handleControlIDClick(row.row.Control_ID,row.row)}>Review</Button>
             )}
             {/* {['Not started', 'Re-assessed'].includes(row.row.Status) && (
               <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>

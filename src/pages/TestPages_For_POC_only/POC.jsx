@@ -65,9 +65,11 @@ const ControlOwnerTable = ({ tableName }) => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       minWidth: 200,
+      size: 210,
+      filterPlaceholder: 'test',
       Cell: (row) => {
         return (
-          <div>
+          <div className="text-center">
             {row.row.original.Status === 'Completed' && (
               <Button
                 className="mr-2"
@@ -93,7 +95,7 @@ const ControlOwnerTable = ({ tableName }) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 90,
+      size: 90,
     },
     {
       accessorKey: 'Receiver',
@@ -102,7 +104,7 @@ const ControlOwnerTable = ({ tableName }) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 230,
     },
     {
       accessorKey: 'Provider',
@@ -111,7 +113,7 @@ const ControlOwnerTable = ({ tableName }) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 230,
     },
     {
       accessorKey: 'Control_ID',
@@ -120,7 +122,7 @@ const ControlOwnerTable = ({ tableName }) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 140,
+      size: 140,
       Cell: (row) => {
         return (
           <span
@@ -140,7 +142,7 @@ const ControlOwnerTable = ({ tableName }) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 120,
+      size: 120,
       Cell: (row) => {
         return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
       },
@@ -152,7 +154,7 @@ const ControlOwnerTable = ({ tableName }) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 100,
       Cell: (row) => {
         return (
           <span className={class_to_apply(row.row.original.KPI_Result)}>
@@ -168,7 +170,7 @@ const ControlOwnerTable = ({ tableName }) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 150,
+      size: 150,
       Cell: (row) => {
         return (
           <span className={class_to_apply(row.row.original.Assessment_Result)}>
@@ -227,7 +229,7 @@ const ControlOwnerTable = ({ tableName }) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 100,
     },
   ];
 

@@ -110,8 +110,8 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       } else {
         dispatch(
           getAssessmentAns({
-            assessment_id: activeData.id || Control_ID,
-            cowner: accounts[0]?.username,
+            assessment_id: activeData.id,
+            cowner: activeData?.Control_Owner,
           }),
         );
       }

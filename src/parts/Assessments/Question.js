@@ -26,14 +26,14 @@ const Question = () => {
   useEffect(() => {
     let payload = {
       controlId: Id,
-      coOwner: accounts.length > 0 ? accounts[0].username : '',
+      coOwner: state?.Control_Owner,
     };
     let gcdPayload = {
       controlId: Id,
     };
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
-    dispatch(getAssessmentAns({ COwner: accounts[0].username, Control_ID: state.id }));
+    dispatch(getAssessmentAns({ COwner: state?.Control_Owner, Control_ID: state.id }));
   }, []);
   return (
     <div className="text-left container">
