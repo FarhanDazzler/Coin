@@ -11,7 +11,7 @@ import { kpiResultSelector } from '../../../../../redux/Assessments/AssessmentSe
 import { getCsvTampredDataAction } from '../../../../../redux/CsvTampred/CsvTampredAction';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 
-const headerStyles = { backgroundColor: '#f1c40f', color: '#000000', fontWeight: '700' };
+const headerStyles = { color: '#333333', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
 
 const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   const kpiResultData = useSelector(kpiResultSelector);
@@ -130,7 +130,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
     },
     {
       dataField: 'Expected_Numerator',
-      text: 'Expected Numerator',
+      text: 'Expected_Numerator',
       headerStyle: {
         ...headerStyles,
       },
@@ -156,7 +156,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
     },
     {
       dataField: 'Expected_Denominator',
-      text: 'Expected Denominator',
+      text: 'Expected_Denominator',
       headerStyle: {
         ...headerStyles,
       },
@@ -236,8 +236,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   const rowStyle2 = (row, rowIndex) => {
     const style = {};
     if (row.L3_Result === 'Fail' || row.L3_Result === 'Fail' || row.L3_Result === 'Fail') {
-      style.backgroundColor = '#FF7A80';
-      style.color = '#FFFFFF';
+      style.backgroundColor = '#f8dbe0 ';
+      style.color = '#000';
     }
     return style;
   };
@@ -546,23 +546,25 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
               </button>
             </form>
           </div>
+          <div className='renderBlockWrapper section2-table'>
+            <BootstrapTable
+              keyField="id"
+              // cellEdit={ cellEditProp }
+              data={tableData}
+              columns={columns}
+              filter={filterFactory()}
+              pagination={paginationFactory()}
+              className="container pagination"
+              responsive
+              rowStyle={rowStyle2}
+              cellEdit={cellEditFactory({
+                mode: 'click',
+                blurToSave: true,
+                afterSaveCell: handleChange,
+              })}
+            />
+          </div>
 
-          <BootstrapTable
-            keyField="id"
-            // cellEdit={ cellEditProp }
-            data={tableData}
-            columns={columns}
-            filter={filterFactory()}
-            pagination={paginationFactory()}
-            className="container pagination"
-            responsive
-            rowStyle={rowStyle2}
-            cellEdit={cellEditFactory({
-              mode: 'click',
-              blurToSave: true,
-              afterSaveCell: handleChange,
-            })}
-          />
         </div>
       </CollapseFrame>
     </div>

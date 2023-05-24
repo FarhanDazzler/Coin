@@ -72,3 +72,16 @@
   top: 15px;
   cursor: pointer;
 }
+
+.section2-table{
+  .table-bordered{
+    // border: none !important;
+    thead{
+      th{
+        padding-right: 35px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+      }
+    }
+  }
+}
