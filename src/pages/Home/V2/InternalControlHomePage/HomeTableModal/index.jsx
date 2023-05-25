@@ -205,7 +205,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         const s1FailObj = ansSection1.find((ans) =>
           ['Text With Select', 'Free Text', 'Dropdown'].includes(ans.question_type),
         );
-
+        const isupdated=ansSection1.find(i=>i.label==='To whom did you hand over?')
         const payload = {
           Assessment_ID: activeData.id,
           Assessment_result: showNoQuestionAns || s1FailObj ? 'Fail' : 'Pass',
@@ -226,6 +226,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             },
           },
         };
+        if(isupdated) payload.is_incorrect_owner=true
         dispatch(addAssessmentAns(payload));
       }
       if (result.isDenied) {
