@@ -12,17 +12,18 @@ import {
 } from '../../redux/ControlData/ControlDataAction';
 import './Questions.scss';
 import HomeTableModal from '../../pages/Home/V2/InternalControlHomePage/HomeTableModal';
+import PageWrapper from '../../components/wrappers/PageWrapper';
 
 const Question = () => {
   const { Assessment_id } = useParams();
   const history = useHistory();
-  const {state} = useLocation();
+  const { state } = useLocation();
   const query = new URLSearchParams(history.location.pathname);
   // console.log('Assessment_id',Assessment_id)
   // const Assessment_id = 'ATR_MJE_01a-K';
   const { accounts } = useMsal();
   const dispatch = useDispatch();
-  const Id= Assessment_id||query.get('Assessment_id')
+  const Id = Assessment_id || query.get('Assessment_id');
   useEffect(() => {
     let payload = {
       controlId: Id,
@@ -35,10 +36,13 @@ const Question = () => {
     dispatch(getControlDataGcdAction(gcdPayload));
     dispatch(getAssessmentAns({ COwner: state?.Control_Owner, Control_ID: state.id }));
   }, []);
+
   return (
-    <div className="text-left container">
-      <HomeTableModal isModal={false} activeData={state}/>
-    </div>
+    <PageWrapper>
+      <div className="text-left container">
+        <HomeTableModal isModal={false} activeData={state} />
+      </div>
+    </PageWrapper>
   );
 };
 
