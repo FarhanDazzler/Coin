@@ -58,7 +58,7 @@ const InternalControlTable = (props) => {
     };
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
-    history.push(`Assessments/${id}`, row);
+    history.push(`${history.location.pathname}?Control_ID=${id}`, row);
   };
 
   const getDashBoardDataState = useSelector(getInternalControlDataSelector);
