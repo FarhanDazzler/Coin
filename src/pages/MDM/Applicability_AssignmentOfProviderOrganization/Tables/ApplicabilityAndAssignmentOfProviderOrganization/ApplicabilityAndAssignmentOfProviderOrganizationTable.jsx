@@ -171,58 +171,34 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
 
   const handleOnclickAssign = () => {
     // Assign code
-    let assignDataArray = [];
+
     if (editTableIndex.length == 0) {
       Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
     } else if (editTableIndex.length >= 1) {
-      tableData.find((data, i) => {
-        //console.log(i);
-        editTableIndex.map((dataa) => {
-          if (i === dataa) {
-            assignDataArray.push(data);
-            setAssignTableData(assignDataArray);
-            setShowModal(true);
-          }
-        });
-      });
+      setAssignTableData(tableData.filter((data, i) => editTableIndex.includes(data.id)));
+      setShowModal(true);
     }
   };
 
   const handleOnclickGlobalApprove = () => {
-    // Assign code
-    let assignDataArray = [];
+    // Global Approve code
+
     if (editTableIndex.length == 0) {
       Swal.fire('Oops...', 'You need to select table first to Approve', 'error');
     } else if (editTableIndex.length >= 1) {
-      tableData.find((data, i) => {
-        //console.log(i);
-        editTableIndex.map((dataa) => {
-          if (i === dataa) {
-            assignDataArray.push(data);
-            setAssignTableData(assignDataArray);
-            setShowGlobalApproveModal(true);
-          }
-        });
-      });
+      setAssignTableData(tableData.filter((data, i) => editTableIndex.includes(data.id)));
+      setShowGlobalApproveModal(true);
     }
   };
 
   const handleOnclickEdit = () => {
-    // Assign code
-    let assignDataArray = [];
+    // Edit code
+
     if (editTableIndex.length == 0) {
       Swal.fire('Oops...', 'You need to select table first to Edit', 'error');
     } else if (editTableIndex.length >= 1) {
-      tableData.find((data, i) => {
-        //console.log(i);
-        editTableIndex.map((dataa) => {
-          if (i === dataa) {
-            assignDataArray.push(data);
-            setAssignTableData(assignDataArray);
-            setShowEditModal(true);
-          }
-        });
-      });
+      setAssignTableData(tableData.filter((data, i) => editTableIndex.includes(data.id)));
+      setShowEditModal(true);
     }
   };
   console.log('@@@@@@@', tableData, tableColumns);
