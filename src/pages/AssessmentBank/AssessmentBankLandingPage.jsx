@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
-import CustomModal from '../../components/UI/CustomModal';
+import React from 'react';
 import './AssessmentBankLandingPage.scss';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PageWrapper from '../../components/wrappers/PageWrapper';
-import AssessmentbankTable from '../../components/Assessmentbank/AssessmentbankTable';
-import AssessmentBankFilterButtons from '../../components/Assessmentbank/Filter/AssessmentBankFilterButtons';
 import Button from '../../components/UI/Button';
 import { Group } from '@mantine/core';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';

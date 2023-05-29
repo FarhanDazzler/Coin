@@ -14,7 +14,6 @@ import Cookies from 'js-cookie';
 import Home_controlOwner from './pages/Home/Home_controlOwner';
 import { UserContext, UserContextProvider } from './context/userContext';
 import dataService from './services/dataService';
-import Question from './parts/Assessments/Question';
 //import QuestionBank from './components/QuestionBank';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -35,6 +34,7 @@ import InternalControlHomePage from './pages/Home/V2/InternalControlHomePage';
 import AssessmentDetailsTableData from './pages/AssessmentBank/Table/AssessmentDetailsTableData.jsx';
 import REP_Letters_HomePage from './pages/REP_Letters_Module/Home';
 import POC from './pages/TestPages_For_POC_only/POC.jsx';
+import AssessmentForm from './pages/AssessmentForm/AssessmentForm';
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -184,7 +184,7 @@ const Pages = () => {
           )}
 
           <Route exact path="/assessmentbank" component={AssessmentBankLandingPage} />
-          <Route exact path="/Assessments/:Assessment_id" component={Question} />
+          <Route exact path="/Assessments/:Assessment_id" component={AssessmentForm} />
           <Route exact path="/questionbank" component={QuestionBank} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
           <Route exact path="/master-data-management" component={MDM} />

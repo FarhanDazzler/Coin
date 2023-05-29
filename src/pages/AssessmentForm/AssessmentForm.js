@@ -10,11 +10,11 @@ import {
   getControlDataAction,
   getControlDataGcdAction,
 } from '../../redux/ControlData/ControlDataAction';
-import './Questions.scss';
+import './AssessmentForm.scss';
 import HomeTableModal from '../../pages/Home/V2/InternalControlHomePage/HomeTableModal';
 import PageWrapper from '../../components/wrappers/PageWrapper';
 
-const Question = () => {
+const AssessmentForm = () => {
   const { Assessment_id } = useParams();
   const history = useHistory();
   const { state } = useLocation();
@@ -46,4 +46,4 @@ const Question = () => {
   );
 };
 
-export default Question;
+export default AssessmentForm;
