@@ -99,9 +99,10 @@ const AddValues_MDM_Mics_Framework = (props) => {
     };
 
     let editPayload = {
+      id: editTableData?.id,
       Previous_MICS1: value.Previous_MICS1,
       Previous_MICS: value.Previous_MICS,
-      Control_ID: editTableData?.Control_ID,
+      Control_ID: value.Control_ID,
       Mega_Process: value.Mega_Process,
       Category: value.Category,
       Change_Size: value.Change_Size,
@@ -354,7 +355,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               isInvalid={Boolean(touched.Control_ID && errors.Control_ID)}
                               onBlur={handleBlur}
                               onChange={handleChange}
-                              readOnly={modalType === 'add' ? false : true}
+                              readOnly={false}
                               className="form-control"
                             />
 
