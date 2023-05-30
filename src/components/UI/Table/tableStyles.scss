@@ -146,3 +146,17 @@
 td.MuiTableCell-root.MuiTableCell-body {
   text-align: center;
 }
+
+.new-table-button {
+
+  .table-heading {
+      
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      //padding-bottom: 24px;
+      gap: 16px;
+      //width: auto;
+      //height: 24px;
+  }
+}

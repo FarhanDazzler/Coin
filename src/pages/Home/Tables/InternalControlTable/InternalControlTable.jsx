@@ -24,15 +24,13 @@ import Cookies from 'js-cookie';
 const InternalControlTable = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const token=Cookies.get('token')
+  const token = Cookies.get('token');
 
   const { instance, accounts, inProgress } = useMsal();
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const [editTableIndex, setEditTableIndex] = useState([]);
-  const [editTableData, setEditTableData] = useState();
-
   // multi choice user input State for filters button
   const [yearValue, setYearValue] = useState([]);
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
@@ -49,7 +47,7 @@ const InternalControlTable = (props) => {
     );
   }, [token]);
 
-  const handleControlIDClick = (id,row) => {
+  const handleControlIDClick = (id, row) => {
     //TODO: modal redirect
     let payload = {
       controlId: id,
@@ -60,7 +58,7 @@ const InternalControlTable = (props) => {
     };
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
-    history.push(`${history.location.pathname}?Control_ID=${id}`,row);
+    history.push(`${history.location.pathname}?Control_ID=${id}`, row);
   };
 
   const getDashBoardDataState = useSelector(getInternalControlDataSelector);
@@ -100,7 +98,9 @@ const InternalControlTable = (props) => {
         return (
           <div>
             {row.row.Status === 'Completed' && (
-              <Button onClick={() => handleControlIDClick(row.row.Control_ID,row.row)}>Review</Button>
+              <Button onClick={() => handleControlIDClick(row.row.Control_ID, row.row)}>
+                Review
+              </Button>
             )}
             {/* {['Not started', 'Re-assessed'].includes(row.row.Status) && (
               <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>

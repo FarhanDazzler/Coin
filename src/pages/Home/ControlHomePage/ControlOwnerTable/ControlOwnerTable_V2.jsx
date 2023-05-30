@@ -20,7 +20,7 @@ const ControlOwnerTable = ({ tableName }) => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
-  const token=Cookies.get('token')
+  const token = Cookies.get('token');
 
   const history = useHistory();
   const { accounts } = useMsal();

@@ -10,7 +10,7 @@ import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardS
 
 const ControlHomePage = () => {
   const history = useHistory();
-  const {state} = useLocation();
+  const { state } = useLocation();
   const selectedUserRole = localStorage.getItem('selected_Role');
   const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
@@ -31,7 +31,7 @@ const ControlHomePage = () => {
   };
 
   useEffect(() => {
-    if(!userRole?.length || userRole==='undefined') history.push("/not-authorized")
+    if (!userRole?.length || userRole === 'undefined') history.push('/not-authorized');
     const tableData =
       loginUserRole === 'Control owner'
         ? getControlOwnerData.data[0]?.cOwnerData || []
@@ -45,7 +45,7 @@ const ControlHomePage = () => {
       draft: getNumberOfItem(allstatus, 'Drafted'),
       reAssessed: getNumberOfItem(allstatus, 'Re-Triggered'),
     });
-  }, [getControlOwnerData.data, loginUserRole,userRole]);
+  }, [getControlOwnerData.data, loginUserRole, userRole]);
 
   return (
     <div>
@@ -63,38 +63,10 @@ const ControlHomePage = () => {
               <div className="d-flex align-items-center flex-wrap">
                 {/* <AmountInfo amount={12292} infoText={'BU'} />
                 <AmountInfo amount={19} infoText="functional" /> */}
-                <AmountInfo
-                  amount={statusInfo.notStarted}
-                  infoText={
-                    <>
-                      NOT Started
-                    </>
-                  }
-                />
-                <AmountInfo
-                  amount={statusInfo.completed}
-                  infoText={
-                    <>
-                      Completed
-                    </>
-                  }
-                />
-                <AmountInfo
-                  amount={statusInfo.draft}
-                  infoText={
-                    <>
-                      Drafted
-                    </>
-                  }
-                />
-                <AmountInfo
-                  amount={statusInfo.reAssessed}
-                  infoText={
-                    <>
-                      Re-assess
-                    </>
-                  }
-                />
+                <AmountInfo amount={statusInfo.notStarted} infoText={<>NOT Started</>} />
+                <AmountInfo amount={statusInfo.completed} infoText={<>Completed</>} />
+                <AmountInfo amount={statusInfo.draft} infoText={<>Drafted</>} />
+                <AmountInfo amount={statusInfo.reAssessed} infoText={<>Re-assess</>} />
               </div>
             </div>
           </div>
@@ -106,7 +78,7 @@ const ControlHomePage = () => {
           <ControlOwnerTable tableName="Control Oversight" />
         )}
 
-        {Control_ID && <HomeTableModal isModal={true} activeData={state}/>}
+        {Control_ID && <HomeTableModal isModal={true} activeData={state} />}
       </PageWrapper>
     </div>
   );

@@ -7,4 +7,36 @@
   text-align: left;
   color: #fff;
   padding-bottom: 60px;
+
+  .renderBlockWrapper {
+    background: rgba(140, 140, 140, 0.14);
+  }
+  .radio-wrapper .MuiFormLabel-root,
+  .input-wrapper .MuiFormLabel-root,
+  input,
+  .dropdown-wrapper .MuiOutlinedInput-input.MuiInputBase-inputSizeSmall,
+  .dropdown-wrapper .MuiFormLabel-root {
+    color: #fff !important;
+  }
+  .MuiRadio-root {
+    svg {
+      color: #fff;
+    }
+  }
+  .input-wrapper {
+    fieldset {
+      border-color: rgb(255 255 255 / 59%);
+    }
+    .MuiInputBase-root {
+      &:hover {
+        fieldset {
+          border-color: #d3a306;
+        }
+      }
+    }
+  }
+  input:focus {
+    color: #e8e8e8;
+    background-color: #0000;
+  }
 }

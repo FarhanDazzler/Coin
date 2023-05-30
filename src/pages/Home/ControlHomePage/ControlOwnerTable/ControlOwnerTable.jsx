@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import { useDispatch, useSelector } from 'react-redux';
-import Typography from '@mui/material/Typography';
 import {
   getControlDataGcdAction,
   getControlDataAction,

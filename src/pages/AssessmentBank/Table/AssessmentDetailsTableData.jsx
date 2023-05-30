@@ -38,7 +38,7 @@ const FilterButtons = ({
   setReceiverValue,
   setProviderValue,
   setMegaProcessValue,
-  isHide=false
+  isHide = false,
 }) => {
   const [searchValue, onSearchChange] = useState('');
 
@@ -85,26 +85,28 @@ const FilterButtons = ({
           variant="filled"
           size="xs"
         />
-       {!isHide&& <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={Receiver}
-          label={<span className="mantine-MultiSelect-label">{'Receiver Organization'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={receiverValue}
-          onChange={(e) => {
-            setReceiverValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />}
+        {!isHide && (
+          <MultiSelect
+            className="mantine-MultiSelect-wrapper"
+            data={Receiver}
+            label={<span className="mantine-MultiSelect-label">{'Receiver Organization'}</span>}
+            placeholder={'Select your option'}
+            searchable
+            limit={20}
+            searchValue={searchValue}
+            onSearchChange={onSearchChange}
+            nothingFound="Nothing found"
+            clearButtonLabel="Clear selection"
+            clearable
+            value={receiverValue}
+            onChange={(e) => {
+              setReceiverValue(e);
+            }}
+            radius="xl"
+            variant="filled"
+            size="xs"
+          />
+        )}
         <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={Provider}
