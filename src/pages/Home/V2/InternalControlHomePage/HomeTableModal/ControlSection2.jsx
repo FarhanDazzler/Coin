@@ -11,7 +11,7 @@ import { kpiResultSelector } from '../../../../../redux/Assessments/AssessmentSe
 import { getCsvTampredDataAction } from '../../../../../redux/CsvTampred/CsvTampredAction';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 
-const headerStyles = { color: '#333333', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
+const headerStyles = { color: '#fff', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
 
 const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   const kpiResultData = useSelector(kpiResultSelector);
@@ -546,7 +546,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
               </button>
             </form>
           </div>
-          <div className='renderBlockWrapper section2-table'>
+          <div className="renderBlockWrapper section2-table">
             <BootstrapTable
               keyField="id"
               // cellEdit={ cellEditProp }
@@ -564,7 +564,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
               })}
             />
           </div>
-
         </div>
       </CollapseFrame>
     </div>
