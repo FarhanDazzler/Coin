@@ -9,6 +9,58 @@ import { Box, Button } from '@mui/material';
 import cs from 'classnames';
 import './tableStyles.scss';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faArrowDownWideShort,
+  faBars,
+  faBarsStaggered,
+  faColumns,
+  faCompress,
+  faEllipsisH,
+  faEllipsisVertical,
+  faExpand,
+  faEyeSlash,
+  faFilter,
+  faFilterCircleXmark,
+  faGripLines,
+  faSearch,
+  faSearchMinus,
+  faSortDown,
+  faThumbTack,
+} from '@fortawesome/free-solid-svg-icons';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { config } from '@fortawesome/fontawesome-svg-core';
+config.autoAddCss = false;
+
+/**
+ * These are just some of the icons visible in this table's feature set.
+ * If you skip customizing some icons, those particular icons will fallback the the default Material UI icons.
+ */
+const fontAwesomeIcons = {
+  ArrowDownwardIcon: (props) => <FontAwesomeIcon icon={faSortDown} {...props} />,
+  ClearAllIcon: () => <FontAwesomeIcon icon={faBarsStaggered} />,
+  DensityLargeIcon: () => <FontAwesomeIcon icon={faGripLines} />,
+  DensityMediumIcon: () => <FontAwesomeIcon icon={faBars} />,
+  DensitySmallIcon: () => <FontAwesomeIcon icon={faBars} />,
+  DragHandleIcon: () => <FontAwesomeIcon icon={faGripLines} />,
+  FilterListIcon: (props) => <FontAwesomeIcon icon={faFilter} {...props} />,
+  FilterListOffIcon: () => <FontAwesomeIcon icon={faFilterCircleXmark} />,
+  FullscreenExitIcon: () => <FontAwesomeIcon icon={faCompress} />,
+  FullscreenIcon: () => <FontAwesomeIcon icon={faExpand} />,
+  SearchIcon: (props) => <FontAwesomeIcon icon={faSearch} {...props} />,
+  SearchOffIcon: () => <FontAwesomeIcon icon={faSearchMinus} />,
+  ViewColumnIcon: () => <FontAwesomeIcon icon={faColumns} />,
+  MoreVertIcon: () => <FontAwesomeIcon icon={faEllipsisVertical} />,
+  MoreHorizIcon: () => <FontAwesomeIcon icon={faEllipsisH} />,
+  SortIcon: (props) => (
+    <FontAwesomeIcon icon={faArrowDownWideShort} {...props} /> //props so that style rotation transforms are applied
+  ),
+  PushPinIcon: (props) => (
+    <FontAwesomeIcon icon={faThumbTack} {...props} /> //props so that style rotation transforms are applied
+  ),
+  VisibilityOffIcon: () => <FontAwesomeIcon icon={faEyeSlash} />,
+};
+
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -85,12 +137,14 @@ const Table2 = ({
         <MaterialReactTable
           columns={tableColumns}
           data={tableData}
-          initialState={{ showColumnFilters: true }}
+          initialState={{ showColumnFilters: false, density: 'compact' }}
           enableRowSelection
           enableStickyHeader
           getRowId={(row) => row.id} //give each row a more useful id
           onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
           state={{ rowSelection, isLoading: loading }} //pass our managed row selection state to the table to use
+          icons={fontAwesomeIcons}
+          enablePinning
           renderTopToolbarCustomActions={({ table }) => (
             <div className="new-table-button" style={{ padding: '4px 10px' }}>
               {/*<FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />*/}
