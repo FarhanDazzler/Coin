@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
 
 import Table from '../../../../../components/UI/Table';
+import Table2 from '../../../../../components/UI/Table/Table2';
 
 import '../TableStyle.scss';
 
@@ -43,46 +44,58 @@ const OrgHierarchyTable = () => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'zone',
-      headerName: 'Zone',
+      accessorKey: 'zone',
+      id: 'zone',
+      header: 'Zone',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 80,
+      size: 90,
     },
     {
-      field: 'BU',
-      headerName: 'BU',
+      accessorKey: 'BU',
+      id: 'BU',
+      header: 'BU',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 230,
+      size: 230,
     },
     {
-      field: 'country_entity',
-      headerName: 'Entity',
+      accessorKey: 'country_entity',
+      id: 'country_entity',
+      header: 'Entity',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 90,
+      size: 90,
     },
     {
-      field: 'cognos_entity',
-      headerName: 'Cognos',
+      accessorKey: 'cognos_entity',
+      id: 'cognos_entity',
+      header: 'Cognos',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 90,
+      size: 90,
     },
     {
-      field: 'sap_company_code',
-      headerName: 'SAP / ERP',
+      accessorKey: 'sap_company_code',
+      id: 'sap_company_code',
+      header: 'SAP / ERP',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 200,
     },
     {
-      field: 'plant',
-      headerName: 'Plant',
+      accessorKey: 'plant',
+      id: 'plant',
+      header: 'Plant',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 200,
     },
   ];
 
@@ -149,7 +162,11 @@ const OrgHierarchyTable = () => {
                 </div>
               </div>
             </div>
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            <Table2
+              tableData={tableData}
+              loading={orgHierarchy.loading}
+              tableColumns={tableColumns}
+            />
           </div>
         </div>
       </div>
