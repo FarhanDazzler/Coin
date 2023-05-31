@@ -26,7 +26,6 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
     setQuestionType();
   }, [open]);
 
-  console.log(createOptions);
   const handleAddSubmit = () => {
     let payload = {
       Control_ID: controlId,

@@ -59,7 +59,7 @@ const AssessmentbankTable = () => {
       field: 'ControlOwner',
       headerName: 'Control Owner',
       flex: 1,
-      cellClassName: 'dashboardCell',
+      cellClassName: 'dashboardCell',         ====================================================================x
       minWidth: 200,
     },
     {

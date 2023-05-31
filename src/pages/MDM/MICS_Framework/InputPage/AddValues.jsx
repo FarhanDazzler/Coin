@@ -57,7 +57,6 @@ const AddValues_MDM_Mics_Framework = (props) => {
     history.push('/master-data-management/mics-framework');
   };
   const handleSaveAdd = (value) => {
-    console.log(value);
     let payload = {
       Control_ID: value.Control_ID,
       Mega_Process: value.Mega_Process,
@@ -141,10 +140,8 @@ const AddValues_MDM_Mics_Framework = (props) => {
     };
 
     if (modalType === 'add') {
-      console.log('ADD=>>>>>>>>>>>>>>>>>>');
       dispatch(addMicsFramework(payload));
     } else {
-      console.log('Edit=>>>>>>>>>>>>>>>>>>');
       dispatch(updateMicsFramework(editPayload));
     }
   };
@@ -253,7 +250,6 @@ const AddValues_MDM_Mics_Framework = (props) => {
               })}
               onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
                 try {
-                  console.log(values);
                   handleSaveAdd(values);
                   resetForm();
                   history.push('/master-data-management/mics-framework');

@@ -25,14 +25,11 @@ import { Axios } from '../../../../../api/axios';
 const GetParentEntityValue = ({ setCownerValue }) => {
   // Grab values and submitForm from context
   const { values } = useFormikContext();
-  console.log('values', values);
-  useEffect(() => { }, [values]);
+  useEffect(() => {}, [values]);
   return null;
 };
 
 const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
-
-  console.log('selectedControlIds', assignTableData);
   const dispatch = useDispatch();
 
   const userFromAD = useSelector(getUserFromADSelector);
@@ -56,7 +53,6 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
     };
     const getControlInstanceHistoryApi = async () => {
       const result = await Axios.post('/get_control_instances_history', payloadForHistory);
-      console.log(result);
       if (result.success) {
         setHistoryData(result?.data);
       }
@@ -65,7 +61,7 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
     //dispatch(getControlInstanceHistoryAction(payloadForHistory))
   }, []);
 
-  useEffect(() => { }, [isEmailValidADState.data]);
+  useEffect(() => {}, [isEmailValidADState.data]);
 
   useEffect(() => {
     if (!cownerValue) return;
@@ -87,27 +83,25 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
   }, [userFromAD.data]);
 
   const handleSaveAssign = (value) => {
-    console.log(value);
-    
     const newState = assignTableData.map((obj) => {
-      console.log("objjjj",obj)
-      let updateObj={...obj}
+      console.log('objjjj', obj);
+      let updateObj = { ...obj };
       if (value.cowner !== '') {
         updateObj.cowner = value.cowner;
-        updateObj.cowner_valid_from =value.cownerValidFrom ;
+        updateObj.cowner_valid_from = value.cownerValidFrom;
       }
-      if (value.coversight !== "" || value.coversight !== '') {
+      if (value.coversight !== '' || value.coversight !== '') {
         updateObj.coversight = value.coversight;
-        updateObj.coversight_valid_from= value.coversightValidFrom;
+        updateObj.coversight_valid_from = value.coversightValidFrom;
       }
       if (value.cownerValidFrom !== '') {
-        updateObj.cowner_valid_from =value.cownerValidFrom;
+        updateObj.cowner_valid_from = value.cownerValidFrom;
       }
       if (value.cownerValidTo !== '') {
-        updateObj.cowner_valid_to =value.cownerValidTo
+        updateObj.cowner_valid_to = value.cownerValidTo;
       }
       if (value.coversightValidFrom !== '') {
-        updateObj.coversight_valid_from= value.coversightValidFrom;
+        updateObj.coversight_valid_from = value.coversightValidFrom;
       }
       // if (value.coversightValidTo !== '') {
       //   return { ...obj, coversight_valid_to: value.coversightValidTo };
@@ -115,7 +109,6 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
 
       return { ...updateObj };
     });
-    console.log(newState);
     const payload = {
       control_instances: newState,
     };
@@ -141,7 +134,7 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
             coversight: assignTableData.length === 1 ? assignTableData[0]?.coversight : '',
             cownerValidFrom: today ? today : '',
             cownerValidTo: validToDate ? validToDate : '',
-            coversightValidFrom : today ? today : '',
+            coversightValidFrom: today ? today : '',
             coversightValidTo: validToDate ? validToDate : '',
           }}
           validationSchema={Yup.object().shape({
@@ -303,7 +296,7 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                               type="date"
                               name="cownerValidFrom"
                               placeholder=""
-                              value={values.cowner !== "" ? values.cownerValidFrom : ""}
+                              value={values.cowner !== '' ? values.cownerValidFrom : ''}
                               isInvalid={Boolean(touched.cownerValidFrom && errors.cownerValidFrom)}
                               min={today}
                               onBlur={handleBlur}
@@ -401,8 +394,10 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                               type="date"
                               name="coversightValidFrom"
                               placeholder=""
-                              value={values.coversight !== "" ? values.coversightValidFrom : ""}
-                              isInvalid={Boolean(touched.coversightValidFrom && errors.coversightValidFrom)}
+                              value={values.coversight !== '' ? values.coversightValidFrom : ''}
+                              isInvalid={Boolean(
+                                touched.coversightValidFrom && errors.coversightValidFrom,
+                              )}
                               min={today}
                               onBlur={handleBlur}
                               onChange={handleChange}
@@ -429,7 +424,9 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                               name="coversightValidTo"
                               placeholder=""
                               value={values.coversightValidTo}
-                              isInvalid={Boolean(touched.coversightValidTo && errors.coversightValidTo)}
+                              isInvalid={Boolean(
+                                touched.coversightValidTo && errors.coversightValidTo,
+                              )}
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
@@ -445,7 +442,6 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </div>
 

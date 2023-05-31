@@ -12,13 +12,8 @@ function NavTabsMDM() {
 
   const [activeTab, setActiveTab] = useState();
 
-  // useEffect(() => {
-  //   console.log(`Tab ID: ${activeTab}`);
-  // }, [activeTab]);
-
   const handleClick = (url, tabId) => () => {
     setActiveTab(tabId);
-    //console.log(tabId, 'Active tab ID');
     history.push(url);
   };
   const ActiveTool = ({ number, text }) => (

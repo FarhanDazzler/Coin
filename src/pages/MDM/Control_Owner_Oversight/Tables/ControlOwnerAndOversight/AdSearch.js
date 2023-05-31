@@ -11,34 +11,30 @@ import { isEmailValidAD } from '../../../../../redux/AzureAD/AD_Action';
 import { isEmailValidADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
 
 const AdSearch = ({ userApiStart, values, setFieldValue, block = {}, setBlock, mode }) => {
-  console.log(mode, "mode");
   const { loading, dropDownOption, isDropdownSaveInput = true, value } = block;
   const dispatch = useDispatch();
   const isEmailValidADState = useSelector(isEmailValidADSelector);
-  console.log(values, block, "testing");
-  //   console.log(block, "Hi........................")
-  const [adValue, setAdValue] = React.useState("")
+  const [adValue, setAdValue] = React.useState('');
   React.useEffect(() => {
-    if(isEmailValidADState.data?.isValid === true){
+    if (isEmailValidADState.data?.isValid === true) {
       setFieldValue(adValue);
-      setBlock({dropDownOption: [], loading:false})
+      setBlock({ dropDownOption: [], loading: false });
     }
-  }, [isEmailValidADState.data])
+  }, [isEmailValidADState.data]);
   const handleChange = (value) => {
-    console.log(value, "testing vaue");
-    setAdValue(value)
+    console.log(value, 'testing vaue');
+    setAdValue(value);
     const param = {
-      email: value
-    }
+      email: value,
+    };
 
     dispatch(isEmailValidAD(param));
 
     // setFieldValue(adValue);
     // setAdValue(value)
-  }
+  };
   return (
     <div>
-
       <div>
         {block.loading && (
           <div className="mt-4 ml-8">
@@ -49,7 +45,7 @@ const AdSearch = ({ userApiStart, values, setFieldValue, block = {}, setBlock, m
           <Typography component="div" variant="body1">
             <Box sx={{ color: 'error.main' }}>This user is not in our list!</Box>
           </Typography>
-        )} 
+        )}
         {!loading && dropDownOption && dropDownOption.length > 0 && (
           <FormControl sx={{ mt: 1, minWidth: 250 }} size="small">
             <Select

@@ -134,12 +134,10 @@ const OrgStructuresTable = () => {
   );
 
   const handleOnclickEdit = () => {
-    console.log(tableData);
     if (editTableIndex.length > 1) {
       Swal.fire('Oops...', 'You can only allow one Organization to edit at a time', 'error');
     } else if (editTableIndex.length == 1) {
       tableData.find((data, i) => {
-        console.log(i);
         if (i === editTableIndex[0]) {
           setEditTableData(data);
         }
@@ -167,28 +165,26 @@ const OrgStructuresTable = () => {
                   </span>
                 </div>
                 <div>
-                
-                    <>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        startIcon={<ActiveToolEdit text="Free Text" />}
-                        className="edit-button-mdm-table"
-                        onClick={handleOnclickEdit}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        startIcon={<ActiveToolADD text="Free Text" />}
-                        className="add-button-mdm-table"
-                        onClick={handleOnclickAdd}
-                      >
-                        Add New
-                      </Button>
-                    </>
-                  
+                  <>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      startIcon={<ActiveToolEdit text="Free Text" />}
+                      className="edit-button-mdm-table"
+                      onClick={handleOnclickEdit}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      startIcon={<ActiveToolADD text="Free Text" />}
+                      className="add-button-mdm-table"
+                      onClick={handleOnclickAdd}
+                    >
+                      Add New
+                    </Button>
+                  </>
                 </div>
               </div>
             </div>

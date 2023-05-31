@@ -22,7 +22,6 @@ import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import Tooltip from '@mui/material/Tooltip';
 
 const FilterButtons = (props) => {
-  console.log(props.zone, 'ZONE');
   return (
     <div>
       <Group spacing="xs">
@@ -122,7 +121,6 @@ const OrgHierarchyTable = () => {
   // Arrays for showing data on filters
   const zoneArray = orgHierarchy.data.map((i) => i.zone);
   //zoneArray = removeDuplicates(zoneArray);
-  //console.log(removeDuplicates(zoneArray),zoneArray, 'zoneeeeee');
 
   return (
     <>

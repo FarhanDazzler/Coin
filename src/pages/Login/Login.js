@@ -14,7 +14,6 @@ import { InteractionStatus } from '@azure/msal-browser';
 
 import PageWrapper from '../../components/wrappers/PageWrapper';
 
-
 const Login = () => {
   const { accounts } = useMsal();
   const history = useHistory();
@@ -23,14 +22,8 @@ const Login = () => {
 
   const isAuthenticated = useIsAuthenticated();
 
-  // console.log('I AM IN LOGIN');
   useEffect(() => {
-    //console.log(`AUTH LOG = ${isAuthenticated}`);
     if (isAuthenticated) {
-      //console.log(accounts[0], 'Account object');
-      // console.log('You are authenticated!');
-      // console.log(`Refer: ${document.referrer}`);
-      // history.goBack();
       history.push('/');
     }
   }, [inProgress]);

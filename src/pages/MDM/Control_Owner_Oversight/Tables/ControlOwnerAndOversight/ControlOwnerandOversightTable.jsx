@@ -42,7 +42,6 @@ const FilterButtons = ({
   setValueProvider_entity,
   setValueControl_ID,
 }) => {
-  //console.log(props.zone, 'ZONE');
   const [searchValue, onSearchChange] = useState('');
 
   return (
@@ -63,7 +62,6 @@ const FilterButtons = ({
           value={valueControl_ID}
           onChange={(e) => {
             setValueControl_ID(e);
-            //console.log(e, 'Control_ID filter');
           }}
           radius="xl"
           variant="filled"
@@ -84,7 +82,6 @@ const FilterButtons = ({
           value={valueProvider_entity}
           onChange={(e) => {
             setValueProvider_entity(e);
-            //console.log(e, 'provider_entity filter');
           }}
           radius="xl"
           variant="filled"
@@ -105,7 +102,6 @@ const FilterButtons = ({
           value={valueCowner}
           onChange={(e) => {
             setValueCowner(e);
-            //console.log(e, 'cowner filter');
           }}
           radius="xl"
           variant="filled"
@@ -126,7 +122,6 @@ const FilterButtons = ({
           value={valueCoversight}
           onChange={(e) => {
             setValueCoversight(e);
-            //console.log(e, 'coversight filter');
           }}
           radius="xl"
           variant="filled"
@@ -160,7 +155,6 @@ const ControlOwnerAndOversightTable = () => {
     return dataValue.filter((i) => i[conditionalParam]);
   };
   useEffect(() => {
-    console.log(modifyControlOwnerAndOversightState);
     setShowLcdModal(false);
     setShowModal(false);
   }, [modifyControlOwnerAndOversightState.data]);
@@ -311,7 +305,6 @@ const ControlOwnerAndOversightTable = () => {
     let assignDataArray = [];
     if (editTableIndex.length >= 1) {
       tableData.find((data, i) => {
-        console.log(i);
         editTableIndex.map((dataa) => {
           if (data.id === dataa) {
             assignDataArray.push(data);
@@ -324,13 +317,11 @@ const ControlOwnerAndOversightTable = () => {
   };
   const handleOnclickAdd = () => {
     let controlIDArray = [];
-    console.log('controlIDArray', editTableIndex);
     let assignDataArray = [];
     if (editTableIndex.length == 0) {
       Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
     } else if (editTableIndex.length >= 1) {
       tableData.find((data, i) => {
-        console.log(data);
         editTableIndex.map((dataa) => {
           if (data.id === dataa) {
             assignDataArray.push(data);
@@ -364,7 +355,6 @@ const ControlOwnerAndOversightTable = () => {
   const cownerArray = controlOwnerAndOversight.data.map((i) => i.cowner);
   const coversightArray = controlOwnerAndOversight.data.map((i) => i.coversight);
   //zoneArray = removeDuplicates(zoneArray);
-  //console.log(removeDuplicates(zoneArray),zoneArray, 'zoneeeeee');
 
   return (
     <>

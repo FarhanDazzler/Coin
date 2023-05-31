@@ -336,7 +336,6 @@ const MicsFrameworkTable = () => {
 
   const handleOnclickEdit = () => {
     // edit code
-    console.log(tableData);
     if (editTableIndex.length > 1) {
       Swal.fire('Oops...', 'You can only allow one MICS Framework to edit at a time', 'error');
     } else if (editTableIndex.length == 1) {

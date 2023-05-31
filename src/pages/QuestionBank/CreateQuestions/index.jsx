@@ -24,7 +24,7 @@ import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
 import Swal from 'sweetalert2';
 import Section3MICSSpecific from '../Section3MICSSpecific';
 import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
-import Select from 'react-select'
+import Select from 'react-select';
 import { Form } from 'react-bootstrap';
 
 const ITEM_HEIGHT = 48;
@@ -42,28 +42,24 @@ const CreateQuestions = ({ open, handleClose }) => {
   const dispatch = useDispatch();
   const [section1, setSection1] = useState(questions);
   const [control_ID, setControl_ID] = useState(['']);
-  const [controlIDOption, setControlIDOption] = useState()
+  const [controlIDOption, setControlIDOption] = useState();
   const [showAddQuestion, setShowAddQuestion] = useState(false);
   const [level, setLevel] = useState(['L1']);
   const [isEdit, setIsEdit] = useState(false);
   const questionData = useSelector(question3Selector);
   const [section3, setSection3] = useState([]);
-  const [controlIDList, setControlIDList] = useState([])
+  const [controlIDList, setControlIDList] = useState([]);
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
   useEffect(() => {
-    if(repositoryOfControlID?.data.length !== 0){
-      console.log("hi buddy",repositoryOfControlID);
+    if (repositoryOfControlID?.data.length !== 0) {
       let controlidArray = [];
       repositoryOfControlID?.data.map((data) => {
-        controlidArray.push( { 'label': data.Control_ID, 'value': data.Control_ID });
-      })
-      console.log("controlidArray",controlidArray);
+        controlidArray.push({ label: data.Control_ID, value: data.Control_ID });
+      });
       setControlIDList(controlidArray);
-
     }
-  },[repositoryOfControlID])
+  }, [repositoryOfControlID]);
   const handleChange = (event) => {
-    console.log(event);
     const value = event.value;
     if (isEdit) {
       Swal.fire({
@@ -79,11 +75,11 @@ const CreateQuestions = ({ open, handleClose }) => {
       return;
     }
     setControl_ID(typeof value === 'string' ? value.split(',') : value);
-    setControlIDOption(event)
+    setControlIDOption(event);
   };
 
   useEffect(() => {
-    console.log("Testing1")
+    console.log('Testing1');
     if (section3.length > 0) {
       setShowAddQuestion(false);
     } else {
@@ -112,13 +108,13 @@ const CreateQuestions = ({ open, handleClose }) => {
   };
 
   useEffect(() => {
-    console.log("Testing2")
+    console.log('Testing2');
     const div = document.getElementById('loader');
     if (div) div.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, [questionData.loading]);
 
   useEffect(() => {
-    console.log("Testing3")
+    console.log('Testing3');
     if (questionData.data.length > 0) {
       const apiQuestion = getQuestionsFormatData(questionData.data);
       setSection3(getFormatQuestions(apiQuestion, 'isQuestionEdit'));
@@ -128,7 +124,7 @@ const CreateQuestions = ({ open, handleClose }) => {
   }, [questionData.data]);
 
   useEffect(() => {
-    console.log("Testing4")
+    console.log('Testing4');
     if (control_ID[0] && level[0]) {
       dispatch(getSection3Questions({ Level: level[0], Control_ID: control_ID[0] }));
     }
@@ -194,7 +190,7 @@ const CreateQuestions = ({ open, handleClose }) => {
   return (
     <div>
       <CustomModal
-      bodyClassName="create-question-popup"
+        bodyClassName="create-question-popup"
         open={open}
         title={
           <span>
@@ -206,32 +202,30 @@ const CreateQuestions = ({ open, handleClose }) => {
         onClose={handleClose}
       >
         <div className="select-light">
-          <Form.Group className='input-group mb-3'>
-            <div style={{width : '300px'}}>
-            <Select
-             maxMenuHeight={200}
-              placeholder="Control ID * "
-              value={controlIDOption}
-              defaultValue={controlIDOption}
-              onChange={handleChange}
-              className='l-input'
-              //MenuProps={MenuProps}
-              //inputProps={{ 'aria-label': 'Without label' }}
-              options={controlIDList}
-            />
+          <Form.Group className="input-group mb-3">
+            <div style={{ width: '300px' }}>
+              <Select
+                maxMenuHeight={200}
+                placeholder="Control ID * "
+                value={controlIDOption}
+                defaultValue={controlIDOption}
+                onChange={handleChange}
+                className="l-input"
+                //MenuProps={MenuProps}
+                //inputProps={{ 'aria-label': 'Without label' }}
+                options={controlIDList}
+              />
             </div>
-            
           </Form.Group>
         </div>
-        {
-          control_ID[0] !== '' &&
+        {control_ID[0] !== '' && (
           <div className="questions-list-main-wrapper">
             <CollapseFrame
               title="Section 1 : Standard "
               centerText={
                 <p className="d-flex m-0 align-items-center">
-                  <InfoOutlinedIcon className="mr-1" /> Standard questions will be common and included
-                  in all new surveys
+                  <InfoOutlinedIcon className="mr-1" /> Standard questions will be common and
+                  included in all new surveys
                 </p>
               }
             >
@@ -305,8 +299,7 @@ const CreateQuestions = ({ open, handleClose }) => {
               </div>
             </div>
           </div>
-        }
-
+        )}
       </CustomModal>
     </div>
   );

@@ -27,24 +27,21 @@ import AddSection1Questions from './AddSection1Question';
 import { deleteSection1Questions } from '../../../redux/Questions/QuestionsAction';
 import MICSSpecific from '../ModifyMICSQuestions/MICSSpecific';
 import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
-import Select from 'react-select'
+import Select from 'react-select';
 
 const ModifyStandard = ({ open, handleClose, type = '' }) => {
   const [activeType, setActiveType] = useState(type);
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
-  const [controlIDList, setControlIDList] = useState([])
+  const [controlIDList, setControlIDList] = useState([]);
   useEffect(() => {
     if (repositoryOfControlID?.data.length !== 0) {
-      console.log("hi buddy", repositoryOfControlID);
       let controlidArray = [];
       repositoryOfControlID?.data.map((data) => {
-        controlidArray.push({ 'label': data.Control_ID, 'value': data.Control_ID });
-      })
-      console.log("controlidArray", controlidArray);
+        controlidArray.push({ label: data.Control_ID, value: data.Control_ID });
+      });
       setControlIDList(controlidArray);
-
     }
-  }, [repositoryOfControlID])
+  }, [repositoryOfControlID]);
 
   const dispatch = useDispatch();
   const section1Questions = useSelector(
@@ -66,10 +63,8 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
   const UpdateOptionSuccess = useSelector(
     (state) => state?.section1QuestionData?.section1EditOption,
   );
-  console.log(AddQuestionSuccess);
-  console.log(section1Questions);
   const [section1QuestionsData, setection1QuestionsData] = useState([]);
-  const [controlIDOption, setControlIDOption] = useState()
+  const [controlIDOption, setControlIDOption] = useState();
   const [template_ID, setTemplate_ID] = useState('Standard');
   const [showAddQuestion, setShowAddQuestion] = useState(false);
   const [template2_id, setTemplate2_ID] = useState('');
@@ -96,14 +91,13 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
   };
   const handleChangeControlId = (e) => {
     setControlIDOption(e);
-    console.log("e", e);
+    console.log('e', e);
     setTemplate2_ID(e.value);
     if (e.value !== 'Standard') {
       setFinalTemplate_ID(e.value);
     }
   };
   const handleDeleteQuestion = (data) => {
-    console.log('delete data', data);
     if (data.options?.length != 0) {
       data.options.forEach(({ option_id }, i) => {
         dispatch(deleteSection1OptionDataAction({ option_id: option_id }));
@@ -198,7 +192,7 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
 
               {selectContrilId ? (
                 <div className="col-md-3">
-                  <Form.Group className='input-group mb-3'>
+                  <Form.Group className="input-group mb-3">
                     <div style={{ width: '300px' }}>
                       <Select
                         maxMenuHeight={200}
@@ -206,17 +200,16 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
                         value={controlIDOption}
                         defaultValue={controlIDOption}
                         onChange={(e) => handleChangeControlId(e)}
-                        className='l-input'
+                        className="l-input"
                         //MenuProps={MenuProps}
                         //inputProps={{ 'aria-label': 'Without label' }}
                         options={controlIDList}
                       />
                     </div>
-
                   </Form.Group>
                 </div>
               ) : (
-                ""
+                ''
               )}
             </div>
             <div className="note">
@@ -241,21 +234,27 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
                     allQuestions={section1Questions}
                   />
                 ))}
-                {
-                  finalTemplate_id === 'e' ? <p style={{ textAlign: "center", marginBottom: "50px" }}>Select Control ID to get Questions</p> :
-                    section1QuestionsData.length == 0 && <p style={{ textAlign: "center", marginBottom: "50px" }}>No Question Found</p>
-                }
-
+                {finalTemplate_id === 'e' ? (
+                  <p style={{ textAlign: 'center', marginBottom: '50px' }}>
+                    Select Control ID to get Questions
+                  </p>
+                ) : (
+                  section1QuestionsData.length == 0 && (
+                    <p style={{ textAlign: 'center', marginBottom: '50px' }}>No Question Found</p>
+                  )
+                )}
               </div>
 
               <div className="d-flex align-items-center justify-content-between">
                 <div>
-                 
-                      <Button color="silver" disabled={finalTemplate_id === 'e'} className="mx-3" onClick={() => setShowAddQuestion(true)}>
-                        Add Question
-                      </Button>
-                  
-
+                  <Button
+                    color="silver"
+                    disabled={finalTemplate_id === 'e'}
+                    className="mx-3"
+                    onClick={() => setShowAddQuestion(true)}
+                  >
+                    Add Question
+                  </Button>
                 </div>
                 <div className="d-flex align-items-center justify-content-end">
                   <Button variant="subtle" onClick={handleClose}>

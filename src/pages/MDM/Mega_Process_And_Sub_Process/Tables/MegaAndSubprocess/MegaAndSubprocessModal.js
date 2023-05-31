@@ -48,12 +48,10 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType, setEdit
   const dispatch = useDispatch();
   const [megaSubProcessValue, setMegaSubProcessValue] = useState();
   const [prefixValue, setPrefixValue] = useState('');
-  console.log('megaSubProcessValue', megaSubProcessValue);
 
   const getMegaProcessPrefixState = useSelector(getMegaProcessPrefixSelector);
   const getSubprocessParentState = useSelector(getSubprocessParentSelector);
   const getSubprocessPrefixState = useSelector(getSubprocessPrefixSelector);
-  console.log(getSubprocessParentState, 'get Subprocess Parent State');
 
   useEffect(() => {
     if (megaSubProcessValue?.Type_of_Process === 'Mega Process') {
@@ -70,8 +68,6 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType, setEdit
   }, [getMegaProcessPrefixState, getSubprocessParentState, getSubprocessPrefixState]);
 
   const handleSaveAdd = (value) => {
-    console.log(value);
-
     let payload = {
       Type_of_Process: value.Type_of_Process,
       Parent_Process: value.Type_of_Process === 'Mega Process' ? '' : value.Parent_Process,
@@ -91,10 +87,8 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType, setEdit
     };
 
     if (modalType === 'add') {
-      console.log(payload, 'ADD=>>>>>>>>>>>>>>>>>>');
       dispatch(addMegaAndSubprocess(payload));
     } else {
-      console.log('Edit=>>>>>>>>>>>>>>>>>>');
       dispatch(updateMegaAndSubprocess(editPayload));
     }
   };

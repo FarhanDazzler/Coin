@@ -16,7 +16,6 @@ const MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage = () => {
 
   // to select data from redux store using selector
   // const orgStructures = useSelector(getOrgStructuresSelector);
-  // console.log(orgStructures.data, 'Org Structure data from API');
 
   return (
     <PageWrapper>

@@ -231,8 +231,6 @@ const EditSection1QuestionOption = ({
     } else {
       setShowEditModal(false);
     }
-
-    console.log('api call===>', isApiCall);
   };
 
   useEffect(() => {
