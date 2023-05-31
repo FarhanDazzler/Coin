@@ -4,7 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { FloatRight } from 'tabler-icons-react';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { ExportToCsv } from 'export-to-csv'; //or use your library of choice here
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 import cs from 'classnames';
 import './tableStyles.scss';
@@ -80,6 +80,7 @@ const Table2 = ({
   classes,
   setEditTableIndex,
   loading,
+  Is_Expanding_Detail_Panel = { Is_Expanding: false },
 }) => {
   const [rowSelection, setRowSelection] = useState({});
 
@@ -130,6 +131,110 @@ const Table2 = ({
   // >
   //   Export Page Rows
   // </Button>;
+
+  // logic for Expanding Detail Panel
+
+  //console.info(Is_Expanding_Detail_Panel, 'Is_Expanding_Detail_Panel');
+  const Expanding_Detail_Panel =
+    Is_Expanding_Detail_Panel.Is_Expanding === true
+      ? ({ row }) => (
+          <Box
+            sx={{
+              display: 'grid',
+              margin: 'auto',
+              gridTemplateColumns: '1fr 1fr',
+              width: '50%',
+            }}
+          >
+            {Is_Expanding_Detail_Panel.Table_Name === 'Control Owner & Oversight' && (
+              <div className="col">
+                <div className="row mb-4">
+                  <div className="col-lg-4">
+                    <span className="grey-text font-weight-bold">Local Control Desc(LCD):</span>
+                  </div>
+                  <div className="col">
+                    <p
+                      class="left-aligned-text"
+                      dangerouslySetInnerHTML={{
+                        __html: row.original.local_control_description,
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+            {Is_Expanding_Detail_Panel.Table_Name === 'MICS Framework Table' && (
+              <div className="row">
+                <div className="col">
+                  <div className="row mb-4">
+                    <Typography>L1 Description:</Typography>
+                    <p
+                      class="left-aligned-text"
+                      dangerouslySetInnerHTML={{
+                        __html: row.original.mics_L1desc,
+                      }}
+                    />
+                  </div>
+                  <div className="row mb-4">
+                    <Typography>L2 Description:</Typography>
+                    <p
+                      class="left-aligned-text"
+                      dangerouslySetInnerHTML={{
+                        __html: row.original.mics_L2desc,
+                      }}
+                    />
+                  </div>
+                  <div className="row mb-4">
+                    <Typography>L3 Description:</Typography>
+                    <p
+                      class="left-aligned-text"
+                      dangerouslySetInnerHTML={{
+                        __html: row.original.mics_L3desc,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="col">
+                  <div className="row mb-4">
+                    <Typography>Recommended Standardization:</Typography>
+                    <p
+                      class="left-aligned-text"
+                      dangerouslySetInnerHTML={{
+                        __html: row.original.Recommended_Standardization,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="col">
+                  <div className="row mb-4">
+                    <Typography>Recommended Standardization:</Typography>
+                    <p
+                      class="left-aligned-text"
+                      dangerouslySetInnerHTML={{
+                        __html: row.original.Recommended_Standardization,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="col">
+                  <div className="row mb-4">
+                    <Typography>ABI DAG:</Typography>
+                    <p
+                      class="left-aligned-text"
+                      dangerouslySetInnerHTML={{
+                        __html: row.original.ABI_DAG,
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </Box>
+        )
+      : null;
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -184,6 +289,7 @@ const Table2 = ({
               </>
             </div>
           )}
+          renderDetailPanel={Expanding_Detail_Panel}
         />
       </div>
     </ThemeProvider>
