@@ -15,10 +15,10 @@ const AssessmentBankLandingPage = () => {
   };
   return (
     <PageWrapper>
-      <div className="container">
+      <div className="container-fluid">
         <div className="row">
           <div className="col-12">
-            <div className="container mt-5">
+            <div className="container-fluid mt-5">
               <div className="row">
                 <div className="col-12 col-lg-12">
                   <Group spacing="xs" className="actions-button-wrapper">

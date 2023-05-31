@@ -27,9 +27,9 @@ const AssessmentForm = () => {
 
   //get quesitons from the database
   useEffect(() => {
-    Axios.get('https://acoemicsgrcpwa-devbe.azurewebsites.net/get_questions?ControlID=' + control_id).then(function (
-      response,
-    ) {
+    Axios.get(
+      'https://acoemicsgrcpwa-devbe.azurewebsites.net/get_questions?ControlID=' + control_id,
+    ).then(function (response) {
       var status_code = response.status;
       var status_text = response.statusText;
       var api_data = response?.data.data;
@@ -278,7 +278,7 @@ const AssessmentForm = () => {
     <>
       <Card>
         <div className="col-lg-12">
-          <div className="container">
+          <div className="container-fluid">
             <Card.Header>
               <Card.Title>
                 <div className="golden-text">

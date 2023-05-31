@@ -12,7 +12,6 @@ import { useSetState } from '@mantine/hooks';
 
 //show hide approach
 
-
 var loading = true;
 var control_questions = [];
 
@@ -27,9 +26,9 @@ const Section1 = () => {
   const validationSchema = Yup.object().shape({});
   //get quesitons from the database
   useEffect(() => {
-    Axios.get('https://acoemicsgrcpwa-devbe.azurewebsites.net/get_questions?ControlID=' + control_id).then(function (
-      response,
-    ) {
+    Axios.get(
+      'https://acoemicsgrcpwa-devbe.azurewebsites.net/get_questions?ControlID=' + control_id,
+    ).then(function (response) {
       var status_code = response.status;
       var status_text = response.statusText;
       var api_data = response?.data.data;
@@ -252,10 +251,10 @@ const Section1 = () => {
       );
     }
   });
-  
+
   return (
     <>
-      <div className="container">
+      <div className="container-fluid">
         <div className="col-12">
           <div className="card">
             <div className="card-header">

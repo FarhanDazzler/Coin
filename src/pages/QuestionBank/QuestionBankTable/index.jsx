@@ -80,7 +80,7 @@ const QuestionBankTable = () => {
 
   return (
     <>
-      <div className="container mt-5">
+      <div className="container-fluid mt-5">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
             <div className="questionBank-table-button">

@@ -358,7 +358,7 @@ const ControlOwnerAndOversightTable = () => {
 
   return (
     <>
-      <div className="container mt-5">
+      <div className="container-fluid mt-5">
         {/*<Messaging color="#fff" width="100px" height="100px" duration="1s" />*/}
         <div className="row pt-5">
           <div className="col-12 col-lg-12">

@@ -19,13 +19,13 @@ import {
 } from '../../../../redux/ControlData/ControlDataAction';
 import Table2 from '../../../../components/UI/Table/Table2';
 import Cookies from 'js-cookie';
-//TODO:Replace with new desgine 
+//TODO:Replace with new desgine
 // Filter buttons
 
 const InternalControlTable = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const token=Cookies.get('token')
+  const token = Cookies.get('token');
 
   const { instance, accounts, inProgress } = useMsal();
   const [tableColumns, setTableColumns] = useState([]);
@@ -289,10 +289,10 @@ const InternalControlTable = (props) => {
 
   return (
     <>
-      <div className="container">
+      <div className="container-fluid">
         <div className="row">
           <div className="col col-lg-12">
-            <div className="container mt-5">
+            <div className="container-fluid mt-5">
               <div className="row">
                 <div className="col col-lg-12">
                   <Group spacing="xs" className="actions-button-wrapper">
@@ -320,7 +320,7 @@ const InternalControlTable = (props) => {
                 </div>
               </div>
             </div>
-            <div className="container mt-5">
+            <div className="container-fluid mt-5">
               <div className="row">
                 {tableData?.length > 0 || getDashBoardDataState.loading ? (
                   <Table2

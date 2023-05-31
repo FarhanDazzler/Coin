@@ -33,7 +33,7 @@ const Login = () => {
     inProgress === InteractionStatus.None && (
       <PageWrapper>
         <div className="login-page">
-          <div className="container">
+          <div className="container-fluid">
             <div className="row">
               <div className="col col-login mx-auto">
                 <Card className="loginCard">

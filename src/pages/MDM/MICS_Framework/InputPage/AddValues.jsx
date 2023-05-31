@@ -149,7 +149,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
   return (
     <div>
       <PageWrapper>
-        <div className="container">
+        <div className="container-fluid">
           <div className="p-5">
             <h4 className="MDM-inputPage-title">{title}</h4>
             <Formik
