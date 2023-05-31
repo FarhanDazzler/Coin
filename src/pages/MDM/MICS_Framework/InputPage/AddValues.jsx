@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Col, Container, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import * as Yup from 'yup';
-import { useFormikContext, Formik, Field } from 'formik';
-import { Alert, Form } from 'react-bootstrap';
+import { useFormikContext, Formik } from 'formik';
+import { Form } from 'react-bootstrap';
 import Button from '../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {
   addMicsFramework,
   updateMicsFramework,
@@ -19,9 +16,6 @@ import {
   getMegaProcessMicsFrameworkSelector,
   getSubProcessMicsFrameworkSelector,
 } from '../../../../redux/MDM/MDM_Selectors';
-import { addMicsInitialValues, addMicsValidationSchema } from '../../../../utils/constants';
-
-import { ContentState } from 'draft-js';
 import { TextEditor } from '../../../../components/FormInputs/RichTextEditor/RichTextEditor';
 import './InputPageStyle.scss';
 

@@ -9,8 +9,6 @@ import Select from './../../../components/UI/Select/Select';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import DropdownMenu from './../../../components/UI/DropdownMenu';
-import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import RemoveWarningModal from './../../../components/UI/AttributesRemoveModal';
 import blockType from './../../../components/RenderBlock/constant';
@@ -18,7 +16,6 @@ import { Loader } from '@mantine/core';
 import {
   addSection1OptionDataAction,
   deleteSection1OptionDataAction,
-  getSection1QuestionDataAction,
   editSection1OptionDataAction,
   editSection1QuestionDataAction,
 } from '../../../redux/QuestionBank/QuestionBankAction';

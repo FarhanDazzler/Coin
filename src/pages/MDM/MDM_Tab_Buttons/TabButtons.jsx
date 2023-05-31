@@ -1,10 +1,8 @@
-import { AlertCircle } from 'tabler-icons-react';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import Button from './Button';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
-import React, { useState, useMemo, useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
-import { Toast, Row, Col, Container, ToastContainer } from 'react-bootstrap';
 
 function NavTabsMDM() {
   const location = useLocation();

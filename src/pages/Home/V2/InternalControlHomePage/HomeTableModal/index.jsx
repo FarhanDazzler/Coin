@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import './homeTableModalStyles.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import CloseIcon from '@mui/icons-material/Close';
 import { useMsal } from '@azure/msal-react';
 import {
   addAssessmentAns,

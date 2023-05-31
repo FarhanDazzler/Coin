@@ -15,9 +15,6 @@ import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
 
-import * as Yup from 'yup';
-import { Formik, Field } from 'formik';
-import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import MegaAndSubprocessModal from './MegaAndSubprocessModal';
 import {
@@ -138,7 +135,7 @@ const MegaAndSubprocessTable = () => {
 
   return (
     <>
-      <div className="container mt-5" id='MegaAndSubprocessManage'>
+      <div className="container mt-5" id="MegaAndSubprocessManage">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
             <div className="mdm-table-button">

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import { useFormikContext, Formik, Field } from 'formik';
-import { Alert, Form } from 'react-bootstrap';
-import CustomModal from '../../../../../components/UI/CustomModal';
+import { Form } from 'react-bootstrap';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import {

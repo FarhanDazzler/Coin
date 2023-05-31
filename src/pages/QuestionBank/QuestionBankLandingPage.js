@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PageWrapper from '../../components/wrappers/PageWrapper';
 import QuestionBankBox from './QuestionBankBox/QuestionBankBox';
 import './questionBankStyles.scss';
@@ -11,7 +11,6 @@ import QuestionBankTable from './QuestionBankTable';
 import CreateQuestions from './CreateQuestions';
 import ModifyStandard from './ModifyStandard';
 import { getSection1QuestionDataAction } from '../../redux/QuestionBank/QuestionBankAction';
-import ModifyMICSQuestions from './ModifyMICSQuestions';
 import { getRepositoryOfControlID } from '../../redux/Questions/QuestionsAction';
 
 const QuestionBank = () => {
