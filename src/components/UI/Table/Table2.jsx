@@ -209,11 +209,11 @@ const Table2 = ({
 
                 <div className="col">
                   <div className="row mb-4">
-                    <Typography>Recommended Standardization:</Typography>
+                    <Typography>ABI DAG:</Typography>
                     <p
                       class="left-aligned-text"
                       dangerouslySetInnerHTML={{
-                        __html: row.original.Recommended_Standardization,
+                        __html: row.original.ABI_DAG,
                       }}
                     />
                   </div>
@@ -221,11 +221,47 @@ const Table2 = ({
 
                 <div className="col">
                   <div className="row mb-4">
-                    <Typography>ABI DAG:</Typography>
+                    <Typography>AmBev DAG:</Typography>
                     <p
                       class="left-aligned-text"
                       dangerouslySetInnerHTML={{
-                        __html: row.original.ABI_DAG,
+                        __html: row.original.AmBev_DAG,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="col">
+                  <div className="row mb-4">
+                    <Typography>Risk:</Typography>
+                    <p
+                      class="left-aligned-text"
+                      dangerouslySetInnerHTML={{
+                        __html: row.original.Risk,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="col">
+                  <div className="row mb-4">
+                    <Typography>Balance Sheet Impact:</Typography>
+                    <p
+                      class="left-aligned-text"
+                      dangerouslySetInnerHTML={{
+                        __html: row.original.BS_impact,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="col">
+                  <div className="row mb-4">
+                    <Typography>P&L Impact:</Typography>
+                    <p
+                      class="left-aligned-text"
+                      dangerouslySetInnerHTML={{
+                        __html: row.original.PnL_impact,
                       }}
                     />
                   </div>

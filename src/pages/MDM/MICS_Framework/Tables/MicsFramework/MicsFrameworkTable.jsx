@@ -34,7 +34,7 @@ const MicsFrameworkTable = () => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 120,
+      size: 190,
     },
     {
       accessorKey: 'Previous_MICS1',
@@ -43,7 +43,7 @@ const MicsFrameworkTable = () => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 120,
+      size: 190,
     },
     {
       accessorKey: 'Control_ID',
@@ -52,7 +52,7 @@ const MicsFrameworkTable = () => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 160,
+      size: 190,
     },
     {
       accessorKey: 'Category',
@@ -171,24 +171,24 @@ const MicsFrameworkTable = () => {
     //   cellClassName: 'dashboardCell',
     //   size: 350,
     // },
-    {
-      accessorKey: 'ABI_DAG',
-      id: 'ABI_DAG',
-      header: 'ABI DAG',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
-    },
-    {
-      accessorKey: 'AmBev_DAG',
-      id: 'AmBev_DAG',
-      header: 'AmBev DAG',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
-    },
+    // {
+    //   accessorKey: 'ABI_DAG',
+    //   id: 'ABI_DAG',
+    //   header: 'ABI DAG',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 90,
+    // },
+    // {
+    //   accessorKey: 'AmBev_DAG',
+    //   id: 'AmBev_DAG',
+    //   header: 'AmBev DAG',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 90,
+    // },
     {
       accessorKey: 'B2B',
       id: 'B2B',
@@ -225,15 +225,15 @@ const MicsFrameworkTable = () => {
       cellClassName: 'dashboardCell',
       size: 120,
     },
-    {
-      accessorKey: 'Risk',
-      id: 'Risk',
-      header: 'Risk',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 400,
-    },
+    // {
+    //   accessorKey: 'Risk',
+    //   id: 'Risk',
+    //   header: 'Risk',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 400,
+    // },
     {
       accessorKey: 'Control_name',
       id: 'Control_name',
@@ -279,24 +279,24 @@ const MicsFrameworkTable = () => {
       cellClassName: 'dashboardCell',
       size: 90,
     },
-    {
-      accessorKey: 'BS_impact',
-      id: 'BS_impact',
-      header: 'Balance Sheet Impact',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 170,
-    },
-    {
-      accessorKey: 'PnL_impact',
-      id: 'PnL_impact',
-      header: 'P&L Impact',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 350,
-    },
+    // {
+    //   accessorKey: 'BS_impact',
+    //   id: 'BS_impact',
+    //   header: 'Balance Sheet Impact',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 170,
+    // },
+    // {
+    //   accessorKey: 'PnL_impact',
+    //   id: 'PnL_impact',
+    //   header: 'P&L Impact',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 350,
+    // },
     {
       accessorKey: 'Cash_flow_impact',
       id: 'Cash_flow_impact',
@@ -379,8 +379,10 @@ const MicsFrameworkTable = () => {
 
   const handleOnclickEdit = () => {
     // edit code
-    console.log(tableData);
-    if (editTableIndex.length > 1) {
+    //console.log(tableData);
+    if (editTableIndex.length === 0) {
+      Swal.fire('Oops...', 'You need to select from table in order to edit', 'error');
+    } else if (editTableIndex.length > 1) {
       Swal.fire('Oops...', 'You can only allow one MICS Framework to edit at a time', 'error');
     } else if (editTableIndex.length == 1) {
       //if (!editTableIndex[0]) return;

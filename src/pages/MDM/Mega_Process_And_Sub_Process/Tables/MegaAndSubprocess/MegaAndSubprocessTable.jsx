@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
 
 import Table from '../../../../../components/UI/Table';
+import Table2 from '../../../../../components/UI/Table/Table2';
 
 import '../TableStyle.scss';
 
@@ -56,39 +57,49 @@ const MegaAndSubprocessTable = () => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'Type_of_Process',
-      headerName: 'Type of Process',
+      accessorKey: 'Type_of_Process',
+      id: 'Type_of_Process',
+      header: 'Type of Process',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      //size: 200,
     },
     {
-      field: 'Parent_Process',
-      headerName: 'Parent Process',
+      accessorKey: 'Parent_Process',
+      id: 'Parent_Process',
+      header: 'Parent Process',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      //size: 200,
     },
     {
-      field: 'Prefix',
-      headerName: 'Prefix',
+      accessorKey: 'Prefix',
+      id: 'Prefix',
+      header: 'Prefix',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      //size: 200,
     },
     {
-      field: 'Name_2',
-      headerName: 'Name 2',
+      accessorKey: 'Name_2',
+      id: 'Name_2',
+      header: 'Name 2',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      //size: 200,
     },
     {
-      field: 'Name_Detailed_Name',
-      headerName: 'Name - Detailed Name',
+      accessorKey: 'Name_Detailed_Name',
+      id: 'Name_Detailed_Name',
+      header: 'Name - Detailed Name',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      //size: 200,
     },
   ];
 
@@ -118,8 +129,10 @@ const MegaAndSubprocessTable = () => {
 
   const handleOnclickEdit = () => {
     // edit code
-    console.log(tableData);
-    if (editTableIndex.length > 1) {
+    //console.log(tableData);
+    if (editTableIndex.length === 0) {
+      Swal.fire('Oops...', 'You need to select from table in order to edit', 'error');
+    } else if (editTableIndex.length > 1) {
       Swal.fire('Oops...', 'You can only allow one Mega and Subprocess to edit at a time', 'error');
     } else if (editTableIndex.length == 1) {
       console.log(editTableIndex, 'editTableIndex');
@@ -138,7 +151,7 @@ const MegaAndSubprocessTable = () => {
 
   return (
     <>
-      <div className="container mt-5" id='MegaAndSubprocessManage'>
+      <div className="container mt-5" id="MegaAndSubprocessManage">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
             <div className="mdm-table-button">
@@ -171,10 +184,10 @@ const MegaAndSubprocessTable = () => {
                 </div>
               </div>
             </div>
-            <Table
+            <Table2
               tableData={tableData}
+              loading={megaAndSubprocess.loading}
               tableColumns={tableColumns}
-              columns={tableColumns}
               setEditTableIndex={setEditTableIndex}
             />
           </div>
