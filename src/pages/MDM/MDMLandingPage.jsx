@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PageWrapper from '../../components/wrappers/PageWrapper';
 import MDMBox from './MDMBox/MDMBox';
 import './MDMStyle.scss';

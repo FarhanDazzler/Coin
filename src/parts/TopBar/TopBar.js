@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useMsal, useIsAuthenticated } from '@azure/msal-react';
 import '../../assets/styles/TopBar.css';
 import FeatherIcon from 'feather-icons-react';
@@ -7,14 +7,11 @@ import abiLogo from '../../assets/images/abi_logo.png';
 import coinLogo from '../../assets/images/coin_logo.png';
 import defaultProfilePhoto from '../../assets/images/profile.jpg';
 import { UserContext } from '../../context/userContext';
-import appLogo from '../../assets/images/GCCWhite.png';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setLoginInfo, setLoginRole } from '../../redux/Auth/AuthAction';
 import { Form } from 'react-bootstrap';
-import MultiSelectButton from '../../components/Buttons/MultiSelect/MultiSelectButtonComponents';
 import FormControl from '@mui/material/FormControl';
 import Select from '../../components/UI/Select/Select';
-import { names } from '../../pages/QuestionBank/CreateQuestions/constant';
 
 const TopBar = (props) => {
   const history = useHistory();

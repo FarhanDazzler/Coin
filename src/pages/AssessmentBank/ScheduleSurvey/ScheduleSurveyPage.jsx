@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import PageWrapper from '../../../components/wrappers/PageWrapper';
 import '../AssessmentBankLandingPage.scss';
 import './styles.scss';
-import { Divider, Box } from '@mantine/core';
-import { IconSearch } from '@tabler/icons-react';
-import { Alert, Form } from 'react-bootstrap';
 import Page1 from './Page1';
-import Page2 from './Page2';
 import Page3 from './Page3';
 import Page4 from './Page4';
 
@@ -22,12 +18,12 @@ const ScheduleSurveyPage = () => {
         <div className="col-lg-12 py-4 AssessmentBankBoxWrapper">
           <div id="schedule-survey" className="content">
             <div className="wrapper">
-              <h4 className="AssessmentBank-inputPage-title">
-                Schedule Assessment
-              </h4>
+              <h4 className="AssessmentBank-inputPage-title">Schedule Assessment</h4>
               <div className="AssessmentBankInnerBoxWrapper">
                 <div className="step-header d-flex justify-content-between">
-                  <p className={step === 1 && 'active'}>Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                  <p className={step === 1 && 'active'}>
+                    Details&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </p>
                   <p className={step === 2 && 'active'}>Select Provider Organization</p>
                   <p className={step === 3 && 'active'}>Review & Confirm</p>
                 </div>

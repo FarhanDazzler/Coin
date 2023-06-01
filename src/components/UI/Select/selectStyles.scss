@@ -31,6 +31,24 @@
   color: #fff !important;
 }
 
+.materialReactTableWrapper {
+  .MuiPaper-root {
+    border: 1px solid #333333 !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+    background: rgba(92, 92, 92, 0.2) !important;
+    backdrop-filter: blur(20px) !important;
+  }
+  th {
+    backdrop-filter: blur(20px);
+    background: rgba(14, 14, 14, 0.9882352941);
+  }
+  td,
+  th {
+    border: 1px solid rgba(255, 255, 255, 0.13) !important;
+  }
+}
+
 .select-light {
   .select-options {
     color: black !important;

@@ -3,11 +3,8 @@
 import Button from 'react-bootstrap/Button';
 //import { parentQuestions, child_question } from './file';
 import Section2 from './Section2';
-import KPI from './KPI';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-
-import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';

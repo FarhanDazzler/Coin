@@ -5,13 +5,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Table from '../../../components/UI/Table';
 import NoDataPlaceholder from '../../../components/NoDataPlaceholder';
-import {
-  getAssessmentsSummaryTable,
-  getAssessmentDetailsTableData,
-} from '../../../redux/AssessmentBank/AssessmentBankAction';
+import { getAssessmentsSummaryTable } from '../../../redux/AssessmentBank/AssessmentBankAction';
 import {
   getAssessmentsSummaryTableSelector,
-  getAssessmentDetailsTableDataSelector,
   addAssessmentSchedulingAndTriggeringSelector,
 } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
 import { MultiSelect } from '@mantine/core';
@@ -215,7 +211,6 @@ const AssessmentsSummaryTable = () => {
                   assessmentCycleValue={assessmentCycleValue}
                   setYearValue={setYearValue}
                   setAssessmentCycleValue={setAssessmentCycleValue}
-                  
                 />
               </div>
               <>

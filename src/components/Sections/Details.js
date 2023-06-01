@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-
 import DataAccordion from '../../common/DataAccordion';
 import { useDispatch, useSelector } from 'react-redux';
 import { controlData } from '../../redux/Assessments/AssessmentAction';
-
 import { useMsal } from '@azure/msal-react';
 import { getControlSelector } from '../../redux/Assessments/AssessmentSelectors';
 

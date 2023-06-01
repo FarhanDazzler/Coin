@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import ConfirmAlert from '../../common/ConfirmAlert';
 import FeatherIcon from 'feather-icons-react';
 
-import { Card, Col, Row } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 // import FormikControl from '../formComponents/FormikControl';
 import { Button, Select, TextInput, Radio, RadioGroup, Group } from '@mantine/core';
 
@@ -27,9 +27,9 @@ const AssessmentForm = () => {
 
   //get quesitons from the database
   useEffect(() => {
-    Axios.get('https://acoemicsgrcpwa-devbe.azurewebsites.net/get_questions?ControlID=' + control_id).then(function (
-      response,
-    ) {
+    Axios.get(
+      'https://acoemicsgrcpwa-devbe.azurewebsites.net/get_questions?ControlID=' + control_id,
+    ).then(function (response) {
       var status_code = response.status;
       var status_text = response.statusText;
       var api_data = response?.data.data;

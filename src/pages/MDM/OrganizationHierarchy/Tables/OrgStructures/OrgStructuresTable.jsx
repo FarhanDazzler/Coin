@@ -2,19 +2,13 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
-
-import Table from '../../../../../components/UI/Table';
 import Table2 from '../../../../../components/UI/Table/Table2';
-
 import '../TableStyle.scss';
 import { getOrgStructuresSelector } from '../../../../../redux/MDM/MDM_Selectors';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
-import * as Yup from 'yup';
-import { Formik, Field } from 'formik';
-import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import OrgStructureModal from './OrgStructureModal';
 import {

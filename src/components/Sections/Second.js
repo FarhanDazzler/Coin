@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 
 function Second(props) {
   let [final, setfinal] = useState([]);
-  let [Level, setLevel] = useState([]);
   let [hash, sethash] = useState(new Map());
   let [ans, setans] = useState(new Map());
   let [parent, setparent] = useState(new Map());
