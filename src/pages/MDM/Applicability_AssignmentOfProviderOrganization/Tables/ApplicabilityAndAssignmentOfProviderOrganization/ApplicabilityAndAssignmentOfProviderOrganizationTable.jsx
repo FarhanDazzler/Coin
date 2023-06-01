@@ -3,20 +3,16 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
 import EditIcon from '@mui/icons-material/Edit';
-import Table from '../../../../../components/UI/Table';
-
+import Table2 from '../../../../../components/UI/Table/Table2';
 import '../TableStyle.scss';
-
 // geting data from redux
 import {
   getApplicabilityAndAssignmentOfProviderOrganizationSelector,
   assignApplicabilityAndAssignmentOfProviderOrganizationSelector,
 } from '../../../../../redux/MDM/MDM_Selectors';
-
 import Button from '../../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import Tooltip from '@mui/material/Tooltip';
-
 import AssignModal from './AssignModal';
 import EditModal from './EditModal';
 import GlobalApprove from './GlobalApprove';
@@ -54,88 +50,112 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'Zone',
-      headerName: 'Zone',
+      accessorKey: 'Zone',
+      id: 'Zone',
+      header: 'Zone',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 90,
+      size: 90,
     },
     {
-      field: 'Entity',
-      headerName: 'Entity / Receiver',
+      accessorKey: 'Entity',
+      id: 'Entity',
+      header: 'Entity / Receiver',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 200,
     },
     {
-      field: 'Control_ID',
-      headerName: 'Control ID',
+      accessorKey: 'Control_ID',
+      id: 'Control_ID',
+      header: 'Control ID',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 160,
+      size: 160,
     },
     {
-      field: 'Entity_Control_ID_IsApplicable',
-      headerName: 'Entity + Control ID',
+      accessorKey: 'Entity_Control_ID_IsApplicable',
+      id: 'Entity_Control_ID_IsApplicable',
+      header: 'Entity + Control ID',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 300,
+      size: 300,
     },
     {
-      field: 'Is_applicable',
-      headerName: 'Applicability',
+      accessorKey: 'Is_applicable',
+      id: 'Is_applicable',
+      header: 'Applicability',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 110,
+      size: 110,
     },
     {
-      field: 'Provider_Entity',
-      headerName: 'Provider Organization',
+      accessorKey: 'Provider_Entity',
+      id: 'Provider_Entity',
+      header: 'Provider Organization',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 200,
     },
     {
-      field: 'control_id_provider_entity',
-      headerName: 'Control ID + Provider Organization',
+      accessorKey: 'control_id_provider_entity',
+      id: 'control_id_provider_entity',
+      header: 'Provider Organization + Control ID',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 300,
+      size: 300,
     },
     {
-      field: 'Reason_for_NA',
-      headerName: 'Reason for NA',
+      accessorKey: 'Reason_for_NA',
+      id: 'Reason_for_NA',
+      header: 'Reason for NA',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 200,
     },
     {
-      field: 'Global_Approved',
-      headerName: 'Global Approved',
+      accessorKey: 'Global_Approved',
+      id: 'Global_Approved',
+      header: 'Global Approved',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 150,
+      size: 150,
     },
     {
-      field: 'Entity_Weight',
-      headerName: 'Entity Weight',
+      accessorKey: 'Entity_Weight',
+      id: 'Entity_Weight',
+      header: 'Entity Weight',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 140,
+      size: 140,
     },
     {
-      field: 'is_SOX_scope',
-      headerName: 'Is SOX scope',
+      accessorKey: 'is_SOX_scope',
+      id: 'is_SOX_scope',
+      header: 'Is SOX scope',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 130,
+      size: 130,
     },
     {
-      field: 'is_FSI_Entity',
-      headerName: 'Is FSI Entity',
+      accessorKey: 'is_FSI_Entity',
+      id: 'is_FSI_Entity',
+      header: 'Is FSI Entity',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 130,
+      size: 130,
     },
   ];
 
@@ -175,6 +195,10 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     if (editTableIndex.length == 0) {
       Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
     } else if (editTableIndex.length >= 1) {
+      // console.log(
+      //   tableData.filter((data, i) => editTableIndex.includes(data.id)),
+      //   'editable data',
+      // );
       setAssignTableData(tableData.filter((data, i) => editTableIndex.includes(data.id)));
       setShowModal(true);
     }
@@ -201,7 +225,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
       setShowEditModal(true);
     }
   };
-  console.log('@@@@@@@', tableData, tableColumns);
+  //console.log('@@@@@@@', tableData, tableColumns);
   return (
     <>
       <div className="container mt-5">
@@ -248,12 +272,11 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
                 </div>
               </div>
             </div>
-            <Table
+            <Table2
               tableData={tableData}
-              tableColumns={tableColumns}
-              columns={tableColumns}
-              setEditTableIndex={setEditTableIndex}
               loading={applicabilityAndAssignmentOfProviderOrganization.loading}
+              tableColumns={tableColumns}
+              setEditTableIndex={setEditTableIndex}
             />
           </div>
         </div>

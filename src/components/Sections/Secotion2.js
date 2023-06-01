@@ -1,28 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory from 'react-bootstrap-table2-editor';
-//import ToolkitProvider, { CSVExport } from 'react-bootstrap-table2-toolkit';
-import ToolkitProvider, {
-  CSVExport,
-} from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min';
+import { CSVExport } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min';
 //import ToolkitProvider,{CSVExport} from 'react-bootstrap-table2-toolkit'
-import { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min';
 import './App.css';
 import Workbook from 'react-excel-workbook';
 import * as XLSX from 'xlsx';
 function Section2(props) {
   console.log('second');
-  const { ExportCSVButton } = CSVExport;
 
   const [excelFile, setExcelFile] = useState(null);
-  const [excelFileError, setExcelFileError] = useState(null);
-  const [excelData, setExcelData] = useState(null);
   const [check_table, setcheck_table] = useState(1);
 
   let [final, setfinal] = useState([]);
-  let [Level, setLevel] = useState([]);
   let [child_submit, setchild_submit] = useState(new Map());
   let [childterminate, setchildterminate] = useState(false);
   let [hash, sethash] = useState(new Map());
@@ -37,8 +28,6 @@ function Section2(props) {
   let [k, setk] = useState([false, false, false]);
   // let [k,setk]=useState([])
   let [product, setproduct] = useState([{}]);
-
-  const fileType = ['application/vnd.ms-excel', '.xlsx'];
 
   console.log('khandelwal', props.final);
   const columns = [
@@ -709,7 +698,6 @@ function Section2(props) {
         let reader = new FileReader();
         reader.readAsArrayBuffer(selectedFile);
         reader.onload = (e) => {
-          setExcelFileError(null);
           setExcelFile(e.target.result);
         };
       } else {
@@ -727,7 +715,6 @@ function Section2(props) {
       const worksheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[worksheetName];
       const data = XLSX.utils.sheet_to_json(worksheet);
-      setExcelData(data);
       console.log(data);
 
       for (let i = 0; i < product.length; i++) {
@@ -896,8 +883,6 @@ function Section2(props) {
       setfinal([...final]);
 
       setproduct([...product]);
-    } else {
-      setExcelData(null);
     }
   };
 

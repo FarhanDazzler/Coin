@@ -1,6 +1,4 @@
 import React from 'react';
-import Button from '../../../components/UI/Button';
-import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 
 const QuestionBankBox = ({ title, description, children }) => {
   return (

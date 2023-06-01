@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Table from '../../../components/UI/Table';
+import Table2 from '../../../components/UI/Table/Table2';
 import { useSelector } from 'react-redux';
 import './TableStyle.scss';
 import CustomModal from '../../../components/UI/CustomModal';
@@ -27,42 +28,50 @@ const QuestionBankTable = () => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'Mega_Process',
-      headerName: 'Mega Process',
+      accessorKey: 'Mega_Process',
+      id: 'Mega_Process',
+      header: 'Mega Process',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 100,
     },
     {
-      field: 'Sub_Process',
-      headerName: 'Sub Process',
+      accessorKey: 'Sub_Process',
+      id: 'Sub_Process',
+      header: 'Sub Process',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 200,
     },
     {
-      field: 'Control_ID',
-      headerName: 'Control ID',
+      accessorKey: 'Control_ID',
+      id: 'Control_ID',
+      header: 'Control ID',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 90,
-      renderCell: (row) => {
+      size: 100,
+      Cell: (row) => {
         return (
           <span
             className={'text-yellow cursor-pointer'}
-            onClick={() => handleControlIDClick(row.row.Control_ID)}
+            onClick={() => handleControlIDClick(row.row.original.Control_ID)}
           >
-            {row.row.Control_ID}
+            {row.row.original.Control_ID}
           </span>
         );
       },
     },
     {
-      field: 'Control_Name',
-      headerName: 'Control Name',
+      accessorKey: 'Control_Name',
+      id: 'Control_Name',
+      header: 'Control Name',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 500,
+      size: 200,
     },
   ];
 
@@ -86,7 +95,11 @@ const QuestionBankTable = () => {
             <div className="questionBank-table-button">
               <div className="table-heading">Repository of Control IDs</div>
             </div>
-            <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+            <Table2
+              tableData={tableData}
+              loading={repositoryOfControlID.loading}
+              tableColumns={tableColumns}
+            />
           </div>
         </div>
       </div>

@@ -4,14 +4,11 @@ import '../../../assets/styles/custom.css';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Table from '../../../components/UI/Table';
+import Table2 from '../../../components/UI/Table/Table2';
 import NoDataPlaceholder from '../../../components/NoDataPlaceholder';
-import {
-  getAssessmentsSummaryTable,
-  getAssessmentDetailsTableData,
-} from '../../../redux/AssessmentBank/AssessmentBankAction';
+import { getAssessmentsSummaryTable } from '../../../redux/AssessmentBank/AssessmentBankAction';
 import {
   getAssessmentsSummaryTableSelector,
-  getAssessmentDetailsTableDataSelector,
   addAssessmentSchedulingAndTriggeringSelector,
 } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
 import { MultiSelect } from '@mantine/core';
@@ -125,57 +122,67 @@ const AssessmentsSummaryTable = () => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'Survey_Name',
-      headerName: 'Assessment Name',
+      accessorKey: 'Survey_Name',
+      id: 'Survey_Name',
+      header: 'Assessment Name',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 300,
-      renderCell: (row) => {
+      size: 150,
+      Cell: (row) => {
         return (
           <span
             className={'text-yellow cursor-pointer'}
             onClick={() =>
               handleSurveyNameClick(
-                row.row.Survey_Name,
-                row.row.Created_On,
-                row.row.Created_By,
-                row.row.Assessment_Cycle,
-                row.row.Year,
+                row.row.original.Survey_Name,
+                row.row.original.Created_On,
+                row.row.original.Created_By,
+                row.row.original.Assessment_Cycle,
+                row.row.original.Year,
               )
             }
           >
-            {row.row.Survey_Name}
+            {row.row.original.Survey_Name}
           </span>
         );
       },
     },
     {
-      field: 'Created_On',
-      headerName: 'Created On',
+      accessorKey: 'Created_On',
+      id: 'Created_On',
+      header: 'Created On',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 150,
+      size: 150,
     },
     {
-      field: 'Created_By',
-      headerName: 'Created By',
+      accessorKey: 'Created_By',
+      id: 'Created_By',
+      header: 'Created By',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 300,
+      size: 100,
     },
     {
-      field: 'Assessment_Cycle',
-      headerName: 'Assessment Cycle',
+      accessorKey: 'Assessment_Cycle',
+      id: 'Assessment_Cycle',
+      header: 'Assessment Cycle',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 200,
     },
     {
-      field: 'Year',
-      headerName: 'Year',
+      accessorKey: 'Year',
+      id: 'Year',
+      header: 'Year',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 90,
     },
   ];
 
@@ -215,12 +222,15 @@ const AssessmentsSummaryTable = () => {
                   assessmentCycleValue={assessmentCycleValue}
                   setYearValue={setYearValue}
                   setAssessmentCycleValue={setAssessmentCycleValue}
-                  
                 />
               </div>
               <>
                 {tableData?.length > 0 ? (
-                  <Table tableData={tableData} tableColumns={tableColumns} columns={tableColumns} />
+                  <Table2
+                    tableData={tableData}
+                    loading={getAssessmentsSummaryTableState.loading}
+                    tableColumns={tableColumns}
+                  />
                 ) : (
                   <NoDataPlaceholder />
                 )}

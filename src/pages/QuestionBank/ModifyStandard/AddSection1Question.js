@@ -3,11 +3,8 @@ import CustomModal from '../../../components/UI/CustomModal';
 import { Button } from '@mantine/core';
 import { Form } from 'react-bootstrap';
 import './ModifyStandard.scss';
-import {
-  addSection1OptionDataAction,
-  addSection1QuestionDataAction,
-} from '../../../redux/QuestionBank/QuestionBankAction';
-import { useDispatch, useSelector } from 'react-redux';
+import { addSection1QuestionDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
+import { useDispatch } from 'react-redux';
 
 const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
   const dispatch = useDispatch();
