@@ -1,6 +1,6 @@
 //import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Second from './Second';
 
 import BootstrapTable from 'react-bootstrap-table-next';

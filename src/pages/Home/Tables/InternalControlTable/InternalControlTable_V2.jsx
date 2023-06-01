@@ -3,13 +3,10 @@ import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
-import { MultiSelect } from '@mantine/core';
 import { Group } from '@mantine/core';
-import Table from '../../../../components/UI/Table';
 import NoDataPlaceholder from '../../../../components/NoDataPlaceholder';
 import { getInternalControlTableData } from '../../../../redux/DashBoard/DashBoardAction';
 import { getInternalControlDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
-import TableLoader from '../../../../components/UI/TableLoader';
 import { class_to_apply } from '../../V2/InternalControlHomePage/HomePageTable/constant';
 import FilterButtons from '../../../../components/FilterButtons';
 import Button from '../../../../components/UI/Button';
@@ -19,13 +16,13 @@ import {
 } from '../../../../redux/ControlData/ControlDataAction';
 import Table2 from '../../../../components/UI/Table/Table2';
 import Cookies from 'js-cookie';
-//TODO:Replace with new desgine 
+//TODO:Replace with new desgine
 // Filter buttons
 
 const InternalControlTable = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const token=Cookies.get('token')
+  const token = Cookies.get('token');
 
   const { instance, accounts, inProgress } = useMsal();
   const [tableColumns, setTableColumns] = useState([]);

@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import * as Yup from 'yup';
-import { useFormikContext, Formik, Field } from 'formik';
-import { Alert, Form } from 'react-bootstrap';
-import CustomModal from '../../../../../components/UI/CustomModal';
+import { useFormikContext, Formik } from 'formik';
+import { Form } from 'react-bootstrap';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
 // import { getControlInstanceHistoryAction } from '../../../../../redux/MDM/MDM_Action';
-import { getParentEntitySelector } from '../../../../../redux/MDM/MDM_Selectors';
 import { getUserFromAD } from '../../../../../redux/AzureAD/AD_Action';
 import { getUserFromADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
 import moment from 'moment';
 import useDebounce from '../../../../../hooks/useDebounce';
-import MyStatefulEditor from '../../../../../components/FormInputs/RichTextEditor';
-import { TextEditor } from '../../../../../components/FormInputs/RichTextEditor/RichTextEditor';
-import {
-  modifyControlOwnerAndOversight,
-  getControlInstanceHistoryAction,
-} from '../../../../../redux/MDM/MDM_Action';
-import InputWidthSelect from '../../../../../components/UI/InputWidthSelect/InputWidthSelect';
+import { modifyControlOwnerAndOversight } from '../../../../../redux/MDM/MDM_Action';
 import AdSearch from './AdSearch';
 import { isEmailValidADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
 import { Axios } from '../../../../../api/axios';
@@ -26,12 +18,11 @@ const GetParentEntityValue = ({ setCownerValue }) => {
   // Grab values and submitForm from context
   const { values } = useFormikContext();
   console.log('values', values);
-  useEffect(() => { }, [values]);
+  useEffect(() => {}, [values]);
   return null;
 };
 
 const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
-
   console.log('selectedControlIds', assignTableData);
   const dispatch = useDispatch();
 
@@ -65,7 +56,7 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
     //dispatch(getControlInstanceHistoryAction(payloadForHistory))
   }, []);
 
-  useEffect(() => { }, [isEmailValidADState.data]);
+  useEffect(() => {}, [isEmailValidADState.data]);
 
   useEffect(() => {
     if (!cownerValue) return;
@@ -88,26 +79,26 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
 
   const handleSaveAssign = (value) => {
     console.log(value);
-    
+
     const newState = assignTableData.map((obj) => {
-      console.log("objjjj",obj)
-      let updateObj={...obj}
+      console.log('objjjj', obj);
+      let updateObj = { ...obj };
       if (value.cowner !== '') {
         updateObj.cowner = value.cowner;
-        updateObj.cowner_valid_from =value.cownerValidFrom ;
+        updateObj.cowner_valid_from = value.cownerValidFrom;
       }
-      if (value.coversight !== "" || value.coversight !== '') {
+      if (value.coversight !== '' || value.coversight !== '') {
         updateObj.coversight = value.coversight;
-        updateObj.coversight_valid_from= value.coversightValidFrom;
+        updateObj.coversight_valid_from = value.coversightValidFrom;
       }
       if (value.cownerValidFrom !== '') {
-        updateObj.cowner_valid_from =value.cownerValidFrom;
+        updateObj.cowner_valid_from = value.cownerValidFrom;
       }
       if (value.cownerValidTo !== '') {
-        updateObj.cowner_valid_to =value.cownerValidTo
+        updateObj.cowner_valid_to = value.cownerValidTo;
       }
       if (value.coversightValidFrom !== '') {
-        updateObj.coversight_valid_from= value.coversightValidFrom;
+        updateObj.coversight_valid_from = value.coversightValidFrom;
       }
       // if (value.coversightValidTo !== '') {
       //   return { ...obj, coversight_valid_to: value.coversightValidTo };
@@ -141,7 +132,7 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
             coversight: assignTableData.length === 1 ? assignTableData[0]?.coversight : '',
             cownerValidFrom: today ? today : '',
             cownerValidTo: validToDate ? validToDate : '',
-            coversightValidFrom : today ? today : '',
+            coversightValidFrom: today ? today : '',
             coversightValidTo: validToDate ? validToDate : '',
           }}
           validationSchema={Yup.object().shape({
@@ -303,7 +294,7 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                               type="date"
                               name="cownerValidFrom"
                               placeholder=""
-                              value={values.cowner !== "" ? values.cownerValidFrom : ""}
+                              value={values.cowner !== '' ? values.cownerValidFrom : ''}
                               isInvalid={Boolean(touched.cownerValidFrom && errors.cownerValidFrom)}
                               min={today}
                               onBlur={handleBlur}
@@ -401,8 +392,10 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                               type="date"
                               name="coversightValidFrom"
                               placeholder=""
-                              value={values.coversight !== "" ? values.coversightValidFrom : ""}
-                              isInvalid={Boolean(touched.coversightValidFrom && errors.coversightValidFrom)}
+                              value={values.coversight !== '' ? values.coversightValidFrom : ''}
+                              isInvalid={Boolean(
+                                touched.coversightValidFrom && errors.coversightValidFrom,
+                              )}
                               min={today}
                               onBlur={handleBlur}
                               onChange={handleChange}
@@ -429,7 +422,9 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                               name="coversightValidTo"
                               placeholder=""
                               value={values.coversightValidTo}
-                              isInvalid={Boolean(touched.coversightValidTo && errors.coversightValidTo)}
+                              isInvalid={Boolean(
+                                touched.coversightValidTo && errors.coversightValidTo,
+                              )}
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
@@ -445,7 +440,6 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </div>
 

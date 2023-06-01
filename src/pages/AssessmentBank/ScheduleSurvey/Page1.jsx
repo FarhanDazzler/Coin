@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import * as Yup from 'yup';
-import { useFormikContext, Formik, Field } from 'formik';
-import { Alert, Form } from 'react-bootstrap';
+import { useFormikContext, Formik } from 'formik';
+import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../MDM/MDM_Tab_Buttons/Button';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Divider, Box } from '@mantine/core';
-import { IconCalendarCheck } from '@tabler/icons-react';
-import { Bell } from 'tabler-icons-react';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { scheduleSurveyPage_1Selector, getAssessmentCycleDataSelector } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
-import { ScheduleSurveyPage_1, getAssessmentCycleAction } from '../../../redux/AssessmentBank/AssessmentBankAction';
+import {
+  scheduleSurveyPage_1Selector,
+  getAssessmentCycleDataSelector,
+} from '../../../redux/AssessmentBank/AssessmentBankSelectors';
+import {
+  ScheduleSurveyPage_1,
+  getAssessmentCycleAction,
+} from '../../../redux/AssessmentBank/AssessmentBankAction';
 import moment from 'moment';
-import { YearPicker, MonthPicker, DayPicker } from "react-dropdown-date";
 import { months } from '../../QuestionBank/CreateQuestions/constant';
 
 const GetFormikFieldValue = ({ setPage1Value }) => {
   // Grab values and submitForm from context
   const dispatch = useDispatch();
   const { values } = useFormikContext();
-  useEffect(() => { }, [values]);
+  useEffect(() => {}, [values]);
   return null;
 };
 
@@ -33,16 +35,20 @@ const Page1 = ({ handleNext }) => {
   let kpiFromYear = moment(getAssessmentCycleDataState?.data[1]?.kpi_from).format('YYYY');
   let kpiToMonth = moment(getAssessmentCycleDataState?.data[2]?.kpi_to).format('M');
   let kpiToYear = moment(getAssessmentCycleDataState?.data[2]?.kpi_to).format('YYYY');
-  let kpiDay = moment("1").format('DD');
-  console.log("today", kpiToMonth);
-  const [kpiFromData, setKpiFromData] = useState({ year: kpiFromYear, month: kpiFromMonth, day: kpiDay });
+  let kpiDay = moment('1').format('DD');
+  console.log('today', kpiToMonth);
+  const [kpiFromData, setKpiFromData] = useState({
+    year: kpiFromYear,
+    month: kpiFromMonth,
+    day: kpiDay,
+  });
   const [kpiFromMonthData, setKpiFromMonthData] = useState();
   const [kpiToData, setKpiToData] = useState({ year: kpiToYear, month: kpiToMonth, day: kpiDay });
-  console.log("getAssessmentCycleDataState", getAssessmentCycleDataState);
-  const [workingDays, setWorkingDays] = useState()
+  console.log('getAssessmentCycleDataState', getAssessmentCycleDataState);
+  const [workingDays, setWorkingDays] = useState();
   useEffect(() => {
     dispatch(getAssessmentCycleAction());
-  }, [])
+  }, []);
 
   const handleOnclickCancel = () => {
     history.push('/assessmentbank');
@@ -76,7 +82,6 @@ const Page1 = ({ handleNext }) => {
     handleNext();
   };
 
-
   // logic for Year picker
   const years = [];
   const currentYear = new Date().getFullYear();
@@ -84,7 +89,6 @@ const Page1 = ({ handleNext }) => {
   for (let year = currentYear; year >= startYear; year--) {
     years.push(year);
   }
-
 
   return (
     <div className="p-5">
@@ -94,20 +98,39 @@ const Page1 = ({ handleNext }) => {
         initialValues={{
           Survey_Name: scheduleSurveyPage_1_State?.Survey_Name || '',
           Question_Bank: scheduleSurveyPage_1_State?.Question_Bank || 'Template1',
-          Assessment_Cycle: scheduleSurveyPage_1_State?.Assessment_Cycle || getAssessmentCycleDataState?.data[0]?.assessmentCylce || '',
+          Assessment_Cycle:
+            scheduleSurveyPage_1_State?.Assessment_Cycle ||
+            getAssessmentCycleDataState?.data[0]?.assessmentCylce ||
+            '',
           Year: scheduleSurveyPage_1_State?.Year || currentYear || '',
           KPI_From_Year: kpiFromYear || '',
           KPI_From_month: kpiFromMonth || '',
           KPI_To_Month: kpiToMonth || '',
           KPI_To_Year: kpiToYear || '',
-          Start_Date: scheduleSurveyPage_1_State?.Start_Date || getAssessmentCycleDataState?.data[3]?.start_date || '',
-          Due_Date: scheduleSurveyPage_1_State?.Due_Date || getAssessmentCycleDataState?.data[4]?.end_date || '',
-          Control_Owner_Reminder_1: scheduleSurveyPage_1_State?.Control_Owner_Reminder_1 || getAssessmentCycleDataState?.data[5]?.reminder1 || '',
-          Control_Owner_Reminder_2: scheduleSurveyPage_1_State?.Control_Owner_Reminder_2 || getAssessmentCycleDataState?.data[6]?.reminder2 || '',
+          Start_Date:
+            scheduleSurveyPage_1_State?.Start_Date ||
+            getAssessmentCycleDataState?.data[3]?.start_date ||
+            '',
+          Due_Date:
+            scheduleSurveyPage_1_State?.Due_Date ||
+            getAssessmentCycleDataState?.data[4]?.end_date ||
+            '',
+          Control_Owner_Reminder_1:
+            scheduleSurveyPage_1_State?.Control_Owner_Reminder_1 ||
+            getAssessmentCycleDataState?.data[5]?.reminder1 ||
+            '',
+          Control_Owner_Reminder_2:
+            scheduleSurveyPage_1_State?.Control_Owner_Reminder_2 ||
+            getAssessmentCycleDataState?.data[6]?.reminder2 ||
+            '',
           Control_Oversight_Pending_Notification_1:
-            scheduleSurveyPage_1_State?.Control_Oversight_Pending_Notification_1 || getAssessmentCycleDataState?.data[7]?.notification1 || '',
+            scheduleSurveyPage_1_State?.Control_Oversight_Pending_Notification_1 ||
+            getAssessmentCycleDataState?.data[7]?.notification1 ||
+            '',
           Control_Oversight_Pending_Notification_2:
-            scheduleSurveyPage_1_State?.Control_Oversight_Pending_Notification_2 || getAssessmentCycleDataState?.data[8]?.notification2 || '',
+            scheduleSurveyPage_1_State?.Control_Oversight_Pending_Notification_2 ||
+            getAssessmentCycleDataState?.data[8]?.notification2 ||
+            '',
           Control_Oversight_Review_Notification_1:
             scheduleSurveyPage_1_State?.Control_Oversight_Review_Notification_1 || '',
           Control_Oversight_Review_Notification_2:
@@ -186,7 +209,7 @@ const Page1 = ({ handleNext }) => {
                       <Form.Control
                         as="select"
                         name="Question_Bank"
-                        defaultValue={"Template1"}
+                        defaultValue={'Template1'}
                         placeholder=""
                         value={values.Question_Bank}
                         isInvalid={Boolean(touched.Question_Bank && errors.Question_Bank)}
@@ -213,7 +236,7 @@ const Page1 = ({ handleNext }) => {
               <div className="col-lg-6">
                 <div className="row mb-4">
                   <div className="col-lg-4">
-                    <Form.Label>Assessment_Cycle</Form.Label>
+                    <Form.Label>Assessment Cycle</Form.Label>
                   </div>
                   <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
@@ -313,8 +336,8 @@ const Page1 = ({ handleNext }) => {
                     <Form.Label>KPI From</Form.Label>
                   </div>
                   <div className="col-lg-6">
-                    <div className='row'>
-                      <div className='col-lg-6'>
+                    <div className="row">
+                      <div className="col-lg-6">
                         <Form.Group className="input-group mb-3">
                           <Form.Control
                             as="select"
@@ -326,11 +349,11 @@ const Page1 = ({ handleNext }) => {
                             readOnly={false}
                             className="form-select"
                           >
-                            {
-                              months.map((data, i) => (
-                                <option key={i} value={data.label}>{data.value}</option>
-                              ))
-                            }
+                            {months.map((data, i) => (
+                              <option key={i} value={data.label}>
+                                {data.value}
+                              </option>
+                            ))}
                           </Form.Control>
 
                           {!!touched.KPI_From_month && (
@@ -340,7 +363,7 @@ const Page1 = ({ handleNext }) => {
                           )}
                         </Form.Group>
                       </div>
-                      <div className='col-lg-6'>
+                      <div className="col-lg-6">
                         <Form.Group className="input-group mb-3">
                           <Form.Control
                             as="select"
@@ -367,9 +390,7 @@ const Page1 = ({ handleNext }) => {
                           )}
                         </Form.Group>
                       </div>
-
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -380,8 +401,8 @@ const Page1 = ({ handleNext }) => {
                     <Form.Label>KPI To</Form.Label>
                   </div>
                   <div className="col-lg-6">
-                    <div className='row'>
-                      <div className='col-lg-6'>
+                    <div className="row">
+                      <div className="col-lg-6">
                         <Form.Group className="input-group mb-3">
                           <Form.Control
                             as="select"
@@ -393,11 +414,11 @@ const Page1 = ({ handleNext }) => {
                             readOnly={false}
                             className="form-select"
                           >
-                            {
-                              months.map((data, i) => (
-                                <option key={i} value={data.label}>{data.value}</option>
-                              ))
-                            }
+                            {months.map((data, i) => (
+                              <option key={i} value={data.label}>
+                                {data.value}
+                              </option>
+                            ))}
                           </Form.Control>
 
                           {!!touched.KPI_To_Month && (
@@ -407,7 +428,7 @@ const Page1 = ({ handleNext }) => {
                           )}
                         </Form.Group>
                       </div>
-                      <div className='col-lg-6'>
+                      <div className="col-lg-6">
                         <Form.Group className="input-group mb-3">
                           <Form.Control
                             as="select"
@@ -434,9 +455,7 @@ const Page1 = ({ handleNext }) => {
                           )}
                         </Form.Group>
                       </div>
-
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -473,7 +492,7 @@ const Page1 = ({ handleNext }) => {
               <div className="col-lg-6">
                 <div className="row mb-4">
                   <div className="col-lg-4">
-                    <Form.Label>Due_Date</Form.Label>
+                    <Form.Label>Due Date</Form.Label>
                   </div>
                   <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
@@ -514,8 +533,6 @@ const Page1 = ({ handleNext }) => {
                   }
                 />
               </div>
-
-
 
               <div className="col-lg-6">
                 <div className="row mb-4">
@@ -609,7 +626,7 @@ const Page1 = ({ handleNext }) => {
                         value={values.Control_Oversight_Pending_Notification_1}
                         isInvalid={Boolean(
                           touched.Control_Oversight_Pending_Notification_1 &&
-                          errors.Control_Oversight_Pending_Notification_1,
+                            errors.Control_Oversight_Pending_Notification_1,
                         )}
                         onBlur={handleBlur}
                         onChange={handleChange}
@@ -640,7 +657,7 @@ const Page1 = ({ handleNext }) => {
                         value={values.Control_Oversight_Pending_Notification_2}
                         isInvalid={Boolean(
                           touched.Control_Oversight_Pending_Notification_2 &&
-                          errors.Control_Oversight_Pending_Notification_2,
+                            errors.Control_Oversight_Pending_Notification_2,
                         )}
                         onBlur={handleBlur}
                         onChange={handleChange}
@@ -657,7 +674,6 @@ const Page1 = ({ handleNext }) => {
                   </div>
                 </div>
               </div>
-
 
               {/* <div className="col-lg-6">
                   <div className="row mb-4">
@@ -724,7 +740,6 @@ const Page1 = ({ handleNext }) => {
                     </div>
                   </div>
                 </div> */}
-
             </div>
             <div className="footer-action-AssessmentBank">
               <div className="d-flex align-items-center justify-content-end">

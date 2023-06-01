@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
-import { MultiSelect } from '@mantine/core';
 import { Group } from '@mantine/core';
 import Table from '../../../../components/UI/Table';
 import NoDataPlaceholder from '../../../../components/NoDataPlaceholder';

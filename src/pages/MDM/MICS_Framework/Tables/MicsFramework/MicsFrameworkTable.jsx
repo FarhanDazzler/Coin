@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import Table from '../../../../../components/UI/Table';
+import { useHistory, useLocation } from 'react-router-dom';
+import Table2 from '../../../../../components/UI/Table/Table2';
 import Swal from 'sweetalert2';
 import '../TableStyle.scss';
 
@@ -27,286 +27,328 @@ const MicsFrameworkTable = () => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'Previous_MICS',
-      headerName: 'Previous Year MICS No',
+      accessorKey: 'Previous_MICS',
+      id: 'Previous_MICS',
+      header: 'Previous Year MICS No',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 190,
     },
     {
-      field: 'Previous_MICS1',
-      headerName: 'Previous Year-1 MICS No',
+      accessorKey: 'Previous_MICS1',
+      id: 'Previous_MICS1',
+      header: 'Previous Year-1 MICS No',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 190,
     },
     {
-      field: 'Control_ID',
-      headerName: 'Control ID',
+      accessorKey: 'Control_ID',
+      id: 'Control_ID',
+      header: 'Control ID',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 160,
+      size: 190,
     },
     {
-      field: 'Category',
-      headerName: 'Category',
+      accessorKey: 'Category',
+      id: 'Category',
+      header: 'Category',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 100,
     },
     {
-      field: 'Mega_Process',
-      headerName: 'Mega Process',
+      accessorKey: 'Mega_Process',
+      id: 'Mega_Process',
+      header: 'Mega Process',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 140,
+      size: 140,
     },
     {
-      field: 'Sub_Process',
-      headerName: 'Sub Process',
+      accessorKey: 'Sub_Process',
+      id: 'Sub_Process',
+      header: 'Sub Process',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 230,
+      size: 230,
     },
     {
-      field: 'ABI_Key',
-      headerName: 'ABI Key',
+      accessorKey: 'ABI_Key',
+      id: 'ABI_Key',
+      header: 'ABI Key',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 90,
     },
     {
-      field: 'Ambev_Key',
-      headerName: 'Ambev Key',
+      accessorKey: 'Ambev_Key',
+      id: 'Ambev_Key',
+      header: 'Ambev Key',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 90,
     },
     {
-      field: 'FCPA',
-      headerName: 'FCPA',
+      accessorKey: 'FCPA',
+      id: 'FCPA',
+      header: 'FCPA',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 90,
     },
     {
-      field: 'Frequency',
-      headerName: 'Frequency',
+      accessorKey: 'Frequency',
+      id: 'Frequency',
+      header: 'Frequency',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 150,
+      size: 90,
     },
     {
-      field: 'Preventive_Detective',
-      headerName: 'Preventive/Detective',
+      accessorKey: 'Preventive_Detective',
+      id: 'Preventive_Detective',
+      header: 'Preventive/Detective',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 170,
+      size: 170,
     },
     {
-      field: 'Automation',
-      headerName: 'Automation',
+      accessorKey: 'Automation',
+      id: 'Automation',
+      header: 'Automation',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 140,
+      size: 140,
     },
     {
-      field: 'Recommended_Level',
-      headerName: 'Recommended Level',
+      accessorKey: 'Recommended_Level',
+      id: 'Recommended_Level',
+      header: 'Recommended Level',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 170,
+      size: 170,
     },
     {
-      field: 'Maturity_Relevant',
-      headerName: 'Maturity Relevant',
+      accessorKey: 'Maturity_Relevant',
+      id: 'Maturity_Relevant',
+      header: 'Maturity Relevant',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 140,
+      size: 140,
     },
     {
-      field: 'mics_weight',
-      headerName: 'MICS Weight',
+      accessorKey: 'mics_weight',
+      id: 'mics_weight',
+      header: 'MICS Weight',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 120,
+      size: 120,
+    },
+    // {
+    //   accessorKey: 'Recommended_Standardization',
+    //   id: 'Recommended_Standardization',
+    //   header: 'Recommended Standardization',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 350,
+    // },
+    // {
+    //   accessorKey: 'ABI_DAG',
+    //   id: 'ABI_DAG',
+    //   header: 'ABI DAG',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 90,
+    // },
+    // {
+    //   accessorKey: 'AmBev_DAG',
+    //   id: 'AmBev_DAG',
+    //   header: 'AmBev DAG',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 90,
+    // },
+    {
+      accessorKey: 'B2B',
+      id: 'B2B',
+      header: 'B2B',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
     },
     {
-      field: 'Recommended_Standardization',
-      headerName: 'Recommended Standardization',
+      accessorKey: 'Fintech',
+      id: 'Fintech',
+      header: 'Fintech',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 350,
+      size: 90,
     },
     {
-      field: 'ABI_DAG',
-      headerName: 'ABI DAG',
+      accessorKey: 'DTC',
+      id: 'DTC',
+      header: 'DTC',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 140,
     },
     {
-      field: 'AmBev_DAG',
-      headerName: 'AmBev DAG',
+      accessorKey: 'Control_Split',
+      id: 'Control_Split',
+      header: 'Control Split',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 120,
+    },
+    // {
+    //   accessorKey: 'Risk',
+    //   id: 'Risk',
+    //   header: 'Risk',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 400,
+    // },
+    {
+      accessorKey: 'Control_name',
+      id: 'Control_name',
+      header: 'Control Name',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 350,
     },
     {
-      field: 'B2B',
-      headerName: 'B2B',
+      accessorKey: 'Kpi_status',
+      id: 'Kpi_status',
+      header: 'Kpi Status',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 90,
+      size: 190,
     },
     {
-      field: 'Fintech',
-      headerName: 'Fintech',
+      accessorKey: 'L1_KPI',
+      id: 'L1_KPI',
+      header: 'L1 KPI',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 90,
+      size: 90,
     },
     {
-      field: 'DTC',
-      headerName: 'DTC',
+      accessorKey: 'L2_KPI',
+      id: 'L2_KPI',
+      header: 'L2 KPI',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 140,
+      size: 90,
     },
     {
-      field: 'Control_Split',
-      headerName: 'Control Split',
+      accessorKey: 'L3_KPI',
+      id: 'L3_KPI',
+      header: 'L3 KPI',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 120,
+      size: 90,
+    },
+    // {
+    //   accessorKey: 'BS_impact',
+    //   id: 'BS_impact',
+    //   header: 'Balance Sheet Impact',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 170,
+    // },
+    // {
+    //   accessorKey: 'PnL_impact',
+    //   id: 'PnL_impact',
+    //   header: 'P&L Impact',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 350,
+    // },
+    {
+      accessorKey: 'Cash_flow_impact',
+      id: 'Cash_flow_impact',
+      header: 'Cash Flow Impact',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 160,
     },
     {
-      field: 'Risk',
-      headerName: 'Risk',
+      accessorKey: 'testing_approach',
+      id: 'testing_approach',
+      header: 'Testing Approach',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 450,
+      size: 300,
     },
     {
-      field: 'Control_name',
-      headerName: 'Control Name',
+      accessorKey: 'change_comment',
+      id: 'change_comment',
+      header: 'Change Comment',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 350,
+      size: 300,
     },
     {
-      field: 'mics_L1desc',
-      headerName: 'L1 Description',
+      accessorKey: 'Change_Size',
+      id: 'Change_Size',
+      header: 'Change Size',
       flex: 1,
-      renderCell: (row) => {
-        return <p dangerouslySetInnerHTML={{ __html: row.row.mics_L1desc }} />;
-      },
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 500,
+      size: 130,
     },
     {
-      field: 'mics_L2desc',
-      headerName: 'L2 Description',
+      accessorKey: 'Reviewed',
+      id: 'Reviewed',
+      header: 'Reviewed',
       flex: 1,
-      renderCell: (row) => {
-        return <p dangerouslySetInnerHTML={{ __html: row.row.mics_L2desc }} />;
-      },
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 500,
+      size: 100,
     },
     {
-      field: 'mics_L3desc',
-      headerName: 'L3 Description',
+      accessorKey: 'Status',
+      id: 'Status',
+      header: 'Status',
       flex: 1,
-      renderCell: (row) => {
-        return <p dangerouslySetInnerHTML={{ __html: row.row.mics_L3desc }} />;
-      },
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 500,
-    },
-    {
-      field: 'Kpi_status',
-      headerName: 'Kpi Status',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 190,
-    },
-    {
-      field: 'L1_KPI',
-      headerName: 'L1 KPI',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 80,
-    },
-    {
-      field: 'L2_KPI',
-      headerName: 'L2 KPI',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 80,
-    },
-    {
-      field: 'L3_KPI',
-      headerName: 'L3 KPI',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 80,
-    },
-    {
-      field: 'BS_impact',
-      headerName: 'Balance Sheet Impact',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 175,
-    },
-    {
-      field: 'PnL_impact',
-      headerName: 'P&L Impact',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 350,
-    },
-    {
-      field: 'Cash_flow_impact',
-      headerName: 'Cash Flow Impact',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 160,
-    },
-    {
-      field: 'testing_approach',
-      headerName: 'Testing Approach',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 300,
-    },
-    {
-      field: 'change_comment',
-      headerName: 'Change Comment',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 300,
-    },
-    {
-      field: 'Change_Size',
-      headerName: 'Change Size',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 130,
-    },
-    {
-      field: 'Reviewed',
-      headerName: 'Reviewed',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 100,
-    },
-    {
-      field: 'Status',
-      headerName: 'Status',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 100,
     },
   ];
 
@@ -336,8 +378,10 @@ const MicsFrameworkTable = () => {
 
   const handleOnclickEdit = () => {
     // edit code
-    console.log(tableData);
-    if (editTableIndex.length > 1) {
+    //console.log(tableData);
+    if (editTableIndex.length === 0) {
+      Swal.fire('Oops...', 'You need to select from table in order to edit', 'error');
+    } else if (editTableIndex.length > 1) {
       Swal.fire('Oops...', 'You can only allow one MICS Framework to edit at a time', 'error');
     } else if (editTableIndex.length == 1) {
       //if (!editTableIndex[0]) return;
@@ -353,6 +397,12 @@ const MicsFrameworkTable = () => {
     // Add code
     const data = { title: 'Add MICS Framework', modalType: 'add', editTableData: null };
     history.push('/master-data-management/mics-framework/addNew', { data });
+  };
+
+  // object for Expanding Detail Panel
+  const Is_Expanding_Detail_Panel = {
+    Is_Expanding: true,
+    Table_Name: 'MICS Framework Table',
   };
 
   return (
@@ -390,12 +440,12 @@ const MicsFrameworkTable = () => {
                 )}
               </div>
             </div>
-            <Table
+            <Table2
               tableData={tableData}
-              tableColumns={tableColumns}
-              columns={tableColumns}
-              setEditTableIndex={setEditTableIndex}
               loading={micsFramework.loading}
+              tableColumns={tableColumns}
+              setEditTableIndex={setEditTableIndex}
+              Is_Expanding_Detail_Panel={Is_Expanding_Detail_Panel}
             />
           </div>
         </div>

@@ -2,14 +2,12 @@ import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 import '../../assets/styles/custom.css';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
   getControlDataAction,
   getControlDataGcdAction,
 } from '../../redux/ControlData/ControlDataAction';
-import Button from '../UI/Button';
 import Table from '../UI/Table';
 import { getSurveyStatusClass, TABLE_ROES } from './constant';
 import NoDataPlaceholder from '../NoDataPlaceholder';
@@ -20,7 +18,6 @@ const AssessmentbankTable = () => {
   const history = useHistory();
   const { accounts } = useMsal();
   const dispatch = useDispatch();
-  const query = new URLSearchParams(history.location.search);
 
   const TABLE_COLUMNS = [
     {
