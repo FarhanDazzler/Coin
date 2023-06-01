@@ -1,7 +1,6 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { Axios } from '../../api/axios';
-import { getSimplifiedError } from '../../utils/error';
 
 import {
   GET_ALL_ZONE_REQUEST,

@@ -1,5 +1,3 @@
-import { stopAsyncValidation } from 'redux-form';
-
 export const RESET_BLOCK_ASSESSMENT = 'RESET_BLOCK_ASSESSMENT';
 export const RESET_FLAGS_ASSESSMENT = 'RESET_FLAGS_ASSESSMENT';
 
@@ -340,7 +338,7 @@ export const AssessmentBankReducer = (state = initialState, { type, payload = {}
         },
       };
 
-          //Get Assessment Cycle Data
+    //Get Assessment Cycle Data
     case GET_ASSESSMENT_CYCLE_REQUEST:
       return {
         ...state,

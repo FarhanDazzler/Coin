@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { FloatRight, TableOptions, ListCheck, Selector } from 'tabler-icons-react';
-import * as Yup from 'yup';
-import { Alert, Form } from 'react-bootstrap';
+import { FloatRight, TableOptions, ListCheck } from 'tabler-icons-react';
+import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../MDM/MDM_Tab_Buttons/Button';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
-import { Select, Checkbox, Group, MultiSelect, Stack } from '@mantine/core';
+import { useHistory } from 'react-router-dom';
+import { MultiSelect } from '@mantine/core';
 import { useFormik } from 'formik';
-import validator from 'validator';
 import { Divider, Box } from '@mantine/core';
-import { IconCalendarCheck } from '@tabler/icons-react';
 import Table from '../../../components/UI/Table';
 import { getMegaProcessMicsFramework } from '../../../redux/MDM/MDM_Action';
 import { getMegaProcessMicsFrameworkSelector } from '../../../redux/MDM/MDM_Selectors';
 import {
-  scheduleSurveyPage_1Selector,
-  scheduleSurveyPage_2Selector,
   scheduleSurveyPage_3Selector,
   getAllZoneSelector,
   getAll_BU_FromZoneSelector,

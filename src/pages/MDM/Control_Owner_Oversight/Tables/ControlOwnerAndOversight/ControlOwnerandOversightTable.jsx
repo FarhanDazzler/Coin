@@ -2,25 +2,19 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
-import Table from '../../../../../components/UI/Table';
 import Table2 from '../../../../../components/UI/Table/Table2';
-import { Messaging } from 'react-cssfx-loading';
 import '../TableStyle.scss';
-
 // geting data from redux
 import {
   getControlOwnerAndOversightSelector,
   modifyControlOwnerAndOversightSelector,
 } from '../../../../../redux/MDM/MDM_Selectors';
-import { getControlInstanceHistoryAction } from '../../../../../redux/MDM/MDM_Action';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
-
 // import for multi select filter
 import { Group } from '@mantine/core';
-import MultiSelectButton from '../../../../../components/Buttons/MultiSelect/MultiSelectButtonComponents.js';
 import { MultiSelect } from '@mantine/core';
 import '../../MultiSelectButtonStyles.scss';
 import AssignModal from './AssignModal';

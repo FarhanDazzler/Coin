@@ -1,5 +1,3 @@
-import { stopAsyncValidation } from 'redux-form';
-
 export const SAVE_ANS = 'RESET_BLOCK_ASSESSMENT';
 export const SAVE_ANS_SUCCESS = 'SAVE_ANS_SUCCESS';
 export const SAVE_ANS_ERROR = 'SAVE_ANS_ERROR';
