@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
 import { Group } from '@mantine/core';
 import Table from '../../../../components/UI/Table';
+import Table2 from '../../../../components/UI/Table/Table2';
 import NoDataPlaceholder from '../../../../components/NoDataPlaceholder';
 import { getInternalControlTableData } from '../../../../redux/DashBoard/DashBoardAction';
 import { getInternalControlDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
@@ -88,142 +89,152 @@ const InternalControlTable = (props) => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'Action',
-      headerName: 'Action',
+      accessorKey: 'Action',
+      id: 'Action',
+      header: 'Action',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 120,
-      renderCell: (row) => {
+      size: 210,
+      Cell: (row) => {
         return (
           <div>
-            {row.row.Status === 'Completed' && (
-              <Button onClick={() => handleControlIDClick(row.row.Control_ID, row.row)}>
+            {row.row.original.Status === 'Completed' && (
+              <Button
+                className="mr-2"
+                // onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
+                onClick={() => handleControlIDClick(row.row.original.Control_ID, row.row.original)}
+              >
                 Review
               </Button>
             )}
-            {/* {['Not started', 'Re-assessed'].includes(row.row.Status) && (
-              <Button onClick={() => handleControlIDClick(row.row.Control_ID)}>
-                Attempt response
-              </Button>
-            )} */}
           </div>
         );
       },
     },
     {
-      field: 'Zone',
-      headerName: 'Zone',
+      accessorKey: 'Zone',
+      id: 'Zone',
+      header: 'Zone',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 90,
-    },
-    // {
-    //   field: 'Receiver',
-    //   headerName: 'Receiver Organization',
-    //   flex: 1,
-    //   cellClassName: 'dashboardCell',
-    //   minWidth: 200,
-    // },
-    {
-      field: 'Provider',
-      headerName: 'Provider Organization',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 90,
     },
     {
-      field: 'Control_ID',
-      headerName: 'Control ID',
+      accessorKey: 'Control_ID',
+      id: 'Control_ID',
+      header: 'Control ID',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 140,
-      renderCell: (row) => {
+      size: 140,
+      Cell: (row) => {
         return (
           <span
             className={'text-yellow cursor-pointer'}
             // onClick={() => handleControlIDClick(row.row.Control_ID)}
           >
-            {row.row.Control_ID}
+            {row.row.original.Control_ID}
           </span>
         );
       },
     },
-
     {
-      field: 'Status',
-      headerName: 'Status',
+      accessorKey: 'Status',
+      id: 'Status',
+      header: 'Status',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 120,
-      renderCell: (row) => {
-        return <span className={'text-yellow-dark'}>{row.row.Status}</span>;
+      size: 120,
+      Cell: (row) => {
+        return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
       },
     },
     {
-      field: 'KPI_Result',
-      headerName: 'KPI Result',
+      accessorKey: 'KPI_Result',
+      id: 'KPI_Result',
+      header: 'KPI Result',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
-      renderCell: (row) => {
-        return <span className={class_to_apply(row.row.KPI_Result)}>{row.row.KPI_Result}</span>;
-      },
-    },
-    {
-      field: 'Assessment_Result',
-      headerName: 'Assessment Result',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 150,
-      renderCell: (row) => {
+      size: 100,
+      Cell: (row) => {
         return (
-          <span className={class_to_apply(row.row.Assessment_Result)}>
-            {row.row.Assessment_Result}
+          <span className={class_to_apply(row.row.original.KPI_Result)}>
+            {row.row.original.KPI_Result}
           </span>
         );
       },
     },
     {
-      field: 'Compliance_Result',
-      headerName: 'Compliance Result',
+      accessorKey: 'Assessment_Result',
+      id: 'Assessment_Result',
+      header: 'Assessment Result',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 150,
-      renderCell: (row) => {
+      size: 150,
+      Cell: (row) => {
         return (
-          <span className={class_to_apply(row.row.Compliance_Result)}>
-            {row.row.Compliance_Result}
+          <span className={class_to_apply(row.row.original.Assessment_Result)}>
+            {row.row.original.Assessment_Result}
           </span>
         );
       },
     },
     {
-      field: 'Control_Owner',
-      headerName: 'Control Owner',
+      accessorKey: 'Compliance_Result',
+      id: 'Compliance_Result',
+      header: 'Compliance Result',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 150,
+      Cell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.original.Compliance_Result)}>
+            {row.row.original.Compliance_Result}
+          </span>
+        );
+      },
     },
     {
-      field: 'Control_Oversight',
-      headerName: 'Control Oversight',
+      accessorKey: 'Control_Owner',
+      id: 'Control_Owner',
+      header: 'Control Owner',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 200,
     },
     {
-      field: 'Assessment_Cycle',
-      headerName: 'Assessment Cycle',
+      accessorKey: 'Control_Oversight',
+      id: 'Control_Oversight',
+      header: 'Control Oversight',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 150,
+      size: 250,
     },
     {
-      field: 'Year',
-      headerName: 'Year',
+      accessorKey: 'Assessment_Cycle',
+      id: 'Assessment_Cycle',
+      header: 'Assessment Cycle',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 150,
+    },
+    {
+      accessorKey: 'Year',
+      id: 'Year',
+      header: 'Year',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
     },
   ];
 
@@ -292,11 +303,10 @@ const InternalControlTable = (props) => {
               ) : (
                 <div className="row">
                   {tableData?.length > 0 ? (
-                    <Table
+                    <Table2
                       tableData={tableData}
+                      loading={getDashBoardDataState.loading}
                       tableColumns={tableColumns}
-                      columns={tableColumns}
-                      setEditTableIndex={setEditTableIndex}
                     />
                   ) : (
                     <NoDataPlaceholder />
