@@ -236,7 +236,7 @@ const Page1 = ({ handleNext }) => {
               <div className="col-lg-6">
                 <div className="row mb-4">
                   <div className="col-lg-4">
-                    <Form.Label>Assessment_Cycle</Form.Label>
+                    <Form.Label>Assessment Cycle</Form.Label>
                   </div>
                   <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
@@ -492,7 +492,7 @@ const Page1 = ({ handleNext }) => {
               <div className="col-lg-6">
                 <div className="row mb-4">
                   <div className="col-lg-4">
-                    <Form.Label>Due_Date</Form.Label>
+                    <Form.Label>Due Date</Form.Label>
                   </div>
                   <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">

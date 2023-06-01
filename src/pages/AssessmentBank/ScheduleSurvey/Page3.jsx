@@ -9,6 +9,7 @@ import { MultiSelect } from '@mantine/core';
 import { useFormik } from 'formik';
 import { Divider, Box } from '@mantine/core';
 import Table from '../../../components/UI/Table';
+import Table2 from '../../../components/UI/Table/Table2';
 import { getMegaProcessMicsFramework } from '../../../redux/MDM/MDM_Action';
 import { getMegaProcessMicsFrameworkSelector } from '../../../redux/MDM/MDM_Selectors';
 import {
@@ -218,53 +219,67 @@ const Page3 = ({ handleNext, setStep }) => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'zone',
-      headerName: 'Zone',
+      accessorKey: 'zone',
+      id: 'zone',
+      header: 'Zone',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 90,
     },
     {
-      field: 'Control_ID',
-      headerName: 'Control ID',
+      accessorKey: 'Control_ID',
+      id: 'Control_ID',
+      header: 'Control ID',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 150,
     },
     {
-      field: 'provider_entity',
-      headerName: 'Provider Organization',
+      accessorKey: 'provider_entity',
+      id: 'provider_entity',
+      header: 'Provider Organization',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 250,
     },
     {
-      field: 'receiver_entity',
-      headerName: 'Receiver Organization',
+      accessorKey: 'receiver_entity',
+      id: 'receiver_entity',
+      header: 'Receiver Organization',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 250,
     },
     {
-      field: 'control_id_provider_entity',
-      headerName: 'Provider Organization + Control ID',
+      accessorKey: 'control_id_provider_entity',
+      id: 'control_id_provider_entity',
+      header: 'Provider Organization + Control ID',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 300,
+      size: 300,
     },
     {
-      field: 'cowner',
-      headerName: 'Control Owner',
+      accessorKey: 'cowner',
+      id: 'cowner',
+      header: 'Control Owner',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 250,
+      size: 200,
     },
     {
-      field: 'coversight',
-      headerName: 'Control Oversight',
+      accessorKey: 'coversight',
+      id: 'coversight',
+      header: 'Control Oversight',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 250,
+      size: 200,
     },
   ];
   useEffect(() => {
@@ -649,10 +664,10 @@ const Page3 = ({ handleNext, setStep }) => {
                   </div>
                 </div>
               </div>
-              <Table
+              <Table2
                 tableData={tableData}
+                loading={getScheduleSurveyPage_3_table_State.loading}
                 tableColumns={tableColumns}
-                columns={tableColumns}
                 setEditTableIndex={setEditTableIndex}
               />
             </div>
