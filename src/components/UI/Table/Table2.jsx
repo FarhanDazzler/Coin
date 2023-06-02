@@ -143,7 +143,6 @@ const Table2 = ({
               display: 'grid',
               margin: 'auto',
               gridTemplateColumns: '1fr 1fr',
-              width: '50%',
             }}
           >
             {Is_Expanding_Detail_Panel.Table_Name === 'Control Owner & Oversight' && (
