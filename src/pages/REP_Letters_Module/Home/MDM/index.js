@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PageWrapper from "../../../../components/wrappers/PageWrapper";
 import MDMBox from "../../../MDM/MDMBox/MDMBox";
+import { useDispatch, useSelector } from 'react-redux';
+import { getRlOrgHierarchy, getRlOrgMd } from "../../../../redux/REP_Letters/RLMDM/RLMDMAction";
 import '../../../MDM/MDMStyle.scss';
 import './RLMDMStyle.scss';
+import { getRlOrgHierarchySelector, getRlOrgMDSelector } from "../../../../redux/REP_Letters/RLMDM/RLMDMSelectors";
 
 const RLMDM = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getRlOrgHierarchy());
+        dispatch(getRlOrgMd());
+    }, [])
     return (
         <PageWrapper>
             <div className="container py-5 rl-mdm">
