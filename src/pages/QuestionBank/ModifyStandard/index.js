@@ -8,23 +8,12 @@ import info from './../../../assets/images/Info-Circle.svg';
 // import { Button } from '@mantine/core';
 import Button from '../../../components/UI/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { names } from '../CreateQuestions/constant';
-import {
-  addSection3Questions,
-  deleteSection3Questions,
-  getSection3Questions,
-  updateSection3Questions,
-} from '../../../redux/Questions/QuestionsAction';
-import { questionSelector } from '../../../redux/Questions/QuestionsSelectors';
-import { Loader } from 'semantic-ui-react';
-import Swal from 'sweetalert2';
 import {
   getSection1QuestionDataAction,
   deleteSection1OptionDataAction,
   deleteSection1QuestionDataAction,
 } from '../../../redux/QuestionBank/QuestionBankAction';
 import AddSection1Questions from './AddSection1Question';
-import { deleteSection1Questions } from '../../../redux/Questions/QuestionsAction';
 import MICSSpecific from '../ModifyMICSQuestions/MICSSpecific';
 import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
 import Select from 'react-select';
@@ -39,6 +28,7 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
       repositoryOfControlID?.data.map((data) => {
         controlidArray.push({ label: data.Control_ID, value: data.Control_ID });
       });
+      console.log('controlidArray', controlidArray);
       setControlIDList(controlidArray);
     }
   }, [repositoryOfControlID]);

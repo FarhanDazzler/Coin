@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
-import FormControl from '@mui/material/FormControl';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import './createQuestionsStyles.scss';
-import { names, questions, tableHeader } from './constant';
+import { questions, tableHeader } from './constant';
 import { ReactComponent as ExportExcel } from '../../../assets/images/ExportExcel.svg';
 import { ReactComponent as UploadFile } from '../../../assets/images/UploadFile.svg';
 import blockType from '../../../components/RenderBlock/constant';

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
 
 import Table from '../../../../../components/UI/Table';
+import Table2 from '../../../../../components/UI/Table/Table2';
 
 import '../TableStyle.scss';
 import {
@@ -27,32 +28,40 @@ const MegaAndSubprocessViewTable = () => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'Mega_Process_Abbreviation',
-      headerName: 'Mega Process Abbreviation',
+      accessorKey: 'Mega_Process_Abbreviation',
+      id: 'Mega_Process_Abbreviation',
+      header: 'Mega Process Abbreviation',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 200,
     },
     {
-      field: 'Mega_Process_Name',
-      headerName: 'Mega Process Name',
+      accessorKey: 'Mega_Process_Name',
+      id: 'Mega_Process_Name',
+      header: 'Mega Process Name',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 200,
     },
     {
-      field: 'Sub_Process_Abbreviation',
-      headerName: 'Sub Process Abbreviation',
+      accessorKey: 'Sub_Process_Abbreviation',
+      id: 'Sub_Process_Abbreviation',
+      header: 'Sub Process Abbreviation',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 200,
     },
     {
-      field: 'Sub_Process_Name',
-      headerName: 'Sub Process Name',
+      accessorKey: 'Sub_Process_Name',
+      id: 'Sub_Process_Name',
+      header: 'Sub Process Name',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 200,
     },
   ];
 
@@ -112,11 +121,10 @@ const MegaAndSubprocessViewTable = () => {
                 )}
               </div>
             </div>
-            <Table
+            <Table2
               tableData={tableData}
               loading={megaAndSubprocessView.loading}
               tableColumns={tableColumns}
-              columns={tableColumns}
             />
           </div>
         </div>

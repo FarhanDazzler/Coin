@@ -2,24 +2,19 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
-import Table from '../../../../../components/UI/Table';
-import { Messaging } from 'react-cssfx-loading';
+import Table2 from '../../../../../components/UI/Table/Table2';
 import '../TableStyle.scss';
-
 // geting data from redux
 import {
   getControlOwnerAndOversightSelector,
   modifyControlOwnerAndOversightSelector,
 } from '../../../../../redux/MDM/MDM_Selectors';
-import { getControlInstanceHistoryAction } from '../../../../../redux/MDM/MDM_Action';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
-
 // import for multi select filter
 import { Group } from '@mantine/core';
-import MultiSelectButton from '../../../../../components/Buttons/MultiSelect/MultiSelectButtonComponents.js';
 import { MultiSelect } from '@mantine/core';
 import '../../MultiSelectButtonStyles.scss';
 import AssignModal from './AssignModal';
@@ -195,81 +190,103 @@ const ControlOwnerAndOversightTable = () => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'zone',
-      headerName: 'Zone',
+      accessorKey: 'zone',
+      id: 'zone',
+      header: 'Zone',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 80,
+      size: 90,
     },
     {
-      field: 'provider_entity',
-      headerName: 'Provider Organization',
+      accessorKey: 'provider_entity',
+      id: 'provider_entity',
+      header: 'Provider Organization',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 200,
     },
     {
-      field: 'Control_ID',
-      headerName: 'Control ID',
+      accessorKey: 'Control_ID',
+      id: 'Control_ID',
+      header: 'Control ID',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 160,
+      size: 160,
     },
     {
-      field: 'control_id_provider_entity',
-      headerName: 'Provider Organization + Control ID',
+      accessorKey: 'control_id_provider_entity',
+      id: 'control_id_provider_entity',
+      header: 'Provider Organization + Control ID',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 300,
+      size: 300,
+    },
+    // {
+    //   accessorKey: 'local_control_description',
+    //   id: 'local_control_description',
+    //   header: 'Local Control Desc(LCD)',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 500,
+    //   Cell: (row) => {
+    //     return (
+    //       <span>
+    //         <p dangerouslySetInnerHTML={{ __html: row.row.original.local_control_description }} />
+    //       </span>
+    //     );
+    //   },
+    // },
+    {
+      accessorKey: 'cowner',
+      id: 'cowner',
+      header: 'Control Owner',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 300,
     },
     {
-      field: 'local_control_description',
-      headerName: 'Local Control Desc(LCD)',
+      accessorKey: 'cowner_status',
+      id: 'cowner_status',
+      header: 'Control Owner Status',
       flex: 1,
-      renderCell: (row) => {
-        return <p dangerouslySetInnerHTML={{ __html: row.row.local_control_description }} />;
-      },
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 500,
-    },
-    {
-      field: 'cowner',
-      headerName: 'Control Owner',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 300,
-    },
-    {
-      field: 'cowner_status',
-      headerName: 'Control Owner Status',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      minWidth: 180,
-      renderCell: (row) => {
+      size: 180,
+      Cell: (row) => {
         return (
-          <span className={class_to_apply(row.row.cowner_status)}>
-            {row.row.cowner === '' ? 'N/A' : row.row.cowner_status}
+          <span className={class_to_apply(row.row.original.cowner_status)}>
+            {row.row.original.cowner_status === '' ? 'N/A' : row.row.original.cowner_status}
           </span>
         );
       },
     },
     {
-      field: 'coversight',
-      headerName: 'Control Oversight',
+      accessorKey: 'coversight',
+      id: 'coversight',
+      header: 'Control Oversight',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 300,
+      size: 300,
     },
     {
-      field: 'coversight_status',
-      headerName: 'Control Oversight Status',
+      accessorKey: 'coversight_status',
+      id: 'coversight_status',
+      header: 'Control Oversight Status',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 190,
-      renderCell: (row) => {
+      size: 190,
+      Cell: (row) => {
         return (
-          <span className={class_to_apply(row.row.coversight_status)}>
-            {row.row.coversight === '' ? 'N/A' : row.row.coversight_status}
+          <span className={class_to_apply(row.row.original.coversight_status)}>
+            {row.row.original.coversight_status === '' ? 'N/A' : row.row.original.coversight_status}
           </span>
         );
       },
@@ -302,46 +319,27 @@ const ControlOwnerAndOversightTable = () => {
   );
 
   const handleOnclickEdit = () => {
-    let assignDataArray = [];
-    if (editTableIndex.length >= 1) {
-      tableData.find((data, i) => {
-        editTableIndex.map((dataa) => {
-          if (data.id === dataa) {
-            assignDataArray.push(data);
-            setAssignTableData(assignDataArray);
-            setShowLcdModal(true);
-          }
-        });
-      });
-    }
-  };
-  const handleOnclickAdd = () => {
-    let controlIDArray = [];
-    let assignDataArray = [];
     if (editTableIndex.length == 0) {
       Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
     } else if (editTableIndex.length >= 1) {
-      tableData.find((data, i) => {
-        editTableIndex.map((dataa) => {
-          if (data.id === dataa) {
-            assignDataArray.push(data);
-            controlIDArray.push(data.control_id_provider_entity);
-            // const coverSightCheck = assignDataArray.every(({ coversight }) => coversight === assignDataArray[0]?.coversight);
-            // const cownerCheck = assignDataArray.every(({ cowner }) => cowner === assignDataArray[0]?.cowner);
-            // if (cownerCheck === true && coverSightCheck === true) {
-            setAssignTableData(assignDataArray);
-            setSelectedControlIds(controlIDArray);
-            setShowModal(true);
-            // }else{
-            //   setAssignTableData([]);
-            //   setShowModal(false);
-            //   Swal.fire('Oops...', 'Selected Records are not matching with criteria to Assign. Try Selecting other Records', 'error');
-            // }
-          }
-        });
-      });
+      const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
+      //console.log('@@@@@@@@@', data);
+      setAssignTableData(data);
+      setShowLcdModal(true);
     }
-    // dispatch(getControlInstanceHistoryAction(controlIDArray))
+  };
+  const handleOnclickAdd = () => {
+    if (editTableIndex.length == 0) {
+      Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
+    } else if (editTableIndex.length >= 1) {
+      const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
+      const controlIDArray = data.map((obj) => obj.control_id_provider_entity);
+      setAssignTableData(data);
+      setSelectedControlIds(controlIDArray);
+      setShowModal(true);
+      //console.log('@@@@@@@@@', data);
+      //console.log('#####', controlIDArray);
+    }
   };
 
   // Function to remove duplicate value from array
@@ -356,6 +354,11 @@ const ControlOwnerAndOversightTable = () => {
   const coversightArray = controlOwnerAndOversight.data.map((i) => i.coversight);
   //zoneArray = removeDuplicates(zoneArray);
 
+  // object for Expanding Detail Panel
+  const Is_Expanding_Detail_Panel = {
+    Is_Expanding: true,
+    Table_Name: 'Control Owner & Oversight',
+  };
   return (
     <>
       <div className="container-fluid mt-5">
@@ -406,12 +409,12 @@ const ControlOwnerAndOversightTable = () => {
                 </div>
               </div>
             </div>
-            <Table
+            <Table2
               tableData={tableData}
-              tableColumns={tableColumns}
-              columns={tableColumns}
-              setEditTableIndex={setEditTableIndex}
               loading={controlOwnerAndOversight.loading}
+              tableColumns={tableColumns}
+              setEditTableIndex={setEditTableIndex}
+              Is_Expanding_Detail_Panel={Is_Expanding_Detail_Panel}
             />
           </div>
         </div>

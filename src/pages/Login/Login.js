@@ -1,17 +1,12 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import '../../assets/styles/Login.css';
 import { Button, Card } from 'react-bootstrap';
 import { loginRequest } from '../../utils/authConfig';
 import ABILogo from '../../assets/images/abi_logo.png';
-import DSCOELogo from '../../assets/images/dscoe_logo.png';
-import BTLogo from '../../assets/images/BT.png';
 import appLogo from '../../assets/images/coin_logo.png';
-
 import { useMsal, useIsAuthenticated } from '@azure/msal-react';
 import { InteractionStatus } from '@azure/msal-browser';
-
 import PageWrapper from '../../components/wrappers/PageWrapper';
 
 const Login = () => {

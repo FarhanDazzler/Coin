@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import ConfirmAlert from '../../common/ConfirmAlert';
 import FeatherIcon from 'feather-icons-react';
 
-import { Card, Col, Row } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 // import FormikControl from '../formComponents/FormikControl';
 import { Button, Select, TextInput, Radio, RadioGroup, Group } from '@mantine/core';
 

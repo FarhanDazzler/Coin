@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
 import Table from '../../../components/UI/Table';
+import Table2 from '../../../components/UI/Table/Table2';
 import NoDataPlaceholder from '../../../components/NoDataPlaceholder';
 import {
   getAssessmentDetailsTableData,
@@ -216,63 +217,70 @@ const AssessmentDetailsTableData = (props) => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'Survey_Name',
-      headerName: 'Assessment Name',
+      accessorKey: 'Survey_Name',
+      id: 'Survey_Name',
+      header: 'Assessment Name',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 300,
+      size: 150,
     },
     {
-      field: 'Control_ID',
-      headerName: 'Control ID',
+      accessorKey: 'Control_ID',
+      id: 'Control_ID',
+      header: 'Control ID',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
-      renderCell: (row) => {
-        return <span className={'text-yellow cursor-pointer'}>{row.row.Control_ID}</span>;
+      size: 100,
+      Cell: (row) => {
+        return <span className={'text-yellow cursor-pointer'}>{row.row.original.Control_ID}</span>;
       },
     },
-    // {
-    //   field: 'Receiver',
-    //   headerName: 'Receiver Organization',
-    //   flex: 1,
-    //   cellClassName: 'dashboardCell',
-    //   minWidth: 250,
-    // },
     {
-      field: 'Provider',
-      headerName: 'Provider Organization',
+      accessorKey: 'Provider',
+      id: 'Provider',
+      header: 'Provider Organization',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 250,
+      size: 250,
     },
     {
-      field: 'Control_Owner',
-      headerName: 'Control Owner',
+      accessorKey: 'Control_Owner',
+      id: 'Control_Owner',
+      header: 'Control Owner',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 250,
+      size: 100,
     },
     {
-      field: 'Control_Oversight',
-      headerName: 'Control Oversight',
+      accessorKey: 'Control_Oversight',
+      id: 'Control_Oversight',
+      header: 'Control Oversight',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 250,
+      size: 100,
     },
     {
-      field: 'Assessment_Cycle',
-      headerName: 'Assessment Cycle',
+      accessorKey: 'Assessment_Cycle',
+      id: 'Assessment_Cycle',
+      header: 'Assessment Cycle',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      size: 100,
     },
     {
-      field: 'Survey_Status',
-      headerName: 'Survey Status',
+      accessorKey: 'Survey_Status',
+      id: 'Survey_Status',
+      header: 'Survey Status',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 150,
+      size: 90,
     },
   ];
 
@@ -430,10 +438,10 @@ const AssessmentDetailsTableData = (props) => {
               <div className="container-fluid mt-5">
                 <div className="row">
                   {tableData?.length > 0 ? (
-                    <Table
+                    <Table2
                       tableData={tableData}
+                      loading={getAssessmentDetailsTableDataState.loading}
                       tableColumns={tableColumns}
-                      columns={tableColumns}
                       setEditTableIndex={setEditTableIndex}
                     />
                   ) : (

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { Card, Col, Container, Row } from 'react-bootstrap';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 // import TopBar from '../../parts/TopBar/TopBar';
 import PageWrapper from '../../components/wrappers/PageWrapper';
 import './NotAuthorizedStyles.scss';

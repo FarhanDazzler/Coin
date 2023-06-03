@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { FloatRight } from 'tabler-icons-react';
-import * as Yup from 'yup';
-import { Alert, Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../MDM/MDM_Tab_Buttons/Button';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
-import { Group, MultiSelect, Stack } from '@mantine/core';
+import { useHistory } from 'react-router-dom';
+import { MultiSelect } from '@mantine/core';
 import { useFormik } from 'formik';
-import validator from 'validator';
 import {
-  scheduleSurveyPage_1Selector,
   scheduleSurveyPage_2Selector,
   getAllZoneSelector,
   getAll_BU_FromZoneSelector,
@@ -18,7 +15,6 @@ import {
   getScheduleSurveyPage_2_tableSelector,
 } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
 import {
-  ScheduleSurveyPage_1,
   ScheduleSurveyPage_2,
   getAllZone,
   getAll_BU_FromZone,

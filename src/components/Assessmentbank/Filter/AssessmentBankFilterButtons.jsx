@@ -30,13 +30,6 @@ const AssessmentBankFilterButtons = ({ handleSheduleSurvey }) => {
     { label: 'APAC', value: 'APAC' },
   ];
 
-  const assessmentPeriodNames = [
-    { label: 'Assessment Period', value: 'Assessment Period' },
-    { label: 'KU', value: 'KU' },
-    { label: 'AB', value: 'AB' },
-    { label: 'EUR', value: 'EUR' },
-    { label: 'APAC', value: 'APAC' },
-  ];
   const organizationNames = [
     { label: 'Organization', value: 'Organization' },
     { label: 'KU', value: 'KU' },

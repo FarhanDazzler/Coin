@@ -9,7 +9,6 @@ import {
 import { class_to_apply } from '../../V2/InternalControlHomePage/HomePageTable/constant';
 import { getControlOwnerTableData } from '../../../../redux/DashBoard/DashBoardAction';
 import { getControlOwnerDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
-import TableLoader from '../../../../components/UI/TableLoader';
 import Button from '../../../../components/UI/Button';
 import { Group } from '@mantine/core';
 import FilterButtons from '../../../../components/FilterButtons';

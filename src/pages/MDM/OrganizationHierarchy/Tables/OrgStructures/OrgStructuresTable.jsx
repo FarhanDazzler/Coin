@@ -2,18 +2,13 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
-
-import Table from '../../../../../components/UI/Table';
-
+import Table2 from '../../../../../components/UI/Table/Table2';
 import '../TableStyle.scss';
 import { getOrgStructuresSelector } from '../../../../../redux/MDM/MDM_Selectors';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
-import * as Yup from 'yup';
-import { Formik, Field } from 'formik';
-import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import OrgStructureModal from './OrgStructureModal';
 import {
@@ -45,67 +40,85 @@ const OrgStructuresTable = () => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'Org_name',
-      headerName: 'Organization Name',
+      accessorKey: 'Org_name',
+      id: 'Org_name',
+      header: 'Organization Name',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 150,
+      size: 150,
     },
     {
-      field: 'Org_code',
-      headerName: 'Organization Code',
+      accessorKey: 'Org_code',
+      id: 'Org_code',
+      header: 'Organization Code',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 150,
+      size: 150,
     },
     {
-      field: 'Org_type',
-      headerName: 'Organization Type',
+      accessorKey: 'Org_type',
+      id: 'Org_type',
+      header: 'Organization Type',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 150,
+      size: 150,
     },
     {
-      field: 'parent_entity',
-      headerName: 'Parent Entity',
+      accessorKey: 'parent_entity',
+      id: 'parent_entity',
+      header: 'Parent Entity',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 110,
+      size: 110,
     },
     {
-      field: 'isReceiver',
-      headerName: 'Is Receiver',
+      accessorKey: 'isReceiver',
+      id: 'isReceiver',
+      header: 'Is Receiver',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 110,
+      size: 110,
     },
     {
-      field: 'isProvider',
-      headerName: 'Is Provider',
+      accessorKey: 'isProvider',
+      id: 'isProvider',
+      header: 'Is Provider',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 110,
+      size: 110,
     },
     {
-      field: 'Category',
-      headerName: 'Category',
+      accessorKey: 'Category',
+      id: 'Category',
+      header: 'Category',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 100,
     },
     {
-      field: 'Valid_from',
-      headerName: 'Valid From',
+      accessorKey: 'Valid_from',
+      id: 'Valid_from',
+      header: 'Valid From',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 100,
     },
     {
-      field: 'Valid_to',
-      headerName: 'Valid To',
+      accessorKey: 'Valid_to',
+      id: 'Valid_to',
+      header: 'Valid To',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 100,
+      size: 100,
     },
   ];
 
@@ -134,14 +147,15 @@ const OrgStructuresTable = () => {
   );
 
   const handleOnclickEdit = () => {
+    if (editTableIndex.length === 0) {
+      Swal.fire('Oops...', 'You need to select in table in order to edit', 'error');
+    }
     if (editTableIndex.length > 1) {
       Swal.fire('Oops...', 'You can only allow one Organization to edit at a time', 'error');
-    } else if (editTableIndex.length == 1) {
-      tableData.find((data, i) => {
-        if (i === editTableIndex[0]) {
-          setEditTableData(data);
-        }
-      });
+    } else if (editTableIndex.length === 1) {
+      console.log(editTableIndex, 'edit Table Index');
+      setEditTableData(tableData.find((data, i) => i.toString() === editTableIndex[0]));
+      console.log(editTableData, 'edit Table Data');
       setShowModal(true);
       setModalType('edit');
     }
@@ -188,10 +202,10 @@ const OrgStructuresTable = () => {
                 </div>
               </div>
             </div>
-            <Table
+            <Table2
               tableData={tableData}
+              loading={orgStructures.loading}
               tableColumns={tableColumns}
-              columns={tableColumns}
               setEditTableIndex={setEditTableIndex}
             />
           </div>

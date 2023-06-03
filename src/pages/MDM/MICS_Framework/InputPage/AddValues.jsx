@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Col, Container, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import * as Yup from 'yup';
-import { useFormikContext, Formik, Field } from 'formik';
-import { Alert, Form } from 'react-bootstrap';
+import { useFormikContext, Formik } from 'formik';
+import { Form } from 'react-bootstrap';
 import Button from '../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {
   addMicsFramework,
   updateMicsFramework,
@@ -19,9 +16,6 @@ import {
   getMegaProcessMicsFrameworkSelector,
   getSubProcessMicsFrameworkSelector,
 } from '../../../../redux/MDM/MDM_Selectors';
-import { addMicsInitialValues, addMicsValidationSchema } from '../../../../utils/constants';
-
-import { ContentState } from 'draft-js';
 import { TextEditor } from '../../../../components/FormInputs/RichTextEditor/RichTextEditor';
 import './InputPageStyle.scss';
 
@@ -98,9 +92,10 @@ const AddValues_MDM_Mics_Framework = (props) => {
     };
 
     let editPayload = {
+      id: editTableData?.id,
       Previous_MICS1: value.Previous_MICS1,
       Previous_MICS: value.Previous_MICS,
-      Control_ID: editTableData?.Control_ID,
+      Control_ID: value.Control_ID,
       Mega_Process: value.Mega_Process,
       Category: value.Category,
       Change_Size: value.Change_Size,
@@ -350,7 +345,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               isInvalid={Boolean(touched.Control_ID && errors.Control_ID)}
                               onBlur={handleBlur}
                               onChange={handleChange}
-                              readOnly={modalType === 'add' ? false : true}
+                              readOnly={false}
                               className="form-control"
                             />
 

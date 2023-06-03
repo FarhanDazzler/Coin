@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
 
 import Table from '../../../../../components/UI/Table';
+import Table2 from '../../../../../components/UI/Table/Table2';
 
 import '../TableStyle.scss';
 
@@ -15,9 +16,6 @@ import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
 
-import * as Yup from 'yup';
-import { Formik, Field } from 'formik';
-import { Alert, Form } from 'react-bootstrap';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import MegaAndSubprocessModal from './MegaAndSubprocessModal';
 import {
@@ -54,39 +52,49 @@ const MegaAndSubprocessTable = () => {
 
   const TABLE_COLUMNS = [
     {
-      field: 'Type_of_Process',
-      headerName: 'Type of Process',
+      accessorKey: 'Type_of_Process',
+      id: 'Type_of_Process',
+      header: 'Type of Process',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      //size: 200,
     },
     {
-      field: 'Parent_Process',
-      headerName: 'Parent Process',
+      accessorKey: 'Parent_Process',
+      id: 'Parent_Process',
+      header: 'Parent Process',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      //size: 200,
     },
     {
-      field: 'Prefix',
-      headerName: 'Prefix',
+      accessorKey: 'Prefix',
+      id: 'Prefix',
+      header: 'Prefix',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      //size: 200,
     },
     {
-      field: 'Name_2',
-      headerName: 'Name 2',
+      accessorKey: 'Name_2',
+      id: 'Name_2',
+      header: 'Name 2',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      //size: 200,
     },
     {
-      field: 'Name_Detailed_Name',
-      headerName: 'Name - Detailed Name',
+      accessorKey: 'Name_Detailed_Name',
+      id: 'Name_Detailed_Name',
+      header: 'Name - Detailed Name',
       flex: 1,
+      columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      minWidth: 200,
+      //size: 200,
     },
   ];
 
@@ -116,7 +124,10 @@ const MegaAndSubprocessTable = () => {
 
   const handleOnclickEdit = () => {
     // edit code
-    if (editTableIndex.length > 1) {
+    //console.log(tableData);
+    if (editTableIndex.length === 0) {
+      Swal.fire('Oops...', 'You need to select from table in order to edit', 'error');
+    } else if (editTableIndex.length > 1) {
       Swal.fire('Oops...', 'You can only allow one Mega and Subprocess to edit at a time', 'error');
     } else if (editTableIndex.length == 1) {
       const data = tableData.find((data, i) => data.id === editTableIndex[0]);
@@ -166,10 +177,10 @@ const MegaAndSubprocessTable = () => {
                 </div>
               </div>
             </div>
-            <Table
+            <Table2
               tableData={tableData}
+              loading={megaAndSubprocess.loading}
               tableColumns={tableColumns}
-              columns={tableColumns}
               setEditTableIndex={setEditTableIndex}
             />
           </div>

@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import * as Yup from 'yup';
-import { useFormikContext, Formik, Field } from 'formik';
-import { Alert, Form } from 'react-bootstrap';
+import { useFormikContext, Formik } from 'formik';
+import { Form } from 'react-bootstrap';
 import Button from '../../../MDM_Tab_Buttons/Button';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import '../TableStyle.scss';
 // for Updating data
 import {
   getAllProviderEntities,
   assignApplicabilityAndAssignmentOfProviderOrganization,
 } from '../../../../../redux/MDM/MDM_Action';
-import moment from 'moment';
 
 const GetFormikFieldValue = () => {
   // Grab values and submitForm from context
@@ -28,24 +27,24 @@ const EditModal = ({ setShowEditModal, assignTableData }) => {
   const handleSaveAssign = (value) => {
     console.log(value);
     const newState = assignTableData.map((obj) => {
-     let updateObj={...obj}
+      let updateObj = { ...obj };
 
       if (value.is_FSI_Entity !== '') {
-        console.log("value.is_FSI_Entity", value.is_FSI_Entity)
-        updateObj.is_FSI_Entity= value.is_FSI_Entity
+        console.log('value.is_FSI_Entity', value.is_FSI_Entity);
+        updateObj.is_FSI_Entity = value.is_FSI_Entity;
         // return { ...obj, is_FSI_Entity: value.is_FSI_Entity };
       }
 
       if (value.is_SOX_scope !== '') {
-        updateObj.is_SOX_scope= value.is_SOX_scope 
+        updateObj.is_SOX_scope = value.is_SOX_scope;
         // return { ...obj, is_SOX_scope: value.is_SOX_scope };
       }
 
       if (value.Entity_Weight !== '') {
-        updateObj. Entity_Weight= value.Entity_Weight
+        updateObj.Entity_Weight = value.Entity_Weight;
         // return { ...obj, Entity_Weight: value.Entity_Weight };
       }
-      console.log("update obj",updateObj);
+      console.log('update obj', updateObj);
       return { ...updateObj };
     });
     //console.log(newState);

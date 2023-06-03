@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import DashboardTable from './HomePageTable/HomePageTableComponent';
 import './homeStyles.scss';
 import NumberWithText from './NumberWithText';
 import { useMsal } from '@azure/msal-react';
@@ -8,7 +7,6 @@ import HomeTableModal from './HomeTableModal';
 import { useSelector } from 'react-redux';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import ProgressBar from './HomePageTable/ProgressBar/ProgressBar';
-import { TABLE_ROES } from './HomePageTable/constant';
 import InternalControlTable from '../../Tables/InternalControlTable/InternalControlTable';
 import { getInternalControlDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
 
