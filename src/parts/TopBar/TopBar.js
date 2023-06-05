@@ -7,23 +7,30 @@ import abiLogo from '../../assets/images/abi_logo.png';
 import coinLogo from '../../assets/images/coin_logo.png';
 import defaultProfilePhoto from '../../assets/images/profile.jpg';
 import { UserContext } from '../../context/userContext';
-import { useDispatch } from 'react-redux';
-import { setLoginInfo, setLoginRole } from '../../redux/Auth/AuthAction';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setLoginInfo,
+  setLoginRole,
+  setSelectedModuleRoles,
+  setSelectRoles,
+} from '../../redux/Auth/AuthAction';
 import { Form } from 'react-bootstrap';
 import FormControl from '@mui/material/FormControl';
-import Select from '../../components/UI/Select/Select';
+import MultiDropdown from '../../components/UI/MultiDropdown';
+import Button from '../../components/UI/Button';
+import NestedMenuItem from '../../components/UI/MultiDropdown/NestedMenuItem';
+import MenuItem from '@mui/material/MenuItem';
 
 const TopBar = (props) => {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
-  const isAuthenticated = useIsAuthenticated();
   const selected_Role = localStorage.getItem('selected_Role');
+  const selected_module_role = localStorage.getItem('selected_module_Role');
   const { instance, accounts, inProgress } = useMsal();
   const [isDropDownOpen, setisDropDownOpen] = useState(false);
 
-  const [profilePhoto, setProfilePhoto] = useState(null);
-
+  const apiRoles = useSelector((state) => state?.auth?.apiRoles);
   const [userState, userDispatch] = useContext(UserContext);
 
   // const [location, setLocation] = useState();
@@ -37,10 +44,6 @@ const TopBar = (props) => {
   const togglingHeader = () => {
     setisHeaderOpen(!isHeaderOpen);
   };
-
-  function handleProfile() {
-    history.push('/myprofile');
-  }
 
   const handleLogout = () => {
     // console.log('logout');
@@ -57,11 +60,30 @@ const TopBar = (props) => {
   //RBAC
   const roles = localStorage.getItem('Roles')?.split(',') || [];
   const [roleValue, setRoleValue] = useState([]);
-
-  const names = [
+  const initModule = [
     { label: 'Assessment Module', value: 'Assessment Module' },
     { label: 'Representation Letter Module', value: 'Representation Letter Module' },
   ];
+  const [module, setModule] = useState(initModule);
+  const [activeModule, setActiveModule] = useState(selected_module_role || 'Assessment Module');
+
+  useEffect(() => {
+    localStorage.setItem('selected_module_Role', activeModule);
+    dispatch(setSelectedModuleRoles(activeModule));
+    const rl_roles = localStorage.getItem('rl_roles');
+
+    switch (true) {
+      case activeModule === 'Assessment Module':
+        // dispatch(setSelectRoles(JSON.parse(localStorage.getItem('sa_roles'))))
+        localStorage.setItem('Roles', localStorage.getItem('sa_roles'));
+        break;
+      case activeModule === 'BU':
+        localStorage.setItem('Roles', JSON.stringify(JSON.parse(rl_roles).BU));
+        break;
+      default:
+        break;
+    }
+  }, [activeModule]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -81,10 +103,25 @@ const TopBar = (props) => {
 
   console.log('roles', roles);
 
+  useEffect(() => {
+    if (Object.keys(apiRoles).length > 0) {
+      const newArray = initModule.map((val) => {
+        if (val.value === 'Representation Letter Module' && apiRoles.rl_roles) {
+          const newObj = Object.keys(apiRoles.rl_roles).map((r) => {
+            return { value: r, label: r };
+          });
+          val.subVal = newObj.filter((d) => d.value !== 'is_admin');
+        }
+        return val;
+      });
+      setModule(newArray);
+    }
+  }, [apiRoles]);
+
   return (
     <div className="top-nav">
       <div className="header py-4">
-        <div className="container">
+        <div className="container-fluid">
           <div className="d-flex">
             <a className="header-brand" href="/">
               {
@@ -204,7 +241,7 @@ const TopBar = (props) => {
         style={{ background: 'linear-gradient(90deg,#e3af32 0%,#f4e00f 100%)' }}
       >
         {!['/login', '/not-authorized'].includes(location?.pathname) && (
-          <div className="container">
+          <div className="container-fluid w-full">
             <div className="d-flex align-items-center justify-content-between">
               <div className="row align-items-center">
                 <div className="col-lg order-lg-first">
@@ -287,17 +324,61 @@ const TopBar = (props) => {
               </div>
               <div className="select-light mt-0">
                 <FormControl sx={{ maxWidth: 270 }}>
-                  <Select
-                    defaultValue="Assessment Module"
-                    size="small"
-                    inputProps={{ 'aria-label': 'Without label' }}
-                    options={names}
-                    onChange={(e) => {
-                      history.push(
-                        e.target.value === 'Representation Letter Module' ? '/REP-Letters' : '/',
+                  <MultiDropdown
+                    className="w-full"
+                    trigger={
+                      <Button variant="warning" className="btn-border">
+                        {activeModule}
+                      </Button>
+                    }
+                    menu={module.map((val, i) => {
+                      return (
+                        <NestedMenuItem
+                          key={i}
+                          className="DropdownNestedMenuItem"
+                          label={val.label}
+                          rightAnchored
+                          onClick={() => {
+                            setActiveModule(val.label);
+                            // history.push(
+                            //   val.label === 'Representation Letter Module' ? '/REP-Letters' : '/',
+                            // );
+                          }}
+                          menu={
+                            val.subVal?.length > 0
+                              ? val.subVal.map((sVal, subi) => {
+                                  return (
+                                    <MenuItem
+                                      key={`${i}--${subi}`}
+                                      className="DropdownMenuItem"
+                                      onClick={() => {
+                                        setActiveModule(sVal.label);
+                                      }}
+                                    >
+                                      {sVal.label}
+                                    </MenuItem>
+                                  );
+                                })
+                              : null
+                          }
+                        />
                       );
-                    }}
+                    })}
                   />
+                </FormControl>
+
+                <FormControl sx={{ maxWidth: 270 }}>
+                  {/*<Select*/}
+                  {/*  defaultValue="Assessment Module"*/}
+                  {/*  size="small"*/}
+                  {/*  inputProps={{ 'aria-label': 'Without label' }}*/}
+                  {/*  options={names}*/}
+                  {/*  onChange={(e) => {*/}
+                  {/*    history.push(*/}
+                  {/*      e.target.value === 'Representation Letter Module' ? '/REP-Letters' : '/',*/}
+                  {/*    );*/}
+                  {/*  }}*/}
+                  {/*/>`*/}
                 </FormControl>
               </div>
             </div>
