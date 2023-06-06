@@ -11,6 +11,7 @@ import { AD_Reducer } from './AzureAD/AD_Reducer';
 import { AssessmentBankReducer } from './AssessmentBank/AssessmentBankReducer';
 import { dashBoardReducer } from './DashBoard/DashBoardReducer';
 import { RLMDMReducer } from './REP_Letters/RLMDM/RLMDMReducer';
+import { AdminPageReducer } from './AdminPage/AdminPageReducer';
 
 // we will connect our reducers here
 
@@ -28,6 +29,7 @@ const appReducer = (history) =>
     assessmentBank: AssessmentBankReducer,
     dashBoard: dashBoardReducer,
     rlMdm: RLMDMReducer,
+    adminPage: AdminPageReducer,
   });
 
 const createRootReducer = (history) => (state, action) => {
