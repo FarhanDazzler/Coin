@@ -27,7 +27,7 @@ import MDM_Control_Owner_OversightLandingPage from './pages/MDM/Control_Owner_Ov
 import MDM_MICS_FrameworkLandingPage from './pages/MDM/MICS_Framework/MDMMICSFrameworkLandingPage.jsx';
 import AddValues_MDM_Mics_Framework from './pages/MDM/MICS_Framework/InputPage/AddValues';
 import AssessmentBankLandingPage from './pages/AssessmentBank/AssessmentBankLandingPage';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ScheduleSurveyPage from './pages/AssessmentBank/ScheduleSurvey/ScheduleSurveyPage';
 import ControlHomePage from './pages/Home/ControlHomePage';
 import InternalControlHomePage from './pages/Home/V2/InternalControlHomePage';
@@ -35,6 +35,7 @@ import AssessmentDetailsTableData from './pages/AssessmentBank/Table/AssessmentD
 import REP_Letters_HomePage from './pages/REP_Letters_Module/Home';
 import POC from './pages/TestPages_For_POC_only/POC.jsx';
 import AssessmentForm from './pages/AssessmentForm/AssessmentForm';
+import { setRoles } from './redux/Auth/AuthAction';
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -63,6 +64,7 @@ const theme = createTheme({
 const Pages = () => {
   const location = useLocation();
   const history = useHistory();
+  const dispatch = useDispatch();
   const isAuthenticated = useIsAuthenticated();
   const { instance, accounts, inProgress } = useMsal();
   const userRole = localStorage.getItem('selected_Role');
@@ -87,7 +89,15 @@ const Pages = () => {
       )
       .then(async (res) => {
         console.log(res.data, 'User Role User Token');
-        localStorage.setItem('Roles', res?.data.data.roles);
+        localStorage.setItem('Roles', res?.data.data?.sa_roles || []);
+        localStorage.setItem('rl_roles', JSON.stringify(res?.data.data?.rl_roles || []));
+        localStorage.setItem('sa_roles', res?.data.data?.sa_roles || []);
+        dispatch(
+          setRoles({
+            rl_roles: res?.data.data?.rl_roles || [],
+            sa_roles: res?.data.data?.sa_roles || [],
+          }),
+        );
         Cookies.set('token', res?.data.token);
         setUserToken(res?.data.token);
         if (accounts[0]?.username) {
