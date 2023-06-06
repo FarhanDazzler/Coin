@@ -109,6 +109,7 @@ const RenderHomeModalTable = ({
                 setTableData={setTableData}
                 controlId={controlId}
                 setStartEdit={setStartEdit}
+                isModal={isModal}
               />
               <ControlSection3
                 setTerminating={setTerminating}
