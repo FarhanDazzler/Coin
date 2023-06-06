@@ -87,7 +87,7 @@ export const AuthReducer = (state = initialState, { payload, type }) => {
     case SET_USERS_ROLE:
       return {
         ...state,
-        apiRoles: { ...payload },
+        apiRoles: { ...state.apiRoles, ...payload },
       };
 
     case SET_SELECTED_MODULE_ROLE:

@@ -89,7 +89,8 @@ const Pages = () => {
       )
       .then(async (res) => {
         console.log(res.data, 'User Role User Token');
-        localStorage.setItem('Roles', res?.data.data?.sa_roles || []);
+        if (!localStorage.getItem('Roles'))
+          localStorage.setItem('Roles', res?.data.data?.sa_roles || []);
         localStorage.setItem('rl_roles', JSON.stringify(res?.data.data?.rl_roles || []));
         localStorage.setItem('sa_roles', res?.data.data?.sa_roles || []);
         dispatch(
