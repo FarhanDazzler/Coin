@@ -211,7 +211,7 @@ const AssessmentsSummaryTable = () => {
   return (
     <>
       <PageWrapper>
-        <div className="container mt-5">
+        <div className="mt-5">
           <div className="row">
             <div className="col-12 col-lg-12">
               <div className="mdm-table-global-filters">

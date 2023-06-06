@@ -39,7 +39,7 @@ const AssessmentForm = () => {
 
   return (
     <PageWrapper>
-      <div className="text-left container">
+      <div className="text-left container-fluid">
         <HomeTableModal isModal={false} activeData={state} />
       </div>
     </PageWrapper>

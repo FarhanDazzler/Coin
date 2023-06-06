@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => (
   <footer className="footer fixed-bottom">
-    <div className="container">
+    <div className="container-fluid">
       <div className="row align-items-center flex-row-reverse">
         <div className="col-auto ml-lg-auto">
           <div className="row align-items-center">

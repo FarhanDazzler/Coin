@@ -85,7 +85,7 @@ const TopBar = (props) => {
   return (
     <div className="top-nav">
       <div className="header py-4">
-        <div className="container">
+        <div className="container-fluid">
           <div className="d-flex">
             <a className="header-brand" href="/">
               {
@@ -205,7 +205,7 @@ const TopBar = (props) => {
         style={{ background: 'linear-gradient(90deg,#e3af32 0%,#f4e00f 100%)' }}
       >
         {!['/login', '/not-authorized'].includes(location?.pathname) && (
-          <div className="container">
+          <div className="container-fluid w-full">
             <div className="d-flex align-items-center justify-content-between">
               <div className="row align-items-center">
                 <div className="col-lg order-lg-first">

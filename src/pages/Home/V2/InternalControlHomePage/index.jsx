@@ -49,7 +49,7 @@ const InternalControlHomePage = () => {
   return (
     <div>
       <PageWrapper>
-        <div className="container">
+        <div className="container-fluid">
           <div className="row pt-5 align-items-center">
             <div className="col-lg-4">
               <h4 className="welcome-text">Welcome</h4>

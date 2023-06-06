@@ -167,7 +167,7 @@ const OrgStructuresTable = () => {
 
   return (
     <>
-      <div className="container mt-5" id="ModifyOrganizations">
+      <div className="container-fluid mt-5" id="ModifyOrganizations">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
             <div className="mdm-table-button">

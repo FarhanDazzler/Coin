@@ -298,7 +298,7 @@ const ControlOwnerTable = ({ tableName }) => {
   ]);
   return (
     <>
-      <div className="container">
+      <div className="container-fluid">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
             <Group spacing="xs" className="actions-button-wrapper">
@@ -342,7 +342,7 @@ const POC = () => {
   return (
     <div>
       <PageWrapper>
-        <div className="container">
+        <div className="container-fluid">
           <div className="row">
             <div className="col-lg-12 mt-5 pt-5">
               <ControlOwnerTable />

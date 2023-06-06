@@ -253,7 +253,7 @@ const Section1 = () => {
 
   return (
     <>
-      <div className="container">
+      <div className="container-fluid">
         <div className="col-12">
           <div className="card">
             <div className="card-header">

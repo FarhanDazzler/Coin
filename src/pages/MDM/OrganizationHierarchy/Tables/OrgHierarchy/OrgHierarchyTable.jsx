@@ -116,11 +116,10 @@ const OrgHierarchyTable = () => {
   // Arrays for showing data on filters
   const zoneArray = orgHierarchy.data.map((i) => i.zone);
   //zoneArray = removeDuplicates(zoneArray);
-  //console.log(removeDuplicates(zoneArray),zoneArray, 'zoneeeeee');
 
   return (
     <>
-      <div className="container mt-5">
+      <div className="container-fluid mt-5">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
             {/*<FilterButtons zone={removeDuplicates(zoneArray)} />*/}
