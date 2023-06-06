@@ -35,6 +35,7 @@ import AssessmentDetailsTableData from './pages/AssessmentBank/Table/AssessmentD
 import REP_Letters_HomePage from './pages/REP_Letters_Module/Home';
 import POC from './pages/TestPages_For_POC_only/POC.jsx';
 import AssessmentForm from './pages/AssessmentForm/AssessmentForm';
+import RLMDM from './pages/REP_Letters_Module/Home/MDM';
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -226,6 +227,7 @@ const Pages = () => {
             component={AssessmentDetailsTableData}
           />
           <Route exact path="/POC" component={POC} />
+          <Route exact path="/rlmdm" component={RLMDM} />
           <Route
             path="*"
             render={(props) => {

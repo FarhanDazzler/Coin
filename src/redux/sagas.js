@@ -9,6 +9,7 @@ import MDM_Saga from './MDM/MDM_Saga';
 import AD_Saga from './AzureAD/AD_Saga';
 import AssessmentBankSaga from './AssessmentBank/AssessmentBankSaga';
 import DashBoardSaga from './DashBoard/DashBoardSaga';
+import RLMDMSaga from './REP_Letters/RLMDM/RLMDMSaga';
 
 export function* sagas() {
   yield all([
@@ -21,6 +22,7 @@ export function* sagas() {
     MDM_Saga,
     AD_Saga,
     AssessmentBankSaga,
-    DashBoardSaga
+    DashBoardSaga,
+    RLMDMSaga
   ]);
 }
