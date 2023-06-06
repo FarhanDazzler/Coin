@@ -15,6 +15,7 @@ import { Group } from '@mantine/core';
 import FilterButtons from '../../components/FilterButtons';
 import Table2 from '../../components/UI/Table/Table2';
 import Cookies from 'js-cookie';
+import NestedDropdown from './NestedDropdown';
 //TODO:Replace new table with desgin
 const ControlOwnerTable = ({ tableName }) => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -339,19 +340,7 @@ const ControlOwnerTable = ({ tableName }) => {
 };
 
 const POC = () => {
-  return (
-    <div>
-      <PageWrapper>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-lg-12 mt-5 pt-5">
-              <ControlOwnerTable />
-            </div>
-          </div>
-        </div>
-      </PageWrapper>
-    </div>
-  );
+  return <NestedDropdown />;
 };
 
 export default POC;
