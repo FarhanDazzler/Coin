@@ -40,7 +40,8 @@ const BU_AdminTable = () => {
     getAll_Roles_data?.data[1][0]?.BU_Admins[0]?.length &&
     getAll_Roles_data?.data[1][0]?.BU_Admins[0];
 
-  console.log(getAll_GIC_Role, 'getAll_GIC_Role');
+  // console.log(getAll_Roles_data?.data?.length &&
+  //   getAll_Roles_data?.data[1], 'getAll_GIC_Rosdsdsddsdle');
 
   // for closing POP up after confirm
   useEffect(() => {
@@ -125,12 +126,13 @@ const BU_AdminTable = () => {
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
     setTableData(
-      getAll_GIC_Role?.map((i, index) => {
-        return {
-          id: getAll_GIC_Role[index].oid,
-          ...i,
-        };
-      }),
+      getAll_GIC_Role?.length &&
+        getAll_GIC_Role?.map((i, index) => {
+          return {
+            id: getAll_GIC_Role[index].oid,
+            ...i,
+          };
+        }),
     );
   }, [getAll_GIC_Role]);
 

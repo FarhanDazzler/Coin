@@ -34,6 +34,8 @@ const Functional_AdminTable = () => {
   const getAll_Roles_data = useSelector(getAll_RolesSelector);
 
   const getAll_GIC_Role =
+    getAll_Roles_data?.data?.length &&
+    getAll_Roles_data?.data[1]?.length &&
     getAll_Roles_data?.data[1][1]?.Functioanl_Admins?.length &&
     getAll_Roles_data?.data[1][1]?.Functioanl_Admins[0]?.length &&
     getAll_Roles_data?.data[1][1]?.Functioanl_Admins[0];
@@ -121,12 +123,13 @@ const Functional_AdminTable = () => {
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
     setTableData(
-      getAll_GIC_Role?.map((i, index) => {
-        return {
-          id: getAll_GIC_Role[index].oid,
-          ...i,
-        };
-      }),
+      getAll_GIC_Role?.length &&
+        getAll_GIC_Role?.map((i, index) => {
+          return {
+            id: getAll_GIC_Role[index].oid,
+            ...i,
+          };
+        }),
     );
   }, [getAll_GIC_Role]);
 
