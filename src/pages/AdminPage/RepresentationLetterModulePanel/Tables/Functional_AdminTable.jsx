@@ -15,9 +15,9 @@ import { Delete, Edit } from '@mui/icons-material';
 import { getAll_Roles } from '../../../../redux/AdminPage/AdminPageAction';
 import { getAll_RolesSelector } from '../../../../redux/AdminPage/AdminPageSelectors.js';
 
-import ZIC_Model from './ZIC_Model';
+import Functional_Model from './Functional_Model';
 
-const ZoneInternalControlAdminTable = () => {
+const Functional_AdminTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -33,15 +33,15 @@ const ZoneInternalControlAdminTable = () => {
 
   const getAll_Roles_data = useSelector(getAll_RolesSelector);
 
-  const getAll_ZIC_Role =
-    getAll_Roles_data?.data[0]?.SA_Admins?.length &&
-    getAll_Roles_data?.data[0]?.SA_Admins[0][1].Zonal_IC?.length &&
-    getAll_Roles_data?.data[0]?.SA_Admins[0][1].Zonal_IC[0];
+  const getAll_GIC_Role =
+    getAll_Roles_data?.data[1][1]?.Functioanl_Admins?.length &&
+    getAll_Roles_data?.data[1][1]?.Functioanl_Admins[0]?.length &&
+    getAll_Roles_data?.data[1][1]?.Functioanl_Admins[0];
 
   // for closing POP up after confirm
   useEffect(() => {
     setShowModal(false);
-  }, [getAll_ZIC_Role]);
+  }, [getAll_GIC_Role]);
 
   const handleAdd = () => {
     setShowModal(true);
@@ -68,13 +68,13 @@ const ZoneInternalControlAdminTable = () => {
       }).then((res) => {
         if (res.isConfirmed) {
           let payload = {
-            Module: 'SA_Admins',
-            Zone: data.zone_id,
-            IC_Email: data.zic_email,
-            IC_OID: data.zic_oid,
+            Module: 'REP_Admins',
+            Zone: 'Functional',
+            IC_Email: data.email,
+            IC_OID: data.oid,
           };
 
-          console.log(payload, 'ZIC delete payload');
+          console.log(payload, 'Functional delete payload');
           //dispatch(ScheduleSurveyPage_2(payload));
         }
       });
@@ -83,33 +83,14 @@ const ZoneInternalControlAdminTable = () => {
 
   const TABLE_COLUMNS = [
     {
-      accessorKey: 'zone_id',
-      id: 'zone_id',
-      header: 'Zone',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
-    },
-
-    {
-      accessorKey: 'zic_email',
-      id: 'zic_email',
+      accessorKey: 'email',
+      id: 'email',
       header: 'Email',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 200,
     },
-    // {
-    //   accessorKey: 'zic_oid',
-    //   id: 'zic_oid',
-    //   header: 'Object ID',
-    //   flex: 1,
-    //   columnDefType: 'data',
-    //   cellClassName: 'dashboardCell',
-    //   size: 90,
-    // },
     {
       accessorKey: 'Actions',
       id: 'Actions',
@@ -140,14 +121,14 @@ const ZoneInternalControlAdminTable = () => {
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
     setTableData(
-      getAll_ZIC_Role?.map((i, index) => {
+      getAll_GIC_Role?.map((i, index) => {
         return {
-          id: getAll_ZIC_Role[index].zic_oid,
+          id: getAll_GIC_Role[index].oid,
           ...i,
         };
       }),
     );
-  }, [getAll_ZIC_Role]);
+  }, [getAll_GIC_Role]);
 
   const ActiveToolAdd = ({ text }) => (
     <Tooltip title={text} placement="bottom-start">
@@ -165,7 +146,9 @@ const ZoneInternalControlAdminTable = () => {
                 <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                   <div>
                     <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                    <span style={{ paddingLeft: '16px' }}>Zone Internal Control Role Table</span>
+                    <span style={{ paddingLeft: '16px' }}>
+                      Functional Global Persona Role Table
+                    </span>
                   </div>
                   <div>
                     <Button
@@ -198,12 +181,12 @@ const ZoneInternalControlAdminTable = () => {
         width={900}
         title={
           modalType === 'add'
-            ? 'Add individual for Zone Internal Control'
-            : 'Modify individual for Zone Internal Control'
+            ? 'Add individual for Functional Global Persona'
+            : 'Modify individual for Functional Global Persona'
         }
         bodyClassName="p-0"
       >
-        <ZIC_Model
+        <Functional_Model
           setShowModal={setShowModal}
           ediatbleData={editTableData}
           setEditTableData={setEditTableData}
@@ -214,4 +197,4 @@ const ZoneInternalControlAdminTable = () => {
   );
 };
 
-export default ZoneInternalControlAdminTable;
+export default Functional_AdminTable;

@@ -103,7 +103,7 @@ const AdminLandingPage = () => {
                   <AdminBox
                     title="Representation Letter Module"
                     description="Add or Modify individuals for both ( Business Unit and Functional ) Representation Letter Modules."
-                    url="/admin-panel/sa"
+                    url="/admin-panel/rl"
                   />
                 </div>
               </div>

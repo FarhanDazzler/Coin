@@ -39,6 +39,7 @@ import { setRoles } from './redux/Auth/AuthAction';
 import RLMDM from './pages/REP_Letters_Module/Home/MDM';
 import AdminLandingPage from './pages/AdminPage/AdminLandingPage';
 import AssessmentModulePanel from './pages/AdminPage/AssessmentModulePanel/AssessmentModulePanel.jsx';
+import RepresentationLetterModulePanel from './pages/AdminPage/RepresentationLetterModulePanel/RepresentationLetterModulePanel';
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -95,10 +96,11 @@ const Pages = () => {
         console.log(res.data, 'User Role User Token');
         if (!localStorage.getItem('Roles'))
           localStorage.setItem('Roles', res?.data.data?.sa_roles || []);
-          console.log('res?.data.data?.rl_roles',res?.data.data?.rl_roles)
-          const updatedParam={}
-          if(res?.data.data?.rl_roles?.BU) updatedParam.BU=res?.data.data?.rl_roles?.BU
-          if(res?.data.data?.rl_roles?.Functional) updatedParam.Functional=res?.data.data?.rl_roles?.Functional
+        console.log('res?.data.data?.rl_roles', res?.data.data?.rl_roles);
+        const updatedParam = {};
+        if (res?.data.data?.rl_roles?.BU) updatedParam.BU = res?.data.data?.rl_roles?.BU;
+        if (res?.data.data?.rl_roles?.Functional)
+          updatedParam.Functional = res?.data.data?.rl_roles?.Functional;
         localStorage.setItem('rl_roles', JSON.stringify(updatedParam || []));
         localStorage.setItem('sa_roles', res?.data.data?.sa_roles || []);
         dispatch(
@@ -248,6 +250,7 @@ const Pages = () => {
           <Route exact path="/rlmdm" component={RLMDM} />
           <Route exact path="/admin-panel" component={AdminLandingPage} />
           <Route exact path="/admin-panel/sa" component={AssessmentModulePanel} />
+          <Route exact path="/admin-panel/rl" component={RepresentationLetterModulePanel} />
           <Route
             path="*"
             render={(props) => {
