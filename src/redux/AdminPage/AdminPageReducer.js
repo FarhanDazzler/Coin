@@ -11,6 +11,30 @@ export const GET__ALL_ROLES_ERROR = 'GET__ALL_ROLES_ERROR';
 
 // =================== GET All  ROLE Data ========================//
 
+// =================== ADD  ROLE Data ========================//
+
+export const ADD_ADMIN_ROLE_REQUEST = 'ADD_ADMIN_ROLE_REQUEST';
+export const ADD_ADMIN_ROLE_SUCCESS = 'ADD_ADMIN_ROLE_SUCCESS';
+export const ADD_ADMIN_ROLE_ERROR = 'ADD_ADMIN_ROLE_ERROR';
+
+// =================== ADD   ROLE Data ========================//
+
+// =================== Modify ROLE Data ========================//
+
+export const MODIFY_ADMIN_ROLE_REQUEST = 'MODIFY_ADMIN_ROLE_REQUEST';
+export const MODIFY_ADMIN_ROLE_SUCCESS = 'MODIFY_ADMIN_ROLE_SUCCESS';
+export const MODIFY_ADMIN_ROLE_ERROR = 'MODIFY_ADMIN_ROLE_ERROR';
+
+// =================== Modify  ROLE Data ========================//
+
+// =================== Delete ROLE Data ========================//
+
+export const DELETE_ADMIN_ROLE_REQUEST = 'DELETE_ADMIN_ROLE_REQUEST';
+export const DELETE_ADMIN_ROLE_SUCCESS = 'DELETE_ADMIN_ROLE_SUCCESS';
+export const DELETE_ADMIN_ROLE_ERROR = 'DELETE_ADMIN_ROLE_ERROR';
+
+// =================== Delete ROLE Data ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -19,11 +43,14 @@ const block = {
 
 const initialState = {
   getAll_Roles: { ...block, data: [] },
+  addAdminRole: { ...block, data: [] },
+  modifyAdminRole: { ...block, data: [] },
+  deleteAdminRole: { ...block, data: [] },
 };
 
 export const AdminPageReducer = (state = initialState, { type, payload = {} }) => {
   switch (type) {
-    // Roles data
+    // Get Roles data
     case GET__ALL_ROLES_REQUEST:
       return {
         ...state,
@@ -38,6 +65,57 @@ export const AdminPageReducer = (state = initialState, { type, payload = {} }) =
       return {
         ...state,
         getAll_Roles: { ...state.getAll_Roles, loading: false },
+      };
+
+    // Add Roles data
+    case ADD_ADMIN_ROLE_REQUEST:
+      return {
+        ...state,
+        addAdminRole: { ...state.addAdminRole, loading: true },
+      };
+    case ADD_ADMIN_ROLE_SUCCESS:
+      return {
+        ...state,
+        addAdminRole: { ...state.addAdminRole, data: payload, loading: false },
+      };
+    case ADD_ADMIN_ROLE_ERROR:
+      return {
+        ...state,
+        addAdminRole: { ...state.addAdminRole, loading: false },
+      };
+
+    // Modify Roles data
+    case MODIFY_ADMIN_ROLE_REQUEST:
+      return {
+        ...state,
+        modifyAdminRole: { ...state.modifyAdminRole, loading: true },
+      };
+    case MODIFY_ADMIN_ROLE_SUCCESS:
+      return {
+        ...state,
+        modifyAdminRole: { ...state.modifyAdminRole, data: payload, loading: false },
+      };
+    case MODIFY_ADMIN_ROLE_ERROR:
+      return {
+        ...state,
+        modifyAdminRole: { ...state.modifyAdminRole, loading: false },
+      };
+
+    //Delete Roles data
+    case DELETE_ADMIN_ROLE_REQUEST:
+      return {
+        ...state,
+        deleteAdminRole: { ...state.deleteAdminRole, loading: true },
+      };
+    case DELETE_ADMIN_ROLE_SUCCESS:
+      return {
+        ...state,
+        deleteAdminRole: { ...state.deleteAdminRole, data: payload, loading: false },
+      };
+    case DELETE_ADMIN_ROLE_ERROR:
+      return {
+        ...state,
+        deleteAdminRole: { ...state.deleteAdminRole, loading: false },
       };
 
     //reset block with flag and data

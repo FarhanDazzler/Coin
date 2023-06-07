@@ -14,6 +14,7 @@ import moment from 'moment';
 import useDebounce from '../../../../hooks/useDebounce';
 import AdSearch from '../../AssessmentModulePanel/Tables/AdSearch';
 import { isEmailValidADSelector } from '../../../../redux/AzureAD/AD_Selectors';
+import { addAdminRole, modifyAdminRole } from '../../../../redux/AdminPage/AdminPageAction';
 
 const GetFormikValue = () => {
   // Grab values and submitForm from context
@@ -61,7 +62,7 @@ const Functional_Model = ({ setShowModal, ediatbleData, setEditTableData, modalT
       };
 
       console.log(payload, 'Functional edit payload');
-      //dispatch(ScheduleSurveyPage_2(payload));
+      dispatch(modifyAdminRole(payload));
     } else {
       let payload = {
         Module: 'REP_Admins',
@@ -70,7 +71,7 @@ const Functional_Model = ({ setShowModal, ediatbleData, setEditTableData, modalT
       };
 
       console.log(payload, 'Functional add payload');
-      //dispatch(ScheduleSurveyPage_2(payload));
+      dispatch(addAdminRole(payload));
     }
   };
   const handleChangeAd = () => {

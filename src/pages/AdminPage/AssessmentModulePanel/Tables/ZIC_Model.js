@@ -16,6 +16,7 @@ import AdSearch from './AdSearch';
 import { isEmailValidADSelector } from '../../../../redux/AzureAD/AD_Selectors';
 import { getAllZone } from '../../../../redux/AssessmentBank/AssessmentBankAction';
 import { getAllZoneSelector } from '../../../../redux/AssessmentBank/AssessmentBankSelectors';
+import { addAdminRole, modifyAdminRole } from '../../../../redux/AdminPage/AdminPageAction';
 
 const GetFormikValue = () => {
   // Grab values and submitForm from context
@@ -74,7 +75,7 @@ const ZIC_Model = ({ setShowModal, ediatbleData, setEditTableData, modalType }) 
       };
 
       console.log(payload, 'ZIC edit payload');
-      //dispatch(ScheduleSurveyPage_2(payload));
+      dispatch(modifyAdminRole(payload));
     } else {
       let payload = {
         Module: 'SA_Admins',
@@ -83,7 +84,7 @@ const ZIC_Model = ({ setShowModal, ediatbleData, setEditTableData, modalType }) 
       };
 
       console.log(payload, 'ZIC add payload');
-      //dispatch(ScheduleSurveyPage_2(payload));
+      dispatch(addAdminRole(payload));
     }
   };
   const handleChangeAd = () => {

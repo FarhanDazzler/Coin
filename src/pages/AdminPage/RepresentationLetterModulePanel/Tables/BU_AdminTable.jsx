@@ -13,9 +13,16 @@ import { Box, IconButton } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 // geting data from redux
 import { getAll_Roles } from '../../../../redux/AdminPage/AdminPageAction';
-import { getAll_RolesSelector } from '../../../../redux/AdminPage/AdminPageSelectors.js';
+//import { getAll_RolesSelector } from '../../../../redux/AdminPage/AdminPageSelectors.js';
 
 import BU_Model from './BU_Model';
+import { deleteAdminRole } from '../../../../redux/AdminPage/AdminPageAction';
+import {
+  getAll_RolesSelector,
+  addAdminRoleSelector,
+  modifyAdminRoleSelector,
+  deleteAdminRoleSelector,
+} from '../../../../redux/AdminPage/AdminPageSelectors.js';
 
 const BU_AdminTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -31,7 +38,16 @@ const BU_AdminTable = () => {
     dispatch(getAll_Roles());
   }, []);
 
+  //const getAll_Roles_data = useSelector(getAll_RolesSelector);
   const getAll_Roles_data = useSelector(getAll_RolesSelector);
+  const addAdminRoleState = useSelector(addAdminRoleSelector);
+  const modifyAdminRoleState = useSelector(modifyAdminRoleSelector);
+  const deleteAdminRoleState = useSelector(deleteAdminRoleSelector);
+
+  useEffect(() => {
+    dispatch(getAll_Roles());
+    setShowModal(false);
+  }, [addAdminRoleState?.data, modifyAdminRoleState?.data, deleteAdminRoleState?.data]);
 
   const getAll_GIC_Role =
     getAll_Roles_data?.data?.length &&
@@ -80,7 +96,7 @@ const BU_AdminTable = () => {
           };
 
           console.log(payload, 'BU delete payload');
-          //dispatch(ScheduleSurveyPage_2(payload));
+          dispatch(deleteAdminRole(payload));
         }
       });
     }
