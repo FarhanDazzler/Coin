@@ -36,6 +36,10 @@ import REP_Letters_HomePage from './pages/REP_Letters_Module/Home';
 import POC from './pages/TestPages_For_POC_only/POC.jsx';
 import AssessmentForm from './pages/AssessmentForm/AssessmentForm';
 import { setRoles } from './redux/Auth/AuthAction';
+import RLMDM from './pages/REP_Letters_Module/Home/MDM';
+import AdminLandingPage from './pages/AdminPage/AdminLandingPage';
+import AssessmentModulePanel from './pages/AdminPage/AssessmentModulePanel/AssessmentModulePanel.jsx';
+
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -91,11 +95,15 @@ const Pages = () => {
         console.log(res.data, 'User Role User Token');
         if (!localStorage.getItem('Roles'))
           localStorage.setItem('Roles', res?.data.data?.sa_roles || []);
-        localStorage.setItem('rl_roles', JSON.stringify(res?.data.data?.rl_roles || []));
+          console.log('res?.data.data?.rl_roles',res?.data.data?.rl_roles)
+          const updatedParam={}
+          if(res?.data.data?.rl_roles?.BU) updatedParam.BU=res?.data.data?.rl_roles?.BU
+          if(res?.data.data?.rl_roles?.Functional) updatedParam.Functional=res?.data.data?.rl_roles?.Functional
+        localStorage.setItem('rl_roles', JSON.stringify(updatedParam || []));
         localStorage.setItem('sa_roles', res?.data.data?.sa_roles || []);
         dispatch(
           setRoles({
-            rl_roles: res?.data.data?.rl_roles || [],
+            rl_roles: updatedParam || [],
             sa_roles: res?.data.data?.sa_roles || [],
           }),
         );
@@ -237,6 +245,9 @@ const Pages = () => {
             component={AssessmentDetailsTableData}
           />
           <Route exact path="/POC" component={POC} />
+          <Route exact path="/rlmdm" component={RLMDM} />
+          <Route exact path="/admin-panel" component={AdminLandingPage} />
+          <Route exact path="/admin-panel/sa" component={AssessmentModulePanel} />
           <Route
             path="*"
             render={(props) => {

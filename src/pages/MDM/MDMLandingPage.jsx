@@ -6,7 +6,7 @@ import './MDMStyle.scss';
 const MDM = () => {
   return (
     <PageWrapper>
-      <div className="container py-5" style={{ display: 'flex' }}>
+      <div className="container-fluid py-5" style={{ display: 'flex' }}>
         <div className="col-lg-6 py-4 MDMBoxWrapper" style={{ marginRight: '16px' }}>
           <MDMBox
             title="Organization Hierarchy"

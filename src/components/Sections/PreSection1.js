@@ -13,8 +13,7 @@ const PreSection1 = () => {
     formState: { errors },
   } = useForm();
 
-
-//reach hook form approach
+  //reach hook form approach
   const [loading, setLoading] = useState(false);
 
   const { fields, append, remove } = useFieldArray({
@@ -116,7 +115,7 @@ const PreSection1 = () => {
 
   return (
     <>
-      <div className="container">
+      <div className="container-fluid">
         <div className="col-12">
           <div className="card">
             <div className="card-header">

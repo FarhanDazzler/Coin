@@ -776,10 +776,17 @@ pre code {
 
 .container-fluid {
   width: 100%;
-  padding-right: 0.75rem;
-  padding-left: 0.75rem;
+  padding-right: 5rem;
+  padding-left: 5rem;
   margin-right: auto;
   margin-left: auto;
+}
+
+@media (max-width: 600px) {
+  .container-fluid {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
 }
 
 .content {

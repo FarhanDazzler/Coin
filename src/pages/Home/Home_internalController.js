@@ -1,9 +1,8 @@
 import React from 'react';
-import { useMsal} from '@azure/msal-react';
+import { useMsal } from '@azure/msal-react';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
 import '../../assets/styles/custom.css';
-
 
 const Home = () => {
   const { accounts } = useMsal();
@@ -48,7 +47,7 @@ const Home = () => {
               >
                 <p>A summary of responses submitted by Control Owners.</p>
               </span>
-              <div className="container">
+              <div className="container-fluid">
                 <div>
                   <p className="grey-text">
                     {`1.`} {control_name}
@@ -59,7 +58,7 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="container">
+              <div className="container-fluid">
                 <div className="row">
                   <div className="col col-sm-5">
                     <ProgressBar>
@@ -71,7 +70,7 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-              <div className="container">
+              <div className="container-fluid">
                 <div className="row">
                   <div className="col col-sm-2">
                     <p className="row card-subtitle">

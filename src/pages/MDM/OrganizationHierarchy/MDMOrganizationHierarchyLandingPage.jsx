@@ -17,18 +17,15 @@ const MDM_OrganizationHierarchyLandingPage = () => {
   const orgManageButtonState = useSelector(orgManageButtonSelector);
   const addOrgStructureState = useSelector(addOrgStructureSelector);
   const updateOrgState = useSelector(updateOrgStructureSelector);
-  console.log('addOrgStructureState', addOrgStructureState);
+
   // API Call using dispatch
   useEffect(() => {
-    console.log('BU');
     dispatch(getOrgStructures());
     dispatch(getOrgHierarchy());
-    console.log('BU=====>>>>>>>>>>>>>>>>>>>>>>>>>>');
   }, [addOrgStructureState?.data, updateOrgState?.data?.message]);
 
   // to select data from redux store using selector
   // const orgStructures = useSelector(getOrgStructuresSelector);
-  // console.log(orgStructures.data, 'Org Structure data from API');
 
   return (
     <PageWrapper>

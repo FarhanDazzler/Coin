@@ -17,13 +17,11 @@ import { Axios } from '../../../../../api/axios';
 const GetParentEntityValue = ({ setCownerValue }) => {
   // Grab values and submitForm from context
   const { values } = useFormikContext();
-  console.log('values', values);
   useEffect(() => {}, [values]);
   return null;
 };
 
 const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
-  console.log('selectedControlIds', assignTableData);
   const dispatch = useDispatch();
 
   const userFromAD = useSelector(getUserFromADSelector);
@@ -47,7 +45,6 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
     };
     const getControlInstanceHistoryApi = async () => {
       const result = await Axios.post('/get_control_instances_history', payloadForHistory);
-      console.log(result);
       if (result.success) {
         setHistoryData(result?.data);
       }
@@ -78,8 +75,6 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
   }, [userFromAD.data]);
 
   const handleSaveAssign = (value) => {
-    console.log(value);
-
     const newState = assignTableData.map((obj) => {
       console.log('objjjj', obj);
       let updateObj = { ...obj };
@@ -106,7 +101,6 @@ const AssignModal = ({ setShowModal, assignTableData, selectedControlIds }) => {
 
       return { ...updateObj };
     });
-    console.log(newState);
     const payload = {
       control_instances: newState,
     };

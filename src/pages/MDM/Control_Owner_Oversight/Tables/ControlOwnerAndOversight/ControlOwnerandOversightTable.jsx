@@ -37,7 +37,6 @@ const FilterButtons = ({
   setValueProvider_entity,
   setValueControl_ID,
 }) => {
-  //console.log(props.zone, 'ZONE');
   const [searchValue, onSearchChange] = useState('');
 
   return (
@@ -58,7 +57,6 @@ const FilterButtons = ({
           value={valueControl_ID}
           onChange={(e) => {
             setValueControl_ID(e);
-            //console.log(e, 'Control_ID filter');
           }}
           radius="xl"
           variant="filled"
@@ -79,7 +77,6 @@ const FilterButtons = ({
           value={valueProvider_entity}
           onChange={(e) => {
             setValueProvider_entity(e);
-            //console.log(e, 'provider_entity filter');
           }}
           radius="xl"
           variant="filled"
@@ -100,7 +97,6 @@ const FilterButtons = ({
           value={valueCowner}
           onChange={(e) => {
             setValueCowner(e);
-            //console.log(e, 'cowner filter');
           }}
           radius="xl"
           variant="filled"
@@ -121,7 +117,6 @@ const FilterButtons = ({
           value={valueCoversight}
           onChange={(e) => {
             setValueCoversight(e);
-            //console.log(e, 'coversight filter');
           }}
           radius="xl"
           variant="filled"
@@ -155,7 +150,6 @@ const ControlOwnerAndOversightTable = () => {
     return dataValue.filter((i) => i[conditionalParam]);
   };
   useEffect(() => {
-    console.log(modifyControlOwnerAndOversightState);
     setShowLcdModal(false);
     setShowModal(false);
   }, [modifyControlOwnerAndOversightState.data]);
@@ -359,7 +353,6 @@ const ControlOwnerAndOversightTable = () => {
   const cownerArray = controlOwnerAndOversight.data.map((i) => i.cowner);
   const coversightArray = controlOwnerAndOversight.data.map((i) => i.coversight);
   //zoneArray = removeDuplicates(zoneArray);
-  //console.log(removeDuplicates(zoneArray),zoneArray, 'zoneeeeee');
 
   // object for Expanding Detail Panel
   const Is_Expanding_Detail_Panel = {
@@ -368,7 +361,7 @@ const ControlOwnerAndOversightTable = () => {
   };
   return (
     <>
-      <div className="container mt-5">
+      <div className="container-fluid mt-5">
         {/*<Messaging color="#fff" width="100px" height="100px" duration="1s" />*/}
         <div className="row pt-5">
           <div className="col-12 col-lg-12">

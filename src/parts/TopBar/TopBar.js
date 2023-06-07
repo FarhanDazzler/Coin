@@ -21,6 +21,8 @@ import MultiDropdown from '../../components/UI/MultiDropdown';
 import Button from '../../components/UI/Button';
 import NestedMenuItem from '../../components/UI/MultiDropdown/NestedMenuItem';
 import MenuItem from '@mui/material/MenuItem';
+import Select from '../../components/UI/Select/Select';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 
 const TopBar = (props) => {
   const history = useHistory();
@@ -329,6 +331,24 @@ const TopBar = (props) => {
                             >
                               <FeatherIcon icon="clipboard" size={14} />
                               &nbsp;{'Assessment Bank'}
+                            </a>
+                          </li>
+                        }
+
+                        {
+                          <li className="nav-item">
+                            <a
+                              className={`navbar-link ${
+                                ['/admin-panel', '/register'].includes(location?.pathname)
+                                  ? ' active'
+                                  : ''
+                              }`}
+                              onClick={() => {
+                                history.push('/admin-panel');
+                              }}
+                            >
+                              <AdminPanelSettingsOutlinedIcon />
+                              &nbsp;{'Admin Panel'}
                             </a>
                           </li>
                         }

@@ -330,6 +330,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             style: { width: 128 },
             loading: addOrEditUpdateDraft.loading,
           }}
+          isModal={false}
           setStartEdit={setStartEdit}
         />
       </>

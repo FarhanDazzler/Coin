@@ -1,0 +1,157 @@
+.select-options-background {
+  padding: 16.5px 14px;
+  background: rgba(140, 140, 140, 0.14);
+  backdrop-filter: blur(14.4828px);
+  border-radius: 8.68966px !important;
+  color: #fff !important;
+  cursor: pointer;
+}
+.open-popover {
+  outline: 2px solid #d3a306;
+}
+.popover-title {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.year-side {
+  padding-right: 25px;
+  border-right: 1.5px solid rgba(255, 255, 255, 0.12) ;
+}
+
+.period-side {
+  padding-left: 25px;
+}
+.open-select {
+  transform: rotate(180deg);
+}
+
+.actions-button-wrapper {
+  button {
+    text-transform: capitalize !important;
+  }
+}
+
+.schedule-survey {
+    .model-header {
+        p {
+            display: none;
+        }
+    }
+}
+
+
+#admin-panel {
+    .wrapper{
+        margin: 25px;
+        margin-top: 10px;
+    }
+    .step-header {
+      position: relative;
+        p {
+            color:#808080;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        p.active {
+            color: #ffffff;
+           position: relative;
+            
+        }
+
+        p.active::after {
+            position: absolute;
+            content: "";
+            height: 7px;
+            border-radius: 8px;
+            width: 100%;
+            bottom: -21px;
+            left: 0;
+            background: #e3af32;
+            z-index: 9;
+        }
+    }
+
+    .progress {
+        background: #808080;
+        height: 7px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+
+    ul.steps {
+        text-align: center;
+        height: 60px;
+        padding: 10px 0;
+
+        li.complete:after {
+            background: #EAC144;
+        }
+
+        li {
+            float: left;
+            width: 25%;
+            height: 2px;
+            background: #EAC144;
+            position: relative;
+            list-style: none;
+
+            &:after {
+                position: absolute;
+                content: "";
+                height: 10px;
+                width: 10px;
+                left: 50%;
+                margin-left: -5px;
+                top: -5px;
+                background: #fff;
+                border: solid 1px #EAC144;
+                -webkit-border-radius: 100%;
+                -moz-border-radius: 100%;
+                -o-border-radius: 100%;
+                -ms-border-radius: 100%;
+                border-radius: 100%;
+            }
+        }
+    }
+
+    .holder {
+        overflow: hidden;
+       
+        padding: 20px;
+        padding-top: 0;
+        .schedule-survey-btn{
+            text-align: end;
+        }
+    }
+
+}
+
+.AdminPageBoxWrapper {
+    background: rgba(92, 92, 92, 0.2);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 24px;
+  }
+  .AdminPageInnerBoxWrapper {
+    background: #000000;
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 24px;
+    
+  }
+
+  .AdminPageDesc{
+    color: #FFFFFF;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+
+  
+ 
