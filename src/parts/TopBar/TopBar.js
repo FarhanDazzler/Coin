@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setLoginInfo,
   setLoginRole,
+  setRoles,
   setSelectedModuleRoles,
   setSelectRoles,
 } from '../../redux/Auth/AuthAction';
@@ -46,7 +47,6 @@ const TopBar = (props) => {
   };
 
   const handleLogout = () => {
-    // console.log('logout');
     instance.logout({
       account: accounts[0],
       // account: accounts.length > 0 ? accounts[0] : null,
@@ -64,21 +64,39 @@ const TopBar = (props) => {
     { label: 'Assessment Module', value: 'Assessment Module' },
     { label: 'Representation Letter Module', value: 'Representation Letter Module' },
   ];
+
   const [module, setModule] = useState(initModule);
   const [activeModule, setActiveModule] = useState(selected_module_role || 'Assessment Module');
 
   useEffect(() => {
     localStorage.setItem('selected_module_Role', activeModule);
     dispatch(setSelectedModuleRoles(activeModule));
-    const rl_roles = localStorage.getItem('rl_roles');
+    const rl_roles = localStorage.getItem('rl_roles')
+      ? JSON.parse(localStorage.getItem('rl_roles'))
+      : {};
 
     switch (true) {
       case activeModule === 'Assessment Module':
-        // dispatch(setSelectRoles(JSON.parse(localStorage.getItem('sa_roles'))))
-        localStorage.setItem('Roles', localStorage.getItem('sa_roles'));
+        const data = localStorage.getItem('sa_roles')?.split(',') || [];
+        localStorage.setItem('Roles', data);
+        if (data.length > 0) localStorage.setItem('selected_Role', data[0]);
         break;
       case activeModule === 'BU':
-        localStorage.setItem('Roles', JSON.stringify(JSON.parse(rl_roles).BU));
+        if (rl_roles.BU) {
+          if (rl_roles.BU > 0) localStorage.setItem('selected_Role', rl_roles.BU[0]);
+          localStorage.setItem('Roles', rl_roles.BU);
+        } else {
+          localStorage.setItem('Roles', '');
+        }
+        break;
+      case activeModule === 'Functional':
+        if (rl_roles.Functional) {
+          if (rl_roles.Functional > 0)
+            localStorage.setItem('selected_Role', rl_roles.Functional[0]);
+          localStorage.setItem('Roles', rl_roles.Functional);
+        } else {
+          localStorage.setItem('Roles', '');
+        }
         break;
       default:
         break;
@@ -92,16 +110,13 @@ const TopBar = (props) => {
         const str = data.split('_').join(' ');
         return str.charAt(0).toUpperCase() + str.slice(1);
       });
-      console.log('userRoles?.length', userRoles);
       if (userRoles?.length > 0) {
         setRoleValue(userRoles);
         dispatch(setLoginRole(selected_Role ?? userRoles[0]));
         localStorage.setItem('selected_Role', selected_Role ?? userRoles[0]);
       }
     }, 500);
-  }, [roles.length]);
-
-  console.log('roles', roles);
+  }, [roles.length, activeModule]);
 
   useEffect(() => {
     if (Object.keys(apiRoles).length > 0) {
@@ -152,7 +167,7 @@ const TopBar = (props) => {
               className="d-flex order-lg-2 ml-auto text-left"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
             >
-              {roleValue.length > 1 && (
+              {roleValue.length > 0 && (
                 <div>
                   <span className={'text-yellow ml-2'}>Select Role:</span>
                   <Form.Group className="input-group mb-3">
@@ -165,7 +180,7 @@ const TopBar = (props) => {
                         dispatch(setLoginRole(e.target.value));
                         localStorage.setItem('selected_Role', e.target.value);
                       }}
-                      defaultValue={selected_Role}
+                      value={selected_Role}
                     >
                       {roleValue.map((data, i) => (
                         <option value={data} key={i}>
