@@ -5,7 +5,6 @@ import PageWrapper from '../../../components/wrappers/PageWrapper';
 import { useDispatch, useSelector } from 'react-redux';
 import GlobalInternalControlAdminTable from './Tables/GlobalInternalControlAdminTable';
 import { getAll_Roles } from '../../../redux/AdminPage/AdminPageAction';
-import ZoneInternalControlAdminTable from './Tables/ZoneInternalControlAdminTable';
 
 const AssessmentModulePanel = () => {
   const dispatch = useDispatch();
@@ -21,7 +20,6 @@ const AssessmentModulePanel = () => {
         <div className="row">
           <div className="col-12 mt-5">
             <GlobalInternalControlAdminTable />
-            <ZoneInternalControlAdminTable />
           </div>
         </div>
       </div>

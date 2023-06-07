@@ -14247,7 +14247,9 @@ a.icon:hover {
   -ms-flex-align: center;
   align-items: center;
 }
-
+.btn-border {
+  border: 1px solid !important;
+}
 .nav-link .badge,
 .nav-item .badge {
   position: absolute;

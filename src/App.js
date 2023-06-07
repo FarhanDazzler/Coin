@@ -27,7 +27,7 @@ import MDM_Control_Owner_OversightLandingPage from './pages/MDM/Control_Owner_Ov
 import MDM_MICS_FrameworkLandingPage from './pages/MDM/MICS_Framework/MDMMICSFrameworkLandingPage.jsx';
 import AddValues_MDM_Mics_Framework from './pages/MDM/MICS_Framework/InputPage/AddValues';
 import AssessmentBankLandingPage from './pages/AssessmentBank/AssessmentBankLandingPage';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ScheduleSurveyPage from './pages/AssessmentBank/ScheduleSurvey/ScheduleSurveyPage';
 import ControlHomePage from './pages/Home/ControlHomePage';
 import InternalControlHomePage from './pages/Home/V2/InternalControlHomePage';
@@ -35,6 +35,7 @@ import AssessmentDetailsTableData from './pages/AssessmentBank/Table/AssessmentD
 import REP_Letters_HomePage from './pages/REP_Letters_Module/Home';
 import POC from './pages/TestPages_For_POC_only/POC.jsx';
 import AssessmentForm from './pages/AssessmentForm/AssessmentForm';
+import { setRoles } from './redux/Auth/AuthAction';
 import RLMDM from './pages/REP_Letters_Module/Home/MDM';
 import AdminLandingPage from './pages/AdminPage/AdminLandingPage';
 import AssessmentModulePanel from './pages/AdminPage/AssessmentModulePanel/AssessmentModulePanel.jsx';
@@ -67,6 +68,7 @@ const theme = createTheme({
 const Pages = () => {
   const location = useLocation();
   const history = useHistory();
+  const dispatch = useDispatch();
   const isAuthenticated = useIsAuthenticated();
   const { instance, accounts, inProgress } = useMsal();
   const userRole = localStorage.getItem('selected_Role');
@@ -91,7 +93,20 @@ const Pages = () => {
       )
       .then(async (res) => {
         console.log(res.data, 'User Role User Token');
-        localStorage.setItem('Roles', res?.data.data?.sa_roles || [])
+        if (!localStorage.getItem('Roles'))
+          localStorage.setItem('Roles', res?.data.data?.sa_roles || []);
+          console.log('res?.data.data?.rl_roles',res?.data.data?.rl_roles)
+          const updatedParam={}
+          if(res?.data.data?.rl_roles?.BU) updatedParam.BU=res?.data.data?.rl_roles?.BU
+          if(res?.data.data?.rl_roles?.Functional) updatedParam.Functional=res?.data.data?.rl_roles?.Functional
+        localStorage.setItem('rl_roles', JSON.stringify(updatedParam || []));
+        localStorage.setItem('sa_roles', res?.data.data?.sa_roles || []);
+        dispatch(
+          setRoles({
+            rl_roles: updatedParam || [],
+            sa_roles: res?.data.data?.sa_roles || [],
+          }),
+        );
         Cookies.set('token', res?.data.token);
         setUserToken(res?.data.token);
         if (accounts[0]?.username) {
