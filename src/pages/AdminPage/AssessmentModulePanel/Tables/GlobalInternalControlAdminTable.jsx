@@ -15,13 +15,15 @@ import { Delete, Edit } from '@mui/icons-material';
 import { getAll_Roles } from '../../../../redux/AdminPage/AdminPageAction';
 import { getAll_RolesSelector } from '../../../../redux/AdminPage/AdminPageSelectors.js';
 
+import ZIC_Model from './ZIC_Model';
+import GIC_Model from './GIC_Model';
+
 const GlobalInternalControlAdminTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
-
-  const [editTableData, setEditTableData] = useState();
   const [showModal, setShowModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [modalType, setModalType] = useState('');
+  const [editTableData, setEditTableData] = useState();
 
   const dispatch = useDispatch();
 
@@ -31,10 +33,11 @@ const GlobalInternalControlAdminTable = () => {
   }, []);
 
   const getAll_Roles_data = useSelector(getAll_RolesSelector);
+
   const getAll_GIC_Role =
-    getAll_Roles_data?.data?.sa?.length &&
-    getAll_Roles_data?.data?.sa[0].Global_IC?.length &&
-    getAll_Roles_data?.data?.sa[0].Global_IC[0];
+    getAll_Roles_data?.data[0]?.SA_Admins?.length &&
+    getAll_Roles_data?.data[0]?.SA_Admins[0][0].Global_IC?.length &&
+    getAll_Roles_data?.data[0]?.SA_Admins[0][0].Global_IC[0];
 
   // for closing POP up after confirm
   useEffect(() => {
@@ -43,16 +46,61 @@ const GlobalInternalControlAdminTable = () => {
 
   const handleAdd = () => {
     setShowModal(true);
+    setModalType('add');
   };
 
   const handleEdit = (data) => {
+    console.log(data, 'edit data');
     setEditTableData(data);
-    setShowEditModal(true);
+    setModalType('edit');
+    setShowModal(true);
   };
 
-  const handleDelete = (data) => {};
+  const handleDelete = (data) => {
+    if (data) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Selected role will be deleted?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: 'gold',
+        cancelButtonColor: 'black',
+        confirmButtonText: 'Yes, submit it!',
+      }).then((res) => {
+        if (res.isConfirmed) {
+          let payload = {
+            Module: 'SA_Admins',
+            Zone: 'Global',
+            IC_Email: data.gic_email,
+            IC_OID: data.gic_oid,
+          };
+
+          console.log(payload, 'GIC delete payload');
+          //dispatch(ScheduleSurveyPage_2(payload));
+        }
+      });
+    }
+  };
 
   const TABLE_COLUMNS = [
+    // {
+    //   accessorKey: 'gic_oid',
+    //   id: 'gic_oid',
+    //   header: 'Object ID',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 90,
+    // },
+    {
+      accessorKey: 'gic_email',
+      id: 'gic_email',
+      header: 'Email',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 200,
+    },
     {
       accessorKey: 'Actions',
       id: 'Actions',
@@ -60,7 +108,7 @@ const GlobalInternalControlAdminTable = () => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 210,
+      size: 80,
       Cell: (row) => {
         return (
           <Box sx={{ display: 'flex', gap: '1rem' }}>
@@ -77,24 +125,6 @@ const GlobalInternalControlAdminTable = () => {
           </Box>
         );
       },
-    },
-    {
-      accessorKey: 'gic_oid',
-      id: 'gic_oid',
-      header: 'Object ID',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
-    },
-    {
-      accessorKey: 'gic_email',
-      id: 'gic_email',
-      header: 'Email',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 200,
     },
   ];
 
@@ -116,64 +146,61 @@ const GlobalInternalControlAdminTable = () => {
     </Tooltip>
   );
 
-  console.log(getAll_GIC_Role, '@@@@@@@');
-
   return (
     <>
       <div className="container mt-5">
         <div className="row pt-5">
-          <div className="col-12 col-lg-12">
-            <div className="mdm-table-button">
-              <div className="table-heading" style={{ justifyContent: 'space-between' }}>
-                <div>
-                  <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                  <span style={{ paddingLeft: '16px' }}>Global Internal Control Role Table</span>
-                </div>
-                <div>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ActiveToolAdd text="Free Text" />}
-                    className="add-button-mdm-table"
-                    onClick={handleAdd}
-                  >
-                    Add User
-                  </Button>
+          {tableData?.length && (
+            <div className="col-12 col-lg-12">
+              <div className="mdm-table-button">
+                <div className="table-heading" style={{ justifyContent: 'space-between' }}>
+                  <div>
+                    <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
+                    <span style={{ paddingLeft: '16px' }}>Global Internal Control Role Table</span>
+                  </div>
+                  <div>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      startIcon={<ActiveToolAdd text="Free Text" />}
+                      className="add-button-mdm-table"
+                      onClick={handleAdd}
+                    >
+                      Add User
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-            {tableData?.length && (
+
               <Table2
                 tableData={tableData}
                 loading={getAll_Roles_data.loading}
                 tableColumns={tableColumns}
               />
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
-      {
-        //   <CustomModal
-        //   className="add-org"
-        //   open={showModal}
-        //   onClose={() => setShowModal(false)}
-        //   width={900}
-        //   title="Add individual for Global Internal Control"
-        //   bodyClassName="p-0"
-        // >
-        //   <AssignModal setShowModal={setShowModal} />
-        // </CustomModal>
-        // <CustomModal
-        //   className="add-org"
-        //   open={showEditModal}
-        //   onClose={() => setShowEditModal(false)}
-        //   width={900}
-        //   title="Modify individual for Global Internal Control"
-        //   bodyClassName="p-0"
-        // >
-        //   <EditModal setShowEditModal={setShowEditModal} assignTableData={editTableData} />
-        // </CustomModal>
-      }
+
+      <CustomModal
+        className="add-org"
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        width={900}
+        title={
+          modalType === 'add'
+            ? 'Add individual for Global Internal Control'
+            : 'Modify individual for Global Internal Control'
+        }
+        bodyClassName="p-0"
+      >
+        <GIC_Model
+          setShowModal={setShowModal}
+          ediatbleData={editTableData}
+          setEditTableData={setEditTableData}
+          modalType={modalType}
+        />
+      </CustomModal>
     </>
   );
 };
