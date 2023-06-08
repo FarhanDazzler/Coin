@@ -24,7 +24,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '../../components/UI/Select/Select';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 
-const TopBar = (props) => {
+const TopBar_REP_Letters = (props) => {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -277,20 +277,20 @@ const TopBar = (props) => {
                       </a>
                     </li>
 
-                    {!props.isControlPage && (
+                    {localStorage.getItem('selected_Role') == 'Global Persona' && (
                       <>
                         {
                           <li className="nav-item">
                             <a
                               className={`navbar-link ${
-                                ['/master-data-management', '/register'].includes(
+                                ['/REP-Letters/master-data-management', '/register'].includes(
                                   location?.pathname,
                                 )
                                   ? ' active'
                                   : ''
                               }`}
                               onClick={() => {
-                                history.push('/master-data-management');
+                                history.push('/REP-Letters/master-data-management');
                               }}
                             >
                               <FeatherIcon icon="layers" size={14} />
@@ -303,12 +303,14 @@ const TopBar = (props) => {
                           <li className="nav-item">
                             <a
                               className={`navbar-link ${
-                                ['/questionbank', '/register'].includes(location?.pathname)
+                                ['/REP-Letters/questionbank', '/register'].includes(
+                                  location?.pathname,
+                                )
                                   ? ' active'
                                   : ''
                               }`}
                               onClick={() => {
-                                history.push('/questionbank');
+                                history.push('/REP-Letters/questionbank');
                               }}
                             >
                               <FeatherIcon icon="help-circle" size={14} />
@@ -321,20 +323,38 @@ const TopBar = (props) => {
                           <li className="nav-item">
                             <a
                               className={`navbar-link ${
-                                ['/assessmentbank', '/register'].includes(location?.pathname)
+                                ['/REP-Letters/scheduling-and-triggering', '/register'].includes(
+                                  location?.pathname,
+                                )
                                   ? ' active'
                                   : ''
                               }`}
                               onClick={() => {
-                                history.push('/assessmentbank');
+                                history.push('/REP-Letters/scheduling-and-triggering');
                               }}
                             >
                               <FeatherIcon icon="clipboard" size={14} />
-                              &nbsp;{'Assessment Bank'}
+                              &nbsp;{'Scheduling & Triggering'}
                             </a>
                           </li>
                         }
-
+                        {
+                          <li className="nav-item">
+                            <a
+                              className={`navbar-link ${
+                                ['/REP-Letters/reporting', '/register'].includes(location?.pathname)
+                                  ? ' active'
+                                  : ''
+                              }`}
+                              onClick={() => {
+                                history.push('/REP-Letters/reporting');
+                              }}
+                            >
+                              <FeatherIcon icon="flag" size={14} />
+                              &nbsp;{'Reporting'}
+                            </a>
+                          </li>
+                        }
                         {
                           <li className="nav-item">
                             <a
@@ -424,4 +444,4 @@ const TopBar = (props) => {
   );
 };
 
-export default TopBar;
+export default TopBar_REP_Letters;
