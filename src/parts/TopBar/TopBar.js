@@ -64,7 +64,7 @@ const TopBar = (props) => {
   const [roleValue, setRoleValue] = useState([]);
   const initModule = [
     { label: 'Assessment Module', value: 'Assessment Module' },
-    { label: 'Representation Letter Module', value: 'Representation Letter Module' },
+    { label: 'Representation Letter', value: 'Representation Letter', isDisabled: true },
   ];
 
   const [module, setModule] = useState(initModule);
@@ -76,16 +76,14 @@ const TopBar = (props) => {
     const rl_roles = localStorage.getItem('rl_roles')
       ? JSON.parse(localStorage.getItem('rl_roles'))
       : {};
-
     switch (true) {
       case activeModule === 'Assessment Module':
         const data = localStorage.getItem('sa_roles')?.split(',') || [];
-        localStorage.setItem('Roles', data);
         if (data.length > 0) localStorage.setItem('selected_Role', data[0]);
         break;
       case activeModule === 'BU':
         if (rl_roles.BU) {
-          if (rl_roles.BU > 0) localStorage.setItem('selected_Role', rl_roles.BU[0]);
+          if (rl_roles.BU.length > 0) localStorage.setItem('selected_Role', rl_roles.BU[0]);
           localStorage.setItem('Roles', rl_roles.BU);
         } else {
           localStorage.setItem('Roles', '');
@@ -93,8 +91,9 @@ const TopBar = (props) => {
         break;
       case activeModule === 'Functional':
         if (rl_roles.Functional) {
-          if (rl_roles.Functional > 0)
+          if (rl_roles.Functional.length > 0) {
             localStorage.setItem('selected_Role', rl_roles.Functional[0]);
+          }
           localStorage.setItem('Roles', rl_roles.Functional);
         } else {
           localStorage.setItem('Roles', '');
@@ -123,7 +122,7 @@ const TopBar = (props) => {
   useEffect(() => {
     if (Object.keys(apiRoles).length > 0) {
       const newArray = initModule.map((val) => {
-        if (val.value === 'Representation Letter Module' && apiRoles.rl_roles) {
+        if (val.value === 'Representation Letter' && apiRoles.rl_roles) {
           const newObj = Object.keys(apiRoles.rl_roles).map((r) => {
             return { value: r, label: r };
           });
@@ -374,6 +373,7 @@ const TopBar = (props) => {
                           label={val.label}
                           rightAnchored
                           onClick={() => {
+                            if (val.isDisabled) return;
                             setActiveModule(val.label);
                             // history.push(
                             //   val.label === 'Representation Letter Module' ? '/REP-Letters' : '/',
@@ -387,6 +387,7 @@ const TopBar = (props) => {
                                       key={`${i}--${subi}`}
                                       className="DropdownMenuItem"
                                       onClick={() => {
+                                        if (sVal.isDisabled) return;
                                         setActiveModule(sVal.label);
                                       }}
                                     >
