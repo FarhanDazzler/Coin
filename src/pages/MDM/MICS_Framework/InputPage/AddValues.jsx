@@ -284,6 +284,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                                 isInvalid={Boolean(touched.Previous_MICS1 && errors.Previous_MICS1)}
                                 onBlur={handleBlur}
                                 onChange={handleChange}
+                                maxLength={5000}
                                 readOnly={false}
                                 className="form-control"
                               />
@@ -315,6 +316,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                                 isInvalid={Boolean(touched.Previous_MICS && errors.Previous_MICS)}
                                 onBlur={handleBlur}
                                 onChange={handleChange}
+                                maxLength={5000}
                                 readOnly={false}
                                 className="form-control"
                               />
@@ -345,6 +347,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               isInvalid={Boolean(touched.Control_ID && errors.Control_ID)}
                               onBlur={handleBlur}
                               onChange={handleChange}
+                              maxLength={500}
                               readOnly={false}
                               className="form-control"
                             />
@@ -796,6 +799,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               )}
                               onBlur={handleBlur}
                               onChange={handleChange}
+                              maxLength={5000}
                               readOnly={false}
                               className="form-control"
                             />
@@ -825,6 +829,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               isInvalid={Boolean(touched.ABI_DAG && errors.ABI_DAG)}
                               onBlur={handleBlur}
                               onChange={handleChange}
+                              maxLength={5000}
                               readOnly={false}
                               className="form-control"
                             />
@@ -854,6 +859,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               isInvalid={Boolean(touched.AmBev_DAG && errors.AmBev_DAG)}
                               onBlur={handleBlur}
                               onChange={handleChange}
+                              maxLength={5000}
                               readOnly={false}
                               className="form-control"
                             />
@@ -1015,6 +1021,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               isInvalid={Boolean(touched.Risk && errors.Risk)}
                               onBlur={handleBlur}
                               onChange={handleChange}
+                              maxLength={5000}
                               readOnly={false}
                               className="form-control"
                             />
@@ -1044,6 +1051,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               isInvalid={Boolean(touched.Control_name && errors.Control_name)}
                               onBlur={handleBlur}
                               onChange={handleChange}
+                              maxLength={5000}
                               readOnly={false}
                               className="form-control"
                             />
@@ -1226,6 +1234,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               isInvalid={Boolean(touched.BS_impact && errors.BS_impact)}
                               onBlur={handleBlur}
                               onChange={handleChange}
+                              maxLength={5000}
                               readOnly={false}
                               className="form-control"
                             />
@@ -1255,6 +1264,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               isInvalid={Boolean(touched.PnL_impact && errors.PnL_impact)}
                               onBlur={handleBlur}
                               onChange={handleChange}
+                              maxLength={5000}
                               readOnly={false}
                               className="form-control"
                             />
@@ -1286,6 +1296,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               )}
                               onBlur={handleBlur}
                               onChange={handleChange}
+                              maxLength={5000}
                               readOnly={false}
                               className="form-control"
                             />
@@ -1360,6 +1371,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                               isInvalid={Boolean(touched.change_comment && errors.change_comment)}
                               onBlur={handleBlur}
                               onChange={handleChange}
+                              maxLength={5000}
                               readOnly={false}
                               className="form-control"
                             />
