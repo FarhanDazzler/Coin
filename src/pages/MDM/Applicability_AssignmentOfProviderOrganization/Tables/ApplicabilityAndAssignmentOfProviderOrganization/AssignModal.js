@@ -192,6 +192,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                                 isInvalid={Boolean(touched.Reason_for_NA && errors.Reason_for_NA)}
                                 onBlur={handleBlur}
                                 onChange={handleChange}
+                                maxLength={5000}
                                 readOnly={values.Is_applicable === 'No' ? false : true}
                                 className="form-control"
                               />

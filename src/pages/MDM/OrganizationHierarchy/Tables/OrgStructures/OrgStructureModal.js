@@ -240,6 +240,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                         value={values.Org_name}
                         isInvalid={Boolean(touched.Org_name && errors.Org_name)}
                         onBlur={handleBlur}
+                        maxLength={5000}
                         onChange={handleChange}
                         readOnly={false}
                         className="form-control"

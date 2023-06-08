@@ -313,6 +313,7 @@ const MegaAndSubprocessModal = ({ setShowModal, ediatbleData, modalType, setEdit
                         isInvalid={Boolean(touched.Name_Detailed_Name && errors.Name_Detailed_Name)}
                         onBlur={handleBlur}
                         onChange={handleChange}
+                        maxLength={5000}
                         readOnly={values.Type_of_Process === 'Mega Process' ? false : true}
                         className="form-control"
                       />
