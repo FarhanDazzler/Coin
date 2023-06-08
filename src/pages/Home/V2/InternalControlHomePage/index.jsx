@@ -16,6 +16,7 @@ const InternalControlHomePage = () => {
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
   const selectedUserRole = localStorage.getItem('selected_Role');
+  // console.log('selectedUserRole',selectedUserRole)
   const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const getControlOwnerData = useSelector(getInternalControlDataSelector);
@@ -57,7 +58,7 @@ const InternalControlHomePage = () => {
                 {accounts.length > 0 ? accounts[0].name.split('(').join(' (') : 'User Name'}
               </h2>
               {(loginRole || selectedUserRole) && (
-                <h3 className="user-role">{loginRole ?? selectedUserRole}</h3>
+                <h3 className="user-role">{loginRole ?? selectedUserRole}-</h3>
               )}
             </div>
             <div className="col-lg-8">

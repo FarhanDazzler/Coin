@@ -29,6 +29,7 @@ const TopBar = (props) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const selected_Role = localStorage.getItem('selected_Role');
+  const loginRole = useSelector((state) => state?.auth?.loginRole);
   const selected_module_role = localStorage.getItem('selected_module_Role');
   const { instance, accounts, inProgress } = useMsal();
   const [isDropDownOpen, setisDropDownOpen] = useState(false);
@@ -66,7 +67,7 @@ const TopBar = (props) => {
     { label: 'Assessment Module', value: 'Assessment Module' },
     { label: 'Representation Letter', value: 'Representation Letter', isDisabled: true },
   ];
-
+  console.log('roleValue', roleValue);
   const [module, setModule] = useState(initModule);
   const [activeModule, setActiveModule] = useState(selected_module_role || 'Assessment Module');
 
@@ -79,30 +80,53 @@ const TopBar = (props) => {
     switch (true) {
       case activeModule === 'Assessment Module':
         const data = localStorage.getItem('sa_roles')?.split(',') || [];
-        if (data.length > 0) localStorage.setItem('selected_Role', data[0]);
+        if (data.length > 0) {
+          localStorage.setItem('selected_Role', data[0]);
+          setRole(data[0])
+        }
+        const userRoles = data?.map((data) => {
+          const str = data.split('_').join(' ');
+          return str.charAt(0).toUpperCase() + str.slice(1);
+        });
+        setRoleValue(userRoles);
+        history.push('/');
         break;
       case activeModule === 'BU':
         if (rl_roles.BU) {
-          if (rl_roles.BU.length > 0) localStorage.setItem('selected_Role', rl_roles.BU[0]);
+          if (rl_roles.BU.length > 0) {
+            localStorage.setItem('selected_Role', rl_roles.BU[0]);
+            setRole(rl_roles.BU[0])
+          }
           localStorage.setItem('Roles', rl_roles.BU);
+          setRoleValue(rl_roles.BU);
         } else {
           localStorage.setItem('Roles', '');
         }
+        history.push('/');
         break;
       case activeModule === 'Functional':
         if (rl_roles.Functional) {
           if (rl_roles.Functional.length > 0) {
             localStorage.setItem('selected_Role', rl_roles.Functional[0]);
+            setRole(rl_roles.Functional[0])
           }
           localStorage.setItem('Roles', rl_roles.Functional);
+          setRoleValue(rl_roles.Functional);
         } else {
           localStorage.setItem('Roles', '');
         }
+        history.push('/');
         break;
       default:
         break;
     }
   }, [activeModule]);
+
+  const setRole = (data) => {
+    if(!data) return;
+    const str = data.split('_').join(' ');
+    dispatch(setLoginRole(str.charAt(0).toUpperCase() + str.slice(1)));
+  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -112,12 +136,11 @@ const TopBar = (props) => {
         return str.charAt(0).toUpperCase() + str.slice(1);
       });
       if (userRoles?.length > 0) {
-        setRoleValue(userRoles);
         dispatch(setLoginRole(selected_Role ?? userRoles[0]));
         localStorage.setItem('selected_Role', selected_Role ?? userRoles[0]);
       }
     }, 500);
-  }, [roles.length, activeModule]);
+  }, [roles.length]);
 
   useEffect(() => {
     if (Object.keys(apiRoles).length > 0) {
@@ -181,7 +204,7 @@ const TopBar = (props) => {
                         dispatch(setLoginRole(e.target.value));
                         localStorage.setItem('selected_Role', e.target.value);
                       }}
-                      value={selected_Role}
+                      value={loginRole ?? selected_Role}
                     >
                       {roleValue.map((data, i) => (
                         <option value={data} key={i}>
@@ -373,10 +396,11 @@ const TopBar = (props) => {
                           label={val.label}
                           rightAnchored
                           onClick={() => {
+                            console.log('valvalvalvalval', val);
                             if (val.isDisabled) return;
                             setActiveModule(val.label);
                             // history.push(
-                            //   val.label === 'Representation Letter Module' ? '/REP-Letters' : '/',
+                            //   '/'
                             // );
                           }}
                           menu={
