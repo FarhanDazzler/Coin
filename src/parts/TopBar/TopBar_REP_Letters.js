@@ -277,7 +277,7 @@ const TopBar_REP_Letters = (props) => {
                       </a>
                     </li>
 
-                    {!props.isControlPage && (
+                    {localStorage.getItem('selected_Role') == 'Global Persona' && (
                       <>
                         {
                           <li className="nav-item">
