@@ -3,7 +3,7 @@ import React from 'react';
 
 const Section3 = () => {
   return (
-    <div className="container">
+    <div className="container-fluid">
       <div className="card" style={{ margin: '10px' }}>
         <div className="card-header golden-text">
           <div className="card-title">

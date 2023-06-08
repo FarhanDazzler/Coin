@@ -295,7 +295,7 @@ const ControlOwnerTable = ({ tableName }) => {
   ]);
   return (
     <>
-      {/*<div className="container mt-5">
+      {/*<div className="container-fluid mt-5">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
             <Typography className="table-title">{tableName}</Typography>
@@ -303,7 +303,7 @@ const ControlOwnerTable = ({ tableName }) => {
         </div>
   </div> */}
 
-      <div className="container">
+      <div className="container-fluid">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
             <Group spacing="xs" className="actions-button-wrapper">

@@ -10,12 +10,9 @@ import { isEmailValidAD } from '../../../../../redux/AzureAD/AD_Action';
 import { isEmailValidADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
 
 const AdSearch = ({ userApiStart, values, setFieldValue, block = {}, setBlock, mode }) => {
-  console.log(mode, 'mode');
   const { loading, dropDownOption, isDropdownSaveInput = true, value } = block;
   const dispatch = useDispatch();
   const isEmailValidADState = useSelector(isEmailValidADSelector);
-  console.log(values, block, 'testing');
-  //   console.log(block, "Hi........................")
   const [adValue, setAdValue] = React.useState('');
   React.useEffect(() => {
     if (isEmailValidADState.data?.isValid === true) {

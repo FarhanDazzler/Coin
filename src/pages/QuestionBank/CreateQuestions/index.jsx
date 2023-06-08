@@ -51,17 +51,14 @@ const CreateQuestions = ({ open, handleClose }) => {
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
   useEffect(() => {
     if (repositoryOfControlID?.data.length !== 0) {
-      console.log('hi buddy', repositoryOfControlID);
       let controlidArray = [];
       repositoryOfControlID?.data.map((data) => {
         controlidArray.push({ label: data.Control_ID, value: data.Control_ID });
       });
-      console.log('controlidArray', controlidArray);
       setControlIDList(controlidArray);
     }
   }, [repositoryOfControlID]);
   const handleChange = (event) => {
-    console.log(event);
     const value = event.value;
     if (isEdit) {
       Swal.fire({

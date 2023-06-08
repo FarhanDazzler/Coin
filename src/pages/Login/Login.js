@@ -17,14 +17,8 @@ const Login = () => {
 
   const isAuthenticated = useIsAuthenticated();
 
-  // console.log('I AM IN LOGIN');
   useEffect(() => {
-    //console.log(`AUTH LOG = ${isAuthenticated}`);
     if (isAuthenticated) {
-      //console.log(accounts[0], 'Account object');
-      // console.log('You are authenticated!');
-      // console.log(`Refer: ${document.referrer}`);
-      // history.goBack();
       history.push('/');
     }
   }, [inProgress]);
@@ -34,7 +28,7 @@ const Login = () => {
     inProgress === InteractionStatus.None && (
       <PageWrapper>
         <div className="login-page">
-          <div className="container">
+          <div className="container-fluid">
             <div className="row">
               <div className="col col-login mx-auto">
                 <Card className="loginCard">

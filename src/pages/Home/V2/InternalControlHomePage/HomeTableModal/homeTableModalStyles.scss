@@ -91,3 +91,23 @@
     }
   }
 }
+.section2-table-ismodal{
+  .table-bordered {
+    // border: none !important;
+    tbody {
+      td {
+       
+      }
+    }
+  }
+}
+.section2-table-notmodal{
+  .table-bordered {
+    // border: none !important;
+    tbody {
+      tr {
+       color: #fff
+      }
+    }
+  }
+}

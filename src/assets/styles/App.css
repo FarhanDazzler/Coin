@@ -776,10 +776,17 @@ pre code {
 
 .container-fluid {
   width: 100%;
-  padding-right: 0.75rem;
-  padding-left: 0.75rem;
+  padding-right: 5rem;
+  padding-left: 5rem;
   margin-right: auto;
   margin-left: auto;
+}
+
+@media (max-width: 600px) {
+  .container-fluid {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
 }
 
 .content {
@@ -14240,7 +14247,9 @@ a.icon:hover {
   -ms-flex-align: center;
   align-items: center;
 }
-
+.btn-border {
+  border: 1px solid !important;
+}
 .nav-link .badge,
 .nav-item .badge {
   position: absolute;
@@ -19129,7 +19138,7 @@ svg {
 }
 .top-nav {
   position: sticky;
-  top: -83px;
+  top: -106px;
   z-index: 999;
 }
 #headerMenuCollapse a {
@@ -19215,7 +19224,7 @@ svg {
 }
 
 .light-yellow-text {
-  color: #F5E003;
+  color: #f5e003;
 }
 .yellow-text {
   color: #f5ab27;
@@ -19403,7 +19412,7 @@ a.btn.btn-primary {
   border-radius: 0.4em;
   background-color: #f4e00f;
 }
-.nav-tabs .navbar-link{
+.nav-tabs .navbar-link {
   margin-top: 3px;
   margin-bottom: 3px;
   padding: 10px 20px;

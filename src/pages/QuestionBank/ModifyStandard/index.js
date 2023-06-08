@@ -24,7 +24,6 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
   const [controlIDList, setControlIDList] = useState([]);
   useEffect(() => {
     if (repositoryOfControlID?.data.length !== 0) {
-      console.log('hi buddy', repositoryOfControlID);
       let controlidArray = [];
       repositoryOfControlID?.data.map((data) => {
         controlidArray.push({ label: data.Control_ID, value: data.Control_ID });
@@ -54,8 +53,6 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
   const UpdateOptionSuccess = useSelector(
     (state) => state?.section1QuestionData?.section1EditOption,
   );
-  console.log(AddQuestionSuccess);
-  console.log(section1Questions);
   const [section1QuestionsData, setection1QuestionsData] = useState([]);
   const [controlIDOption, setControlIDOption] = useState();
   const [template_ID, setTemplate_ID] = useState('Standard');
@@ -91,7 +88,6 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
     }
   };
   const handleDeleteQuestion = (data) => {
-    console.log('delete data', data);
     if (data.options?.length != 0) {
       data.options.forEach(({ option_id }, i) => {
         dispatch(deleteSection1OptionDataAction({ option_id: option_id }));

@@ -12,6 +12,10 @@ export const SET_LOGIN_USER_INFO = 'SET_LOGIN_USER_INFO';
 
 export const SET_LOGIN_USER_ROLE = 'SET_LOGIN_USER_ROLE';
 
+export const SET_USERS_ROLE = 'SET_USERS_ROLE';
+export const SET_SELECTED_MODULE_ROLE = 'SET_SELECTED_MODULE_ROLE';
+export const SET_SELECT_ROLES = 'SET_SELECT_ROLES';
+
 export const LOGOUT = 'LOGOUT';
 
 export const RESET_BLOCK_AUTH = 'RESET_BLOCK_AUTH';
@@ -30,6 +34,9 @@ const initialState = {
   logout: { ...block },
   loginInfo: {},
   loginRole: '',
+  selectRoles: [],
+  apiRoles: {},
+  selectedModuleRole: '',
 };
 
 export const AuthReducer = (state = initialState, { payload, type }) => {
@@ -75,6 +82,18 @@ export const AuthReducer = (state = initialState, { payload, type }) => {
       return {
         ...state,
         loginInfo: { ...payload },
+      };
+
+    case SET_USERS_ROLE:
+      return {
+        ...state,
+        apiRoles: { ...state.apiRoles, ...payload },
+      };
+
+    case SET_SELECTED_MODULE_ROLE:
+      return {
+        ...state,
+        selectedModuleRole: payload,
       };
 
     //reset block with flag and data
