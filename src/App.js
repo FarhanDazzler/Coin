@@ -73,20 +73,17 @@ const Pages = () => {
   const isAuthenticated = useIsAuthenticated();
   const { instance, accounts, inProgress } = useMsal();
   const userRole = localStorage.getItem('selected_Role');
+  const module = localStorage.getItem('selected_module_Role');
   const userData = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const [userState, userDispatch] = useContext(UserContext);
   const [userToken, setUserToken] = useState('');
   const role = loginRole ?? userRole;
-
   const isControlPage = () => {
-    switch (true) {
-      case ['Control owner', 'Control oversight'].includes(role):
-        return true;
-      default:
-        return false;
-    }
+   return ['Control owner', 'Control oversight','control_owner','control_oversight']?.includes(userRole)||false
   };
+  // eslint-disable-next-line no-unused-vars
+  const isAssessmentsPage = ["Assessment Module"].includes(module)
   const getUserData = () => {
     axios
       .get(
@@ -177,7 +174,8 @@ const Pages = () => {
     <div className="page">
       <ToastContainer autoClose={15000} />
       <div className="flex-fill">
-        {!['/login'].includes(location?.pathname) && <TopBar isControlPage={isControlPage()} />}
+        {!['/login'].includes(location?.pathname) &&
+         <TopBar isControlPage={isControlPage()} />}
         {/* <Home /> */}
         <Switch>
           <Route
@@ -187,14 +185,16 @@ const Pages = () => {
             }}
           />
 
-          {isControlPage() ? (
+       {!isAssessmentsPage?
+       <Route exact path="/" component={REP_Letters_HomePage} />   :
+       isControlPage() ? (
             <Route exact path="/" component={ControlHomePage} />
           ) : (
             <Route exact path="/" component={InternalControlHomePage} />
           )}
+          
 
           <Route exact path="/question-bank" component={QuestionBank} />
-          <Route exact path="/REP-Letters" component={REP_Letters_HomePage} />
 
           {user_role === 'organizational persona' ? (
             <Route exact path="/home" component={Home_controlOwner} />

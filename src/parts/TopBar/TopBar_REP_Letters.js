@@ -28,6 +28,7 @@ const TopBar_REP_Letters = (props) => {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
+ 
   const selected_Role = localStorage.getItem('selected_Role');
   const selected_module_role = localStorage.getItem('selected_module_Role');
   const { instance, accounts, inProgress } = useMsal();
@@ -81,11 +82,17 @@ const TopBar_REP_Letters = (props) => {
       case activeModule === 'Assessment Module':
         const data = localStorage.getItem('sa_roles')?.split(',') || [];
         localStorage.setItem('Roles', data);
-        if (data.length > 0) localStorage.setItem('selected_Role', data[0]);
+        if (data.length > 0){
+          localStorage.setItem('selected_Role', data[0]);
+          dispatch(setLoginRole( data[0]));
+          }
         break;
       case activeModule === 'BU':
         if (rl_roles.BU) {
-          if (rl_roles.BU > 0) localStorage.setItem('selected_Role', rl_roles.BU[0]);
+          if (rl_roles.BU > 0){
+             localStorage.setItem('selected_Role', rl_roles.BU[0]);
+             dispatch(setLoginRole(  rl_roles.BU[0]));
+            }
           localStorage.setItem('Roles', rl_roles.BU);
         } else {
           localStorage.setItem('Roles', '');
@@ -94,7 +101,11 @@ const TopBar_REP_Letters = (props) => {
       case activeModule === 'Functional':
         if (rl_roles.Functional) {
           if (rl_roles.Functional > 0)
-            localStorage.setItem('selected_Role', rl_roles.Functional[0]);
+           {
+             localStorage.setItem('selected_Role', rl_roles.Functional[0]);
+             dispatch(setLoginRole( rl_roles.Functional[0]));
+
+            }
           localStorage.setItem('Roles', rl_roles.Functional);
         } else {
           localStorage.setItem('Roles', '');
@@ -164,7 +175,6 @@ const TopBar_REP_Letters = (props) => {
                 style={{ paddingLeft: '0.5rem', height: '1.5rem' }}
               />
             </a>
-
             <div
               className="d-flex order-lg-2 ml-auto text-left"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
@@ -182,7 +192,7 @@ const TopBar_REP_Letters = (props) => {
                         dispatch(setLoginRole(e.target.value));
                         localStorage.setItem('selected_Role', e.target.value);
                       }}
-                      value={selected_Role}
+                      value={loginRole??selected_Role}
                     >
                       {roleValue.map((data, i) => (
                         <option value={data} key={i}>
