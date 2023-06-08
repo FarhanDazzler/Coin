@@ -21,7 +21,7 @@ import {
 } from '../../../redux/Questions/QuestionsAction';
 import RemoveWarningModal from '../AttributesRemoveModal';
 import blockType from '../../RenderBlock/constant';
-import { Loader } from '@mantine/core';
+import { Checkbox, Loader, Text } from '@mantine/core';
 import { question1EditLoadingListSelector } from '../../../redux/Questions/QuestionsSelectors';
 
 const EditSection1Question = ({
@@ -38,7 +38,7 @@ const EditSection1Question = ({
   const [freeTextChildQId, setFreeTextChildQId] = useState('');
   const question1EditLoadingList = useSelector(question1EditLoadingListSelector);
   const [openMenu, setOpenMenu] = useState();
-
+  const [isFailed, setIsFailed] = useState(false);
   const questionTypeOptions = ['Free Text', 'Radio', 'Dropdown'];
   const [showRemoveModal, setShowRemoveModal] = useState(null);
   const [saveLoading, setSaveLoading] = useState(false);
@@ -140,6 +140,7 @@ const EditSection1Question = ({
           q_id: apiBlock.q_id,
           Control_ID: apiBlock.Control_ID,
           question_text: question,
+          isFailed,
           question_type: block.question_type,
           loadingId: `${uuidv4()}-updateSection1Questions`,
         }),
@@ -345,6 +346,14 @@ const EditSection1Question = ({
               })}
             </div>
           )}
+
+          <div className="mt-5">
+            <Checkbox
+              color={'yellow'}
+              onChange={({ target: { checked } }) => setIsFailed(checked)}
+              label={<Text align="left">Failed questions</Text>}
+            />
+          </div>
         </div>
 
         {showRemoveModal && (

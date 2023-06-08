@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CustomModal from '../../../components/UI/CustomModal';
-import { Button } from '@mantine/core';
+import { Button, Checkbox, Text } from '@mantine/core';
 import { Form } from 'react-bootstrap';
 import './ModifyStandard.scss';
 import { addSection1QuestionDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
@@ -10,6 +10,7 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
   const dispatch = useDispatch();
   const [questionText, setQuestionText] = useState('');
   const [questionType, setQuestionType] = useState();
+  const [isFailed, setIsFailed] = useState(false);
   const [createOptions, setCreateOptions] = useState([
     {
       q_id: '',
@@ -29,6 +30,7 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
       question_text: questionText,
       question_type: questionType,
       parent_qid: 0,
+      isFailed,
     };
     dispatch(addSection1QuestionDataAction(payload));
   };
@@ -80,6 +82,14 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
               </Form.Control>
             </Form.Group>
           </div>
+        </div>
+
+        <div className="mt-5">
+          <Checkbox
+            color={'yellow'}
+            onChange={({ target: { checked } }) => setIsFailed(checked)}
+            label={<Text align="left">Failed questions</Text>}
+          />
         </div>
 
         {/* Radio Options */}
