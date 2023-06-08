@@ -50,7 +50,7 @@ const ControlHomePage = () => {
   return (
     <div>
       <PageWrapper>
-        <div className="container">
+        <div className="container-fluid">
           <div className="row pt-5 align-items-center">
             <div className="col-lg-4 pt-5">
               <h4 className="welcome-text">Welcome</h4>
@@ -60,7 +60,7 @@ const ControlHomePage = () => {
               {loginUserRole && <h3 className="user-role">{loginUserRole}</h3>}
             </div>
             <div className="col-lg-8">
-              <div className="d-flex align-items-center flex-wrap">
+              <div className="d-flex align-items-center flex-wrap justify-content-end">
                 {/* <AmountInfo amount={12292} infoText={'BU'} />
                 <AmountInfo amount={19} infoText="functional" /> */}
                 <AmountInfo amount={statusInfo.notStarted} infoText={<>NOT Started</>} />

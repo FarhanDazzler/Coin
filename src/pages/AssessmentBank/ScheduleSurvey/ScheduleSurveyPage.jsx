@@ -14,7 +14,7 @@ const ScheduleSurveyPage = () => {
 
   return (
     <PageWrapper>
-      <div className="container py-5">
+      <div className="container-fluid py-5">
         <div className="col-lg-12 py-4 AssessmentBankBoxWrapper">
           <div id="schedule-survey" className="content">
             <div className="wrapper">

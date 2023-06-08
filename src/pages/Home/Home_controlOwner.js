@@ -90,7 +90,6 @@ const quarter_logic = () => {
       quarter_list.push(current_quarter - index + 'Q Ago');
     }
   }
-  // console.log(quarter_list);
   const headers = quarter_list.map((head) => <th>{head}</th>);
   return headers;
 };
@@ -112,8 +111,6 @@ const Home = ({ getControlId }) => {
   useEffect(() => {
     Axios.get('https://acoemicsgrcpwa-devbe.azurewebsites.net/get_assessment_trigger_surveys').then(
       function (response) {
-        // console.log(response?.data);
-        console.log(owner_assessment_data);
         var status_code = response.status;
         var status_text = response.statusText;
         var api_data = response?.data.data;
@@ -183,7 +180,7 @@ const Home = ({ getControlId }) => {
   // };
 
   return (
-    <div className="container mt-5">
+    <div className="container-fluid mt-5">
       <div className="row">
         <div className="col-12 col-lg-12">
           <div className="card">

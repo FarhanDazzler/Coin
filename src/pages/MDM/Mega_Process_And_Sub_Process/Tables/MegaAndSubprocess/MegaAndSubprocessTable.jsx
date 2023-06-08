@@ -38,8 +38,6 @@ const MegaAndSubprocessTable = () => {
   const updateMegaAndSubprocessState = useSelector(updateMegaAndSubprocessSelector);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [editTableData, setEditTableData] = useState();
-  console.log(editTableIndex);
-  console.log(addMegaAndSubprocessState);
 
   useEffect(() => {
     if (addMegaAndSubprocessState || updateMegaAndSubprocessState) {
@@ -132,10 +130,8 @@ const MegaAndSubprocessTable = () => {
     } else if (editTableIndex.length > 1) {
       Swal.fire('Oops...', 'You can only allow one Mega and Subprocess to edit at a time', 'error');
     } else if (editTableIndex.length == 1) {
-      console.log(editTableIndex, 'editTableIndex');
       const data = tableData.find((data, i) => data.id === editTableIndex[0]);
       setEditTableData(data);
-      console.log('@@@@@@@@@', data);
       setShowModal(true);
       setModalType('edit');
     }
@@ -148,7 +144,7 @@ const MegaAndSubprocessTable = () => {
 
   return (
     <>
-      <div className="container mt-5" id="MegaAndSubprocessManage">
+      <div className="container-fluid mt-5" id="MegaAndSubprocessManage">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
             <div className="mdm-table-button">

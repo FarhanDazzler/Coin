@@ -6,7 +6,7 @@ const REP_Letters_HomePage = () => {
   return (
     <div>
       <PageWrapper>
-        <div className="container">
+        <div className="container-fluid">
           <div className="row pt-5 align-items-center">
             <div className="col-lg-8 offset-lg-2 mt-5 pt-5">
               <div className="home-right-overview">

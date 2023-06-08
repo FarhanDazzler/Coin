@@ -1,0 +1,17 @@
+.DropdownNestedMenuItem {
+  display: flex;
+  justify-content: space-between !important;
+
+  & > svg {
+    margin-left: 32px;
+  }
+}
+
+.DropdownMenuItem {
+  display: flex;
+  justify-content: space-between !important;
+
+  & > svg {
+    margin-left: 32px;
+  }
+}

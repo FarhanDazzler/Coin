@@ -378,7 +378,6 @@ const MicsFrameworkTable = () => {
 
   const handleOnclickEdit = () => {
     // edit code
-    //console.log(tableData);
     if (editTableIndex.length === 0) {
       Swal.fire('Oops...', 'You need to select from table in order to edit', 'error');
     } else if (editTableIndex.length > 1) {
@@ -407,7 +406,7 @@ const MicsFrameworkTable = () => {
 
   return (
     <>
-      <div className="container mt-5">
+      <div className="container-fluid mt-5">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
             <div className="mdm-table-button">

@@ -278,7 +278,7 @@ const AssessmentForm = () => {
     <>
       <Card>
         <div className="col-lg-12">
-          <div className="container">
+          <div className="container-fluid">
             <Card.Header>
               <Card.Title>
                 <div className="golden-text">

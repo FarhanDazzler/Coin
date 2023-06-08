@@ -16,7 +16,6 @@ const GetParentEntityValue = ({ setOrgTypeValue }) => {
   const dispatch = useDispatch();
   const { values } = useFormikContext();
   useEffect(() => {
-    console.log('there see', values.orgType);
     let params = {
       entity: values.orgType,
     };
