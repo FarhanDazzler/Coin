@@ -6,6 +6,13 @@ import './ModifyStandard.scss';
 import { addSection1QuestionDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
 import { useDispatch } from 'react-redux';
 
+export const QuestionType = [
+  { label: 'Radio', value: 'Radio' },
+  { label: 'Text', value: 'Free Text' },
+  { label: 'Dropdown', value: 'Dropdown' },
+  { label: 'Is AD', value: 'Is AD' },
+];
+
 const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
   const dispatch = useDispatch();
   const [questionText, setQuestionText] = useState('');
@@ -34,12 +41,7 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
     dispatch(addSection1QuestionDataAction(payload));
   };
   const handleEditSubmitQuestion = () => {};
-  const QuestionType = [
-    { label: 'Radio', value: 'Radio' },
-    { label: 'Text', value: 'Free Text' },
-    { label: 'Dropdown', value: 'Dropdown' },
-    { label: 'Is AD', value: 'Is AD' },
-  ];
+
   return (
     <div>
       <CustomModal

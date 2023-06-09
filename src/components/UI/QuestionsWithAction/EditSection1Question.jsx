@@ -23,6 +23,8 @@ import RemoveWarningModal from '../AttributesRemoveModal';
 import blockType from '../../RenderBlock/constant';
 import { Checkbox, Loader, Text } from '@mantine/core';
 import { question1EditLoadingListSelector } from '../../../redux/Questions/QuestionsSelectors';
+import { QuestionType } from '../../../pages/QuestionBank/ModifyStandard/AddSection1Question';
+import { Form } from 'react-bootstrap';
 
 const EditSection1Question = ({
   showEditModal,
@@ -37,14 +39,9 @@ const EditSection1Question = ({
   const [options, setOptions] = useState([]);
   const [freeTextChildQId, setFreeTextChildQId] = useState('');
   const question1EditLoadingList = useSelector(question1EditLoadingListSelector);
-  const [openMenu, setOpenMenu] = useState();
   const [isFailedFreeText, setIsFailedFreeText] = useState(false);
-  const questionTypeOptions = ['Free Text', 'Radio', 'Dropdown', 'Is AD'];
   const [showRemoveModal, setShowRemoveModal] = useState(null);
   const [saveLoading, setSaveLoading] = useState(false);
-  const handleClick = (event) => {
-    setOpenMenu(event.currentTarget);
-  };
 
   useEffect(() => {
     if (questionOptions.length > 0) setFreeTextChildQId(questionOptions[0].child_question);
@@ -58,13 +55,6 @@ const EditSection1Question = ({
     }
   }, [question1EditLoadingList]);
 
-  const handleSelect = (data) => {
-    setBlock({ ...block, question_type: data });
-    handleClose();
-  };
-  const handleClose = () => {
-    setOpenMenu(null);
-  };
   const handleChangeQuestion = (value) => {
     setQuestion(value);
   };
@@ -136,18 +126,20 @@ const EditSection1Question = ({
     let isApiCall = false;
     if (apiBlock.question_text !== question || apiBlock.question_type !== block.question_type) {
       isApiCall = true;
+      const is_AD = block.question_type === 'Is AD';
       dispatch(
         updateSection1Questions({
           q_id: apiBlock.q_id,
           Control_ID: apiBlock.Control_ID,
           question_text: question,
           question_type: block.question_type,
+          is_AD: is_AD ? 1 : 0,
           loadingId: `${uuidv4()}-updateSection1Questions`,
         }),
       );
     }
 
-    if (block.question_type === blockType.TEXT) {
+    if ([blockType.TEXT, blockType.IS_AD].includes(block.question_type)) {
       const payload = {
         q_id: apiBlock.q_id,
         child_question: freeTextChildQId,
@@ -289,14 +281,27 @@ const EditSection1Question = ({
             formControlProps={{ className: 'input-wrapper full-input' }}
           />
           <div className="d-flex justify-content-end pt-5">
-            <DropdownMenu
-              options={questionTypeOptions}
-              openMenu={openMenu}
-              handleClick={handleClick}
-              handleClose={handleClose}
-              selected={block.question_type}
-              handleSelect={handleSelect}
-            />
+            <Form.Group className="input-group mb-3" style={{ maxWidth: 193 }}>
+              <Form.Control
+                as="select"
+                name=""
+                placeholder=""
+                className="form-select"
+                onChange={(e) => {
+                  setBlock({ ...block, question_type: e.target.value });
+                }}
+                value={block.question_type}
+              >
+                <option value="" disabled>
+                  Select Question Type
+                </option>
+                {QuestionType.map((data, i) => (
+                  <option value={data?.value} key={i}>
+                    {data?.label}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
           </div>
 
           {['Free Text', 'Is AD'].includes(block.question_type) ? (

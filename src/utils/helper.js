@@ -8,8 +8,7 @@ export const validateEmail = (email) => {
 export const getFormatQuestions = (questions, action, startStr, handOverUser) => {
   const isQuestionLabelEdit = action === 'isQuestionEdit';
   return questions.map((d, i) => {
-    //TODO: When API add AD option then remove (d.q_id === 2) condition
-    if (handOverUser && (d.q_id === 2 || d.is_AD)) {
+    if (handOverUser && d.is_AD) {
       return {
         ...d,
         question_type: blockType.IS_AD,
