@@ -20,7 +20,7 @@ const RLMDM = () => {
                     <MDMBox
                         title="Organization Hierarchy"
                         description="Create or modify a Organization within the Organization Hierarchy"
-                        url="#"
+                        url="/REP-Letters/master-data-management/organization-hierarchy"
                     />
 
                 </div>
