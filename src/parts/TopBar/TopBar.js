@@ -29,6 +29,7 @@ const TopBar = (props) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const selected_Role = localStorage.getItem('selected_Role');
+  const loginRole = useSelector((state) => state?.auth?.loginRole);
   const selected_module_role = localStorage.getItem('selected_module_Role');
   const { instance, accounts, inProgress } = useMsal();
   const [isDropDownOpen, setisDropDownOpen] = useState(false);
@@ -64,9 +65,9 @@ const TopBar = (props) => {
   const [roleValue, setRoleValue] = useState([]);
   const initModule = [
     { label: 'Assessment Module', value: 'Assessment Module' },
-    { label: 'Representation Letter Module', value: 'Representation Letter Module' },
+    { label: 'Representation Letter', value: 'Representation Letter', isDisabled: true },
   ];
-
+  console.log('roleValue', roleValue);
   const [module, setModule] = useState(initModule);
   const [activeModule, setActiveModule] = useState(selected_module_role || 'Assessment Module');
 
@@ -76,34 +77,56 @@ const TopBar = (props) => {
     const rl_roles = localStorage.getItem('rl_roles')
       ? JSON.parse(localStorage.getItem('rl_roles'))
       : {};
-
     switch (true) {
       case activeModule === 'Assessment Module':
         const data = localStorage.getItem('sa_roles')?.split(',') || [];
-        localStorage.setItem('Roles', data);
-        if (data.length > 0) localStorage.setItem('selected_Role', data[0]);
+        if (data.length > 0) {
+          localStorage.setItem('selected_Role', data[0]);
+          setRole(data[0]);
+        }
+        const userRoles = data?.map((data) => {
+          const str = data.split('_').join(' ');
+          return str.charAt(0).toUpperCase() + str.slice(1);
+        });
+        setRoleValue(userRoles);
+        history.push('/');
         break;
       case activeModule === 'BU':
         if (rl_roles.BU) {
-          if (rl_roles.BU > 0) localStorage.setItem('selected_Role', rl_roles.BU[0]);
+          if (rl_roles.BU.length > 0) {
+            localStorage.setItem('selected_Role', rl_roles.BU[0]);
+            setRole(rl_roles.BU[0]);
+          }
           localStorage.setItem('Roles', rl_roles.BU);
+          setRoleValue(rl_roles.BU);
         } else {
           localStorage.setItem('Roles', '');
         }
+        history.push('/');
         break;
       case activeModule === 'Functional':
         if (rl_roles.Functional) {
-          if (rl_roles.Functional > 0)
+          if (rl_roles.Functional.length > 0) {
             localStorage.setItem('selected_Role', rl_roles.Functional[0]);
+            setRole(rl_roles.Functional[0]);
+          }
           localStorage.setItem('Roles', rl_roles.Functional);
+          setRoleValue(rl_roles.Functional);
         } else {
           localStorage.setItem('Roles', '');
         }
+        history.push('/');
         break;
       default:
         break;
     }
   }, [activeModule]);
+
+  const setRole = (data) => {
+    if (!data) return;
+    const str = data.split('_').join(' ');
+    dispatch(setLoginRole(str.charAt(0).toUpperCase() + str.slice(1)));
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -113,17 +136,16 @@ const TopBar = (props) => {
         return str.charAt(0).toUpperCase() + str.slice(1);
       });
       if (userRoles?.length > 0) {
-        setRoleValue(userRoles);
         dispatch(setLoginRole(selected_Role ?? userRoles[0]));
         localStorage.setItem('selected_Role', selected_Role ?? userRoles[0]);
       }
     }, 500);
-  }, [roles.length, activeModule]);
+  }, [roles.length]);
 
   useEffect(() => {
     if (Object.keys(apiRoles).length > 0) {
       const newArray = initModule.map((val) => {
-        if (val.value === 'Representation Letter Module' && apiRoles.rl_roles) {
+        if (val.value === 'Representation Letter' && apiRoles.rl_roles) {
           const newObj = Object.keys(apiRoles.rl_roles).map((r) => {
             return { value: r, label: r };
           });
@@ -134,6 +156,212 @@ const TopBar = (props) => {
       setModule(newArray);
     }
   }, [apiRoles]);
+
+  const TopBar_SA = () => {
+    // TOP BAR Buttons/ Tabs for Seld Assessment Module
+    return (
+      <ul className="nav nav-tabs border-0 flex-column flex-lg-row">
+        <li className="nav-item">
+          <a
+            className={`navbar-link ${
+              ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+            }`}
+            onClick={() => {
+              history.push('/');
+            }}
+          >
+            <FeatherIcon icon="home" size={14} />
+            &nbsp;{'Home'}
+          </a>
+        </li>
+
+        {!props.isControlPage && (
+          <>
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/master-data-management', '/register'].includes(location?.pathname)
+                      ? ' active'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/master-data-management');
+                  }}
+                >
+                  <FeatherIcon icon="layers" size={14} />
+                  &nbsp;{'Master Data Management'}
+                </a>
+              </li>
+            }
+
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/questionbank', '/register'].includes(location?.pathname) ? ' active' : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/questionbank');
+                  }}
+                >
+                  <FeatherIcon icon="help-circle" size={14} />
+                  &nbsp;{'Question Bank'}
+                </a>
+              </li>
+            }
+
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/assessmentbank', '/register'].includes(location?.pathname) ? ' active' : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/assessmentbank');
+                  }}
+                >
+                  <FeatherIcon icon="clipboard" size={14} />
+                  &nbsp;{'Assessment Bank'}
+                </a>
+              </li>
+            }
+
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/admin-panel', '/register'].includes(location?.pathname) ? ' active' : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/admin-panel');
+                  }}
+                >
+                  <FeatherIcon icon="shield" size={14} />
+                  &nbsp;{'Admin Panel'}
+                </a>
+              </li>
+            }
+          </>
+        )}
+      </ul>
+    );
+  };
+
+  const TopBar_RL = () => {
+    // TOP BAR Buttons/ Tabs for Rep Letters
+    return (
+      <ul className="nav nav-tabs border-0 flex-column flex-lg-row">
+        <li className="nav-item">
+          <a
+            className={`navbar-link ${
+              ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+            }`}
+            onClick={() => {
+              history.push('/');
+            }}
+          >
+            <FeatherIcon icon="home" size={14} />
+            &nbsp;{'Home'}
+          </a>
+        </li>
+
+        {localStorage.getItem('selected_Role') == 'Global Persona' && (
+          <>
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/REP-Letters/master-data-management', '/register'].includes(
+                      location?.pathname,
+                    )
+                      ? ' active'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/REP-Letters/master-data-management');
+                  }}
+                >
+                  <FeatherIcon icon="layers" size={14} />
+                  &nbsp;{'Master Data Management'}
+                </a>
+              </li>
+            }
+
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/REP-Letters/questionbank', '/register'].includes(location?.pathname)
+                      ? ' active'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/REP-Letters/questionbank');
+                  }}
+                >
+                  <FeatherIcon icon="help-circle" size={14} />
+                  &nbsp;{'Question Bank'}
+                </a>
+              </li>
+            }
+
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/REP-Letters/scheduling-and-triggering', '/register'].includes(
+                      location?.pathname,
+                    )
+                      ? ' active'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/REP-Letters/scheduling-and-triggering');
+                  }}
+                >
+                  <FeatherIcon icon="clipboard" size={14} />
+                  &nbsp;{'Scheduling & Triggering'}
+                </a>
+              </li>
+            }
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/REP-Letters/reporting', '/register'].includes(location?.pathname)
+                      ? ' active'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/REP-Letters/reporting');
+                  }}
+                >
+                  <FeatherIcon icon="flag" size={14} />
+                  &nbsp;{'Reporting'}
+                </a>
+              </li>
+            }
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/admin-panel', '/register'].includes(location?.pathname) ? ' active' : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/admin-panel');
+                  }}
+                >
+                  <FeatherIcon icon="shield" size={14} />
+                  &nbsp;{'Admin Panel'}
+                </a>
+              </li>
+            }
+          </>
+        )}
+      </ul>
+    );
+  };
 
   return (
     <div className="top-nav">
@@ -182,7 +410,7 @@ const TopBar = (props) => {
                         dispatch(setLoginRole(e.target.value));
                         localStorage.setItem('selected_Role', e.target.value);
                       }}
-                      value={selected_Role}
+                      value={loginRole ?? selected_Role}
                     >
                       {roleValue.map((data, i) => (
                         <option value={data} key={i}>
@@ -262,99 +490,11 @@ const TopBar = (props) => {
             <div className="d-flex align-items-center justify-content-between">
               <div className="row align-items-center">
                 <div className="col-lg order-lg-first">
-                  <ul className="nav nav-tabs border-0 flex-column flex-lg-row">
-                    <li className="nav-item">
-                      <a
-                        className={`navbar-link ${
-                          ['/', '/register'].includes(location?.pathname) ? ' active' : ''
-                        }`}
-                        onClick={() => {
-                          history.push('/');
-                        }}
-                      >
-                        <FeatherIcon icon="home" size={14} />
-                        &nbsp;{'Home'}
-                      </a>
-                    </li>
-
-                    {!props.isControlPage && (
-                      <>
-                        {
-                          <li className="nav-item">
-                            <a
-                              className={`navbar-link ${
-                                ['/master-data-management', '/register'].includes(
-                                  location?.pathname,
-                                )
-                                  ? ' active'
-                                  : ''
-                              }`}
-                              onClick={() => {
-                                history.push('/master-data-management');
-                              }}
-                            >
-                              <FeatherIcon icon="layers" size={14} />
-                              &nbsp;{'Master Data Management'}
-                            </a>
-                          </li>
-                        }
-
-                        {
-                          <li className="nav-item">
-                            <a
-                              className={`navbar-link ${
-                                ['/questionbank', '/register'].includes(location?.pathname)
-                                  ? ' active'
-                                  : ''
-                              }`}
-                              onClick={() => {
-                                history.push('/questionbank');
-                              }}
-                            >
-                              <FeatherIcon icon="help-circle" size={14} />
-                              &nbsp;{'Question Bank'}
-                            </a>
-                          </li>
-                        }
-
-                        {
-                          <li className="nav-item">
-                            <a
-                              className={`navbar-link ${
-                                ['/assessmentbank', '/register'].includes(location?.pathname)
-                                  ? ' active'
-                                  : ''
-                              }`}
-                              onClick={() => {
-                                history.push('/assessmentbank');
-                              }}
-                            >
-                              <FeatherIcon icon="clipboard" size={14} />
-                              &nbsp;{'Assessment Bank'}
-                            </a>
-                          </li>
-                        }
-
-                        {
-                          <li className="nav-item">
-                            <a
-                              className={`navbar-link ${
-                                ['/admin-panel', '/register'].includes(location?.pathname)
-                                  ? ' active'
-                                  : ''
-                              }`}
-                              onClick={() => {
-                                history.push('/admin-panel');
-                              }}
-                            >
-                              <FeatherIcon icon="shield" size={14} />
-                              &nbsp;{'Admin Panel'}
-                            </a>
-                          </li>
-                        }
-                      </>
-                    )}
-                  </ul>
+                  {localStorage.getItem('selected_module_Role') == 'Assessment Module' ? (
+                    <TopBar_SA />
+                  ) : (
+                    <TopBar_RL />
+                  )}
                 </div>
               </div>
               <div className="select-light mt-0">
@@ -374,9 +514,11 @@ const TopBar = (props) => {
                           label={val.label}
                           rightAnchored
                           onClick={() => {
+                            console.log('valvalvalvalval', val);
+                            if (val.isDisabled) return;
                             setActiveModule(val.label);
                             // history.push(
-                            //   val.label === 'Representation Letter Module' ? '/REP-Letters' : '/',
+                            //   '/'
                             // );
                           }}
                           menu={
@@ -387,6 +529,7 @@ const TopBar = (props) => {
                                       key={`${i}--${subi}`}
                                       className="DropdownMenuItem"
                                       onClick={() => {
+                                        if (sVal.isDisabled) return;
                                         setActiveModule(sVal.label);
                                       }}
                                     >
