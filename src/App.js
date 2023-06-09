@@ -253,7 +253,7 @@ const Pages = () => {
             component={AssessmentDetailsTableData}
           />
           <Route exact path="/POC" component={POC} />
-          <Route exact path="/rlmdm" component={RLMDM} />
+          <Route exact path="/REP-Letters/master-data-management" component={RLMDM} />
           <Route exact path="/REP-Letters/master-data-management/organization-hierarchy" component={RL_MDM_OrganizationHierarchyLandingPage} />
           <Route exact path="/REP-Letters/master-data-management/bu-masterdata-management" component={RL_MDM_BUMasterdataManagementLandingPage} />
           <Route exact path="/REP-Letters/master-data-management/functional-masterdata-management" component={RL_MDM_FunctionalMasterdataManagementLandingPage} />
