@@ -58,7 +58,7 @@ const InternalControlHomePage = () => {
                 {accounts.length > 0 ? accounts[0].name.split('(').join(' (') : 'User Name'}
               </h2>
               {(loginRole || selectedUserRole) && (
-                <h3 className="user-role">{loginRole ?? selectedUserRole}-</h3>
+                <h3 className="user-role">{loginRole ?? selectedUserRole}</h3>
               )}
             </div>
             <div className="col-lg-8">

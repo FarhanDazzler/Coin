@@ -82,7 +82,7 @@ const TopBar = (props) => {
         const data = localStorage.getItem('sa_roles')?.split(',') || [];
         if (data.length > 0) {
           localStorage.setItem('selected_Role', data[0]);
-          setRole(data[0])
+          setRole(data[0]);
         }
         const userRoles = data?.map((data) => {
           const str = data.split('_').join(' ');
@@ -95,7 +95,7 @@ const TopBar = (props) => {
         if (rl_roles.BU) {
           if (rl_roles.BU.length > 0) {
             localStorage.setItem('selected_Role', rl_roles.BU[0]);
-            setRole(rl_roles.BU[0])
+            setRole(rl_roles.BU[0]);
           }
           localStorage.setItem('Roles', rl_roles.BU);
           setRoleValue(rl_roles.BU);
@@ -108,7 +108,7 @@ const TopBar = (props) => {
         if (rl_roles.Functional) {
           if (rl_roles.Functional.length > 0) {
             localStorage.setItem('selected_Role', rl_roles.Functional[0]);
-            setRole(rl_roles.Functional[0])
+            setRole(rl_roles.Functional[0]);
           }
           localStorage.setItem('Roles', rl_roles.Functional);
           setRoleValue(rl_roles.Functional);
@@ -123,10 +123,10 @@ const TopBar = (props) => {
   }, [activeModule]);
 
   const setRole = (data) => {
-    if(!data) return;
+    if (!data) return;
     const str = data.split('_').join(' ');
     dispatch(setLoginRole(str.charAt(0).toUpperCase() + str.slice(1)));
-  }
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -156,6 +156,212 @@ const TopBar = (props) => {
       setModule(newArray);
     }
   }, [apiRoles]);
+
+  const TopBar_SA = () => {
+    // TOP BAR Buttons/ Tabs for Seld Assessment Module
+    return (
+      <ul className="nav nav-tabs border-0 flex-column flex-lg-row">
+        <li className="nav-item">
+          <a
+            className={`navbar-link ${
+              ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+            }`}
+            onClick={() => {
+              history.push('/');
+            }}
+          >
+            <FeatherIcon icon="home" size={14} />
+            &nbsp;{'Home'}
+          </a>
+        </li>
+
+        {!props.isControlPage && (
+          <>
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/master-data-management', '/register'].includes(location?.pathname)
+                      ? ' active'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/master-data-management');
+                  }}
+                >
+                  <FeatherIcon icon="layers" size={14} />
+                  &nbsp;{'Master Data Management'}
+                </a>
+              </li>
+            }
+
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/questionbank', '/register'].includes(location?.pathname) ? ' active' : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/questionbank');
+                  }}
+                >
+                  <FeatherIcon icon="help-circle" size={14} />
+                  &nbsp;{'Question Bank'}
+                </a>
+              </li>
+            }
+
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/assessmentbank', '/register'].includes(location?.pathname) ? ' active' : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/assessmentbank');
+                  }}
+                >
+                  <FeatherIcon icon="clipboard" size={14} />
+                  &nbsp;{'Assessment Bank'}
+                </a>
+              </li>
+            }
+
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/admin-panel', '/register'].includes(location?.pathname) ? ' active' : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/admin-panel');
+                  }}
+                >
+                  <FeatherIcon icon="shield" size={14} />
+                  &nbsp;{'Admin Panel'}
+                </a>
+              </li>
+            }
+          </>
+        )}
+      </ul>
+    );
+  };
+
+  const TopBar_RL = () => {
+    // TOP BAR Buttons/ Tabs for Rep Letters
+    return (
+      <ul className="nav nav-tabs border-0 flex-column flex-lg-row">
+        <li className="nav-item">
+          <a
+            className={`navbar-link ${
+              ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+            }`}
+            onClick={() => {
+              history.push('/');
+            }}
+          >
+            <FeatherIcon icon="home" size={14} />
+            &nbsp;{'Home'}
+          </a>
+        </li>
+
+        {localStorage.getItem('selected_Role') == 'Global Persona' && (
+          <>
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/REP-Letters/master-data-management', '/register'].includes(
+                      location?.pathname,
+                    )
+                      ? ' active'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/REP-Letters/master-data-management');
+                  }}
+                >
+                  <FeatherIcon icon="layers" size={14} />
+                  &nbsp;{'Master Data Management'}
+                </a>
+              </li>
+            }
+
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/REP-Letters/questionbank', '/register'].includes(location?.pathname)
+                      ? ' active'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/REP-Letters/questionbank');
+                  }}
+                >
+                  <FeatherIcon icon="help-circle" size={14} />
+                  &nbsp;{'Question Bank'}
+                </a>
+              </li>
+            }
+
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/REP-Letters/scheduling-and-triggering', '/register'].includes(
+                      location?.pathname,
+                    )
+                      ? ' active'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/REP-Letters/scheduling-and-triggering');
+                  }}
+                >
+                  <FeatherIcon icon="clipboard" size={14} />
+                  &nbsp;{'Scheduling & Triggering'}
+                </a>
+              </li>
+            }
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/REP-Letters/reporting', '/register'].includes(location?.pathname)
+                      ? ' active'
+                      : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/REP-Letters/reporting');
+                  }}
+                >
+                  <FeatherIcon icon="flag" size={14} />
+                  &nbsp;{'Reporting'}
+                </a>
+              </li>
+            }
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/admin-panel', '/register'].includes(location?.pathname) ? ' active' : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/admin-panel');
+                  }}
+                >
+                  <FeatherIcon icon="shield" size={14} />
+                  &nbsp;{'Admin Panel'}
+                </a>
+              </li>
+            }
+          </>
+        )}
+      </ul>
+    );
+  };
 
   return (
     <div className="top-nav">
@@ -284,99 +490,11 @@ const TopBar = (props) => {
             <div className="d-flex align-items-center justify-content-between">
               <div className="row align-items-center">
                 <div className="col-lg order-lg-first">
-                  <ul className="nav nav-tabs border-0 flex-column flex-lg-row">
-                    <li className="nav-item">
-                      <a
-                        className={`navbar-link ${
-                          ['/', '/register'].includes(location?.pathname) ? ' active' : ''
-                        }`}
-                        onClick={() => {
-                          history.push('/');
-                        }}
-                      >
-                        <FeatherIcon icon="home" size={14} />
-                        &nbsp;{'Home'}
-                      </a>
-                    </li>
-
-                    {!props.isControlPage && (
-                      <>
-                        {
-                          <li className="nav-item">
-                            <a
-                              className={`navbar-link ${
-                                ['/master-data-management', '/register'].includes(
-                                  location?.pathname,
-                                )
-                                  ? ' active'
-                                  : ''
-                              }`}
-                              onClick={() => {
-                                history.push('/master-data-management');
-                              }}
-                            >
-                              <FeatherIcon icon="layers" size={14} />
-                              &nbsp;{'Master Data Management'}
-                            </a>
-                          </li>
-                        }
-
-                        {
-                          <li className="nav-item">
-                            <a
-                              className={`navbar-link ${
-                                ['/questionbank', '/register'].includes(location?.pathname)
-                                  ? ' active'
-                                  : ''
-                              }`}
-                              onClick={() => {
-                                history.push('/questionbank');
-                              }}
-                            >
-                              <FeatherIcon icon="help-circle" size={14} />
-                              &nbsp;{'Question Bank'}
-                            </a>
-                          </li>
-                        }
-
-                        {
-                          <li className="nav-item">
-                            <a
-                              className={`navbar-link ${
-                                ['/assessmentbank', '/register'].includes(location?.pathname)
-                                  ? ' active'
-                                  : ''
-                              }`}
-                              onClick={() => {
-                                history.push('/assessmentbank');
-                              }}
-                            >
-                              <FeatherIcon icon="clipboard" size={14} />
-                              &nbsp;{'Assessment Bank'}
-                            </a>
-                          </li>
-                        }
-
-                        {
-                          <li className="nav-item">
-                            <a
-                              className={`navbar-link ${
-                                ['/admin-panel', '/register'].includes(location?.pathname)
-                                  ? ' active'
-                                  : ''
-                              }`}
-                              onClick={() => {
-                                history.push('/admin-panel');
-                              }}
-                            >
-                              <FeatherIcon icon="shield" size={14} />
-                              &nbsp;{'Admin Panel'}
-                            </a>
-                          </li>
-                        }
-                      </>
-                    )}
-                  </ul>
+                  {localStorage.getItem('selected_module_Role') == 'Assessment Module' ? (
+                    <TopBar_SA />
+                  ) : (
+                    <TopBar_RL />
+                  )}
                 </div>
               </div>
               <div className="select-light mt-0">
