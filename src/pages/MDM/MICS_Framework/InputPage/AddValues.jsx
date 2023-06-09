@@ -230,7 +230,9 @@ const AddValues_MDM_Mics_Framework = (props) => {
                 Sub_Process: Yup.string().required('Sub Process is required'),
                 Risk: Yup.string().required('Risk is required'),
                 Control_name: Yup.string().required('Control name is required'),
-                mics_L1desc: Yup.string().required('mics L1 desc is required'),
+                mics_L1desc: Yup.string()
+                  .required('mics L1 desc is required')
+                  .max(5000, 'Mics L1 desc not allowed more than 5000 characters'),
                 mics_L2desc: Yup.string().required('mics L2 desc is required'),
                 mics_L3desc: Yup.string().required('mics L3 desc is required'),
                 BS_impact: Yup.string().required('BS impact is required'),
@@ -1070,20 +1072,26 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-12">
                       <div className="row mb-8">
                         <Form.Label className="mt-5">MICS L1 Description</Form.Label>
+
                         <TextEditor
                           setFieldValue={(val) => setFieldValue('mics_L1desc', val)}
                           value={values.mics_L1desc}
                         />
+                        {values.mics_L1desc.length > 5000 && <span className='error'>Mics L1 Desc not allowed more than 5000 characters</span>}
+                        
+                       
                         <Form.Label className="mt-8">MICS L2 Description</Form.Label>
                         <TextEditor
                           setFieldValue={(val) => setFieldValue('mics_L2desc', val)}
                           value={values.mics_L2desc}
                         />
+                        {values.mics_L2desc.length > 5000 && <span className='error'>Mics L2 Desc not allowed more than 5000 characters</span>}
                         <Form.Label className="mt-8">MICS L3 Description</Form.Label>
                         <TextEditor
                           setFieldValue={(val) => setFieldValue('mics_L3desc', val)}
                           value={values.mics_L3desc}
                         />
+                        {values.mics_L3desc.length > 5000 && <span className='error'>Mics L3 Desc not allowed more than 5000 characters</span>}
                       </div>
                     </div>
 

@@ -7,7 +7,13 @@ import {
     GET_RL_ORG_HIERARCHY_SUCCESS,
     GET_RL_ORG_MD_ERROR,
     GET_RL_ORG_MD_REQUEST,
-    GET_RL_ORG_MD_SUCCESS
+    GET_RL_ORG_MD_SUCCESS,
+    GET_RL_BU_MASTERDATA_ERROR,
+    GET_RL_BU_MASTERDATA_REQUEST,
+    GET_RL_BU_MASTERDATA_SUCCESS,
+    GET_RL_FUNCTIONAL_MASTERDATA_ERROR,
+    GET_RL_FUNCTIONAL_MASTERDATA_REQUEST,
+    GET_RL_FUNCTIONAL_MASTERDATA_SUCCESS
 } from "./RLMDMReducer";
 import Swal from 'sweetalert2';
 
@@ -53,7 +59,51 @@ function* handleGet_Rl_org_md({ payload }) {
     }
 }
 
+async function getRlBuMasterdataApi(params) {
+    console.log('getRlBuMasterdataApi=>>>>>>>>>>>>>>>>>>', params);
+    return await Axios.get('/get_bu_master_data', { params });
+}
+function* handleGet_Rl_Bu_masterdata({ payload }) {
+    try {
+        const response = yield call(getRlBuMasterdataApi, payload);
+        if (response.success) {
+            yield put({
+                type: GET_RL_BU_MASTERDATA_SUCCESS,
+                payload: response.data,
+            });
+        }
+    } catch (error) {
+        yield put({
+            type: GET_RL_BU_MASTERDATA_ERROR,
+            // error: getSimplifiedError(error),
+        });
+    }
+}
+
+async function getRlFunctionalMasterdataApi(params) {
+    console.log('getRlFunctionalMasterdataApi=>>>>>>>>>>>>>>>>>>', params);
+    return await Axios.get('/get_functional_master_data', { params });
+}
+function* handleGet_Rl_Functional_masterdata({ payload }) {
+    try {
+        const response = yield call(getRlFunctionalMasterdataApi, payload);
+        if (response.success) {
+            yield put({
+                type: GET_RL_FUNCTIONAL_MASTERDATA_SUCCESS,
+                payload: response.data,
+            });
+        }
+    } catch (error) {
+        yield put({
+            type: GET_RL_FUNCTIONAL_MASTERDATA_ERROR,
+            // error: getSimplifiedError(error),
+        });
+    }
+}
+
 export default all([
     takeLatest(GET_RL_ORG_HIERARCHY_REQUEST, handleGet_Rl_org_hierarchy),
-    takeLatest(GET_RL_ORG_MD_REQUEST, handleGet_Rl_org_md)
+    takeLatest(GET_RL_ORG_MD_REQUEST, handleGet_Rl_org_md),
+    takeLatest(GET_RL_BU_MASTERDATA_REQUEST, handleGet_Rl_Bu_masterdata),
+    takeLatest(GET_RL_FUNCTIONAL_MASTERDATA_REQUEST, handleGet_Rl_Functional_masterdata)
 ])
