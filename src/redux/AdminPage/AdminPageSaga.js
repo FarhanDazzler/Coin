@@ -48,13 +48,14 @@ async function addAdminRoleApi(payload) {
 function* addAdminRoleData({ payload }) {
   try {
     const response = yield call(addAdminRoleApi, payload);
+
     if (response.success) {
       yield put({
         type: ADD_ADMIN_ROLE_SUCCESS,
         payload: response.data,
       });
       Swal.fire('Done!', 'Added Successfully!', 'success');
-      yield put(getAll_RolesApi());
+      yield call(getAll_RolesApi);
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
@@ -63,7 +64,7 @@ function* addAdminRoleData({ payload }) {
       type: ADD_ADMIN_ROLE_ERROR,
       // error: getSimplifiedError(error),
     });
-    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    Swal.fire('Oops...', 'Something Went Wrong11', 'error');
   }
 }
 
@@ -80,7 +81,7 @@ function* modifyAdminRoleData({ payload }) {
         payload: response.data,
       });
       Swal.fire('Done!', 'Updated Successfully!', 'success');
-      yield put(getAll_RolesApi());
+      yield call(getAll_RolesApi);
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
@@ -106,7 +107,7 @@ function* deleteAdminRoleData({ payload }) {
         payload: response.data,
       });
       Swal.fire('Done!', 'Deleted Successfully!', 'success');
-      yield put(getAll_RolesApi());
+      yield call(getAll_RolesApi);
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
