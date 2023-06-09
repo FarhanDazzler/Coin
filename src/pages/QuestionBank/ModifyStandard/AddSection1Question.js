@@ -30,7 +30,6 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
       question_text: questionText,
       question_type: questionType,
       parent_qid: 0,
-      isFailed,
     };
     dispatch(addSection1QuestionDataAction(payload));
   };
@@ -82,14 +81,6 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
               </Form.Control>
             </Form.Group>
           </div>
-        </div>
-
-        <div className="mt-5">
-          <Checkbox
-            color={'yellow'}
-            onChange={({ target: { checked } }) => setIsFailed(checked)}
-            label={<Text align="left">Failed questions</Text>}
-          />
         </div>
 
         {/* Radio Options */}
