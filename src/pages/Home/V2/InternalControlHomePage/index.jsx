@@ -16,6 +16,7 @@ const InternalControlHomePage = () => {
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
   const selectedUserRole = localStorage.getItem('selected_Role');
+  // console.log('selectedUserRole',selectedUserRole)
   const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const getControlOwnerData = useSelector(getInternalControlDataSelector);

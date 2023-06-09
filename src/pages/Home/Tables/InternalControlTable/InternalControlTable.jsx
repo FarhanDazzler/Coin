@@ -268,7 +268,7 @@ const InternalControlTable = (props) => {
       <div className="container-fluid">
         <div className="row">
           <div className="col col-lg-12">
-            <div className="container-fluid mt-5">
+            <div className="container-fluid pl-0 pr-0 mt-5">
               <div className="row">
                 <div className="col col-lg-12">
                   <Group spacing="xs" className="actions-button-wrapper">
@@ -297,7 +297,7 @@ const InternalControlTable = (props) => {
                 </div>
               </div>
             </div>
-            <div className="container-fluid mt-5">
+            <div className="container-fluid pl-0 pr-0 mt-5">
               {getDashBoardDataState.loading ? (
                 <TableLoader className="mt-8" />
               ) : (
