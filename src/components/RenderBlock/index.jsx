@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Dropdown from '../UI/Dropdown';
 import InputWidthSelect from '../UI/InputWidthSelect/InputWidthSelect';
 
-const RenderBlock = ({ blocks = [], handleChange, userApiStart,isModal }) => {
+const RenderBlock = ({ blocks = [], handleChange, userApiStart, isModal }) => {
   const controlDataResponse = useSelector((state) => state?.controlData?.controlData?.data);
   for (let i = 0; i < blocks.length; i++) {
     let question = blocks[i].question_text;
@@ -77,7 +77,7 @@ const RenderBlock = ({ blocks = [], handleChange, userApiStart,isModal }) => {
                   options={block.options}
                   value={block.value}
                   handleChange={handleChange}
-                    disabled={!isModal}
+                  disabled={!isModal}
                 />
               </RenderBlockWrapper>
             );
@@ -91,12 +91,13 @@ const RenderBlock = ({ blocks = [], handleChange, userApiStart,isModal }) => {
                   block={block}
                   handleChange={handleChange}
                   value={block.value}
-                    disabled={!isModal}
+                  disabled={!isModal}
                 />
               </RenderBlockWrapper>
             );
 
           case blockType.EMAIL_WIDTH_SELECT:
+          case blockType.IS_AD:
             return (
               <RenderBlockWrapper key={i}>
                 <InputWidthSelect

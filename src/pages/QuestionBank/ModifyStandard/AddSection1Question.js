@@ -38,6 +38,7 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
     { label: 'Radio', value: 'Radio' },
     { label: 'Text', value: 'Free Text' },
     { label: 'Dropdown', value: 'Dropdown' },
+    { label: 'Is AD', value: 'Is AD' },
   ];
   return (
     <div>

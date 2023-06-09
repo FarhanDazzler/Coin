@@ -177,11 +177,13 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       }
     }
   }, [responseData.data]);
+
   const getIsFaildValueSelect = () => {
     let isFail = false;
     ansSection1.forEach((ans) => {
       switch (true) {
         case ans.question_type === blockType.EMAIL_WIDTH_SELECT:
+        case ans.question_type === blockType.IS_AD:
         case ans.question_type === blockType.TEXT:
           ans.options.forEach((d) => {
             if (d.is_Failing === 1) isFail = true;

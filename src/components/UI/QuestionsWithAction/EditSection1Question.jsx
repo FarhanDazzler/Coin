@@ -39,7 +39,7 @@ const EditSection1Question = ({
   const question1EditLoadingList = useSelector(question1EditLoadingListSelector);
   const [openMenu, setOpenMenu] = useState();
   const [isFailedFreeText, setIsFailedFreeText] = useState(false);
-  const questionTypeOptions = ['Free Text', 'Radio', 'Dropdown'];
+  const questionTypeOptions = ['Free Text', 'Radio', 'Dropdown', 'Is AD'];
   const [showRemoveModal, setShowRemoveModal] = useState(null);
   const [saveLoading, setSaveLoading] = useState(false);
   const handleClick = (event) => {
@@ -299,7 +299,7 @@ const EditSection1Question = ({
             />
           </div>
 
-          {block.question_type === 'Free Text' ? (
+          {['Free Text', 'Is AD'].includes(block.question_type) ? (
             <div className="d-flex align-items-end justify-content-between">
               <div className="my-2 pt-2 w-full">
                 <FormControl className="input-wrapper">

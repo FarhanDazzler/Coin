@@ -82,6 +82,7 @@ const ControlSection1 = ({
         break;
 
       case block.question_type === blockType.EMAIL_WIDTH_SELECT:
+      case block.question_type === blockType.IS_AD:
         if (block.options[0].is_Terminating === 1) {
           if (validateEmail(value)) {
             userFromAD.data.forEach((element) => {
@@ -115,7 +116,7 @@ const ControlSection1 = ({
       }
     }
 
-    const matchQuestion = [blockType.TEXT, blockType.EMAIL_WIDTH_SELECT].includes(
+    const matchQuestion = [blockType.TEXT, blockType.EMAIL_WIDTH_SELECT, blockType.IS_AD].includes(
       block.question_type,
     )
       ? block.options[0]
