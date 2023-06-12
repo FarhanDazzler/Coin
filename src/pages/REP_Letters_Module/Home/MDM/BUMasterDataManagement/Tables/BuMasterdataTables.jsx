@@ -12,6 +12,8 @@ import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import Tooltip from '@mui/material/Tooltip';
 import AssignModal from './AssignModal';
 import CustomModal from '../../../../../../components/UI/CustomModal';
+import { assignRlBuMasterdataSelector } from '../../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
+import { getRlBuMasterdata } from '../../../../../../redux/REP_Letters/RLMDM/RLMDMAction';
 
 const BuMasterdataTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -23,12 +25,17 @@ const BuMasterdataTable = () => {
   const dispatch = useDispatch();
 
   const buMasterdataState = useSelector(getRlBuMasterdataSelector);
+  const assignRlBuMasterdataState = useSelector(assignRlBuMasterdataSelector);
   //console.log('buMasterdataState', buMasterdataState);
 
+  useEffect(() => {
+    dispatch(getRlBuMasterdata());
+  }, []);
   // for closing POP after confirm
   useEffect(() => {
     setShowModal(false);
-  }, [buMasterdataState?.data]);
+    dispatch(getRlBuMasterdata());
+  }, [assignRlBuMasterdataState?.data]);
 
   const TABLE_COLUMNS = [
     {

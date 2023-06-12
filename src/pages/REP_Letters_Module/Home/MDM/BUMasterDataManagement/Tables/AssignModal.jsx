@@ -12,6 +12,7 @@ import {
   isEmailValidADSelector,
 } from '../../../../../../redux/AzureAD/AD_Selectors';
 import { getUserFromAD } from '../../../../../../redux/AzureAD/AD_Action';
+import { assignRlBuMasterdata } from '../../../../../../redux/REP_Letters/RLMDM/RLMDMAction';
 
 const GetFormikFieldValue = () => {
   // Grab values and submitForm from context
@@ -98,9 +99,6 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
       if (value.Zone_VP !== '') {
         updateObj.Zone_VP = value.Zone_VP;
       }
-      // if (value.coversightValidTo !== '') {
-      //   return { ...obj, coversight_valid_to: value.coversightValidTo };
-      // }
 
       return { ...updateObj };
     });
@@ -108,7 +106,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
       bu_master_data: newState,
     };
     console.log(payload, 'Payload');
-    //dispatch(modifyControlOwnerAndOversight(payload));
+    dispatch(assignRlBuMasterdata(payload));
   };
 
   const handleChangeAd = (value, mode) => {

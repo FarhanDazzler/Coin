@@ -10,6 +10,12 @@ export const GET_RL_BU_MASTERDATA_REQUEST = 'GET_RL_BU_MASTERDATA_REQUEST';
 export const GET_RL_BU_MASTERDATA_SUCCESS = 'GET_RL_BU_MASTERDATA_SUCCESS';
 export const GET_RL_BU_MASTERDATA_ERROR = 'GET_RL_BU_MASTERDATA_ERROR';
 
+// =================== Assign Repp Letter BU Master DATA ========================//
+export const ASSIGN_RL_BU_MASTERDATA_REQUEST = 'ASSIGN_RL_BU_MASTERDATA_REQUEST';
+export const ASSIGN_RL_BU_MASTERDATA_SUCCESS = 'ASSIGN_RL_BU_MASTERDATA_SUCCESS';
+export const ASSIGN_RL_BU_MASTERDATA_ERROR = 'ASSIGN_RL_BU_MASTERDATA_ERROR';
+// =================== Assign Repp Letter BU Master DATA ========================//
+
 export const GET_RL_FUNCTIONAL_MASTERDATA_REQUEST = 'GET_RL_FUNCTIONAL_MASTERDATA_REQUEST';
 export const GET_RL_FUNCTIONAL_MASTERDATA_SUCCESS = 'GET_RL_FUNCTIONAL_MASTERDATA_SUCCESS';
 export const GET_RL_FUNCTIONAL_MASTERDATA_ERROR = 'GET_RL_FUNCTIONAL_MASTERDATA_ERROR';
@@ -24,6 +30,7 @@ const initialState = {
   rlOrgHierarchy: { ...block, data: [] },
   rlOrgMd: { ...block, data: [] },
   rlBuMasterdata: { ...block, data: [] },
+  rlAssignBuMasterdata: { ...block, data: [] },
   rlFunctionalMasterdata: { ...block, data: [] },
 };
 
@@ -78,6 +85,23 @@ export const RLMDMReducer = (state = initialState, { type, payload = {} }) => {
       return {
         ...state,
         rlBuMasterdata: { ...state.rlBuMasterdata, loading: false },
+      };
+
+      // MDM ASSIGN BU MD data
+    case ASSIGN_RL_BU_MASTERDATA_REQUEST:
+      return {
+        ...state,
+        rlAssignBuMasterdata: { ...state.rlAssignBuMasterdata, loading: true },
+      };
+    case ASSIGN_RL_BU_MASTERDATA_SUCCESS:
+      return {
+        ...state,
+        rlAssignBuMasterdata: { ...state.rlAssignBuMasterdata, data: payload, loading: false },
+      };
+    case ASSIGN_RL_BU_MASTERDATA_ERROR:
+      return {
+        ...state,
+        rlAssignBuMasterdata: { ...state.rlAssignBuMasterdata, loading: false },
       };
 
     // MDM FUNCTIONAL MD data
