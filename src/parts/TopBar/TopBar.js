@@ -82,7 +82,7 @@ const TopBar = (props) => {
         const data = localStorage.getItem('sa_roles')?.split(',') || [];
         if (data.length > 0) {
           localStorage.setItem('selected_Role', data[0]);
-          setRole(data[0])
+          setRole(data[0]);
         }
         const userRoles = data?.map((data) => {
           const str = data.split('_').join(' ');
@@ -95,7 +95,7 @@ const TopBar = (props) => {
         if (rl_roles.BU) {
           if (rl_roles.BU.length > 0) {
             localStorage.setItem('selected_Role', rl_roles.BU[0]);
-            setRole(rl_roles.BU[0])
+            setRole(rl_roles.BU[0]);
           }
           localStorage.setItem('Roles', rl_roles.BU);
           setRoleValue(rl_roles.BU);
@@ -108,7 +108,7 @@ const TopBar = (props) => {
         if (rl_roles.Functional) {
           if (rl_roles.Functional.length > 0) {
             localStorage.setItem('selected_Role', rl_roles.Functional[0]);
-            setRole(rl_roles.Functional[0])
+            setRole(rl_roles.Functional[0]);
           }
           localStorage.setItem('Roles', rl_roles.Functional);
           setRoleValue(rl_roles.Functional);
@@ -120,13 +120,13 @@ const TopBar = (props) => {
       default:
         break;
     }
-  }, [activeModule]);
+  }, [activeModule, selected_module_role, roles.length]);
 
   const setRole = (data) => {
-    if(!data) return;
+    if (!data) return;
     const str = data.split('_').join(' ');
     dispatch(setLoginRole(str.charAt(0).toUpperCase() + str.slice(1)));
-  }
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -203,6 +203,7 @@ const TopBar = (props) => {
                       onChange={(e) => {
                         dispatch(setLoginRole(e.target.value));
                         localStorage.setItem('selected_Role', e.target.value);
+                        history.push('/');
                       }}
                       value={loginRole ?? selected_Role}
                     >

@@ -42,7 +42,7 @@ const ControlSection1 = ({
       userData = apiUserData.map((d) => ({ value: d.mail, label: d.displayName }));
     }
     const updateAnsObj = ans.map((val) => {
-      if (val.q_id === 2) {
+      if (val.question_type === blockType.IS_AD) {
         return {
           ...val,
           dropDownOption: userData,
@@ -56,14 +56,14 @@ const ControlSection1 = ({
   }, [userFromAD.data]);
 
   const handleChange = (value, block) => {
-    if (block.q_id === 2) {
+    if (block.question_type === blockType.IS_AD) {
       setIsStart(true);
       setQId2Value(value);
     }
     setStartEdit(true);
     let updateCurrentAns = ans.map((q) => {
       if (q.q_id === block.q_id) {
-        if (block.q_id === 2 && !block.optionSelect) {
+        if (block.question_type === blockType.IS_AD && !block.optionSelect) {
           q.loading = true;
           setTerminating(false);
         }
