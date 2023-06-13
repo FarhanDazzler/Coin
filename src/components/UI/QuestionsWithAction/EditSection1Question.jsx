@@ -21,8 +21,10 @@ import {
 } from '../../../redux/Questions/QuestionsAction';
 import RemoveWarningModal from '../AttributesRemoveModal';
 import blockType from '../../RenderBlock/constant';
-import { Loader } from '@mantine/core';
+import { Checkbox, Loader, Text } from '@mantine/core';
 import { question1EditLoadingListSelector } from '../../../redux/Questions/QuestionsSelectors';
+import { QuestionType } from '../../../pages/QuestionBank/ModifyStandard/AddSection1Question';
+import { Form } from 'react-bootstrap';
 
 const EditSection1Question = ({
   showEditModal,
@@ -37,14 +39,9 @@ const EditSection1Question = ({
   const [options, setOptions] = useState([]);
   const [freeTextChildQId, setFreeTextChildQId] = useState('');
   const question1EditLoadingList = useSelector(question1EditLoadingListSelector);
-  const [openMenu, setOpenMenu] = useState();
-
-  const questionTypeOptions = ['Free Text', 'Radio', 'Dropdown'];
+  const [isFailedFreeText, setIsFailedFreeText] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(null);
   const [saveLoading, setSaveLoading] = useState(false);
-  const handleClick = (event) => {
-    setOpenMenu(event.currentTarget);
-  };
 
   useEffect(() => {
     if (questionOptions.length > 0) setFreeTextChildQId(questionOptions[0].child_question);
@@ -58,13 +55,6 @@ const EditSection1Question = ({
     }
   }, [question1EditLoadingList]);
 
-  const handleSelect = (data) => {
-    setBlock({ ...block, question_type: data });
-    handleClose();
-  };
-  const handleClose = () => {
-    setOpenMenu(null);
-  };
   const handleChangeQuestion = (value) => {
     setQuestion(value);
   };
@@ -96,10 +86,10 @@ const EditSection1Question = ({
     setQuestionOptions(updateOp);
   };
 
-  const handleSelectOptions = ({ target: { value } }, op) => {
+  const handleSelectOptions = (value, op) => {
     const updateQ = questionOptions.map((upOp) => {
       if (upOp.option_id === op.option_id) {
-        return { ...upOp, child_question: value, isEdit: true };
+        return { ...upOp, ...value, isEdit: true };
       }
       return { ...upOp };
     });
@@ -127,6 +117,7 @@ const EditSection1Question = ({
         option_value: '',
         q_id: block.q_id,
         isNew: true,
+        is_Failing: 0,
       },
     ]);
   };
@@ -135,23 +126,26 @@ const EditSection1Question = ({
     let isApiCall = false;
     if (apiBlock.question_text !== question || apiBlock.question_type !== block.question_type) {
       isApiCall = true;
+      const is_AD = block.question_type === 'Is AD';
       dispatch(
         updateSection1Questions({
           q_id: apiBlock.q_id,
           Control_ID: apiBlock.Control_ID,
           question_text: question,
           question_type: block.question_type,
+          is_AD: is_AD ? 1 : 0,
           loadingId: `${uuidv4()}-updateSection1Questions`,
         }),
       );
     }
 
-    if (block.question_type === blockType.TEXT) {
+    if ([blockType.TEXT, blockType.IS_AD].includes(block.question_type)) {
       const payload = {
         q_id: apiBlock.q_id,
         child_question: freeTextChildQId,
         is_Terminating: 0,
         option_value: '',
+        is_Failing: isFailedFreeText,
       };
       if (freeTextChildQId === 'is_Terminating') {
         payload.child_question = 0;
@@ -203,6 +197,7 @@ const EditSection1Question = ({
           option_value: b_val.option_value,
           child_question: b_val.child_question,
           is_Terminating: 0,
+          is_Failing: b_val.is_Failing,
         };
         if (b_val.child_question === 'is_Terminating') {
           payload.child_question = 0;
@@ -228,6 +223,7 @@ const EditSection1Question = ({
           option_value: b_val.option_value,
           child_question: b_val.child_question,
           is_Terminating: 0,
+          is_Failing: b_val.is_Failing,
         };
         if (b_val.child_question === 'is_Terminating') {
           payload.child_question = 0;
@@ -285,33 +281,57 @@ const EditSection1Question = ({
             formControlProps={{ className: 'input-wrapper full-input' }}
           />
           <div className="d-flex justify-content-end pt-5">
-            <DropdownMenu
-              options={questionTypeOptions}
-              openMenu={openMenu}
-              handleClick={handleClick}
-              handleClose={handleClose}
-              selected={block.question_type}
-              handleSelect={handleSelect}
-            />
+            <Form.Group className="input-group mb-3" style={{ maxWidth: 193 }}>
+              <Form.Control
+                as="select"
+                name=""
+                placeholder=""
+                className="form-select"
+                onChange={(e) => {
+                  setBlock({ ...block, question_type: e.target.value });
+                }}
+                value={block.question_type}
+              >
+                <option value="" disabled>
+                  Select Question Type
+                </option>
+                {QuestionType.map((data, i) => (
+                  <option value={data?.value} key={i}>
+                    {data?.label}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
           </div>
-          {block.question_type === 'Free Text' ? (
-            <div className="my-2 pt-2">
-              <FormControl className="input-wrapper">
-                <FormLabel>Sub question</FormLabel>
-              </FormControl>
-              <FormControl sx={{ width: '100%', color: '#000' }} size="small">
-                <Select
-                  placeholder="Select sub question"
-                  value={freeTextChildQId}
-                  onChange={({ target: { value } }) => setFreeTextChildQId(value)}
-                  options={options}
-                  inputProps={{ 'aria-label': 'Without label' }}
-                  inputLook
+
+          {['Free Text', 'Is AD'].includes(block.question_type) ? (
+            <div className="d-flex align-items-end justify-content-between">
+              <div className="my-2 pt-2 w-full">
+                <FormControl className="input-wrapper">
+                  <FormLabel>Sub question</FormLabel>
+                </FormControl>
+                <FormControl sx={{ width: '100%', color: '#000' }} size="small">
+                  <Select
+                    placeholder="Select sub question"
+                    value={freeTextChildQId}
+                    onChange={({ target: { value } }) => setFreeTextChildQId(value)}
+                    options={options}
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    inputLook
+                  />
+                </FormControl>
+              </div>
+              <div style={{ minWidth: 200 }} className="pl-3 mb-3 d-flex justify-content-end">
+                <Checkbox
+                  color={'yellow'}
+                  onChange={({ target: { checked } }) => setIsFailedFreeText(checked)}
+                  label={<Text align="left">Failed questions</Text>}
+                  checked={isFailedFreeText}
                 />
-              </FormControl>
+              </div>
             </div>
           ) : (
-            <div className="mt-2">
+            <div className="mt-2 w-full">
               <FormControl className="input-wrapper">
                 <FormLabel>Question options</FormLabel>
               </FormControl>
@@ -330,11 +350,27 @@ const EditSection1Question = ({
                       <Select
                         placeholder="Select sub question"
                         value={selectedData}
-                        onChange={(e) => handleSelectOptions(e, op)}
+                        onChange={({ target: { value } }) =>
+                          handleSelectOptions({ child_question: value }, op)
+                        }
                         options={options}
                         inputLook
                       />
                     </FormControl>
+
+                    <div
+                      style={{ minWidth: 164 }}
+                      className="pl-3 d-flex justify-content-end radio-label"
+                    >
+                      <Checkbox
+                        color={'yellow'}
+                        checked={op.is_Failing === 1}
+                        onChange={({ target: { checked } }) =>
+                          handleSelectOptions({ is_Failing: checked ? 1 : 0 }, op)
+                        }
+                        label={<Text align="left">Failed questions</Text>}
+                      />
+                    </div>
                     <Tooltip title="Delete" placement="top">
                       <IconButton onClick={handleDeleteOption(op)}>
                         <DeleteOutlineIcon className="cursor-pointer" />

@@ -5,6 +5,8 @@ import MenuItem from '@mui/material/MenuItem';
 const DropdownMenu = ({ openMenu, options, selected, handleClick, handleClose, handleSelect }) => {
   const open = Boolean(openMenu);
 
+  const selectedVal = options.find((o) => o.value === selected)?.value || selected;
+
   return (
     <div>
       <Button
@@ -14,7 +16,7 @@ const DropdownMenu = ({ openMenu, options, selected, handleClick, handleClose, h
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        {selected}
+        {selectedVal}
       </Button>
       <Menu
         id="fade-menu"
@@ -27,8 +29,8 @@ const DropdownMenu = ({ openMenu, options, selected, handleClick, handleClose, h
       >
         {options.map((o, i) => {
           return (
-            <MenuItem key={i} onClick={() => handleSelect(o)}>
-              {o}
+            <MenuItem key={i} onClick={() => handleSelect(o.value)}>
+              {o.label}
             </MenuItem>
           );
         })}

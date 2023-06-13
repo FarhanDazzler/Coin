@@ -120,7 +120,7 @@ const TopBar = (props) => {
       default:
         break;
     }
-  }, [activeModule]);
+  }, [activeModule, selected_module_role, roles.length]);
 
   const setRole = (data) => {
     if (!data) return;
@@ -409,6 +409,7 @@ const TopBar = (props) => {
                       onChange={(e) => {
                         dispatch(setLoginRole(e.target.value));
                         localStorage.setItem('selected_Role', e.target.value);
+                        history.push('/');
                       }}
                       value={loginRole ?? selected_Role}
                     >
