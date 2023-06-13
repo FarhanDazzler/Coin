@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import CustomModal from '../../../components/UI/CustomModal';
-import { Button } from '@mantine/core';
+import { Button, Checkbox, Text } from '@mantine/core';
 import { Form } from 'react-bootstrap';
 import './ModifyStandard.scss';
 import { addSection1QuestionDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
 import { useDispatch } from 'react-redux';
 
+export const QuestionType = [
+  { label: 'Radio', value: 'Radio' },
+  { label: 'Text', value: 'Free Text' },
+  { label: 'Dropdown', value: 'Dropdown' },
+  { label: 'Is AD', value: 'Is AD' },
+];
+
 const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
   const dispatch = useDispatch();
   const [questionText, setQuestionText] = useState('');
   const [questionType, setQuestionType] = useState();
+  const [isFailed, setIsFailed] = useState(false);
   const [createOptions, setCreateOptions] = useState([
     {
       q_id: '',
@@ -33,11 +41,7 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
     dispatch(addSection1QuestionDataAction(payload));
   };
   const handleEditSubmitQuestion = () => {};
-  const QuestionType = [
-    { label: 'Radio', value: 'Radio' },
-    { label: 'Text', value: 'Free Text' },
-    { label: 'Dropdown', value: 'Dropdown' },
-  ];
+
   return (
     <div>
       <CustomModal

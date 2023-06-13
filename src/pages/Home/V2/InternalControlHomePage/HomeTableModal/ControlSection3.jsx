@@ -64,9 +64,7 @@ const ControlSection3 = ({
   const handleChangeNoQuestion = (val) => setShowNoQuestionAns(val);
 
   useEffect(() => {
-    dispatch(
-      getSection3Questions({ Level: 'L1', Control_ID: Control_ID, Assessment_ID: state.id }),
-    );
+    dispatch(getSection3Questions({ Level: 'L1', Control_ID: Control_ID }));
   }, []);
 
   useEffect(() => {

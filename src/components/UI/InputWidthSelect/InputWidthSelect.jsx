@@ -40,7 +40,8 @@ const InputWidthSelect = ({ block = {}, handleChange, userApiStart, disabled }) 
             <Box sx={{ color: 'error.main' }}>This user is not in our list!</Box>
           </Typography>
         )}
-        {!loading && dropDownOption && dropDownOption.length > 0 && (
+        {((!loading && dropDownOption && dropDownOption.length > 0) ||
+          (!loading && userApiStart && !dropDownOption?.length && !emailCheck)) && (
           <FormControl sx={{ mt: 1, minWidth: 250 }} size="small">
             <Select
               zIndex={999999}
