@@ -11,7 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import CustomModal from '../../../../../../../components/UI/CustomModal';
 import OrgStructureModal from './OrgStructureModal';
 import Swal from 'sweetalert2';
-import { getRlOrgMDSelector } from '../../../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
+import { getRlOrgMDSelector, addOrganizationalMdDataSelector, updateOrganizationalMdDataSelector } from '../../../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
 
 const OrgStructuresTable = () => {
   const dispatch = useDispatch();
@@ -19,15 +19,15 @@ const OrgStructuresTable = () => {
   const [tableData, setTableData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
-  // const addOrgState = useSelector();
-  // const updateOrgState = useSelector();
+   const addOrgState = useSelector(addOrganizationalMdDataSelector);
+   const updateOrgState = useSelector(updateOrganizationalMdDataSelector);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [editTableData, setEditTableData] = useState();
 
   useEffect(() => {
     setShowModal(false);
     setModalType('');
-  }, []);
+  }, [addOrgState?.data, updateOrgState?.data]);
 
   const orgStructures = useSelector(getRlOrgMDSelector);
 

@@ -71,6 +71,12 @@ const OrgHierarchyTable = ({setRlOrgManageButtonState}) => {
   }, []);
   const handleOnclickTableUnhide = () => {
     setRlOrgManageButtonState(true);
+    setTimeout(() => {
+      const dom = document.getElementById('RlModifyOrganizations');
+      if (dom) {
+        dom.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+      }
+    }, 500);
   };
 
   const ActiveTool = ({ number, text }) => (

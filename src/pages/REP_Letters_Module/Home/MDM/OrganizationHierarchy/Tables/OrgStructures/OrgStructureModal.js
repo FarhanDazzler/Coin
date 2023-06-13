@@ -4,6 +4,8 @@ import { useFormikContext, Formik, Field } from 'formik';
 import { Form } from 'react-bootstrap';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
+import { getRlParentEntityData, addOrganizationalMd, updateOrganizationalMd } from '../../../../../../../redux/REP_Letters/RLMDM/RLMDMAction';
+import { getRlParentEntityDataSelector } from '../../../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
 import moment from 'moment';
 const GetParentEntityValue = ({ setOrgTypeValue }) => {
   // Grab values and submitForm from context
@@ -14,6 +16,7 @@ const GetParentEntityValue = ({ setOrgTypeValue }) => {
       entity: values.orgType,
     };
     if (values.orgType) {
+      dispatch(getRlParentEntityData(params));
       // resetForm({values:{...values, parentEntity:""}})
     }
 
@@ -28,6 +31,8 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
   const [isReceiverValue, setIsReceiverValue] = useState('');
   const [categoryValue, setCategoryValue] = useState('');
   const [orgTypeValue, setOrgTypeValue] = useState('');
+  const getRlParentEntityDataState = useSelector(getRlParentEntityDataSelector);
+  console.log("getRlParentEntityDataState", getRlParentEntityDataState);
   console.log('state=>>>>>>>>>>>>>>>>>>', ediatbleData);
   console.log(orgTypeValue);
   const orgTypeData = [
@@ -40,81 +45,29 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
       label: 'BU',
     },
     {
-      value: 'Country',
-      label: 'Country',
-    },
-    {
-      value: 'Cognos',
-      label: 'Cognos',
-    },
-    {
-      value: 'SAP',
-      label: 'SAP',
-    },
-    {
-      value: 'Plant',
-      label: 'Plant',
+      value: 'Cognos Code',
+      label: 'Cognos Code',
     },
   ];
 
-  const parentEntityData = [
-    {
-      value: 'Global',
-      label: 'Global',
-    },
-    {
-      value: 'AFR',
-      label: 'AFR',
-    },
-    {
-      value: 'EUR',
-      label: 'EUR',
-    },
-    {
-      value: 'AFR - South East Africa',
-      label: 'AFR - South East Africa',
-    },
-    {
-      value: 'EUR - BNFL',
-      label: 'EUR - BNFL',
-    },
-    {
-      value: 'Mozambique',
-      label: 'Mozambique',
-    },
-    {
-      value: 'France',
-      label: 'France',
-    },
-    {
-      value: 'CE_MZ3812',
-      label: 'CE_MZ3812',
-    },
-    {
-      value: 'CE_FR0001',
-      label: 'CE_FR0001',
-    },
-    {
-      value: 'SC_Syspro_MZ',
-      label: 'SC_Syspro_MZ',
-    },
-    {
-      value: 'SC_ERP_FR11',
-      label: 'SC_ERP_FR11',
-    },
-    {
-      value: 'EUR - Service Centers',
-      label: 'EUR - Service Centers',
-    },
-  ];
+
 
   const handleSaveAdd = (value) => {
     console.log(value);
-
+    let payload= {
+      "Organization_Name" : value.Org_name,
+      "Organization_Type" : value.orgType,
+      "Parent_Entity" : value.parentEntity,
+      "Entity_Name" : value.EntityName,
+      "Valid_To" : value.validTo,
+      "Valid_From" : value.validFrom
+    }
     if (modalType === 'add') {
       console.log('ADD=>>>>>>>>>>>>>>>>>>');
+      dispatch(addOrganizationalMd(payload));
     } else {
       console.log('Edit=>>>>>>>>>>>>>>>>>>');
+      dispatch(updateOrganizationalMd(payload));
     }
   };
   let today = moment().format('YYYY-MM-DD');
@@ -125,24 +78,18 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
       <Formik
         enableReinitialize
         initialValues={{
-          orgType: ediatbleData?.Org_type ? ediatbleData?.Org_type : '',
-          parentEntity: ediatbleData?.parent_entity ? ediatbleData?.parent_entity : '',
-          isReceiver: ediatbleData?.isReceiver ? ediatbleData?.isReceiver : '',
-          isProvider: ediatbleData?.isProvider ? ediatbleData?.isProvider : '',
-          EntityName: ediatbleData?.EntityName ? ediatbleData?.EntityName : '',
-          Org_name: ediatbleData?.Org_name ? ediatbleData?.Org_name : '',
-          validFrom: ediatbleData?.Valid_from ? ediatbleData?.Valid_from : today ? today : '',
-          validTo: ediatbleData?.Valid_to ? ediatbleData?.Valid_to : validToDate ? validToDate : '',
+          orgType: ediatbleData?.Organization_Type ? ediatbleData?.Organization_Type : '',
+          parentEntity: ediatbleData?.Parent_Entity ? ediatbleData?.Parent_Entity : '',
+          EntityName: ediatbleData?.Entity_Name ? ediatbleData?.Entity_Name : '',
+          Org_name: ediatbleData?.Organization_Name ? ediatbleData?.Organization_Name : '',
+          validFrom: ediatbleData?.Valid_From ? ediatbleData?.Valid_From : today ? today : '',
+          validTo: ediatbleData?.Valid_To ? ediatbleData?.Valid_To : validToDate ? validToDate : '',
         }}
         validationSchema={Yup.object().shape({
           orgType: Yup.string().required('Organization Type is required'),
           parentEntity: Yup.string().required('Parent Entity is required'),
-          // isReceiver: Yup.string()
-          //     .required('isReceiver is required'),
-          // isProvider: Yup.string()
-          //     .required('isProvider is required'),
-          // EntityName: Yup.string()
-          //     .required('EntityName is required'),
+          EntityName: Yup.string()
+              .required('EntityName is required'),
           validFrom: Yup.string().required('Valid Date is required'),
           validTo: Yup.string().required('Valid Date is required'),
           Org_name: Yup.string().required('Organization Name is required'),
@@ -247,21 +194,32 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                     <Form.Group className="input-group mb-3">
                       <Form.Control
                         as="select"
-                        name="EntityName"
+                        name="parentEntity"
                         placeholder=""
-                        value={values.EntityName}
-                        isInvalid={Boolean(touched.EntityName && errors.EntityName)}
+                        value={values.parentEntity}
+                        isInvalid={Boolean(touched.parentEntity && errors.parentEntity)}
                         onBlur={handleBlur}
                         onChange={handleChange}
                         readOnly={false}
                         className="form-select"
                       >
                         <option value="">Select Parent Entity</option>
+                        {
+                          getRlParentEntityDataState?.data instanceof Array ? 
+                          (
+                            getRlParentEntityDataState?.data &&
+                            getRlParentEntityDataState?.data.map((data, i) => (
+                              <option value={data[0]} key={i}>
+                                {data[0]}
+                              </option>
+                            ))
+                          ) : <option value={getRlParentEntityDataState?.data}>{getRlParentEntityDataState?.data}</option>
+                        }
                       </Form.Control>
 
-                      {!!touched.EntityName && (
+                      {!!touched.parentEntity && (
                         <Form.Control.Feedback type="invalid">
-                          {errors.EntityName}
+                          {errors.parentEntity}
                         </Form.Control.Feedback>
                       )}
                     </Form.Group>
@@ -277,7 +235,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                   <div className="col-lg-7">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
-                        as="select"
+                        type="text"
                         name="EntityName"
                         placeholder=""
                         value={values.EntityName}
@@ -285,10 +243,9 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                         onBlur={handleBlur}
                         onChange={handleChange}
                         readOnly={false}
-                        className="form-select"
-                      >
-                        <option value="">Select EntityName</option>
-                      </Form.Control>
+                        className="form-control"
+                      />
+                       
 
                       {!!touched.EntityName && (
                         <Form.Control.Feedback type="invalid">
