@@ -17,6 +17,9 @@ import {
   ASSIGN_RL_BU_MASTERDATA_REQUEST,
   ASSIGN_RL_BU_MASTERDATA_SUCCESS,
   ASSIGN_RL_BU_MASTERDATA_ERROR,
+  ASSIGN_RL_FUNCTIONAL_MASTERDATA_REQUEST,
+  ASSIGN_RL_FUNCTIONAL_MASTERDATA_SUCCESS,
+  ASSIGN_RL_FUNCTIONAL_MASTERDATA_ERROR,
 } from './RLMDMReducer';
 import Swal from 'sweetalert2';
 
@@ -131,10 +134,38 @@ function* handleGet_Rl_Functional_masterdata({ payload }) {
   }
 }
 
+//Assign Functional Master data
+async function assignRlFunctionalMasterdataApi(payload) {
+  return await Axios.post('/update_functional_master_data', payload);
+}
+function* assignRlFunctionalMasterdata_Data({ payload }) {
+  try {
+    const response = yield call(assignRlFunctionalMasterdataApi, payload);
+
+    if (response.success) {
+      yield put({
+        type: ASSIGN_RL_FUNCTIONAL_MASTERDATA_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Assigned Successfully!', 'success');
+      yield call(getRlFunctionalMasterdataApi);
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ASSIGN_RL_FUNCTIONAL_MASTERDATA_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
 export default all([
   takeLatest(GET_RL_ORG_HIERARCHY_REQUEST, handleGet_Rl_org_hierarchy),
   takeLatest(GET_RL_ORG_MD_REQUEST, handleGet_Rl_org_md),
   takeLatest(GET_RL_BU_MASTERDATA_REQUEST, handleGet_Rl_Bu_masterdata),
   takeLatest(ASSIGN_RL_BU_MASTERDATA_REQUEST, assignRlBuMaster_Data),
   takeLatest(GET_RL_FUNCTIONAL_MASTERDATA_REQUEST, handleGet_Rl_Functional_masterdata),
+  takeLatest(ASSIGN_RL_FUNCTIONAL_MASTERDATA_REQUEST, assignRlFunctionalMasterdata_Data),
 ]);

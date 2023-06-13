@@ -20,6 +20,12 @@ export const GET_RL_FUNCTIONAL_MASTERDATA_REQUEST = 'GET_RL_FUNCTIONAL_MASTERDAT
 export const GET_RL_FUNCTIONAL_MASTERDATA_SUCCESS = 'GET_RL_FUNCTIONAL_MASTERDATA_SUCCESS';
 export const GET_RL_FUNCTIONAL_MASTERDATA_ERROR = 'GET_RL_FUNCTIONAL_MASTERDATA_ERROR';
 
+// =================== Assign Repp Letter Functional Master DATA ========================//
+export const ASSIGN_RL_FUNCTIONAL_MASTERDATA_REQUEST = 'ASSIGN_RL_FUNCTIONAL_MASTERDATA_REQUEST';
+export const ASSIGN_RL_FUNCTIONAL_MASTERDATA_SUCCESS = 'ASSIGN_RL_FUNCTIONAL_MASTERDATA_SUCCESS';
+export const ASSIGN_RL_FUNCTIONAL_MASTERDATA_ERROR = 'ASSIGN_RL_FUNCTIONAL_MASTERDATA_ERROR';
+// =================== Assign Repp Letter Functional Master DATA ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -32,6 +38,7 @@ const initialState = {
   rlBuMasterdata: { ...block, data: [] },
   rlAssignBuMasterdata: { ...block, data: [] },
   rlFunctionalMasterdata: { ...block, data: [] },
+  rlAssignFunctionalMasterdata: { ...block, data: [] },
 };
 
 export const RLMDMReducer = (state = initialState, { type, payload = {} }) => {
@@ -87,7 +94,7 @@ export const RLMDMReducer = (state = initialState, { type, payload = {} }) => {
         rlBuMasterdata: { ...state.rlBuMasterdata, loading: false },
       };
 
-      // MDM ASSIGN BU MD data
+    // MDM ASSIGN BU MD data
     case ASSIGN_RL_BU_MASTERDATA_REQUEST:
       return {
         ...state,
@@ -119,6 +126,27 @@ export const RLMDMReducer = (state = initialState, { type, payload = {} }) => {
       return {
         ...state,
         rlFunctionalMasterdata: { ...state.rlFunctionalMasterdata, loading: false },
+      };
+
+    // MDM ASSIGN Functional MD data
+    case ASSIGN_RL_FUNCTIONAL_MASTERDATA_REQUEST:
+      return {
+        ...state,
+        rlAssignFunctionalMasterdata: { ...state.rlAssignFunctionalMasterdata, loading: true },
+      };
+    case ASSIGN_RL_FUNCTIONAL_MASTERDATA_SUCCESS:
+      return {
+        ...state,
+        rlAssignFunctionalMasterdata: {
+          ...state.rlAssignFunctionalMasterdata,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ASSIGN_RL_FUNCTIONAL_MASTERDATA_ERROR:
+      return {
+        ...state,
+        rlAssignFunctionalMasterdata: { ...state.rlAssignFunctionalMasterdata, loading: false },
       };
 
     default:
