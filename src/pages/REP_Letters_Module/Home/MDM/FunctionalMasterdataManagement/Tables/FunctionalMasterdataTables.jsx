@@ -5,7 +5,10 @@ import { FloatRight } from 'tabler-icons-react';
 import Table2 from '../../../../../../components/UI/Table/Table2';
 import './TableStyle.scss';
 // geting data from redux
-import { getRlFunctionalMasterdataSelector } from '../../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
+import {
+  assignRlFunctionalMasterdataSelector,
+  getRlFunctionalMasterdataSelector,
+} from '../../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
 import Button from '../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import Tooltip from '@mui/material/Tooltip';
@@ -13,19 +16,36 @@ import EditIcon from '@mui/icons-material/Edit';
 import FunctionalMasterdataModal from './FunctionalMasterdataModal';
 import CustomModal from '../../../../../../components/UI/CustomModal';
 import Swal from 'sweetalert2';
+import { getRlFunctionalMasterdata } from '../../../../../../redux/REP_Letters/RLMDM/RLMDMAction';
 
 const FunctionalMasterdataTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState('');
+  const [assignTableData, setAssignTableData] = useState();
   const [editTableIndex, setEditTableIndex] = useState([]);
-  const [editTableData, setEditTableData] = useState();
+  const [showModal, setShowModal] = useState(false);
 
   const dispatch = useDispatch();
 
   const functionalMasterdataState = useSelector(getRlFunctionalMasterdataSelector);
-  console.log('functionalMasterdataState', functionalMasterdataState);
+  const assignRlFunctionalMasterdataState = useSelector(assignRlFunctionalMasterdataSelector);
+
+  // for closing POP after confirm
+  useEffect(() => {
+    setShowModal(false);
+    dispatch(getRlFunctionalMasterdata());
+  }, [assignRlFunctionalMasterdataState?.data]);
+
+  const class_to_apply = (item) => {
+    let className = '';
+    if (item.toUpperCase() === 'ACTIVE') {
+      className = 'badge badge-success';
+    }
+    if (item.toUpperCase() === 'INACTIVE') {
+      className = 'badge badge-red';
+    }
+    return className;
+  };
 
   const TABLE_COLUMNS = [
     {
@@ -35,12 +55,21 @@ const FunctionalMasterdataTable = () => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
+      size: 100,
+    },
+    {
+      accessorKey: 'BU',
+      id: 'BU',
+      header: 'BU/Org Type',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
       size: 200,
     },
     {
-      accessorKey: 'Zone_Control',
-      id: 'Zone_Control',
-      header: 'Zone_Control',
+      accessorKey: 'Functional',
+      id: 'Functional',
+      header: 'Functional',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -53,16 +82,68 @@ const FunctionalMasterdataTable = () => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 90,
+      size: 100,
     },
     {
-      accessorKey: 'BU',
-      id: 'BU',
-      header: 'BU',
+      accessorKey: 'Recipient',
+      id: 'Recipient',
+      header: 'Recipient',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 230,
+    },
+    {
+      accessorKey: 'Recipient_Status',
+      id: 'Recipient_Status',
+      header: 'Recipient Status',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 150,
+      Cell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.original.Recipient_Status)}>
+            {row.row.original.Recipient_Status === '' ? 'N/A' : row.row.original.Recipient_Status}
+          </span>
+        );
+      },
+    },
+    {
+      accessorKey: 'Title_Position',
+      id: 'Title_Position',
+      header: 'Title/Position',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 230,
+    },
+    {
+      accessorKey: 'Zone_Control',
+      id: 'Zone_Control',
+      header: 'Zone Control',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 230,
+    },
+    {
+      accessorKey: 'Zone_Control_Status',
+      id: 'Zone_Control_Status',
+      header: 'Zone Control Status',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 150,
+      Cell: (row) => {
+        return (
+          <span className={class_to_apply(row.row.original.Zone_Control_Status)}>
+            {row.row.original.Zone_Control_Status === ''
+              ? 'N/A'
+              : row.row.original.Zone_Control_Status}
+          </span>
+        );
+      },
     },
   ];
 
@@ -78,41 +159,20 @@ const FunctionalMasterdataTable = () => {
     );
   }, [functionalMasterdataState.data]);
 
-  const ActiveTool = ({ number, text }) => (
-    <Tooltip title={text} placement="bottom-start">
-      <ControlPointRoundedIcon color="black" />
-    </Tooltip>
-  );
-  const ActiveToolADD = ({ text }) => (
+  const ActiveToolAssign = ({ number, text }) => (
     <Tooltip title={text} placement="bottom-start">
       <ControlPointRoundedIcon color="black" />
     </Tooltip>
   );
 
-  const ActiveToolEdit = ({ text }) => (
-    <Tooltip title={text} placement="bottom-start">
-      <EditIcon color="black" />
-    </Tooltip>
-  );
-
-  const handleOnclickEdit = () => {
-    console.log(editTableData);
-    if (editTableIndex.length === 0) {
-      Swal.fire('Oops...', 'You need to select in table in order to edit', 'error');
-    }
-    if (editTableIndex.length > 1) {
-      Swal.fire('Oops...', 'You can only allow one Organization to edit at a time', 'error');
-    } else if (editTableIndex.length === 1) {
-      console.log(editTableIndex, 'edit Table Index');
-      setEditTableData(tableData.find((data, i) => data.id === editTableIndex[0]));
-      console.log(editTableData, 'edit Table Data');
+  const handleOnclickAssign = () => {
+    // Assign code
+    if (editTableIndex.length == 0) {
+      Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
+    } else if (editTableIndex.length >= 1) {
+      setAssignTableData(tableData.filter((data, i) => editTableIndex.includes(data.id)));
       setShowModal(true);
-      setModalType('edit');
     }
-  };
-  const handleOnclickAdd = () => {
-    setShowModal(true);
-    setModalType('add');
   };
 
   return (
@@ -131,20 +191,11 @@ const FunctionalMasterdataTable = () => {
                   <Button
                     variant="outlined"
                     size="small"
-                    startIcon={<ActiveToolEdit text="Free Text" />}
-                    className="edit-button-mdm-table"
-                    onClick={handleOnclickEdit}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ActiveToolADD text="Free Text" />}
+                    startIcon={<ActiveToolAssign text="Free Text" />}
                     className="add-button-mdm-table"
-                    onClick={handleOnclickAdd}
+                    onClick={handleOnclickAssign}
                   >
-                    Add New
+                    Assign
                   </Button>
                 </div>
               </div>
@@ -163,15 +214,10 @@ const FunctionalMasterdataTable = () => {
         open={showModal}
         onClose={() => setShowModal(false)}
         width={900}
-        title={modalType === 'add' ? 'Add Functional Masterdata' : 'Edit Functional Masterdata'}
+        title="Assign Functional Master Data"
         bodyClassName="p-0"
       >
-        <FunctionalMasterdataModal
-          setShowModal={setShowModal}
-          ediatbleData={editTableData}
-          setEditTableData={setEditTableData}
-          modalType={modalType}
-        />
+        <FunctionalMasterdataModal setShowModal={setShowModal} assignTableData={assignTableData} />
       </CustomModal>
     </>
   );

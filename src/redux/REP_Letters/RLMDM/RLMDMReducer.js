@@ -46,6 +46,11 @@ export const ACTION_UPDATE_ORGANIZATIONAL_MD_DATA_FAILED =
   'ACTION_UPDATE_ORGANIZATIONAL_MD_DATA_FAILED';
 
 // =================== UPDATE Organisational MD ========================//
+// =================== Assign Repp Letter Functional Master DATA ========================//
+export const ASSIGN_RL_FUNCTIONAL_MASTERDATA_REQUEST = 'ASSIGN_RL_FUNCTIONAL_MASTERDATA_REQUEST';
+export const ASSIGN_RL_FUNCTIONAL_MASTERDATA_SUCCESS = 'ASSIGN_RL_FUNCTIONAL_MASTERDATA_SUCCESS';
+export const ASSIGN_RL_FUNCTIONAL_MASTERDATA_ERROR = 'ASSIGN_RL_FUNCTIONAL_MASTERDATA_ERROR';
+// =================== Assign Repp Letter Functional Master DATA ========================//
 
 const block = {
   loading: false,
@@ -62,6 +67,7 @@ const initialState = {
   getRlParentEntityData: { ...block, data: [] },
   addOrganizationalMd: { ...block, data: [] },
   updateOrganizationalMd: { ...block, data: [] },
+  rlAssignFunctionalMasterdata: { ...block, data: [] },
 };
 
 export const RLMDMReducer = (state = initialState, { type, payload = {} }) => {
@@ -169,7 +175,7 @@ export const RLMDMReducer = (state = initialState, { type, payload = {} }) => {
           loading: false,
         },
       };
-    case ACTION_GET_RL_PARENT_ENTITY_DATA_FAILED:
+      case ACTION_GET_RL_PARENT_ENTITY_DATA_FAILED:
       return {
         ...state,
         getRlParentEntityData: {
@@ -177,6 +183,28 @@ export const RLMDMReducer = (state = initialState, { type, payload = {} }) => {
           loading: false,
         },
       };
+      
+    // MDM ASSIGN Functional MD data
+    case ASSIGN_RL_FUNCTIONAL_MASTERDATA_REQUEST:
+      return {
+        ...state,
+        rlAssignFunctionalMasterdata: { ...state.rlAssignFunctionalMasterdata, loading: true },
+      };
+    case ASSIGN_RL_FUNCTIONAL_MASTERDATA_SUCCESS:
+      return {
+        ...state,
+        rlAssignFunctionalMasterdata: {
+          ...state.rlAssignFunctionalMasterdata,
+          data: payload,
+          loading: false,
+        },
+      };
+      case ASSIGN_RL_FUNCTIONAL_MASTERDATA_ERROR:
+      return {
+        ...state,
+        rlAssignFunctionalMasterdata: { ...state.rlAssignFunctionalMasterdata, loading: false },
+      };
+    
 
     // Add Organizational MD
     case ACTION_ADD_ORGANIZATIONAL_MD_DATA:
@@ -230,7 +258,8 @@ export const RLMDMReducer = (state = initialState, { type, payload = {} }) => {
           ...state.updateOrganizationalMd,
           loading: false,
         },
-      };
+    }
+    
 
     default:
       return state;

@@ -7,6 +7,7 @@ import {
   ACTION_GET_RL_PARENT_ENTITY_DATA,
   ACTION_ADD_ORGANIZATIONAL_MD_DATA,
   ACTION_UPDATE_ORGANIZATIONAL_MD_DATA,
+  ASSIGN_RL_FUNCTIONAL_MASTERDATA_REQUEST
 } from './RLMDMReducer';
 
 export const getRlOrgHierarchy = (payload) => ({ type: GET_RL_ORG_HIERARCHY_REQUEST, payload });
@@ -30,5 +31,10 @@ export const addOrganizationalMd = (payload) => ({
 });
 export const updateOrganizationalMd = (payload) => ({
   type: ACTION_UPDATE_ORGANIZATIONAL_MD_DATA,
+  payload,
+});
+
+export const assignRlFunctionalMasterdata = (payload) => ({
+  type: ASSIGN_RL_FUNCTIONAL_MASTERDATA_REQUEST,
   payload,
 });

@@ -201,10 +201,10 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                 <div className="row">
                   <div className="col-lg-6">
                     <div className="row mb-4">
-                      <div className="col-lg-5">
+                      <div className="col-lg-4">
                         <Form.Label>Applicability:</Form.Label>
                       </div>
-                      <div className="col-lg-7">
+                      <div className="col-lg-8">
                         <Form.Group className="input-group mb-3">
                           <Form.Control
                             as="select"
@@ -279,7 +279,9 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                             )}
                           </div>
                         </div>
+                      </div>
 
+                      <div className="col-lg-6">
                         <div className="row mb-4">
                           <div className="col-lg-4">
                             <Form.Label>Finance Director:</Form.Label>
@@ -324,7 +326,9 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                             )}
                           </div>
                         </div>
+                      </div>
 
+                      <div className="col-lg-6">
                         <div className="row mb-4">
                           <div className="col-lg-4">
                             <Form.Label>BU Head:</Form.Label>
@@ -367,7 +371,8 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                             )}
                           </div>
                         </div>
-
+                      </div>
+                      <div className="col-lg-6">
                         <div className="row mb-4">
                           <div className="col-lg-4">
                             <Form.Label>Zone Control:</Form.Label>
@@ -410,7 +415,8 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                             )}
                           </div>
                         </div>
-
+                      </div>
+                      <div className="col-lg-6">
                         <div className="row mb-4">
                           <div className="col-lg-4">
                             <Form.Label>Zone VP:</Form.Label>

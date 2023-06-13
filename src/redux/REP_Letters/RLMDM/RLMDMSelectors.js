@@ -6,3 +6,5 @@ export const getRlFunctionalMasterdataSelector = (state) => state?.rlMdm?.rlFunc
 export const getRlParentEntityDataSelector = (state) => state?.rlMdm?.getRlParentEntityData;
 export const addOrganizationalMdDataSelector = (state) => state?.rlMdm?.addOrganizationalMd;
 export const updateOrganizationalMdDataSelector = (state) => state?.rlMdm?.updateOrganizationalMd;
+export const assignRlFunctionalMasterdataSelector = (state) =>
+  state?.rlMdm?.rlAssignFunctionalMasterdata;
