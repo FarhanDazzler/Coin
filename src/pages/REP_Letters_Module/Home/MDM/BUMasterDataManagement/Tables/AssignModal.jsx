@@ -150,6 +150,26 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
           }
           validationSchema={Yup.object().shape({
             Applicability: Yup.string().required('Applicability is required'),
+            Disclosure_Processor: Yup.string().when('Applicability', {
+              is: 'Yes',
+              then: Yup.string().required('Disclosure Processor Email is required'),
+            }),
+            Finance_Director: Yup.string().when('Applicability', {
+              is: 'Yes',
+              then: Yup.string().required('Finance Director Email is required'),
+            }),
+            BU_Head: Yup.string().when('Applicability', {
+              is: 'Yes',
+              then: Yup.string().required('BU Head Email is required'),
+            }),
+            Zone_Control: Yup.string().when('Applicability', {
+              is: 'Yes',
+              then: Yup.string().required('Zone Control Email is required'),
+            }),
+            Zone_VP: Yup.string().when('Applicability', {
+              is: 'Yes',
+              then: Yup.string().required('Zone VP Email is required'),
+            }),
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {

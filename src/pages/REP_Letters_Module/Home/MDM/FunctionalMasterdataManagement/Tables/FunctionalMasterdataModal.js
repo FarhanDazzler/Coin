@@ -113,6 +113,14 @@ const FunctionalMasterdataModal = ({ setShowModal, assignTableData }) => {
           }
           validationSchema={Yup.object().shape({
             Applicability: Yup.string().required('Applicability is required'),
+            Recipient: Yup.string().when('Applicability', {
+              is: 'Yes',
+              then: Yup.string().required('Recipient Email is required'),
+            }),
+            Zone_Control: Yup.string().when('Applicability', {
+              is: 'Yes',
+              then: Yup.string().required('Zone Control Email is required'),
+            }),
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {
