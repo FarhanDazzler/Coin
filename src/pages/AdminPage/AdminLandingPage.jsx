@@ -56,57 +56,63 @@ const AdminLandingPage = () => {
                 Panel to manage individuals for both new and existing roles with the flexibility to
                 add, delete, edit, and seamlessly rearrange them in a convenient manner.
               </p>
-              <Divider
-                style={{ paddingBottom: '24px' }}
-                className="divider"
-                size="md"
-                my="xs"
-                labelPosition="center"
-                label={
-                  <>
-                    <SupervisorAccountIcon size={16} />
-                    <Box ml={5}>
-                      <Form.Label>Assessment Module:</Form.Label>
-                    </Box>
-                  </>
-                }
-              />
-
-              <div style={{ display: 'flex' }}>
-                <div className="col-lg-12">
-                  <AdminBox
-                    title="Assessment Module"
-                    description="Add or Modify individuals for both roles ( Zone Internal control & Global Internal Control ) for Assessment Module."
-                    url="/admin-panel/sa"
+              {localStorage.getItem('selected_module_Role') == 'Assessment Module' ? (
+                <>
+                  <Divider
+                    style={{ paddingBottom: '24px' }}
+                    className="divider"
+                    size="md"
+                    my="xs"
+                    labelPosition="center"
+                    label={
+                      <>
+                        <SupervisorAccountIcon size={16} />
+                        <Box ml={5}>
+                          <Form.Label>Assessment Module:</Form.Label>
+                        </Box>
+                      </>
+                    }
                   />
-                </div>
-              </div>
 
-              <Divider
-                style={{ paddingBottom: '24px' }}
-                className="divider"
-                size="md"
-                my="xs"
-                labelPosition="center"
-                label={
-                  <>
-                    <SupervisorAccountIcon size={16} />
-                    <Box ml={5}>
-                      <Form.Label>Representation Letter Module:</Form.Label>
-                    </Box>
-                  </>
-                }
-              />
-
-              <div style={{ display: 'flex' }}>
-                <div className="col-lg-12">
-                  <AdminBox
-                    title="Representation Letter Module"
-                    description="Add or Modify individuals for both ( Business Unit and Functional ) Representation Letter Modules."
-                    url="/admin-panel/rl"
+                  <div style={{ display: 'flex' }}>
+                    <div className="col-lg-12">
+                      <AdminBox
+                        title="Assessment Module"
+                        description="Add or Modify individuals for both roles ( Zone Internal control & Global Internal Control ) for Assessment Module."
+                        url="/admin-panel/sa"
+                      />
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Divider
+                    style={{ paddingBottom: '24px' }}
+                    className="divider"
+                    size="md"
+                    my="xs"
+                    labelPosition="center"
+                    label={
+                      <>
+                        <SupervisorAccountIcon size={16} />
+                        <Box ml={5}>
+                          <Form.Label>Representation Letter Module:</Form.Label>
+                        </Box>
+                      </>
+                    }
                   />
-                </div>
-              </div>
+
+                  <div style={{ display: 'flex' }}>
+                    <div className="col-lg-12">
+                      <AdminBox
+                        title="Representation Letter Module"
+                        description="Add or Modify individuals for both ( Business Unit and Functional ) Representation Letter Modules."
+                        url="/admin-panel/rl"
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

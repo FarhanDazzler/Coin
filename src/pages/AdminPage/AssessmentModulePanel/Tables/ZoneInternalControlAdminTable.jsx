@@ -100,6 +100,18 @@ const ZoneInternalControlAdminTable = () => {
 
   const TABLE_COLUMNS = [
     {
+      accessorKey: 'Role',
+      id: 'Role',
+      header: 'Role',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 100,
+      Cell: (row) => {
+        return <span className="golden-text">Zonal Internal Control</span>;
+      },
+    },
+    {
       accessorKey: 'zone_id',
       id: 'zone_id',
       header: 'Zone',
