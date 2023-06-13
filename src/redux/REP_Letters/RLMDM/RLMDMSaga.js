@@ -17,6 +17,15 @@ import {
   ASSIGN_RL_BU_MASTERDATA_REQUEST,
   ASSIGN_RL_BU_MASTERDATA_SUCCESS,
   ASSIGN_RL_BU_MASTERDATA_ERROR,
+  ACTION_GET_RL_PARENT_ENTITY_DATA,
+  ACTION_GET_RL_PARENT_ENTITY_DATA_FAILED,
+  ACTION_GET_RL_PARENT_ENTITY_DATA_SUCCESS,
+  ACTION_ADD_ORGANIZATIONAL_MD_DATA,
+  ACTION_ADD_ORGANIZATIONAL_MD_DATA_FAILED,
+  ACTION_ADD_ORGANIZATIONAL_MD_DATA_SUCCESS,
+  ACTION_UPDATE_ORGANIZATIONAL_MD_DATA,
+  ACTION_UPDATE_ORGANIZATIONAL_MD_DATA_FAILED,
+  ACTION_UPDATE_ORGANIZATIONAL_MD_DATA_SUCCESS
 } from './RLMDMReducer';
 import Swal from 'sweetalert2';
 
@@ -131,10 +140,92 @@ function* handleGet_Rl_Functional_masterdata({ payload }) {
   }
 }
 
+// Get Parent Entity
+async function getRlParentEntityApi(params) {
+  return await Axios.get('/get_parent_entity_rep', { params });
+}
+function* getRlParentEntityData({ payload }) {
+  try {
+    const response = yield call(getRlParentEntityApi, payload);
+    if (response.success) {
+      yield put({
+        type: ACTION_GET_RL_PARENT_ENTITY_DATA_SUCCESS,
+        payload: response.data,
+      });
+    } else {
+    }
+  } catch (error) {
+    yield put({
+      type: ACTION_GET_RL_PARENT_ENTITY_DATA_FAILED,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+// Add Organizational MD
+async function addOrganizationalMDApi(payload) {
+    console.log("addOrganizationalMDApi", addOrganizationalMDApi);
+  return await Axios.post('/add_organizational_md', payload);
+}
+function* addOrganizationalMDApiData({ payload }) {
+  try {
+    const response = yield call(addOrganizationalMDApi, payload);
+    if (response.success) {
+      yield put({
+        type: ACTION_ADD_ORGANIZATIONAL_MD_DATA_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', response?.data[0], 'success');
+    } else {
+        Swal.fire('Oops!', "Somthing Went Wrong", 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ACTION_ADD_ORGANIZATIONAL_MD_DATA_FAILED,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops!', "Somthing Went Wrong", 'error');
+  }
+}
+
+// Update Organizational MD
+async function updateOrganizationalMDApi(payload) {
+  return await Axios.post('/update_organizational_md', payload);
+}
+function* updateOrganizationalMDApiData({ payload }) {
+  try {
+    const response = yield call(updateOrganizationalMDApi, payload);
+    if (response.success) {
+      yield put({
+        type: ACTION_UPDATE_ORGANIZATIONAL_MD_DATA_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', response?.data[0], 'success');
+    } else {
+        Swal.fire('Oops!', "Somthing Went Wrong", 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ACTION_UPDATE_ORGANIZATIONAL_MD_DATA_FAILED,
+      // error: getSimplifiedError(error),
+    });
+    console.log(error.response);
+    if(error?.response?.data?.data?.message){
+        Swal.fire('Oops!', error?.response?.data?.data?.message, 'error');
+    }else{
+        Swal.fire('Oops!', "Somthing Went Wrong", 'error');
+    }
+    
+  }
+}
+
 export default all([
   takeLatest(GET_RL_ORG_HIERARCHY_REQUEST, handleGet_Rl_org_hierarchy),
   takeLatest(GET_RL_ORG_MD_REQUEST, handleGet_Rl_org_md),
   takeLatest(GET_RL_BU_MASTERDATA_REQUEST, handleGet_Rl_Bu_masterdata),
   takeLatest(ASSIGN_RL_BU_MASTERDATA_REQUEST, assignRlBuMaster_Data),
   takeLatest(GET_RL_FUNCTIONAL_MASTERDATA_REQUEST, handleGet_Rl_Functional_masterdata),
+  takeLatest(ACTION_GET_RL_PARENT_ENTITY_DATA, getRlParentEntityData),
+  takeLatest(ACTION_ADD_ORGANIZATIONAL_MD_DATA, addOrganizationalMDApiData),
+  takeLatest(ACTION_UPDATE_ORGANIZATIONAL_MD_DATA, updateOrganizationalMDApiData),
 ]);
