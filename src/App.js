@@ -86,10 +86,14 @@ const Pages = () => {
   const [userToken, setUserToken] = useState('');
   const role = loginRole ?? userRole;
   const isControlPage = () => {
-   return ['Control owner', 'Control oversight','control_owner','control_oversight']?.includes(userRole)||false
+    return (
+      ['Control owner', 'Control oversight', 'control_owner', 'control_oversight']?.includes(
+        userRole,
+      ) || false
+    );
   };
   // eslint-disable-next-line no-unused-vars
-  const isAssessmentsPage = ["Assessment Module"].includes(module)
+  const isAssessmentsPage = ['Assessment Module'].includes(module);
   const getUserData = () => {
     axios
       .get(
@@ -180,8 +184,7 @@ const Pages = () => {
     <div className="page">
       <ToastContainer autoClose={15000} />
       <div className="flex-fill">
-        {!['/login'].includes(location?.pathname) &&
-         <TopBar isControlPage={isControlPage()} />}
+        {!['/login'].includes(location?.pathname) && <TopBar isControlPage={isControlPage()} />}
         {/* <Home /> */}
         <Switch>
           <Route
@@ -191,14 +194,13 @@ const Pages = () => {
             }}
           />
 
-       {!isAssessmentsPage?
-       <Route exact path="/" component={REP_Letters_HomePage} />   :
-       isControlPage() ? (
+          {!isAssessmentsPage ? (
+            <Route exact path="/" component={REP_Letters_HomePage} />
+          ) : isControlPage() ? (
             <Route exact path="/" component={ControlHomePage} />
           ) : (
             <Route exact path="/" component={InternalControlHomePage} />
           )}
-          
 
           <Route exact path="/question-bank" component={QuestionBank} />
 

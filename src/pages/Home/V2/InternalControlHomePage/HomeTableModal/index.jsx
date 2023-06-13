@@ -23,6 +23,7 @@ import Swal from 'sweetalert2';
 import RenderHomeModalTable from './RenderHomeModalTable';
 import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAction';
 import CustomModal from '../../../../../components/UI/CustomModal';
+import blockType from '../../../../../components/RenderBlock/constant';
 
 const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
@@ -177,6 +178,30 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     }
   }, [responseData.data]);
 
+  const getIsFaildValueSelect = () => {
+    let isFail = false;
+    ansSection1.forEach((ans) => {
+      switch (true) {
+        case ans.question_type === blockType.EMAIL_WIDTH_SELECT:
+        case ans.question_type === blockType.IS_AD:
+        case ans.question_type === blockType.TEXT:
+          ans.options.forEach((d) => {
+            if (d.is_Failing === 1) isFail = true;
+          });
+          break;
+        case ans.question_type === blockType.RADIO:
+        case ans.question_type === blockType.DROPDOWN:
+          ans.question_options.forEach((d) => {
+            if (d.is_Failing === 1) isFail = true;
+          });
+          break;
+        default:
+          break;
+      }
+    });
+    return isFail;
+  };
+
   const handleSubmit = () => {
     Swal.fire({
       title: 'Do you want Submit assessment',
@@ -201,9 +226,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       if (result.isConfirmed) {
         setLoading(true);
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
-        const s1FailObj = ansSection1.find((ans) =>
-          ['Text With Select', 'Free Text', 'Dropdown'].includes(ans.question_type),
-        );
+        const s1FailObj = getIsFaildValueSelect();
         const isupdated = ansSection1.find((i) => i.label === 'To whom did you hand over?');
         const payload = {
           Assessment_ID: activeData.id,

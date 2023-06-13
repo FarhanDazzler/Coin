@@ -8,6 +8,11 @@
   width: 100%;
   justify-content: space-between;
 
+  .radio-label {
+    label {
+      margin-bottom: 0.5rem;
+    }
+  }
   .questions-number {
     background: #363636;
     border-radius: 2px;

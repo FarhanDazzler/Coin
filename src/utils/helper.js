@@ -8,10 +8,10 @@ export const validateEmail = (email) => {
 export const getFormatQuestions = (questions, action, startStr, handOverUser) => {
   const isQuestionLabelEdit = action === 'isQuestionEdit';
   return questions.map((d, i) => {
-    if (handOverUser && d.q_id === 2) {
+    if (handOverUser && d.is_AD) {
       return {
         ...d,
-        question_type: blockType.EMAIL_WIDTH_SELECT,
+        question_type: blockType.IS_AD,
         label: d.question_text,
         required: true,
         isQuestionLabelEdit,

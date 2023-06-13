@@ -106,6 +106,18 @@ const GlobalInternalControlAdminTable = () => {
     //   size: 90,
     // },
     {
+      accessorKey: 'Role',
+      id: 'Role',
+      header: 'Role',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 100,
+      Cell: (row) => {
+        return <span className="golden-text">Global Internal Control</span>;
+      },
+    },
+    {
       accessorKey: 'gic_email',
       id: 'gic_email',
       header: 'Email',
