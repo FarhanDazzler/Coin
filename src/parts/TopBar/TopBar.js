@@ -227,7 +227,7 @@ const TopBar = (props) => {
               </li>
             }
 
-            {
+            {localStorage.getItem('selected_Role') == 'Global internal control' && (
               <li className="nav-item">
                 <a
                   className={`navbar-link ${
@@ -241,7 +241,7 @@ const TopBar = (props) => {
                   &nbsp;{'Admin Panel'}
                 </a>
               </li>
-            }
+            )}
           </>
         )}
       </ul>

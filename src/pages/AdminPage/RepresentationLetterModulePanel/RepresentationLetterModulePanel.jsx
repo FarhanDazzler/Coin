@@ -20,8 +20,11 @@ const RepresentationLetterModulePanel = () => {
       <div className="container">
         <div className="row">
           <div className="col-12 mt-5">
-            <BU_AdminTable />
-            <Functional_AdminTable />
+            {localStorage.getItem('selected_module_Role') == 'BU' ? (
+              <BU_AdminTable />
+            ) : (
+              <Functional_AdminTable />
+            )}
           </div>
         </div>
       </div>
