@@ -118,7 +118,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
 
       dispatch(
         getAssessmentSection2Ans({
-          MICS_code: activeData.id || Control_ID,
+          MICS_code: activeData.Control_ID || Control_ID,
           Entity_ID: activeData.Provider,
           KPI_From: activeData.KPI_From || '',
           KPI_To: activeData.KPI_To || '',

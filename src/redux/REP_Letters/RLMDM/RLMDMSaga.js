@@ -205,7 +205,7 @@ function* updateOrganizationalMDApiData({ payload }) {
         type: ACTION_UPDATE_ORGANIZATIONAL_MD_DATA_SUCCESS,
         payload: response.data,
       });
-      Swal.fire('Done!', response?.data[0], 'success');
+      Swal.fire('Done!', response?.data?.message, 'success');
       yield call(getRlOrgHierarchyApi);
       yield call(getRlOrgMdApi);
     } else {
