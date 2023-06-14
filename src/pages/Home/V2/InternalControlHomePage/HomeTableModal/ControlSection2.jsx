@@ -11,19 +11,16 @@ import { kpiResultSelector } from '../../../../../redux/Assessments/AssessmentSe
 import { getCsvTampredDataAction } from '../../../../../redux/CsvTampred/CsvTampredAction';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 
-
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
 const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
-  console.log("isModal=====>>>>", isModal);
+  console.log('isModal=====>>>>', isModal);
   let headerStyles;
-    if(isModal){
-      console.log("Hi buddy");
-      headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
-    }else{
-      console.log("hey buddy");
-      headerStyles = { color: '#fff', fontWeight: '700', backgroundColor: '#000' };
-    }
- 
+  if (isModal) {
+    headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
+  } else {
+    headerStyles = { color: '#fff', fontWeight: '700', backgroundColor: '#000' };
+  }
+
   const kpiResultData = useSelector(kpiResultSelector);
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();
@@ -548,15 +545,20 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
               </div>
               <h1 className="table-modal-title">Excel File Upload & Download</h1>
             </div>
-
-            <form onSubmit={handleSubmit} id="combine_btn">
-              <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
-              <button type="submit" className="submit_btn black-text">
-                <strong>Submit</strong>
-              </button>
-            </form>
+            {!isModal && (
+              <form onSubmit={handleSubmit} id="combine_btn">
+                <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
+                <button type="submit" className="submit_btn black-text">
+                  <strong>Submit</strong>
+                </button>
+              </form>
+            )}
           </div>
-          <div className={`renderBlockWrapper section2-table ${isModal ? "section2-table-ismodal" : "section2-table-notmodal"}`}>
+          <div
+            className={`renderBlockWrapper section2-table ${
+              isModal ? 'section2-table-ismodal' : 'section2-table-notmodal'
+            }`}
+          >
             <BootstrapTable
               keyField="id"
               // cellEdit={ cellEditProp }

@@ -29,6 +29,18 @@ import {
   ASSIGN_RL_FUNCTIONAL_MASTERDATA_REQUEST,
   ASSIGN_RL_FUNCTIONAL_MASTERDATA_SUCCESS,
   ASSIGN_RL_FUNCTIONAL_MASTERDATA_ERROR,
+  GET_RL_ZONE_REQUEST,
+  GET_RL_ZONE_SUCCESS,
+  GET_RL_ZONE_ERROR,
+  GET_RL_BU_FROM_ZONE_REQUEST,
+  GET_RL_BU_FROM_ZONE_SUCCESS,
+  GET_RL_BU_FROM_ZONE_ERROR,
+  GET_RL_FUNCTIONS_REQUEST,
+  GET_RL_FUNCTIONS_SUCCESS,
+  GET_RL_FUNCTIONS_ERROR,
+  ADD_RL_FUNCTIONAL_MASTERDATA_REQUEST,
+  ADD_RL_FUNCTIONAL_MASTERDATA_SUCCESS,
+  ADD_RL_FUNCTIONAL_MASTERDATA_ERROR,
 } from './RLMDMReducer';
 import Swal from 'sweetalert2';
 
@@ -205,7 +217,7 @@ function* updateOrganizationalMDApiData({ payload }) {
         type: ACTION_UPDATE_ORGANIZATIONAL_MD_DATA_SUCCESS,
         payload: response.data,
       });
-      Swal.fire('Done!', response?.data[0], 'success');
+      Swal.fire('Done!', response?.data?.message, 'success');
       yield call(getRlOrgHierarchyApi);
       yield call(getRlOrgMdApi);
     } else {
@@ -224,6 +236,7 @@ function* updateOrganizationalMDApiData({ payload }) {
     }
   }
 }
+
 //Assign Functional Master data
 async function assignRlFunctionalMasterdataApi(payload) {
   return await Axios.post('/update_functional_master_data', payload);
@@ -251,6 +264,96 @@ function* assignRlFunctionalMasterdata_Data({ payload }) {
   }
 }
 
+// Get RL Zone
+async function get_rep_zonesApi(params) {
+  return await Axios.get('/get_rep_zones', { params });
+}
+function* handle_get_rep_zones({ payload }) {
+  try {
+    const response = yield call(get_rep_zonesApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_RL_ZONE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_RL_ZONE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+// Get RL BU From Zone
+async function get_rep_bu_form_zoneApi(params) {
+  return await Axios.post('/get_rep_bu', params);
+}
+function* get_rep_bu_form_zoneData({ payload }) {
+  try {
+    const response = yield call(get_rep_bu_form_zoneApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_RL_BU_FROM_ZONE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_RL_BU_FROM_ZONE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+// Get RL Functions
+async function get_rep_functionsApi(params) {
+  return await Axios.get('/get_rep_functions', { params });
+}
+function* handle_get_rep_functions({ payload }) {
+  try {
+    const response = yield call(get_rep_functionsApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_RL_FUNCTIONS_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_RL_FUNCTIONS_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+//Add Functional Master data
+async function addRlFunctionalMasterdataApi(payload) {
+  return await Axios.post('/add_new_functional_master_data', payload);
+}
+function* addRlFunctionalMasterdata_Data({ payload }) {
+  try {
+    const response = yield call(addRlFunctionalMasterdataApi, payload);
+
+    if (response.success) {
+      yield put({
+        type: ADD_RL_FUNCTIONAL_MASTERDATA_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Added Successfully!', 'success');
+      yield call(getRlFunctionalMasterdataApi);
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_RL_FUNCTIONAL_MASTERDATA_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
 export default all([
   takeLatest(GET_RL_ORG_HIERARCHY_REQUEST, handleGet_Rl_org_hierarchy),
   takeLatest(GET_RL_ORG_MD_REQUEST, handleGet_Rl_org_md),
@@ -261,4 +364,8 @@ export default all([
   takeLatest(ACTION_ADD_ORGANIZATIONAL_MD_DATA, addOrganizationalMDApiData),
   takeLatest(ACTION_UPDATE_ORGANIZATIONAL_MD_DATA, updateOrganizationalMDApiData),
   takeLatest(ASSIGN_RL_FUNCTIONAL_MASTERDATA_REQUEST, assignRlFunctionalMasterdata_Data),
+  takeLatest(GET_RL_ZONE_REQUEST, handle_get_rep_zones),
+  takeLatest(GET_RL_BU_FROM_ZONE_REQUEST, get_rep_bu_form_zoneData),
+  takeLatest(GET_RL_FUNCTIONS_REQUEST, handle_get_rep_functions),
+  takeLatest(ADD_RL_FUNCTIONAL_MASTERDATA_REQUEST, addRlFunctionalMasterdata_Data),
 ]);

@@ -269,7 +269,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                 setFieldValue,
               }) => (
                 <Form onSubmit={handleSubmit}>
-                  <div className="row">
+                  <div id="mics-inputPage" className="row">
                     {modalType === 'edit' && (
                       <div className="col-lg-6">
                         <div className="row mb-4">
@@ -1077,21 +1077,32 @@ const AddValues_MDM_Mics_Framework = (props) => {
                           setFieldValue={(val) => setFieldValue('mics_L1desc', val)}
                           value={values.mics_L1desc}
                         />
-                        {values.mics_L1desc.length > 5000 && <span className='error'>Mics L1 Desc not allowed more than 5000 characters</span>}
-                        
-                       
+                        {values.mics_L1desc.length > 5000 && (
+                          <span className="error">
+                            Mics L1 Desc not allowed more than 5000 characters
+                          </span>
+                        )}
+
                         <Form.Label className="mt-8">MICS L2 Description</Form.Label>
                         <TextEditor
                           setFieldValue={(val) => setFieldValue('mics_L2desc', val)}
                           value={values.mics_L2desc}
                         />
-                        {values.mics_L2desc.length > 5000 && <span className='error'>Mics L2 Desc not allowed more than 5000 characters</span>}
+                        {values.mics_L2desc.length > 5000 && (
+                          <span className="error">
+                            Mics L2 Desc not allowed more than 5000 characters
+                          </span>
+                        )}
                         <Form.Label className="mt-8">MICS L3 Description</Form.Label>
                         <TextEditor
                           setFieldValue={(val) => setFieldValue('mics_L3desc', val)}
                           value={values.mics_L3desc}
                         />
-                        {values.mics_L3desc.length > 5000 && <span className='error'>Mics L3 Desc not allowed more than 5000 characters</span>}
+                        {values.mics_L3desc.length > 5000 && (
+                          <span className="error">
+                            Mics L3 Desc not allowed more than 5000 characters
+                          </span>
+                        )}
                       </div>
                     </div>
 

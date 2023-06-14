@@ -6,6 +6,7 @@ import Table2 from '../../../../../../components/UI/Table/Table2';
 import './TableStyle.scss';
 // geting data from redux
 import {
+  addRlFunctionalMasterdataSelector,
   assignRlFunctionalMasterdataSelector,
   getRlFunctionalMasterdataSelector,
 } from '../../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
@@ -17,6 +18,7 @@ import FunctionalMasterdataModal from './FunctionalMasterdataModal';
 import CustomModal from '../../../../../../components/UI/CustomModal';
 import Swal from 'sweetalert2';
 import { getRlFunctionalMasterdata } from '../../../../../../redux/REP_Letters/RLMDM/RLMDMAction';
+import AddFunctionalMasterdataModal from './AddFunctionalMasterdataModal';
 
 const FunctionalMasterdataTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -24,17 +26,19 @@ const FunctionalMasterdataTable = () => {
   const [assignTableData, setAssignTableData] = useState();
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [modal, setModel] = useState();
 
   const dispatch = useDispatch();
 
   const functionalMasterdataState = useSelector(getRlFunctionalMasterdataSelector);
   const assignRlFunctionalMasterdataState = useSelector(assignRlFunctionalMasterdataSelector);
+  const addRlFunctionalMasterdataSelectorState = useSelector(addRlFunctionalMasterdataSelector);
 
   // for closing POP after confirm
   useEffect(() => {
     setShowModal(false);
     dispatch(getRlFunctionalMasterdata());
-  }, [assignRlFunctionalMasterdataState?.data]);
+  }, [assignRlFunctionalMasterdataState?.data, addRlFunctionalMasterdataSelectorState?.data]);
 
   const class_to_apply = (item) => {
     let className = '';
@@ -165,12 +169,18 @@ const FunctionalMasterdataTable = () => {
     </Tooltip>
   );
 
+  const handleOnclickAdd = () => {
+    setModel('add');
+    setShowModal(true);
+  };
+
   const handleOnclickAssign = () => {
     // Assign code
     if (editTableIndex.length == 0) {
       Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
     } else if (editTableIndex.length >= 1) {
       setAssignTableData(tableData.filter((data, i) => editTableIndex.includes(data.id)));
+      setModel('edit');
       setShowModal(true);
     }
   };
@@ -193,9 +203,18 @@ const FunctionalMasterdataTable = () => {
                     size="small"
                     startIcon={<ActiveToolAssign text="Free Text" />}
                     className="add-button-mdm-table"
+                    onClick={handleOnclickAdd}
+                  >
+                    Add
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    startIcon={<ActiveToolAssign text="Free Text" />}
+                    className="add-button-mdm-table"
                     onClick={handleOnclickAssign}
                   >
-                    Assign
+                    Edit
                   </Button>
                 </div>
               </div>
@@ -217,7 +236,14 @@ const FunctionalMasterdataTable = () => {
         title="Assign Functional Master Data"
         bodyClassName="p-0"
       >
-        <FunctionalMasterdataModal setShowModal={setShowModal} assignTableData={assignTableData} />
+        {modal === 'edit' ? (
+          <FunctionalMasterdataModal
+            setShowModal={setShowModal}
+            assignTableData={assignTableData}
+          />
+        ) : (
+          <AddFunctionalMasterdataModal setShowModal={setShowModal} />
+        )}
       </CustomModal>
     </>
   );
