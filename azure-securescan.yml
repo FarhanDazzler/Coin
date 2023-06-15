@@ -6,7 +6,7 @@ resources:
     - repository: appsectemplates
       type: git
       name: DevSecOps/DevSecOps
-      # endpoint: 'Cross-Org ab-inbev devsecops'
+      endpoint: 'Cross-Org ab-inbev devsecops'
 
 jobs:
   - job: SecureScan
