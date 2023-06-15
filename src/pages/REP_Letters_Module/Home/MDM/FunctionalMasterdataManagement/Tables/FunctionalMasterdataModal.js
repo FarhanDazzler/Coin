@@ -254,10 +254,10 @@ const FunctionalMasterdataModal = ({ setShowModal, assignTableData }) => {
 
                       <div className="col-lg-6">
                         <div className="row mb-4">
-                          <div className="col-lg-5">
+                          <div className="col-lg-4">
                             <Form.Label>Title/Position:</Form.Label>
                           </div>
-                          <div className="col-lg-7">
+                          <div className="col-lg-8">
                             <Form.Group className="input-group mb-3">
                               <Form.Control
                                 type="text"

@@ -228,9 +228,11 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
         const s1FailObj = getIsFaildValueSelect();
         const isupdated = ansSection1.find((i) => i.label === 'To whom did you hand over?');
+        const dataArray=Object.keys(ansSection3)||[]
+         const isS3Failed=showNoQuestionAns&& dataArray.includes('L3')?false:true
         const payload = {
           Assessment_ID: activeData.id,
-          Assessment_result: showNoQuestionAns || s1FailObj ? 'Fail' : 'Pass',
+          Assessment_result: isS3Failed || s1FailObj ? 'Fail' : 'Pass',
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
@@ -239,7 +241,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           event: {
             onSuccess: () => {
               setLoading(false);
-              if (showNoQuestionAns || s1FailObj) {
+              if (isS3Failed || s1FailObj) {
                 Swal.fire('Your Assesment has been failed', '', 'success');
               } else {
                 Swal.fire('Your Assesment has been passed', '', 'success');

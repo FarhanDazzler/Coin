@@ -229,11 +229,11 @@ const FunctionalMasterdataTable = () => {
         </div>
       </div>
       <CustomModal
-        className="add-functionalmd"
+        className="add-org"
         open={showModal}
         onClose={() => setShowModal(false)}
         width={900}
-        title="Assign Functional Master Data"
+        title={modal === 'edit' ? 'Edit Functional Master Data' : 'Add Functional Master Data'}
         bodyClassName="p-0"
       >
         {modal === 'edit' ? (
