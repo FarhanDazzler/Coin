@@ -5,7 +5,10 @@ import FormControl from '@mui/material/FormControl';
 import { names } from '../CreateQuestions/constant';
 import Button from '../../../components/UI/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { question3Selector, getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
+import {
+  question3Selector,
+  getRepositoryOfControlIDSelector,
+} from '../../../redux/Questions/QuestionsSelectors';
 import {
   addSection3Questions,
   deleteSection3Questions,
@@ -15,7 +18,7 @@ import {
 import Swal from 'sweetalert2';
 import { getFormatQuestions, getQuestionsFormatData } from '../../../utils/helper';
 import blockType from '../../../components/RenderBlock/constant';
-import Select from 'react-select'
+import Select from 'react-select';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -36,20 +39,19 @@ const MICSSpecific = ({ handleClose }) => {
   const [control_ID, setControl_ID] = useState(['']);
   const [isEdit, setIsEdit] = useState(false);
   const [showAddQuestion, setShowAddQuestion] = useState(false);
-  const [controlIDList, setControlIDList] = useState([])
+  const [controlIDList, setControlIDList] = useState([]);
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
   useEffect(() => {
     if (repositoryOfControlID?.data.length !== 0) {
-      console.log("hi buddy", repositoryOfControlID);
+      console.log('hi buddy', repositoryOfControlID);
       let controlidArray = [];
       repositoryOfControlID?.data.map((data) => {
         controlidArray.push({ label: data.Control_ID, value: data.Control_ID });
-      })
-      console.log("controlidArray", controlidArray);
+      });
+      console.log('controlidArray', controlidArray);
       setControlIDList(controlidArray);
-
     }
-  }, [repositoryOfControlID])
+  }, [repositoryOfControlID]);
   useEffect(() => {
     if (level[0] && control_ID.value)
       dispatch(getSection3Questions({ Level: level[0], Control_ID: control_ID.value }));
@@ -76,7 +78,6 @@ const MICSSpecific = ({ handleClose }) => {
   };
 
   const handleChange = (value) => {
-   
     if (isEdit) {
       Swal.fire({
         icon: 'info',
@@ -112,6 +113,7 @@ const MICSSpecific = ({ handleClose }) => {
         Header_Question: section3[0].label,
         Inner_Questions: JSON.stringify(section3[0].innerOptions),
         Level: level[0],
+        is_Failing: section3[0].is_Failing,
         Control_ID: control_ID.value,
       };
       if (questionData.data.length > 0) {
@@ -177,8 +179,8 @@ const MICSSpecific = ({ handleClose }) => {
             <div className="select-light mr-4">
               <FormControl sx={{ width: 300 }}>
                 <Select
-                className='controlIdSelect'
-                maxMenuHeight={200}
+                  className="controlIdSelect"
+                  maxMenuHeight={200}
                   placeholder="Control ID * "
                   value={control_ID}
                   onChange={handleChange}
@@ -186,7 +188,6 @@ const MICSSpecific = ({ handleClose }) => {
                   inputProps={{ 'aria-label': 'Without label' }}
                   options={controlIDList}
                 />
-               
               </FormControl>
             </div>
           }
