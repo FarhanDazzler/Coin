@@ -5,12 +5,17 @@ import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip';
+import { Checkbox, Text } from '@mantine/core';
 
 const EditRadioMultiQuestion = ({ block, onClose, onSave }) => {
   const [localBlock, setLocalBlock] = useState(block);
 
   const handleChangeQuestion = (value, block) => {
     setLocalBlock({ ...localBlock, question_text: value, label: value });
+  };
+
+  const handleChangeQuestionFail = (value) => {
+    setLocalBlock({ ...localBlock, is_Failing: value });
   };
   const handleChangeLabel = (value, block) => {
     const updateOptions = localBlock.innerOptions.map((val) => {
@@ -56,6 +61,8 @@ const EditRadioMultiQuestion = ({ block, onClose, onSave }) => {
     setLocalBlock({ ...localBlock, innerOptions: filterOptions });
   };
 
+  console.log('block', block);
+
   const handleSave = () => {
     if (onSave) onSave(localBlock);
   };
@@ -63,7 +70,7 @@ const EditRadioMultiQuestion = ({ block, onClose, onSave }) => {
   return (
     <div>
       <div className="p-5">
-        <div className="mb-4">
+        <div className="mb-4 d-flex align-items-center">
           <Input
             block={block}
             label="Question header"
@@ -71,7 +78,19 @@ const EditRadioMultiQuestion = ({ block, onClose, onSave }) => {
             handleChange={handleChangeQuestion}
             formControlProps={{ className: 'input-wrapper full-input' }}
           />
+          <div
+            style={{ minWidth: 164, marginTop: 25 }}
+            className="pl-3 d-flex justify-content-end radio-label"
+          >
+            <Checkbox
+              color={'yellow'}
+              checked={localBlock.is_Failing === 1}
+              onChange={({ target: { checked } }) => handleChangeQuestionFail(checked ? 1 : 0)}
+              label={<Text align="left">Failed questions</Text>}
+            />
+          </div>
         </div>
+
         <div className="mb-4">
           <label>Question text</label>
           {localBlock.innerOptions.map((op, i) => {
