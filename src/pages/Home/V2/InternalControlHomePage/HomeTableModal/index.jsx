@@ -232,12 +232,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         const isS3Failed = showNoQuestionAns && dataArray.includes('L3') ? false : true;
         const payload = {
           Assessment_ID: activeData.id,
-          Assessment_result: isS3Failed || s1FailObj ? 'Fail' : 'Pass',
+          Assessment_result:isupdated ? 'NA' : isS3Failed || s1FailObj ? 'Fail' : 'Pass',
           Latest_response: {
             s1: ansSection1,
-            s3: isupdated ? 'NA' : Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+            s3:  Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
           },
-          kpis: tableData,
+          kpis:isupdated ? 'NA' : tableData,
           event: {
             onSuccess: () => {
               setLoading(false);
