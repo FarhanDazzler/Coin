@@ -223,6 +223,7 @@ export const handleSelectAns = ({ question = [], ans, data }) => {
 export const getQuestionsFormatData = (data) => {
   return data.map((val) => {
     return {
+      is_Failing: false,
       ...val,
       question_text: val.Header_Question,
       question_type: blockType.RADIO_MULTI,

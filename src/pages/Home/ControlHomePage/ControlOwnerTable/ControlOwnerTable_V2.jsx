@@ -48,6 +48,7 @@ const ControlOwnerTable = ({ tableName }) => {
     dispatch(
       getControlOwnerTableData({
         email: accounts[0]?.username,
+        User_oid: accounts[0]?.idTokenClaims.oid,
       }),
     );
     setTableColumns(TABLE_COLUMNS);

@@ -49,6 +49,8 @@ const ControlSection3 = ({
   };
 
   const [lastAns, setLastAns] = useState('');
+
+  console.log('lastAns', lastAns);
   const handleChange = (value, block, parentBlock) => {
     setStartEdit(true);
     setLastAns(value);
@@ -61,7 +63,9 @@ const ControlSection3 = ({
     setAns(updateAns);
   };
 
-  const handleChangeNoQuestion = (val) => setShowNoQuestionAns(val);
+  const handleChangeNoQuestion = (val) => {
+    setShowNoQuestionAns(val);
+  };
 
   useEffect(() => {
     dispatch(getSection3Questions({ Level: 'L1', Control_ID: Control_ID }));
