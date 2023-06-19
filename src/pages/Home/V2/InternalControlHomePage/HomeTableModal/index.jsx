@@ -201,7 +201,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     });
     return isFail;
   };
-
+  console.log('ansSection3', ansSection3);
   const handleSubmit = () => {
     Swal.fire({
       title: 'Do you want Submit assessment',
@@ -227,19 +227,21 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         setLoading(true);
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
         const s1FailObj = getIsFaildValueSelect();
-        const isupdated = ansSection1.find((i) => i.label === 'To whom did you hand over?');
+        const isupdated = ansSection1.find((i) => i.is_AD === 1);
+        const dataArray = Object.keys(ansSection3) || [];
+        const isS3Failed = showNoQuestionAns && dataArray.includes('L3') ? false : true;
         const payload = {
           Assessment_ID: activeData.id,
-          Assessment_result: showNoQuestionAns || s1FailObj ? 'Fail' : 'Pass',
+          Assessment_result:isupdated ? 'NA' : isS3Failed || s1FailObj ? 'Fail' : 'Pass',
           Latest_response: {
             s1: ansSection1,
-            s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+            s3:  Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
           },
-          kpis: tableData,
+          kpis:isupdated ? ['NA'] : tableData,
           event: {
             onSuccess: () => {
               setLoading(false);
-              if (showNoQuestionAns || s1FailObj) {
+              if (isS3Failed || s1FailObj) {
                 Swal.fire('Your Assesment has been failed', '', 'success');
               } else {
                 Swal.fire('Your Assesment has been passed', '', 'success');

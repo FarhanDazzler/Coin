@@ -26,6 +26,7 @@ const Section3MICSSpecific = ({
   inputCenter,
   moreOptions,
 }) => {
+  console.log('section3section3', section3);
   const questionData = useSelector(question3Selector);
   return (
     <div>

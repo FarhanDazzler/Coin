@@ -250,7 +250,7 @@ function* assignRlFunctionalMasterdata_Data({ payload }) {
         type: ASSIGN_RL_FUNCTIONAL_MASTERDATA_SUCCESS,
         payload: response.data,
       });
-      Swal.fire('Done!', 'Assigned Successfully!', 'success');
+      Swal.fire('Done!', 'Edited Successfully!', 'success');
       yield call(getRlFunctionalMasterdataApi);
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
