@@ -127,12 +127,13 @@ const OrgStructuresTable = () => {
       setEditTableData(tableData.find((data, i) => data?.id === editTableIndex[0]));
       console.log(editTableData, 'edit Table Data');
       setShowModal(true);
-      setModalType('edit');
+      setModalType("edit");
     }
   };
   const handleOnclickAdd = () => {
     setShowModal(true);
-    setModalType('add');
+    setModalType("add");
+    setEditTableData();
   };
 
   return (
