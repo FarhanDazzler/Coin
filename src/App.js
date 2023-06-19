@@ -41,11 +41,13 @@ import RLMDM from './pages/REP_Letters_Module/Home/MDM';
 import RL_MDM_OrganizationHierarchyLandingPage from './pages/REP_Letters_Module/Home/MDM/OrganizationHierarchy/MDMOrganizationHierarchyLandingPage';
 import RL_MDM_BUMasterdataManagementLandingPage from './pages/REP_Letters_Module/Home/MDM/BUMasterDataManagement/BUMasterDataManagementLandingPage';
 import RL_MDM_FunctionalMasterdataManagementLandingPage from './pages/REP_Letters_Module/Home/MDM/FunctionalMasterdataManagement/FunctionalMasterdataManagementLandingPage';
-
+import RLQuestionBank from './pages/REP_Letters_Module/Home/QuestionBank/RepLetterQuestionBankLandingPage';
+import RepLetterModify from './pages/REP_Letters_Module/Home/QuestionBank/RepLetterModify';
 //REP Letters Modules
 import AdminLandingPage from './pages/AdminPage/AdminLandingPage';
 import AssessmentModulePanel from './pages/AdminPage/AssessmentModulePanel/AssessmentModulePanel.jsx';
 import RepresentationLetterModulePanel from './pages/AdminPage/RepresentationLetterModulePanel/RepresentationLetterModulePanel';
+
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -259,6 +261,8 @@ const Pages = () => {
           <Route exact path="/REP-Letters/master-data-management/organization-hierarchy" component={RL_MDM_OrganizationHierarchyLandingPage} />
           <Route exact path="/REP-Letters/master-data-management/bu-masterdata-management" component={RL_MDM_BUMasterdataManagementLandingPage} />
           <Route exact path="/REP-Letters/master-data-management/functional-masterdata-management" component={RL_MDM_FunctionalMasterdataManagementLandingPage} />
+          <Route exact path="/REP-Letters/questionbank" component={RLQuestionBank} />
+          <Route exact path="/REP-Letters/questionbank/Rep-Letter-Modify" component={RepLetterModify} />
           <Route exact path="/admin-panel" component={AdminLandingPage} />
           <Route exact path="/admin-panel/sa" component={AssessmentModulePanel} />
           <Route exact path="/admin-panel/rl" component={RepresentationLetterModulePanel} />
