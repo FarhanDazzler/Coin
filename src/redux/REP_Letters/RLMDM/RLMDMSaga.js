@@ -191,7 +191,6 @@ function* addOrganizationalMDApiData({ payload }) {
         payload: response.data,
       });
       Swal.fire('Done!', response?.data[0], 'success');
-      yield call(getRlOrgHierarchyApi);
       yield call(getRlOrgMdApi);
     } else {
       Swal.fire('Oops!', 'Somthing Went Wrong', 'error');
@@ -218,7 +217,6 @@ function* updateOrganizationalMDApiData({ payload }) {
         payload: response.data,
       });
       Swal.fire('Done!', response?.data?.message, 'success');
-      yield call(getRlOrgHierarchyApi);
       yield call(getRlOrgMdApi);
     } else {
       Swal.fire('Oops!', 'Somthing Went Wrong', 'error');
