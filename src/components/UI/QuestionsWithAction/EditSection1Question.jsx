@@ -60,6 +60,15 @@ const EditSection1Question = ({
   };
 
   useEffect(() => {
+    if (
+      [blockType.TEXT, blockType.IS_AD].includes(apiBlock.question_type) &&
+      apiBlock.options?.length > 0
+    ) {
+      setIsFailedFreeText(!!apiBlock.options[0]?.is_Failing);
+    }
+  }, [apiBlock.options]);
+
+  useEffect(() => {
     setBlock(apiBlock);
   }, [apiBlock]);
 
