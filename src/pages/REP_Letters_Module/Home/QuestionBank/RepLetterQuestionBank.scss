@@ -1,0 +1,68 @@
+.RlQuestionBankHeader{
+    text-align: center;
+    h3{
+        font-size: 24px;
+        align-items: center;
+        padding-bottom: 24px;
+        gap: 16px;
+        width: auto;
+        height: 28px;
+        color: #f1c40f !important;
+    }
+}
+
+.RlQuestionBankBoxWrapper{
+    background: rgba(18, 18, 18, 0.87);;
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 24px;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 30px;
+    button {
+        padding: 16px 30px;
+        border-radius: 12px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    
+        .MuiSvgIcon-root {
+          font-size: 30px;
+        }
+      }
+    .QuestionBankInnerBoxWrapper{
+        background: rgba(53, 53, 53, 0.75);
+        backdrop-filter: blur(20px);
+        padding: 15px 30px;
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        color: #D3D3D3;
+        margin-top: 15px;
+        border: 1px solid rgba(211, 163, 6, 0.5);
+        cursor: pointer;
+        &:hover{
+            background-color: rgba(211, 163, 6, 0.04);
+    border: 1px solid #d3a306;
+        }
+        .buttonTitle{
+            font-weight: 600;
+            //font-size: 28px;
+            line-height: 1;
+            font-size: 16px;
+            margin-bottom: 0px;
+        }
+    }
+}
+.functional-select{
+    .css-13cymwt-control, .css-t3ipsp-control{
+        background: #000000;
+        color: #fff;
+        padding: 7px 15px;
+        border-radius: 12px;
+        border: none;
+    }
+    
+}
