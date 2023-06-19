@@ -11,25 +11,28 @@ import Tooltip from '@mui/material/Tooltip';
 import CustomModal from '../../../../../../../components/UI/CustomModal';
 import OrgStructureModal from './OrgStructureModal';
 import Swal from 'sweetalert2';
-import { getRlOrgMDSelector, addOrganizationalMdDataSelector, updateOrganizationalMdDataSelector } from '../../../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
-
+import {
+  getRlOrgMDSelector,
+  addOrganizationalMdDataSelector,
+  updateOrganizationalMdDataSelector,
+} from '../../../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
+import { getRlOrgMd } from '../../../../../../../redux/REP_Letters/RLMDM/RLMDMAction';
 const OrgStructuresTable = () => {
   const dispatch = useDispatch();
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('');
-   const addOrgState = useSelector(addOrganizationalMdDataSelector);
-   const updateOrgState = useSelector(updateOrganizationalMdDataSelector);
+  const addOrgState = useSelector(addOrganizationalMdDataSelector);
+  const updateOrgState = useSelector(updateOrganizationalMdDataSelector);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [editTableData, setEditTableData] = useState();
-
+  const orgStructures = useSelector(getRlOrgMDSelector);
+  console.log("orgStructures",orgStructures)
   useEffect(() => {
     setShowModal(false);
     setModalType('');
   }, [addOrgState?.data, updateOrgState?.data]);
-
-  const orgStructures = useSelector(getRlOrgMDSelector);
 
   const TABLE_COLUMNS = [
     {
@@ -89,6 +92,7 @@ const OrgStructuresTable = () => {
   ];
 
   useEffect(() => {
+    console.log('Hi', orgStructures.data);
     setTableColumns(TABLE_COLUMNS);
     setTableData(
       orgStructures.data.map((i, index) => {
@@ -98,7 +102,7 @@ const OrgStructuresTable = () => {
         };
       }),
     );
-  }, []);
+  }, [orgStructures?.data]);
 
   const ActiveToolADD = ({ text }) => (
     <Tooltip title={text} placement="bottom-start">
