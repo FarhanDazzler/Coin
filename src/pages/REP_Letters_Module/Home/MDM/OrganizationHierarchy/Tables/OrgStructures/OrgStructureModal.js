@@ -53,9 +53,10 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
 
 
   const handleSaveAdd = (value) => {
-    console.log(value);
+    console.log(value, modalType);
+    
     let payload= {
-      "id": ediatbleData.id,
+      "id": ediatbleData?.id,
       "Organization_Name" : value.Org_name,
       "Organization_Type" : value.orgType,
       "Parent_Entity" : value.parentEntity,
