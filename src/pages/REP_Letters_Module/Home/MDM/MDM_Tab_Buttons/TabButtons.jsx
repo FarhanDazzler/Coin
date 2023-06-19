@@ -35,42 +35,54 @@ function NavTabsMDM() {
                     : 'mr-4 tabButton'
                 }
                 //className="mr-4"
-                onClick={handleClick('/REP-Letters/master-data-management/organization-hierarchy', 1)}
+                onClick={handleClick(
+                  '/REP-Letters/master-data-management/organization-hierarchy',
+                  1,
+                )}
               >
                 Organization Hierarchy
               </Button>
-
-              <Button
-                variant="outlined"
-                size="small"
-                startIcon={<ActiveTool number={2} text="Free Text" />}
-                className={
-                  location.pathname ===
-                  '/REP-Letters/master-data-management/bu-masterdata-management'
-                    ? 'active-tab-button'
-                    : 'mr-4 tabButton'
-                }
-                onClick={handleClick(
-                  '/REP-Letters/master-data-management/bu-masterdata-management',
-                  2,
-                )}
-              >
-                BU Masterdata Management
-              </Button>
-              <Button
-                variant="outlined"
-                size="small"
-                startIcon={<ActiveTool number={3} text="Free Text" />}
-                className={
-                  location.pathname === '/REP-Letters/master-data-management/functional-masterdata-management'
-                    ? 'active-tab-button'
-                    : 'mr-4 tabButton'
-                }
-                onClick={handleClick('/REP-Letters/master-data-management/functional-masterdata-management', 3)}
-              >
-                Functional Masterdata Management
-              </Button>
-              
+              {localStorage.getItem('selected_module_Role') == 'BU' ? (
+                <>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    startIcon={<ActiveTool number={2} text="Free Text" />}
+                    className={
+                      location.pathname ===
+                      '/REP-Letters/master-data-management/bu-masterdata-management'
+                        ? 'active-tab-button'
+                        : 'mr-4 tabButton'
+                    }
+                    onClick={handleClick(
+                      '/REP-Letters/master-data-management/bu-masterdata-management',
+                      2,
+                    )}
+                  >
+                    BU Masterdata Management
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    startIcon={<ActiveTool number={3} text="Free Text" />}
+                    className={
+                      location.pathname ===
+                      '/REP-Letters/master-data-management/functional-masterdata-management'
+                        ? 'active-tab-button'
+                        : 'mr-4 tabButton'
+                    }
+                    onClick={handleClick(
+                      '/REP-Letters/master-data-management/functional-masterdata-management',
+                      3,
+                    )}
+                  >
+                    Functional Masterdata Management
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
