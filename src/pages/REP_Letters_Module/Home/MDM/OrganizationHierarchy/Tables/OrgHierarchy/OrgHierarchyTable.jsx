@@ -68,7 +68,7 @@ const OrgHierarchyTable = ({setRlOrgManageButtonState}) => {
         };
       }),
     );
-  }, []);
+  }, [orgHierarchy?.data]);
   const handleOnclickTableUnhide = () => {
     setRlOrgManageButtonState(true);
     setTimeout(() => {

@@ -492,7 +492,7 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
         },
       };
     case ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_FAILED:
-      debugger
+      // debugger
       return {
         ...state,
         getControlInstanceHistory: { ...state.getControlInstanceHistory, loading: false },
