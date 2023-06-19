@@ -201,7 +201,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     });
     return isFail;
   };
-  console.log('ansSection3', ansSection3);
+
   const handleSubmit = () => {
     Swal.fire({
       title: 'Do you want Submit assessment',
@@ -232,7 +232,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         const isS3Failed = showNoQuestionAns && dataArray.includes('L3') ? false : true;
         const payload = {
           Assessment_ID: activeData.id,
-          Assessment_result:isupdated ? 'NA' : isS3Failed || s1FailObj ? 'Fail' : 'Pass',
+          Assessment_result:isupdated ? 'NA' :dataArray.includes('L3')? isS3Failed || s1FailObj ? 'Fail' : 'Pass':s1FailObj ? 'Fail' : 'Pass',
           Latest_response: {
             s1: ansSection1,
             s3:  Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
