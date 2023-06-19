@@ -18,30 +18,36 @@ const RLMDM = () => {
   }, []);
   return (
     <PageWrapper>
-      <div className="container py-5 rl-mdm">
-        <div className="col-lg-12 py-4 MDMBoxWrapper" style={{ marginRight: '16px' }}>
+     
+      <div className="container-fluid py-5" style={{ display: 'flex' }}>
+        <div className="col-lg-6 py-4 MDMBoxWrapper" style={{ marginRight: '16px' }}>
           <MDMBox
             title="Organization Hierarchy"
             description="Create or modify a Organization within the Organization Hierarchy"
             url="/REP-Letters/master-data-management/organization-hierarchy"
           />
         </div>
-      </div>
-      <div className="container py-5" style={{ display: 'flex' }}>
-        <div className="col-lg-6 py-4 MDMBoxWrapper" style={{ marginRight: '16px' }}>
-          <MDMBox
-            title="BU Masterdata Management"
-            description="Assign BU Master Data within the Organization Hierarchy."
-            url="/REP-Letters/master-data-management/bu-masterdata-management"
-          />
-        </div>
-        <div className="col-lg-6 py-4 MDMBoxWrapper">
-          <MDMBox
-            title="Functional Masterdata management"
-            description="Create or modify MICS in the MICS Framework table."
-            url="/REP-Letters/master-data-management/functional-masterdata-management"
-          />
-        </div>
+        {localStorage.getItem('selected_module_Role') == 'BU' ? (
+          <>
+            <div className="col-lg-6 py-4 MDMBoxWrapper" style={{ marginRight: '16px' }}>
+              <MDMBox
+                title="BU Masterdata Management"
+                description="Assign BU Master Data within the Organization Hierarchy."
+                url="/REP-Letters/master-data-management/bu-masterdata-management"
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="col-lg-6 py-4 MDMBoxWrapper">
+              <MDMBox
+                title="Functional Masterdata management"
+                description="Create or modify MICS in the MICS Framework table."
+                url="/REP-Letters/master-data-management/functional-masterdata-management"
+              />
+            </div>
+          </>
+        )}
       </div>
     </PageWrapper>
   );
