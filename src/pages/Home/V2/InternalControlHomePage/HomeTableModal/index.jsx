@@ -237,7 +237,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             s1: ansSection1,
             s3:  Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
           },
-          kpis:isupdated ? ['NA'] : tableData,
+          kpis:isupdated ? [] : tableData,
           event: {
             onSuccess: () => {
               setLoading(false);
