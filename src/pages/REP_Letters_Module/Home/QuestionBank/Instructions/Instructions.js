@@ -1,28 +1,64 @@
-import React, { useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import * as Yup from 'yup';
 import { useFormikContext, Formik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
 import '../RepLetterQuestionBank.scss';
 import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import { TextEditor } from '../../../../../components/FormInputs/RichTextEditor/RichTextEditor';
-import { Divider, Box } from '@mantine/core';
-import DescriptionIcon from '@mui/icons-material/Description';
-import PageWrapper from '../../../../../components/wrappers/PageWrapper';
 
 const Instructions = ({ setShowModal, editTableData, modalType }) => {
-  // Access passed props from location.state
-
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const [files, setFiles] = useState([]);
+  const [invalidFiles, setInvalidFiles] = useState([]);
+  //const allowedExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm'];
+  const allowedExtensions = ['mp4', 'jpg', 'jpeg', 'png'];
+
+  const handleFileSelect = useCallback(
+    (event) => {
+      const fileList = event.target.files;
+      const updatedFiles = [...files];
+      const updatedInvalidFiles = [...invalidFiles];
+
+      for (let i = 0; i < fileList.length; i++) {
+        const file = fileList[i];
+        const extension = file.name.split('.').pop().toLowerCase();
+
+        if (allowedExtensions.includes(extension)) {
+          if (!updatedFiles.find((f) => f.name === file.name)) {
+            updatedFiles.push({
+              name: file.name,
+              category: '',
+            });
+          }
+        } else {
+          updatedInvalidFiles.push(file);
+        }
+      }
+
+      setFiles(updatedFiles);
+      setInvalidFiles(updatedInvalidFiles);
+    },
+    [files, invalidFiles, allowedExtensions],
+  );
+
+  const handleDelete = useCallback(
+    (fileName) => {
+      const updatedFiles = files.filter((file) => file.name !== fileName);
+      setFiles(updatedFiles);
+    },
+    [files],
+  );
 
   const handleSave = (value) => {
     let payload = {
       Module: modalType,
       id: editTableData?.id,
       Instructions: value.Instructions,
-      URL: value.URL,
     };
     console.log(payload, 'payload');
 
@@ -35,11 +71,9 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
         enableReinitialize
         initialValues={{
           Instructions: editTableData?.Instructions || '',
-          URL: editTableData?.URL || '',
         }}
         validationSchema={Yup.object().shape({
           Instructions: Yup.string().required('Instructions is required'),
-          URL: Yup.string().required('Instructions Video URL is required'),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
           try {
@@ -69,7 +103,7 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
               {/*Rich text Editor call*/}
               <div className="col-lg-12">
                 <div className="row mb-8">
-                  <Form.Label className="mt-5">Instructions :</Form.Label>
+                  <h5 className="mt-5">Instructions :</h5>
 
                   <TextEditor
                     setFieldValue={(val) => setFieldValue('Instructions', val)}
@@ -83,32 +117,48 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
                 </div>
               </div>
 
-              <div className="col-lg-12">
-                <div className="row mb-4">
-                  <div className="col-lg-2">
-                    <Form.Label className="mt-2">Video URL :</Form.Label>
-                  </div>
-                  <div className="col-lg-10">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="text"
-                        name="URL"
-                        placeholder=""
-                        value={values.URL}
-                        isInvalid={Boolean(touched.URL && errors.URL)}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        maxLength={5000}
-                        readOnly={false}
-                        className="form-control"
-                      />
-
-                      {!!touched.URL && (
-                        <Form.Control.Feedback type="invalid">{errors.URL}</Form.Control.Feedback>
-                      )}
-                    </Form.Group>
-                  </div>
+              <div className="upload-files-container">
+                <h5>Video:</h5>
+                <div>
+                  <input type="file" multiple={true} onChange={handleFileSelect} />
                 </div>
+                <p>{files.length} files selected</p>
+                {invalidFiles.length > 0 && (
+                  <p className="error-message">{invalidFiles.length} invalid files selected</p>
+                )}
+                {files.length > 0 && (
+                  <div className="selected-controls">
+                    <table className="table table-bordered">
+                      <thead className="thead-light">
+                        <tr>
+                          <th>Action</th>
+                          <th>Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {files.map((file, index) => (
+                          <tr key={`${file.name}-${index}`}>
+                            <td>
+                              <Button
+                                variant="outlined"
+                                color="secondary"
+                                startIcon={
+                                  <DeleteIcon size={30} strokeWidth={1.5} color={'#ffc800'} />
+                                }
+                                onClick={() => {
+                                  handleDelete(file.name);
+                                }}
+                              >
+                                Delete
+                              </Button>
+                            </td>
+                            <td>{file.name}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             </div>
 
