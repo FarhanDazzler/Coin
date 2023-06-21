@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import { useDispatch, useSelector } from 'react-redux';
 import RemoveWarningModal from './../../../components/UI/AttributesRemoveModal';
 import blockType from './../../../components/RenderBlock/constant';
-import { Loader } from '@mantine/core';
+import { Checkbox, Loader, Text } from '@mantine/core';
 import {
   addSection1OptionDataAction,
   deleteSection1OptionDataAction,
@@ -20,6 +20,7 @@ import {
   editSection1QuestionDataAction,
 } from '../../../redux/QuestionBank/QuestionBankAction';
 import { Form } from 'react-bootstrap';
+import { QuestionType } from './AddSection1Question';
 
 const EditSection1QuestionOption = ({
   showEditModal,
@@ -33,12 +34,7 @@ const EditSection1QuestionOption = ({
   const [questionOptions, setQuestionOptions] = useState([]);
   const [options, setOptions] = useState([]);
   const [freeTextChildQId, setFreeTextChildQId] = useState('');
-  // 'Dropdown'
-  const QuestionType = [
-    { label: 'Radio', value: 'Radio' },
-    { label: 'Text', value: 'Free Text' },
-    { label: 'Dropdown', value: 'Dropdown' },
-  ];
+  const [isFailedFreeText, setIsFailedFreeText] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(null);
   const [saveLoading, setSaveLoading] = useState(false);
   useEffect(() => {
@@ -52,9 +48,14 @@ const EditSection1QuestionOption = ({
     setQuestion(value.target.value);
   };
 
-  // useEffect(() => {
-  //   setBlock(apiBlock);
-  // }, [apiBlock]);
+  useEffect(() => {
+    if (
+      [blockType.TEXT, blockType.IS_AD].includes(apiBlock.question_type) &&
+      apiBlock.options?.length > 0
+    ) {
+      setIsFailedFreeText(!!apiBlock.options[0]?.is_Failing);
+    }
+  }, [apiBlock.options]);
 
   useEffect(() => {
     if (block.hasOwnProperty('options')) {
@@ -79,10 +80,10 @@ const EditSection1QuestionOption = ({
     setQuestionOptions(updateOp);
   };
 
-  const handleSelectOptions = ({ target: { value } }, op) => {
+  const handleSelectOptions = (value, op) => {
     const updateQ = questionOptions.map((upOp) => {
       if (upOp.option_id === op.option_id) {
-        return { ...upOp, child_question: value, isEdit: true };
+        return { ...upOp, ...value, isEdit: true };
       }
       return { ...upOp };
     });
@@ -110,30 +111,34 @@ const EditSection1QuestionOption = ({
         option_value: '',
         q_id: block.q_id,
         isNew: true,
+        is_Failing: false,
       },
     ]);
   };
-
   const handleSaveQuestion = () => {
     let isApiCall = false;
     if (apiBlock.question_text !== question || apiBlock.question_type !== block.question_type) {
       isApiCall = true;
+      const is_AD = block.question_type === 'Is AD';
       dispatch(
         editSection1QuestionDataAction({
           q_id: apiBlock.q_id,
           Control_ID: apiBlock.Control_ID,
           question_text: question,
           question_type: block.question_type,
+          is_AD: is_AD ? 1 : 0,
+          is_Failing: isFailedFreeText,
         }),
       );
     }
 
-    if (block.question_type === blockType.TEXT) {
+    if ([blockType.TEXT, blockType.IS_AD].includes(block.question_type)) {
       const payload = {
         q_id: apiBlock.q_id,
         child_question: freeTextChildQId,
         is_Terminating: 0,
         option_value: '',
+        is_Failing: isFailedFreeText,
       };
       if (freeTextChildQId === 'is_Terminating') {
         payload.child_question = 0;
@@ -182,6 +187,7 @@ const EditSection1QuestionOption = ({
           option_value: b_val.option_value,
           child_question: b_val.child_question,
           is_Terminating: 0,
+          is_Failing: b_val.is_Failing,
         };
         if (b_val.child_question === 'is_Terminating') {
           payload.child_question = 0;
@@ -206,6 +212,7 @@ const EditSection1QuestionOption = ({
           option_value: b_val.option_value,
           child_question: b_val.child_question,
           is_Terminating: 0,
+          is_Failing: b_val.is_Failing,
         };
         if (b_val.child_question === 'is_Terminating') {
           payload.child_question = 0;
@@ -254,16 +261,8 @@ const EditSection1QuestionOption = ({
       title="Edit Question"
       bodyClassName="p-0"
     >
-      <div>
+      <div className="d-flex h-100 flex-column justify-content-between">
         <div className="p-5">
-          {/* <Input
-                        label={'Question text'}
-                        value={question}
-                        block={block}
-                        handleChange={handleChangeQuestion}
-                        formControlProps={{ className: 'input-wrapper full-input' }}
-                    /> */}
-
           <div className="row">
             <div className="col-md-9">
               <label>Question</label>
@@ -299,40 +298,42 @@ const EditSection1QuestionOption = ({
                   ))}
                 </Form.Control>
               </Form.Group>
-              {/* <DropdownMenu
-                                    options={questionTypeOptions}
-                                    openMenu={openMenu}
-                                    handleClick={handleClick}
-                                    handleClose={handleClose}
-                                    selected={block.question_type}
-                                    handleSelect={handleSelect}
-                                /> */}
             </div>
           </div>
 
-          {block.question_type === 'Free Text' ? (
+          {['Free Text', 'Is AD'].includes(block.question_type) ? (
             <div className="my-2 pt-2">
               <FormControl className="input-wrapper">
                 <FormLabel>Child question</FormLabel>
               </FormControl>
 
-              <Form.Group className="input-group mb-3">
-                <Form.Control
-                  as="select"
-                  name=""
-                  placeholder="Select Child question"
-                  className="form-select"
-                  value={freeTextChildQId}
-                  onChange={(e) => setFreeTextChildQId(e.target.value)}
-                >
-                  <option value="">Select Child Question</option>
-                  {options.map((data, i) => (
-                    <option value={data?.value} key={i}>
-                      {data?.label}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
+              <div className="d-flex align-items-center">
+                <Form.Group className="input-group mb-3">
+                  <Form.Control
+                    as="select"
+                    name=""
+                    placeholder="Select Child question"
+                    className="form-select"
+                    value={freeTextChildQId}
+                    onChange={(e) => setFreeTextChildQId(e.target.value)}
+                  >
+                    <option value="">Select Child Question</option>
+                    {options.map((data, i) => (
+                      <option value={data?.value} key={i}>
+                        {data?.label}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+                <div style={{ minWidth: 200 }} className="pl-3 mb-3 d-flex justify-content-end">
+                  <Checkbox
+                    color={'yellow'}
+                    onChange={({ target: { checked } }) => setIsFailedFreeText(checked)}
+                    label={<Text align="left">Failed questions</Text>}
+                    checked={isFailedFreeText}
+                  />
+                </div>
+              </div>
             </div>
           ) : (
             <div className="mt-2">
@@ -353,11 +354,26 @@ const EditSection1QuestionOption = ({
                       <Select
                         placeholder="Select sub question"
                         value={op.child_question}
-                        onChange={(e) => handleSelectOptions(e, op)}
+                        onChange={({ target: { value } }) =>
+                          handleSelectOptions({ child_question: value }, op)
+                        }
                         options={options}
                         inputLook
                       />
                     </FormControl>
+                    <div
+                      style={{ minWidth: 164 }}
+                      className="pl-3 d-flex justify-content-end radio-label"
+                    >
+                      <Checkbox
+                        color={'yellow'}
+                        checked={op.is_Failing === 1}
+                        onChange={({ target: { checked } }) =>
+                          handleSelectOptions({ is_Failing: checked ? 1 : 0 }, op)
+                        }
+                        label={<Text align="left">Failed questions</Text>}
+                      />
+                    </div>
                     <Tooltip title="Delete" placement="top">
                       <IconButton onClick={handleDeleteOption(op)}>
                         <DeleteOutlineIcon className="cursor-pointer" />
@@ -384,7 +400,7 @@ const EditSection1QuestionOption = ({
           <div className="d-flex align-items-center justify-content-between">
             <Button
               color="silver"
-              disabled={block.question_type === 'Free Text'}
+              disabled={['Free Text', 'Is AD'].includes(block.question_type)}
               startIcon={<LibraryAddOutlinedIcon />}
               onClick={handleAddOptions}
             >
