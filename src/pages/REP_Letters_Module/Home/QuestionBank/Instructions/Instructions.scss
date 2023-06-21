@@ -1,0 +1,15 @@
+.previews-block{
+    position: relative;
+}
+.previews-cancel-icon {
+    
+    position: absolute;
+    top: 10px; /* Adjust the top and Right values to position the icon properly */
+    right: 10px;
+    color:#e3af32; /* Customize the color of the icon as desired */
+    cursor: pointer;
+    
+}
+.previews-cancel-icon:hover{
+    color: red;
+}
