@@ -275,6 +275,10 @@ const Table2 = ({
     <ThemeProvider theme={darkTheme}>
       <div className="materialReactTableWrapper">
         <MaterialReactTable
+          enableFacetedValues
+          selectAllMode="all"
+          enableColumnFilterModes
+          enableColumnFilters
           columns={tableColumns}
           data={tableData}
           initialState={{ showColumnFilters: false, density: 'compact' }}
