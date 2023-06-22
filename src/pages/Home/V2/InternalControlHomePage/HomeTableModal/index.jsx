@@ -230,6 +230,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         const isupdated = ansSection1.find((i) => i.is_AD === 1);
         const dataArray = Object.keys(ansSection3) || [];
         const isS3Failed = showNoQuestionAns && dataArray.includes('L3') ? false : true;
+        debugger
         const payload = {
           Assessment_ID: activeData.id,
           Assessment_result:isupdated ? 'NA' :dataArray.includes('L3')? isS3Failed || s1FailObj ? 'Fail' : 'Pass':s1FailObj ? 'Fail' : 'Pass',

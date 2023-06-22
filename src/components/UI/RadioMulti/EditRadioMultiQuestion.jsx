@@ -61,8 +61,6 @@ const EditRadioMultiQuestion = ({ block, onClose, onSave }) => {
     setLocalBlock({ ...localBlock, innerOptions: filterOptions });
   };
 
-  console.log('block', block);
-
   const handleSave = () => {
     if (onSave) onSave(localBlock);
   };

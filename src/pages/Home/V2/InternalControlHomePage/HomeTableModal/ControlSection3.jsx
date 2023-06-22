@@ -50,7 +50,6 @@ const ControlSection3 = ({
 
   const [lastAns, setLastAns] = useState('');
 
-  console.log('lastAns', lastAns);
   const handleChange = (value, block, parentBlock) => {
     setStartEdit(true);
     setLastAns(value);
