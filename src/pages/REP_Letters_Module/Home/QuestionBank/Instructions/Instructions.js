@@ -8,7 +8,7 @@ import '../RepLetterQuestionBank.scss';
 import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import { TextEditor } from '../../../../../components/FormInputs/RichTextEditor/RichTextEditor';
 import { Dropzone } from '@mantine/dropzone';
-import { rem, Group, Text, Image, SimpleGrid } from '@mantine/core';
+import { Group, Text, Image, SimpleGrid } from '@mantine/core';
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { relativeTimeRounding } from 'moment';
@@ -166,7 +166,7 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
                     <Group
                       position="center"
                       spacing="xl"
-                      style={{ minHeight: rem(220), pointerEvents: 'none' }}
+                      style={{ minHeight: '220px', pointerEvents: 'none' }}
                     >
                       <Dropzone.Accept>
                         <IconUpload size="3.2rem" stroke={1.5} color={'#e3af32'} />
