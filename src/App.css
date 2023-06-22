@@ -1,11 +1,47 @@
 iframe {
   pointer-events: none;
 }
-
+body {
+  top: 0 !important;
+}
 .swal2-container {
   z-index: 1000000 !important;
 }
 
 .w-full {
   width: 100%;
+}
+
+div#google_translate_element {
+  position: absolute;
+  left: 5rem;
+  top: 55px;
+  z-index: 1000;
+}
+.goog-te-gadget {
+  color: transparent !important;
+}
+.goog-te-gadget span {
+  display: none;
+}
+div#google_translate_element select {
+  color: #e3af32;
+  background-color: #1a1b1e;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 40, 100, 0.12);
+  height: 2.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 15px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='burlywood' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.2em;
+  cursor: pointer;
+}
+div#google_translate_element select:focus,
+div#google_translate_element select:focus-visible {
+  border-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
