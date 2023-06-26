@@ -100,3 +100,43 @@
       }
     
 }
+.rl-question-bank-view-questions{
+    background: rgba(92, 92, 92, 0.2);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 16px;
+    
+    .question-text-section {
+        display: flex;
+        align-items: center; /* Optional, to vertically center the content */
+      }
+      
+      .question-number {
+        font-size: 18px;
+        font-weight: 600;
+        color: #FFFFFF;
+        background: rgba(92, 92, 92, 0.2);
+        padding: 2px 5px;
+      }
+      
+      .question-text {
+        word-break: break-all;
+        font-size: 18px;
+        font-weight: 600;
+        color: #FFFFFF;
+        margin-left: 10px; /* Optional, adjust the spacing between the two elements */
+      }
+      
+    .question-options-section{
+
+        .options {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+        width: auto;
+        height: 28px;
+        font-size: 18px;
+        }
+    }
+}

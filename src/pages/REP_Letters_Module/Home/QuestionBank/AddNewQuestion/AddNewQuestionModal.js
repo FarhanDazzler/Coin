@@ -4,7 +4,13 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Button from '../../../../../components/UI/Button';
 
-const AddNewQuestionModal = ({ setShowModal, modalType }) => {
+const AddNewQuestionModal = ({
+  setShowModal,
+  modalType,
+  functionZone = null,
+  functionType = null,
+  functionName = null,
+}) => {
   const dispatch = useDispatch();
 
   return (
@@ -16,12 +22,24 @@ const AddNewQuestionModal = ({ setShowModal, modalType }) => {
         })}
         onSubmit={(values, { setErrors, setStatus, setSubmitting, resetForm }) => {
           try {
-            const payload = {
-              module: modalType,
-              questionText: values.questionText,
-            };
-            console.log(payload, 'payload');
-            // dispatch(addMicsFramework(payload));
+            if (modalType == 'BU') {
+              const payload = {
+                module: modalType,
+                questionText: values.questionText,
+              };
+              console.log(payload, 'payload');
+              // dispatch(addMicsFramework(payload));
+            } else {
+              const payload = {
+                module: modalType,
+                functionZone: functionZone,
+                functionType: functionType,
+                functionName: functionName,
+                questionText: values.questionText,
+              };
+              console.log(payload, 'payload');
+              // dispatch(addMicsFramework(payload));
+            }
           } catch (error) {
             const message = error.message || 'Something went wrong';
             setStatus({ success: false });
