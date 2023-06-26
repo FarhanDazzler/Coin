@@ -66,3 +66,37 @@
     }
     
 }
+
+.rl-question-bank-TitleSectionTab {
+    background: rgba(92, 92, 92, 0.2);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 16px;
+
+    .section-title {
+        
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        //padding-bottom: 24px;
+        gap: 16px;
+        width: auto;
+        height: 28px;
+        //color: #FFFFFF;
+        //font-size: large;
+        //font-weight: 600;
+        font-size: 18px;
+        
+    }
+
+    .add-button {
+        font-size: 16px;
+        background-color: #000000 !important;
+        color: #e3af32 !important;
+        border: none !important;
+        border-radius: 8px !important;
+        margin-right: 1rem !important;
+        text-transform: capitalize !important;
+      }
+    
+}
