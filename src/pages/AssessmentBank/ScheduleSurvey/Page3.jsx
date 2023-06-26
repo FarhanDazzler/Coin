@@ -300,8 +300,8 @@ const Page3 = ({ handleNext, setStep }) => {
 
   // logic for select all provider in multiselect filter button
   const dropdownArrayProvider = [
-    ...getAllProviderFromEntity_State?.data?.map((i) => i.Provider_Entity),
     'Select All',
+    ...getAllProviderFromEntity_State?.data?.map((i) => i.Provider_Entity),
   ];
 
   return (
