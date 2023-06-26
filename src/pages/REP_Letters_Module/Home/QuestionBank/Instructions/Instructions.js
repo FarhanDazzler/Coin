@@ -1,52 +1,31 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import * as Yup from 'yup';
 import { useFormikContext, Formik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import DeleteIcon from '@mui/icons-material/Delete';
 import '../RepLetterQuestionBank.scss';
 import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import { TextEditor } from '../../../../../components/FormInputs/RichTextEditor/RichTextEditor';
+import { useDropzone } from 'react-dropzone';
+import { Group, Text, Image, SimpleGrid } from '@mantine/core';
+import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { relativeTimeRounding } from 'moment';
+import './Instructions.scss';
+import { useMemo } from 'react';
 
 const Instructions = ({ setShowModal, editTableData, modalType }) => {
-  const history = useHistory();
   const dispatch = useDispatch();
 
+  var formdata = new FormData();
+
+  // Code for File Drop Zone
+  // state to store files
   const [files, setFiles] = useState([]);
-  const [invalidFiles, setInvalidFiles] = useState([]);
-  //const allowedExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm'];
-  const allowedExtensions = ['mp4', 'jpg', 'jpeg', 'png'];
 
-  const handleFileSelect = useCallback(
-    (event) => {
-      const fileList = event.target.files;
-      const updatedFiles = [...files];
-      const updatedInvalidFiles = [...invalidFiles];
-
-      for (let i = 0; i < fileList.length; i++) {
-        const file = fileList[i];
-        const extension = file.name.split('.').pop().toLowerCase();
-
-        if (allowedExtensions.includes(extension)) {
-          if (!updatedFiles.find((f) => f.name === file.name)) {
-            updatedFiles.push({
-              name: file.name,
-              category: '',
-            });
-          }
-        } else {
-          updatedInvalidFiles.push(file);
-        }
-      }
-
-      setFiles(updatedFiles);
-      setInvalidFiles(updatedInvalidFiles);
-    },
-    [files, invalidFiles, allowedExtensions],
-  );
-
-  const handleDelete = useCallback(
+  // Function to detele file on the basis of file name
+  const handleDeleteFile = useCallback(
     (fileName) => {
       const updatedFiles = files.filter((file) => file.name !== fileName);
       setFiles(updatedFiles);
@@ -54,14 +33,123 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
     [files],
   );
 
-  const handleSave = (value) => {
-    let payload = {
-      Module: modalType,
-      id: editTableData?.id,
-      Instructions: value.Instructions,
-    };
-    console.log(payload, 'payload');
+  const {
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    acceptedFiles,
+    fileRejections,
+    isDragAccept,
+    isDragReject,
+  } = useDropzone({
+    accept: {
+      'image/*': [],
+    },
+    // Specify the file types you want to accept
+    multiple: true, // Allow multiple file selection
+    //maxFiles:2
+    onDrop: (acceptedFiles) => {
+      setFiles([...files, ...acceptedFiles]);
+    },
+  });
 
+  // Function to preview files (Thumbnail)
+  const previews = files.map((file, index) => {
+    const imageUrl = URL.createObjectURL(file);
+    return (
+      <div className="previews-block">
+        <Image
+          key={index}
+          src={imageUrl}
+          imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
+        />
+        <DeleteIcon
+          className="previews-cancel-icon"
+          size={30}
+          strokeWidth={1.5}
+          color={'#ffc800'}
+          onClick={() => {
+            handleDeleteFile(file.name);
+          }}
+        />
+      </div>
+    );
+  });
+
+  useEffect(() => {
+    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, []);
+
+  // Code for changing background color of dropzone
+  const style = useMemo(
+    () => ({
+      ...(isDragActive ? { backgroundColor: '#ffc800' } : {}),
+      ...(isDragAccept ? { backgroundColor: '#508A3B' } : {}),
+      ...(isDragReject ? { backgroundColor: '#b11f24' } : {}),
+    }),
+    [isDragActive, isDragReject, isDragAccept],
+  );
+
+  // code for changing text of dropzone with icons nad text color
+  const messageWithIconAndColor = useMemo(() => {
+    if (fileRejections.length > 0) {
+      const { errors } = fileRejections[0];
+      return (
+        <Group position="center" spacing="xl" style={{ minHeight: '220px', pointerEvents: 'none' }}>
+          <IconX size="3.2rem" strokeWidth={2} color="#b11f24" />
+          <div className="dropzone-message-text" style={{ color: '#b11f24' }}>
+            <Text size="xl" inline>
+              {' '}
+              {errors[0].message}{' '}
+            </Text>
+          </div>
+        </Group>
+      );
+    }
+    if (files.length > 0) {
+      return (
+        <Group position="center" spacing="xl" style={{ minHeight: '220px', pointerEvents: 'none' }}>
+          <IconPhoto size="3.2rem" strokeWidth={2} color="#ffff" />
+          <div className="dropzone-message-text" style={{ color: '#ffff' }}>
+            <Text size="xl" inline>
+              {' '}
+              {`${files.length} file${files.length > 1 ? 's' : ''} selected`}
+            </Text>
+          </div>
+        </Group>
+      );
+    }
+    return (
+      <Group position="center" spacing="xl" style={{ minHeight: '220px', pointerEvents: 'none' }}>
+        <IconUpload size="3.2rem" strokeWidth={2} color="#ffc800" />
+        <div className="dropzone-message-text" style={{ color: '#ffc800' }}>
+          <Text size="xl" inline>
+            {' '}
+            Drag and drop some files here, or click to select files
+          </Text>
+        </div>
+      </Group>
+    );
+  }, [files, fileRejections]);
+
+  // code for changing text of dropzone with icons nad text color and background color
+
+  const handleSave = (value) => {
+    formdata.append('video', files);
+    formdata.append('Instructions', value.Instructions);
+    formdata.append('Module', modalType);
+
+    // code for json stringify formdata
+    var object = {};
+    formdata.forEach(function (value, key) {
+      object[key] = value;
+    });
+    var json = JSON.stringify(object);
+    console.log(json, 'json');
+    var parsed = JSON.parse(json);
+    console.log(parsed, 'parsed');
+    console.log(formdata, 'payload');
     //dispatch(addMicsFramework(payload));
   };
 
@@ -103,7 +191,7 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
               {/*Rich text Editor call*/}
               <div className="col-lg-12">
                 <div className="row mb-8">
-                  <h5 className="mt-5">Instructions :</h5>
+                  <Form.Label className="mt-5">Instructions :</Form.Label>
 
                   <TextEditor
                     setFieldValue={(val) => setFieldValue('Instructions', val)}
@@ -117,48 +205,27 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
                 </div>
               </div>
 
-              <div className="upload-files-container">
-                <h5>Video:</h5>
-                <div>
-                  <input type="file" multiple={true} onChange={handleFileSelect} />
+              <div className="col-lg-12">
+                <div className="row mt-2">
+                  <Form.Label className="mt-2">Instructions Video :</Form.Label>
                 </div>
-                <p>{files.length} files selected</p>
-                {invalidFiles.length > 0 && (
-                  <p className="error-message">{invalidFiles.length} invalid files selected</p>
-                )}
-                {files.length > 0 && (
-                  <div className="selected-controls">
-                    <table className="table table-bordered">
-                      <thead className="thead-light">
-                        <tr>
-                          <th>Action</th>
-                          <th>Name</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {files.map((file, index) => (
-                          <tr key={`${file.name}-${index}`}>
-                            <td>
-                              <Button
-                                variant="outlined"
-                                color="secondary"
-                                startIcon={
-                                  <DeleteIcon size={30} strokeWidth={1.5} color={'#ffc800'} />
-                                }
-                                onClick={() => {
-                                  handleDelete(file.name);
-                                }}
-                              >
-                                Delete
-                              </Button>
-                            </td>
-                            <td>{file.name}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
+                <div className="row mb-4">
+                  <section className="container">
+                    <div className="dropZoneContainer" style={style}>
+                      <div {...getRootProps({ className: 'dropzone' })}>
+                        <input {...getInputProps()} />
+                        {messageWithIconAndColor}
+                      </div>
+                    </div>
+                    <SimpleGrid
+                      cols={4}
+                      breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
+                      mt={previews.length > 0 ? 'xl' : 0}
+                    >
+                      {previews}
+                    </SimpleGrid>
+                  </section>
+                </div>
               </div>
             </div>
 

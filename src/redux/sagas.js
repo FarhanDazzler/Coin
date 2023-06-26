@@ -11,6 +11,7 @@ import AssessmentBankSaga from './AssessmentBank/AssessmentBankSaga';
 import DashBoardSaga from './DashBoard/DashBoardSaga';
 import RLMDMSaga from './REP_Letters/RLMDM/RLMDMSaga';
 import AdminPageSaga from './AdminPage/AdminPageSaga';
+import RL_QuestionBankSaga from './REP_Letters/RL_QuestionBank/RL_QuestionBankSaga';
 
 export function* sagas() {
   yield all([
@@ -26,5 +27,6 @@ export function* sagas() {
     DashBoardSaga,
     RLMDMSaga,
     AdminPageSaga,
+    RL_QuestionBankSaga,
   ]);
 }

@@ -298,6 +298,12 @@ const Page3 = ({ handleNext, setStep }) => {
     );
   }, [getScheduleSurveyPage_3_table_State?.data[0]?.controlInstances]);
 
+  // logic for select all provider in multiselect filter button
+  const dropdownArrayProvider = [
+    'Select All',
+    ...getAllProviderFromEntity_State?.data?.map((i) => i.Provider_Entity),
+  ];
+
   return (
     <div className="p-5">
       <h4 className="AssessmentBank-inputPage-sub-title">Select Provider Organisation</h4>
@@ -384,7 +390,7 @@ const Page3 = ({ handleNext, setStep }) => {
           <div className="col-lg-6">
             <MultiSelect
               className="mantine-MultiSelect-wrapper-AssessmentBank"
-              data={getAllProviderFromEntity_State?.data?.map((i) => i.Provider_Entity) || []}
+              data={getAllProviderFromEntity_State?.data?.length ? dropdownArrayProvider : []}
               label={<Form.Label className="mantine-MultiSelect-label">{'Provider'}</Form.Label>}
               placeholder={'Select Provider'}
               searchable
@@ -394,9 +400,19 @@ const Page3 = ({ handleNext, setStep }) => {
               clearable
               value={providerValue}
               onChange={(e) => {
-                selectObjectFormik.setFieldValue('Provider', e);
-                setProviderValue(e);
-                //console.log(e, 'cowner filter');
+                if (e.includes('Select All')) {
+                  selectObjectFormik.setFieldValue(
+                    'Provider',
+                    getAllProviderFromEntity_State?.data?.map((i) => i.Provider_Entity),
+                  );
+                  setProviderValue(
+                    getAllProviderFromEntity_State?.data?.map((i) => i.Provider_Entity),
+                  );
+                } else {
+                  selectObjectFormik.setFieldValue('Provider', e);
+                  setProviderValue(e);
+                }
+                //console.log(e, 'Provider');
               }}
               disabled={selectObjectFormik.isSubmitting}
               error={selectObjectFormik.errors.Provider}
