@@ -45,7 +45,6 @@ const AddNewQuestionModal = ({
               }
             } else {
               const payload = {
-                module: modalType,
                 functionZone: functionZone,
                 functionType: functionType,
                 functionName: functionName,
