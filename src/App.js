@@ -47,7 +47,7 @@ import RepLetterModify from './pages/REP_Letters_Module/Home/QuestionBank/RepLet
 import AdminLandingPage from './pages/AdminPage/AdminLandingPage';
 import AssessmentModulePanel from './pages/AdminPage/AssessmentModulePanel/AssessmentModulePanel.jsx';
 import RepresentationLetterModulePanel from './pages/AdminPage/RepresentationLetterModulePanel/RepresentationLetterModulePanel';
-
+import BUModifyQuestions from './pages/REP_Letters_Module/Home/QuestionBank/BU/BUModifyQuestions';
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -87,6 +87,8 @@ const Pages = () => {
   const [userState, userDispatch] = useContext(UserContext);
   const [userToken, setUserToken] = useState('');
   const role = loginRole ?? userRole;
+
+  console.log('history');
   const isControlPage = () => {
     return (
       ['Control owner', 'Control oversight', 'control_owner', 'control_oversight']?.includes(
@@ -156,6 +158,16 @@ const Pages = () => {
       history.push('/login');
     }
   }, [inProgress]);
+
+  useEffect(() => {
+    const dom = document.getElementById('google_translate_element');
+    if (!dom) return;
+    if (['/login'].includes(window.location.pathname)) {
+      dom.classList.add('d-none');
+    } else {
+      dom.classList.remove('d-none');
+    }
+  }, [history.location.pathname]);
 
   useEffect(() => {
     if (accounts?.length > 0) {
@@ -258,11 +270,32 @@ const Pages = () => {
           />
           <Route exact path="/POC" component={POC} />
           <Route exact path="/REP-Letters/master-data-management" component={RLMDM} />
-          <Route exact path="/REP-Letters/master-data-management/organization-hierarchy" component={RL_MDM_OrganizationHierarchyLandingPage} />
-          <Route exact path="/REP-Letters/master-data-management/bu-masterdata-management" component={RL_MDM_BUMasterdataManagementLandingPage} />
-          <Route exact path="/REP-Letters/master-data-management/functional-masterdata-management" component={RL_MDM_FunctionalMasterdataManagementLandingPage} />
+          <Route
+            exact
+            path="/REP-Letters/master-data-management/organization-hierarchy"
+            component={RL_MDM_OrganizationHierarchyLandingPage}
+          />
+          <Route
+            exact
+            path="/REP-Letters/master-data-management/bu-masterdata-management"
+            component={RL_MDM_BUMasterdataManagementLandingPage}
+          />
+          <Route
+            exact
+            path="/REP-Letters/master-data-management/functional-masterdata-management"
+            component={RL_MDM_FunctionalMasterdataManagementLandingPage}
+          />
           <Route exact path="/REP-Letters/questionbank" component={RLQuestionBank} />
-          <Route exact path="/REP-Letters/questionbank/Rep-Letter-Modify" component={RepLetterModify} />
+          <Route
+            exact
+            path="/REP-Letters/questionbank/Rep-Letter-Modify"
+            component={RepLetterModify}
+          />
+          <Route
+            exact
+            path="/REP-Letters/questionbank/BU-modify-questions"
+            component={BUModifyQuestions}
+          />
           <Route exact path="/admin-panel" component={AdminLandingPage} />
           <Route exact path="/admin-panel/sa" component={AssessmentModulePanel} />
           <Route exact path="/admin-panel/rl" component={RepresentationLetterModulePanel} />

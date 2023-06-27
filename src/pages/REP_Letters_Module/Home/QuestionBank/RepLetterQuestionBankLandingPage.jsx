@@ -26,7 +26,7 @@ const RLQuestionBank = () => {
   };
 
   const handleBuModify = () => {
-    history.push('/REP-Letters/questionbank/Rep-Letter-Modify');
+    history.push('/REP-Letters/questionbank/BU-modify-questions');
   };
   const handleFunctionalModify = () => {
     history.push('/REP-Letters/questionbank/Rep-Letter-Modify');

@@ -7,12 +7,13 @@ import { useHistory } from 'react-router-dom';
 import '../RepLetterQuestionBank.scss';
 import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import { TextEditor } from '../../../../../components/FormInputs/RichTextEditor/RichTextEditor';
-import { Dropzone } from '@mantine/dropzone';
+import { useDropzone } from 'react-dropzone';
 import { Group, Text, Image, SimpleGrid } from '@mantine/core';
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { relativeTimeRounding } from 'moment';
 import './Instructions.scss';
+import { useMemo } from 'react';
 
 const Instructions = ({ setShowModal, editTableData, modalType }) => {
   const dispatch = useDispatch();
@@ -31,6 +32,26 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
     },
     [files],
   );
+
+  const {
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    acceptedFiles,
+    fileRejections,
+    isDragAccept,
+    isDragReject,
+  } = useDropzone({
+    accept: {
+      'image/*': [],
+    },
+    // Specify the file types you want to accept
+    multiple: true, // Allow multiple file selection
+    //maxFiles:2
+    onDrop: (acceptedFiles) => {
+      setFiles([...files, ...acceptedFiles]);
+    },
+  });
 
   // Function to preview files (Thumbnail)
   const previews = files.map((file, index) => {
@@ -54,6 +75,65 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
       </div>
     );
   });
+
+  useEffect(() => {
+    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, []);
+
+  // Code for changing background color of dropzone
+  const style = useMemo(
+    () => ({
+      ...(isDragActive ? { backgroundColor: '#ffc800' } : {}),
+      ...(isDragAccept ? { backgroundColor: '#508A3B' } : {}),
+      ...(isDragReject ? { backgroundColor: '#b11f24' } : {}),
+    }),
+    [isDragActive, isDragReject, isDragAccept],
+  );
+
+  // code for changing text of dropzone with icons nad text color
+  const messageWithIconAndColor = useMemo(() => {
+    if (fileRejections.length > 0) {
+      const { errors } = fileRejections[0];
+      return (
+        <Group position="center" spacing="xl" style={{ minHeight: '220px', pointerEvents: 'none' }}>
+          <IconX size="3.2rem" strokeWidth={2} color="#b11f24" />
+          <div className="dropzone-message-text" style={{ color: '#b11f24' }}>
+            <Text size="xl" inline>
+              {' '}
+              {errors[0].message}{' '}
+            </Text>
+          </div>
+        </Group>
+      );
+    }
+    if (files.length > 0) {
+      return (
+        <Group position="center" spacing="xl" style={{ minHeight: '220px', pointerEvents: 'none' }}>
+          <IconPhoto size="3.2rem" strokeWidth={2} color="#ffff" />
+          <div className="dropzone-message-text" style={{ color: '#ffff' }}>
+            <Text size="xl" inline>
+              {' '}
+              {`${files.length} file${files.length > 1 ? 's' : ''} selected`}
+            </Text>
+          </div>
+        </Group>
+      );
+    }
+    return (
+      <Group position="center" spacing="xl" style={{ minHeight: '220px', pointerEvents: 'none' }}>
+        <IconUpload size="3.2rem" strokeWidth={2} color="#ffc800" />
+        <div className="dropzone-message-text" style={{ color: '#ffc800' }}>
+          <Text size="xl" inline>
+            {' '}
+            Drag and drop some files here, or click to select files
+          </Text>
+        </div>
+      </Group>
+    );
+  }, [files, fileRejections]);
+
+  // code for changing text of dropzone with icons nad text color and background color
 
   const handleSave = (value) => {
     formdata.append('video', files);
@@ -130,71 +210,21 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
                   <Form.Label className="mt-2">Instructions Video :</Form.Label>
                 </div>
                 <div className="row mb-4">
-                  <Dropzone
-                    maxFiles={10}
-                    //maxSize={1}
-                    //multiple
-                    onDrop={(files) => {
-                      setFiles(files);
-                      console.log('accepted files', files);
-                    }}
-                    onReject={(files) => console.log('rejected files', files)}
-                    accept={{
-                      'image/*': [], // All images
-                      'video/*': ['.mp4', '.avi'], // All videos
-                    }}
-                    sx={(theme) => ({
-                      minHeight: '120px',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      border: 0,
-                      backgroundColor:
-                        theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-
-                      '&[data-accept]': {
-                        color: theme.white,
-                        backgroundColor: theme.colors.blue[6],
-                      },
-
-                      '&[data-reject]': {
-                        color: theme.white,
-                        backgroundColor: theme.colors.red[6],
-                      },
-                    })}
-                  >
-                    <Group
-                      position="center"
-                      spacing="xl"
-                      style={{ minHeight: '220px', pointerEvents: 'none' }}
-                    >
-                      <Dropzone.Accept>
-                        <IconUpload size="3.2rem" stroke={1.5} color={'#e3af32'} />
-                      </Dropzone.Accept>
-                      <Dropzone.Reject>
-                        <IconX size="3.2rem" stroke={1.5} color={'#e3af32'} />
-                      </Dropzone.Reject>
-                      <Dropzone.Idle>
-                        <IconPhoto size="3.2rem" stroke={1.5} />
-                      </Dropzone.Idle>
-
-                      <div>
-                        <Text size="xl" inline>
-                          Drag file here or click to select files
-                        </Text>
-                        {/*<Text size="sm" color="dimmed" inline mt={7}>
-                      Attach as many files as you like, each file should not exceed 5mb
-              </Text>*/}
+                  <section className="container">
+                    <div className="dropZoneContainer" style={style}>
+                      <div {...getRootProps({ className: 'dropzone' })}>
+                        <input {...getInputProps()} />
+                        {messageWithIconAndColor}
                       </div>
-                    </Group>
-                  </Dropzone>
-                  <SimpleGrid
-                    cols={4}
-                    breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
-                    mt={previews.length > 0 ? 'xl' : 0}
-                  >
-                    {previews}
-                  </SimpleGrid>
+                    </div>
+                    <SimpleGrid
+                      cols={4}
+                      breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
+                      mt={previews.length > 0 ? 'xl' : 0}
+                    >
+                      {previews}
+                    </SimpleGrid>
+                  </section>
                 </div>
               </div>
             </div>
