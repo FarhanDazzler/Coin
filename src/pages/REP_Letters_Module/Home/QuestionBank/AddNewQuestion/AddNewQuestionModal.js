@@ -3,8 +3,16 @@ import { useDispatch } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Button from '../../../../../components/UI/Button';
+import {
+  add_BU_Questions,
+  edit_BU_Questions,
+} from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
+import {} from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
 
 const AddNewQuestionModal = ({
+  isEdit,
+  editableData,
+  setEditableData,
   setShowModal,
   modalType,
   functionZone = null,
@@ -16,19 +24,25 @@ const AddNewQuestionModal = ({
   return (
     <div className="p-5">
       <Formik
-        initialValues={{ questionText: '' }}
+        initialValues={{ questionText: isEdit == true ? editableData?.questionText || '' : '' }}
         validationSchema={Yup.object().shape({
           questionText: Yup.string().required('Question text is required'),
         })}
         onSubmit={(values, { setErrors, setStatus, setSubmitting, resetForm }) => {
           try {
-            if (modalType == 'BU') {
-              const payload = {
-                module: modalType,
-                questionText: values.questionText,
-              };
-              console.log(payload, 'payload');
-              // dispatch(addMicsFramework(payload));
+            if (modalType === 'BU') {
+              if (isEdit === true) {
+                const payload = {
+                  id: editableData.questionID,
+                  text: values.questionText,
+                };
+                dispatch(edit_BU_Questions(payload));
+              } else {
+                const payload = {
+                  text: values.questionText,
+                };
+                dispatch(add_BU_Questions(payload));
+              }
             } else {
               const payload = {
                 module: modalType,
@@ -83,7 +97,14 @@ const AddNewQuestionModal = ({
             <div className="footer-action">
               <div className="d-flex align-items-center justify-content-end">
                 <div>
-                  <Button variant="outlined" color="secondary" onClick={() => setShowModal(false)}>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => {
+                      setShowModal(false);
+                      setEditableData({});
+                    }}
+                  >
                     Cancel
                   </Button>
                   <Button type="submit" color="neutral" className="ml-4">
