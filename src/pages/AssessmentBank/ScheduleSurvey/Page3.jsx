@@ -298,7 +298,16 @@ const Page3 = ({ handleNext, setStep }) => {
     );
   }, [getScheduleSurveyPage_3_table_State?.data[0]?.controlInstances]);
 
-  // logic for select all provider in multiselect filter button
+  // logic for select all in multiselect filter button
+  const dropdownArrayZone = ['Select All', ...getAllZone_State?.data?.map((i) => i.zone)];
+
+  const dropdownArrayBU = ['Select All', ...getAll_BU_FromZone_State?.data?.map((i) => i.BU)];
+
+  const dropdownArrayEntity = [
+    'Select All',
+    ...getAllEntityFromBU_State?.data?.map((i) => i.country_entity),
+  ];
+
   const dropdownArrayProvider = [
     'Select All',
     ...getAllProviderFromEntity_State?.data?.map((i) => i.Provider_Entity),
@@ -311,7 +320,7 @@ const Page3 = ({ handleNext, setStep }) => {
         <div className="col-lg-6">
           <MultiSelect
             className="mantine-MultiSelect-wrapper-AssessmentBank"
-            data={getAllZone_State?.data?.map((i) => i.zone) || []}
+            data={getAllZone_State?.data?.length ? dropdownArrayZone : []}
             label={<Form.Label className="mantine-MultiSelect-label">{'Zone'}</Form.Label>}
             placeholder={'Select Zone'}
             searchable
@@ -321,9 +330,16 @@ const Page3 = ({ handleNext, setStep }) => {
             clearable
             value={zoneValue}
             onChange={(e) => {
-              selectObjectFormik.setFieldValue('Zone', e);
-              setZoneValue(e);
-              //console.log(e, 'cowner filter');
+              if (e.includes('Select All')) {
+                selectObjectFormik.setFieldValue(
+                  'Zone',
+                  getAllZone_State?.data?.map((i) => i.zone),
+                );
+                setZoneValue(getAllZone_State?.data?.map((i) => i.zone));
+              } else {
+                selectObjectFormik.setFieldValue('Zone', e);
+                setZoneValue(e);
+              }
             }}
             disabled={selectObjectFormik.isSubmitting}
             error={selectObjectFormik.errors.Zone}
@@ -337,7 +353,7 @@ const Page3 = ({ handleNext, setStep }) => {
           <div className="col-lg-6">
             <MultiSelect
               className="mantine-MultiSelect-wrapper-AssessmentBank"
-              data={getAll_BU_FromZone_State?.data?.map((i) => i.BU) || []}
+              data={getAll_BU_FromZone_State?.data?.length ? dropdownArrayBU : []}
               label={<Form.Label className="mantine-MultiSelect-label">{'BU'}</Form.Label>}
               placeholder={'Select BU'}
               searchable
@@ -347,9 +363,16 @@ const Page3 = ({ handleNext, setStep }) => {
               clearable
               value={buValue}
               onChange={(e) => {
-                selectObjectFormik.setFieldValue('BU', e);
-                setBUValue(e);
-                //console.log(e, 'cowner filter');
+                if (e.includes('Select All')) {
+                  selectObjectFormik.setFieldValue(
+                    'BU',
+                    getAll_BU_FromZone_State?.data?.map((i) => i.BU),
+                  );
+                  setBUValue(getAll_BU_FromZone_State?.data?.map((i) => i.BU));
+                } else {
+                  selectObjectFormik.setFieldValue('BU', e);
+                  setBUValue(e);
+                }
               }}
               disabled={selectObjectFormik.isSubmitting}
               error={selectObjectFormik.errors.BU}
@@ -364,7 +387,7 @@ const Page3 = ({ handleNext, setStep }) => {
           <div className="col-lg-6">
             <MultiSelect
               className="mantine-MultiSelect-wrapper-AssessmentBank"
-              data={getAllEntityFromBU_State?.data?.map((i) => i.country_entity) || []}
+              data={getAllEntityFromBU_State?.data?.length ? dropdownArrayEntity : []}
               label={<Form.Label className="mantine-MultiSelect-label">{'Entity'}</Form.Label>}
               placeholder={'Select Entity'}
               searchable
@@ -374,9 +397,16 @@ const Page3 = ({ handleNext, setStep }) => {
               clearable
               value={entityValue}
               onChange={(e) => {
-                selectObjectFormik.setFieldValue('Entity', e);
-                setEntityValue(e);
-                //console.log(e, 'cowner filter');
+                if (e.includes('Select All')) {
+                  selectObjectFormik.setFieldValue(
+                    'Entity',
+                    getAllEntityFromBU_State?.data?.map((i) => i.country_entity),
+                  );
+                  setEntityValue(getAllEntityFromBU_State?.data?.map((i) => i.country_entity));
+                } else {
+                  selectObjectFormik.setFieldValue('Entity', e);
+                  setEntityValue(e);
+                }
               }}
               disabled={selectObjectFormik.isSubmitting}
               error={selectObjectFormik.errors.Entity}

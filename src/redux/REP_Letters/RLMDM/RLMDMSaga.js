@@ -42,6 +42,10 @@ import {
   ADD_RL_FUNCTIONAL_MASTERDATA_SUCCESS,
   ADD_RL_FUNCTIONAL_MASTERDATA_ERROR,
 } from './RLMDMReducer';
+import {
+  ACTION_ADD_ERROR_NOTIFICATION_DATA,
+  ACTION_REMOVE_ERROR_NOTIFICATION_DATA,
+} from '../../ErrorNotification/ErrorNotificationReducer';
 import Swal from 'sweetalert2';
 
 async function getRlOrgHierarchyApi(params) {
@@ -194,14 +198,27 @@ function* addOrganizationalMDApiData({ payload }) {
       yield call(getRlOrgHierarchyApi);
       yield call(getRlOrgMdApi);
     } else {
-      Swal.fire('Oops!', 'Somthing Went Wrong', 'error');
+      console.log("Response", response);
+      // Swal.fire('Oops!', 'Somthing Went Wrong', 'error');
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: "testing error Data", type: 'danger' },
+        },
+      });
     }
   } catch (error) {
     yield put({
       type: ACTION_ADD_ORGANIZATIONAL_MD_DATA_FAILED,
       // error: getSimplifiedError(error),
     });
-    Swal.fire('Oops!', 'Somthing Went Wrong', 'error');
+    // yield put({
+    //   type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+    //   payload: {
+    //     data: { text: 'Somthing Went Wrong', type: 'danger' },
+    //   },
+    // });
+    // Swal.fire('Oops!', 'Somthing Went Wrong', 'error');
   }
 }
 

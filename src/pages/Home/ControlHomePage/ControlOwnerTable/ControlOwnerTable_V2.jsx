@@ -122,7 +122,7 @@ const ControlOwnerTable = ({ tableName }) => {
       Cell: (row) => {
         return (
           <span
-            className={'text-yellow cursor-pointer'}
+            className={'text-yellow'}
             onClick={() => handleControlIDClick(row.row.original.Control_ID)}
           >
             {row.row.original.Control_ID}
@@ -130,7 +130,15 @@ const ControlOwnerTable = ({ tableName }) => {
         );
       },
     },
-
+    {
+      accessorKey: 'Provider',
+      id: 'Provider',
+      header: 'Provider',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
     {
       accessorKey: 'Status',
       id: 'Status',
