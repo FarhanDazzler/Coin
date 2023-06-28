@@ -25,7 +25,8 @@ import Section3MICSSpecific from '../Section3MICSSpecific';
 import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
 import Select from 'react-select';
 import { Form } from 'react-bootstrap';
-
+import { getControlDataAction } from '../../../redux/ControlData/ControlDataAction';
+import { useMsal } from '@azure/msal-react';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -38,6 +39,7 @@ const MenuProps = {
 };
 
 const CreateQuestions = ({ open, handleClose }) => {
+  const { accounts } = useMsal();
   const dispatch = useDispatch();
   const [section1, setSection1] = useState(questions);
   const [control_ID, setControl_ID] = useState(['']);
@@ -58,6 +60,16 @@ const CreateQuestions = ({ open, handleClose }) => {
       setControlIDList(controlidArray);
     }
   }, [repositoryOfControlID]);
+  // useEffect(() => {
+  //   if (control_ID[0]) {
+  //     let payload = {
+  //       controlId: control_ID[0],
+  //       coOwner: accounts.length > 0 ? accounts[0].username : '',
+  //     };
+
+  //     dispatch(getControlDataAction(payload));
+  //   }
+  // }, [control_ID[0]]);
   const handleChange = (event) => {
     const value = event.value;
     if (isEdit) {
@@ -189,6 +201,7 @@ const CreateQuestions = ({ open, handleClose }) => {
   return (
     <div>
       <CustomModal
+        className="create-question-custom-modal"
         bodyClassName="create-question-popup"
         open={open}
         title={
@@ -197,6 +210,7 @@ const CreateQuestions = ({ open, handleClose }) => {
             Create Questions for New MICS
           </span>
         }
+        controlId={control_ID[0]}
         width={1080}
         onClose={handleClose}
       >

@@ -256,7 +256,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
                     className="add-button-mdm-table"
                     onClick={handleOnclickAssign}
                   >
-                    Assign Provider
+                    Applicability and Assign Provider
                   </Button>
                   {localStorage.getItem('selected_Role') === 'Global internal control' && (
                     <Button

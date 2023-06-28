@@ -1,6 +1,6 @@
 .materialReactTableWrapper {
   th.MuiTableCell-root.MuiTableCell-head {
-    position: relative;
+    position: sticky;
   }
   .MuiCollapse-root.MuiCollapse-vertical.MuiCollapse-entered {
     padding-top: 10px;

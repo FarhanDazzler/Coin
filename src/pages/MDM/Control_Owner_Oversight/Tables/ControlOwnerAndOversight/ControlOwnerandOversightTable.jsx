@@ -395,7 +395,7 @@ const ControlOwnerAndOversightTable = () => {
                     className="edit-button-mdm-table"
                     onClick={handleOnclickEdit}
                   >
-                    Edit LCD
+                    Edit/Add LCD
                   </Button>
                   <Button
                     variant="outlined"
