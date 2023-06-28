@@ -11,6 +11,7 @@ const CustomModal = ({
   children,
   classes = {},
   onClose,
+  controlId = '',
   ...res
 }) => {
   let rootClass = 'custom-modal-wrapper';
@@ -34,6 +35,14 @@ const CustomModal = ({
                 <span className="font-weight-bold">Control Name: </span>
                 <span>{stateControlData.control_name}</span>
               </p>
+              { controlId &&
+                <p>
+                  <br />
+                  <br />
+                  <span className="">Control Id: </span>
+                  <span>{controlId}</span>
+                </p>
+              }
             </div>
           )}
           <div className={`modal-body ${bodyClassName ? bodyClassName : ''}`} id="modal-body">

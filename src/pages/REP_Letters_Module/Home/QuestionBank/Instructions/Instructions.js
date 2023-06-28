@@ -188,7 +188,6 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
         }) => (
           <Form onSubmit={handleSubmit}>
             <div className="row">
-              {/*Rich text Editor call*/}
               <div className="col-lg-12">
                 <div className="row mb-8">
                   <Form.Label className="mt-5">Instructions :</Form.Label>
