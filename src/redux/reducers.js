@@ -13,7 +13,7 @@ import { dashBoardReducer } from './DashBoard/DashBoardReducer';
 import { RLMDMReducer } from './REP_Letters/RLMDM/RLMDMReducer';
 import { AdminPageReducer } from './AdminPage/AdminPageReducer';
 import { RL_QuestionBankReducer } from './REP_Letters/RL_QuestionBank/RL_QuestionBankReducer';
-
+import { AzureBlobStorageReducer } from './AzureBlobStorage/AzureBlobReducer';
 // we will connect our reducers here
 
 const appReducer = (history) =>
@@ -32,6 +32,7 @@ const appReducer = (history) =>
     rlMdm: RLMDMReducer,
     adminPage: AdminPageReducer,
     RL_QuestionBank: RL_QuestionBankReducer,
+    AzureBlobStorage: AzureBlobStorageReducer,
   });
 
 const createRootReducer = (history) => (state, action) => {
