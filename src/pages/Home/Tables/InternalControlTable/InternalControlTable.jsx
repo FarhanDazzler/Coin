@@ -132,13 +132,22 @@ const InternalControlTable = (props) => {
       Cell: (row) => {
         return (
           <span
-            className={'text-yellow cursor-pointer'}
+            className={'text-yellow'}
             // onClick={() => handleControlIDClick(row.row.Control_ID)}
           >
             {row.row.original.Control_ID}
           </span>
         );
       },
+    },
+    {
+      accessorKey: 'Provider',
+      id: 'Provider',
+      header: 'Provider',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
     },
     {
       accessorKey: 'Status',
