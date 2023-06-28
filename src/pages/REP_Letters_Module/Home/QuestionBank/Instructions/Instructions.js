@@ -188,24 +188,6 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
         }) => (
           <Form onSubmit={handleSubmit}>
             <div className="row">
-              <div className="row mb-8">
-                url
-                <video width="240" height="180" controls>
-                  <source
-                    src="https://acoegrcstorageprod.blob.core.windows.net/poc/MOYO Chatbot DEMO.mp4"
-                    type="video/mp4"
-                  />
-                  Your browser does not support the video tag.
-                </video>
-                SAS token
-                <video width="240" height="180" controls>
-                  <source
-                    src="https://acoegrcstorageprod.blob.core.windows.net/poc/MOYO%20Chatbot%20DEMO.mp4?sp=r&st=2023-06-28T12:05:59Z&se=2023-06-28T20:05:59Z&spr=https&sv=2022-11-02&sr=b&sig=QBDBXqS97PaAZfy%2F6WZVY7uNeqgjC9ydVqOKHXXWyUs%3D"
-                    type="video/mp4"
-                  />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
               <div className="col-lg-12">
                 <div className="row mb-8">
                   <Form.Label className="mt-5">Instructions :</Form.Label>
