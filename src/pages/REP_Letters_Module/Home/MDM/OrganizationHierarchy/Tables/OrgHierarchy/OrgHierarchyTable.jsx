@@ -10,14 +10,13 @@ import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import Tooltip from '@mui/material/Tooltip';
 import { getRlOrgHierarchySelector } from '../../../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
 
-const OrgHierarchyTable = ({setRlOrgManageButtonState}) => {
+const OrgHierarchyTable = ({ setRlOrgManageButtonState }) => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
 
   const dispatch = useDispatch();
 
   const orgHierarchy = useSelector(getRlOrgHierarchySelector);
-
 
   const TABLE_COLUMNS = [
     {
@@ -32,7 +31,7 @@ const OrgHierarchyTable = ({setRlOrgManageButtonState}) => {
     {
       accessorKey: 'BU',
       id: 'BU',
-      header: 'BU',
+      header: 'Business Unit',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -84,7 +83,6 @@ const OrgHierarchyTable = ({setRlOrgManageButtonState}) => {
       <ControlPointRoundedIcon color="black" />
     </Tooltip>
   );
-
 
   return (
     <>

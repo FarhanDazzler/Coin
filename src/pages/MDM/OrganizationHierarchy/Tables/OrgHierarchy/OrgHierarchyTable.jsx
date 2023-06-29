@@ -36,7 +36,7 @@ const OrgHierarchyTable = () => {
     {
       accessorKey: 'BU',
       id: 'BU',
-      header: 'BU',
+      header: 'Business Unit',
       flex: 1,
       filterFn: 'arrIncludesSome',
       size: 230,
