@@ -24,6 +24,7 @@ import RenderHomeModalTable from './RenderHomeModalTable';
 import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAction';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import blockType from '../../../../../components/RenderBlock/constant';
+import CloseIcon from '@mui/icons-material/Close';
 
 const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
@@ -45,6 +46,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const [startEdit, setStartEdit] = useState(false);
   const addOrEditUpdateDraft = useSelector(addOrEditUpdateDraftSelector);
   const [loading, setLoading] = useState(false);
+  const [closeAssessment, setCloseAssessment] = useState(false);
   // const Control_ID = query.get('Assessment_id') || !isModal ? 'ATR_MJE_01a-K' : '';
   const Control_ID = Assessment_id || query.get('Control_ID');
   const responseUpdatedData =
@@ -230,19 +232,27 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         const isupdated = ansSection1.find((i) => i.is_AD === 1);
         const dataArray = Object.keys(ansSection3) || [];
         const isS3Failed = showNoQuestionAns && dataArray.includes('L3') ? false : true;
-        debugger
+        debugger;
         const payload = {
           Assessment_ID: activeData.id,
-          Assessment_result:isupdated ? 'NA' :dataArray.includes('L3')? isS3Failed || s1FailObj ? 'Fail' : 'Pass':s1FailObj ? 'Fail' : 'Pass',
+          Assessment_result: isupdated
+            ? 'NA'
+            : dataArray.includes('L3')
+            ? isS3Failed || s1FailObj
+              ? 'Fail'
+              : 'Pass'
+            : s1FailObj
+            ? 'Fail'
+            : 'Pass',
           Latest_response: {
             s1: ansSection1,
-            s3:  Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+            s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
           },
-          kpis:isupdated ? [] : tableData,
+          kpis: isupdated ? [] : tableData,
           event: {
             onSuccess: () => {
               setLoading(false);
-              if (dataArray.includes('L3')?isS3Failed || s1FailObj: s1FailObj) {
+              if (dataArray.includes('L3') ? isS3Failed || s1FailObj : s1FailObj) {
                 Swal.fire('Your Assesment has been failed', '', 'success');
               } else {
                 Swal.fire('Your Assesment has been passed', '', 'success');
@@ -318,19 +328,36 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       }
     });
   };
-
+  const handleCloseAssessment = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `You want to cancel the Assessment`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'golden',
+      cancelButtonColor: 'black',
+      confirmButtonText: 'Close Assessment',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        history.push('/');
+      }
+    });
+  }
   if (!isModal)
     return (
       <>
         {Control_ID && (
           <div className="homeTableModalTop">
-            <div className="topBar">
-              <div className="mb-2">
-                {/*<CloseIcon className="close-modal-icon" onClick={handleClose} />*/}
-                {Control_ID}
+            <div className="topBar d-flex justify-content-between">
+              <div>
+                <div className="mb-2">
+                  {/*<CloseIcon className="close-modal-icon" onClick={handleClose} />*/}
+                  {Control_ID}
+                </div>
+                <span className="font-weight-bold">Control Name: </span>
+                <span>{stateControlData.control_name}</span>
               </div>
-              <span className="font-weight-bold">Control Name: </span>
-              <span>{stateControlData.control_name}</span>
+              <CloseIcon className="close-modal-icon" onClick={() => handleCloseAssessment()} />
             </div>
           </div>
         )}

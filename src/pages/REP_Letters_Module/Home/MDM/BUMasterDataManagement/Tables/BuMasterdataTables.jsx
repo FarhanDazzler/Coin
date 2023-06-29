@@ -50,7 +50,7 @@ const BuMasterdataTable = () => {
     {
       accessorKey: 'BU',
       id: 'BU',
-      header: 'BU',
+      header: 'Business Unit',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
