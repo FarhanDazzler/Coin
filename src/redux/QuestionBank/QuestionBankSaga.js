@@ -25,6 +25,7 @@ import {
     ACTION_DELETE_SECTION1_OPTIONS_DATA_SUCCESS,
     ACTION_DELETE_SECTION1_OPTIONS_DATA_FAILED
 } from '../types';
+import { ACTION_ADD_ERROR_NOTIFICATION_DATA } from '../ErrorNotification/ErrorNotificationReducer';
 import { Axios } from '../../api/axios';
 import { getSimplifiedError } from '../../utils/error';
 import Swal from 'sweetalert2';
@@ -106,6 +107,12 @@ function* addSection1QuestionData(payload) {
         type: ACTION_ADD_SECTION1_QUESTIONS_DATA_FAILED,
         message: "Somthing went wrong",
       });
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: "Something Went Wrong", type: 'danger' },
+        },
+      });
     }
   } catch (e) {
     yield put({ type: ACTION_ADD_SECTION1_QUESTIONS_DATA_FAILED, error: getSimplifiedError(e) });
@@ -133,6 +140,12 @@ function* addSection1OptionData(payload) {
       yield put({
         type: ACTION_ADD_SECTION1_OPTIONS_DATA_FAILED,
         message: "Somthing went wrong",
+      });
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: "Something Went Wrong", type: 'danger' },
+        },
       });
     }
   } catch (e) {
@@ -163,6 +176,12 @@ function* editSection1QuestionData(payload) {
         type: ACTION_EDIT_SECTION1_QUESTIONS_DATA_FAILED,
         message: "Somthing went wrong",
       });
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: "Something Went Wrong", type: 'danger' },
+        },
+      });
     }
   } catch (e) {
     yield put({ type: ACTION_EDIT_SECTION1_QUESTIONS_DATA_FAILED, error: getSimplifiedError(e) });
@@ -191,6 +210,12 @@ function* editSection1OptionsData(payload) {
       yield put({
         type: ACTION_EDIT_SECTION1_OPTIONS_DATA_FAILED,
         message: "Somthing went wrong",
+      });
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: "Something Went Wrong", type: 'danger' },
+        },
       });
     }
   } catch (e) {
@@ -249,6 +274,12 @@ function* deleteSection1OptionData(payload) {
       yield put({
         type: ACTION_DELETE_SECTION1_OPTIONS_DATA_FAILED,
         message: "Somthing went wrong",
+      });
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: "Something Went Wrong", type: 'danger' },
+        },
       });
     }
   } catch (e) {
