@@ -4,12 +4,19 @@
     <!-- MS Clarity Code -->
     <!-- Please change the h0nb4waz0k (Dev ID) to ENV Value when pipeline is stepued -->
     <script type="text/javascript">
-      (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "h0nb4waz0k");
-  </script>
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = 'https://www.clarity.ms/tag/' + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, 'clarity', 'script', 'h0nb4waz0k');
+    </script>
 
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -32,9 +39,25 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>COIN</title>
+
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: 'en',
+            includedLanguages: 'en,es,fr,ko,pt,zh-CN',
+            autoDisplay: false,
+            multilanguagePage: true,
+          },
+          'google_translate_element',
+        );
+      }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="google_translate_element"></div>
     <div id="root"></div>
     <!--
       This HTML file is a template.
