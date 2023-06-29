@@ -53,6 +53,8 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
   const UpdateOptionSuccess = useSelector(
     (state) => state?.section1QuestionData?.section1EditOption,
   );
+  const Question1UpdateState = useSelector((state) => state?.questions?.question1Update);
+  const Question1OptionsUpdateState = useSelector((state) => state?.questions?.question1Option);
   const [section1QuestionsData, setection1QuestionsData] = useState([]);
   const [controlIDOption, setControlIDOption] = useState();
   const [template_ID, setTemplate_ID] = useState('Standard');
@@ -107,6 +109,8 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
     UpdateQuestionSuccess,
     AddOptionSuccess,
     UpdateOptionSuccess,
+    Question1UpdateState,
+    Question1OptionsUpdateState
   ]);
   useEffect(() => {
     if (section1Questions.length > 0) {
