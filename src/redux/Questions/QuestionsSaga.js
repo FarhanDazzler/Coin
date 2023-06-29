@@ -96,6 +96,7 @@ function* handleUpdateSection1({ payload }) {
         type: UPDATE_SECTION_1_MICS_SUCCESS,
         payload: { loadingId },
       });
+      Swal.fire('Done!', 'Updated Successfully!', 'success');
     }
   } catch (error) {
     yield put({
