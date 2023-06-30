@@ -31,6 +31,7 @@ const ControlSection3 = ({
   const [questionL1, setQuestionL1] = useState([]);
   const [questionL2, setQuestionL2] = useState([]);
   const [questionL3, setQuestionL3] = useState([]);
+  const [showNoQuestion, setShowNoQuestion] = useState(false);
 
   const setSelectedQuestionAns = (question, ansObj) => {
     return question.map((q1) => {
@@ -70,6 +71,14 @@ const ControlSection3 = ({
   }, []);
 
   useEffect(() => {
+    if (showNoQuestion) {
+      setShowNoQuestionAns('');
+      const div = document.getElementById('noOptionInput');
+      if (div) div.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [showNoQuestion]);
+
+  useEffect(() => {
     setTerminating(showNoQuestionAns.length > 0);
   }, [showNoQuestionAns]);
 
@@ -105,9 +114,11 @@ const ControlSection3 = ({
         if (ansObjectL1.length !== allYesFilterData1.length) {
           setQuestionL2([]);
           setQuestionL3([]);
-          setTerminating(true);
-          // setShowNoQuestion(true);
+          // setTerminating(true);
+          setShowNoQuestion(true);
           return;
+        } else {
+          setShowNoQuestion(false);
         }
       } else {
         if (ans.L1) {
@@ -130,9 +141,11 @@ const ControlSection3 = ({
         setTerminating(false);
         if (ansObjectL2.length !== allYesFilterData2.length) {
           setQuestionL3([]);
-          setTerminating(true);
-          // setShowNoQuestion(true);
+          // setTerminating(true);
+          setShowNoQuestion(true);
           return;
+        } else {
+          setShowNoQuestion(false);
         }
       } else {
         if (ans.L2) {
@@ -150,8 +163,10 @@ const ControlSection3 = ({
           return ans.L3[key].includes('yes');
         });
         if (ansObjectL3.length === allYesFilterData3.length) {
-          setTerminating(true);
+          // setTerminating(true);
+          setShowNoQuestion(false);
         } else {
+          // setShowNoQuestion(true);
           setTerminating(true);
         }
       }
@@ -207,6 +222,38 @@ const ControlSection3 = ({
               <RenderBlock blocks={questionL3} isModal={isModal} handleChange={handleChange} />
             )}
           </>
+
+          {showNoQuestion && (
+            <RenderBlockWrapper id="noOptionInput">
+              {/* <Input
+                autoFocus
+                formControlProps={{ className: 'input-wrapper full-input' }}
+                label="Based on above response, action plans needs to be created on the failed control. Request you to elaborate the action Plan?
+(Hint: Action plan is a time bound proposition designed to remediate the control breakdown with the objective of ensuring MICS compliance)"
+                value={showNoQuestionAns}
+                required
+                handleChange={handleChangeNoQuestion}
+              />
+              */}
+              <Form.Label>
+                Based on above response, action plans needs to be created on the failed control.
+                Request you to elaborate the action Plan? (Hint: Action plan is a time bound
+                proposition designed to remediate the control breakdown with the objective of
+                ensuring MICS compliance) <span className="text-danger">*</span>
+              </Form.Label>
+              <Form.Group className="input-group mb-3">
+                <Form.Control
+                  type="text"
+                  name=""
+                  placeholder=""
+                  className="form-control"
+                  maxLength="1000"
+                  value={showNoQuestionAns}
+                  onChange={(e) => handleChangeNoQuestion(e.target.value)}
+                />
+              </Form.Group>
+            </RenderBlockWrapper>
+          )}
 
           {questionData.loading && (
             <div className="d-flex w-100 justify-content-center pt-4" id="loader">
