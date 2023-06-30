@@ -141,8 +141,8 @@ const ControlSection3 = ({
         setTerminating(false);
         if (ansObjectL2.length !== allYesFilterData2.length) {
           setQuestionL3([]);
-          // setTerminating(true);
           setShowNoQuestion(true);
+          // setTerminating(true);
           return;
         } else {
           setShowNoQuestion(false);
@@ -163,7 +163,7 @@ const ControlSection3 = ({
           return ans.L3[key].includes('yes');
         });
         if (ansObjectL3.length === allYesFilterData3.length) {
-          // setTerminating(true);
+          setTerminating(true);
           setShowNoQuestion(false);
         } else {
           // setShowNoQuestion(true);
