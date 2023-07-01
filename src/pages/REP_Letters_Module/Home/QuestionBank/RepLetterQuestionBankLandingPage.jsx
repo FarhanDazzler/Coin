@@ -31,7 +31,9 @@ const RLQuestionBank = () => {
   const handleFunctionalModify = () => {
     history.push('/REP-Letters/questionbank/Rep-Letter-Modify');
   };
-  const handleFunctionalCreate = () => {};
+  const handleFunctionalCreate = () => {
+    history.push('/REP-Letters/questionbank/Function-add');
+  };
   return (
     <>
       <PageWrapper>
