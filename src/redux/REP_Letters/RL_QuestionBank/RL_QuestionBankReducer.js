@@ -40,6 +40,7 @@ export const GET_LETTER_NAME_FROM_FUNCTION_ERROR = 'GET_LETTER_NAME_FROM_FUNCTIO
 // =================== GET LETTER NAME FROM FUNCTION REQUEST ========================//
 
 // =================== GET FUNCTION QUESTIONS ========================//
+export const CLEAR_GET_FUNCTION_QUESTIONS_REQUEST = 'CLEAR_GET_FUNCTION_QUESTIONS_REQUEST';
 export const GET_FUNCTION_QUESTIONS_REQUEST = 'GET_FUNCTION_QUESTIONS_REQUEST';
 export const GET_FUNCTION_QUESTIONS_ERROR = 'GET_FUNCTION_QUESTIONS_ERROR';
 export const GET_FUNCTION_QUESTIONS_SUCCESS = 'GET_FUNCTION_QUESTIONS_SUCCESS';
@@ -212,6 +213,13 @@ export const RL_QuestionBankReducer = (state = initialState, { type, payload = {
       return {
         ...state,
         get_Function_Questions: { ...state.get_Function_Questions, loading: false },
+      };
+
+    // clear get function questions
+    case CLEAR_GET_FUNCTION_QUESTIONS_REQUEST:
+      return {
+        ...state,
+        get_Function_Questions: { ...state.get_Function_Questions, data: [], loading: false },
       };
 
     // Add FUNCTION Questions

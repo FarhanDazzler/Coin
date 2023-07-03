@@ -25,12 +25,14 @@ import {
   delete_Function_Questions,
   getLetterNameFromFunction,
   createNewFunctionRequest,
+  clear_get_Function_Questions,
 } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import {
   get_Function_QuestionsSelector,
   add_Function_QuestionsSelector,
   edit_Function_QuestionsSelector,
   delete_Function_QuestionsSelector,
+  createNewFunctionRequestSelector,
 } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
 import RemoveWarningModal from '../../../../../components/UI/AttributesRemoveModal';
 
@@ -63,8 +65,8 @@ const Options = ({
         let payload = {
           id: questionID,
         };
-        console.log(payload, 'payload');
-        //dispatch(delete_Function_Questions(payload));
+
+        dispatch(delete_Function_Questions(payload));
       }
     });
   };
@@ -126,6 +128,7 @@ const GetFormikFieldValue = () => {
 
 const CreateNewFunctionLetter = ({ setIsCreated, setFunctionLetterName, setFunctionType }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleOnclickCancel = () => {
     history.push('/REP-Letters/questionbank');
@@ -135,11 +138,10 @@ const CreateNewFunctionLetter = ({ setIsCreated, setFunctionLetterName, setFunct
 
   const handleSave = (value) => {
     const payload = {
-      Function: value.Function,
-      FunctionLetterName: value.FunctionLetterName,
+      Type: value.Function,
+      Name: value.FunctionLetterName,
     };
-    console.log(payload, 'payload');
-    //dispatch(createNewFunctionRequest(payload));
+    dispatch(createNewFunctionRequest(payload));
     setIsCreated(true);
     setFunctionLetterName(value.FunctionLetterName);
     setFunctionType(value.Function);
@@ -257,6 +259,14 @@ const CreateNewFunctionLetter = ({ setIsCreated, setFunctionLetterName, setFunct
 
 const FunctionAddQuestions = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  const [functionLetterName, setFunctionLetterName] = useState('');
+  const [functionType, setFunctionType] = useState('');
+  const [ShowBUModifyModal, setShowBUModifyModal] = useState(false);
+  const [editableData, setEditableData] = useState();
+  const [isEdit, setIsEdit] = useState(false);
+  const [isCreated, setIsCreated] = useState(false);
 
   useEffect(() => {
     dispatch(get_rep_functions());
@@ -265,31 +275,39 @@ const FunctionAddQuestions = () => {
   const delete_Function_QuestionsState = useSelector(delete_Function_QuestionsSelector);
   const edit_Function_QuestionsState = useSelector(edit_Function_QuestionsSelector);
   const add_Function_QuestionsState = useSelector(add_Function_QuestionsSelector);
+  const createNewFunctionRequestState = useSelector(createNewFunctionRequestSelector);
+  const get_Function_QuestionState = useSelector(get_Function_QuestionsSelector);
 
   // logic for closing pop up
   useEffect(() => {
-    dispatch(get_Function_Questions());
-    setShowBUModifyModal(false);
+    if (isCreated) {
+      let payload = {
+        function: functionType,
+        letter: functionLetterName,
+      };
+      dispatch(get_Function_Questions(payload));
+      setShowBUModifyModal(false);
+    }
   }, [
     delete_Function_QuestionsState?.data,
     edit_Function_QuestionsState?.data,
     add_Function_QuestionsState?.data,
+    createNewFunctionRequestState?.data,
   ]);
-
-  const [ShowBUModifyModal, setShowBUModifyModal] = useState(false);
-  const [editableData, setEditableData] = useState();
-  const [isEdit, setIsEdit] = useState(false);
-  const [isCreated, setIsCreated] = useState(false);
-  const [functionLetterName, setFunctionLetterName] = useState('');
-  const [functionType, setFunctionType] = useState('');
-
-  const get_Function_QuestionState = useSelector(get_Function_QuestionsSelector);
 
   const handleOnclickAdd = () => {
     // Add code
     setIsEdit(false);
     setShowBUModifyModal(true);
   };
+
+  // clear all the states on page leave or refresh page or change url path or change module or change role
+  useEffect(() => {
+    return () => {
+      dispatch(clear_get_Function_Questions());
+      //alert('clear');
+    };
+  }, []);
 
   return (
     <>

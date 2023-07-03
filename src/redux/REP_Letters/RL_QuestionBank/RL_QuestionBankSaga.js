@@ -136,7 +136,7 @@ function* delete_BU_Questions_Data({ payload }) {
 
 // CREATE NEW FUNCTION LETTER
 async function createNewFunctionRequestApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/add_new_functional_letter', payload);
 }
 function* createNewFunctionRequest_Data({ payload }) {
   try {
@@ -162,7 +162,7 @@ function* createNewFunctionRequest_Data({ payload }) {
 
 // GET LETTER NAME FROM FUNCTION
 async function getLetterNameFromFunctionApi(params) {
-  return await Axios.get('/', { params });
+  return await Axios.get('/get_letter_name_from_function', { params });
 }
 function* handle_GetLetterNameFromFunction({ payload }) {
   try {
@@ -182,7 +182,7 @@ function* handle_GetLetterNameFromFunction({ payload }) {
 
 // get FUNCTION Questions
 async function get_Function_QuestionsApi(params) {
-  return await Axios.get('/', { params });
+  return await Axios.post('/get_functional_questions', { params });
 }
 function* handleGet_Function_Questions({ payload }) {
   try {
@@ -202,7 +202,7 @@ function* handleGet_Function_Questions({ payload }) {
 
 // Add FUNCTION Questions
 async function add_Function_QuestionsApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/add_functional_questions', payload);
 }
 function* add_Function_Questions_Data({ payload }) {
   try {
@@ -228,7 +228,7 @@ function* add_Function_Questions_Data({ payload }) {
 }
 
 async function edit_Function_QuestionsApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/update_functional_questions', payload);
 }
 function* edit_Function_Questions_Data({ payload }) {
   try {
@@ -254,7 +254,7 @@ function* edit_Function_Questions_Data({ payload }) {
 }
 
 async function delete_Function_QuestionsApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/delete_functional_questions', payload);
 }
 function* delete_Function_Questions_Data({ payload }) {
   try {
@@ -284,6 +284,8 @@ export default all([
   takeLatest(ADD_BU_QUESTIONS_REQUEST, add_BU_Questions_Data),
   takeLatest(EDIT_BU_QUESTIONS_REQUEST, edit_BU_Questions_Data),
   takeLatest(DELETE_BU_QUESTIONS_REQUEST, delete_BU_Questions_Data),
+  takeLatest(GET_LETTER_NAME_FROM_FUNCTION_REQUEST, handle_GetLetterNameFromFunction),
+  takeLatest(CREATE_NEW_FUNCTION_LETTER_REQUEST, createNewFunctionRequest_Data),
   takeLatest(GET_FUNCTION_QUESTIONS_REQUEST, handleGet_Function_Questions),
   takeLatest(ADD_FUNCTION_QUESTIONS_REQUEST, add_Function_Questions_Data),
   takeLatest(EDIT_FUNCTION_QUESTIONS_REQUEST, edit_Function_Questions_Data),
