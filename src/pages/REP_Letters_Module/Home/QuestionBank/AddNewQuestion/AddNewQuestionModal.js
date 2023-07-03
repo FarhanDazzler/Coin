@@ -6,6 +6,8 @@ import Button from '../../../../../components/UI/Button';
 import {
   add_BU_Questions,
   edit_BU_Questions,
+  add_Function_Questions,
+  edit_Function_Questions,
 } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import {} from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
 
@@ -15,7 +17,6 @@ const AddNewQuestionModal = ({
   setEditableData,
   setShowModal,
   modalType,
-  functionZone = null,
   functionType = null,
   functionName = null,
 }) => {
@@ -44,14 +45,23 @@ const AddNewQuestionModal = ({
                 dispatch(add_BU_Questions(payload));
               }
             } else {
-              const payload = {
-                functionZone: functionZone,
-                functionType: functionType,
-                functionName: functionName,
-                questionText: values.questionText,
-              };
-              console.log(payload, 'payload');
-              // dispatch(addMicsFramework(payload));
+              if (isEdit === true) {
+                const payload = {
+                  functionType: functionType,
+                  functionName: functionName,
+                  id: editableData.questionID,
+                  text: values.questionText,
+                };
+                dispatch(edit_Function_Questions(payload));
+              } else {
+                const payload = {
+                  functionType: functionType,
+                  functionName: functionName,
+                  questionText: values.questionText,
+                };
+                console.log(payload, 'payload');
+                dispatch(add_Function_Questions(payload));
+              }
             }
           } catch (error) {
             const message = error.message || 'Something went wrong';
