@@ -23,6 +23,8 @@ import {
   add_Function_Questions,
   edit_Function_Questions,
   delete_Function_Questions,
+  getLetterNameFromFunction,
+  createNewFunctionRequest,
 } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import {
   get_Function_QuestionsSelector,
@@ -137,7 +139,7 @@ const CreateNewFunctionLetter = ({ setIsCreated, setFunctionLetterName, setFunct
       FunctionLetterName: value.FunctionLetterName,
     };
     console.log(payload, 'payload');
-    //dispatch(assignApplicabilityAndAssignmentOfProviderOrganization(payload));
+    //dispatch(createNewFunctionRequest(payload));
     setIsCreated(true);
     setFunctionLetterName(value.FunctionLetterName);
     setFunctionType(value.Function);

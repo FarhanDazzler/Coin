@@ -25,6 +25,20 @@ export const DELETE_BU_QUESTIONS_SUCCESS = 'DELETE_BU_QUESTIONS_SUCCESS';
 
 // =================== DELETE BU QUESTIONS ========================//
 
+// =================== CREATE NEW FUNCTION_LETTER ========================//
+export const CREATE_NEW_FUNCTION_LETTER_REQUEST = 'CREATE_NEW_FUNCTION_LETTER_REQUEST';
+export const CREATE_NEW_FUNCTION_LETTER_SUCCESS = 'CREATE_NEW_FUNCTION_LETTER_SUCCESS';
+export const CREATE_NEW_FUNCTION_LETTER_ERROR = 'CREATE_NEW_FUNCTION_LETTER_ERROR';
+// =================== CREATE NEW FUNCTION LETTER ========================//
+
+// =================== GET LETTER NAME_FROM FUNCTION REQUEST ========================//
+
+export const GET_LETTER_NAME_FROM_FUNCTION_REQUEST = 'GET_LETTER_NAME_FROM_FUNCTION_REQUEST';
+export const GET_LETTER_NAME_FROM_FUNCTION_SUCCESS = 'GET_LETTER_NAME_FROM_FUNCTION_SUCCESS';
+export const GET_LETTER_NAME_FROM_FUNCTION_ERROR = 'GET_LETTER_NAME_FROM_FUNCTION_ERROR';
+
+// =================== GET LETTER NAME FROM FUNCTION REQUEST ========================//
+
 // =================== GET FUNCTION QUESTIONS ========================//
 export const GET_FUNCTION_QUESTIONS_REQUEST = 'GET_FUNCTION_QUESTIONS_REQUEST';
 export const GET_FUNCTION_QUESTIONS_ERROR = 'GET_FUNCTION_QUESTIONS_ERROR';
@@ -63,6 +77,8 @@ const initialState = {
   add_BU_Questions: { ...block, data: [] },
   edit_BU_Questions: { ...block, data: [] },
   delete_BU_Questions: { ...block, data: [] },
+  createNewFunctionRequest: { ...block, data: [] },
+  getLetterNameFromFunction: { ...block, data: [] },
   get_Function_Questions: { ...block, data: [] },
   add_Function_Questions: { ...block, data: [] },
   edit_Function_Questions: { ...block, data: [] },
@@ -137,6 +153,48 @@ export const RL_QuestionBankReducer = (state = initialState, { type, payload = {
       return {
         ...state,
         delete_BU_Questions: { ...state.delete_BU_Questions, loading: false },
+      };
+
+    // CREATE NEW FUNCTION LETTER
+    case CREATE_NEW_FUNCTION_LETTER_REQUEST:
+      return {
+        ...state,
+        createNewFunctionRequest: { ...state.createNewFunctionRequest, loading: true },
+      };
+    case CREATE_NEW_FUNCTION_LETTER_SUCCESS:
+      return {
+        ...state,
+        createNewFunctionRequest: {
+          ...state.createNewFunctionRequest,
+          data: payload,
+          loading: false,
+        },
+      };
+    case CREATE_NEW_FUNCTION_LETTER_ERROR:
+      return {
+        ...state,
+        createNewFunctionRequest: { ...state.createNewFunctionRequest, loading: false },
+      };
+
+    // GET LETTER NAME FROM FUNCTION
+    case GET_LETTER_NAME_FROM_FUNCTION_REQUEST:
+      return {
+        ...state,
+        getLetterNameFromFunction: { ...state.getLetterNameFromFunction, loading: true },
+      };
+    case GET_LETTER_NAME_FROM_FUNCTION_SUCCESS:
+      return {
+        ...state,
+        getLetterNameFromFunction: {
+          ...state.getLetterNameFromFunction,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_LETTER_NAME_FROM_FUNCTION_ERROR:
+      return {
+        ...state,
+        getLetterNameFromFunction: { ...state.getLetterNameFromFunction, loading: false },
       };
 
     // Get FUNCTION Questions

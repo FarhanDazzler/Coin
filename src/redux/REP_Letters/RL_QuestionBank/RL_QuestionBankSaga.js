@@ -26,6 +26,12 @@ import {
   DELETE_FUNCTION_QUESTIONS_REQUEST,
   DELETE_FUNCTION_QUESTIONS_ERROR,
   DELETE_FUNCTION_QUESTIONS_SUCCESS,
+  CREATE_NEW_FUNCTION_LETTER_REQUEST,
+  CREATE_NEW_FUNCTION_LETTER_SUCCESS,
+  CREATE_NEW_FUNCTION_LETTER_ERROR,
+  GET_LETTER_NAME_FROM_FUNCTION_REQUEST,
+  GET_LETTER_NAME_FROM_FUNCTION_SUCCESS,
+  GET_LETTER_NAME_FROM_FUNCTION_ERROR,
 } from './RL_QuestionBankReducer';
 import Swal from 'sweetalert2';
 
@@ -125,6 +131,52 @@ function* delete_BU_Questions_Data({ payload }) {
       // error: getSimplifiedError(error),
     });
     Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+// CREATE NEW FUNCTION LETTER
+async function createNewFunctionRequestApi(payload) {
+  return await Axios.post('/', payload);
+}
+function* createNewFunctionRequest_Data({ payload }) {
+  try {
+    const response = yield call(createNewFunctionRequestApi, payload);
+
+    if (response.success) {
+      yield put({
+        type: CREATE_NEW_FUNCTION_LETTER_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Letter Created Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: CREATE_NEW_FUNCTION_LETTER_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+// GET LETTER NAME FROM FUNCTION
+async function getLetterNameFromFunctionApi(params) {
+  return await Axios.get('/', { params });
+}
+function* handle_GetLetterNameFromFunction({ payload }) {
+  try {
+    const response = yield call(getLetterNameFromFunctionApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_LETTER_NAME_FROM_FUNCTION_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_LETTER_NAME_FROM_FUNCTION_ERROR,
+    });
   }
 }
 
