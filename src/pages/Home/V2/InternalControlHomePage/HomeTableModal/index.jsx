@@ -142,6 +142,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   }, [terminating]);
 
   useEffect(() => {
+    if (showMoreSection && !(Object.keys(ansSection3).length > 0)) {
+      setTerminating(true);
+    }
+  }, [showMoreSection]);
+
+  useEffect(() => {
     if (responseUpdatedData) {
       if (responseUpdatedData.s1) setAnsSection1(responseUpdatedData.s1);
 
@@ -226,13 +232,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       denyButtonColor: 'silver',
     }).then((result) => {
       if (result.isConfirmed) {
-        setLoading(true);
+        // setLoading(true);
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
         const s1FailObj = getIsFaildValueSelect();
         const isupdated = ansSection1.find((i) => i.is_AD === 1);
         const dataArray = Object.keys(ansSection3) || [];
         const isS3Failed = showNoQuestionAns && dataArray.includes('L3') ? false : true;
-        debugger;
         const payload = {
           Assessment_ID: activeData.id,
           Assessment_result: isupdated
@@ -342,7 +347,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         history.push('/');
       }
     });
-  }
+  };
   if (!isModal)
     return (
       <>

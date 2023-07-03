@@ -114,6 +114,7 @@ const ControlSection3 = ({
         if (ansObjectL1.length !== allYesFilterData1.length) {
           setQuestionL2([]);
           setQuestionL3([]);
+          // setTerminating(true);
           setShowNoQuestion(true);
           return;
         } else {
@@ -141,6 +142,7 @@ const ControlSection3 = ({
         if (ansObjectL2.length !== allYesFilterData2.length) {
           setQuestionL3([]);
           setShowNoQuestion(true);
+          // setTerminating(true);
           return;
         } else {
           setShowNoQuestion(false);
@@ -164,7 +166,8 @@ const ControlSection3 = ({
           setTerminating(true);
           setShowNoQuestion(false);
         } else {
-          setShowNoQuestion(true);
+          // setShowNoQuestion(true);
+          setTerminating(true);
         }
       }
       updateAns.L3 = ans.L3;
@@ -190,6 +193,9 @@ const ControlSection3 = ({
       const apiQuestionL3 = getQuestionsFormatData(questionData.Level?.L3);
       if (!questionL3.length > 0) {
         setQuestionL3(getFormatQuestions(apiQuestionL3, null, 'L3'));
+        if (ans.L3) {
+          setTerminating(true);
+        }
       }
     }
   }, [questionData.Level]);
@@ -248,6 +254,7 @@ const ControlSection3 = ({
               </Form.Group>
             </RenderBlockWrapper>
           )}
+
           {questionData.loading && (
             <div className="d-flex w-100 justify-content-center pt-4" id="loader">
               <Loader />

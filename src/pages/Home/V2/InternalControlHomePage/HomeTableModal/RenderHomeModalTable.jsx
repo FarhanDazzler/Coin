@@ -15,7 +15,7 @@ const RenderHomeModalTable = ({
   tableData,
   setTableData,
   setTerminating,
-  ansSection3,
+  ansSection3 = {},
   setAnsSection3,
   showNoQuestionAns,
   setShowNoQuestionAns,
@@ -30,58 +30,46 @@ const RenderHomeModalTable = ({
 }) => {
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
   React.useEffect(() => {
+    let sectionTerminating = false;
     if (Object.keys(ansSection3).length !== 0) {
-      ansSection1.find((data) => {
+      ansSection1.forEach((data) => {
         if (data.q_id == '3') {
-          data.options.find((option) => {
+          data.options.forEach((option) => {
             if (data.value === option.value) {
               if (option.label == 'Yes') {
-                console.log('q-3 failed with yes');
-                setSection1TerminatingLogicValue(true);
+                sectionTerminating = true;
+                // setSection1TerminatingLogicValue(true);
               }
             }
           });
         }
         if (data.q_id == '6') {
-          data.options.find((option) => {
+          data.options.forEach((option) => {
             if (data.value === option.value) {
               if (option.label == 'No') {
-                console.log('q-6 failed with no');
-                setSection1TerminatingLogicValue(true);
+                sectionTerminating = true;
+                // setSection1TerminatingLogicValue(true);
               }
             }
           });
         }
 
         if (data.q_id == '5') {
-          data.options.find((option) => {
+          data.options.forEach((option) => {
             if (data.value === option.value) {
               if (
                 option.label == 'Yes - In e-mail box / on my personal laptop' ||
                 option.label == 'No - Evidence of Control Execution is not Stored'
               ) {
-                console.log('q-5 failed with', option.label);
-                setSection1TerminatingLogicValue(true);
-              }
-            }
-          });
-        }
-        if (data.q_id == '8') {
-          console.log('q-8 failed');
-          setSection1TerminatingLogicValue(true);
-        }
-        if (data.q_id == '9') {
-          data.options.find((option) => {
-            if (data.value === option.value) {
-              if (option.label == 'Not up to date') {
-                console.log('q-9 failed with', option.label);
-                setSection1TerminatingLogicValue(true);
+                sectionTerminating = true;
+                // setSection1TerminatingLogicValue(true);
               }
             }
           });
         }
       });
     }
+    setSection1TerminatingLogicValue(sectionTerminating);
   }, [ansSection3]);
 
   return (
@@ -111,15 +99,17 @@ const RenderHomeModalTable = ({
                 setStartEdit={setStartEdit}
                 isModal={isModal}
               />
-              <ControlSection3
-                setTerminating={setTerminating}
-                ans={ansSection3}
-                setAns={setAnsSection3}
-                showNoQuestionAns={showNoQuestionAns}
-                setShowNoQuestionAns={setShowNoQuestionAns}
-                setStartEdit={setStartEdit}
-                isModal={!isModal}
-              />
+              {Object.keys(ansSection3).length > 0 && (
+                <ControlSection3
+                  setTerminating={setTerminating}
+                  ans={ansSection3}
+                  setAns={setAnsSection3}
+                  showNoQuestionAns={showNoQuestionAns}
+                  setShowNoQuestionAns={setShowNoQuestionAns}
+                  setStartEdit={setStartEdit}
+                  isModal={!isModal}
+                />
+              )}
             </>
           )}
 

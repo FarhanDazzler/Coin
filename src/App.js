@@ -49,6 +49,8 @@ import AssessmentModulePanel from './pages/AdminPage/AssessmentModulePanel/Asses
 import RepresentationLetterModulePanel from './pages/AdminPage/RepresentationLetterModulePanel/RepresentationLetterModulePanel';
 import BUModifyQuestions from './pages/REP_Letters_Module/Home/QuestionBank/BU/BUModifyQuestions';
 import ErrorNotification from './common/ErrorNotification';
+import FunctionAddQuestions from './pages/REP_Letters_Module/Home/QuestionBank/Functional/FunctionAddQuestions';
+import FunctionModifyQuestions from './pages/REP_Letters_Module/Home/QuestionBank/Functional/FunctionModifyQuestions';
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -88,6 +90,8 @@ const Pages = () => {
   const [userState, userDispatch] = useContext(UserContext);
   const [userToken, setUserToken] = useState('');
   const role = loginRole ?? userRole;
+
+  console.log('history');
   const isControlPage = () => {
     return (
       ['Control owner', 'Control oversight', 'control_owner', 'control_oversight']?.includes(
@@ -157,6 +161,16 @@ const Pages = () => {
       history.push('/login');
     }
   }, [inProgress]);
+
+  useEffect(() => {
+    const dom = document.getElementById('google_translate_element');
+    if (!dom) return;
+    if (['/login'].includes(window.location.pathname)) {
+      dom.classList.add('d-none');
+    } else {
+      dom.classList.remove('d-none');
+    }
+  }, [history.location.pathname]);
 
   useEffect(() => {
     if (accounts?.length > 0) {
@@ -284,6 +298,16 @@ const Pages = () => {
             exact
             path="/REP-Letters/questionbank/BU-modify-questions"
             component={BUModifyQuestions}
+          />
+          <Route
+            exact
+            path="/REP-Letters/questionbank/Function-add"
+            component={FunctionAddQuestions}
+          />
+          <Route
+            exact
+            path="/REP-Letters/questionbank/Function-modify"
+            component={FunctionModifyQuestions}
           />
           <Route exact path="/admin-panel" component={AdminLandingPage} />
           <Route exact path="/admin-panel/sa" component={AssessmentModulePanel} />

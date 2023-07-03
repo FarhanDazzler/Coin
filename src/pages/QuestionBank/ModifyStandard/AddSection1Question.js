@@ -51,7 +51,7 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
         onClose={handleClose}
         width={900}
       >
-        <div className="row">
+        <div className="row modal-min-height">
           <div className="col-md-9">
             <label>Question</label>
             <Form.Group className="input-group mb-3">
@@ -86,98 +86,7 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
           </div>
         </div>
 
-        {/* Radio Options */}
-        {/* {
-                    questionType === "Radio" && (
-                        <div className="radio">
-                            {
-                                createOptions.map((data, i) => (
-                                    <>
-                                        <div className="row">
-                                            <div className="col-md-4">
-
-                                                <Form.Group className="input-group mb-3">
-                                                    <Form.Control
-                                                        type="text"
-                                                        name="option_value"
-                                                        placeholder={"Option " + (i + 1)}
-                                                        className="form-control"
-                                                        value={data.option_value}
-                                                        onChange={(e) => handleOptionsChange(i, e)}
-                                                    />
-
-
-                                                </Form.Group>
-                                            </div>
-                                            {
-                                                data.option_value && (
-                                                    <div className="col-md-3">
-                                                        <Form.Group className="input-group mb-3">
-                                                            <Form.Control
-                                                                as="select"
-                                                                name="is_Terminating"
-                                                                placeholder=""
-                                                                className="form-select"
-                                                                value={data.is_Terminating}
-                                                                onChange={(e) => handleOptionsChange(i, e)}
-                                                            >
-                                                                <option value="">Is Terminating</option>
-                                                                <option value="0">No</option>
-                                                                <option value="1">Yes</option>
-
-                                                            </Form.Control>
-
-                                                        </Form.Group>
-                                                    </div>
-                                                )
-
-                                            }
-
-                                            {
-                                                data.is_Terminating == 0 && (
-                                                    <div className="col-md-3">
-                                                        <Form.Group className="input-group mb-3">
-                                                            <Form.Control
-                                                                as="select"
-                                                                name="child_question"
-                                                                placeholder=""
-                                                                className="form-select"
-                                                                value={data.child_question}
-                                                                onChange={(e) => handleOptionsChange(i, e)}
-                                                            >
-                                                                <option value="">Child Question</option>
-                                                                <option value="0">Child Question 1</option>
-                                                                <option value="1">Child Question 2</option>
-
-                                                            </Form.Control>
-
-                                                        </Form.Group>
-                                                    </div>
-                                                )
-                                            }
-                                            <div className="col-md-1">
-                                                {
-                                                    i ?
-                                                        <span className="remove" onClick={() => handleRemoveRadioOption(i)}>X</span>
-                                                        : null
-                                                }
-                                            </div>
-
-
-                                        </div>
-
-
-                                    </>
-
-
-                                ))
-                            }
-                            <Button disabled={createOptions.length == 4 ? true : false} onClick={() => handleAddRadioOption()}>Add Options</Button>
-                        </div>
-                    )
-                } */}
-
-        <div className="position-absolute">
+        <div>
           <div className="d-flex align-items-center justify-content-end">
             <Button variant="subtle" onClick={handleClose}>
               Cancel
