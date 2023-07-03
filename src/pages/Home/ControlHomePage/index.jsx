@@ -12,8 +12,6 @@ const ControlHomePage = () => {
   const history = useHistory();
   const { state } = useLocation();
   const selectedUserRole = localStorage.getItem('selected_Role');
-  console.log('selectedUserRoleControlHomePage',selectedUserRole)
-
   const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const loginUserRole = loginRole ?? selectedUserRole;
@@ -28,6 +26,23 @@ const ControlHomePage = () => {
     reAssessed: 0,
   });
 
+  // multi choice user input State for filters button
+  const [yearValue, setYearValue] = useState([]);
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
+  const [zoneValue, setZoneValue] = useState([]);
+  const [buValue, setBUValue] = useState([]);
+  const [receiverValue, setReceiverValue] = useState([]);
+  const [providerValue, setProviderValue] = useState([]);
+
+  useEffect(() => {
+    setYearValue([]);
+    setAssessmentCycleValue([]);
+    setZoneValue([]);
+    setBUValue([]);
+    setReceiverValue([]);
+    setProviderValue([]);
+  }, [loginUserRole]);
+
   const getNumberOfItem = (array, itemName) => {
     return array.filter((val) => val === itemName)?.length;
   };
@@ -38,16 +53,58 @@ const ControlHomePage = () => {
       loginUserRole === 'Control owner'
         ? getControlOwnerData.data[0]?.cOwnerData || []
         : getControlOwnerData.data[1]?.cOverSightData || [];
-    const allstatus = tableData.map((d) => {
-      return d.Status;
-    });
-    setStatusInfo({
-      notStarted: getNumberOfItem(allstatus, 'Not started'),
-      completed: getNumberOfItem(allstatus, 'Completed'),
-      draft: getNumberOfItem(allstatus, 'Drafted'),
-      reAssessed: getNumberOfItem(allstatus, 'Re-Triggered'),
-    });
-  }, [getControlOwnerData.data, loginUserRole, userRole]);
+    if (
+      !yearValue.length &&
+      !assessmentCycleValue.length &&
+      !zoneValue.length &&
+      !buValue.length &&
+      !receiverValue.length &&
+      !providerValue.length
+    ) {
+      const allstatus = tableData.map((d) => {
+        return d.Status;
+      });
+      setStatusInfo({
+        notStarted: getNumberOfItem(allstatus, 'Not started'),
+        completed: getNumberOfItem(allstatus, 'Completed'),
+        draft: getNumberOfItem(allstatus, 'Drafted'),
+        reAssessed: getNumberOfItem(allstatus, 'Re-Triggered'),
+      });
+    } else {
+      const updatedData = tableData.filter((i) => {
+        return (
+          (yearValue?.length ? yearValue.includes(i.Year) : true) &&
+          (assessmentCycleValue?.length
+            ? assessmentCycleValue.includes(i.Assessment_Cycle)
+            : true) &&
+          (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+          (buValue?.length ? buValue.includes(i.BU) : true) &&
+          (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
+          (providerValue?.length ? providerValue.includes(i.Provider) : true)
+        );
+      });
+
+      const allUpdatestatus = updatedData.map((d) => {
+        return d.Status;
+      });
+      setStatusInfo({
+        notStarted: getNumberOfItem(allUpdatestatus, 'Not started'),
+        completed: getNumberOfItem(allUpdatestatus, 'Completed'),
+        draft: getNumberOfItem(allUpdatestatus, 'Drafted'),
+        reAssessed: getNumberOfItem(allUpdatestatus, 'Re-Triggered'),
+      });
+    }
+  }, [
+    getControlOwnerData.data,
+    loginUserRole,
+    yearValue,
+    assessmentCycleValue,
+    zoneValue,
+    buValue,
+    receiverValue,
+    providerValue,
+    loginUserRole,
+  ]);
 
   return (
     <div>
@@ -75,9 +132,37 @@ const ControlHomePage = () => {
         </div>
 
         {loginUserRole === 'Control owner' ? (
-          <ControlOwnerTable tableName="Control Owner" />
+          <ControlOwnerTable
+            tableName="Control Owner"
+            yearValue={yearValue}
+            setYearValue={setYearValue}
+            assessmentCycleValue={assessmentCycleValue}
+            setAssessmentCycleValue={setAssessmentCycleValue}
+            zoneValue={zoneValue}
+            setZoneValue={setZoneValue}
+            buValue={buValue}
+            setBUValue={setBUValue}
+            receiverValue={receiverValue}
+            setReceiverValue={setReceiverValue}
+            providerValue={providerValue}
+            setProviderValue={setProviderValue}
+          />
         ) : (
-          <ControlOwnerTable tableName="Control Oversight" />
+          <ControlOwnerTable
+            tableName="Control Oversight"
+            yearValue={yearValue}
+            setYearValue={setYearValue}
+            assessmentCycleValue={assessmentCycleValue}
+            setAssessmentCycleValue={setAssessmentCycleValue}
+            zoneValue={zoneValue}
+            setZoneValue={setZoneValue}
+            buValue={buValue}
+            setBUValue={setBUValue}
+            receiverValue={receiverValue}
+            setReceiverValue={setReceiverValue}
+            providerValue={providerValue}
+            setProviderValue={setProviderValue}
+          />
         )}
 
         {Control_ID && <HomeTableModal isModal={true} activeData={state} />}

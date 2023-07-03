@@ -14,7 +14,6 @@ import {
 import { toast } from 'react-toastify';
 
 async function signup(payload) {
-  // console.log(`payload`, payload)
   return await Axios.post('/signup/', payload);
 }
 function* handleSignup({ payload }) {

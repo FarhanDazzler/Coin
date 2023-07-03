@@ -36,8 +36,6 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
   const [categoryValue, setCategoryValue] = useState('');
   const [orgTypeValue, setOrgTypeValue] = useState('');
   const getParentEntityState = useSelector(getParentEntitySelector);
-  console.log('state=>>>>>>>>>>>>>>>>>>', ediatbleData);
-  console.log(orgTypeValue);
   const orgTypeData = [
     {
       value: 'Zone',
@@ -117,8 +115,6 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
   ];
 
   const handleSaveAdd = (value) => {
-    console.log(value);
-
     let payload = {
       Org_type: value.orgType,
       Org_name: value.Org_name,
@@ -163,16 +159,13 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
     };
 
     if (modalType === 'add') {
-      console.log('ADD=>>>>>>>>>>>>>>>>>>');
       dispatch(addOrgStructureAction(payload));
     } else {
-      console.log('Edit=>>>>>>>>>>>>>>>>>>');
       dispatch(updateOrgStructureAction(editPayload));
     }
   };
   let today = moment().format('YYYY-MM-DD');
   let validToDate = '9999-12-31';
-  console.log(validToDate);
   return (
     <div className="p-5">
       <Formik

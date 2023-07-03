@@ -142,12 +142,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   }, [terminating]);
 
   useEffect(() => {
-    if (showMoreSection && !(Object.keys(ansSection3).length > 0)) {
-      setTerminating(true);
-    }
-  }, [showMoreSection]);
-
-  useEffect(() => {
     if (responseUpdatedData) {
       if (responseUpdatedData.s1) setAnsSection1(responseUpdatedData.s1);
 

@@ -116,7 +116,7 @@ function* addOrgStructureData({ payload }) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: "Something Went Wrong", type: 'danger' },
+          data: { text: 'Something Went Wrong', type: 'danger' },
         },
       });
     }
@@ -177,7 +177,6 @@ function* getParentEntityData({ payload }) {
 }
 
 async function getOrgHierarchyApi(params) {
-  console.log('getOrgHierarchyApi=>>>>>>>>>>>>>>>>>>', params);
   return await Axios.get('/get_hierarchy', { params });
 }
 function* handleGet_org_hierarchy({ payload }) {
@@ -234,7 +233,7 @@ function* addMicsFrameworkData({ payload }) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: "Something Went Wrong", type: 'danger' },
+          data: { text: 'Something Went Wrong', type: 'danger' },
         },
       });
     }
@@ -369,7 +368,7 @@ function* addMegaAndSubprocessData({ payload }) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: "Something Went Wrong", type: 'danger' },
+          data: { text: 'Something Went Wrong', type: 'danger' },
         },
       });
     }
@@ -531,7 +530,7 @@ function* modifyControlOwnerAndOversightData({ payload }) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: "Something Went Wrong", type: 'danger' },
+          data: { text: 'Something Went Wrong', type: 'danger' },
         },
       });
     }
@@ -583,7 +582,7 @@ function* assignApplicabilityAndAssignmentOfProviderOrganizationData({ payload }
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: "Something Went Wrong", type: 'danger' },
+          data: { text: 'Something Went Wrong', type: 'danger' },
         },
       });
     }

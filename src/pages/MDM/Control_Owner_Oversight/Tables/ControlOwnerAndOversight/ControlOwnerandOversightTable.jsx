@@ -323,7 +323,6 @@ const ControlOwnerAndOversightTable = () => {
       Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
     } else if (editTableIndex.length >= 1) {
       const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
-      //console.log('@@@@@@@@@', data);
       setAssignTableData(data);
       setShowLcdModal(true);
     }
@@ -337,8 +336,6 @@ const ControlOwnerAndOversightTable = () => {
       setAssignTableData(data);
       setSelectedControlIds(controlIDArray);
       setShowModal(true);
-      //console.log('@@@@@@@@@', data);
-      //console.log('#####', controlIDArray);
     }
   };
 
