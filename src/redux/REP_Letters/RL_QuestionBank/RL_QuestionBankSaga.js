@@ -182,7 +182,7 @@ function* handle_GetLetterNameFromFunction({ payload }) {
 
 // get FUNCTION Questions
 async function get_Function_QuestionsApi(params) {
-  return await Axios.post('/get_functional_questions', { params });
+  return await Axios.post('/get_functional_questions', params);
 }
 function* handleGet_Function_Questions({ payload }) {
   try {
