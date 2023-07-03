@@ -43,7 +43,6 @@ const LcdModal = ({ setShowModal, assignTableData }) => {
           validationSchema={Yup.object().shape({})}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {
-              console.log('values', values);
               handleSaveAssign(values);
 
               // resetForm();

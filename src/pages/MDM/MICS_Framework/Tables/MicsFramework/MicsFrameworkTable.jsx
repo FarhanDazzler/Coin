@@ -384,7 +384,6 @@ const MicsFrameworkTable = () => {
     } else if (editTableIndex.length == 1) {
       //if (!editTableIndex[0]) return;
       const filterData = tableData.find((data, i) => data.id === editTableIndex[0]);
-      console.log(filterData, 'Selected editable data');
       const data = { title: 'Edit MICS Framework', modalType: 'edit', editTableData: filterData };
       history.push('/master-data-management/mics-framework/addNew', {
         data,

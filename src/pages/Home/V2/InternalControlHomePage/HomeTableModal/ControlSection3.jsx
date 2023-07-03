@@ -176,8 +176,6 @@ const ControlSection3 = ({
     }
   }, [lastAns]);
 
-  console.log('ans.L3', ans.L3);
-
   useEffect(() => {
     setRender(!render);
     if (questionData.Level?.L1) {

@@ -12,9 +12,8 @@ const RemoveWarningModal = ({
   subtitle = 'This cannot be undone.',
   confirmButtonText = 'Remove',
   cancelText = 'Cancel',
-  block
+  block,
 }) => {
-  console.log(block)
   useEffect(() => {
     window.addEventListener('keyup', handleKeyUp);
     return () => {
@@ -51,14 +50,11 @@ const RemoveWarningModal = ({
               <WarningIcon />
             </div>
             <Typography className="typography-18-medium">{message}</Typography>
-            {
-              block?.question_text && (
-                <Typography className="typography-16-regular remove-attribute-modal__subtitle">
-                  {block?.question_text}
-                </Typography>
-              )
-            }
-
+            {block?.question_text && (
+              <Typography className="typography-16-regular remove-attribute-modal__subtitle">
+                {block?.question_text}
+              </Typography>
+            )}
 
             <Typography className="typography-14-regular c-grey-600 remove-attribute-modal__subtitle">
               {subtitle}

@@ -14,12 +14,9 @@ const QuestionBankTable = () => {
   const [tableData, setTableData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedControlId, setSelectedControlId] = useState();
-
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
-  console.log(repositoryOfControlID, 'Table data');
 
   const handleControlIDClick = (id) => {
-    console.log(id);
     setShowModal(true);
     setSelectedControlId(id);
     // TODO: Show modal new page

@@ -4,8 +4,8 @@ export const ACTION_REMOVE_ERROR_NOTIFICATION_DATA = 'GET_REMOVE_ERROR_NOTIFICAT
 // ============ ERROR NOTIFICATION DATA ENDS ===================//
 
 const block = {
-    text: '',
-    type: '',
+  text: '',
+  type: '',
 };
 
 const initialState = {
@@ -13,7 +13,6 @@ const initialState = {
 };
 
 export const ErrorNotificationReducer = (state = initialState, { type, payload = {} }) => {
-    console.log("payload", payload);
   switch (type) {
     case ACTION_ADD_ERROR_NOTIFICATION_DATA:
       return {

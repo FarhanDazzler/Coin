@@ -12,8 +12,6 @@ const ControlHomePage = () => {
   const history = useHistory();
   const { state } = useLocation();
   const selectedUserRole = localStorage.getItem('selected_Role');
-  console.log('selectedUserRoleControlHomePage',selectedUserRole)
-
   const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const loginUserRole = loginRole ?? selectedUserRole;

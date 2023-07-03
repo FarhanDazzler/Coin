@@ -5,21 +5,21 @@ import {
   ACTION_GET_CONTROL_DATA_FAILED,
   ACTION_GET_CONTROL_DATA_GCD,
   ACTION_GET_CONTROL_DATA_GCD_FAILED,
-  ACTION_GET_CONTROL_DATA_GCD_SUCCESS
+  ACTION_GET_CONTROL_DATA_GCD_SUCCESS,
 } from '../types';
 import { Axios } from '../../api/axios';
 import { getSimplifiedError } from '../../utils/error';
 
 function getControlDataApiCall(data) {
-  console.log("saga", data.payload.data);
-  let params = data.payload.data
-  return Axios.get('/get_control_scope?ControlID=' + params.controlId + '&coOwner=' + params.coOwner);
+  let params = data.payload.data;
+  return Axios.get(
+    '/get_control_scope?ControlID=' + params.controlId + '&coOwner=' + params.coOwner,
+  );
 }
 
 function* getControlData(payload) {
   try {
     const response = yield getControlDataApiCall(payload);
-    console.log("response", response);
     if (response?.success === true) {
       yield put({
         type: ACTION_GET_CONTROL_DATA_SUCCESS,
@@ -28,7 +28,7 @@ function* getControlData(payload) {
     } else {
       yield put({
         type: ACTION_GET_CONTROL_DATA_FAILED,
-        message: "Somthing went wrong",
+        message: 'Somthing went wrong',
       });
     }
   } catch (e) {
@@ -37,16 +37,13 @@ function* getControlData(payload) {
 }
 
 function getControlDataGcdApiCall(data) {
-  console.log("saga", data.payload.data);
-  let params = data.payload.data
-  console.log("gcd par",params);
+  let params = data.payload.data;
   return Axios.get('/get_gcd?ControlID=' + params.controlId);
 }
 
 function* getControlDataGcd(payload) {
   try {
     const response = yield getControlDataGcdApiCall(payload);
-    console.log("response", response);
     if (response?.success === true) {
       yield put({
         type: ACTION_GET_CONTROL_DATA_GCD_SUCCESS,
@@ -55,7 +52,7 @@ function* getControlDataGcd(payload) {
     } else {
       yield put({
         type: ACTION_GET_CONTROL_DATA_GCD_FAILED,
-        message: "Somthing went wrong",
+        message: 'Somthing went wrong',
       });
     }
   } catch (e) {

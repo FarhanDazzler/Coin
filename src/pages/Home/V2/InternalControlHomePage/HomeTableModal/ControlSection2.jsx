@@ -13,7 +13,6 @@ import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
 const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
-  console.log('isModal=====>>>>', isModal);
   let headerStyles;
   if (isModal) {
     headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
@@ -395,8 +394,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       output_table: new_table,
     });
 
-    console.log(apiBody, 'API BODY For Section 2');
-
     var requestParameters = {
       method: 'POST',
       headers: myHeaders,
@@ -406,8 +403,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
     fetch('https://acoemicsgrcpwa-devbe.azurewebsites.net/is_csv_tampered', requestParameters)
       .then((response) => response.text())
       .then((response) => {
-        console.log(JSON.parse(response).data, 'Check Section 2 validation data');
-
         const flag = JSON.parse(response).data;
         if (flag) {
           //console.log('Not Valid');
