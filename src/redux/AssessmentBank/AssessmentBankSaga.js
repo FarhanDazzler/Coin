@@ -41,6 +41,7 @@ import {
   RECALL_ASSESSMENT_ERROR,
 } from './AssessmentBankReducer';
 import Swal from 'sweetalert2';
+import { ACTION_ADD_ERROR_NOTIFICATION_DATA } from '../ErrorNotification/ErrorNotificationReducer';
 
 // get All Zone Api
 async function getAllZoneApi(params) {
@@ -182,7 +183,13 @@ function* addAssessmentSchedulingAndTriggeringData({ payload }) {
       });
       Swal.fire('Done!', 'Assessment Scheduled and Triggered Successfully!', 'success');
     } else {
-      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+      // Swal.fire('Oops...', 'Something Went Wrong', 'error');
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: "Something Went Wrong", type: 'danger' },
+        },
+      });
     }
   } catch (error) {
     yield put({
