@@ -638,7 +638,6 @@ function AssessmentForm() {
     ),
   );
 
-  console.log('@@@@@@@@@', final, result, action_plan, getResponse);
   return (
     <>
       {sectionDisplay('Section 1: GENERAL')}

@@ -317,7 +317,6 @@ const AssessmentDetailsTableData = (props) => {
       console.log(editTableIndex, 'editTableIndex');
       const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
       //setEditTableData(data);
-      console.log('@@@@@@@@@', data);
 
       let payload = {
         params: {
@@ -355,9 +354,6 @@ const AssessmentDetailsTableData = (props) => {
       const data = tableData?.filter(
         (data, i) => editTableIndex?.includes(data.id) && data.Survey_Status === 'Recalled',
       );
-      console.log(editTableIndex, 'editTableIndex');
-      //setEditTableData(data);
-      console.log('@@@@@@@@@', data);
 
       let payload = {
         params: {

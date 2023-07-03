@@ -19,6 +19,7 @@ const ControlSection3 = ({
   setShowNoQuestionAns,
   setStartEdit,
   isModal,
+  showMoreSection,
 }) => {
   const history = useHistory();
   const { state } = useLocation();
@@ -175,6 +176,8 @@ const ControlSection3 = ({
     }
   }, [lastAns]);
 
+  console.log('ans.L3', ans.L3);
+
   useEffect(() => {
     setRender(!render);
     if (questionData.Level?.L1) {
@@ -193,7 +196,11 @@ const ControlSection3 = ({
       const apiQuestionL3 = getQuestionsFormatData(questionData.Level?.L3);
       if (!questionL3.length > 0) {
         setQuestionL3(getFormatQuestions(apiQuestionL3, null, 'L3'));
-        if (ans.L3) {
+      } else {
+        if (
+          apiQuestionL3 &&
+          apiQuestionL3[0]?.innerOptions?.length === Object.keys(ans?.L3).length
+        ) {
           setTerminating(true);
         }
       }
@@ -206,6 +213,24 @@ const ControlSection3 = ({
       if (div) div.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [questionData.loading]);
+
+  const isEmptySection = !questionL1.length > 0 && !questionL2.length > 0 && !questionL3.length;
+  useEffect(() => {
+    setTimeout(() => {
+      const ansLength = Object.keys(ans?.L3 || {}).length;
+
+      if (
+        (isEmptySection && !questionData.loading) ||
+        (ansLength > 0 && questionL3[0]?.innerOptions?.length === ansLength)
+      ) {
+        setTerminating(true);
+      } else {
+        setTerminating(false);
+      }
+    }, 10);
+  }, [questionL1.length, questionData.loading, ans.L3]);
+
+  if (isEmptySection) return <div />;
 
   return (
     <div>
