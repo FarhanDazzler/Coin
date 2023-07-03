@@ -214,7 +214,7 @@ function* add_Function_Questions_Data({ payload }) {
         payload: response.data,
       });
       Swal.fire('Done!', 'Question added Successfully!', 'success');
-      yield call(get_Function_QuestionsApi);
+      //yield call(get_Function_QuestionsApi);
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
@@ -240,7 +240,7 @@ function* edit_Function_Questions_Data({ payload }) {
         payload: response.data,
       });
       Swal.fire('Done!', 'Question Edited Successfully!', 'success');
-      yield call(get_Function_QuestionsApi);
+      //yield call(get_Function_QuestionsApi);
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
@@ -266,7 +266,7 @@ function* delete_Function_Questions_Data({ payload }) {
         payload: response.data,
       });
       Swal.fire('Done!', 'Question deleted Successfully!', 'success');
-      yield call(get_Function_QuestionsApi);
+      //yield call(get_Function_QuestionsApi);
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }

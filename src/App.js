@@ -50,6 +50,7 @@ import RepresentationLetterModulePanel from './pages/AdminPage/RepresentationLet
 import BUModifyQuestions from './pages/REP_Letters_Module/Home/QuestionBank/BU/BUModifyQuestions';
 import ErrorNotification from './common/ErrorNotification';
 import FunctionAddQuestions from './pages/REP_Letters_Module/Home/QuestionBank/Functional/FunctionAddQuestions';
+import FunctionModifyQuestions from './pages/REP_Letters_Module/Home/QuestionBank/Functional/FunctionModifyQuestions';
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -302,6 +303,11 @@ const Pages = () => {
             exact
             path="/REP-Letters/questionbank/Function-add"
             component={FunctionAddQuestions}
+          />
+          <Route
+            exact
+            path="/REP-Letters/questionbank/Function-modify"
+            component={FunctionModifyQuestions}
           />
           <Route exact path="/admin-panel" component={AdminLandingPage} />
           <Route exact path="/admin-panel/sa" component={AssessmentModulePanel} />
