@@ -4,8 +4,6 @@ import './RepLetterQuestionBank.scss';
 import Button from '../../../../components/UI/Button';
 import CustomModal from '../../../../components/UI/CustomModal';
 import { ArrowNarrowRight } from 'tabler-icons-react';
-import Select from 'react-select';
-import { Form } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import Instructions from './Instructions/Instructions';
 
@@ -110,17 +108,17 @@ const RLQuestionBank = () => {
                       variant="outlined"
                       size="large"
                       endIcon={<ArrowNarrowRight />}
-                      onClick={handleFunctionalModify}
+                      onClick={handleFunctionalCreate}
                     >
-                      <span className="text-white">Modify Existing</span>
+                      <span className="text-white">Create New</span>
                     </Button>
                     <Button
                       variant="outlined"
                       size="large"
                       endIcon={<ArrowNarrowRight />}
-                      onClick={handleFunctionalCreate}
+                      onClick={handleFunctionalModify}
                     >
-                      <span className="text-white">Create New</span>
+                      <span className="text-white">Modify Existing</span>
                     </Button>
                   </div>
                 </>

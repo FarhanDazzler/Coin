@@ -42,7 +42,6 @@ import RL_MDM_OrganizationHierarchyLandingPage from './pages/REP_Letters_Module/
 import RL_MDM_BUMasterdataManagementLandingPage from './pages/REP_Letters_Module/Home/MDM/BUMasterDataManagement/BUMasterDataManagementLandingPage';
 import RL_MDM_FunctionalMasterdataManagementLandingPage from './pages/REP_Letters_Module/Home/MDM/FunctionalMasterdataManagement/FunctionalMasterdataManagementLandingPage';
 import RLQuestionBank from './pages/REP_Letters_Module/Home/QuestionBank/RepLetterQuestionBankLandingPage';
-import RepLetterModify from './pages/REP_Letters_Module/Home/QuestionBank/RepLetterModify';
 //REP Letters Modules
 import AdminLandingPage from './pages/AdminPage/AdminLandingPage';
 import AssessmentModulePanel from './pages/AdminPage/AssessmentModulePanel/AssessmentModulePanel.jsx';
@@ -286,11 +285,6 @@ const Pages = () => {
             component={RL_MDM_FunctionalMasterdataManagementLandingPage}
           />
           <Route exact path="/REP-Letters/questionbank" component={RLQuestionBank} />
-          <Route
-            exact
-            path="/REP-Letters/questionbank/Rep-Letter-Modify"
-            component={RepLetterModify}
-          />
           <Route
             exact
             path="/REP-Letters/questionbank/BU-modify-questions"
