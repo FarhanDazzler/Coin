@@ -40,12 +40,36 @@ const ControlActions = () => {
         {activeTab === 'GCD' && (
           <div>
             {isReadMore ? (
-              <p dangerouslySetInnerHTML={{__html:stateGcdData[0].mics_L1desc.slice(0, 600)}}/>
+              <>
+                <h4>L1:-</h4>{' '}
+                {stateGcdData[0].mics_L1desc ? (
+                  <p
+                    dangerouslySetInnerHTML={{ __html: stateGcdData[0].mics_L1desc.slice(0, 600) }}
+                  />
+                ) : (
+                  ''
+                )}
+              </>
             ) : (
               <>
-               <p dangerouslySetInnerHTML={{__html:stateGcdData[0]?.mics_L1desc}}/>
-               <p dangerouslySetInnerHTML={{__html:stateGcdData[0]?.mics_L2desc}}/>
-               <p dangerouslySetInnerHTML={{__html:stateGcdData[0]?.mics_L3desc}}/>
+                <h4>L1:-</h4>{' '}
+                {stateGcdData[0]?.mics_L1desc ? (
+                  <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L1desc }} />
+                ) : (
+                  'None'
+                )}
+                <h4>L2:-</h4>{' '}
+                {stateGcdData[0]?.mics_L2desc ? (
+                  <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L2desc }} />
+                ) : (
+                  'None'
+                )}
+                <h4>L3:-</h4>{' '}
+                {stateGcdData[0]?.mics_L3desc ? (
+                  <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L3desc }} />
+                ) : (
+                  'None'
+                )}
               </>
             )}
 
@@ -58,7 +82,7 @@ const ControlActions = () => {
         )}
         {activeTab === 'LCD' && (
           <div>
-            <p className="mb-2" dangerouslySetInnerHTML={{__html:stateControlData.lcd}}/>
+            <p className="mb-2" dangerouslySetInnerHTML={{ __html: stateControlData.lcd }} />
           </div>
         )}
         {activeTab === 'Scope' && (

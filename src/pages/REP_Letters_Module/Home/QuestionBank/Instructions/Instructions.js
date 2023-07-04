@@ -9,6 +9,7 @@ import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import { TextEditor } from '../../../../../components/FormInputs/RichTextEditor/RichTextEditor';
 import { useDropzone } from 'react-dropzone';
 import { Group, Text, Image, SimpleGrid } from '@mantine/core';
+import { RichTextEditor } from '@mantine/rte';
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { relativeTimeRounding } from 'moment';
@@ -191,10 +192,17 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
               <div className="col-lg-12">
                 <div className="row mb-8">
                   <Form.Label className="mt-5">Instructions :</Form.Label>
-
-                  <TextEditor
-                    setFieldValue={(val) => setFieldValue('Instructions', val)}
+                  <RichTextEditor
                     value={values.Instructions}
+                    onChange={(val) => setFieldValue('Instructions', val)}
+                    placeholder="Provide Instructions here..."
+                    controls={[
+                      ['bold', 'italic', 'underline'],
+                      ['unorderedList', 'h1', 'h2', 'h3'],
+                      ['sup', 'sub'],
+                      ['alignLeft', 'alignCenter', 'alignRight'],
+                    ]}
+                    radius="md"
                   />
                   {values.Instructions.length > 5000 && (
                     <span className="error">

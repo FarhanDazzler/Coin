@@ -18,6 +18,7 @@ import {
 } from '../../../../redux/MDM/MDM_Selectors';
 import { TextEditor } from '../../../../components/FormInputs/RichTextEditor/RichTextEditor';
 import './InputPageStyle.scss';
+import RichTextEditor from '@mantine/rte';
 
 const GetFormikFieldValue = () => {
   // Grab values and submitForm from context
@@ -1072,10 +1073,17 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-12">
                       <div className="row mb-8">
                         <Form.Label className="mt-5">MICS L1 Description</Form.Label>
-
-                        <TextEditor
-                          setFieldValue={(val) => setFieldValue('mics_L1desc', val)}
+                        <RichTextEditor
                           value={values.mics_L1desc}
+                          onChange={(val) => setFieldValue('mics_L1desc', val)}
+                          placeholder="Provide Description here..."
+                          controls={[
+                            ['bold', 'italic', 'underline'],
+                            ['unorderedList', 'h1', 'h2', 'h3'],
+                            ['sup', 'sub'],
+                            ['alignLeft', 'alignCenter', 'alignRight'],
+                          ]}
+                          radius="md"
                         />
                         {values.mics_L1desc.length > 5000 && (
                           <span className="error">
@@ -1084,9 +1092,17 @@ const AddValues_MDM_Mics_Framework = (props) => {
                         )}
 
                         <Form.Label className="mt-8">MICS L2 Description</Form.Label>
-                        <TextEditor
-                          setFieldValue={(val) => setFieldValue('mics_L2desc', val)}
+                        <RichTextEditor
                           value={values.mics_L2desc}
+                          onChange={(val) => setFieldValue('mics_L2desc', val)}
+                          placeholder="Provide Description here..."
+                          controls={[
+                            ['bold', 'italic', 'underline'],
+                            ['unorderedList', 'h1', 'h2', 'h3'],
+                            ['sup', 'sub'],
+                            ['alignLeft', 'alignCenter', 'alignRight'],
+                          ]}
+                          radius="md"
                         />
                         {values.mics_L2desc.length > 5000 && (
                           <span className="error">
@@ -1094,9 +1110,17 @@ const AddValues_MDM_Mics_Framework = (props) => {
                           </span>
                         )}
                         <Form.Label className="mt-8">MICS L3 Description</Form.Label>
-                        <TextEditor
-                          setFieldValue={(val) => setFieldValue('mics_L3desc', val)}
+                        <RichTextEditor
                           value={values.mics_L3desc}
+                          onChange={(val) => setFieldValue('mics_L3desc', val)}
+                          placeholder="Provide Description here..."
+                          controls={[
+                            ['bold', 'italic', 'underline'],
+                            ['unorderedList', 'h1', 'h2', 'h3'],
+                            ['sup', 'sub'],
+                            ['alignLeft', 'alignCenter', 'alignRight'],
+                          ]}
+                          radius="md"
                         />
                         {values.mics_L3desc.length > 5000 && (
                           <span className="error">
