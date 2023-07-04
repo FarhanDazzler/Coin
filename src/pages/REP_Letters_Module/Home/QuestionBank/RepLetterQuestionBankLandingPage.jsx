@@ -29,7 +29,7 @@ const RLQuestionBank = () => {
     history.push('/REP-Letters/questionbank/BU-modify-questions');
   };
   const handleFunctionalModify = () => {
-    history.push('/REP-Letters/questionbank/Rep-Letter-Modify');
+    history.push('/REP-Letters/questionbank/Function-modify');
   };
   const handleFunctionalCreate = () => {
     history.push('/REP-Letters/questionbank/Function-add');

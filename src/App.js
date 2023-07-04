@@ -50,6 +50,7 @@ import RepresentationLetterModulePanel from './pages/AdminPage/RepresentationLet
 import BUModifyQuestions from './pages/REP_Letters_Module/Home/QuestionBank/BU/BUModifyQuestions';
 import ErrorNotification from './common/ErrorNotification';
 import FunctionAddQuestions from './pages/REP_Letters_Module/Home/QuestionBank/Functional/FunctionAddQuestions';
+import FunctionModifyQuestions from './pages/REP_Letters_Module/Home/QuestionBank/Functional/FunctionModifyQuestions';
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -90,7 +91,6 @@ const Pages = () => {
   const [userToken, setUserToken] = useState('');
   const role = loginRole ?? userRole;
 
-  console.log('history');
   const isControlPage = () => {
     return (
       ['Control owner', 'Control oversight', 'control_owner', 'control_oversight']?.includes(
@@ -106,10 +106,8 @@ const Pages = () => {
         `https://acoemicsgrcpwa-devbe.azurewebsites.net/login?User_oid=${accounts[0]?.idTokenClaims.oid}`,
       )
       .then(async (res) => {
-        console.log(res.data, 'User Role User Token');
         if (!localStorage.getItem('Roles'))
           localStorage.setItem('Roles', res?.data.data?.sa_roles || []);
-        console.log('res?.data.data?.rl_roles', res?.data.data?.rl_roles);
         const updatedParam = {};
         if (res?.data.data?.rl_roles?.BU) updatedParam.BU = res?.data.data?.rl_roles?.BU;
         if (res?.data.data?.rl_roles?.Functional)
@@ -302,6 +300,11 @@ const Pages = () => {
             exact
             path="/REP-Letters/questionbank/Function-add"
             component={FunctionAddQuestions}
+          />
+          <Route
+            exact
+            path="/REP-Letters/questionbank/Function-modify"
+            component={FunctionModifyQuestions}
           />
           <Route exact path="/admin-panel" component={AdminLandingPage} />
           <Route exact path="/admin-panel/sa" component={AssessmentModulePanel} />

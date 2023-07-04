@@ -19,6 +19,7 @@ const ControlSection3 = ({
   setShowNoQuestionAns,
   setStartEdit,
   isModal,
+  showMoreSection,
 }) => {
   const history = useHistory();
   const { state } = useLocation();
@@ -114,6 +115,7 @@ const ControlSection3 = ({
         if (ansObjectL1.length !== allYesFilterData1.length) {
           setQuestionL2([]);
           setQuestionL3([]);
+          // setTerminating(true);
           setShowNoQuestion(true);
           return;
         } else {
@@ -141,6 +143,7 @@ const ControlSection3 = ({
         if (ansObjectL2.length !== allYesFilterData2.length) {
           setQuestionL3([]);
           setShowNoQuestion(true);
+          // setTerminating(true);
           return;
         } else {
           setShowNoQuestion(false);
@@ -164,7 +167,8 @@ const ControlSection3 = ({
           setTerminating(true);
           setShowNoQuestion(false);
         } else {
-          setShowNoQuestion(true);
+          // setShowNoQuestion(true);
+          setTerminating(true);
         }
       }
       updateAns.L3 = ans.L3;
@@ -190,6 +194,13 @@ const ControlSection3 = ({
       const apiQuestionL3 = getQuestionsFormatData(questionData.Level?.L3);
       if (!questionL3.length > 0) {
         setQuestionL3(getFormatQuestions(apiQuestionL3, null, 'L3'));
+      } else {
+        if (
+          apiQuestionL3 &&
+          apiQuestionL3[0]?.innerOptions?.length === Object.keys(ans?.L3).length
+        ) {
+          setTerminating(true);
+        }
       }
     }
   }, [questionData.Level]);
@@ -200,6 +211,24 @@ const ControlSection3 = ({
       if (div) div.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [questionData.loading]);
+
+  const isEmptySection = !questionL1.length > 0 && !questionL2.length > 0 && !questionL3.length;
+  useEffect(() => {
+    setTimeout(() => {
+      const ansLength = Object.keys(ans?.L3 || {}).length;
+
+      if (
+        (isEmptySection && !questionData.loading) ||
+        (ansLength > 0 && questionL3[0]?.innerOptions?.length === ansLength)
+      ) {
+        setTerminating(true);
+      } else {
+        setTerminating(false);
+      }
+    }, 10);
+  }, [questionL1.length, questionData.loading, ans.L3]);
+
+  if (isEmptySection) return <div />;
 
   return (
     <div>
@@ -248,6 +277,7 @@ const ControlSection3 = ({
               </Form.Group>
             </RenderBlockWrapper>
           )}
+
           {questionData.loading && (
             <div className="d-flex w-100 justify-content-center pt-4" id="loader">
               <Loader />

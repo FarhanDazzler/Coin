@@ -17,8 +17,8 @@ const AddNewQuestionModal = ({
   setEditableData,
   setShowModal,
   modalType,
-  functionType = null,
-  functionName = null,
+  functionType,
+  functionName,
 }) => {
   const dispatch = useDispatch();
 
@@ -47,19 +47,18 @@ const AddNewQuestionModal = ({
             } else {
               if (isEdit === true) {
                 const payload = {
-                  functionType: functionType,
-                  functionName: functionName,
+                  Type: functionType,
+                  Name: functionName,
                   id: editableData.questionID,
                   text: values.questionText,
                 };
                 dispatch(edit_Function_Questions(payload));
               } else {
                 const payload = {
-                  functionType: functionType,
-                  functionName: functionName,
-                  questionText: values.questionText,
+                  Type: functionType,
+                  Name: functionName,
+                  text: values.questionText,
                 };
-                console.log(payload, 'payload');
                 dispatch(add_Function_Questions(payload));
               }
             }

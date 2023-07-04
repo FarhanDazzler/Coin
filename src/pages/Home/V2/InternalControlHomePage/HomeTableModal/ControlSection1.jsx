@@ -86,7 +86,9 @@ const ControlSection1 = ({
         if (block.options[0].is_Terminating === 1) {
           if (validateEmail(value)) {
             userFromAD.data.forEach((element) => {
-              if (element.mail === value) setTerminating(true);
+              if (element.mail === value) {
+                setTerminating(true);
+              }
             });
           }
           setAns(updateCurrentAns);

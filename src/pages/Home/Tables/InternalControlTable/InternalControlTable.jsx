@@ -21,7 +21,20 @@ import Cookies from 'js-cookie';
 
 // Filter buttons
 
-const InternalControlTable = (props) => {
+const InternalControlTable = ({
+  yearValue,
+  setYearValue,
+  assessmentCycleValue,
+  setAssessmentCycleValue,
+  zoneValue,
+  setZoneValue,
+  buValue,
+  setBUValue,
+  receiverValue,
+  setReceiverValue,
+  providerValue,
+  setProviderValue,
+}) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const token = Cookies.get('token');
@@ -31,13 +44,7 @@ const InternalControlTable = (props) => {
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const [editTableIndex, setEditTableIndex] = useState([]);
-  // multi choice user input State for filters button
-  const [yearValue, setYearValue] = useState([]);
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
-  const [zoneValue, setZoneValue] = useState([]);
-  const [buValue, setBUValue] = useState([]);
-  const [receiverValue, setReceiverValue] = useState([]);
-  const [providerValue, setProviderValue] = useState([]);
+
   useEffect(() => {
     //code for getting Internal Control Home Page table data
     dispatch(

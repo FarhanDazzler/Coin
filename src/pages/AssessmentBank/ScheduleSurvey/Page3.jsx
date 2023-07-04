@@ -132,8 +132,6 @@ const Page3 = ({ handleNext, setStep }) => {
         console.log(editTableIndex, 'editTableIndex');
         const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
 
-        console.log('@@@@@@@@@', data);
-
         let payload = {
           Zone: values.Zone,
           BU: values.BU,

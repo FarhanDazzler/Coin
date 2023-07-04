@@ -67,7 +67,6 @@ const TopBar = (props) => {
     { label: 'Assessment Module', value: 'Assessment Module' },
     { label: 'Representation Letter', value: 'Representation Letter', isDisabled: true },
   ];
-  console.log('roleValue', roleValue);
   const [module, setModule] = useState(initModule);
   const [activeModule, setActiveModule] = useState(selected_module_role || 'Assessment Module');
 
@@ -515,7 +514,6 @@ const TopBar = (props) => {
                           label={val.label}
                           rightAnchored
                           onClick={() => {
-                            console.log('valvalvalvalval', val);
                             if (val.isDisabled) return;
                             setActiveModule(val.label);
                             // history.push(

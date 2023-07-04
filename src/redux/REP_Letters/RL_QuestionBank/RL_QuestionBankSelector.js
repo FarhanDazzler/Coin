@@ -10,3 +10,7 @@ export const edit_Function_QuestionsSelector = (state) =>
   state?.RL_QuestionBank?.edit_Function_Questions;
 export const delete_Function_QuestionsSelector = (state) =>
   state?.RL_QuestionBank?.delete_Function_Questions;
+export const createNewFunctionRequestSelector = (state) =>
+  state?.RL_QuestionBank?.createNewFunctionRequest;
+export const getLetterNameFromFunctionSelector = (state) =>
+  state?.RL_QuestionBank?.getLetterNameFromFunction;
