@@ -153,9 +153,7 @@ const OrgStructuresTable = () => {
     if (editTableIndex.length > 1) {
       Swal.fire('Oops...', 'You can only allow one Organization to edit at a time', 'error');
     } else if (editTableIndex.length === 1) {
-      console.log(editTableIndex, 'edit Table Index');
       setEditTableData(tableData.find((data, i) => i.toString() === editTableIndex[0]));
-      console.log(editTableData, 'edit Table Data');
       setShowModal(true);
       setModalType('edit');
     }

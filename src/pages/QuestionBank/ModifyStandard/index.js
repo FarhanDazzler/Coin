@@ -28,7 +28,6 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
       repositoryOfControlID?.data.map((data) => {
         controlidArray.push({ label: data.Control_ID, value: data.Control_ID });
       });
-      console.log('controlidArray', controlidArray);
       setControlIDList(controlidArray);
     }
   }, [repositoryOfControlID]);
@@ -83,7 +82,6 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
   };
   const handleChangeControlId = (e) => {
     setControlIDOption(e);
-    console.log('e', e);
     setTemplate2_ID(e.value);
     if (e.value !== 'Standard') {
       setFinalTemplate_ID(e.value);
@@ -110,11 +108,10 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
     AddOptionSuccess,
     UpdateOptionSuccess,
     Question1UpdateState,
-    Question1OptionsUpdateState
+    Question1OptionsUpdateState,
   ]);
   useEffect(() => {
     if (section1Questions.length > 0) {
-      console.log('hh', section1Questions);
       setection1QuestionsData(section1Questions);
     } else {
       setection1QuestionsData([]);
@@ -127,7 +124,6 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
   ];
   useEffect(() => {
     if (AddQuestionSuccess?.success) {
-      console.log('success');
       setShowAddQuestion(false);
     }
   }, [AddQuestionSuccess]);

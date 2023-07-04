@@ -91,7 +91,6 @@ const Pages = () => {
   const [userToken, setUserToken] = useState('');
   const role = loginRole ?? userRole;
 
-  console.log('history');
   const isControlPage = () => {
     return (
       ['Control owner', 'Control oversight', 'control_owner', 'control_oversight']?.includes(
@@ -107,10 +106,8 @@ const Pages = () => {
         `https://acoemicsgrcpwa-devbe.azurewebsites.net/login?User_oid=${accounts[0]?.idTokenClaims.oid}`,
       )
       .then(async (res) => {
-        console.log(res.data, 'User Role User Token');
         if (!localStorage.getItem('Roles'))
           localStorage.setItem('Roles', res?.data.data?.sa_roles || []);
-        console.log('res?.data.data?.rl_roles', res?.data.data?.rl_roles);
         const updatedParam = {};
         if (res?.data.data?.rl_roles?.BU) updatedParam.BU = res?.data.data?.rl_roles?.BU;
         if (res?.data.data?.rl_roles?.Functional)

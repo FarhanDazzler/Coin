@@ -225,7 +225,6 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
       setShowEditModal(true);
     }
   };
-  //console.log('@@@@@@@', tableData, tableColumns);
   return (
     <>
       <div className="container-fluid mt-5">

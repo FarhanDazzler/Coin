@@ -16,7 +16,21 @@ import Button from '../../../../components/UI/Button';
 import { Group } from '@mantine/core';
 import FilterButtons from '../../../../components/FilterButtons';
 import Cookies from 'js-cookie';
-const ControlOwnerTable = ({ tableName }) => {
+const ControlOwnerTable = ({
+  tableName,
+  yearValue,
+  setYearValue,
+  assessmentCycleValue,
+  setAssessmentCycleValue,
+  zoneValue,
+  setZoneValue,
+  buValue,
+  setBUValue,
+  receiverValue,
+  setReceiverValue,
+  providerValue,
+  setProviderValue,
+}) => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
@@ -37,14 +51,6 @@ const ControlOwnerTable = ({ tableName }) => {
   } else {
     controlOwnerData = getControlOwnerData.data[1]?.cOverSightData || [];
   }
-
-  // multi choice user input State for filters button
-  const [yearValue, setYearValue] = useState([]);
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
-  const [zoneValue, setZoneValue] = useState([]);
-  const [buValue, setBUValue] = useState([]);
-  const [receiverValue, setReceiverValue] = useState([]);
-  const [providerValue, setProviderValue] = useState([]);
 
   useEffect(() => {
     dispatch(

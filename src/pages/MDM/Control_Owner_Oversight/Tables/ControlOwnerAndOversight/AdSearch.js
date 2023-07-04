@@ -21,7 +21,6 @@ const AdSearch = ({ userApiStart, values, setFieldValue, block = {}, setBlock, m
     }
   }, [isEmailValidADState.data]);
   const handleChange = (value) => {
-    console.log(value, 'testing vaue');
     setAdValue(value);
     const param = {
       email: value,

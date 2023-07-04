@@ -16,7 +16,15 @@ const InternalControlHomePage = () => {
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
   const selectedUserRole = localStorage.getItem('selected_Role');
-  // console.log('selectedUserRole',selectedUserRole)
+
+  // multi choice user input State for filters button
+  const [yearValue, setYearValue] = useState([]);
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
+  const [zoneValue, setZoneValue] = useState([]);
+  const [buValue, setBUValue] = useState([]);
+  const [receiverValue, setReceiverValue] = useState([]);
+  const [providerValue, setProviderValue] = useState([]);
+
   const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const getControlOwnerData = useSelector(getInternalControlDataSelector);
@@ -31,21 +39,66 @@ const InternalControlHomePage = () => {
   const getNumberOfItem = (array = [], itemName) => {
     return array?.filter((val) => val === itemName)?.length;
   };
+  console.log('@@@@', getControlOwnerData?.data);
+
   useEffect(() => {
     if (!userRole?.length || userRole === 'undefined') history.push('/not-authorized');
-    const allstatus = getControlOwnerData?.data?.map((d) => {
+
+    if (
+      !yearValue.length &&
+      !assessmentCycleValue.length &&
+      !zoneValue.length &&
+      !buValue.length &&
+      !receiverValue.length &&
+      !providerValue.length
+    ) {
+      const allstatus = getControlOwnerData?.data?.map((d) => {
+        return d.Status;
+      });
+      const completedAssessment = getNumberOfItem(allstatus, 'Completed');
+      setStatusInfo({
+        notStarted: getNumberOfItem(allstatus, 'Not started'),
+        completed: completedAssessment,
+        draft: getNumberOfItem(allstatus, 'Drafted'),
+        reAssessed: getNumberOfItem(allstatus, 'Incorrect Owner'),
+        completedRatio: ((completedAssessment / allstatus.length) * 100)?.toFixed(0),
+        total: allstatus?.length,
+      });
+      return;
+    }
+    const updateData = getControlOwnerData?.data?.filter((i) => {
+      return (
+        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
+        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
+        (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+        (buValue?.length ? buValue.includes(i.BU) : true) &&
+        (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
+        (providerValue?.length ? providerValue.includes(i.Provider) : true)
+      );
+    });
+    const allstatusUpdateData = updateData?.map((d) => {
       return d.Status;
     });
-    const completedAssessment = getNumberOfItem(allstatus, 'Completed');
+
+    const completedAssessment = getNumberOfItem(allstatusUpdateData, 'Completed');
     setStatusInfo({
-      notStarted: getNumberOfItem(allstatus, 'Not started'),
+      notStarted: getNumberOfItem(allstatusUpdateData, 'Not started'),
       completed: completedAssessment,
-      draft: getNumberOfItem(allstatus, 'Drafted'),
-      reAssessed: getNumberOfItem(allstatus, 'Incorrect Owner'),
-      completedRatio: ((completedAssessment / allstatus.length) * 100)?.toFixed(0),
-      total: allstatus?.length,
+      draft: getNumberOfItem(allstatusUpdateData, 'Drafted'),
+      reAssessed: getNumberOfItem(allstatusUpdateData, 'Incorrect Owner'),
+      completedRatio: ((completedAssessment / allstatusUpdateData.length) * 100)?.toFixed(0),
+      total: allstatusUpdateData?.length,
     });
-  }, [getControlOwnerData, userRole]);
+  }, [
+    getControlOwnerData,
+    userRole,
+    yearValue,
+    assessmentCycleValue,
+    zoneValue,
+    buValue,
+    receiverValue,
+    providerValue,
+  ]);
   const { accounts } = useMsal();
   return (
     <div>
@@ -133,7 +186,20 @@ const InternalControlHomePage = () => {
             </div>
           </div>
         </div>
-        <InternalControlTable />
+        <InternalControlTable
+          yearValue={yearValue}
+          setYearValue={setYearValue}
+          assessmentCycleValue={assessmentCycleValue}
+          setAssessmentCycleValue={setAssessmentCycleValue}
+          zoneValue={zoneValue}
+          setZoneValue={setZoneValue}
+          buValue={buValue}
+          setBUValue={setBUValue}
+          receiverValue={receiverValue}
+          setReceiverValue={setReceiverValue}
+          providerValue={providerValue}
+          setProviderValue={setProviderValue}
+        />
         {Control_ID && <HomeTableModal isModal={true} activeData={state} />}
       </PageWrapper>
     </div>

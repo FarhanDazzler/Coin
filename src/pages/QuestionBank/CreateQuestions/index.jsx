@@ -90,7 +90,6 @@ const CreateQuestions = ({ open, handleClose }) => {
   };
 
   useEffect(() => {
-    console.log('Testing1');
     if (section3.length > 0) {
       setShowAddQuestion(false);
     } else {
@@ -119,13 +118,11 @@ const CreateQuestions = ({ open, handleClose }) => {
   };
 
   useEffect(() => {
-    console.log('Testing2');
     const div = document.getElementById('loader');
     if (div) div.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, [questionData.loading]);
 
   useEffect(() => {
-    console.log('Testing3');
     if (questionData.data.length > 0) {
       const apiQuestion = getQuestionsFormatData(questionData.data);
       setSection3(getFormatQuestions(apiQuestion, 'isQuestionEdit'));
@@ -135,7 +132,6 @@ const CreateQuestions = ({ open, handleClose }) => {
   }, [questionData.data]);
 
   useEffect(() => {
-    console.log('Testing4');
     if (control_ID[0] && level[0]) {
       dispatch(getSection3Questions({ Level: level[0], Control_ID: control_ID[0] }));
     }

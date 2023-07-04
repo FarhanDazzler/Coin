@@ -99,17 +99,16 @@ const RenderHomeModalTable = ({
                 setStartEdit={setStartEdit}
                 isModal={isModal}
               />
-              {Object.keys(ansSection3).length > 0 && (
-                <ControlSection3
-                  setTerminating={setTerminating}
-                  ans={ansSection3}
-                  setAns={setAnsSection3}
-                  showNoQuestionAns={showNoQuestionAns}
-                  setShowNoQuestionAns={setShowNoQuestionAns}
-                  setStartEdit={setStartEdit}
-                  isModal={!isModal}
-                />
-              )}
+              <ControlSection3
+                setTerminating={setTerminating}
+                ans={ansSection3}
+                setAns={setAnsSection3}
+                showNoQuestionAns={showNoQuestionAns}
+                setShowNoQuestionAns={setShowNoQuestionAns}
+                setStartEdit={setStartEdit}
+                isModal={!isModal}
+                showMoreSection={showMoreSection}
+              />
             </>
           )}
 
