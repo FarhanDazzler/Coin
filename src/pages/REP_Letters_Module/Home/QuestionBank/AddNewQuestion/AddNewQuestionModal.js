@@ -10,6 +10,7 @@ import {
   edit_Function_Questions,
 } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import {} from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
+import RichTextEditor from '@mantine/rte';
 
 const AddNewQuestionModal = ({
   isEdit,
@@ -25,9 +26,11 @@ const AddNewQuestionModal = ({
   return (
     <div className="p-5">
       <Formik
-        initialValues={{ questionText: isEdit == true ? editableData?.questionText || '' : '' }}
+        initialValues={{ questionText: isEdit == true ? editableData?.questionText : '' }}
         validationSchema={Yup.object().shape({
-          questionText: Yup.string().required('Question text is required'),
+          questionText: Yup.string()
+            .min(10, 'Question text should be minimum of 10 characters')
+            .required('Question text is required'),
         })}
         onSubmit={(values, { setErrors, setStatus, setSubmitting, resetForm }) => {
           try {
@@ -70,7 +73,7 @@ const AddNewQuestionModal = ({
           }
         }}
       >
-        {({ errors, touched }) => (
+        {({ values, errors, touched, setFieldValue }) => (
           <Form>
             <div className="row">
               <div className="col-lg-12">
@@ -81,22 +84,18 @@ const AddNewQuestionModal = ({
                 </div>
                 <div className="row mb-4">
                   <div className="col-lg-12">
-                    <div className="input-group mb-3">
-                      <Field
-                        type="text"
-                        name="questionText"
-                        placeholder=""
-                        maxLength={5000}
-                        className={`form-control ${
-                          touched.questionText && errors.questionText ? 'is-invalid' : ''
-                        }`}
-                      />
-                      <ErrorMessage
-                        name="questionText"
-                        component="div"
-                        className="invalid-feedback"
-                      />
-                    </div>
+                    <RichTextEditor
+                      value={values.questionText}
+                      onChange={(val) => setFieldValue('questionText', val)}
+                      placeholder="Provide Question Text here..."
+                      controls={[
+                        ['bold', 'italic', 'underline'],
+                        ['unorderedList', 'h1', 'h2', 'h3'],
+                        ['sup', 'sub'],
+                        ['alignLeft', 'alignCenter', 'alignRight'],
+                      ]}
+                      radius="md"
+                    />
                   </div>
                 </div>
               </div>

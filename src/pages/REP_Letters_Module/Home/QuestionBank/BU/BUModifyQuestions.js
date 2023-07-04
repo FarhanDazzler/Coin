@@ -99,7 +99,13 @@ const Questions = ({ questionIndex, questionText, questionID }) => {
   return (
     <div className="question-text-section">
       <div className="question-number"> {questionIndex}</div>
-      <div className="question-text">{questionText}</div>
+      <div className="question-text">
+        <p
+          dangerouslySetInnerHTML={{
+            __html: questionText,
+          }}
+        />
+      </div>
     </div>
   );
 };
