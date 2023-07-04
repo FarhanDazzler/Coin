@@ -330,7 +330,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const handleCloseAssessment = () => {
     Swal.fire({
       title: 'Are you sure?',
-      text: `You want to cancel the Assessment`,
+      text: `You want to close the Assessment`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
