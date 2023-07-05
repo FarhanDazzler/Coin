@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ControlActions from './ControlActions';
 import { Loader } from '@mantine/core';
 import ControlSection1 from './ControlSection1';
 import ControlSection2 from './ControlSection2';
 import ControlSection3 from './ControlSection3';
 import Button from '../../../../../components/UI/Button';
+import { useDispatch } from 'react-redux';
+import { resetSection3 } from '../../../../../redux/Questions/QuestionsAction';
 
 const RenderHomeModalTable = ({
   questionsInfo,
@@ -28,6 +30,7 @@ const RenderHomeModalTable = ({
   loadingSubmit,
   isModal = false,
 }) => {
+  const dispatch = useDispatch();
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
   React.useEffect(() => {
     let sectionTerminating = false;
@@ -71,6 +74,10 @@ const RenderHomeModalTable = ({
     }
     setSection1TerminatingLogicValue(sectionTerminating);
   }, [ansSection3]);
+
+  useEffect(() => {
+    dispatch(resetSection3());
+  }, []);
 
   return (
     <div className="modal-form-body">
