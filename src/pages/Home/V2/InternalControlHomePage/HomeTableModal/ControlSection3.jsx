@@ -197,6 +197,7 @@ const ControlSection3 = ({
       } else {
         if (
           apiQuestionL3 &&
+          ans?.L3 &&
           apiQuestionL3[0]?.innerOptions?.length === Object.keys(ans?.L3).length
         ) {
           setTerminating(true);
