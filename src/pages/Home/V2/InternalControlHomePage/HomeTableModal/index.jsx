@@ -228,10 +228,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       if (result.isConfirmed) {
         // setLoading(true);
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
-        const s1FailObj = getIsFaildValueSelect();
+        const s1FailObj = ansSection1.some((i) => {
+          return !!i?.question_options?.find((d) => d?.option_id === i.selectVal)?.is_Failing;
+        });
         const isupdated = ansSection1.find((i) => i.is_AD === 1);
         const dataArray = Object.keys(ansSection3) || [];
-        const isS3Failed = showNoQuestionAns && dataArray.includes('L3') ? false : true;
+        const isS3Failed = !dataArray.includes('L3');
         const payload = {
           Assessment_ID: activeData.id,
           Assessment_result: isupdated
