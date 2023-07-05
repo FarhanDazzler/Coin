@@ -233,7 +233,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         });
         const isupdated = ansSection1.find((i) => i.is_AD === 1);
         const dataArray = Object.keys(ansSection3) || [];
-        const isS3Failed = showNoQuestionAns && dataArray.includes('L3') ? false : true;
+        const isS3Failed = !dataArray.includes('L3');
         const payload = {
           Assessment_ID: activeData.id,
           Assessment_result: isupdated
@@ -262,7 +262,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             },
           },
         };
-        debugger;
         if (isupdated) payload.is_incorrect_owner = true;
         dispatch(addAssessmentAns(payload));
       }
