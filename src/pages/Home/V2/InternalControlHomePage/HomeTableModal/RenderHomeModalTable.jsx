@@ -36,16 +36,6 @@ const RenderHomeModalTable = ({
     let sectionTerminating = false;
     if (Object.keys(ansSection3).length !== 0) {
       ansSection1.forEach((data) => {
-        if (data.q_id == '3') {
-          data.options.forEach((option) => {
-            if (data.value === option.value) {
-              if (option.label == 'Yes') {
-                sectionTerminating = true;
-                // setSection1TerminatingLogicValue(true);
-              }
-            }
-          });
-        }
         if (data.q_id == '6') {
           data.options.forEach((option) => {
             if (data.value === option.value) {
