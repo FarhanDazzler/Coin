@@ -67,6 +67,20 @@ export const DELETE_FUNCTION_QUESTIONS_SUCCESS = 'DELETE_FUNCTION_QUESTIONS_SUCC
 
 // =================== DELETE FUNCTION QUESTIONS ========================//
 
+// =================== Question Bank Get Instructions ========================//
+export const GET_INSTRUCTIONS_REQUEST = 'GET_INSTRUCTIONS_REQUEST';
+export const GET_INSTRUCTIONS_SUCCESS = 'GET_INSTRUCTIONS_SUCCESS';
+export const GET_INSTRUCTIONS_ERROR = 'GET_INSTRUCTIONS_ERROR';
+// =================== Question Bank Get Instructions ========================//
+
+// =================== Question Bank Modify Instructions ========================//
+
+export const MODIFY_INSTRUCTIONS_REQUEST = 'MODIFY_INSTRUCTIONS_REQUEST';
+export const MODIFY_INSTRUCTIONS_SUCCESS = 'MODIFY_INSTRUCTIONS_SUCCESS';
+export const MODIFY_INSTRUCTIONS_ERROR = 'MODIFY_INSTRUCTIONS_ERROR';
+
+// =================== Question Bank Modify Instructions ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -84,6 +98,8 @@ const initialState = {
   add_Function_Questions: { ...block, data: [] },
   edit_Function_Questions: { ...block, data: [] },
   delete_Function_Questions: { ...block, data: [] },
+  getInstructions: { ...block, data: [] },
+  modifyInstructions: { ...block, data: [] },
 };
 
 export const RL_QuestionBankReducer = (state = initialState, { type, payload = {} }) => {
@@ -279,6 +295,40 @@ export const RL_QuestionBankReducer = (state = initialState, { type, payload = {
       return {
         ...state,
         delete_Function_Questions: { ...state.delete_Function_Questions, loading: false },
+      };
+
+    // Question Bank Get Instructions
+    case GET_INSTRUCTIONS_REQUEST:
+      return {
+        ...state,
+        getInstructions: { ...state.getInstructions, loading: true },
+      };
+    case GET_INSTRUCTIONS_SUCCESS:
+      return {
+        ...state,
+        getInstructions: { ...state.getInstructions, data: payload, loading: false },
+      };
+    case GET_INSTRUCTIONS_ERROR:
+      return {
+        ...state,
+        getInstructions: { ...state.getInstructions, loading: false },
+      };
+
+    // Question Bank Modify Instructions
+    case MODIFY_INSTRUCTIONS_REQUEST:
+      return {
+        ...state,
+        modifyInstructions: { ...state.modifyInstructions, loading: true },
+      };
+    case MODIFY_INSTRUCTIONS_SUCCESS:
+      return {
+        ...state,
+        modifyInstructions: { ...state.modifyInstructions, data: payload, loading: false },
+      };
+    case MODIFY_INSTRUCTIONS_ERROR:
+      return {
+        ...state,
+        modifyInstructions: { ...state.modifyInstructions, loading: false },
       };
 
     default:
