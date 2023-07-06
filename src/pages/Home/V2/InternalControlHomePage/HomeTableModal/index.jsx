@@ -253,12 +253,16 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           event: {
             onSuccess: () => {
               setLoading(false);
-              if (dataArray.includes('L3') ? isS3Failed || s1FailObj : s1FailObj) {
-                Swal.fire('Your Assesment has been failed', '', 'success');
+              if (isupdated) {
+                Swal.fire('Your Assesment has been submitted', '', 'success');
               } else {
-                Swal.fire('Your Assesment has been passed', '', 'success');
+                if (dataArray.includes('L3') ? isS3Failed || s1FailObj : s1FailObj) {
+                  Swal.fire('Your Assesment has been failed', '', 'success');
+                } else {
+                  Swal.fire('Your Assesment has been passed', '', 'success');
+                }
+                history.push('/');
               }
-              history.push('/');
             },
           },
         };
