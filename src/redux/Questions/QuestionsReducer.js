@@ -50,6 +50,7 @@ export const GET_REPOSITORY_OF_CONTROL_ID_DATA_ERROR = 'GET_REPOSITORY_OF_CONTRO
 
 export const RESET_BLOCK_QUESTIONS = 'RESET_BLOCK_QUESTIONS';
 export const RESET_FLAGS_QUESTIONS = 'RESET_FLAGS_QUESTIONS';
+export const RESET_SECTION_3_REQUEST = 'RESET_SECTION_3_REQUEST';
 
 const block = {
   loading: false,
@@ -253,12 +254,23 @@ export const QuestionsReducer = (state = initialState, { type, payload = {} }) =
         question3: { ...state.question3, loading: true },
       };
     case GET_SECTION_3_MICS_SUCCESS:
+      if (payload.Level.L1 && payload.Level.L1.length === 0) {
+        return {
+          ...state,
+          question3: {
+            ...state.question3,
+            data: [],
+            Level: {},
+            loading: false,
+          },
+        };
+      }
       return {
         ...state,
         question3: {
           ...state.question3,
           data: payload.data,
-          Level: { ...payload.Level, ...state.question3.Level },
+          Level: { ...state.question3.Level, ...payload.Level },
           loading: false,
         },
       };
@@ -266,6 +278,12 @@ export const QuestionsReducer = (state = initialState, { type, payload = {} }) =
       return {
         ...state,
         question3: { ...state.question3, loading: false },
+      };
+
+    case RESET_SECTION_3_REQUEST:
+      return {
+        ...state,
+        question3: { ...block, data: [], Level: {} },
       };
 
     case GET_SECTION_3_MICS_ADD_REQUEST:

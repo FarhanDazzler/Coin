@@ -13,6 +13,7 @@ import {
   DELETE_OPTION_SECTION_1_MICS_REQUEST,
   ADD_SECTION_1_OPTION_MICS_REQUEST,
   GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST,
+  RESET_SECTION_3_REQUEST,
 } from './QuestionsReducer';
 
 export const getSection1Questions = (payload) => ({
@@ -25,6 +26,11 @@ export const updateSection1Questions = (payload) => ({
 });
 export const deleteSection1Questions = (payload) => ({
   type: DELETE_SECTION_1_MICS_REQUEST,
+  payload,
+});
+
+export const resetSection3 = (payload) => ({
+  type: RESET_SECTION_3_REQUEST,
   payload,
 });
 

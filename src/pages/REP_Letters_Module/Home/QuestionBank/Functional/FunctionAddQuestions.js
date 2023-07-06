@@ -7,7 +7,6 @@ import { Divider, Box, Group } from '@mantine/core';
 import { Radio } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import Select from 'react-select';
 import * as Yup from 'yup';
 import { useFormikContext, Formik } from 'formik';
 import { Form } from 'react-bootstrap';
@@ -20,10 +19,7 @@ import { get_rep_functions } from '../../../../../redux/REP_Letters/RLMDM/RLMDMA
 import { get_rep_functionsSelector } from '../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
 import {
   get_Function_Questions,
-  add_Function_Questions,
-  edit_Function_Questions,
   delete_Function_Questions,
-  getLetterNameFromFunction,
   createNewFunctionRequest,
   clear_get_Function_Questions,
 } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
@@ -34,7 +30,6 @@ import {
   delete_Function_QuestionsSelector,
   createNewFunctionRequestSelector,
 } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
-import RemoveWarningModal from '../../../../../components/UI/AttributesRemoveModal';
 
 const Options = ({
   setEditableData,
@@ -111,7 +106,13 @@ const Questions = ({ questionIndex, questionText, questionID }) => {
   return (
     <div className="question-text-section">
       <div className="question-number"> {questionIndex}</div>
-      <div className="question-text">{questionText}</div>
+      <div className="question-text">
+        <p
+          dangerouslySetInnerHTML={{
+            __html: questionText,
+          }}
+        />
+      </div>
     </div>
   );
 };
@@ -326,7 +327,8 @@ const FunctionAddQuestions = () => {
                 <div className="section-title" style={{ justifyContent: 'space-between' }}>
                   <div>
                     <span style={{ paddingLeft: '16px' }}>
-                      Add Questions for Function Letter : {functionLetterName}
+                      Add Questions for Function Letter :{' '}
+                      <span className="golden-text">{functionLetterName}</span>
                     </span>
                   </div>
 

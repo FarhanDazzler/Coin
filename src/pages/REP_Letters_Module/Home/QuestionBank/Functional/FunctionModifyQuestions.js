@@ -108,40 +108,57 @@ const Questions = ({ questionIndex, questionText, questionID }) => {
   return (
     <div className="question-text-section">
       <div className="question-number"> {questionIndex}</div>
-      <div className="question-text">{questionText}</div>
+      <div className="question-text">
+        <p
+          dangerouslySetInnerHTML={{
+            __html: questionText,
+          }}
+        />
+      </div>
     </div>
   );
 };
 
 const ModifyFunctionLetter = ({
-  setFunctionLetterName,
   functionType,
   setFunctionType,
+  functionLetterName,
+  setFunctionLetterName,
   setIsLetterSelected,
 }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const [functionValid, setFunctionValid] = useState(false);
+  const [letterValid, setLetterValid] = useState(false);
+
   const handleClickSelectFunction = (event) => {
-    setFunctionType(event.target.value);
+    const selectedFunction = event.target.value;
+    setFunctionType(selectedFunction);
+    setFunctionValid(!!selectedFunction); // Check if a function is selected
+    setLetterValid(false); // Reset letter validity
     let payload = {
-      function: event.target.value,
+      function: selectedFunction,
     };
     dispatch(getLetterNameFromFunction(payload));
   };
 
   const handleClickSelectLetterName = (event) => {
-    setFunctionLetterName(event.target.value);
+    const selectedLetter = event.target.value;
+    setFunctionLetterName(selectedLetter);
+    setLetterValid(!!selectedLetter); // Check if a letter is selected
+    setIsLetterSelected(true);
     let payload = {
       function: functionType,
-      letter: event.target.value,
+      letter: selectedLetter,
     };
     dispatch(get_Function_Questions(payload));
-    setIsLetterSelected(true);
   };
 
   const get_rep_functionsState = useSelector(get_rep_functionsSelector);
   const getLetterNameFromFunctionState = useSelector(getLetterNameFromFunctionSelector);
+
+  const functionOptions = get_rep_functionsState?.data || [];
 
   return (
     <>
@@ -154,41 +171,45 @@ const ModifyFunctionLetter = ({
                 as="select"
                 name="Function"
                 placeholder=""
-                //value={values.Function}
+                value={functionType}
                 onChange={handleClickSelectFunction}
                 disabled={false}
-                className="form-select"
+                className={`form-select ${functionValid ? '' : 'is-invalid'}`}
               >
                 <option value="">Select Function</option>
-                {get_rep_functionsState?.data.map((data, i) => (
+                {functionOptions.map((data, i) => (
                   <option key={i} value={data.functions}>
                     {data.functions}
                   </option>
                 ))}
               </Form.Control>
+              {!functionValid && <div className="invalid-feedback">Please select a function.</div>}
             </Form.Group>
           </div>
-          <div className="col-lg-4">
-            <h5>Select Letter:</h5>
-            <Form.Group className="input-group mb-3">
-              <Form.Control
-                as="select"
-                name="FunctionLetterName"
-                placeholder=""
-                //value={values.FunctionLetterName}
-                onChange={handleClickSelectLetterName}
-                disabled={false}
-                className="form-select"
-              >
-                <option value="">Select Letter</option>
-                {getLetterNameFromFunctionState?.data.map((data, i) => (
-                  <option key={i} value={data.Name}>
-                    {data.Name}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
-          </div>
+          {functionType && (
+            <div className="col-lg-4">
+              <h5>Select Letter:</h5>
+              <Form.Group className="input-group mb-3">
+                <Form.Control
+                  as="select"
+                  name="FunctionLetterName"
+                  placeholder=""
+                  value={functionLetterName}
+                  onChange={handleClickSelectLetterName}
+                  disabled={false}
+                  className={`form-select ${letterValid ? '' : 'is-invalid'}`}
+                >
+                  <option value="">Select Letter</option>
+                  {getLetterNameFromFunctionState?.data.map((data, i) => (
+                    <option key={i} value={data.Name}>
+                      {data.Name}
+                    </option>
+                  ))}
+                </Form.Control>
+                {!letterValid && <div className="invalid-feedback">Please select a letter.</div>}
+              </Form.Group>
+            </div>
+          )}
         </div>
       </div>
     </>
@@ -252,16 +273,18 @@ const FunctionModifyQuestions = () => {
           <div className="row pt-5">
             <div className="rl-question-bank-TitleSectionTab">
               <ModifyFunctionLetter
-                setFunctionLetterName={setFunctionLetterName}
                 functionType={functionType}
                 setFunctionType={setFunctionType}
+                functionLetterName={functionLetterName}
+                setFunctionLetterName={setFunctionLetterName}
                 setIsLetterSelected={setIsLetterSelected}
               />
 
               <div className="section-title" style={{ justifyContent: 'space-between' }}>
                 <div>
                   <span style={{ paddingLeft: '16px' }}>
-                    Add Questions for Function Letter : {functionLetterName}
+                    Modify Questions for Function Letter :{' '}
+                    <span className="golden-text">{functionLetterName}</span>
                   </span>
                 </div>
                 <div>
