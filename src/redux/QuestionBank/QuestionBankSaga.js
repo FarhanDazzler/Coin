@@ -101,15 +101,19 @@ function* addSection1QuestionData(payload) {
         type: ACTION_ADD_SECTION1_QUESTIONS_DATA_FAILED,
         message: 'Somthing went wrong',
       });
+    }
+  } catch (e) {
+    if (e?.response?.status === 400) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: 'Something Went Wrong', type: 'danger' },
+          data: { text: e?.response?.data?.data, type: 'danger' },
         },
       });
+      yield put({ type: ACTION_ADD_SECTION1_QUESTIONS_DATA_FAILED, error: getSimplifiedError(e) });
+    } else {
+      yield put({ type: ACTION_ADD_SECTION1_QUESTIONS_DATA_FAILED, error: getSimplifiedError(e) });
     }
-  } catch (e) {
-    yield put({ type: ACTION_ADD_SECTION1_QUESTIONS_DATA_FAILED, error: getSimplifiedError(e) });
   }
 }
 
@@ -133,15 +137,19 @@ function* addSection1OptionData(payload) {
         type: ACTION_ADD_SECTION1_OPTIONS_DATA_FAILED,
         message: 'Somthing went wrong',
       });
+    }
+  } catch (e) {
+    if (e?.response?.status === 400) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: 'Something Went Wrong', type: 'danger' },
+          data: { text: e?.response?.data?.data, type: 'danger' },
         },
       });
+      yield put({ type: ACTION_ADD_SECTION1_OPTIONS_DATA_FAILED, error: getSimplifiedError(e) });
+    } else {
+      yield put({ type: ACTION_ADD_SECTION1_OPTIONS_DATA_FAILED, error: getSimplifiedError(e) });
     }
-  } catch (e) {
-    yield put({ type: ACTION_ADD_SECTION1_OPTIONS_DATA_FAILED, error: getSimplifiedError(e) });
   }
 }
 
@@ -165,15 +173,19 @@ function* editSection1QuestionData(payload) {
         type: ACTION_EDIT_SECTION1_QUESTIONS_DATA_FAILED,
         message: 'Somthing went wrong',
       });
+    }
+  } catch (e) {
+    if (e?.response?.status === 400) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: 'Something Went Wrong', type: 'danger' },
+          data: { text: e?.response?.data?.data, type: 'danger' },
         },
       });
+      yield put({ type: ACTION_EDIT_SECTION1_QUESTIONS_DATA_FAILED, error: getSimplifiedError(e) });
+    } else {
+      yield put({ type: ACTION_EDIT_SECTION1_QUESTIONS_DATA_FAILED, error: getSimplifiedError(e) });
     }
-  } catch (e) {
-    yield put({ type: ACTION_EDIT_SECTION1_QUESTIONS_DATA_FAILED, error: getSimplifiedError(e) });
   }
 }
 
@@ -197,15 +209,19 @@ function* editSection1OptionsData(payload) {
         type: ACTION_EDIT_SECTION1_OPTIONS_DATA_FAILED,
         message: 'Somthing went wrong',
       });
+    }
+  } catch (e) {
+    if (e?.response?.status === 400) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: 'Something Went Wrong', type: 'danger' },
+          data: { text: e?.response?.data?.data, type: 'danger' },
         },
       });
+      yield put({ type: ACTION_EDIT_SECTION1_OPTIONS_DATA_FAILED, error: getSimplifiedError(e) });
+    } else {
+      yield put({ type: ACTION_EDIT_SECTION1_OPTIONS_DATA_FAILED, error: getSimplifiedError(e) });
     }
-  } catch (e) {
-    yield put({ type: ACTION_EDIT_SECTION1_OPTIONS_DATA_FAILED, error: getSimplifiedError(e) });
   }
 }
 
@@ -256,15 +272,19 @@ function* deleteSection1OptionData(payload) {
         type: ACTION_DELETE_SECTION1_OPTIONS_DATA_FAILED,
         message: 'Somthing went wrong',
       });
+    }
+  } catch (e) {
+    if (e?.response?.status === 400) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: 'Something Went Wrong', type: 'danger' },
+          data: { text: e?.response?.data?.data, type: 'danger' },
         },
       });
+      yield put({ type: ACTION_DELETE_SECTION1_OPTIONS_DATA_FAILED, error: getSimplifiedError(e) });
+    } else {
+      yield put({ type: ACTION_DELETE_SECTION1_OPTIONS_DATA_FAILED, error: getSimplifiedError(e) });
     }
-  } catch (e) {
-    yield put({ type: ACTION_DELETE_SECTION1_OPTIONS_DATA_FAILED, error: getSimplifiedError(e) });
   }
 }
 

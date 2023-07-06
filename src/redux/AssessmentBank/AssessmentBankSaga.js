@@ -41,6 +41,7 @@ import {
   RECALL_ASSESSMENT_ERROR,
 } from './AssessmentBankReducer';
 import Swal from 'sweetalert2';
+import { ACTION_ADD_ERROR_NOTIFICATION_DATA } from '../ErrorNotification/ErrorNotificationReducer';
 
 // get All Zone Api
 async function getAllZoneApi(params) {
@@ -182,14 +183,27 @@ function* addAssessmentSchedulingAndTriggeringData({ payload }) {
       });
       Swal.fire('Done!', 'Assessment Scheduled and Triggered Successfully!', 'success');
     } else {
-      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+      // Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
   } catch (error) {
-    yield put({
-      type: ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_ERROR,
-      // error: getSimplifiedError(error),
-    });
-    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    if (error?.response?.status === 400) {
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: error?.response?.data?.data, type: 'danger' },
+        },
+      });
+      yield put({
+        type: ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
   }
 }
 
