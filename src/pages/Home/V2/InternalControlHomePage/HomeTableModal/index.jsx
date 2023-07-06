@@ -255,6 +255,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
               setLoading(false);
               if (isupdated) {
                 Swal.fire('Your Assesment has been submitted', '', 'success');
+                history.push('/');
               } else {
                 if (dataArray.includes('L3') ? isS3Failed || s1FailObj : s1FailObj) {
                   Swal.fire('Your Assesment has been failed', '', 'success');
