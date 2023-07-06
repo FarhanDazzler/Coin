@@ -12,7 +12,6 @@ import DashBoardSaga from './DashBoard/DashBoardSaga';
 import RLMDMSaga from './REP_Letters/RLMDM/RLMDMSaga';
 import AdminPageSaga from './AdminPage/AdminPageSaga';
 import RL_QuestionBankSaga from './REP_Letters/RL_QuestionBank/RL_QuestionBankSaga';
-import AzureBlobSaga from './AzureBlobStorage/AzureBlobSaga';
 export function* sagas() {
   yield all([
     AuthSaga,
@@ -28,6 +27,5 @@ export function* sagas() {
     RLMDMSaga,
     AdminPageSaga,
     RL_QuestionBankSaga,
-    AzureBlobSaga,
   ]);
 }

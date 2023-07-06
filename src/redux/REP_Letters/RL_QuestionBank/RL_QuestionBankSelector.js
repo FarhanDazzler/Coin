@@ -14,3 +14,5 @@ export const createNewFunctionRequestSelector = (state) =>
   state?.RL_QuestionBank?.createNewFunctionRequest;
 export const getLetterNameFromFunctionSelector = (state) =>
   state?.RL_QuestionBank?.getLetterNameFromFunction;
+export const getInstructionsSelector = (state) => state?.RL_QuestionBank?.getInstructions;
+export const modifyInstructionsSelector = (state) => state?.RL_QuestionBank?.modifyInstructions;

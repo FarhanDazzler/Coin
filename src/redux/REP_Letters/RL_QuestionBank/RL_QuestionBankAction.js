@@ -10,6 +10,8 @@ import {
   CREATE_NEW_FUNCTION_LETTER_REQUEST,
   GET_LETTER_NAME_FROM_FUNCTION_REQUEST,
   CLEAR_GET_FUNCTION_QUESTIONS_REQUEST,
+  GET_INSTRUCTIONS_REQUEST,
+  MODIFY_INSTRUCTIONS_REQUEST,
 } from './RL_QuestionBankReducer';
 
 export const get_BU_Questions = (payload) => ({ type: GET_BU_QUESTIONS_REQUEST, payload });
@@ -47,3 +49,6 @@ export const delete_Function_Questions = (payload) => ({
   type: DELETE_FUNCTION_QUESTIONS_REQUEST,
   payload,
 });
+
+export const getInstructions = (payload) => ({ type: GET_INSTRUCTIONS_REQUEST, payload });
+export const modifyInstructions = (payload) => ({ type: MODIFY_INSTRUCTIONS_REQUEST, payload });
