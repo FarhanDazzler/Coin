@@ -47,6 +47,7 @@ import {
   GET_ASSESSMENT_SECTION_2_ERROR,
   GET_ASSESSMENT_SECTION_2_REQUEST,
 } from './AssessmentReducer';
+import { ACTION_ADD_ERROR_NOTIFICATION_DATA } from '../ErrorNotification/ErrorNotificationReducer';
 import Swal from 'sweetalert2';
 
 async function GetLatestDraftApi(params) {
@@ -278,12 +279,26 @@ function* handle_addUpdateDraftResponse({ payload }) {
         type: ADD_UPDATE_DRAFT_RESPONSE_SUCCESS,
         payload: response.data,
       });
+    } else {
     }
   } catch (error) {
-    yield put({
-      type: ADD_UPDATE_DRAFT_RESPONSE_ERROR,
-      // error: getSimplifiedError(error),
-    });
+    if (error?.response?.status === 400) {
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: error?.response?.data?.data, type: 'danger' },
+        },
+      });
+      yield put({
+        type: ADD_UPDATE_DRAFT_RESPONSE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: ADD_UPDATE_DRAFT_RESPONSE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    }
   }
 }
 
@@ -320,12 +335,26 @@ function* handle_addUpdateFinalSubmitResponse({ payload }) {
         type: ADD_UPDATE_FINAL_SUBMIT_RESPONSE_SUCCESS,
         payload: response.data,
       });
+    } else {
     }
   } catch (error) {
-    yield put({
-      type: ADD_UPDATE_FINAL_SUBMIT_RESPONSE_ERROR,
-      // error: getSimplifiedError(error),
-    });
+    if (error?.response?.status === 400) {
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: error?.response?.data?.data, type: 'danger' },
+        },
+      });
+      yield put({
+        type: ADD_UPDATE_FINAL_SUBMIT_RESPONSE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: ADD_UPDATE_FINAL_SUBMIT_RESPONSE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    }
   }
 }
 

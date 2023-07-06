@@ -17,6 +17,7 @@ import {
   DELETE_ADMIN_ROLE_SUCCESS,
   DELETE_ADMIN_ROLE_ERROR,
 } from './AdminPageReducer';
+import { ACTION_ADD_ERROR_NOTIFICATION_DATA } from '../ErrorNotification/ErrorNotificationReducer';
 import Swal from 'sweetalert2';
 
 //GET All module Admin ROLE Data
@@ -60,11 +61,24 @@ function* addAdminRoleData({ payload }) {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
   } catch (error) {
-    yield put({
-      type: ADD_ADMIN_ROLE_ERROR,
-      // error: getSimplifiedError(error),
-    });
-    Swal.fire('Oops...', 'Something Went Wrong11', 'error');
+    if (error?.response?.status === 400) {
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: error?.response?.data?.data, type: 'danger' },
+        },
+      });
+      yield put({
+        type: ADD_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: ADD_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong11', 'error');
+    }
   }
 }
 
@@ -86,11 +100,24 @@ function* modifyAdminRoleData({ payload }) {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
   } catch (error) {
-    yield put({
-      type: MODIFY_ADMIN_ROLE_ERROR,
-      // error: getSimplifiedError(error),
-    });
-    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    if (error?.response?.status === 400) {
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: error?.response?.data?.data, type: 'danger' },
+        },
+      });
+      yield put({
+        type: MODIFY_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: MODIFY_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
   }
 }
 
@@ -112,11 +139,24 @@ function* deleteAdminRoleData({ payload }) {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
   } catch (error) {
-    yield put({
-      type: DELETE_ADMIN_ROLE_ERROR,
-      // error: getSimplifiedError(error),
-    });
-    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    if (error?.response?.status === 400) {
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: error?.response?.data?.data, type: 'danger' },
+        },
+      });
+      yield put({
+        type: DELETE_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: DELETE_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
   }
 }
 export default all([

@@ -184,19 +184,26 @@ function* addAssessmentSchedulingAndTriggeringData({ payload }) {
       Swal.fire('Done!', 'Assessment Scheduled and Triggered Successfully!', 'success');
     } else {
       // Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    if (error?.response?.status === 400) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: "Something Went Wrong", type: 'danger' },
+          data: { text: error?.response?.data?.data, type: 'danger' },
         },
       });
+      yield put({
+        type: ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
-  } catch (error) {
-    yield put({
-      type: ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_ERROR,
-      // error: getSimplifiedError(error),
-    });
-    Swal.fire('Oops...', 'Something Went Wrong', 'error');
   }
 }
 
