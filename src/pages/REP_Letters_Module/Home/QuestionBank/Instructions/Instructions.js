@@ -57,8 +57,9 @@ const Instructions = ({ setShowModal, modalType }) => {
       'video/mp4': [],
     },
     // Specify the file types you want to accept
-    multiple: true, // Allow multiple file selection
-    //maxFiles:2
+    //multiple: true, // Allow multiple file selection
+    multiple: false,
+    //maxFiles:1
     onDrop: (acceptedFiles) => {
       setFiles([...files, ...acceptedFiles]);
     },
@@ -150,7 +151,7 @@ const Instructions = ({ setShowModal, modalType }) => {
     if (value.isAttached === 'Yes') {
       formdata.append('id', getInstructionsState?.data[0]?.id);
       formdata.append('isVideoAttached', true);
-      formdata.append('video', files);
+      formdata.append('video', files[0]);
       formdata.append('instructions', value.Instructions);
       formdata.append('module', modalType);
     } else {
@@ -160,42 +161,7 @@ const Instructions = ({ setShowModal, modalType }) => {
       formdata.append('module', modalType);
     }
 
-    // code for json stringify formdata
-    // var object = {};
-    // formdata.forEach(function (value, key) {
-    //   object[key] = value;
-    // });
-    // var json = JSON.stringify(object);
-    // console.log(json, 'json');
-    // var parsed = JSON.parse(json);
-    // console.log(parsed, 'parsed');
-    // console.log(formdata, 'payload');
-    //dispatch(modifyInstructions(formdata));
-
-    const getToken = (name = 'token') => {
-      return Cookies.get(name);
-    };
-    const token = getToken('token');
-
-    let config = {
-      method: 'post',
-      maxBodyLength: Infinity,
-      url: 'https://acoemicsgrcpwa-devbe.azurewebsites.net/update_rep_instructions',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        ...formdata.getHeaders(),
-      },
-      data: formdata,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    dispatch(modifyInstructions(formdata));
   };
 
   return (
