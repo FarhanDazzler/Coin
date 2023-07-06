@@ -60,16 +60,16 @@ const CreateQuestions = ({ open, handleClose }) => {
       setControlIDList(controlidArray);
     }
   }, [repositoryOfControlID]);
-  // useEffect(() => {
-  //   if (control_ID[0]) {
-  //     let payload = {
-  //       controlId: control_ID[0],
-  //       coOwner: accounts.length > 0 ? accounts[0].username : '',
-  //     };
+  useEffect(() => {
+    if (control_ID[0]) {
+      let payload = {
+        controlId: control_ID[0],
+        coOwner: accounts.length > 0 ? accounts[0].username : '',
+      };
 
-  //     dispatch(getControlDataAction(payload));
-  //   }
-  // }, [control_ID[0]]);
+      dispatch(getControlDataAction(payload));
+    }
+  }, [control_ID[0]]);
   const handleChange = (event) => {
     const value = event.value;
     if (isEdit) {
@@ -206,7 +206,6 @@ const CreateQuestions = ({ open, handleClose }) => {
             Create Questions for New MICS
           </span>
         }
-        controlId={control_ID[0]}
         width={1080}
         onClose={handleClose}
       >

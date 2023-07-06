@@ -131,15 +131,6 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
       size: 150,
     },
     {
-      accessorKey: 'Entity_Weight',
-      id: 'Entity_Weight',
-      header: 'Entity Weight',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 140,
-    },
-    {
       accessorKey: 'is_SOX_scope',
       id: 'is_SOX_scope',
       header: 'Is SOX scope',

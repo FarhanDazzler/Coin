@@ -150,7 +150,7 @@ const InternalControlTable = ({
     {
       accessorKey: 'Provider',
       id: 'Provider',
-      header: 'Provider',
+      header: 'Provider Organization',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
