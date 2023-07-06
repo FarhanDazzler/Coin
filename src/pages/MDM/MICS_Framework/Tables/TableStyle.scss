@@ -1,7 +1,7 @@
 .mdm-table-button {
 
     .table-heading {
-        
+
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -9,24 +9,24 @@
         gap: 16px;
         width: auto;
         height: 24px;
-        
 
-        
+
+
         .title {
-            
+
             font-family: 'Avantt';
             font-style: normal;
             font-weight: 600;
             font-size: 16px;
             line-height: 87.52%;
-           
+
             color: #FFFFFF;
             flex: none;
             order: 1;
             flex-grow: 0;
         }
 
-        
+
     }
-    
+
 }

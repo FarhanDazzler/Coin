@@ -13,12 +13,17 @@ import { orgManageButton } from '../../../../../redux/MDM/MDM_Action';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import Tooltip from '@mui/material/Tooltip';
+import OrgHierarchyTableFilterButtons from './OrgHierarchyTableFilterButtons';
 
 const OrgHierarchyTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
 
   const dispatch = useDispatch();
+
+  const [zoneValue, setZoneValue] = useState([]);
+  const [entityValue, setEntityValue] = useState([]);
+  const [buValue, setBUValue] = useState([]);
 
   const orgHierarchy = useSelector(getOrgHierarchySelector);
   const orgManageButtonState = useSelector(orgManageButtonSelector);
@@ -92,6 +97,25 @@ const OrgHierarchyTable = () => {
     );
   }, [orgHierarchy.data]);
 
+  useEffect(() => {
+    const updateData = orgHierarchy.data.filter((i) => {
+      return (
+        (buValue?.length ? buValue.includes(i.BU) : true) &&
+        (zoneValue?.length ? zoneValue.includes(i.zone) : true) &&
+        (entityValue?.length ? entityValue.includes(i.country_entity) : true)
+      );
+    });
+
+    setTableData(
+      updateData.map((i, index) => {
+        return {
+          id: index,
+          ...i,
+        };
+      }),
+    );
+  }, [zoneValue, entityValue, buValue]);
+
   const handleOnclickTableUnhide = () => {
     dispatch(orgManageButton(!orgManageButtonState));
     setTimeout(() => {
@@ -117,12 +141,30 @@ const OrgHierarchyTable = () => {
   const zoneArray = orgHierarchy.data.map((i) => i.zone);
   //zoneArray = removeDuplicates(zoneArray);
 
+  const filterData = (key) => {
+    const kayValuesArray = orgHierarchy?.data?.map((d) => d[key]) || [];
+    const allData = [...new Set(kayValuesArray)];
+    return allData.filter((d) => !!d);
+  };
+
   return (
     <>
       <div className="container-fluid mt-5">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
-            {/*<FilterButtons zone={removeDuplicates(zoneArray)} />*/}
+            <OrgHierarchyTableFilterButtons
+              zone={removeDuplicates(zoneArray)}
+              zoneData={filterData('zone')}
+              zoneValue={zoneValue}
+              setZoneValue={setZoneValue}
+              entityData={filterData('country_entity')}
+              entityValue={entityValue}
+              setEntityValue={setEntityValue}
+              BUData={filterData('BU')}
+              buValue={buValue}
+              setBUValue={setBUValue}
+              className={'mb-5'}
+            />
             <div className="mdm-table-button">
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>

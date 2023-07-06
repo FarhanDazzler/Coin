@@ -20,6 +20,10 @@
       }
     }
   }
+  &.user-role-input {
+    font-size: 14px;
+    color: #fff !important;
+  }
   &:hover {
     .MuiOutlinedInput-notchedOutline {
       border: 0px !important;

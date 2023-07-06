@@ -23,11 +23,21 @@ const Select = ({ options, classes = {}, startAdornment, placeholder, inputLook,
         </MenuItem>
       )}
 
-      {options.map(({ label, value }) => (
-        <MenuItem key={label} value={value}>
-          {label}
-        </MenuItem>
-      ))}
+      {options.map((op, i) => {
+        if (typeof op === 'string') {
+          return (
+            <MenuItem key={i} value={op}>
+              {op}
+            </MenuItem>
+          );
+        }
+        const { label, value } = op;
+        return (
+          <MenuItem key={label} value={value}>
+            {label}
+          </MenuItem>
+        );
+      })}
     </SelectBase>
   );
 };
