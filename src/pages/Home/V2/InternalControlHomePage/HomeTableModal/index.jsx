@@ -228,10 +228,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       if (result.isConfirmed) {
         // setLoading(true);
         dispatch(addAssessmentSection2Ans({ kpis: tableData }));
-        const s1FailObj = getIsFaildValueSelect();
+        const s1FailObj = ansSection1.some((i) => {
+          return !!i?.question_options?.find((d) => d?.option_id === i.selectVal)?.is_Failing;
+        });
         const isupdated = ansSection1.find((i) => i.is_AD === 1);
         const dataArray = Object.keys(ansSection3) || [];
-        const isS3Failed = showNoQuestionAns && dataArray.includes('L3') ? false : true;
+        const isS3Failed = !dataArray.includes('L3');
         const payload = {
           Assessment_ID: activeData.id,
           Assessment_result: isupdated
@@ -251,12 +253,16 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           event: {
             onSuccess: () => {
               setLoading(false);
-              if (dataArray.includes('L3') ? isS3Failed || s1FailObj : s1FailObj) {
-                Swal.fire('Your Assesment has been failed', '', 'success');
+              if (isupdated) {
+                Swal.fire('Your Assesment has been submitted', '', 'success');
               } else {
-                Swal.fire('Your Assesment has been passed', '', 'success');
+                if (dataArray.includes('L3') ? isS3Failed || s1FailObj : s1FailObj) {
+                  Swal.fire('Your Assesment has been failed', '', 'success');
+                } else {
+                  Swal.fire('Your Assesment has been passed', '', 'success');
+                }
+                history.push('/');
               }
-              history.push('/');
             },
           },
         };

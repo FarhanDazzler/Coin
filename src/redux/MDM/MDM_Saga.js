@@ -113,19 +113,26 @@ function* addOrgStructureData({ payload }) {
       Swal.fire('Done!', 'Added Successfully!', 'success');
     } else {
       // Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    if (error?.response?.status === 400) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: 'Something Went Wrong', type: 'danger' },
+          data: { text: error?.response?.data?.data, type: 'danger' },
         },
       });
+      yield put({
+        type: ACTION_ADD_ORG_STRUCTURE_DATA_FAILED,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: ACTION_ADD_ORG_STRUCTURE_DATA_FAILED,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
-  } catch (error) {
-    yield put({
-      type: ACTION_ADD_ORG_STRUCTURE_DATA_FAILED,
-      // error: getSimplifiedError(error),
-    });
-    Swal.fire('Oops...', 'Something Went Wrong', 'error');
   }
 }
 
@@ -230,19 +237,26 @@ function* addMicsFrameworkData({ payload }) {
       Swal.fire('Done!', 'Added Successfully!', 'success');
     } else {
       // Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    if (error?.response?.status === 400) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: 'Something Went Wrong', type: 'danger' },
+          data: { text: error?.response?.data?.data, type: 'danger' },
         },
       });
+      yield put({
+        type: ADD_MICS_FRAMEWORK_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: ADD_MICS_FRAMEWORK_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
-  } catch (error) {
-    yield put({
-      type: ADD_MICS_FRAMEWORK_ERROR,
-      // error: getSimplifiedError(error),
-    });
-    Swal.fire('Oops...', 'Something Went Wrong', 'error');
   }
 }
 
@@ -365,19 +379,26 @@ function* addMegaAndSubprocessData({ payload }) {
       Swal.fire('Done!', 'Added Successfully!', 'success');
     } else {
       // Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    if (error?.response?.status === 400) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: 'Something Went Wrong', type: 'danger' },
+          data: { text: error?.response?.data?.data, type: 'danger' },
         },
       });
+      yield put({
+        type: ADD_MEGA_AND_SUBPROCESS_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: ADD_MEGA_AND_SUBPROCESS_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
-  } catch (error) {
-    yield put({
-      type: ADD_MEGA_AND_SUBPROCESS_ERROR,
-      // error: getSimplifiedError(error),
-    });
-    Swal.fire('Oops...', 'Something Went Wrong', 'error');
   }
 }
 
@@ -527,19 +548,26 @@ function* modifyControlOwnerAndOversightData({ payload }) {
       Swal.fire('Done!', 'Modify Successfully!', 'success');
     } else {
       // Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    if (error?.response?.status === 400) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: 'Something Went Wrong', type: 'danger' },
+          data: { text: error?.response?.data?.data, type: 'danger' },
         },
       });
+      yield put({
+        type: MODIFY_CONTROL_OWNER_AND_OVERSIGHT_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: MODIFY_CONTROL_OWNER_AND_OVERSIGHT_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
-  } catch (error) {
-    yield put({
-      type: MODIFY_CONTROL_OWNER_AND_OVERSIGHT_ERROR,
-      // error: getSimplifiedError(error),
-    });
-    Swal.fire('Oops...', 'Something Went Wrong', 'error');
   }
 }
 
@@ -579,19 +607,26 @@ function* assignApplicabilityAndAssignmentOfProviderOrganizationData({ payload }
       yield put(getApplicabilityAndAssignmentOfProviderOrganization());
     } else {
       // Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    if (error?.response?.status === 400) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: 'Something Went Wrong', type: 'danger' },
+          data: { text: error?.response?.data?.data, type: 'danger' },
         },
       });
+      yield put({
+        type: ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
-  } catch (error) {
-    yield put({
-      type: ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR,
-      // error: getSimplifiedError(error),
-    });
-    Swal.fire('Oops...', 'Something Went Wrong', 'error');
   }
 }
 
