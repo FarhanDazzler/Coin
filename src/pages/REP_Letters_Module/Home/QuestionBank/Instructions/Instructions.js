@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import '../RepLetterQuestionBank.scss';
 import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
-import { TextEditor } from '../../../../../components/FormInputs/RichTextEditor/RichTextEditor';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { useDropzone } from 'react-dropzone';
 import { Group, Text, Image, SimpleGrid } from '@mantine/core';
 import { RichTextEditor } from '@mantine/rte';
@@ -15,9 +15,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { relativeTimeRounding } from 'moment';
 import './Instructions.scss';
 import { useMemo } from 'react';
-
-const Instructions = ({ setShowModal, editTableData, modalType }) => {
+import CustomModal from '../../../../../components/UI/CustomModal';
+import { modifyInstructions } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
+import { getInstructionsSelector } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
+const Instructions = ({ setShowModal, modalType }) => {
   const dispatch = useDispatch();
+
+  const [ShowVideoModal, setShowVideoModal] = useState(false);
+  const getInstructionsState = useSelector(getInstructionsSelector);
 
   var formdata = new FormData();
 
@@ -137,9 +142,18 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
   // code for changing text of dropzone with icons nad text color and background color
 
   const handleSave = (value) => {
-    formdata.append('video', files);
-    formdata.append('Instructions', value.Instructions);
-    formdata.append('Module', modalType);
+    if (value.isAttached === 'Yes') {
+      formdata.append('id', getInstructionsState?.data?.id);
+      formdata.append('isVideoAttached', true);
+      formdata.append('video', files);
+      formdata.append('instructions', value.Instructions);
+      formdata.append('module', modalType);
+    } else {
+      formdata.append('id', getInstructionsState?.data?.id);
+      formdata.append('isVideoAttached', false);
+      formdata.append('instructions', value.Instructions);
+      formdata.append('module', modalType);
+    }
 
     // code for json stringify formdata
     var object = {};
@@ -151,7 +165,7 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
     var parsed = JSON.parse(json);
     console.log(parsed, 'parsed');
     console.log(formdata, 'payload');
-    //dispatch(addMicsFramework(payload));
+    //dispatch(modifyInstructions(payload));
   };
 
   return (
@@ -159,10 +173,11 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
       <Formik
         enableReinitialize
         initialValues={{
-          Instructions: editTableData?.Instructions || '',
+          Instructions: getInstructionsState?.data?.instructions || '',
         }}
         validationSchema={Yup.object().shape({
           Instructions: Yup.string().required('Instructions is required'),
+          isAttached: Yup.string().required('Please select do you want to re-upload video?'),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
           try {
@@ -211,29 +226,105 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
                   )}
                 </div>
               </div>
-
-              <div className="col-lg-12">
-                <div className="row mt-2">
-                  <Form.Label className="mt-2">Instructions Video :</Form.Label>
-                </div>
-                <div className="row mb-4">
-                  <section className="container">
-                    <div className="dropZoneContainer" style={style}>
-                      <div {...getRootProps({ className: 'dropzone' })}>
-                        <input {...getInputProps()} />
-                        {messageWithIconAndColor}
-                      </div>
+              {getInstructionsState?.data?.url.length > 0 && (
+                <div className="row">
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div>
+                      <h5>There is an existing video, Do you want to reupload?</h5>
                     </div>
-                    <SimpleGrid
-                      cols={4}
-                      breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
-                      mt={previews.length > 0 ? 'xl' : 0}
-                    >
-                      {previews}
-                    </SimpleGrid>
-                  </section>
+                    <div>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        className="ml-4"
+                        startIcon={<PlayCircleOutlineIcon />}
+                        onClick={(e) => {
+                          setShowVideoModal(true);
+                        }}
+                      >
+                        Video
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          as="select"
+                          name="isAttached"
+                          placeholder=""
+                          value={values.isAttached}
+                          isInvalid={Boolean(touched.isAttached && errors.isAttached)}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          readOnly={false}
+                          className="form-select"
+                        >
+                          <option value="">Re - Upload</option>
+                          <option value="Yes">Yes</option>
+                          <option value="No">No</option>
+                        </Form.Control>
+
+                        {!!touched.isAttached && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.isAttached}
+                          </Form.Control.Feedback>
+                        )}
+                      </Form.Group>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {values.isAttached === 'Yes' && (
+                <div className="col-lg-12">
+                  <div className="row mt-2">
+                    <Form.Label className="mt-2">Instructions Video :</Form.Label>
+                  </div>
+                  <div className="row mb-4">
+                    <section className="container">
+                      <div className="dropZoneContainer" style={style}>
+                        <div {...getRootProps({ className: 'dropzone' })}>
+                          <input {...getInputProps()} />
+                          {messageWithIconAndColor}
+                        </div>
+                      </div>
+                      <SimpleGrid
+                        cols={4}
+                        breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
+                        mt={previews.length > 0 ? 'xl' : 0}
+                      >
+                        {previews}
+                      </SimpleGrid>
+                    </section>
+                  </div>
+                </div>
+              )}
+
+              {getInstructionsState?.data?.url.length == 0 && (
+                <div className="col-lg-12">
+                  <div className="row mt-2">
+                    <Form.Label className="mt-2">Instructions Video :</Form.Label>
+                  </div>
+                  <div className="row mb-4">
+                    <section className="container">
+                      <div className="dropZoneContainer" style={style}>
+                        <div {...getRootProps({ className: 'dropzone' })}>
+                          <input {...getInputProps()} />
+                          {messageWithIconAndColor}
+                        </div>
+                      </div>
+                      <SimpleGrid
+                        cols={4}
+                        breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
+                        mt={previews.length > 0 ? 'xl' : 0}
+                      >
+                        {previews}
+                      </SimpleGrid>
+                    </section>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="footer-action">
@@ -257,6 +348,21 @@ const Instructions = ({ setShowModal, editTableData, modalType }) => {
           </Form>
         )}
       </Formik>
+      <CustomModal
+        className="add-org"
+        open={ShowVideoModal}
+        onClose={() => {
+          setShowVideoModal(false);
+        }}
+        width={800}
+        title={'Instructions Video'}
+        bodyClassName="p-0"
+      >
+        <video width="800" height="500" controls className="p-2">
+          <source src={getInstructionsState?.data?.sass_token} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </CustomModal>
     </div>
   );
 };

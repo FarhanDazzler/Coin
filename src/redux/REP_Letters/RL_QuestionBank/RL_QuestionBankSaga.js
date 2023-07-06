@@ -32,6 +32,12 @@ import {
   GET_LETTER_NAME_FROM_FUNCTION_REQUEST,
   GET_LETTER_NAME_FROM_FUNCTION_SUCCESS,
   GET_LETTER_NAME_FROM_FUNCTION_ERROR,
+  GET_INSTRUCTIONS_REQUEST,
+  GET_INSTRUCTIONS_SUCCESS,
+  GET_INSTRUCTIONS_ERROR,
+  MODIFY_INSTRUCTIONS_REQUEST,
+  MODIFY_INSTRUCTIONS_SUCCESS,
+  MODIFY_INSTRUCTIONS_ERROR,
 } from './RL_QuestionBankReducer';
 import Swal from 'sweetalert2';
 
@@ -279,6 +285,52 @@ function* delete_Function_Questions_Data({ payload }) {
   }
 }
 
+// GET INSTRUCTIONS
+async function getInstructionsApi(params) {
+  return await Axios.get('/get_rep_instructions', { params });
+}
+function* handleGet_Instructions({ payload }) {
+  try {
+    const response = yield call(getInstructionsApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_INSTRUCTIONS_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_INSTRUCTIONS_ERROR,
+    });
+  }
+}
+
+// MODIFY INSTRUCTIONS
+async function modifyInstructionsApi(payload) {
+  return await Axios.post('/update_rep_instructions', payload);
+}
+function* modifyInstructions_Data({ payload }) {
+  try {
+    const response = yield call(modifyInstructionsApi, payload);
+
+    if (response.success) {
+      yield put({
+        type: MODIFY_INSTRUCTIONS_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Instructions Modified Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: MODIFY_INSTRUCTIONS_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
 export default all([
   takeLatest(GET_BU_QUESTIONS_REQUEST, handleGet_BU_Questions),
   takeLatest(ADD_BU_QUESTIONS_REQUEST, add_BU_Questions_Data),
@@ -290,4 +342,6 @@ export default all([
   takeLatest(ADD_FUNCTION_QUESTIONS_REQUEST, add_Function_Questions_Data),
   takeLatest(EDIT_FUNCTION_QUESTIONS_REQUEST, edit_Function_Questions_Data),
   takeLatest(DELETE_FUNCTION_QUESTIONS_REQUEST, delete_Function_Questions_Data),
+  takeLatest(GET_INSTRUCTIONS_REQUEST, handleGet_Instructions),
+  takeLatest(MODIFY_INSTRUCTIONS_REQUEST, modifyInstructions_Data),
 ]);

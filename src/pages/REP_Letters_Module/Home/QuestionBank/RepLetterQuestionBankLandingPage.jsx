@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import './RepLetterQuestionBank.scss';
 import Button from '../../../../components/UI/Button';
@@ -6,21 +7,33 @@ import CustomModal from '../../../../components/UI/CustomModal';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Instructions from './Instructions/Instructions';
+import { getInstructions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
+import { modifyInstructionsSelector } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
 
 const RLQuestionBank = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const [instructionsShowModal, setInstructionsShowModal] = useState(false);
+  const modifyInstructionsState = useSelector(modifyInstructionsSelector);
 
   // logic for closing pop up
   useEffect(() => {
+    const payload = {
+      module: localStorage.getItem('selected_module_Role') == 'BU' ? 'BU' : 'Functional',
+    };
+    dispatch(getInstructions(payload));
     setInstructionsShowModal(false);
-  }, []);
-
-  const [instructionsShowModal, setInstructionsShowModal] = useState(false);
+  }, [modifyInstructionsState?.data]);
 
   useEffect(() => {}, []);
   // Code for Instructions
   const handleInstructions = () => {
+    const payload = {
+      module: localStorage.getItem('selected_module_Role') == 'BU' ? 'BU' : 'Functional',
+    };
     setInstructionsShowModal(true);
+    dispatch(getInstructions(payload));
   };
 
   const handleBuModify = () => {
@@ -131,7 +144,7 @@ const RLQuestionBank = () => {
         className="add-org"
         open={instructionsShowModal}
         onClose={() => setInstructionsShowModal(false)}
-        width={900}
+        width={1100}
         title={
           localStorage.getItem('selected_module_Role') == 'BU'
             ? 'Instructions for BU Representation Letter'
@@ -142,7 +155,7 @@ const RLQuestionBank = () => {
         <Instructions
           setShowModal={setInstructionsShowModal}
           ediatbleData={null}
-          modalType={localStorage.getItem('selected_module_Role') == 'BU' ? 'BU' : 'Functions'}
+          modalType={localStorage.getItem('selected_module_Role') == 'BU' ? 'BU' : 'Functional'}
         />
       </CustomModal>
     </>
