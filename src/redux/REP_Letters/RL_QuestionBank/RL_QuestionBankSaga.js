@@ -307,7 +307,11 @@ function* handleGet_Instructions({ payload }) {
 
 // MODIFY INSTRUCTIONS
 async function modifyInstructionsApi(payload) {
-  return await Axios.post('/update_rep_instructions', payload);
+  return await Axios.post('/update_rep_instructions', payload, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 }
 function* modifyInstructions_Data({ payload }) {
   try {

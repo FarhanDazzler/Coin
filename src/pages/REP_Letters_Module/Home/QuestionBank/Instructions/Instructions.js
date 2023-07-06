@@ -18,6 +18,8 @@ import { useMemo } from 'react';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import { modifyInstructions } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import { getInstructionsSelector } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 const Instructions = ({ setShowModal, modalType }) => {
   const dispatch = useDispatch();
 
@@ -48,8 +50,11 @@ const Instructions = ({ setShowModal, modalType }) => {
     isDragAccept,
     isDragReject,
   } = useDropzone({
+    // accept: {
+    //   'image/*': [],
+    // },
     accept: {
-      'image/*': [],
+      'video/mp4': [],
     },
     // Specify the file types you want to accept
     multiple: true, // Allow multiple file selection
@@ -143,29 +148,54 @@ const Instructions = ({ setShowModal, modalType }) => {
 
   const handleSave = (value) => {
     if (value.isAttached === 'Yes') {
-      formdata.append('id', getInstructionsState?.data?.id);
+      formdata.append('id', getInstructionsState?.data[0]?.id);
       formdata.append('isVideoAttached', true);
       formdata.append('video', files);
       formdata.append('instructions', value.Instructions);
       formdata.append('module', modalType);
     } else {
-      formdata.append('id', getInstructionsState?.data?.id);
+      formdata.append('id', getInstructionsState?.data[0]?.id);
       formdata.append('isVideoAttached', false);
       formdata.append('instructions', value.Instructions);
       formdata.append('module', modalType);
     }
 
     // code for json stringify formdata
-    var object = {};
-    formdata.forEach(function (value, key) {
-      object[key] = value;
-    });
-    var json = JSON.stringify(object);
-    console.log(json, 'json');
-    var parsed = JSON.parse(json);
-    console.log(parsed, 'parsed');
-    console.log(formdata, 'payload');
-    //dispatch(modifyInstructions(payload));
+    // var object = {};
+    // formdata.forEach(function (value, key) {
+    //   object[key] = value;
+    // });
+    // var json = JSON.stringify(object);
+    // console.log(json, 'json');
+    // var parsed = JSON.parse(json);
+    // console.log(parsed, 'parsed');
+    // console.log(formdata, 'payload');
+    //dispatch(modifyInstructions(formdata));
+
+    const getToken = (name = 'token') => {
+      return Cookies.get(name);
+    };
+    const token = getToken('token');
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://acoemicsgrcpwa-devbe.azurewebsites.net/update_rep_instructions',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        ...formdata.getHeaders(),
+      },
+      data: formdata,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -173,7 +203,7 @@ const Instructions = ({ setShowModal, modalType }) => {
       <Formik
         enableReinitialize
         initialValues={{
-          Instructions: getInstructionsState?.data?.instructions || '',
+          Instructions: getInstructionsState?.data[0]?.instructions || '',
         }}
         validationSchema={Yup.object().shape({
           Instructions: Yup.string().required('Instructions is required'),
@@ -226,7 +256,7 @@ const Instructions = ({ setShowModal, modalType }) => {
                   )}
                 </div>
               </div>
-              {getInstructionsState?.data?.url.length > 0 && (
+              {getInstructionsState?.data[0]?.url.length > 0 && (
                 <div className="row">
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div>
@@ -301,7 +331,7 @@ const Instructions = ({ setShowModal, modalType }) => {
                 </div>
               )}
 
-              {getInstructionsState?.data?.url.length == 0 && (
+              {getInstructionsState?.data[0]?.url.length == 0 && (
                 <div className="col-lg-12">
                   <div className="row mt-2">
                     <Form.Label className="mt-2">Instructions Video :</Form.Label>
@@ -359,7 +389,7 @@ const Instructions = ({ setShowModal, modalType }) => {
         bodyClassName="p-0"
       >
         <video width="800" height="500" controls className="p-2">
-          <source src={getInstructionsState?.data?.sass_token} type="video/mp4" />
+          <source src={getInstructionsState?.data[0]?.sass_token} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </CustomModal>
