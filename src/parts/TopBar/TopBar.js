@@ -397,28 +397,26 @@ const TopBar = (props) => {
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
             >
               {roleValue.length > 0 && (
-                <div>
-                  <span className={'text-yellow ml-2'}>Select Role:</span>
-                  <Form.Group className="input-group mb-3">
-                    <Form.Control
-                      as="select"
-                      name=""
-                      placeholder=""
-                      className="rbac-dropdown"
+                <div className="mr-4">
+                  <div>
+                    <span className={'text-yellow ml-2'}>Select Role:</span>
+                  </div>
+                  <FormControl sx={{ width: 200 }}>
+                    <Select
+                      defaultValue="Assessment Module"
+                      size="small"
+                      inputLook
+                      classes={{ root: `select-options inputLook-text user-role-input` }}
+                      inputProps={{ 'aria-label': 'Without label' }}
+                      options={roleValue}
                       onChange={(e) => {
                         dispatch(setLoginRole(e.target.value));
                         localStorage.setItem('selected_Role', e.target.value);
                         history.push('/');
                       }}
                       value={loginRole ?? selected_Role}
-                    >
-                      {roleValue.map((data, i) => (
-                        <option value={data} key={i}>
-                          {data}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  </Form.Group>
+                    />
+                  </FormControl>
                 </div>
               )}
               <span className="golden-text" style={{ marginTop: 'auto', marginBottom: 'auto' }}>
@@ -555,7 +553,7 @@ const TopBar = (props) => {
                   {/*      e.target.value === 'Representation Letter Module' ? '/REP-Letters' : '/',*/}
                   {/*    );*/}
                   {/*  }}*/}
-                  {/*/>`*/}
+                  {/*/>*/}
                 </FormControl>
               </div>
             </div>

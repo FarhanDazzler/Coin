@@ -14,6 +14,7 @@ import Button from '../../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
+import MicsFrameworkTableFilter from './MicsFrameworkTableFilter';
 
 const MicsFrameworkTable = () => {
   const history = useHistory();
@@ -24,6 +25,12 @@ const MicsFrameworkTable = () => {
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [editTableData, setEditTableData] = useState();
   const micsFramework = useSelector(getMicsFrameworkSelector);
+
+  const [MICS_IDValue, setMICS_IDValue] = useState([]);
+  const [mega_ProcessValue, setMega_ProcessValue] = useState([]);
+  const [subProcessValue, setSubProcessValue] = useState([]);
+  const [weightValue, setWeightValue] = useState([]);
+  const [kpiStatusValue, setKpiStatusValue] = useState([]);
 
   const TABLE_COLUMNS = [
     {
@@ -402,11 +409,56 @@ const MicsFrameworkTable = () => {
     Table_Name: 'MICS Framework Table',
   };
 
+  useEffect(() => {
+    const updateData = micsFramework.data?.filter((i) => {
+      return (
+        (MICS_IDValue?.length ? MICS_IDValue.includes(i.Control_ID) : true) &&
+        (mega_ProcessValue?.length ? mega_ProcessValue.includes(i.Mega_Process) : true) &&
+        (subProcessValue?.length ? subProcessValue.includes(i.Sub_Process) : true) &&
+        (weightValue?.length ? weightValue.includes(i?.mics_weight?.toString()) : true) &&
+        (kpiStatusValue?.length ? kpiStatusValue.includes(i.Kpi_status) : true)
+      );
+    });
+
+    setTableData(
+      updateData.map((i, index) => {
+        return {
+          id: index,
+          ...i,
+        };
+      }),
+    );
+  }, [MICS_IDValue, mega_ProcessValue, subProcessValue, weightValue, kpiStatusValue]);
+
+  const filterData = (key) => {
+    const kayValuesArray = micsFramework?.data?.map((d) => d[key].toString()) || [];
+    const allData = [...new Set(kayValuesArray)];
+    return allData.filter((d) => !!d);
+  };
+
   return (
     <>
       <div className="container-fluid mt-5">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
+            <MicsFrameworkTableFilter
+              className={'mb-4'}
+              MICS_IDData={filterData('Control_ID')}
+              MICS_IDValue={MICS_IDValue}
+              setMICS_IDValue={setMICS_IDValue}
+              mega_ProcessData={filterData('Mega_Process')}
+              mega_ProcessValue={mega_ProcessValue}
+              setMega_ProcessValue={setMega_ProcessValue}
+              subProcessData={filterData('Sub_Process')}
+              subProcessValue={subProcessValue}
+              setSubProcessValue={setSubProcessValue}
+              weightData={filterData('mics_weight')}
+              weightValue={weightValue}
+              setWeightValue={setWeightValue}
+              kpiStatusData={filterData('Kpi_status')}
+              kpiStatusValue={kpiStatusValue}
+              setKpiStatusValue={setKpiStatusValue}
+            />
             <div className="mdm-table-button">
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>
