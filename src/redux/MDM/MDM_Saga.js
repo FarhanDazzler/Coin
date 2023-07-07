@@ -119,7 +119,7 @@ function* addOrgStructureData({ payload }) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: error?.response?.data?.data, type: 'danger' },
+          data: { text: "Duplicate Organization Found", type: 'danger' },
         },
       });
       yield put({
