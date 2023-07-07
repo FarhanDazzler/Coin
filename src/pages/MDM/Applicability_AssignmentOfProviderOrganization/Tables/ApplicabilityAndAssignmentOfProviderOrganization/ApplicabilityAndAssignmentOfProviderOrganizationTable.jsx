@@ -18,6 +18,7 @@ import EditModal from './EditModal';
 import GlobalApprove from './GlobalApprove';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import Swal from 'sweetalert2';
+import ApplicabilityAndAssignmentTableFilter from './ApplicabilityAndAssignmentTableFilter';
 
 const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -27,6 +28,11 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
   const [showModal, setShowModal] = useState(false);
   const [showGlobalApproveModal, setShowGlobalApproveModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+
+  const [zoneValue, setZoneValue] = useState([]);
+  const [entityValue, setEntityValue] = useState([]);
+  const [control_IDValue, setControl_IDValue] = useState([]);
+  const [providerOrganizationValue, setProviderOrganizationValue] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -186,10 +192,6 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     if (editTableIndex.length == 0) {
       Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
     } else if (editTableIndex.length >= 1) {
-      // console.log(
-      //   tableData.filter((data, i) => editTableIndex.includes(data.id)),
-      //   'editable data',
-      // );
       setAssignTableData(tableData.filter((data, i) => editTableIndex.includes(data.id)));
       setShowModal(true);
     }
@@ -216,11 +218,58 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
       setShowEditModal(true);
     }
   };
+
+  useEffect(() => {
+    const updateData = applicabilityAndAssignmentOfProviderOrganization?.data?.filter((i) => {
+      return (
+        (entityValue?.length ? entityValue.includes(i.Entity) : true) &&
+        (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+        (control_IDValue?.length ? control_IDValue.includes(i.Control_ID) : true) &&
+        (providerOrganizationValue?.length
+          ? providerOrganizationValue.includes(i.Provider_Entity)
+          : true)
+      );
+    });
+
+    setTableData(
+      updateData.map((i, index) => {
+        return {
+          id: index,
+          ...i,
+        };
+      }),
+    );
+  }, [zoneValue, entityValue, control_IDValue, providerOrganizationValue]);
+
+  const filterData = (key) => {
+    const kayValuesArray =
+      applicabilityAndAssignmentOfProviderOrganization?.data?.map((d) => d[key]) || [];
+    const allData = [...new Set(kayValuesArray)];
+    return allData.filter((d) => !!d);
+  };
+
   return (
     <>
       <div className="container-fluid mt-5">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
+            <div className="mdm-table-global-filters">
+              <ApplicabilityAndAssignmentTableFilter
+                //className={'mb-4'}
+                zoneData={filterData('Zone')}
+                zoneValue={zoneValue}
+                setZoneValue={setZoneValue}
+                entityData={filterData('Entity')}
+                entityValue={entityValue}
+                setEntityValue={setEntityValue}
+                control_IDData={filterData('Control_ID')}
+                control_IDValue={control_IDValue}
+                setControl_IDValue={setControl_IDValue}
+                providerOrganizationData={filterData('Provider_Entity')}
+                providerOrganizationValue={providerOrganizationValue}
+                setProviderOrganizationValue={setProviderOrganizationValue}
+              />
+            </div>
             <div className="mdm-table-button">
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>

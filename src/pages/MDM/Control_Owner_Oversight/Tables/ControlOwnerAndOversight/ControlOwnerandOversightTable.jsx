@@ -320,7 +320,7 @@ const ControlOwnerAndOversightTable = () => {
 
   const handleOnclickEdit = () => {
     if (editTableIndex.length == 0) {
-      Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
+      Swal.fire('Oops...', 'You need to select a row from the table first to Edit/Add LCD', 'error');
     } else if (editTableIndex.length >= 1) {
       const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
       setAssignTableData(data);
@@ -329,7 +329,7 @@ const ControlOwnerAndOversightTable = () => {
   };
   const handleOnclickAdd = () => {
     if (editTableIndex.length == 0) {
-      Swal.fire('Oops...', 'You need to select table first to Assign', 'error');
+      Swal.fire('Oops...', 'You need to select a row from the table first to Assign', 'error');
     } else if (editTableIndex.length >= 1) {
       const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
       const controlIDArray = data.map((obj) => obj.control_id_provider_entity);
