@@ -152,19 +152,20 @@ const OrgHierarchyTable = () => {
       <div className="container-fluid mt-5">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
-            <OrgHierarchyTableFilterButtons
-              zone={removeDuplicates(zoneArray)}
-              zoneData={filterData('zone')}
-              zoneValue={zoneValue}
-              setZoneValue={setZoneValue}
-              entityData={filterData('country_entity')}
-              entityValue={entityValue}
-              setEntityValue={setEntityValue}
-              BUData={filterData('BU')}
-              buValue={buValue}
-              setBUValue={setBUValue}
-              className={'mb-5'}
-            />
+            <div className="mdm-table-global-filters">
+              <OrgHierarchyTableFilterButtons
+                zone={removeDuplicates(zoneArray)}
+                zoneData={filterData('zone')}
+                zoneValue={zoneValue}
+                setZoneValue={setZoneValue}
+                entityData={filterData('country_entity')}
+                entityValue={entityValue}
+                setEntityValue={setEntityValue}
+                BUData={filterData('BU')}
+                buValue={buValue}
+                setBUValue={setBUValue}
+              />
+            </div>
             <div className="mdm-table-button">
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>

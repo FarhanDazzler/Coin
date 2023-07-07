@@ -253,21 +253,23 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
       <div className="container-fluid mt-5">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
-            <ApplicabilityAndAssignmentTableFilter
-              className={'mb-4'}
-              zoneData={filterData('Zone')}
-              zoneValue={zoneValue}
-              setZoneValue={setZoneValue}
-              entityData={filterData('Entity')}
-              entityValue={entityValue}
-              setEntityValue={setEntityValue}
-              control_IDData={filterData('Control_ID')}
-              control_IDValue={control_IDValue}
-              setControl_IDValue={setControl_IDValue}
-              providerOrganizationData={filterData('Provider_Entity')}
-              providerOrganizationValue={providerOrganizationValue}
-              setProviderOrganizationValue={setProviderOrganizationValue}
-            />
+            <div className="mdm-table-global-filters">
+              <ApplicabilityAndAssignmentTableFilter
+                //className={'mb-4'}
+                zoneData={filterData('Zone')}
+                zoneValue={zoneValue}
+                setZoneValue={setZoneValue}
+                entityData={filterData('Entity')}
+                entityValue={entityValue}
+                setEntityValue={setEntityValue}
+                control_IDData={filterData('Control_ID')}
+                control_IDValue={control_IDValue}
+                setControl_IDValue={setControl_IDValue}
+                providerOrganizationData={filterData('Provider_Entity')}
+                providerOrganizationValue={providerOrganizationValue}
+                setProviderOrganizationValue={setProviderOrganizationValue}
+              />
+            </div>
             <div className="mdm-table-button">
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>

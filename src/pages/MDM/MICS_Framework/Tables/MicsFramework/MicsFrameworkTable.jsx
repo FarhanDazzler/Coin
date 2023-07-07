@@ -441,24 +441,25 @@ const MicsFrameworkTable = () => {
       <div className="container-fluid mt-5">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
-            <MicsFrameworkTableFilter
-              className={'mb-4'}
-              MICS_IDData={filterData('Control_ID')}
-              MICS_IDValue={MICS_IDValue}
-              setMICS_IDValue={setMICS_IDValue}
-              mega_ProcessData={filterData('Mega_Process')}
-              mega_ProcessValue={mega_ProcessValue}
-              setMega_ProcessValue={setMega_ProcessValue}
-              subProcessData={filterData('Sub_Process')}
-              subProcessValue={subProcessValue}
-              setSubProcessValue={setSubProcessValue}
-              weightData={filterData('mics_weight')}
-              weightValue={weightValue}
-              setWeightValue={setWeightValue}
-              kpiStatusData={filterData('Kpi_status')}
-              kpiStatusValue={kpiStatusValue}
-              setKpiStatusValue={setKpiStatusValue}
-            />
+            <div className="mdm-table-global-filters">
+              <MicsFrameworkTableFilter
+                MICS_IDData={filterData('Control_ID')}
+                MICS_IDValue={MICS_IDValue}
+                setMICS_IDValue={setMICS_IDValue}
+                mega_ProcessData={filterData('Mega_Process')}
+                mega_ProcessValue={mega_ProcessValue}
+                setMega_ProcessValue={setMega_ProcessValue}
+                subProcessData={filterData('Sub_Process')}
+                subProcessValue={subProcessValue}
+                setSubProcessValue={setSubProcessValue}
+                weightData={filterData('mics_weight')}
+                weightValue={weightValue}
+                setWeightValue={setWeightValue}
+                kpiStatusData={filterData('Kpi_status')}
+                kpiStatusValue={kpiStatusValue}
+                setKpiStatusValue={setKpiStatusValue}
+              />
+            </div>
             <div className="mdm-table-button">
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>
