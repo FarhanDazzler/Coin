@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import CustomModal from '../../../components/UI/CustomModal';
-import { Button, Checkbox, Text } from '@mantine/core';
+import { Checkbox, Text } from '@mantine/core';
 import { Form } from 'react-bootstrap';
 import './ModifyStandard.scss';
 import { addSection1QuestionDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
 import { useDispatch } from 'react-redux';
+import Button from '../../../components/UI/Button';
 
 export const QuestionType = [
   { label: 'Radio', value: 'Radio' },
@@ -88,18 +89,19 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
 
         <div>
           <div className="d-flex align-items-center justify-content-end">
-            <Button variant="subtle" onClick={handleClose}>
-              Cancel
-            </Button>
-            <Button
-              color="secondary"
-              variant="default"
-              className="ml-2"
-              disabled={!questionText || !questionType}
-              onClick={() => handleAddSubmit()}
-            >
-              Add
-            </Button>
+            <div>
+              <Button variant="outlined" color="secondary" onClick={handleClose}>
+                Cancel
+              </Button>
+              <Button
+                color="neutral"
+                className="ml-4"
+                disabled={!questionText || !questionType}
+                onClick={() => handleAddSubmit()}
+              >
+                Add
+              </Button>
+            </div>
           </div>
         </div>
       </CustomModal>
