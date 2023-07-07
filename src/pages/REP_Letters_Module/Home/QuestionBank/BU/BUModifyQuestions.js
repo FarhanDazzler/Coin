@@ -61,7 +61,7 @@ const Options = ({
 
   return (
     <>
-      <Divider size="md" my="sm" />
+      <Divider size="1px" className="option-divider" my="sm" />
       <div className="options mt-5" style={{ justifyContent: 'space-between' }}>
         <div>
           <Button
@@ -163,9 +163,9 @@ const BUModifyQuestions = () => {
             </div>
           </div>
 
-          {get_BU_QuestionState?.data?.map((data, index) => (
-            <div className="row pt-5">
-              <div className="rl-question-bank-view-questions">
+          <div className="rl-question-bank-view-questions-wrapper">
+            {get_BU_QuestionState?.data?.map((data, index) => (
+              <div className="rl-question-bank-view-questions mt-5">
                 <div className="row pt-2">
                   <div className="question-text-section">
                     <Questions
@@ -188,8 +188,8 @@ const BUModifyQuestions = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </PageWrapper>
       <CustomModal

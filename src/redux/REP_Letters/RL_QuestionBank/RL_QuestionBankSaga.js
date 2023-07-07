@@ -315,13 +315,17 @@ async function modifyInstructionsApi(payload) {
 }
 function* modifyInstructions_Data({ payload }) {
   try {
-    const response = yield call(modifyInstructionsApi, payload);
+    const { formdata, event } = payload;
+    const response = yield call(modifyInstructionsApi, formdata);
 
     if (response.success) {
       yield put({
         type: MODIFY_INSTRUCTIONS_SUCCESS,
         payload: response.data,
       });
+      if (event && event.onSuccess) {
+        event.onSuccess(response.data);
+      }
       Swal.fire('Done!', 'Instructions Modified Successfully!', 'success');
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
