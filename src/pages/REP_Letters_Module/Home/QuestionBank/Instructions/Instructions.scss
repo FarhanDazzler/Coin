@@ -1,27 +1,38 @@
-.dropZoneContainer{
-    min-height: 120px;
-    display: flex;
-   justify-content: center;
-    align-items: center;
-    //border: 3px solid black;
-    border-radius: 10px;
-    background-color: #808080;
+.dropZoneContainer {
+  min-height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  //border: 3px solid black;
+  border-radius: 10px;
+  background-color: #808080;
 }
 
-
-
-.previews-block{
-    position: relative;
+.previews-block {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
+.mantine-SimpleGrid-root {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.upload-image-file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
 .previews-cancel-icon {
-    
-    position: absolute;
-    top: 10px; /* Adjust the top and Right values to position the icon properly */
-    right: 10px;
-    color:#e3af32; /* Customize the color of the icon as desired */
-    cursor: pointer;
-    
+  //position: absolute;
+  //top: 10px; /* Adjust the top and Right values to position the icon properly */
+  //right: 10px;
+  color: #e3af32; /* Customize the color of the icon as desired */
+  cursor: pointer;
 }
-.previews-cancel-icon:hover{
-    color: red;
+.previews-cancel-icon:hover {
+  color: red;
 }
