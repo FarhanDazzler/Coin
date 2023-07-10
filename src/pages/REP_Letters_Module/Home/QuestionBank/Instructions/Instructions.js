@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { useFormikContext, Formik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import '../RepLetterQuestionBank.scss';
 import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
@@ -12,20 +12,21 @@ import { Group, Text, Image, SimpleGrid } from '@mantine/core';
 import { RichTextEditor } from '@mantine/rte';
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { relativeTimeRounding } from 'moment';
 import './Instructions.scss';
 import { useMemo } from 'react';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import { modifyInstructions } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
-import { getInstructionsSelector } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import {
+  getInstructionsSelector,
+  modifyInstructionsSelector,
+} from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
+
 const Instructions = ({ setShowModal, modalType }) => {
   const dispatch = useDispatch();
 
   const [ShowVideoModal, setShowVideoModal] = useState(false);
   const getInstructionsState = useSelector(getInstructionsSelector);
-
+  const modifyInstructionVal = useSelector(modifyInstructionsSelector);
   var formdata = new FormData();
 
   // Code for File Drop Zone
@@ -69,12 +70,10 @@ const Instructions = ({ setShowModal, modalType }) => {
   const previews = files.map((file, index) => {
     const imageUrl = URL.createObjectURL(file);
     return (
-      <div className="previews-block">
-        <Image
-          key={index}
-          src={imageUrl}
-          imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
-        />
+      <div className="previews-block" key={index}>
+        <VideoLibraryIcon />
+        <span className="upload-image-file-name">{file.name}</span>
+
         <DeleteIcon
           className="previews-cancel-icon"
           size={30}
@@ -147,7 +146,7 @@ const Instructions = ({ setShowModal, modalType }) => {
 
   // code for changing text of dropzone with icons nad text color and background color
 
-  const handleSave = (value) => {
+  const handleSave = (value, resetForm) => {
     if (value.isAttached === 'Yes') {
       formdata.append('id', getInstructionsState?.data[0]?.id);
       formdata.append('isVideoAttached', true);
@@ -161,7 +160,16 @@ const Instructions = ({ setShowModal, modalType }) => {
       formdata.append('module', modalType);
     }
 
-    dispatch(modifyInstructions(formdata));
+    dispatch(
+      modifyInstructions({
+        formdata,
+        event: {
+          onSuccess: () => {
+            resetForm();
+          },
+        },
+      }),
+    );
   };
 
   return (
@@ -177,8 +185,7 @@ const Instructions = ({ setShowModal, modalType }) => {
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
           try {
-            handleSave(values);
-            resetForm();
+            handleSave(values, resetForm);
             //history.push('/master-data-management/mics-framework');
           } catch (error) {
             const message = error.message || 'Something went wrong';
@@ -332,10 +339,16 @@ const Instructions = ({ setShowModal, modalType }) => {
                     onClick={() => {
                       setShowModal(false);
                     }}
+                    disabled={modifyInstructionVal.loading}
                   >
                     Cancel
                   </Button>
-                  <Button color="neutral" className="ml-4" onClick={handleSubmit}>
+                  <Button
+                    color="neutral"
+                    className="ml-4"
+                    onClick={handleSubmit}
+                    loading={modifyInstructionVal.loading}
+                  >
                     Confirm
                   </Button>
                 </div>
