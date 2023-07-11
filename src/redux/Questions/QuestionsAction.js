@@ -14,10 +14,15 @@ import {
   ADD_SECTION_1_OPTION_MICS_REQUEST,
   GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST,
   RESET_SECTION_3_REQUEST,
+  GET_CONTROL_NAME_FROM_CONTROL_ID_REQUEST,
 } from './QuestionsReducer';
 
 export const getSection1Questions = (payload) => ({
   type: GET_SECTION_1_MICS_REQUEST,
+  payload,
+});
+export const getControlNameFromControlId = (payload) => ({
+  type: GET_CONTROL_NAME_FROM_CONTROL_ID_REQUEST,
   payload,
 });
 export const updateSection1Questions = (payload) => ({

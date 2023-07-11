@@ -25,7 +25,7 @@ import InternalControlHomePage from './pages/Home/V2/InternalControlHomePage';
 import REP_Letters_HomePage from './pages/REP_Letters_Module/Home';
 import POC from './pages/TestPages_For_POC_only/POC.jsx';
 import { setRoles } from './redux/Auth/AuthAction';
-
+import AssessmentForm from './pages/AssessmentForm/AssessmentForm';
 import ErrorNotification from './common/ErrorNotification';
 import { RepLettersRoutes } from './routes/RepLettersRoutes/RepLetterRoutes';
 import { AssessmentModuleRoutes } from './routes/AssessmentModuleRoutes/AssessmentModuleRoutes';
@@ -201,6 +201,10 @@ const Pages = () => {
           ) : (
             <Route exact path="/home" component={Home_controlOwner} />
           )}
+          {
+            module === "Assessment Module" && <Route exact path="/Assessments/:Assessment_id" component={AssessmentForm} />
+          }
+          
 
           {userRole === 'Global internal control' || userRole === 'Zonal internal control'
             ? AssessmentModuleRoutes.map((routes, i) => <Route key={i} {...routes} />)
