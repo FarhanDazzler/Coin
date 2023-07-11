@@ -115,8 +115,12 @@ const TopBar = (props) => {
             localStorage.setItem('selected_Role', rl_roles.BU[0]);
             setRole(rl_roles.BU[0]);
           }
-          localStorage.setItem('Roles', rl_roles.BU);
-          setRoleValue(rl_roles.BU);
+          const userBURoles = rl_roles.BU?.map((data) => {
+            const str = data.split('_').join(' ');
+            return str.charAt(0).toUpperCase() + str.slice(1);
+          });
+          localStorage.setItem('Roles', userBURoles);
+          setRoleValue(userBURoles);
         } else {
           localStorage.setItem('Roles', '');
         }
@@ -155,8 +159,9 @@ const TopBar = (props) => {
         return str.charAt(0).toUpperCase() + str.slice(1);
       });
       if (userRoles?.length > 0) {
-        dispatch(setLoginRole(selected_Role ?? userRoles[0]));
-        localStorage.setItem('selected_Role', selected_Role ?? userRoles[0]);
+        const value = selected_Role?.split('_')?.join(' ');
+        dispatch(setLoginRole(value ?? userRoles[0]));
+        localStorage.setItem('selected_Role', value ?? userRoles[0]);
       }
     }, 500);
   }, [roles.length]);
