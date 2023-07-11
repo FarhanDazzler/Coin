@@ -414,7 +414,7 @@ const TopBar = (props) => {
                 style={{ paddingLeft: '0.5rem', height: '2rem' }}
               />
             </a>
-            {
+            {props.isControlPage && (
               <div className="mr-4">
                 <div>
                   <span className={'text-yellow ml-2'}>Select Language:</span>
@@ -436,7 +436,7 @@ const TopBar = (props) => {
                   {console.log(i18n.language, 'Language')}
                 </FormControl>
               </div>
-            }
+            )}
             <div
               className="d-flex order-lg-2 ml-auto text-left"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
