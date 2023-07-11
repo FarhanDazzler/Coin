@@ -23,7 +23,7 @@ import NestedMenuItem from '../../components/UI/MultiDropdown/NestedMenuItem';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '../../components/UI/Select/Select';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-
+import i18n from '../../i18n/i18n';
 const TopBar = (props) => {
   const history = useHistory();
   const location = useLocation();
@@ -38,6 +38,22 @@ const TopBar = (props) => {
   const [userState, userDispatch] = useContext(UserContext);
 
   // const [location, setLocation] = useState();
+
+  // Logic for Language Change
+
+  const languages = [
+    { label: 'English', value: 'en' },
+    { label: 'French', value: 'fr' },
+    { label: 'Spanish', value: 'es' },
+    { label: 'Portuguese', value: 'pt' },
+    { label: 'Mandarin', value: 'zh' },
+    { label: 'Korean', value: 'ko' },
+    { lable: 'Vietnamese', value: 'vi' },
+  ];
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
 
   const togglingDropDown = () => {
     setisDropDownOpen(!isDropDownOpen);
@@ -391,7 +407,27 @@ const TopBar = (props) => {
                 style={{ paddingLeft: '0.5rem', height: '1.5rem' }}
               />
             </a>
+            {
+              <div className="mr-4">
+                <div>
+                  <span className={'text-yellow ml-2'}>Select Language:</span>
+                </div>
 
+                <FormControl sx={{ width: 200 }}>
+                  <Select
+                    defaultValue="English"
+                    size="small"
+                    inputLook
+                    classes={{ root: `select-options inputLook-text user-role-input` }}
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    options={languages}
+                    onChange={(e) => {
+                      changeLanguage(e.target.value);
+                    }}
+                  />
+                </FormControl>
+              </div>
+            }
             <div
               className="d-flex order-lg-2 ml-auto text-left"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
