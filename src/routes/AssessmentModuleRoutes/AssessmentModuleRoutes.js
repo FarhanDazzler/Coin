@@ -9,7 +9,6 @@ import AddValues_MDM_Mics_Framework from '../../pages/MDM/MICS_Framework/InputPa
 import AssessmentBankLandingPage from '../../pages/AssessmentBank/AssessmentBankLandingPage';
 import ScheduleSurveyPage from '../../pages/AssessmentBank/ScheduleSurvey/ScheduleSurveyPage';
 import AssessmentDetailsTableData from '../../pages/AssessmentBank/Table/AssessmentDetailsTableData.jsx';
-import AssessmentForm from '../../pages/AssessmentForm/AssessmentForm';
 
 export const AssessmentModuleRoutes = [
   {
@@ -66,10 +65,5 @@ export const AssessmentModuleRoutes = [
     path: '/assessmentbank/assessment-details',
     exact: true,
     component: AssessmentDetailsTableData,
-  },
-  {
-    path: '/Assessments/:Assessment_id',
-    exact: true,
-    component: AssessmentForm,
   },
 ];

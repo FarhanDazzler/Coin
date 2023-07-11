@@ -22,10 +22,10 @@ import {
 import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
 import Swal from 'sweetalert2';
 import Section3MICSSpecific from '../Section3MICSSpecific';
-import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
+import { getRepositoryOfControlIDSelector, getControlNameFromControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
 import Select from 'react-select';
 import { Form } from 'react-bootstrap';
-import { getControlDataAction } from '../../../redux/ControlData/ControlDataAction';
+import { getControlNameFromControlId } from '../../../redux/Questions/QuestionsAction';
 import { useMsal } from '@azure/msal-react';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -39,6 +39,7 @@ const MenuProps = {
 };
 
 const CreateQuestions = ({ open, handleClose }) => {
+  console.log("handleClose", handleClose);
   const { accounts } = useMsal();
   const dispatch = useDispatch();
   const [section1, setSection1] = useState(questions);
@@ -51,6 +52,8 @@ const CreateQuestions = ({ open, handleClose }) => {
   const [section3, setSection3] = useState([]);
   const [controlIDList, setControlIDList] = useState([]);
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
+  const controlNameFromControlIDState = useSelector(getControlNameFromControlIDSelector);
+  console.log("controlNameFromControlIDState", controlNameFromControlIDState);
   useEffect(() => {
     if (repositoryOfControlID?.data.length !== 0) {
       let controlidArray = [];
@@ -63,11 +66,10 @@ const CreateQuestions = ({ open, handleClose }) => {
   useEffect(() => {
     if (control_ID[0]) {
       let payload = {
-        controlId: control_ID[0],
-        coOwner: accounts.length > 0 ? accounts[0].username : '',
+        ControlID: control_ID[0],
       };
 
-      dispatch(getControlDataAction(payload));
+      dispatch(getControlNameFromControlId(payload));
     }
   }, [control_ID[0]]);
   const handleChange = (event) => {
@@ -208,6 +210,7 @@ const CreateQuestions = ({ open, handleClose }) => {
         }
         width={1080}
         onClose={handleClose}
+        controlNameFromID = {control_ID[0] ? controlNameFromControlIDState?.data[0]?.Control_name : ''}
       >
         <div className="select-light">
           <Form.Group className="input-group mb-3">

@@ -37,6 +37,9 @@ import {
   GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST,
   GET_REPOSITORY_OF_CONTROL_ID_DATA_SUCCESS,
   GET_REPOSITORY_OF_CONTROL_ID_DATA_ERROR,
+  GET_CONTROL_NAME_FROM_CONTROL_ID_ERROR,
+  GET_CONTROL_NAME_FROM_CONTROL_ID_REQUEST,
+  GET_CONTROL_NAME_FROM_CONTROL_ID_SUCCESS
 } from './QuestionsReducer';
 import Swal from 'sweetalert2';
 
@@ -291,6 +294,26 @@ function* handleGetgetRepositoryOfControlID({ payload }) {
   }
 }
 
+async function getControlNameFromControlIdApi(params) {
+  return await Axios.get('/get_control_name_from_control_id', { params });
+}
+function* handleGetControlNameFromControlId({ payload }) {
+  try {
+    const response = yield call(getControlNameFromControlIdApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_CONTROL_NAME_FROM_CONTROL_ID_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_CONTROL_NAME_FROM_CONTROL_ID_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 export default all([
   takeLatest(GET_SECTION_1_MICS_REQUEST, handleGetSection1),
   takeLatest(UPDATE_SECTION_1_MICS_REQUEST, handleUpdateSection1),
@@ -304,4 +327,5 @@ export default all([
   takeLatest(GET_SECTION_3_MICS_UPDATE_REQUEST, handleUpdateSection3),
   takeLatest(GET_SECTION_3_MICS_DELETE_REQUEST, handleDeleteSection3),
   takeLatest(GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST, handleGetgetRepositoryOfControlID),
+  takeLatest(GET_CONTROL_NAME_FROM_CONTROL_ID_REQUEST, handleGetControlNameFromControlId),
 ]);
