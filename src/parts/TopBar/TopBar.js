@@ -53,8 +53,6 @@ const TopBar = (props) => {
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    // How to get current language from i18n
-    //console.log(i18n.language, 'Language');
   };
 
   const togglingDropDown = () => {
