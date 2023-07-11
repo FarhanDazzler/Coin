@@ -52,6 +52,10 @@ export const RESET_BLOCK_QUESTIONS = 'RESET_BLOCK_QUESTIONS';
 export const RESET_FLAGS_QUESTIONS = 'RESET_FLAGS_QUESTIONS';
 export const RESET_SECTION_3_REQUEST = 'RESET_SECTION_3_REQUEST';
 
+export const GET_CONTROL_NAME_FROM_CONTROL_ID_REQUEST = 'GET_CONTROL_NAME_FROM_CONTROL_ID_REQUEST';
+export const GET_CONTROL_NAME_FROM_CONTROL_ID_SUCCESS = 'GET_CONTROL_NAME_FROM_CONTROL_ID_SUCCESS';
+export const GET_CONTROL_NAME_FROM_CONTROL_ID_ERROR = 'GET_CONTROL_NAME_FROM_CONTROL_ID_ERROR';
+
 const block = {
   loading: false,
   error: '',
@@ -72,6 +76,7 @@ const initialState = {
   question3Update: { ...block },
   question3Delete: { ...block },
   getRepositoryOfControlID: { ...block, data: [] },
+  controlNameFromControlId: { ...block, data: [] },
 };
 
 export const QuestionsReducer = (state = initialState, { type, payload = {} }) => {
@@ -369,6 +374,26 @@ export const QuestionsReducer = (state = initialState, { type, payload = {} }) =
       return {
         ...state,
         getRepositoryOfControlID: { ...state.getRepositoryOfControlID, loading: false },
+      };
+
+    case GET_CONTROL_NAME_FROM_CONTROL_ID_REQUEST:
+      return {
+        ...state,
+        controlNameFromControlId: { ...state.controlNameFromControlId, loading: true },
+      };
+    case GET_CONTROL_NAME_FROM_CONTROL_ID_SUCCESS:
+      return {
+        ...state,
+        controlNameFromControlId: {
+          ...state.controlNameFromControlId,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_CONTROL_NAME_FROM_CONTROL_ID_ERROR:
+      return {
+        ...state,
+        controlNameFromControlId: { ...state.controlNameFromControlId, loading: false },
       };
 
     //reset block with flag and data

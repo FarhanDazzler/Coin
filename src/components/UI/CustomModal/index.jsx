@@ -12,6 +12,7 @@ const CustomModal = ({
   classes = {},
   onClose,
   controlId = '',
+  controlNameFromID = '',
   ...res
 }) => {
   let rootClass = 'custom-modal-wrapper';
@@ -35,12 +36,12 @@ const CustomModal = ({
                 <span className="font-weight-bold">Control Name: </span>
                 <span>{stateControlData.control_name}</span>
               </p>
-              { controlId &&
+              { controlNameFromID &&
                 <p>
                   <br />
                   <br />
-                  <span className="">Control Id: </span>
-                  <span>{controlId}</span>
+                  <span className="">Control Name: </span>
+                  <span>{controlNameFromID}</span>
                 </p>
               }
             </div>
