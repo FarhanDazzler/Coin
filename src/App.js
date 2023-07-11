@@ -19,38 +19,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import QuestionBank from './pages/QuestionBank/QuestionBankLandingPage';
 import NotAuthorized from './pages/NotAuthorized/NotAuthorizedPage';
-import MDM from './pages/MDM/MDMLandingPage';
-import MDM_OrganizationHierarchyLandingPage from './pages/MDM/OrganizationHierarchy/MDMOrganizationHierarchyLandingPage.jsx';
-import MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage from './pages/MDM/Applicability_AssignmentOfProviderOrganization/MDMApplicabilityAndAssignmentOfProviderOrganizationLandingPage';
-import MDM_Mega_Process_Sub_ProcessLandingPage from './pages/MDM/Mega_Process_And_Sub_Process/MDM_Mega_Process _Sub_ProcessLandingPage.jsx';
-import MDM_Control_Owner_OversightLandingPage from './pages/MDM/Control_Owner_Oversight/MDMControl_Owner_OversightLandingPage';
-import MDM_MICS_FrameworkLandingPage from './pages/MDM/MICS_Framework/MDMMICSFrameworkLandingPage.jsx';
-import AddValues_MDM_Mics_Framework from './pages/MDM/MICS_Framework/InputPage/AddValues';
-import AssessmentBankLandingPage from './pages/AssessmentBank/AssessmentBankLandingPage';
 import { useDispatch, useSelector } from 'react-redux';
-import ScheduleSurveyPage from './pages/AssessmentBank/ScheduleSurvey/ScheduleSurveyPage';
 import ControlHomePage from './pages/Home/ControlHomePage';
 import InternalControlHomePage from './pages/Home/V2/InternalControlHomePage';
-import AssessmentDetailsTableData from './pages/AssessmentBank/Table/AssessmentDetailsTableData.jsx';
 import REP_Letters_HomePage from './pages/REP_Letters_Module/Home';
 import POC from './pages/TestPages_For_POC_only/POC.jsx';
-import AssessmentForm from './pages/AssessmentForm/AssessmentForm';
 import { setRoles } from './redux/Auth/AuthAction';
-// REP Letters Modules
-import RLMDM from './pages/REP_Letters_Module/Home/MDM';
-import RL_MDM_OrganizationHierarchyLandingPage from './pages/REP_Letters_Module/Home/MDM/OrganizationHierarchy/MDMOrganizationHierarchyLandingPage';
-import RL_MDM_BUMasterdataManagementLandingPage from './pages/REP_Letters_Module/Home/MDM/BUMasterDataManagement/BUMasterDataManagementLandingPage';
-import RL_MDM_FunctionalMasterdataManagementLandingPage from './pages/REP_Letters_Module/Home/MDM/FunctionalMasterdataManagement/FunctionalMasterdataManagementLandingPage';
-import RLQuestionBank from './pages/REP_Letters_Module/Home/QuestionBank/RepLetterQuestionBankLandingPage';
-//REP Letters Modules
-import AdminLandingPage from './pages/AdminPage/AdminLandingPage';
-import AssessmentModulePanel from './pages/AdminPage/AssessmentModulePanel/AssessmentModulePanel.jsx';
-import RepresentationLetterModulePanel from './pages/AdminPage/RepresentationLetterModulePanel/RepresentationLetterModulePanel';
-import BUModifyQuestions from './pages/REP_Letters_Module/Home/QuestionBank/BU/BUModifyQuestions';
-import ErrorNotification from './common/ErrorNotification';
-import FunctionAddQuestions from './pages/REP_Letters_Module/Home/QuestionBank/Functional/FunctionAddQuestions';
-import FunctionModifyQuestions from './pages/REP_Letters_Module/Home/QuestionBank/Functional/FunctionModifyQuestions';
 
+import ErrorNotification from './common/ErrorNotification';
+import { RepLettersRoutes } from './routes/RepLettersRoutes/RepLetterRoutes';
+import { AssessmentModuleRoutes } from './routes/AssessmentModuleRoutes/AssessmentModuleRoutes';
+import { AdminRoutes } from './routes/AdminRoutes/AdminRoutes';
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -149,7 +128,6 @@ const Pages = () => {
     // main RBAC API Call
     if (accounts.length > 0) getUserData();
   }, [accounts]);
-
   const user_role = localStorage.getItem('user_Role');
 
   useEffect(() => {
@@ -192,7 +170,8 @@ const Pages = () => {
         });
     }
   }, [accounts, inProgress]);
-
+  console.log('module', module);
+  console.log('userRole', userRole);
   return (
     <div className="page">
       <ToastContainer autoClose={15000} />
@@ -215,8 +194,6 @@ const Pages = () => {
             <Route exact path="/" component={InternalControlHomePage} />
           )}
 
-          <Route exact path="/question-bank" component={QuestionBank} />
-
           {user_role === 'organizational persona' ? (
             <Route exact path="/home" component={Home_controlOwner} />
           ) : user_role === 'administrational persona' ? (
@@ -225,84 +202,20 @@ const Pages = () => {
             <Route exact path="/home" component={Home_controlOwner} />
           )}
 
-          <Route exact path="/assessmentbank" component={AssessmentBankLandingPage} />
-          <Route exact path="/Assessments/:Assessment_id" component={AssessmentForm} />
-          <Route exact path="/questionbank" component={QuestionBank} />
+          {userRole === 'Global internal control' || userRole === 'Zonal internal control'
+            ? AssessmentModuleRoutes.map((routes, i) => <Route key={i} {...routes} />)
+            : null}
+
+          {module === 'Functional' || module === 'BU'
+            ? RepLettersRoutes.map((routes, i) => <Route key={i} {...routes} />)
+            : null}
+
+          {userRole === 'Global internal control' || module === 'Functional' || module === 'BU'
+            ? AdminRoutes.map((routes, i) => <Route key={i} {...routes} />)
+            : null}
+
           <Route exact path="/not-authorized" component={NotAuthorized} />
-          <Route exact path="/master-data-management" component={MDM} />
-          <Route
-            exact
-            path="/master-data-management/organization-hierarchy"
-            component={MDM_OrganizationHierarchyLandingPage}
-          />
-          <Route
-            exact
-            path="/master-data-management/applicability-assignment-of-provider-organization"
-            component={MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage}
-          />
-          <Route
-            exact
-            path="/master-data-management/co-owner-oversight"
-            component={MDM_Control_Owner_OversightLandingPage}
-          />
-          <Route
-            exact
-            path="/master-data-management/mics-framework"
-            component={MDM_MICS_FrameworkLandingPage}
-          />
-          <Route
-            exact
-            path="/master-data-management/mics-framework/addNew"
-            component={AddValues_MDM_Mics_Framework}
-          />
-          <Route
-            exact
-            path="/master-data-management/mega-process-sub-Process"
-            component={MDM_Mega_Process_Sub_ProcessLandingPage}
-          />
-          <Route exact path="/assessmentbank" component={AssessmentBankLandingPage} />
-          <Route exact path="/assessmentbank/schedule-survey" component={ScheduleSurveyPage} />
-          <Route
-            exact
-            path="/assessmentbank/assessment-details"
-            component={AssessmentDetailsTableData}
-          />
           <Route exact path="/POC" component={POC} />
-          <Route exact path="/REP-Letters/master-data-management" component={RLMDM} />
-          <Route
-            exact
-            path="/REP-Letters/master-data-management/organization-hierarchy"
-            component={RL_MDM_OrganizationHierarchyLandingPage}
-          />
-          <Route
-            exact
-            path="/REP-Letters/master-data-management/bu-masterdata-management"
-            component={RL_MDM_BUMasterdataManagementLandingPage}
-          />
-          <Route
-            exact
-            path="/REP-Letters/master-data-management/functional-masterdata-management"
-            component={RL_MDM_FunctionalMasterdataManagementLandingPage}
-          />
-          <Route exact path="/REP-Letters/questionbank" component={RLQuestionBank} />
-          <Route
-            exact
-            path="/REP-Letters/questionbank/BU-modify-questions"
-            component={BUModifyQuestions}
-          />
-          <Route
-            exact
-            path="/REP-Letters/questionbank/Function-add"
-            component={FunctionAddQuestions}
-          />
-          <Route
-            exact
-            path="/REP-Letters/questionbank/Function-modify"
-            component={FunctionModifyQuestions}
-          />
-          <Route exact path="/admin-panel" component={AdminLandingPage} />
-          <Route exact path="/admin-panel/sa" component={AssessmentModulePanel} />
-          <Route exact path="/admin-panel/rl" component={RepresentationLetterModulePanel} />
           <Route
             path="*"
             render={(props) => {
