@@ -411,7 +411,7 @@ const TopBar = (props) => {
                 className="header-brand-img"
                 alt="AB InBev Logo"
                 // style={{ borderLeft: '1px solid #c9c9c9', paddingLeft: '0.5rem', height: '1.5rem' }}
-                style={{ paddingLeft: '0.5rem', height: '1.5rem' }}
+                style={{ paddingLeft: '0.5rem', height: '2rem' }}
               />
             </a>
             {
