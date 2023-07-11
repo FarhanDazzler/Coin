@@ -248,10 +248,10 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
     return style;
   };
 
+  console.log('table_data',kpiResultData?.data)
   useEffect(() => {
-    if (kpiResultData?.data.length > 0) {
+    if (kpiResultData?.data?.length > 0) {
       const table_data = [...kpiResultData.data];
-
       table_data.forEach((tData, i) => {
         if (tData.KPI_Value === '' || tData.KPI_Value === 0) {
           // console.log('null');
