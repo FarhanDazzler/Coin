@@ -53,6 +53,8 @@ const TopBar = (props) => {
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
+    // How to get current language from i18n
+    //console.log(i18n.language, 'Language');
   };
 
   const togglingDropDown = () => {
@@ -85,6 +87,7 @@ const TopBar = (props) => {
   ];
   const [module, setModule] = useState(initModule);
   const [activeModule, setActiveModule] = useState(selected_module_role || 'Assessment Module');
+  const [lan, setLan] = useState(i18n.language);
 
   useEffect(() => {
     localStorage.setItem('selected_module_Role', activeModule);
@@ -144,6 +147,7 @@ const TopBar = (props) => {
   };
 
   useEffect(() => {
+    setLan(i18n.language);
     setTimeout(() => {
       if (roles[0] === 'undefined') return;
       const userRoles = roles.map((data) => {
@@ -415,7 +419,6 @@ const TopBar = (props) => {
 
                 <FormControl sx={{ width: 200 }}>
                   <Select
-                    defaultValue="English"
                     size="small"
                     inputLook
                     classes={{ root: `select-options inputLook-text user-role-input` }}
@@ -423,8 +426,11 @@ const TopBar = (props) => {
                     options={languages}
                     onChange={(e) => {
                       changeLanguage(e.target.value);
+                      setLan(e.target.value);
                     }}
+                    value={lan || languages.find((item) => item.value == i18n.language).value}
                   />
+                  {console.log(i18n.language, 'Language')}
                 </FormControl>
               </div>
             }

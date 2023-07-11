@@ -30,6 +30,10 @@ import ErrorNotification from './common/ErrorNotification';
 import { RepLettersRoutes } from './routes/RepLettersRoutes/RepLetterRoutes';
 import { AssessmentModuleRoutes } from './routes/AssessmentModuleRoutes/AssessmentModuleRoutes';
 import { AdminRoutes } from './routes/AdminRoutes/AdminRoutes';
+
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n/i18n';
+
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
 // const userRole="Zonal Internal Control";
@@ -238,22 +242,24 @@ function App() {
   const msalInstance = new PublicClientApplication(msalConfig);
 
   return (
-    <div className="App">
-      <ThemeProvider theme={theme}>
-        <header className="App-header">
-          <Router>
-            <MsalProvider instance={msalInstance}>
-              <UserContextProvider>
-                {navigator.onLine && <Pages />}
-                <ErrorNotification />
-                {/* {!navigator.onLine && <NoInternet />} */}
-              </UserContextProvider>
-            </MsalProvider>
-          </Router>
-        </header>
-        <Footer />
-      </ThemeProvider>
-    </div>
+    <I18nextProvider i18n={i18n}>
+      <div className="App">
+        <ThemeProvider theme={theme}>
+          <header className="App-header">
+            <Router>
+              <MsalProvider instance={msalInstance}>
+                <UserContextProvider>
+                  {navigator.onLine && <Pages />}
+                  <ErrorNotification />
+                  {/* {!navigator.onLine && <NoInternet />} */}
+                </UserContextProvider>
+              </MsalProvider>
+            </Router>
+          </header>
+          <Footer />
+        </ThemeProvider>
+      </div>
+    </I18nextProvider>
   );
 }
 
