@@ -121,10 +121,10 @@ function* handleGetAssessmentSection2Ans({ payload: copyPayload }) {
   try {
     const { event, ...payload } = copyPayload;
     const response = yield call(getAssessmentSection2AnsAddApi, payload);
-    if (response.token) {
+    if (response.success) {
       yield put({
-        type: GET_ASSESSMENT_SECTION_2_SUCCESS,
-        data: response.data,
+        type: GET_KPI_RESULT_SUCCESS,
+        payload: response.data,
       });
       if (event) {
         event.onSuccess();

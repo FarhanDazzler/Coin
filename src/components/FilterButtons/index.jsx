@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Group, MultiSelect } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 
 const FilterButtons = ({
   year,
@@ -20,9 +21,10 @@ const FilterButtons = ({
   setProviderValue,
   setYearValue,
   setAssessmentCycleValue,
-  isHide=false
+  isHide = false,
 }) => {
   const [searchValue, onSearchChange] = useState('');
+  const { t } = useTranslation();
 
   return (
     <div>
@@ -30,8 +32,12 @@ const FilterButtons = ({
         <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={year}
-          label={<span className="mantine-MultiSelect-label">{'Year'}</span>}
-          placeholder={'Select your option'}
+          label={
+            <span className="mantine-MultiSelect-label">
+              {t('selfAssessment.homePage.universalFilter_Year')}
+            </span>
+          }
+          placeholder={t('selfAssessment.homePage.universalFilter_Placeholder')}
           searchable
           limit={20}
           searchValue={searchValue}
@@ -50,8 +56,8 @@ const FilterButtons = ({
         <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={assessment_Cycle}
-          label={<span className="mantine-MultiSelect-label">{'Assessment Cycle'}</span>}
-          placeholder={'Select your option'}
+          label={<span className="mantine-MultiSelect-label">Assessment Cycle</span>}
+          placeholder={t('selfAssessment.homePage.universalFilter_Placeholder')}
           searchable
           limit={20}
           searchValue={searchValue}
@@ -70,8 +76,12 @@ const FilterButtons = ({
         <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={Zone}
-          label={<span className="mantine-MultiSelect-label">{'Zone'}</span>}
-          placeholder={'Select your option'}
+          label={
+            <span className="mantine-MultiSelect-label">
+              {t('selfAssessment.homePage.universalFilter_Zone')}
+            </span>
+          }
+          placeholder={t('selfAssessment.homePage.universalFilter_Placeholder')}
           searchable
           limit={20}
           searchValue={searchValue}
@@ -90,8 +100,12 @@ const FilterButtons = ({
         <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={BU}
-          label={<span className="mantine-MultiSelect-label">{'BU'}</span>}
-          placeholder={'Select your option'}
+          label={
+            <span className="mantine-MultiSelect-label">
+              {t('selfAssessment.homePage.universalFilter_BU')}
+            </span>
+          }
+          placeholder={t('selfAssessment.homePage.universalFilter_Placeholder')}
           searchable
           limit={20}
           searchValue={searchValue}
@@ -107,31 +121,37 @@ const FilterButtons = ({
           variant="filled"
           size="xs"
         />
-       {!isHide&& <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={Receiver}
-          label={<span className="mantine-MultiSelect-label">{'Receiver Organization'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={receiverValue}
-          onChange={(e) => {
-            setReceiverValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />}
+        {!isHide && (
+          <MultiSelect
+            className="mantine-MultiSelect-wrapper"
+            data={Receiver}
+            label={<span className="mantine-MultiSelect-label">{'Receiver Organization'}</span>}
+            placeholder={t('selfAssessment.homePage.universalFilter_Placeholder')}
+            searchable
+            limit={20}
+            searchValue={searchValue}
+            onSearchChange={onSearchChange}
+            nothingFound="Nothing found"
+            clearButtonLabel="Clear selection"
+            clearable
+            value={receiverValue}
+            onChange={(e) => {
+              setReceiverValue(e);
+            }}
+            radius="xl"
+            variant="filled"
+            size="xs"
+          />
+        )}
         <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={Provider}
-          label={<span className="mantine-MultiSelect-label">{'Provider Organization'}</span>}
-          placeholder={'Select your option'}
+          label={
+            <span className="mantine-MultiSelect-label">
+              {t('selfAssessment.homePage.universalFilter_Provider_Organization')}
+            </span>
+          }
+          placeholder={t('selfAssessment.homePage.universalFilter_Placeholder')}
           searchable
           limit={20}
           searchValue={searchValue}

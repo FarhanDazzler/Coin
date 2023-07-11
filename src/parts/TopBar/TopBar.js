@@ -23,7 +23,7 @@ import NestedMenuItem from '../../components/UI/MultiDropdown/NestedMenuItem';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '../../components/UI/Select/Select';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-
+import i18n from '../../i18n/i18n';
 const TopBar = (props) => {
   const history = useHistory();
   const location = useLocation();
@@ -38,6 +38,22 @@ const TopBar = (props) => {
   const [userState, userDispatch] = useContext(UserContext);
 
   // const [location, setLocation] = useState();
+
+  // Logic for Language Change
+
+  const languages = [
+    { label: 'English', value: 'en' },
+    { label: 'French', value: 'fr' },
+    { label: 'Spanish', value: 'es' },
+    { label: 'Portuguese', value: 'pt' },
+    { label: 'Mandarin', value: 'zh' },
+    { label: 'Korean', value: 'ko' },
+    { lable: 'Vietnamese', value: 'vi' },
+  ];
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
 
   const togglingDropDown = () => {
     setisDropDownOpen(!isDropDownOpen);
@@ -69,6 +85,7 @@ const TopBar = (props) => {
   ];
   const [module, setModule] = useState(initModule);
   const [activeModule, setActiveModule] = useState(selected_module_role || 'Assessment Module');
+  const [lan, setLan] = useState(i18n.language);
 
   useEffect(() => {
     localStorage.setItem('selected_module_Role', activeModule);
@@ -96,8 +113,12 @@ const TopBar = (props) => {
             localStorage.setItem('selected_Role', rl_roles.BU[0]);
             setRole(rl_roles.BU[0]);
           }
-          localStorage.setItem('Roles', rl_roles.BU);
-          setRoleValue(rl_roles.BU);
+          const userBURoles = rl_roles.BU?.map((data) => {
+            const str = data.split('_').join(' ');
+            return str.charAt(0).toUpperCase() + str.slice(1);
+          });
+          localStorage.setItem('Roles', userBURoles);
+          setRoleValue(userBURoles);
         } else {
           localStorage.setItem('Roles', '');
         }
@@ -128,6 +149,7 @@ const TopBar = (props) => {
   };
 
   useEffect(() => {
+    setLan(i18n.language);
     setTimeout(() => {
       if (roles[0] === 'undefined') return;
       const userRoles = roles.map((data) => {
@@ -135,8 +157,9 @@ const TopBar = (props) => {
         return str.charAt(0).toUpperCase() + str.slice(1);
       });
       if (userRoles?.length > 0) {
-        dispatch(setLoginRole(selected_Role ?? userRoles[0]));
-        localStorage.setItem('selected_Role', selected_Role ?? userRoles[0]);
+        const value = selected_Role?.split('_')?.join(' ');
+        dispatch(setLoginRole(value ?? userRoles[0]));
+        localStorage.setItem('selected_Role', value ?? userRoles[0]);
       }
     }, 500);
   }, [roles.length]);
@@ -388,10 +411,32 @@ const TopBar = (props) => {
                 className="header-brand-img"
                 alt="AB InBev Logo"
                 // style={{ borderLeft: '1px solid #c9c9c9', paddingLeft: '0.5rem', height: '1.5rem' }}
-                style={{ paddingLeft: '0.5rem', height: '1.5rem' }}
+                style={{ paddingLeft: '0.5rem', height: '2rem' }}
               />
             </a>
+            {props.isControlPage && (
+              <div className="mr-4">
+                <div>
+                  <span className={'text-yellow ml-2'}>Select Language:</span>
+                </div>
 
+                <FormControl sx={{ width: 200 }}>
+                  <Select
+                    size="small"
+                    inputLook
+                    classes={{ root: `select-options inputLook-text user-role-input` }}
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    options={languages}
+                    onChange={(e) => {
+                      changeLanguage(e.target.value);
+                      setLan(e.target.value);
+                    }}
+                    value={lan || languages.find((item) => item.value == i18n.language).value}
+                  />
+                  {console.log(i18n.language, 'Language')}
+                </FormControl>
+              </div>
+            )}
             <div
               className="d-flex order-lg-2 ml-auto text-left"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}

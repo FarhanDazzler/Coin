@@ -7,8 +7,10 @@ import PageWrapper from '../../../components/wrappers/PageWrapper';
 import HomeTableModal from '../V2/InternalControlHomePage/HomeTableModal';
 import './styles.scss';
 import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
+import { useTranslation } from 'react-i18next';
 
 const ControlHomePage = () => {
+  const { t } = useTranslation();
   const history = useHistory();
   const { state } = useLocation();
   const selectedUserRole = localStorage.getItem('selected_Role');
@@ -112,7 +114,9 @@ const ControlHomePage = () => {
         <div className="container-fluid">
           <div className="row pt-5 align-items-center">
             <div className="col-lg-4 pt-5">
-              <h4 className="welcome-text">Welcome</h4>
+              <h4 className="welcome-text">
+                {t('selfAssessment.homePage.controleOwner.greeting')}
+              </h4>
               <h2 className="user-name-home yellow-gradient-text mb-2 text-capitalize">
                 {accounts.length > 0 ? accounts[0].name.split('(').join(' (') : 'User Name'}
               </h2>
@@ -122,10 +126,22 @@ const ControlHomePage = () => {
               <div className="d-flex align-items-center flex-wrap justify-content-end">
                 {/* <AmountInfo amount={12292} infoText={'BU'} />
                 <AmountInfo amount={19} infoText="functional" /> */}
-                <AmountInfo amount={statusInfo.notStarted} infoText={<>NOT Started</>} />
-                <AmountInfo amount={statusInfo.completed} infoText={<>Completed</>} />
-                <AmountInfo amount={statusInfo.draft} infoText={<>Drafted</>} />
-                <AmountInfo amount={statusInfo.reAssessed} infoText={<>Re-assess</>} />
+                <AmountInfo
+                  amount={statusInfo.notStarted}
+                  infoText={<>{t('selfAssessment.homePage.controleOwner.statsCard_NOT_STARTED')}</>}
+                />
+                <AmountInfo
+                  amount={statusInfo.completed}
+                  infoText={<>{t('selfAssessment.homePage.controleOwner.statsCard_COMPLETED')}</>}
+                />
+                <AmountInfo
+                  amount={statusInfo.draft}
+                  infoText={<>{t('selfAssessment.homePage.controleOwner.statsCard_DRAFTED')}</>}
+                />
+                <AmountInfo
+                  amount={statusInfo.reAssessed}
+                  infoText={<>{t('selfAssessment.homePage.controleOwner.statsCard_RE_ASSESS')}</>}
+                />
               </div>
             </div>
           </div>
