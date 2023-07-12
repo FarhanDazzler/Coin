@@ -97,13 +97,25 @@ const Table2 = ({
     decimalSeparator: '.',
     useTextFile: false,
     useBom: true,
-    useKeysAsHeaders: true,
+    useKeysAsHeaders: false,
+    headers: tableColumns.map((c) => c.header),
   };
 
   const csvExporter = new ExportToCsv(csvOptions);
 
   const handleExportRows = (rows) => {
-    csvExporter.generateCsv(rows.map((row) => row.original));
+    console.info(tableColumns, 'tableColumns');
+
+    const filteredRows = rows.map((row) => {
+      console.info(Object.keys(row.original), 'row');
+      console.log(
+        tableColumns.filter((column) => Object.keys(row.original).includes(column.accessor)),
+        'Export data',
+      );
+    });
+
+    csvExporter.generateCsv(filteredRows);
+    //csvExporter.generateCsv(rows.map((row) => row.original));
   };
 
   const handleExportData = () => {

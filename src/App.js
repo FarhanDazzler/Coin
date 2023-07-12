@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { InteractionStatus, PublicClientApplication } from '@azure/msal-browser';
 import { loginRequest, msalConfig } from './utils/authConfig';
+import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -249,6 +250,26 @@ function App() {
   return (
     <I18nextProvider i18n={i18n}>
       <div className="App">
+        <Helmet>
+          <script type="text/javascript">
+            {`(function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = 'https://www.clarity.ms/tag/' + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, 'clarity', 'script', ${
+        process.env.REACT_APP_STAGE === 'prod'
+          ? process.env.CLARITY_KEY_DEV
+          : process.env.CLARITY_KEY_PROD
+      });`}
+          </script>
+        </Helmet>
         <ThemeProvider theme={theme}>
           <header className="App-header">
             <Router>
