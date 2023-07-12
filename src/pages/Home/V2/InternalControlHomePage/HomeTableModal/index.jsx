@@ -100,12 +100,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         Control_ID: activeData.Question_Bank === 'Template1' ? 'Standard' : activeData.Control_ID,
       }),
     );
-    dispatch(
-      getKPIData({
-        MICS_code: activeData.Control_ID || Control_ID,
-        Entity_ID: activeData.Provider,
-      }),
-    );
+    // dispatch(
+    //   getKPIData({
+    //     MICS_code: activeData.Control_ID || Control_ID,
+    //     Entity_ID: activeData.Provider,
+    //   }),
+    // );
     setTimeout(() => {
       if (!isModal) {
         dispatch(getLatestDraft({ assessment_id: activeData.id || Control_ID }));
@@ -121,7 +121,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       dispatch(
         getAssessmentSection2Ans({
           MICS_code: activeData.Control_ID || Control_ID,
-          Entity_ID: activeData.Provider,
+          Entity_ID: activeData.Receiver,
           KPI_From: activeData.KPI_From || '',
           KPI_To: activeData.KPI_To || '',
         }),
@@ -227,7 +227,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         // setLoading(true);
-        dispatch(addAssessmentSection2Ans({ kpis: tableData }));
+        // dispatch(addAssessmentSection2Ans({ kpis: tableData }));
         const s1FailObj = ansSection1.some((i) => {
           return !!i?.question_options?.find((d) => d?.option_id === i.selectVal)?.is_Failing;
         });
