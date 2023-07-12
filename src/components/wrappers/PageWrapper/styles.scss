@@ -11,6 +11,11 @@
   .renderBlockWrapper {
     background: rgba(140, 140, 140, 0.14);
   }
+  td {
+    input {
+      color: #212529 !important;
+    }
+  }
   .radio-wrapper .MuiFormLabel-root,
   .input-wrapper .MuiFormLabel-root,
   input,
