@@ -30,6 +30,7 @@ import ErrorNotification from './common/ErrorNotification';
 import { RepLettersRoutes } from './routes/RepLettersRoutes/RepLetterRoutes';
 import { AssessmentModuleRoutes } from './routes/AssessmentModuleRoutes/AssessmentModuleRoutes';
 import { AdminRoutes } from './routes/AdminRoutes/AdminRoutes';
+import ContactUSLandingPage from './pages/ContactUS/ContactUSLandingPage';
 
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/i18n';
@@ -205,10 +206,9 @@ const Pages = () => {
           ) : (
             <Route exact path="/home" component={Home_controlOwner} />
           )}
-          {
-            module === "Assessment Module" && <Route exact path="/Assessments/:Assessment_id" component={AssessmentForm} />
-          }
-          
+          {module === 'Assessment Module' && (
+            <Route exact path="/Assessments/:Assessment_id" component={AssessmentForm} />
+          )}
 
           {userRole === 'Global internal control' || userRole === 'Zonal internal control'
             ? AssessmentModuleRoutes.map((routes, i) => <Route key={i} {...routes} />)
@@ -222,6 +222,7 @@ const Pages = () => {
             ? AdminRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
 
+          <Route exact path="/contact-us" component={ContactUSLandingPage} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
           <Route exact path="/POC" component={POC} />
           <Route
