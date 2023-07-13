@@ -14,6 +14,12 @@ export const QuestionType = [
   { label: 'Is AD', value: 'Is AD' },
 ];
 
+export const TranslateType = [
+  { label: 'English', value: 'English' },
+  { label: 'French', value: 'French' },
+  { label: 'Spanish', value: 'Spanish' },
+];
+
 const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
   const dispatch = useDispatch();
   const [questionText, setQuestionText] = useState('');

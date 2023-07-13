@@ -5,6 +5,7 @@ import QuestionBankBox from './QuestionBankBox/QuestionBankBox';
 import './questionBankStyles.scss';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import FolderSpecialOutlinedIcon from '@mui/icons-material/FolderSpecialOutlined';
+import TranslateIcon from '@mui/icons-material/Translate';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import Button from '../../components/UI/Button';
 import QuestionBankTable from './QuestionBankTable';
@@ -12,12 +13,14 @@ import CreateQuestions from './CreateQuestions';
 import ModifyStandard from './ModifyStandard';
 import { getSection1QuestionDataAction } from '../../redux/QuestionBank/QuestionBankAction';
 import { getRepositoryOfControlID } from '../../redux/Questions/QuestionsAction';
+import ModifyStandardChangeLang from './ModifyStandardChangeLang';
 
 const QuestionBank = () => {
   const [openCreateQuestions, setOpenCreateQuestions] = useState(false);
   const [openModifyStandard, setOpenModifyStandard] = useState(false);
   const [editModifyMICS, setEditModifyMICS] = useState('');
   const dispatch = useDispatch();
+  const [isQuestionbankChnageLang, setIsQuestionbankChnageLang] = useState(false);
 
   useEffect(() => {
     let payload = {
@@ -41,6 +44,9 @@ const QuestionBank = () => {
 
   const handleEditModifyMICS = (type) => {
     setEditModifyMICS(type);
+  };
+  const handleChangeLang = () => {
+    setIsQuestionbankChnageLang(!isQuestionbankChnageLang);
   };
   const handleCloseEditModifyMICS = () => {
     setEditModifyMICS('');
@@ -80,14 +86,22 @@ const QuestionBank = () => {
                 >
                   <span className="text-white">Modify Standard</span>
                 </Button>
-
                 <Button
                   variant="outlined"
                   size="large"
                   startIcon={<FolderSpecialOutlinedIcon />}
                   onClick={() => handleEditModifyMICS('MICS-Specific')}
+                  className="mr-4"
                 >
                   <span className="text-white">Modify MICS-Specific</span>
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  startIcon={<TranslateIcon />}
+                  onClick={() => handleChangeLang('MICS-Specific')}
+                >
+                  <span className="text-white">Change language</span>
                 </Button>
               </QuestionBankBox>
             </div>
@@ -106,6 +120,7 @@ const QuestionBank = () => {
           type={editModifyMICS}
           handleClose={handleCloseEditModifyMICS}
         />
+        <ModifyStandardChangeLang open={isQuestionbankChnageLang} handleClose={handleChangeLang} />
       </div>
     </PageWrapper>
   );

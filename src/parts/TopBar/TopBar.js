@@ -36,7 +36,7 @@ const TopBar = (props) => {
 
   const apiRoles = useSelector((state) => state?.auth?.apiRoles);
   const [userState, userDispatch] = useContext(UserContext);
-
+  console.log('loginRole', loginRole, apiRoles, selected_module_role);
   // const [location, setLocation] = useState();
 
   // Logic for Language Change
@@ -178,7 +178,7 @@ const TopBar = (props) => {
       setModule(newArray);
     }
   }, [apiRoles]);
-
+  console.log('@@@@@@@@@', props.isControlPage);
   const TopBar_SA = () => {
     // TOP BAR Buttons/ Tabs for Seld Assessment Module
     return (
@@ -535,11 +535,7 @@ const TopBar = (props) => {
             <div className="d-flex align-items-center justify-content-between">
               <div className="row align-items-center">
                 <div className="col-lg order-lg-first">
-                  {localStorage.getItem('selected_module_Role') == 'Assessment Module' ? (
-                    <TopBar_SA />
-                  ) : (
-                    <TopBar_RL />
-                  )}
+                  {selected_module_role == 'Assessment Module' ? <TopBar_SA /> : <TopBar_RL />}
                 </div>
               </div>
               <div className="select-light mt-0">
