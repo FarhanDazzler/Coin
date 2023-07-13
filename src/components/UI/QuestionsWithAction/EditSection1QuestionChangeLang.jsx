@@ -281,7 +281,7 @@ const EditSection1QuestionChangeLang = ({
       open={showEditModal === block.q_id}
       onClose={() => setShowEditModal(false)}
       width={1200}
-      title="Edit Question"
+      title="Change Question Language"
       bodyClassName="p-0"
     >
       <div>
