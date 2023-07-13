@@ -87,7 +87,6 @@ const Table2 = ({
   useEffect(() => {
     //do something when the row selection changes...
     //console.info({ rowSelection }, Object.keys(rowSelection));
-    console.info('keys', Object.keys(rowSelection));
     setEditTableIndex && setEditTableIndex(Object.keys(rowSelection));
   }, [rowSelection]);
 
@@ -97,13 +96,24 @@ const Table2 = ({
     decimalSeparator: '.',
     useTextFile: false,
     useBom: true,
-    useKeysAsHeaders: true,
+    useKeysAsHeaders: false,
+    headers: tableColumns.map((c) => c.header),
   };
 
   const csvExporter = new ExportToCsv(csvOptions);
 
   const handleExportRows = (rows) => {
-    csvExporter.generateCsv(rows.map((row) => row.original));
+    const allCol = tableColumns.map((d) => d.accessorKey);
+    const filteredRows = rows.map((row) => {
+      const rowData = {};
+      Object.keys(row.original).forEach((r) => {
+        if (allCol.includes(r)) {
+          rowData[r] = row.original[r];
+        }
+      });
+      return rowData;
+    });
+    csvExporter.generateCsv(filteredRows);
   };
 
   const handleExportData = () => {

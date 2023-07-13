@@ -502,9 +502,11 @@ const TopBar = (props) => {
                     </a> */}
                     <a
                       className="dropdown-item text-left"
-                      href="mailto:DL-COEAutomationRM@AnheuserBuschInBev.onmicrosoft.com"
+                      onClick={() => {
+                        history.push('/contact-us');
+                      }}
                     >
-                      Support
+                      Contact Us
                     </a>
                     <a className="dropdown-item text-left" onClick={handleLogout}>
                       Sign out

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { InteractionStatus, PublicClientApplication } from '@azure/msal-browser';
 import { loginRequest, msalConfig } from './utils/authConfig';
+import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -30,6 +31,7 @@ import ErrorNotification from './common/ErrorNotification';
 import { RepLettersRoutes } from './routes/RepLettersRoutes/RepLetterRoutes';
 import { AssessmentModuleRoutes } from './routes/AssessmentModuleRoutes/AssessmentModuleRoutes';
 import { AdminRoutes } from './routes/AdminRoutes/AdminRoutes';
+import ContactUSLandingPage from './pages/ContactUS/ContactUSLandingPage';
 
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/i18n';
@@ -205,10 +207,9 @@ const Pages = () => {
           ) : (
             <Route exact path="/home" component={Home_controlOwner} />
           )}
-          {
-            module === "Assessment Module" && <Route exact path="/Assessments/:Assessment_id" component={AssessmentForm} />
-          }
-          
+          {module === 'Assessment Module' && (
+            <Route exact path="/Assessments/:Assessment_id" component={AssessmentForm} />
+          )}
 
           {userRole === 'Global internal control' || userRole === 'Zonal internal control'
             ? AssessmentModuleRoutes.map((routes, i) => <Route key={i} {...routes} />)
@@ -222,6 +223,7 @@ const Pages = () => {
             ? AdminRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
 
+          <Route exact path="/contact-us" component={ContactUSLandingPage} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
           <Route exact path="/POC" component={POC} />
           <Route
@@ -248,6 +250,26 @@ function App() {
   return (
     <I18nextProvider i18n={i18n}>
       <div className="App">
+        <Helmet>
+          <script type="text/javascript">
+            {`(function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = 'https://www.clarity.ms/tag/' + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, 'clarity', 'script', ${
+        process.env.REACT_APP_STAGE === 'prod'
+          ? process.env.REACT_APP_CLARITY_KEY_DEV
+          : process.env.REACT_APP_CLARITY_KEY_PROD
+      });`}
+          </script>
+        </Helmet>
         <ThemeProvider theme={theme}>
           <header className="App-header">
             <Router>
