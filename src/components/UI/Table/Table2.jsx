@@ -87,7 +87,6 @@ const Table2 = ({
   useEffect(() => {
     //do something when the row selection changes...
     //console.info({ rowSelection }, Object.keys(rowSelection));
-    console.info('keys', Object.keys(rowSelection));
     setEditTableIndex && setEditTableIndex(Object.keys(rowSelection));
   }, [rowSelection]);
 
@@ -104,18 +103,17 @@ const Table2 = ({
   const csvExporter = new ExportToCsv(csvOptions);
 
   const handleExportRows = (rows) => {
-    console.info(tableColumns, 'tableColumns');
-
+    const allCol = tableColumns.map((d) => d.accessorKey);
     const filteredRows = rows.map((row) => {
-      console.info(Object.keys(row.original), 'row');
-      console.log(
-        tableColumns.filter((column) => Object.keys(row.original).includes(column.accessor)),
-        'Export data',
-      );
+      const rowData = {};
+      Object.keys(row.original).forEach((r) => {
+        if (allCol.includes(r)) {
+          rowData[r] = row.original[r];
+        }
+      });
+      return rowData;
     });
-
     csvExporter.generateCsv(filteredRows);
-    //csvExporter.generateCsv(rows.map((row) => row.original));
   };
 
   const handleExportData = () => {
