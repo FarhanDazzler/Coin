@@ -8,7 +8,7 @@ import { Box, Button, Typography } from '@mui/material';
 
 import cs from 'classnames';
 import './tableStyles.scss';
-
+import { saveAs } from 'file-saver';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowDownWideShort,
@@ -90,35 +90,32 @@ const Table2 = ({
     setEditTableIndex && setEditTableIndex(Object.keys(rowSelection));
   }, [rowSelection]);
 
-  const csvOptions = {
-    fieldSeparator: ',',
-    quoteStrings: '"',
-    decimalSeparator: '.',
-    useTextFile: false,
-    useBom: true,
-    useKeysAsHeaders: false,
-    headers: tableColumns.map((c) => c.header),
-  };
-
-  const csvExporter = new ExportToCsv(csvOptions);
-
   const handleExportRows = (rows) => {
-    const allCol = tableColumns.map((d) => d.accessorKey);
-    const filteredRows = rows.map((row) => {
-      const rowData = {};
-      Object.keys(row.original).forEach((r) => {
-        if (allCol.includes(r)) {
-          rowData[r] = row.original[r];
+    const exportedRows = rows.map((row) => {
+      const exportedRow = {};
+      tableColumns.forEach((column) => {
+        const { accessorKey } = column;
+        if (row.original.hasOwnProperty(accessorKey)) {
+          exportedRow[accessorKey] = row.original[accessorKey];
+        } else {
+          exportedRow[accessorKey] = ''; // Add an empty value for missing headers
         }
       });
-      return rowData;
+      return exportedRow;
     });
-    csvExporter.generateCsv(filteredRows);
+
+    const csvContent = [
+      tableColumns.map((column) => column.header).join(','),
+      ...exportedRows.map((row) => tableColumns.map((column) => row[column.accessorKey]).join(',')),
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+    saveAs(blob, 'COIN_Table_exported_data.csv');
   };
 
-  const handleExportData = () => {
-    csvExporter.generateCsv(tableData);
-  };
+  // const handleExportData = () => {
+  //   csvExporter.generateCsv(tableData);
+  // };
 
   // logic for export data in diffrerent formats
 

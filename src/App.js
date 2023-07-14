@@ -264,8 +264,8 @@ function App() {
         y.parentNode.insertBefore(t, y);
       })(window, document, 'clarity', 'script', ${
         process.env.REACT_APP_STAGE === 'prod'
-          ? process.env.CLARITY_KEY_DEV
-          : process.env.CLARITY_KEY_PROD
+          ? process.env.REACT_APP_CLARITY_KEY_PROD
+          : process.env.REACT_APP_CLARITY_KEY_DEV
       });`}
           </script>
         </Helmet>
