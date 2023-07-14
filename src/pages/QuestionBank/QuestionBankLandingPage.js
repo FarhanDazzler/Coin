@@ -14,12 +14,14 @@ import ModifyStandard from './ModifyStandard';
 import { getSection1QuestionDataAction } from '../../redux/QuestionBank/QuestionBankAction';
 import { getRepositoryOfControlID } from '../../redux/Questions/QuestionsAction';
 import ModifyStandardChangeLang from './ModifyStandardChangeLang';
+import { useHistory } from 'react-router-dom';
 
 const QuestionBank = () => {
   const [openCreateQuestions, setOpenCreateQuestions] = useState(false);
   const [openModifyStandard, setOpenModifyStandard] = useState(false);
   const [editModifyMICS, setEditModifyMICS] = useState('');
   const dispatch = useDispatch();
+  const history = useHistory();
   const [isQuestionbankChnageLang, setIsQuestionbankChnageLang] = useState(false);
 
   useEffect(() => {
@@ -99,7 +101,10 @@ const QuestionBank = () => {
                   variant="outlined"
                   size="large"
                   startIcon={<TranslateIcon />}
-                  onClick={() => handleChangeLang('MICS-Specific')}
+                  onClick={() => {
+                    history.push('/questionbank/change-language');
+                    // handleChangeLang('MICS-Specific');
+                  }}
                 >
                   <span className="text-white">Change language</span>
                 </Button>

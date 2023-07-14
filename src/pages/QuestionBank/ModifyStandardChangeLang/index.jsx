@@ -9,6 +9,7 @@ import AddSection1Questions from '../ModifyStandard/AddSection1Question';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
 import { getSection1QuestionDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
+import PageWrapper from '../../../components/wrappers/PageWrapper';
 
 const ModifyStandardChangeLang = ({ open, handleClose }) => {
   const [activeType, setActiveType] = useState('Standard');
@@ -108,117 +109,113 @@ const ModifyStandardChangeLang = ({ open, handleClose }) => {
 
   return (
     <div>
-      <CustomModal
-        className="modify-standard"
-        open={open}
-        title={<span>Modify Questions Language</span>}
-        width={1080}
-        onClose={handleClose}
-      >
-        <div className="buttons">
-          <Button
-            className="mx-3"
-            color={activeType === 'Standard' ? 'neutral' : 'silver'}
-            onClick={() => handleSetType('Standard')}
-          >
-            Standard
-          </Button>
-          <Button
-            className="mx-3"
-            color={activeType === 'MICS-Specific' ? 'neutral' : 'silver'}
-            onClick={() => handleSetType('MICS-Specific')}
-          >
-            MICS-Specific
-          </Button>
-        </div>
+      <>
+        <div className="container py-5 langage-bg">
+          <div className="buttons">
+            <Button
+              className="mx-3"
+              color={activeType === 'Standard' ? 'neutral' : 'silver'}
+              onClick={() => handleSetType('Standard')}
+            >
+              Standard
+            </Button>
+            <Button
+              className="mx-3"
+              color={activeType === 'MICS-Specific' ? 'neutral' : 'silver'}
+              onClick={() => handleSetType('MICS-Specific')}
+            >
+              MICS-Specific
+            </Button>
+          </div>
 
-        {activeType === 'Standard' && (
-          <>
-            <div className="select-light row">
-              <div className="col-md-3">
-                <Form.Group className="input-group mb-3">
-                  <Form.Control
-                    as="select"
-                    name="template"
-                    placeholder=""
-                    value={template_ID}
-                    className="form-select"
-                    onChange={handleChange}
-                  >
-                    {TemplateOptions.map((data, i) => (
-                      <option value={data?.value} key={i}>
-                        {data?.label}
-                      </option>
-                    ))}
-                  </Form.Control>
-                </Form.Group>
-              </div>
-
-              {selectContrilId ? (
+          {activeType === 'Standard' && (
+            <>
+              <div className="select-light row">
                 <div className="col-md-3">
                   <Form.Group className="input-group mb-3">
-                    <div style={{ width: '300px' }}>
-                      <Select
-                        maxMenuHeight={200}
-                        placeholder="Control ID * "
-                        value={controlIDOption}
-                        defaultValue={controlIDOption}
-                        onChange={(e) => handleChangeControlId(e)}
-                        className="l-input"
-                        //MenuProps={MenuProps}
-                        //inputProps={{ 'aria-label': 'Without label' }}
-                        options={controlIDList}
-                      />
-                    </div>
+                    <Form.Control
+                      as="select"
+                      name="template"
+                      placeholder=""
+                      value={template_ID}
+                      className="form-select"
+                      onChange={handleChange}
+                    >
+                      {TemplateOptions.map((data, i) => (
+                        <option value={data?.value} key={i}>
+                          {data?.label}
+                        </option>
+                      ))}
+                    </Form.Control>
                   </Form.Group>
                 </div>
-              ) : (
-                ''
-              )}
-            </div>
-            <div className="note">
-              <p>
-                <span>
-                  <img src={info} />
-                </span>
-                Any modifications to Standard Questions will reflect in all Assessments & Surveys.
-              </p>
-            </div>
-            <div className="questions-list-main-wrapper">
-              <div className="pt-5">
-                {section1QuestionsData.map((data, i) => (
-                  <QuestionsWithAction
-                    templateType={template_ID}
-                    number={i + 1}
-                    text={data.question_text}
-                    withAction={true}
-                    active={true}
-                    block={data}
-                    allQuestions={section1Questions}
-                    isChangeLang
-                  />
-                ))}
-                {finalTemplate_id === 'e' ? (
-                  <p style={{ textAlign: 'center', marginBottom: '50px' }}>
-                    Select Control ID to get Questions
-                  </p>
+
+                {selectContrilId ? (
+                  <div className="col-md-3">
+                    <Form.Group className="input-group mb-3">
+                      <div style={{ width: '300px' }}>
+                        <Select
+                          maxMenuHeight={200}
+                          placeholder="Control ID * "
+                          value={controlIDOption}
+                          defaultValue={controlIDOption}
+                          onChange={(e) => handleChangeControlId(e)}
+                          className="l-input"
+                          //MenuProps={MenuProps}
+                          //inputProps={{ 'aria-label': 'Without label' }}
+                          options={controlIDList}
+                        />
+                      </div>
+                    </Form.Group>
+                  </div>
                 ) : (
-                  section1QuestionsData.length == 0 && (
-                    <p style={{ textAlign: 'center', marginBottom: '50px' }}>No Question Found</p>
-                  )
+                  ''
                 )}
               </div>
-            </div>
-          </>
-        )}
-        {activeType === 'MICS-Specific' && <h1> Coming soon!</h1>}
-        {/*{activeType === 'MICS-Specific' && <MICSSpecific handleClose={handleClose} />}*/}
-      </CustomModal>
-      <AddSection1Questions
-        controlId={finalTemplate_id}
-        open={showAddQuestion}
-        handleClose={handleAddQuestionClose}
-      />
+              <div className="note">
+                <p>
+                  <span>
+                    <img src={info} />
+                  </span>
+                  Any modifications to Standard Questions will reflect in all Assessments & Surveys.
+                </p>
+              </div>
+              <div className="questions-list-main-wrapper">
+                <div className="pt-5">
+                  {section1QuestionsData.map((data, i) => (
+                    <QuestionsWithAction
+                      templateType={template_ID}
+                      number={i + 1}
+                      text={data.question_text}
+                      withAction={true}
+                      active={true}
+                      block={data}
+                      allQuestions={section1Questions}
+                      isChangeLang
+                    />
+                  ))}
+                  {finalTemplate_id === 'e' ? (
+                    <p style={{ textAlign: 'center', marginBottom: '50px' }}>
+                      Select Control ID to get Questions
+                    </p>
+                  ) : (
+                    section1QuestionsData.length == 0 && (
+                      <p style={{ textAlign: 'center', marginBottom: '50px' }}>No Question Found</p>
+                    )
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+          {activeType === 'MICS-Specific' && <h1> Coming soon!</h1>}
+          {/*{activeType === 'MICS-Specific' && <MICSSpecific handleClose={handleClose} />}*/}
+        </div>
+        <AddSection1Questions
+          controlId={finalTemplate_id}
+          open={showAddQuestion}
+          handleClose={handleAddQuestionClose}
+        />
+      </>
     </div>
   );
 };
