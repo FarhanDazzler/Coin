@@ -1,4 +1,57 @@
 import * as React from 'react';
+import { Badge } from '@mantine/core';
+
+export const Badge_apply = ({ data }) => {
+  if (data.toUpperCase() === 'PASS') {
+    return (
+      <Badge color="green" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'COMPLETE' || data === 'UNDER REVIEW') {
+    return (
+      <Badge color="green" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'SUBMITED' || data === 'UNDER REVIEWS') {
+    return (
+      <Badge color="green" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'FAIL') {
+    return (
+      <Badge color="red" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'IN PROGRESS') {
+    return (
+      <Badge color="orange" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'NOT STARTED' || data === 'UNDER REVIEW') {
+    return (
+      <Badge color="gray" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'N/A' || data.toUpperCase() === 'NA') {
+    return (
+      <Badge color="gray" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+};
 
 export const class_to_apply = (item) => {
   let className = '';
