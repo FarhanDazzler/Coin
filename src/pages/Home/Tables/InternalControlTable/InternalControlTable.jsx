@@ -10,7 +10,10 @@ import NoDataPlaceholder from '../../../../components/NoDataPlaceholder';
 import { getInternalControlTableData } from '../../../../redux/DashBoard/DashBoardAction';
 import { getInternalControlDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
 import TableLoader from '../../../../components/UI/TableLoader';
-import { class_to_apply } from '../../V2/InternalControlHomePage/HomePageTable/constant';
+import {
+  class_to_apply,
+  Badge_apply,
+} from '../../V2/InternalControlHomePage/HomePageTable/constant';
 import FilterButtons from '../../../../components/FilterButtons';
 import Button from '../../../../components/UI/Button';
 import {
@@ -177,11 +180,7 @@ const InternalControlTable = ({
       cellClassName: 'dashboardCell',
       size: 100,
       Cell: (row) => {
-        return (
-          <span className={class_to_apply(row.row.original.KPI_Result)}>
-            {row.row.original.KPI_Result}
-          </span>
-        );
+        return <Badge_apply data={row.row.original.KPI_Result} />;
       },
     },
     {
@@ -193,11 +192,7 @@ const InternalControlTable = ({
       cellClassName: 'dashboardCell',
       size: 150,
       Cell: (row) => {
-        return (
-          <span className={class_to_apply(row.row.original.Assessment_Result)}>
-            {row.row.original.Assessment_Result}
-          </span>
-        );
+        return <Badge_apply data={row.row.original.Assessment_Result} />;
       },
     },
     {
@@ -209,11 +204,7 @@ const InternalControlTable = ({
       cellClassName: 'dashboardCell',
       size: 150,
       Cell: (row) => {
-        return (
-          <span className={class_to_apply(row.row.original.Compliance_Result)}>
-            {row.row.original.Compliance_Result}
-          </span>
-        );
+        return <Badge_apply data={row.row.original.Compliance_Result} />;
       },
     },
     {

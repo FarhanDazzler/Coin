@@ -6,7 +6,10 @@ import {
   getControlDataGcdAction,
   getControlDataAction,
 } from '../../../../redux/ControlData/ControlDataAction';
-import { class_to_apply } from '../../V2/InternalControlHomePage/HomePageTable/constant';
+import {
+  class_to_apply,
+  Badge_apply,
+} from '../../V2/InternalControlHomePage/HomePageTable/constant';
 import Table from '../../../../components/UI/Table';
 import Table2 from '../../../../components/UI/Table/Table2';
 import { getControlOwnerTableData } from '../../../../redux/DashBoard/DashBoardAction';
@@ -154,11 +157,7 @@ const ControlOwnerTable = ({
       cellClassName: 'dashboardCell',
       size: 100,
       Cell: (row) => {
-        return (
-          <span className={class_to_apply(row.row.original.KPI_Result)}>
-            {row.row.original.KPI_Result}
-          </span>
-        );
+        return <Badge_apply data={row.row.original.KPI_Result} />;
       },
     },
     {
@@ -170,11 +169,7 @@ const ControlOwnerTable = ({
       cellClassName: 'dashboardCell',
       size: 150,
       Cell: (row) => {
-        return (
-          <span className={class_to_apply(row.row.original.Assessment_Result)}>
-            {row.row.original.Assessment_Result}
-          </span>
-        );
+        return <Badge_apply data={row.row.original.Assessment_Result} />;
       },
     },
     {
@@ -186,11 +181,7 @@ const ControlOwnerTable = ({
       cellClassName: 'dashboardCell',
       size: 150,
       Cell: (row) => {
-        return (
-          <span className={class_to_apply(row.row.original.Compliance_Result)}>
-            {row.row.original.Compliance_Result}
-          </span>
-        );
+        return <Badge_apply data={row.row.original.Compliance_Result} />;
       },
     },
     {
