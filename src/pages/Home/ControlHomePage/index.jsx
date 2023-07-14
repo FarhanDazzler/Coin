@@ -138,6 +138,7 @@ const ControlHomePage = () => {
                   amount={statusInfo.draft}
                   infoText={<>{t('selfAssessment.homePage.controleOwner.statsCard_DRAFTED')}</>}
                 />
+                {/* Re-Assess card will be used in Phase-2 */}
                 {/* <AmountInfo
                   amount={statusInfo.reAssessed}
                   infoText={<>{t('selfAssessment.homePage.controleOwner.statsCard_RE_ASSESS')}</>}
