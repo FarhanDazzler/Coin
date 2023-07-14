@@ -138,10 +138,10 @@ const ControlHomePage = () => {
                   amount={statusInfo.draft}
                   infoText={<>{t('selfAssessment.homePage.controleOwner.statsCard_DRAFTED')}</>}
                 />
-                <AmountInfo
+                {/* <AmountInfo
                   amount={statusInfo.reAssessed}
                   infoText={<>{t('selfAssessment.homePage.controleOwner.statsCard_RE_ASSESS')}</>}
-                />
+                /> */}
               </div>
             </div>
           </div>
