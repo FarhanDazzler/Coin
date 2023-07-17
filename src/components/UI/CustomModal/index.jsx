@@ -30,20 +30,23 @@ const CustomModal = ({
             <div className="model-header">
               {title}
 
-              <p className="mb-2">
-                <br />
-                <br />
-                <span className="font-weight-bold">Control Name: </span>
-                <span>{stateControlData.control_name}</span>
-              </p>
-              { controlNameFromID &&
+              {stateControlData.control_name && (
+                <p className="mb-2">
+                  <br />
+                  <br />
+                  <span className="font-weight-bold">Control Name: </span>
+                  <span>{stateControlData.control_name}</span>
+                </p>
+              )}
+
+              {controlNameFromID && (
                 <p>
                   <br />
                   <br />
                   <span className="">Control Name: </span>
                   <span>{controlNameFromID}</span>
                 </p>
-              }
+              )}
             </div>
           )}
           <div className={`modal-body ${bodyClassName ? bodyClassName : ''}`} id="modal-body">

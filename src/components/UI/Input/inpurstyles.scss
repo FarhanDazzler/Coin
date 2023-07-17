@@ -6,6 +6,9 @@
   }
   .MuiOutlinedInput-input {
     padding: 5px 8px;
+    &:disabled {
+      background-color: #f8f9fa;
+    }
   }
   .MuiFormLabel-root {
     font-weight: 700;

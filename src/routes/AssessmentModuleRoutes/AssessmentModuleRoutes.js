@@ -9,12 +9,18 @@ import AddValues_MDM_Mics_Framework from '../../pages/MDM/MICS_Framework/InputPa
 import AssessmentBankLandingPage from '../../pages/AssessmentBank/AssessmentBankLandingPage';
 import ScheduleSurveyPage from '../../pages/AssessmentBank/ScheduleSurvey/ScheduleSurveyPage';
 import AssessmentDetailsTableData from '../../pages/AssessmentBank/Table/AssessmentDetailsTableData.jsx';
+import QuestionBankChangeLanguage from '../../pages/QuestionBankChangeLanguage';
 
 export const AssessmentModuleRoutes = [
   {
     path: '/questionbank',
     exact: true,
     component: QuestionBank,
+  },
+  {
+    path: '/questionbank/change-language',
+    exact: true,
+    component: QuestionBankChangeLanguage,
   },
   {
     path: '/master-data-management',

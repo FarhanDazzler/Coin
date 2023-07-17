@@ -6,6 +6,7 @@ import { ReactComponent as Delete } from '../../../assets/images/Trash.svg';
 import RemoveWarningModal from '../AttributesRemoveModal';
 import EditSection1Question from './EditSection1Question';
 import EditSection1QuestionOption from '../../../pages/QuestionBank/ModifyStandard/EditSectionQuestionOption';
+import EditSection1QuestionChangeLang from './EditSection1QuestionChangeLang';
 
 const QuestionsWithAction = ({
   number,
@@ -13,13 +14,15 @@ const QuestionsWithAction = ({
   text,
   withAction,
   active,
-  handleDelete = () => { },
+  handleDelete = () => {},
   allQuestions = [],
-  handleSave = () => { },
-  templateType
+  handleSave = () => {},
+  templateType,
+  isChangeLang,
 }) => {
   const [showEditModal, setShowEditModal] = useState(null);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [changeLangModal, setChangeLangModal] = useState(null);
   return (
     <div className="questions-with-action-wrapper" style={{ opacity: active ? 1 : 0.5 }}>
       <div className="d-flex align-items-center w-100">
@@ -30,25 +33,34 @@ const QuestionsWithAction = ({
         <div className="d-flex align-items-center">
           <Button
             color="secondary"
+            className="w-max"
             size="large"
             startIcon={<EditIcon />}
             variant="text"
-            onClick={() => setShowEditModal(block.q_id)}
-          >
-            Edit
-          </Button>
-          <Button
-            color="secondary"
-            size="large"
-            startIcon={<Delete />}
-            className="ml-2"
-            variant="text"
             onClick={() => {
-              setShowRemoveModal(true);
+              if (isChangeLang) {
+                setChangeLangModal(block.q_id);
+              } else {
+                setShowEditModal(block.q_id);
+              }
             }}
           >
-            Delete
+            {isChangeLang ? 'Select language' : 'Edit'}
           </Button>
+          {!isChangeLang && (
+            <Button
+              color="secondary"
+              size="large"
+              startIcon={<Delete />}
+              className="ml-2"
+              variant="text"
+              onClick={() => {
+                setShowRemoveModal(true);
+              }}
+            >
+              Delete
+            </Button>
+          )}
         </div>
       )}
       {showRemoveModal && (
@@ -61,25 +73,33 @@ const QuestionsWithAction = ({
           }}
         />
       )}
-      {
-        templateType === "Standard" ?
-          <EditSection1Question
-            block={block}
-            showEditModal={showEditModal}
-            setShowEditModal={setShowEditModal}
-            allQuestions={allQuestions}
-            handleSave={handleSave}
-          />
-          :
-          <EditSection1QuestionOption
-            block={block}
-            showEditModal={showEditModal}
-            setShowEditModal={setShowEditModal}
-            allQuestions={allQuestions}
-            handleSave={handleSave}
-          />
-      }
+      {templateType === 'Standard' ? (
+        <EditSection1Question
+          block={block}
+          showEditModal={showEditModal}
+          setShowEditModal={setShowEditModal}
+          allQuestions={allQuestions}
+          handleSave={handleSave}
+        />
+      ) : (
+        <EditSection1QuestionOption
+          block={block}
+          showEditModal={showEditModal}
+          setShowEditModal={setShowEditModal}
+          allQuestions={allQuestions}
+          handleSave={handleSave}
+        />
+      )}
 
+      {changeLangModal && (
+        <EditSection1QuestionChangeLang
+          block={block}
+          showEditModal={changeLangModal}
+          setShowEditModal={setChangeLangModal}
+          allQuestions={allQuestions}
+          handleSave={handleSave}
+        />
+      )}
     </div>
   );
 };

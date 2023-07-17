@@ -1,17 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import CustomModal from '../CustomModal';
-import Input from '../Input';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import Button from '../Button';
-import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
-import Select from '../Select/Select';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
-import DropdownMenu from '../DropdownMenu';
-import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
+import { question1EditLoadingListSelector } from '../../../redux/Questions/QuestionsSelectors';
 import {
   addSection1OptionQuestions,
   deleteSection1QuestionsOption,
@@ -19,14 +8,28 @@ import {
   updateOptionSection1Questions,
   updateSection1Questions,
 } from '../../../redux/Questions/QuestionsAction';
-import RemoveWarningModal from '../AttributesRemoveModal';
 import blockType from '../../RenderBlock/constant';
-import { Checkbox, Loader, Text } from '@mantine/core';
-import { question1EditLoadingListSelector } from '../../../redux/Questions/QuestionsSelectors';
-import { QuestionType } from '../../../pages/QuestionBank/ModifyStandard/AddSection1Question';
+import { v4 as uuidv4 } from 'uuid';
+import CustomModal from '../CustomModal';
+import Input from '../Input';
 import { Form } from 'react-bootstrap';
+import {
+  QuestionType,
+  TranslateType,
+} from '../../../pages/QuestionBank/ModifyStandard/AddSection1Question';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import Select from '../Select/Select';
+import { Checkbox, Loader, Text } from '@mantine/core';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import RemoveWarningModal from '../AttributesRemoveModal';
+import Button from '../Button';
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
+import EditSection1QuestionChangeLangDesign from './EditSection1QuestionChangeLangDesign';
 
-const EditSection1Question = ({
+const EditSection1QuestionChangeLang = ({
   showEditModal,
   block: apiBlock = {},
   setShowEditModal,
@@ -277,142 +280,54 @@ const EditSection1Question = ({
     <CustomModal
       open={showEditModal === block.q_id}
       onClose={() => setShowEditModal(false)}
-      width={900}
-      title="Edit Question"
+      width={1200}
+      title="Change Question Language"
       bodyClassName="p-0"
     >
       <div>
-        <div className="p-5">
-          <Input
-            label={'Question text'}
-            value={question}
-            block={block}
-            handleChange={handleChangeQuestion}
-            formControlProps={{ className: 'input-wrapper full-input' }}
-          />
-          <div className="d-flex justify-content-end pt-5">
-            <Form.Group className="input-group mb-3" style={{ maxWidth: 193 }}>
-              <Form.Control
-                as="select"
-                name=""
-                placeholder=""
-                className="form-select"
-                onChange={(e) => {
-                  setBlock({ ...block, question_type: e.target.value });
-                }}
-                value={block.question_type}
-              >
-                <option value="" disabled>
-                  Select Question Type
-                </option>
-                {QuestionType.map((data, i) => (
-                  <option value={data?.value} key={i}>
-                    {data?.label}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
+        <div className="d-flex">
+          <div className="p-5 w-full">
+            <div style={{ height: 50 }} />
+            <EditSection1QuestionChangeLangDesign
+              question={question}
+              block={block}
+              freeTextChildQId={freeTextChildQId}
+              questionOptions={questionOptions}
+              options={options}
+            />
           </div>
 
-          {['Free Text', 'Is AD'].includes(block.question_type) ? (
-            <div className="d-flex align-items-end justify-content-between">
-              <div className="my-2 pt-2 w-full">
-                <FormControl className="input-wrapper">
-                  <FormLabel>Sub question</FormLabel>
-                </FormControl>
-                <FormControl sx={{ width: '100%', color: '#000' }} size="small">
-                  <Select
-                    placeholder="Select sub question"
-                    value={freeTextChildQId}
-                    onChange={({ target: { value } }) => setFreeTextChildQId(value)}
-                    options={options}
-                    inputProps={{ 'aria-label': 'Without label' }}
-                    inputLook
-                  />
-                </FormControl>
-              </div>
-              <div style={{ minWidth: 200 }} className="pl-3 mb-3 d-flex justify-content-end">
-                <Checkbox
-                  color={'yellow'}
-                  onChange={({ target: { checked } }) => setIsFailedFreeText(checked)}
-                  label={<Text align="left">Failed questions</Text>}
-                  checked={isFailedFreeText}
-                />
-              </div>
+          <div className="p-5 w-full">
+            <div className="d-flex justify-content-end">
+              <Form.Group className="input-group mb-3" style={{ maxWidth: 193 }}>
+                <Form.Control as="select" name="" placeholder="" className="form-select">
+                  <option value="" disabled>
+                    Select language
+                  </option>
+                  {TranslateType.map((data, i) => (
+                    <option value={data?.value} key={i}>
+                      {data?.label}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
             </div>
-          ) : (
-            <div className="mt-2 w-full">
-              <FormControl className="input-wrapper">
-                <FormLabel>Question options</FormLabel>
-              </FormControl>
-              {questionOptions.map((op) => {
-                if (op.isRemove) return;
-                const selectedData = op?.is_Terminating ? 'is_Terminating' : op?.child_question;
-                return (
-                  <div className="my-2 d-flex align-items-center" key={op.option_id}>
-                    <Input
-                      value={op.option_value}
-                      block={op}
-                      placeholder="Enter question options"
-                      handleChange={handleChangeOption}
-                    />
-                    <FormControl sx={{ m: 1, width: '30%', color: '#000' }} size="small">
-                      <Select
-                        placeholder="Select sub question"
-                        value={selectedData}
-                        onChange={({ target: { value } }) =>
-                          handleSelectOptions({ child_question: value }, op)
-                        }
-                        options={options}
-                        inputLook
-                      />
-                    </FormControl>
-
-                    <div
-                      style={{ minWidth: 164 }}
-                      className="pl-3 d-flex justify-content-end radio-label"
-                    >
-                      <Checkbox
-                        color={'yellow'}
-                        checked={op.is_Failing === 1}
-                        onChange={({ target: { checked } }) =>
-                          handleSelectOptions({ is_Failing: checked ? 1 : 0 }, op)
-                        }
-                        label={<Text align="left">Failed questions</Text>}
-                      />
-                    </div>
-                    <Tooltip title="Delete" placement="top">
-                      <IconButton onClick={handleDeleteOption(op)}>
-                        <DeleteOutlineIcon className="cursor-pointer" />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+            <EditSection1QuestionChangeLangDesign
+              question={question}
+              block={block}
+              handleChangeQuestion={handleChangeQuestion}
+              freeTextChildQId={freeTextChildQId}
+              setFreeTextChildQId={setFreeTextChildQId}
+              questionOptions={questionOptions}
+              handleChangeOption={handleChangeOption}
+              options={options}
+            />
+          </div>
         </div>
-
-        {showRemoveModal && (
-          <RemoveWarningModal
-            onClose={() => setShowRemoveModal(null)}
-            onConfirm={() => {
-              setShowRemoveModal(null);
-              handleDelete(block);
-            }}
-          />
-        )}
 
         <div className="footer-action">
           <div className="d-flex align-items-center justify-content-between">
-            <Button
-              color="silver"
-              startIcon={<LibraryAddOutlinedIcon />}
-              onClick={handleAddOptions}
-            >
-              Add options
-            </Button>
-
+            <div />
             <div>
               <Button variant="outlined" color="secondary" onClick={() => setShowEditModal(null)}>
                 Cancel
@@ -432,5 +347,4 @@ const EditSection1Question = ({
     </CustomModal>
   );
 };
-
-export default EditSection1Question;
+export default EditSection1QuestionChangeLang;
