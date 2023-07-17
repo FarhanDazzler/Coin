@@ -24,6 +24,10 @@ import {
   ACTION_DELETE_SECTION1_OPTIONS_DATA,
   ACTION_DELETE_SECTION1_OPTIONS_DATA_SUCCESS,
   ACTION_DELETE_SECTION1_OPTIONS_DATA_FAILED,
+  ATTEMPT_GET_SECTION1_QUESTIONS_TRANSLATION,
+  GET_SECTION1_QUESTIONS_TRANSLATION_SUCCESS,
+  GET_SECTION1_QUESTIONS_TRANSLATION_FAILED,
+  ATTEMPT_EDIT_SECTION1_QUESTIONS_TRANSLATION,
 } from '../types';
 import { ACTION_ADD_ERROR_NOTIFICATION_DATA } from '../ErrorNotification/ErrorNotificationReducer';
 import { Axios } from '../../api/axios';
@@ -52,6 +56,50 @@ function* getSection1QuestionData(payload) {
     }
   } catch (e) {
     yield put({ type: ACTION_GET_SECTION1_QUESTIONS_DATA_FAILED, error: getSimplifiedError(e) });
+  }
+}
+
+function getSection1QuestionDataTranslationApiCall(data) {
+  return Axios.post('/get_section1_questions_translation', data?.payload?.data);
+}
+function* getSection1QuestionTranslationData(payload) {
+  try {
+    const response = yield getSection1QuestionDataTranslationApiCall(payload);
+    if (response?.success === true) {
+      yield put({
+        type: GET_SECTION1_QUESTIONS_TRANSLATION_SUCCESS,
+        data: response?.data,
+      });
+    } else {
+      yield put({
+        type: GET_SECTION1_QUESTIONS_TRANSLATION_FAILED,
+        message: 'Somthing went wrong',
+      });
+    }
+  } catch (e) {
+    yield put({ type: ATTEMPT_GET_SECTION1_QUESTIONS_TRANSLATION, error: getSimplifiedError(e) });
+  }
+}
+
+function editSection1QuestionDataTranslationApiCall(data) {
+  return Axios.post('/get_section1_questions_translation', data?.payload?.data);
+}
+function* editSection1QuestionTranslationData(payload) {
+  try {
+    const response = yield editSection1QuestionDataTranslationApiCall(payload);
+    if (response?.success === true) {
+      yield put({
+        type: GET_SECTION1_QUESTIONS_TRANSLATION_SUCCESS,
+        data: response?.data,
+      });
+    } else {
+      yield put({
+        type: GET_SECTION1_QUESTIONS_TRANSLATION_FAILED,
+        message: 'Somthing went wrong',
+      });
+    }
+  } catch (e) {
+    yield put({ type: ATTEMPT_GET_SECTION1_QUESTIONS_TRANSLATION, error: getSimplifiedError(e) });
   }
 }
 
@@ -297,6 +345,8 @@ function* questionBankData() {
   yield takeEvery(ACTION_DELETE_SECTION1_OPTIONS_DATA, deleteSection1OptionData);
   yield takeEvery(ACTION_EDIT_SECTION1_QUESTIONS_DATA, editSection1QuestionData);
   yield takeEvery(ACTION_EDIT_SECTION1_OPTIONS_DATA, editSection1OptionsData);
+  yield takeEvery(ATTEMPT_GET_SECTION1_QUESTIONS_TRANSLATION, getSection1QuestionTranslationData);
+  yield takeEvery(ATTEMPT_EDIT_SECTION1_QUESTIONS_TRANSLATION, editSection1QuestionTranslationData);
 }
 
 export default questionBankData;

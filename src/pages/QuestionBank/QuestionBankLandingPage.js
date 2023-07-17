@@ -13,16 +13,13 @@ import CreateQuestions from './CreateQuestions';
 import ModifyStandard from './ModifyStandard';
 import { getSection1QuestionDataAction } from '../../redux/QuestionBank/QuestionBankAction';
 import { getRepositoryOfControlID } from '../../redux/Questions/QuestionsAction';
-import ModifyStandardChangeLang from './ModifyStandardChangeLang';
 import { useHistory } from 'react-router-dom';
 
 const QuestionBank = () => {
   const [openCreateQuestions, setOpenCreateQuestions] = useState(false);
-  const [openModifyStandard, setOpenModifyStandard] = useState(false);
   const [editModifyMICS, setEditModifyMICS] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
-  const [isQuestionbankChnageLang, setIsQuestionbankChnageLang] = useState(false);
 
   useEffect(() => {
     let payload = {
@@ -37,18 +34,9 @@ const QuestionBank = () => {
   const handleCloseCreateQuestions = () => {
     setOpenCreateQuestions(false);
   };
-  const handleOpenModifyStandard = () => {
-    setOpenModifyStandard(true);
-  };
-  const handleCloseModifyStandard = () => {
-    setOpenModifyStandard(false);
-  };
 
   const handleEditModifyMICS = (type) => {
     setEditModifyMICS(type);
-  };
-  const handleChangeLang = () => {
-    setIsQuestionbankChnageLang(!isQuestionbankChnageLang);
   };
   const handleCloseEditModifyMICS = () => {
     setEditModifyMICS('');
@@ -125,7 +113,6 @@ const QuestionBank = () => {
           type={editModifyMICS}
           handleClose={handleCloseEditModifyMICS}
         />
-        <ModifyStandardChangeLang open={isQuestionbankChnageLang} handleClose={handleChangeLang} />
       </div>
     </PageWrapper>
   );

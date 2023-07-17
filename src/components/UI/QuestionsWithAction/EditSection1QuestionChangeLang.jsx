@@ -11,23 +11,12 @@ import {
 import blockType from '../../RenderBlock/constant';
 import { v4 as uuidv4 } from 'uuid';
 import CustomModal from '../CustomModal';
-import Input from '../Input';
 import { Form } from 'react-bootstrap';
-import {
-  QuestionType,
-  TranslateType,
-} from '../../../pages/QuestionBank/ModifyStandard/AddSection1Question';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import Select from '../Select/Select';
-import { Checkbox, Loader, Text } from '@mantine/core';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import RemoveWarningModal from '../AttributesRemoveModal';
+import { TranslateType } from '../../../pages/QuestionBank/ModifyStandard/AddSection1Question';
+import { Loader } from '@mantine/core';
 import Button from '../Button';
-import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import EditSection1QuestionChangeLangDesign from './EditSection1QuestionChangeLangDesign';
+import { getSection1QuestionTranslationDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
 
 const EditSection1QuestionChangeLang = ({
   showEditModal,
@@ -44,12 +33,21 @@ const EditSection1QuestionChangeLang = ({
   const [freeTextChildQId, setFreeTextChildQId] = useState('');
   const question1EditLoadingList = useSelector(question1EditLoadingListSelector);
   const [isFailedFreeText, setIsFailedFreeText] = useState(false);
-  const [showRemoveModal, setShowRemoveModal] = useState(null);
   const [saveLoading, setSaveLoading] = useState(false);
+  const section1GetQuestionTranslation = useSelector(
+    (state) => state?.section1QuestionData?.section1GetQuestionTranslation,
+  );
+  const [loading, setLoading] = useState(false);
+
+  console.log('section1GetQuestionTranslation', section1GetQuestionTranslation);
 
   useEffect(() => {
     if (questionOptions.length > 0) setFreeTextChildQId(questionOptions[0].child_question);
   }, [questionOptions]);
+
+  useEffect(() => {
+    setLoading(section1GetQuestionTranslation.loading);
+  }, [section1GetQuestionTranslation.loading]);
 
   useEffect(() => {
     if (saveLoading && question1EditLoadingList.length === 0) {
@@ -71,6 +69,10 @@ const EditSection1QuestionChangeLang = ({
       setIsFailedFreeText(!!apiBlock.options[0]?.is_Failing);
     }
   }, [apiBlock.options]);
+
+  useEffect(() => {
+    dispatch(getSection1QuestionTranslationDataAction([1, 'French']));
+  }, []);
 
   useEffect(() => {
     setBlock(apiBlock);
@@ -97,42 +99,6 @@ const EditSection1QuestionChangeLang = ({
     });
 
     setQuestionOptions(updateOp);
-  };
-
-  const handleSelectOptions = (value, op) => {
-    const updateQ = questionOptions.map((upOp) => {
-      if (upOp.option_id === op.option_id) {
-        return { ...upOp, ...value, isEdit: true };
-      }
-      return { ...upOp };
-    });
-    setQuestionOptions(updateQ);
-  };
-
-  const handleDeleteOption = (op) => () => {
-    setShowRemoveModal(op);
-  };
-
-  const handleDelete = () => {
-    const updateQ = questionOptions.filter((upOp) => upOp.option_id !== showRemoveModal.option_id);
-    if (!showRemoveModal.isNew)
-      dispatch(deleteSection1QuestionsOption({ option_id: showRemoveModal.option_id }));
-    setQuestionOptions(updateQ);
-  };
-
-  const handleAddOptions = () => {
-    setQuestionOptions([
-      ...questionOptions,
-      {
-        child_question: '',
-        is_Terminating: 0,
-        option_id: Date.now(),
-        option_value: '',
-        q_id: block.q_id,
-        isNew: true,
-        is_Failing: 0,
-      },
-    ]);
   };
 
   const handleSaveQuestion = () => {
@@ -312,16 +278,22 @@ const EditSection1QuestionChangeLang = ({
                 </Form.Control>
               </Form.Group>
             </div>
-            <EditSection1QuestionChangeLangDesign
-              question={question}
-              block={block}
-              handleChangeQuestion={handleChangeQuestion}
-              freeTextChildQId={freeTextChildQId}
-              setFreeTextChildQId={setFreeTextChildQId}
-              questionOptions={questionOptions}
-              handleChangeOption={handleChangeOption}
-              options={options}
-            />
+            {loading ? (
+              <div className="question-loader">
+                <Loader />
+              </div>
+            ) : (
+              <EditSection1QuestionChangeLangDesign
+                question={question}
+                block={block}
+                handleChangeQuestion={handleChangeQuestion}
+                freeTextChildQId={freeTextChildQId}
+                setFreeTextChildQId={setFreeTextChildQId}
+                questionOptions={questionOptions}
+                handleChangeOption={handleChangeOption}
+                options={options}
+              />
+            )}
           </div>
         </div>
 
