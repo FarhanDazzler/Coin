@@ -125,7 +125,7 @@ const QuestionBank = () => {
           type={editModifyMICS}
           handleClose={handleCloseEditModifyMICS}
         />
-        <ModifyStandardChangeLang open={isQuestionbankChnageLang} handleClose={handleChangeLang} />
+        {/* <ModifyStandardChangeLang open={isQuestionbankChnageLang} handleClose={handleChangeLang} /> */}
       </div>
     </PageWrapper>
   );
