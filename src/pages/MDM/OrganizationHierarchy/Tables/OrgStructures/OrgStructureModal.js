@@ -144,7 +144,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
           : value.orgType === 'Country' && value.Org_name.slice(0, 3) === 'SSC'
           ? 'Off-Shore'
           : value.orgType === 'Country' && value.Org_name.slice(0, 3) !== 'SSC'
-          ? 'Near Shore'
+          ? 'On-Shore'
           : value.Category,
       Valid_from: value.validFrom,
       Valid_to: value.validTo,
