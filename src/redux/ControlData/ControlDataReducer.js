@@ -4,7 +4,7 @@ import {
   ACTION_GET_CONTROL_DATA_FAILED,
   ACTION_GET_CONTROL_DATA_GCD,
   ACTION_GET_CONTROL_DATA_GCD_FAILED,
-  ACTION_GET_CONTROL_DATA_GCD_SUCCESS
+  ACTION_GET_CONTROL_DATA_GCD_SUCCESS,
 } from '../types';
 
 const initialState = {
@@ -19,8 +19,7 @@ const initialState = {
     loading: false,
     error: null,
     success: null,
-  }
-
+  },
 };
 
 function getInitialState() {
@@ -37,8 +36,7 @@ export default function controlDataReducer(state = getInitialState(), action) {
           loading: true,
           error: '',
           success: '',
-        }
-
+        },
       };
     case ACTION_GET_CONTROL_DATA_SUCCESS:
       return {
@@ -48,8 +46,7 @@ export default function controlDataReducer(state = getInitialState(), action) {
           loading: false,
           error: '',
           success: 'Control Data fetched successfully',
-        }
-
+        },
       };
     case ACTION_GET_CONTROL_DATA_FAILED:
       return {
@@ -59,8 +56,7 @@ export default function controlDataReducer(state = getInitialState(), action) {
           loading: false,
           error: 'Failed',
           success: '',
-        }
-
+        },
       };
     case ACTION_GET_CONTROL_DATA_GCD:
       return {
@@ -70,8 +66,7 @@ export default function controlDataReducer(state = getInitialState(), action) {
           loading: true,
           error: '',
           success: '',
-        }
-
+        },
       };
     case ACTION_GET_CONTROL_DATA_GCD_SUCCESS:
       return {
@@ -81,8 +76,7 @@ export default function controlDataReducer(state = getInitialState(), action) {
           loading: false,
           error: '',
           success: 'Control Data GCD fetched successfully',
-        }
-
+        },
       };
     case ACTION_GET_CONTROL_DATA_GCD_FAILED:
       return {
@@ -92,8 +86,7 @@ export default function controlDataReducer(state = getInitialState(), action) {
           loading: false,
           error: 'Failed',
           success: '',
-        }
-
+        },
       };
     default:
       return state;

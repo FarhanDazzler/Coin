@@ -10,6 +10,7 @@ const ControlActions = () => {
   };
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   const stateGcdData = useSelector((state) => state?.controlData?.gcd?.data);
+  console.log('stateControlData', stateControlData);
   const isClear = (text) => activeTab === text;
   return (
     <div className="control-actions-wrapper">
@@ -89,11 +90,11 @@ const ControlActions = () => {
           <div>
             <p className="mb-2">
               <span className="font-weight-bold">Receiving entity: </span>
-              <span>{stateControlData.receiving_entity}</span>
+              <span>{stateControlData.Receiver}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Provider organization: </span>
-              <span>{stateControlData.provider_org}</span>
+              <span>{stateControlData.Provider}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Period of assessment: </span>
@@ -101,7 +102,7 @@ const ControlActions = () => {
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Assessment Cycle: </span>
-              <span>{stateControlData?.assessment_cycle}</span>
+              <span>{stateControlData?.Assessment_Cycle}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Frequency of control: </span>
@@ -113,11 +114,11 @@ const ControlActions = () => {
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Control owner: </span>
-              <span>{stateControlData.cowner}</span>
+              <span>{stateControlData.Control_Owner}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Control Oversight: </span>
-              <span>{stateControlData.coversight}</span>
+              <span>{stateControlData.Control_Oversight}</span>
             </p>
           </div>
         )}

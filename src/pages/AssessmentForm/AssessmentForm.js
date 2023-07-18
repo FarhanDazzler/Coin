@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
 import { useParams } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
@@ -13,6 +13,7 @@ import {
 import './AssessmentForm.scss';
 import HomeTableModal from '../../pages/Home/V2/InternalControlHomePage/HomeTableModal';
 import PageWrapper from '../../components/wrappers/PageWrapper';
+import { getControlOwnerDataSelector } from '../../redux/DashBoard/DashBoardSelectors';
 
 const AssessmentForm = () => {
   const { Assessment_id } = useParams();
@@ -24,10 +25,18 @@ const AssessmentForm = () => {
   const { accounts } = useMsal();
   const dispatch = useDispatch();
   const Id = Assessment_id || query.get('Assessment_id');
+  const getControlOwnerData = useSelector(getControlOwnerDataSelector);
+
   useEffect(() => {
+    const ownerData = (getControlOwnerData.data[0]?.cOwnerData || []).find(
+      (d) => d.Control_ID === Id,
+    );
+    if (!ownerData) return;
     let payload = {
       controlId: Id,
-      coOwner: state?.Control_Owner,
+      coOwner: ownerData.Control_Owner,
+      provider: ownerData.Provider,
+      ownerData,
     };
     let gcdPayload = {
       controlId: Id,

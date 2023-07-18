@@ -178,7 +178,6 @@ const TopBar = (props) => {
       setModule(newArray);
     }
   }, [apiRoles]);
-  console.log('@@@@@@@@@', props.isControlPage);
   const TopBar_SA = () => {
     // TOP BAR Buttons/ Tabs for Seld Assessment Module
     return (
