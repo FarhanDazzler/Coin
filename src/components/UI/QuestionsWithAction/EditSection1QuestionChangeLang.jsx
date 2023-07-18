@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { question1EditLoadingListSelector } from '../../../redux/Questions/QuestionsSelectors';
 import {
@@ -38,8 +38,8 @@ const EditSection1QuestionChangeLang = ({
     (state) => state?.section1QuestionData?.section1GetQuestionTranslation,
   );
   const [loading, setLoading] = useState(false);
-
-  console.log('section1GetQuestionTranslation', section1GetQuestionTranslation);
+  const [language, setLanguage] = useState('English');
+  console.log('block');
 
   useEffect(() => {
     if (questionOptions.length > 0) setFreeTextChildQId(questionOptions[0].child_question);
@@ -70,9 +70,9 @@ const EditSection1QuestionChangeLang = ({
     }
   }, [apiBlock.options]);
 
-  useEffect(() => {
-    dispatch(getSection1QuestionTranslationDataAction([1, 'French']));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getSection1QuestionTranslationDataAction([block?.q_id, language]));
+  // }, [block?.q_id, language]);
 
   useEffect(() => {
     setBlock(apiBlock);
@@ -266,7 +266,14 @@ const EditSection1QuestionChangeLang = ({
           <div className="p-5 w-full">
             <div className="d-flex justify-content-end">
               <Form.Group className="input-group mb-3" style={{ maxWidth: 193 }}>
-                <Form.Control as="select" name="" placeholder="" className="form-select">
+                <Form.Control
+                  as="select"
+                  name=""
+                  placeholder=""
+                  className="form-select"
+                  onChange={(val) => setLanguage(val)}
+                  value={language}
+                >
                   <option value="" disabled>
                     Select language
                   </option>
@@ -319,4 +326,4 @@ const EditSection1QuestionChangeLang = ({
     </CustomModal>
   );
 };
-export default EditSection1QuestionChangeLang;
+export default memo(EditSection1QuestionChangeLang);
