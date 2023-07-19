@@ -36,6 +36,11 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
   const [categoryValue, setCategoryValue] = useState('');
   const [orgTypeValue, setOrgTypeValue] = useState('');
   const getParentEntityState = useSelector(getParentEntitySelector);
+  useEffect(() => {
+    if (modalType === 'add') {
+      setEditTableData();
+    }
+  }, []);
   const orgTypeData = [
     {
       value: 'Zone',
@@ -142,7 +147,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
         value.orgType === 'Plant'
           ? 'N/A'
           : value.orgType === 'Country' && value.Org_name.slice(0, 3) === 'SSC'
-          ? 'Off-Shore'
+          ? value.Category
           : value.orgType === 'Country' && value.Org_name.slice(0, 3) !== 'SSC'
           ? 'On-Shore'
           : value.Category,
@@ -347,29 +352,17 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                         readOnly={false}
                         className="form-select"
                       >
-                        {modalType === 'add' ? (
+                        {values.orgType === 'BU' ||
+                        (values.orgType === 'Country' && values.Org_name.slice(0, 3) === 'SSC') ? (
+                          <option value="No">No</option>
+                        ) : values.orgType === 'Zone' ||
+                          values.orgType === 'Cognos' ||
+                          values.orgType === 'SAP' ? (
+                          <option value="N/A">N/A</option>
+                        ) : values.orgType === 'Country' &&
+                          values.Org_name.slice(0, 3) !== 'SSC' ? (
                           <>
-                            {values.orgType === 'BU' ||
-                            (values.orgType === 'Country' &&
-                              values.Org_name.slice(0, 3) === 'SSC') ? (
-                              <option value="No">No</option>
-                            ) : values.orgType === 'Zone' ||
-                              values.orgType === 'Cognos' ||
-                              values.orgType === 'SAP' ? (
-                              <option value="N/A">N/A</option>
-                            ) : values.orgType === 'Country' &&
-                              values.Org_name.slice(0, 3) !== 'SSC' ? (
-                              <>
-                                <option value="Yes">Yes</option>
-                              </>
-                            ) : (
-                              <>
-                                <option value="">Select isReceiver</option>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                                <option value="N/A">N/A</option>
-                              </>
-                            )}
+                            <option value="Yes">Yes</option>
                           </>
                         ) : (
                           <>
@@ -409,31 +402,18 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                         readOnly={false}
                         className="form-select"
                       >
-                        {modalType === 'add' ? (
+                        {(values.orgType === 'Country' && values.Org_name.slice(0, 3) === 'SSC') ||
+                        (values.orgType === 'Country' && values.Org_name.slice(0, 3) !== 'SSC') ? (
+                          <option value="Yes">Yes</option>
+                        ) : values.orgType === 'Zone' ||
+                          values.orgType === 'Cognos' ||
+                          values.orgType === 'SAP' ? (
+                          <option value="N/A">N/A</option>
+                        ) : values.orgType === 'Country' || values.orgType === 'BU' ? (
                           <>
-                            {(values.orgType === 'Country' &&
-                              values.Org_name.slice(0, 3) === 'SSC') ||
-                            (values.orgType === 'Country' &&
-                              values.Org_name.slice(0, 3) !== 'SSC') ? (
-                              <option value="Yes">Yes</option>
-                            ) : values.orgType === 'Zone' ||
-                              values.orgType === 'Cognos' ||
-                              values.orgType === 'SAP' ? (
-                              <option value="N/A">N/A</option>
-                            ) : values.orgType === 'Country' || values.orgType === 'BU' ? (
-                              <>
-                                <option value="">Select isProvider</option>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                              </>
-                            ) : (
-                              <>
-                                <option value="">Select isProvider</option>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                                <option value="N/A">N/A</option>
-                              </>
-                            )}
+                            <option value="">Select isProvider</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
                           </>
                         ) : (
                           <>
@@ -473,29 +453,21 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                         readOnly={false}
                         className="form-select"
                       >
-                        {modalType === 'add' ? (
+                        {values.orgType === 'Zone' ||
+                        values.orgType === 'Cognos' ||
+                        values.orgType === 'SAP' ||
+                        values.orgType === 'Plant' ? (
+                          <option value="N/A">N/A</option>
+                        ) : values.orgType === 'Country' &&
+                          values.Org_name.slice(0, 3) === 'SSC' ? (
                           <>
-                            {values.orgType === 'Zone' ||
-                            values.orgType === 'Cognos' ||
-                            values.orgType === 'SAP' ||
-                            values.orgType === 'Plant' ? (
-                              <option value="N/A">N/A</option>
-                            ) : values.orgType === 'Country' &&
-                              values.Org_name.slice(0, 3) === 'SSC' ? (
-                              <option value="Off-Shore">Off Shore</option>
-                            ) : values.orgType === 'Country' &&
-                              values.Org_name.slice(0, 3) !== 'SSC' ? (
-                              <option value="On-Shore">On Shore</option>
-                            ) : (
-                              <>
-                                <option value="">Select Category</option>
-                                <option value="Off-Shore">Off Shore</option>
-                                <option value="Near Shore">Near Shore</option>
-                                <option value="In-Country">In-Country</option>
-                                <option value="N/A">N/A</option>
-                              </>
-                            )}
+                            <option value="">Select Category</option>
+                            <option value="Off-Shore">Off Shore</option>
+                            <option value="Near Shore">Near Shore</option>
                           </>
+                        ) : values.orgType === 'Country' &&
+                          values.Org_name.slice(0, 3) !== 'SSC' ? (
+                          <option value="On-Shore">On Shore</option>
                         ) : (
                           <>
                             <option value="">Select Category</option>

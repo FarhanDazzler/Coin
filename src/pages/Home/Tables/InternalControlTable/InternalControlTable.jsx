@@ -109,7 +109,7 @@ const InternalControlTable = ({
       Cell: (row) => {
         return (
           <div>
-            {row.row.original.Status === 'Completed' && (
+            {(row.row.original.Status === 'Completed' || row.row.original.Status === 'Incorrect Owner' ) && (
               <Button
                 className="mr-2"
                 // onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
