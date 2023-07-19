@@ -1,22 +1,19 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { question1EditLoadingListSelector } from '../../../redux/Questions/QuestionsSelectors';
-import {
-  addSection1OptionQuestions,
-  deleteSection1QuestionsOption,
-  getSection1Questions,
-  updateOptionSection1Questions,
-  updateSection1Questions,
-} from '../../../redux/Questions/QuestionsAction';
+import { getSection1Questions } from '../../../redux/Questions/QuestionsAction';
 import blockType from '../../RenderBlock/constant';
-import { v4 as uuidv4 } from 'uuid';
 import CustomModal from '../CustomModal';
 import { Form } from 'react-bootstrap';
 import { TranslateType } from '../../../pages/QuestionBank/ModifyStandard/AddSection1Question';
 import { Loader } from '@mantine/core';
 import Button from '../Button';
 import EditSection1QuestionChangeLangDesign from './EditSection1QuestionChangeLangDesign';
-import { getSection1QuestionTranslationDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
+import {
+  editSection1QuestionTranslationDataAction,
+  getSection1QuestionTranslationDataAction,
+} from '../../../redux/QuestionBank/QuestionBankAction';
+import { languageToTextKey } from '../../../utils/helper';
 
 const EditSection1QuestionChangeLang = ({
   showEditModal,
@@ -27,8 +24,11 @@ const EditSection1QuestionChangeLang = ({
 }) => {
   const dispatch = useDispatch();
   const [block, setBlock] = useState(apiBlock);
+  const [blockLang, setBlockLang] = useState(apiBlock);
   const [question, setQuestion] = useState();
+  const [questionLang, setQuestionLang] = useState();
   const [questionOptions, setQuestionOptions] = useState([]);
+  const [questionOptionsLang, setQuestionOptionsLang] = useState([]);
   const [options, setOptions] = useState([]);
   const [freeTextChildQId, setFreeTextChildQId] = useState('');
   const question1EditLoadingList = useSelector(question1EditLoadingListSelector);
@@ -38,8 +38,8 @@ const EditSection1QuestionChangeLang = ({
     (state) => state?.section1QuestionData?.section1GetQuestionTranslation,
   );
   const [loading, setLoading] = useState(false);
-  const [language, setLanguage] = useState('English');
-  console.log('block');
+  const [language, setLanguage] = useState('French');
+  const [isChange, setIsChange] = useState(false);
 
   useEffect(() => {
     if (questionOptions.length > 0) setFreeTextChildQId(questionOptions[0].child_question);
@@ -58,7 +58,8 @@ const EditSection1QuestionChangeLang = ({
   }, [question1EditLoadingList]);
 
   const handleChangeQuestion = (value) => {
-    setQuestion(value);
+    setIsChange(true);
+    setQuestionLang(value);
   };
 
   useEffect(() => {
@@ -70,9 +71,18 @@ const EditSection1QuestionChangeLang = ({
     }
   }, [apiBlock.options]);
 
-  // useEffect(() => {
-  //   dispatch(getSection1QuestionTranslationDataAction([block?.q_id, language]));
-  // }, [block?.q_id, language]);
+  useEffect(() => {
+    dispatch(getSection1QuestionTranslationDataAction([block?.q_id, language]));
+  }, [block?.q_id, language]);
+
+  useEffect(() => {
+    const questionKey = languageToTextKey(language) + 'question_text';
+    const obj = { ...apiBlock, question_text: apiBlock[questionKey] };
+    setQuestionLang(apiBlock[questionKey]);
+    setBlockLang(obj);
+    const optionKey = languageToTextKey(language) + 'option_value';
+    setQuestionOptionsLang(apiBlock.options.map((d) => ({ ...d, option_value: d[optionKey] })));
+  }, [apiBlock, section1GetQuestionTranslation.data]);
 
   useEffect(() => {
     setBlock(apiBlock);
@@ -91,139 +101,38 @@ const EditSection1QuestionChangeLang = ({
   }, [block.question_text]);
 
   const handleChangeOption = (val, opBlock) => {
-    const updateOp = questionOptions.map((qOp) => {
+    setIsChange(true);
+    const updateOp = questionOptionsLang.map((qOp) => {
       if (qOp.option_id === opBlock.option_id) {
         return { ...qOp, option_value: val, isEdit: true };
       }
       return { ...qOp };
     });
-
-    setQuestionOptions(updateOp);
+    setQuestionOptionsLang(updateOp);
   };
 
   const handleSaveQuestion = () => {
-    let isApiCall = false;
-    if (apiBlock.question_text !== question || apiBlock.question_type !== block.question_type) {
-      isApiCall = true;
-      const is_AD = block.question_type === 'Is AD';
-      dispatch(
-        updateSection1Questions({
-          q_id: apiBlock.q_id,
-          Control_ID: apiBlock.Control_ID,
-          question_text: question,
-          question_type: block.question_type,
-          is_AD: is_AD ? 1 : 0,
-          loadingId: `${uuidv4()}-updateSection1Questions`,
-        }),
-      );
-    }
-
-    if ([blockType.TEXT, blockType.IS_AD].includes(block.question_type)) {
+    if (isChange) {
       const payload = {
-        q_id: apiBlock.q_id,
-        child_question: freeTextChildQId,
-        is_Terminating: 0,
-        option_value: '',
-        is_Failing: isFailedFreeText,
+        question: {
+          q_id: block.q_id,
+          language: language,
+          Control_ID: block.Control_ID,
+          fr_question_text: questionLang,
+        },
       };
-      if (freeTextChildQId === 'is_Terminating') {
-        payload.child_question = 0;
-        payload.is_Terminating = 1;
-      }
-      if (block.options.length > 0 && !block.options[0].isNew) {
-        payload.option_id = block.options[0].option_id;
-        if (block.options[0].child_question !== freeTextChildQId) {
-          isApiCall = true;
-          dispatch(
-            updateOptionSection1Questions({
-              editArray: [{ ...payload }],
-              loadingId: `${uuidv4()}-updateOptionSection1Questions`,
-            }),
-          );
-        }
-      } else {
-        isApiCall = true;
-        dispatch(
-          addSection1OptionQuestions({
-            addArray: [{ ...payload }],
-            loadingId: `${uuidv4()}-addSection1OptionQuestions`,
-          }),
-        );
-      }
-    }
-
-    if (block.question_type !== apiBlock.question_type) {
-      if (block.question_type === blockType.TEXT) {
-        block.options.shift();
-        block.options.forEach(({ option_id }, i) => {
-          isApiCall = true;
-          dispatch(
-            deleteSection1QuestionsOption({
-              option_id,
-              loadingId: `${uuidv4()}-deleteSection1QuestionsOption--${i}`,
-            }),
-          );
+      const optionKey = languageToTextKey(language) + 'option_value';
+      if ([blockType.RADIO, blockType.DROPDOWN].includes(block.question_type)) {
+        payload.options = questionOptionsLang.map((data) => {
+          return {
+            option_id: data.option_id,
+            language: language,
+            [optionKey]: data.option_value,
+            q_id: data.q_id,
+          };
         });
       }
-    }
-
-    const editArray = questionOptions
-      .filter((q) => q.isEdit && !q.isNew)
-      ?.map((b_val) => {
-        const payload = {
-          q_id: apiBlock.q_id,
-          option_id: b_val.option_id,
-          option_value: b_val.option_value,
-          child_question: b_val.child_question,
-          is_Terminating: 0,
-          is_Failing: b_val.is_Failing,
-        };
-        if (b_val.child_question === 'is_Terminating') {
-          payload.child_question = 0;
-          payload.is_Terminating = 1;
-        }
-        return payload;
-      });
-    if (editArray.length > 0) {
-      isApiCall = true;
-      dispatch(
-        updateOptionSection1Questions({
-          editArray,
-          loadingId: `${uuidv4()}-updateOptionSection1Questions`,
-        }),
-      );
-    }
-
-    const addArray = questionOptions
-      .filter((q) => q.isNew)
-      ?.map((b_val) => {
-        const payload = {
-          q_id: apiBlock.q_id,
-          option_value: b_val.option_value,
-          child_question: b_val.child_question,
-          is_Terminating: 0,
-          is_Failing: b_val.is_Failing,
-        };
-        if (b_val.child_question === 'is_Terminating') {
-          payload.child_question = 0;
-          payload.is_Terminating = 1;
-        }
-
-        return payload;
-      });
-    if (addArray.length > 0) {
-      isApiCall = true;
-      dispatch(
-        addSection1OptionQuestions({
-          addArray,
-          loadingId: `${uuidv4()}-addSection1OptionQuestions`,
-        }),
-      );
-    }
-    if (isApiCall) {
-      setSaveLoading(true);
-    } else {
-      setShowEditModal(false);
+      dispatch(editSection1QuestionTranslationDataAction(payload));
     }
   };
 
@@ -252,7 +161,7 @@ const EditSection1QuestionChangeLang = ({
     >
       <div>
         <div className="d-flex">
-          <div className="p-5 w-full">
+          <div className="p-5 w-50">
             <div style={{ height: 50 }} />
             <EditSection1QuestionChangeLangDesign
               question={question}
@@ -263,7 +172,7 @@ const EditSection1QuestionChangeLang = ({
             />
           </div>
 
-          <div className="p-5 w-full">
+          <div className="p-5 w-50">
             <div className="d-flex justify-content-end">
               <Form.Group className="input-group mb-3" style={{ maxWidth: 193 }}>
                 <Form.Control
@@ -271,7 +180,9 @@ const EditSection1QuestionChangeLang = ({
                   name=""
                   placeholder=""
                   className="form-select"
-                  onChange={(val) => setLanguage(val)}
+                  onChange={({ target: { value } }) => {
+                    setLanguage(value);
+                  }}
                   value={language}
                 >
                   <option value="" disabled>
@@ -291,12 +202,11 @@ const EditSection1QuestionChangeLang = ({
               </div>
             ) : (
               <EditSection1QuestionChangeLangDesign
-                question={question}
-                block={block}
+                question={questionLang}
+                block={blockLang}
                 handleChangeQuestion={handleChangeQuestion}
                 freeTextChildQId={freeTextChildQId}
-                setFreeTextChildQId={setFreeTextChildQId}
-                questionOptions={questionOptions}
+                questionOptions={questionOptionsLang}
                 handleChangeOption={handleChangeOption}
                 options={options}
               />

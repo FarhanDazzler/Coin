@@ -77,12 +77,12 @@ function* getSection1QuestionTranslationData(payload) {
       });
     }
   } catch (e) {
-    yield put({ type: ATTEMPT_GET_SECTION1_QUESTIONS_TRANSLATION, error: getSimplifiedError(e) });
+    yield put({ type: GET_SECTION1_QUESTIONS_TRANSLATION_FAILED, error: getSimplifiedError(e) });
   }
 }
 
 function editSection1QuestionDataTranslationApiCall(data) {
-  return Axios.post('/get_section1_questions_translation', data?.payload?.data);
+  return Axios.post('/add_Section1_Question_Translation', data?.payload?.data);
 }
 function* editSection1QuestionTranslationData(payload) {
   try {
