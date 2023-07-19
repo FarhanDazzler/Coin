@@ -13,7 +13,12 @@ import { getSimplifiedError } from '../../utils/error';
 function getControlDataApiCall(data) {
   let params = data.payload.data;
   return Axios.get(
-    '/get_control_scope?ControlID=' + params.controlId + '&coOwner=' + params.coOwner,
+    '/get_control_scope?ControlID=' +
+      params.controlId +
+      '&coOwner=' +
+      params.coOwner +
+      '&provider=' +
+      params.provider,
   );
 }
 
@@ -23,7 +28,7 @@ function* getControlData(payload) {
     if (response?.success === true) {
       yield put({
         type: ACTION_GET_CONTROL_DATA_SUCCESS,
-        data: response?.data,
+        data: { ...response?.data, ...payload.payload.data.ownerData },
       });
     } else {
       yield put({

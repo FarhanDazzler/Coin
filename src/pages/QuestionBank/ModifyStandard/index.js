@@ -39,6 +39,7 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
   const AddQuestionSuccess = useSelector(
     (state) => state?.section1QuestionData?.section1AddQuestion,
   );
+
   const DeleteQuestionSuccess = useSelector(
     (state) => state?.section1QuestionData?.section1DeleteQuestion,
   );
