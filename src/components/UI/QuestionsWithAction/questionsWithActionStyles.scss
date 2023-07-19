@@ -26,5 +26,14 @@
   .question-text {
     color: #595959;
     margin-left: 5%;
+    text-align: left;
   }
+}
+
+.question-loader {
+  display: flex;
+  height: 78%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }

@@ -39,7 +39,6 @@ const InternalControlHomePage = () => {
   const getNumberOfItem = (array = [], itemName) => {
     return array?.filter((val) => val === itemName)?.length;
   };
-  console.log('@@@@', getControlOwnerData?.data);
 
   useEffect(() => {
     if (!userRole?.length || userRole === 'undefined') history.push('/not-authorized');

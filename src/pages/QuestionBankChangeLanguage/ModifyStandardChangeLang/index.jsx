@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import CustomModal from '../../../components/UI/CustomModal';
 import Button from '../../../components/UI/Button';
 import { Form } from 'react-bootstrap';
 import Select from 'react-select';
 import info from '../../../assets/images/Info-Circle.svg';
 import QuestionsWithAction from '../../../components/UI/QuestionsWithAction';
-import AddSection1Questions from '../ModifyStandard/AddSection1Question';
 import { useDispatch, useSelector } from 'react-redux';
 import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
 import { getSection1QuestionDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
-import PageWrapper from '../../../components/wrappers/PageWrapper';
+import AddSection1Questions from '../../QuestionBank/ModifyStandard/AddSection1Question';
 
 const ModifyStandardChangeLang = ({ open, handleClose }) => {
   const [activeType, setActiveType] = useState('Standard');
