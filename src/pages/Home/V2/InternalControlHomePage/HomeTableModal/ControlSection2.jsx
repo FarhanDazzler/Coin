@@ -248,7 +248,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
     return style;
   };
 
-  console.log('table_data',kpiResultData?.data)
+  console.log('table_data', kpiResultData?.data);
   useEffect(() => {
     if (kpiResultData?.data?.length > 0) {
       const table_data = [...kpiResultData.data];
@@ -288,92 +288,64 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       if (d.id === row.id) {
         row.KPI_Value = (row.Numerator / row.Denominator).toFixed(2);
         if (row.Positive_direction === 'Lower is better') {
-          if (row.KPI_Value <= row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
-            row.L1_Result = 'Pass';
+          if (row.L1_Result === '') {
+            row.L1_Result = 'NA';
           } else {
-            if (row.MICS_L1_Threshold === '') {
-              row.L1_Result = 'NA';
+            if (row.KPI_Value <= row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
+              row.L1_Result = 'Pass';
             } else {
               row.L1_Result = 'Fail';
             }
           }
 
-          if (row.KPI_Value <= row.MICS_L2_Threshold) {
-            row.L2_Result = 'Pass';
+          if (row.L2_Result === '') {
+            row.L2_Result = 'NA';
           } else {
-            row.L2_Result = 'Fail';
+            if (row.KPI_Value <= row.MICS_L2_Threshold) {
+              row.L2_Result = 'Pass';
+            } else {
+              row.L2_Result = 'Fail';
+            }
           }
 
-          if (row.KPI_Value <= row.MICS_L3_Threshold) {
-            row.L3_Result = 'Pass';
+          if (row.L3_Result === '') {
+            row.L2_Result = 'NA';
           } else {
-            row.L3_Result = 'Fail';
+            if (row.KPI_Value <= row.MICS_L3_Threshold) {
+              row.L3_Result = 'Pass';
+            } else {
+              row.L3_Result = 'Fail';
+            }
           }
         } else if (row.Positive_direction === 'Higher is better') {
-          if (row.KPI_Value >= row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
-            row.L1_Result = 'Pass';
+          if (row.L1_Result === '') {
+            row.L1_Result = 'NA';
           } else {
-            if (row.MICS_L1_Threshold === '') {
-              row.L1_Result = 'NA';
+            if (row.KPI_Value >= row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
+              row.L1_Result = 'Pass';
             } else {
               row.L1_Result = 'Fail';
             }
           }
 
-          if (row.KPI_Value >= row.MICS_L2_Threshold) {
-            row.L2_Result = 'Pass';
+          if (row.L2_Result === '') {
+            row.L2_Result = 'NA';
           } else {
-            row.L2_Result = 'Fail';
-          }
-
-          if (row.KPI_Value >= row.MICS_L3_Threshold) {
-            row.L3_Result = 'Pass';
-          } else {
-            row.L3_Result = 'Fail';
-          }
-        } else if (row.Positive_direction === 'Lower is bad') {
-          if (row.KPI_Value < row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
-            row.L1_Result = 'Fail';
-          } else {
-            if (row.MICS_L1_Threshold === '') {
-              row.L1_Result = 'NA';
+            if (row.KPI_Value >= row.MICS_L2_Threshold) {
+              row.L2_Result = 'Pass';
             } else {
-              row.L1_Result = 'Pass';
+              row.L2_Result = 'Fail';
             }
           }
 
-          if (row.KPI_Value < row.MICS_L2_Threshold) {
-            row.L2_Result = 'Fail';
+          if (row.L3_Result === '') {
+            row.L3_Result = 'NA';
           } else {
-            row.L2_Result = 'Pass';
-          }
-
-          if (row.KPI_Value < row.MICS_L3_Threshold) {
-            row.L3_Result = 'Fail';
-          } else {
-            row.L3_Result = 'Pass';
-          }
-        } else if (row.Positive_direction === 'Higher is bad') {
-          if (row.KPI_Value > row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
-            row.L1_Result = 'Fail';
-          } else {
-            if (row.MICS_L1_Threshold === '') {
-              row.L1_Result = 'NA';
+            if (row.KPI_Value >= row.MICS_L3_Threshold) {
+              row.L3_Result = 'Pass';
             } else {
-              row.L1_Result = 'Pass';
+              row.L3_Result = 'Fail';
             }
-          }
-
-          if (row.KPI_Value > row.MICS_L2_Threshold) {
-            row.L2_Result = 'Fail';
-          } else {
-            row.L2_Result = 'Pass';
-          }
-
-          if (row.KPI_Value > row.MICS_L3_Threshold) {
-            row.L3_Result = 'Fail';
-          } else {
-            row.L3_Result = 'Pass';
           }
         }
 
