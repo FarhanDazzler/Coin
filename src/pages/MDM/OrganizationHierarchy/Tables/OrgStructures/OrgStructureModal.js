@@ -169,7 +169,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
     if (modalType === 'add') {
       dispatch(addOrgStructureAction(payload));
     } else {
-      dispatch(updateOrgStructureAction(editPayload));
+      dispatch(updateOrgStructureAction(payload));
     }
   };
   let today = moment().format('YYYY-MM-DD');
