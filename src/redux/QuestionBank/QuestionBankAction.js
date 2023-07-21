@@ -7,6 +7,8 @@ import {
   ACTION_EDIT_SECTION1_QUESTIONS_DATA,
   ACTION_DELETE_SECTION1_QUESTIONS_DATA,
   ACTION_DELETE_SECTION1_OPTIONS_DATA,
+  ATTEMPT_GET_SECTION1_QUESTIONS_TRANSLATION,
+  ATTEMPT_EDIT_SECTION1_QUESTIONS_TRANSLATION,
 } from '../types';
 
 export function getSection1QuestionDataAction(data) {
@@ -75,6 +77,26 @@ export function deleteSection1QuestionDataAction(data) {
   };
   return {
     type: ACTION_DELETE_SECTION1_QUESTIONS_DATA,
+    payload: payload,
+  };
+}
+
+export function getSection1QuestionTranslationDataAction(data) {
+  let payload = {
+    data: data,
+  };
+  return {
+    type: ATTEMPT_GET_SECTION1_QUESTIONS_TRANSLATION,
+    payload: payload,
+  };
+}
+
+export function editSection1QuestionTranslationDataAction(data) {
+  let payload = {
+    data: data,
+  };
+  return {
+    type: ATTEMPT_EDIT_SECTION1_QUESTIONS_TRANSLATION,
     payload: payload,
   };
 }
