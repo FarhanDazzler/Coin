@@ -155,21 +155,12 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
       Valid_to: value.validTo,
     };
     let editPayload = {
-      Org_type: value.orgType,
-      Org_name: value.Org_name,
-      parent_entity: value.parentEntity,
-      isReceiver: value.isReceiver,
-      isProvider: value.isProvider,
-      Category: value.Category,
-      Valid_from: value.validFrom,
-      Valid_to: value.validTo,
-      Org_code: ediatbleData?.Org_code,
-    };
+      Org_code: ediatbleData?.Org_code, ...payload};
 
     if (modalType === 'add') {
       dispatch(addOrgStructureAction(payload));
     } else {
-      dispatch(updateOrgStructureAction(payload));
+      dispatch(updateOrgStructureAction(editPayload));
     }
   };
   let today = moment().format('YYYY-MM-DD');
