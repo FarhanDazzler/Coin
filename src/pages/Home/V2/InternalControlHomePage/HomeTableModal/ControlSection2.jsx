@@ -309,7 +309,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
           }
 
           if (row.L3_Result === '') {
-            row.L2_Result = 'NA';
+            row.L3_Result = 'NA';
           } else {
             if (row.KPI_Value <= row.MICS_L3_Threshold) {
               row.L3_Result = 'Pass';
