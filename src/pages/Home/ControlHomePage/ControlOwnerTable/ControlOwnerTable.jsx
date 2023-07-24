@@ -83,7 +83,7 @@ const ControlOwnerTable = ({
                 // onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
                 onClick={() => handleControlIDClick(row.row.original.Control_ID, row.row.original)}
               >
-                Review
+                Review1
               </Button>
             )}
             {['Not started', 'Re-assessed', 'Drafted'].includes(row.row.original.Status) && (
