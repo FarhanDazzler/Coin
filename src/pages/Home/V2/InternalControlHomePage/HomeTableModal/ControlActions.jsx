@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Button from '../../../../../components/UI/Button';
 
-const ControlActions = () => {
+const ControlActions = ({activeData}) => {
   const [activeTab, setActiveTab] = useState('');
   const [isReadMore, setIsReadMore] = useState(true);
   const toggleReadMore = () => {
@@ -90,19 +90,19 @@ const ControlActions = () => {
           <div>
             <p className="mb-2">
               <span className="font-weight-bold">Receiving entity: </span>
-              <span>{stateControlData.Receiver}</span>
+              <span>{stateControlData?.Receiver||activeData.Receiver}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Provider organization: </span>
-              <span>{stateControlData.Provider}</span>
+              <span>{stateControlData?.Provider||activeData.Provider}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Period of assessment: </span>
-              <span>{stateControlData.priod_of_assessment}</span>
+              <span>{stateControlData?.priod_of_assessment}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Assessment Cycle: </span>
-              <span>{stateControlData?.Assessment_Cycle}</span>
+              <span>{stateControlData?.Assessment_Cycle||activeData.Assessment_Cycle}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Frequency of control: </span>
@@ -114,11 +114,11 @@ const ControlActions = () => {
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Control owner: </span>
-              <span>{stateControlData.Control_Owner}</span>
+              <span>{stateControlData?.Control_Owner||activeData.Control_Owner}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Control Oversight: </span>
-              <span>{stateControlData.Control_Oversight}</span>
+              <span>{stateControlData?.Control_Oversight||activeData.Control_Oversight}</span>
             </p>
           </div>
         )}

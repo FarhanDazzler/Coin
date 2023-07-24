@@ -85,17 +85,17 @@ const QuestionBank = () => {
                 >
                   <span className="text-white">Modify MICS-Specific</span>
                 </Button>
-                {/*<Button*/}
-                {/*  variant="outlined"*/}
-                {/*  size="large"*/}
-                {/*  startIcon={<TranslateIcon />}*/}
-                {/*  onClick={() => {*/}
-                {/*    history.push('/questionbank/change-language');*/}
-                {/*    // handleChangeLang('MICS-Specific');*/}
-                {/*  }}*/}
-                {/*>*/}
-                {/*  <span className="text-white">Change language</span>*/}
-                {/*</Button>*/}
+                <Button
+                  variant="outlined" 
+                  size="large"
+                  startIcon={<TranslateIcon />}
+                  onClick={() => {
+                    history.push('/questionbank/change-language');
+                    // handleChangeLang('MICS-Specific');
+                  }}
+                >
+                  <span className="text-white">Change language</span>
+                </Button> 
               </QuestionBankBox>
             </div>
           </div>

@@ -20,22 +20,22 @@ const AssessmentForm = () => {
   const history = useHistory();
   const { state } = useLocation();
   const query = new URLSearchParams(history.location.pathname);
-  // console.log('Assessment_id',Assessment_id)
   // const Assessment_id = 'ATR_MJE_01a-K';
   const { accounts } = useMsal();
   const dispatch = useDispatch();
   const Id = Assessment_id || query.get('Assessment_id');
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
+  
 
   useEffect(() => {
     const ownerData = (getControlOwnerData.data[0]?.cOwnerData || []).find(
       (d) => d.Control_ID === Id,
     );
-    if (!ownerData) return;
+    if (!ownerData&& !state) return;
     let payload = {
       controlId: Id,
-      coOwner: ownerData.Control_Owner,
-      provider: ownerData.Provider,
+      coOwner: ownerData?.Control_Owner||state.Control_Owner,
+      provider: ownerData?.Provider||state.Provider,
       ownerData,
     };
     let gcdPayload = {
