@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { InteractionStatus, PublicClientApplication } from '@azure/msal-browser';
-import { loginRequest, msalConfig } from './utils/authConfig';
+import { loginRequest, msalConfig, snowBackendRequest } from './utils/authConfig';
 import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -173,6 +173,18 @@ const Pages = () => {
           instance.logout({
             account: accounts.length > 0 ? accounts[0] : null,
           });
+        });
+      // for creating Snow API token for Ticketing
+      instance
+        .acquireTokenSilent({
+          ...snowBackendRequest,
+          account: accounts[0],
+        })
+        .then((response) => {
+          localStorage.setItem('snow_api_access_token', response?.accessToken);
+        })
+        .catch((err) => {
+          console.log(`Error occurred while acquiring token: ${err}`);
         });
     }
   }, [accounts, inProgress]);
