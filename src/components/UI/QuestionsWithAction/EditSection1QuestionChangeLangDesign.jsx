@@ -21,8 +21,8 @@ const EditSection1QuestionChangeLangDesign = ({
     if (handleChangeQuestion) handleChangeQuestion(e);
   };
 
-  const handleChangeOptionVal = (data) => {
-    if (handleChangeOption) handleChangeOption(data);
+  const handleChangeOptionVal = (data, op) => {
+    if (handleChangeOption) handleChangeOption(data, op);
   };
 
   return (
@@ -33,6 +33,7 @@ const EditSection1QuestionChangeLangDesign = ({
         block={block}
         disabled={!handleChangeQuestion}
         handleChange={handleChangeQuestionInput}
+        placeholder=" Enter question text"
         formControlProps={{ className: 'input-wrapper full-input' }}
       />
       <div className="d-flex justify-content-end pt-5">

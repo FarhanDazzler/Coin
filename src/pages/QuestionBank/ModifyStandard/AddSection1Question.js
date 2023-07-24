@@ -15,7 +15,6 @@ export const QuestionType = [
 ];
 
 export const TranslateType = [
-  { label: 'English', value: 'English' },
   { label: 'French', value: 'French' },
   { label: 'Spanish', value: 'Spanish' },
 ];

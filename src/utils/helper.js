@@ -273,3 +273,12 @@ export const getQuestionsFormatData = (data) => {
 //     delete parentData.shift();
 //   }
 // }
+
+export const languageToTextKey = (language) => {
+  switch (language) {
+    case 'French':
+      return 'fr_';
+    default:
+      return '';
+  }
+};
