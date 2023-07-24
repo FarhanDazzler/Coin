@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Card, Modal, Container, Row, Col } from 'react-bootstrap';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Divider, Box } from '@mantine/core';
+import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
+import { InteractionStatus, PublicClientApplication } from '@azure/msal-browser';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import * as Yup from 'yup';
 import { useFormikContext, Formik } from 'formik';
@@ -12,6 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import PageWrapper from '../../components/wrappers/PageWrapper';
 import Button from '../../components/UI/Button';
 import './ContactUSStyle.scss';
+import axios from 'axios';
 
 const GetFormikFieldValue = () => {
   // Grab values and submitForm from context
@@ -24,15 +27,69 @@ const GetFormikFieldValue = () => {
 const ContactUSLandingPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { instance, accounts, inProgress } = useMsal();
 
+  const [SYS_ID, setSYS_ID] = useState();
   const [files, setFiles] = useState('');
 
   const handleOnclickCancel = () => {
     history.push('/');
   };
   const HandleSave = (value) => {
-    let payload = {};
+    // let payload = {
+    //   issueType: 'u_performance',
+    //   shortDescription: 'Test',
+    //   projectName: 'COIN',
+    //   zone: 'GHQ',
+    //   issueDescription: 'Test',
+    //   pointOfContact: accounts[0]?.name ? accounts[0].name : '',
+    //   assignmentGroup: 'getFromVamshi',
+    //   priority: '3',
+    //   sys_id: SYS_ID,
+    //   businessService: 'GetITFromVamshi',
+    //   typeOfSolution: 'COIN_application_issue',
+    // };
+    // let config = {
+    //   method: 'post',
+    //   url: process.env.REACT_APP_SNOW_CREATE_TICKET,
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization: `Bearer ${localStorage.getItem('snow_api_access_token')}`,
+    //   },
+    //   data: payload,
+    // };
+    // axios
+    //   .request(config)
+    //   .then((response) => {
+    //     console.log(JSON.stringify(response.data));
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
+
+  const getSystemID = async () => {
+    let config = {
+      method: 'get',
+      url: process.env.REACT_APP_SNOW_GET_SYSTEM_ID + accounts[0]?.username,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('snow_api_access_token')}`,
+      },
+    };
+    axios
+      .request(config)
+      .then((response) => {
+        //console.log(JSON.stringify(response.data), 'system ID');
+        setSYS_ID(response.data.result[0].sys_id);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getSystemID();
+  }, []);
 
   return (
     <PageWrapper>

@@ -65,7 +65,10 @@ export const graphConfig = {
   graphMeEndpoint: 'https://graph.microsoft.com/v1.0/me',
   graphProfilePhotoEndpoint: 'https://graph.microsoft.com/v1.0/me/photo/$value',
 };
-
+// for Genrating bearar Token for snow tickets
+export const snowBackendRequest = {
+  scopes: [process.env.REACT_APP_SNOW_BE_REQUEST],
+};
 /**
  * Add here the scopes to request when obtaining an access token for MS Graph API. For more information, see:
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/resources-and-scopes.md
