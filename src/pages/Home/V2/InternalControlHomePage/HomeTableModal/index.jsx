@@ -48,7 +48,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const [loading, setLoading] = useState(false);
   const [closeAssessment, setCloseAssessment] = useState(false);
   // const Control_ID = query.get('Assessment_id') || !isModal ? 'ATR_MJE_01a-K' : '';
-  console.log('activeData',activeData)
   const Control_ID = Assessment_id || query.get('Control_ID');
   const responseUpdatedData =
     responseData.data?.Latest_Response || responseData.data?.Latest_response;
