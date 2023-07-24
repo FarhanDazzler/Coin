@@ -233,6 +233,7 @@ const ControlOwnerTable = ({
     let payload = {
       controlId: id,
       coOwner: row?.Control_Owner,
+      provider:row?.Provider
     };
     let gcdPayload = {
       controlId: id,

@@ -382,6 +382,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           setShowNoQuestionAns={setShowNoQuestionAns}
           terminating={terminating}
           handleSubmit={handleSubmit}
+          activeData={activeData}
           handleSaveDraft={handleSaveDraft}
           loadingSubmit={loading}
           handleSaveDraftProps={{
@@ -409,6 +410,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         setAnsSection1={setAnsSection1}
         showMoreSection={showMoreSection}
         tableData={tableData}
+        activeData={activeData}
         setTableData={setTableData}
         setTerminating={setTerminating}
         ansSection3={ansSection3}
