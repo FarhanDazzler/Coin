@@ -32,8 +32,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
     tableData.map((data, i) => {
       handleChange('', '', data, i);
     });
-  }, [csvUpdateData]);
-
+  }, [csvUpdateData, tableData.length]);
   const columns = [
     {
       dataField: 'id',
@@ -496,10 +495,12 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
                   }
                 >
                   <Workbook.Sheet data={tableData} name="Sheet A">
-                    <Workbook.Column label="sep" value="sep" />
+                    {/* <Workbook.Column label="sep" value="sep" /> */}
                     <Workbook.Column label="Global_KPI_Code" value="Global_KPI_Code" />
                     <Workbook.Column label="Entity_ID" value="Entity_ID" />
+                    <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />
                     <Workbook.Column label="Numerator" value="Numerator" />
+                    <Workbook.Column label="Expected_Denominator" value="Expected_Denominator" />
                     <Workbook.Column label="Denominator" value="Denominator" />
                     <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
                     {/* <Workbook.Column label="KPI_Value" value="KPI_Value" /> */}
