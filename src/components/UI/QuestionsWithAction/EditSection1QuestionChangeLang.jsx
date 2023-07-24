@@ -112,13 +112,14 @@ const EditSection1QuestionChangeLang = ({
   };
 
   const handleSaveQuestion = () => {
+    const questionKey = languageToTextKey(language) + 'question_text';
     if (isChange) {
       const payload = {
         question: {
           q_id: block.q_id,
           language: language,
           Control_ID: block.Control_ID,
-          fr_question_text: questionLang,
+          [questionKey]: questionLang,
         },
       };
       const optionKey = languageToTextKey(language) + 'option_value';
