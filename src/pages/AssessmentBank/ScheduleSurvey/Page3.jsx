@@ -303,8 +303,7 @@ const Page3 = ({ handleNext, setStep }) => {
 
   const dropdownArrayEntity = [
     'Select All',
-    ...getAllEntityFromBU_State?.data?.map((i) => i.country_entity),
-    ...getAllEntityFromBU_State?.data?.map((i) => i.plant),
+    ...getAllEntityFromBU_State?.data?.map((i) => i.country_entity[0])
   ];
 
   const dropdownArrayProvider = [
@@ -397,12 +396,9 @@ const Page3 = ({ handleNext, setStep }) => {
               value={entityValue}
               onChange={(e) => {
                 if (e.includes('Select All')) {
-                  const entity = [ 
-                    ...getAllEntityFromBU_State?.data?.map((i) => i.country_entity),
-                    ...getAllEntityFromBU_State?.data?.map((i) => i.plant),
-                  ];
-                  selectObjectFormik.setFieldValue('Entity', entity);
-                  setEntityValue(entity);
+                  
+                  selectObjectFormik.setFieldValue('Entity', getAllEntityFromBU_State?.data?.map((i) => i.country_entity[0]));
+                  setEntityValue(getAllEntityFromBU_State?.data?.map((i) => i.country_entity[0]));
                 } else {
                   selectObjectFormik.setFieldValue('Entity', e);
                   setEntityValue(e);
