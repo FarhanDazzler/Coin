@@ -3,12 +3,9 @@ import MaterialReactTable from 'material-react-table';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { FloatRight } from 'tabler-icons-react';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { ExportToCsv } from 'export-to-csv'; //or use your library of choice here
 import { Box, Button, Typography } from '@mui/material';
-
-import cs from 'classnames';
+import * as XLSX from 'xlsx';
 import './tableStyles.scss';
-import { saveAs } from 'file-saver';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowDownWideShort,
@@ -90,32 +87,64 @@ const Table2 = ({
     setEditTableIndex && setEditTableIndex(Object.keys(rowSelection));
   }, [rowSelection]);
 
-  const handleExportRows = (rows) => {
-    const exportedRows = rows.map((row) => {
-      const exportedRow = {};
+  const exportToExcel = (rows) => {
+    // Prepare data for export
+    const data = rows.map((row) => {
+      const rowData = {};
       tableColumns.forEach((column) => {
-        const { accessorKey } = column;
-        if (row.original.hasOwnProperty(accessorKey)) {
-          exportedRow[accessorKey] = row.original[accessorKey];
-        } else {
-          exportedRow[accessorKey] = ''; // Add an empty value for missing headers
-        }
+        const accessorKey = column.accessorKey;
+        rowData[column.header] = row.original[accessorKey];
       });
-      return exportedRow;
+      return rowData;
     });
 
-    const csvContent = [
-      tableColumns.map((column) => column.header).join(','),
-      ...exportedRows.map((row) => tableColumns.map((column) => row[column.accessorKey]).join(',')),
-    ].join('\n');
+    // Create a new workbook and worksheet
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(data);
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
-    saveAs(blob, 'COIN_Table_exported_data.csv');
+    // Add styling to the worksheet
+    const headerStyle = {
+      font: { bold: true },
+      alignment: { horizontal: 'center' },
+      fill: { fgColor: { rgb: 'FFFFAA00' } }, // Yellow background color
+      border: {
+        top: { style: 'thin', color: { rgb: 'FF000000' } },
+        bottom: { style: 'thin', color: { rgb: 'FF000000' } },
+        left: { style: 'thin', color: { rgb: 'FF000000' } },
+        right: { style: 'thin', color: { rgb: 'FF000000' } },
+      },
+    };
+
+    const dataStyle = {
+      border: {
+        top: { style: 'thin', color: { rgb: 'FF000000' } },
+        bottom: { style: 'thin', color: { rgb: 'FF000000' } },
+        left: { style: 'thin', color: { rgb: 'FF000000' } },
+        right: { style: 'thin', color: { rgb: 'FF000000' } },
+      },
+    };
+
+    // Apply styles to the header row
+    const headerRange = XLSX.utils.decode_range(worksheet['!ref']);
+    for (let i = headerRange.s.c; i <= headerRange.e.c; i++) {
+      const headerCell = XLSX.utils.encode_cell({ r: headerRange.s.r, c: i });
+      worksheet[headerCell].s = headerStyle;
+    }
+
+    // Apply styles to the data rows
+    for (let r = headerRange.s.r + 1; r <= headerRange.e.r; r++) {
+      for (let c = headerRange.s.c; c <= headerRange.e.c; c++) {
+        const dataCell = XLSX.utils.encode_cell({ r: r, c: c });
+        worksheet[dataCell].s = dataStyle;
+      }
+    }
+
+    // Add the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+    // Export the workbook to Excel file
+    XLSX.writeFile(workbook, 'COIN_Table_Data.xlsx');
   };
-
-  // const handleExportData = () => {
-  //   csvExporter.generateCsv(tableData);
-  // };
 
   // logic for export data in diffrerent formats
 
@@ -312,7 +341,7 @@ const Table2 = ({
                       <Button
                         disabled={table.getPrePaginationRowModel().rows.length === 0}
                         //export all rows, including from the next page, (still respects filtering and sorting)
-                        onClick={() => handleExportRows(table.getPrePaginationRowModel().rows)}
+                        onClick={() => exportToExcel(table.getPrePaginationRowModel().rows)}
                         startIcon={<FileDownloadIcon />}
                         variant="contained"
                       >
@@ -323,7 +352,7 @@ const Table2 = ({
                       <Button
                         disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
                         //only export selected rows
-                        onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
+                        onClick={() => exportToExcel(table.getSelectedRowModel().rows)}
                         startIcon={<FileDownloadIcon />}
                         variant="contained"
                       >
