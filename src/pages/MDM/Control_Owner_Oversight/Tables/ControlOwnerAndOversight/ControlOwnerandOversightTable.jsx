@@ -205,7 +205,16 @@ const ControlOwnerAndOversightTable = () => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 200,
+      size: 230,
+    },
+    {
+      accessorKey: 'receiver_entity',
+      id: 'receiver_entity',
+      header: 'Receiver Organization',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 230,
     },
     {
       accessorKey: 'Control_ID',
