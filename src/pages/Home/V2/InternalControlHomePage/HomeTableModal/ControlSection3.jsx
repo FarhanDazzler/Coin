@@ -99,81 +99,83 @@ const ControlSection3 = ({
   }, [ans, render, questionData]);
 
   useEffect(() => {
-    const updateAns = {};
-    if (ans.L1) {
-      const ansObjectL1 = Object.keys(ans.L1);
-      if (ansObjectL1.length === questionL1[0]?.innerOptions?.length) {
-        let allYesFilterData1 = Object.keys(ans.L1).filter((key) => {
-          return ans.L1[key].includes('yes');
-        });
-        if (ansObjectL1.length === allYesFilterData1.length && !questionL2.length) {
-          dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
-        }
-        updateAns.L1 = ans.L1;
-        setAns(updateAns);
-        setTerminating(false);
-        if (ansObjectL1.length !== allYesFilterData1.length) {
-          setQuestionL2([]);
-          setQuestionL3([]);
-          // setTerminating(true);
-          setShowNoQuestion(true);
-          return;
-        } else {
-          setShowNoQuestion(false);
-        }
-      } else {
-        if (ans.L1) {
+    setTimeout(() => {
+      const updateAns = {};
+      if (ans.L1) {
+        const ansObjectL1 = Object.keys(ans.L1);
+        if (ansObjectL1.length === questionL1[0]?.innerOptions?.length) {
+          let allYesFilterData1 = Object.keys(ans.L1).filter((key) => {
+            return ans.L1[key].includes('yes');
+          });
+          if (ansObjectL1.length === allYesFilterData1.length && !questionL2.length) {
+            dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
+          }
           updateAns.L1 = ans.L1;
           setAns(updateAns);
+          setTerminating(false);
+          if (ansObjectL1.length !== allYesFilterData1.length) {
+            setQuestionL2([]);
+            setQuestionL3([]);
+            // setTerminating(true);
+            setShowNoQuestion(true);
+            return;
+          } else {
+            setShowNoQuestion(false);
+          }
+        } else {
+          if (ans.L1) {
+            updateAns.L1 = ans.L1;
+            setAns(updateAns);
+          }
         }
       }
-    }
-    if (ans.L2) {
-      const ansObjectL2 = Object.keys(ans.L2);
-      if (ansObjectL2.length === questionL2[0]?.innerOptions?.length) {
-        let allYesFilterData2 = Object.keys(ans.L2).filter((key) => {
-          return ans.L2[key].includes('yes');
-        });
-        if (ansObjectL2.length === allYesFilterData2.length && !questionL3.length) {
-          dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
-        }
-        updateAns.L2 = ans.L2;
-        setAns(updateAns);
-        setTerminating(false);
-        if (ansObjectL2.length !== allYesFilterData2.length) {
-          setQuestionL3([]);
-          setShowNoQuestion(true);
-          // setTerminating(true);
-          return;
+      if (ans.L2) {
+        const ansObjectL2 = Object.keys(ans.L2);
+        if (ansObjectL2.length === questionL2[0]?.innerOptions?.length) {
+          let allYesFilterData2 = Object.keys(ans.L2).filter((key) => {
+            return ans.L2[key].includes('yes');
+          });
+          if (ansObjectL2.length === allYesFilterData2.length && !questionL3.length) {
+            dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
+          }
+          updateAns.L2 = ans.L2;
+          setAns(updateAns);
+          setTerminating(false);
+          if (ansObjectL2.length !== allYesFilterData2.length) {
+            setQuestionL3([]);
+            setShowNoQuestion(true);
+            // setTerminating(true);
+            return;
+          } else {
+            setShowNoQuestion(false);
+          }
         } else {
-          setShowNoQuestion(false);
-        }
-      } else {
-        if (ans.L2) {
+          if (ans.L2) {
+            updateAns.L2 = ans.L2;
+            setAns(updateAns);
+          }
           updateAns.L2 = ans.L2;
           setAns(updateAns);
         }
-        updateAns.L2 = ans.L2;
+      }
+      if (ans.L3) {
+        const ansObjectL3 = Object.keys(ans.L3);
+        if (ansObjectL3.length === questionL3[0]?.innerOptions?.length) {
+          let allYesFilterData3 = Object.keys(ans.L3).filter((key) => {
+            return ans.L3[key].includes('yes');
+          });
+          if (ansObjectL3.length === allYesFilterData3.length) {
+            setTerminating(true);
+            setShowNoQuestion(false);
+          } else {
+            // setShowNoQuestion(true);
+            setTerminating(true);
+          }
+        }
+        updateAns.L3 = ans.L3;
         setAns(updateAns);
       }
-    }
-    if (ans.L3) {
-      const ansObjectL3 = Object.keys(ans.L3);
-      if (ansObjectL3.length === questionL3[0]?.innerOptions?.length) {
-        let allYesFilterData3 = Object.keys(ans.L3).filter((key) => {
-          return ans.L3[key].includes('yes');
-        });
-        if (ansObjectL3.length === allYesFilterData3.length) {
-          setTerminating(true);
-          setShowNoQuestion(false);
-        } else {
-          // setShowNoQuestion(true);
-          setTerminating(true);
-        }
-      }
-      updateAns.L3 = ans.L3;
-      setAns(updateAns);
-    }
+    }, 200);
   }, [lastAns]);
 
   useEffect(() => {
