@@ -236,15 +236,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         const isS3Failed = !dataArray.includes('L3');
         const payload = {
           Assessment_ID: activeData.id,
-          Assessment_result: isupdated
-            ? 'NA'
-            : dataArray.includes('L3')
-            ? isS3Failed || s1FailObj
-              ? 'Fail'
-              : 'Pass'
-            : s1FailObj
-            ? 'Fail'
-            : 'Pass',
+          Assessment_result: isupdated ? 'NA' : isS3Failed || s1FailObj ? 'Fail' : 'Pass',
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
@@ -257,7 +249,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
                 Swal.fire('Your Assesment has been submitted', '', 'success');
                 history.push('/');
               } else {
-                if (dataArray.includes('L3') ? isS3Failed || s1FailObj : s1FailObj) {
+                if (dataArray.length > 0 ? isS3Failed || s1FailObj : s1FailObj) {
                   Swal.fire('Your Assesment has been failed', '', 'success');
                 } else {
                   Swal.fire('Your Assesment has been passed', '', 'success');

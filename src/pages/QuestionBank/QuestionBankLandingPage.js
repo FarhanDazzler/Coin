@@ -85,8 +85,8 @@ const QuestionBank = () => {
                 >
                   <span className="text-white">Modify MICS-Specific</span>
                 </Button>
-                {/* <Button
-                  variant="outlined" 
+                <Button
+                  variant="outlined"
                   size="large"
                   startIcon={<TranslateIcon />}
                   onClick={() => {
@@ -95,7 +95,7 @@ const QuestionBank = () => {
                   }}
                 >
                   <span className="text-white">Change language</span>
-                </Button>  */}
+                </Button>
               </QuestionBankBox>
             </div>
           </div>
