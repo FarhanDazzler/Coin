@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Card, Modal, Container, Row, Col } from 'react-bootstrap';
 import { useLocation, useHistory } from 'react-router-dom';
+import { Group, Text, Image, SimpleGrid } from '@mantine/core';
+import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
 import { Divider, Box } from '@mantine/core';
 import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { InteractionStatus, PublicClientApplication } from '@azure/msal-browser';
@@ -11,6 +13,8 @@ import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FeatherIcon from 'feather-icons-react';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useDropzone } from 'react-dropzone';
+import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import PageWrapper from '../../components/wrappers/PageWrapper';
 import Button from '../../components/UI/Button';
 import './ContactUSStyle.scss';
@@ -30,25 +34,139 @@ const ContactUSLandingPage = () => {
   const { instance, accounts, inProgress } = useMsal();
 
   const [SYS_ID, setSYS_ID] = useState();
-  const [files, setFiles] = useState('');
+
+  var formdata = new FormData();
+
+  // Code for File Drop Zone
+  // state to store files
+  const [files, setFiles] = useState([]);
+
+  // Function to detele file on the basis of file name
+  const handleDeleteFile = useCallback(
+    (fileName) => {
+      const updatedFiles = files.filter((file) => file.name !== fileName);
+      setFiles(updatedFiles);
+    },
+    [files],
+  );
+
+  const {
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    acceptedFiles,
+    fileRejections,
+    isDragAccept,
+    isDragReject,
+  } = useDropzone({
+    accept: {
+      'image/*': ['.jpeg', '.png', '.jpg'],
+    },
+
+    // Specify the file types you want to accept
+    //multiple: true, // Allow multiple file selection
+    multiple: false,
+    maxFiles: 1,
+    onDrop: (acceptedFiles) => {
+      setFiles([...files, ...acceptedFiles]);
+    },
+  });
+
+  // Function to preview files (Thumbnail)
+  const previews = files.map((file, index) => {
+    const imageUrl = URL.createObjectURL(file);
+    return (
+      <div className="previews-block" key={index}>
+        <VideoLibraryIcon />
+        <span className="upload-image-file-name">{file.name}</span>
+
+        <DeleteIcon
+          className="previews-cancel-icon"
+          size={30}
+          strokeWidth={1.5}
+          color={'#ffc800'}
+          onClick={() => {
+            handleDeleteFile(file.name);
+          }}
+        />
+      </div>
+    );
+  });
+
+  useEffect(() => {
+    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, []);
+
+  // Code for changing background color of dropzone
+  const style = useMemo(
+    () => ({
+      ...(isDragActive ? { backgroundColor: '#ffc800' } : {}),
+      ...(isDragAccept ? { backgroundColor: '#508A3B' } : {}),
+      ...(isDragReject ? { backgroundColor: '#b11f24' } : {}),
+    }),
+    [isDragActive, isDragReject, isDragAccept],
+  );
+
+  // code for changing text of dropzone with icons nad text color
+  const messageWithIconAndColor = useMemo(() => {
+    if (fileRejections.length > 0) {
+      const { errors } = fileRejections[0];
+      return (
+        <Group position="center" spacing="xl" style={{ minHeight: '220px', pointerEvents: 'none' }}>
+          <IconX size="3.2rem" strokeWidth={2} color="#b11f24" />
+          <div className="dropzone-message-text" style={{ color: '#b11f24' }}>
+            <Text size="xl" inline>
+              {' '}
+              {errors[0].message}{' '}
+            </Text>
+          </div>
+        </Group>
+      );
+    }
+    if (files.length > 0) {
+      return (
+        <Group position="center" spacing="xl" style={{ minHeight: '220px', pointerEvents: 'none' }}>
+          <IconPhoto size="3.2rem" strokeWidth={2} color="#ffff" />
+          <div className="dropzone-message-text" style={{ color: '#ffff' }}>
+            <Text size="xl" inline>
+              {' '}
+              {`${files.length} file${files.length > 1 ? 's' : ''} selected`}
+            </Text>
+          </div>
+        </Group>
+      );
+    }
+    return (
+      <Group position="center" spacing="xl" style={{ minHeight: '220px', pointerEvents: 'none' }}>
+        <IconUpload size="3.2rem" strokeWidth={2} color="#ffc800" />
+        <div className="dropzone-message-text" style={{ color: '#ffc800' }}>
+          <Text size="xl" inline>
+            {' '}
+            Drag and drop some files here, or click to select files
+          </Text>
+        </div>
+      </Group>
+    );
+  }, [files, fileRejections]);
 
   const handleOnclickCancel = () => {
     history.push('/');
   };
   const HandleSave = (value) => {
-    // let payload = {
-    //   issueType: 'u_performance',
-    //   shortDescription: 'Test',
-    //   projectName: 'COIN',
-    //   zone: 'GHQ',
-    //   issueDescription: 'Test',
-    //   pointOfContact: accounts[0]?.name ? accounts[0].name : '',
-    //   assignmentGroup: 'getFromVamshi',
-    //   priority: '3',
-    //   sys_id: SYS_ID,
-    //   businessService: 'GetITFromVamshi',
-    //   typeOfSolution: 'COIN_application_issue',
-    // };
+    let payload = {
+      issueType: 'u_performance',
+      shortDescription: 'Test',
+      projectName: 'COIN',
+      zone: 'GHQ',
+      issueDescription: 'Test',
+      pointOfContact: accounts[0]?.name ? accounts[0].name : '',
+      assignmentGroup: 'getFromVamshi',
+      priority: '3',
+      sys_id: SYS_ID,
+      businessService: 'GetITFromVamshi',
+      typeOfSolution: 'COIN_application_issue',
+    };
     // let config = {
     //   method: 'post',
     //   url: process.env.REACT_APP_SNOW_CREATE_TICKET,
@@ -277,74 +395,30 @@ const ContactUSLandingPage = () => {
                       </div>
 
                       <Row className="cardInputGroup">
-                        <Col md={12} className="cardInputHeader" style={{ margin: '0' }}>
+                        <div className="col-lg-12">
                           <Form.Label>Attachments :</Form.Label>
-                        </Col>
+                        </div>
+
                         <Col md={12} className="cardNote">
-                          <p style={{ margin: '0' }}>
-                            (Strictly allowed File types : .zip, .png , .jpeg, .jpg, .docx, .xlsx,
-                            .csv)
-                          </p>
+                          <p>(Strictly allowed File types : .png , .jpeg, .jpg)</p>
                         </Col>
-                        <Col md={6} sm={8} xs={12}>
-                          <div className="upload-sec">
-                            <input
-                              type="file"
-                              className="form-control"
-                              id="mp-attachment"
-                              multiple={false}
-                              style={{ display: 'none' }}
-                              accept="image/png,image/jpeg,application/pdf,text/csv,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/zip"
-                              onChange={(e) => {
-                                setFiles(e.target.files);
-                              }}
-                            />
-                            <div style={{ paddingRight: '15px' }}>
-                              <label style={{ marginBottom: '0.2rem' }}>Choose Files</label>
-                              <div
-                                style={{
-                                  maxWidth: 150,
-                                  fontWeight: 600,
-                                  fontSize: 10,
-                                  paddingBottom: '3px',
-                                }}
-                              >
-                                {' '}
-                                (Max-Size: 2MB){' '}
+                        <div className="row mb-8">
+                          <section className="container">
+                            <div className="dropZoneContainer" style={style}>
+                              <div {...getRootProps({ className: 'dropzone' })}>
+                                <input {...getInputProps()} />
+                                {messageWithIconAndColor}
                               </div>
                             </div>
-                            <div>
-                              <label htmlFor="mp-attachment" id="uploadEvidencebtn">
-                                <Button
-                                  className="icon-button"
-                                  variant="contained"
-                                  color="primary"
-                                  component="span"
-                                >
-                                  <FeatherIcon icon="upload" size={14} />
-                                </Button>
-                              </label>
-                            </div>
-                          </div>
-                        </Col>
-                        <Col md={12}>
-                          <div
-                            className="attachment-links"
-                            style={{ paddingLeft: '10px', paddingTop: '30px' }}
-                          >
-                            {files.length > 0 ? (
-                              <>
-                                {files[0]?.name ? (
-                                  <div>{files[0]?.name}</div>
-                                ) : (
-                                  <div>{files[0]?.fileName}</div>
-                                )}
-                              </>
-                            ) : (
-                              <></>
-                            )}
-                          </div>
-                        </Col>
+                            <SimpleGrid
+                              cols={4}
+                              breakpoints={[{ maxWidth: 'sm', cols: 1 }]}
+                              mt={previews.length > 0 ? 'xl' : 0}
+                            >
+                              {previews}
+                            </SimpleGrid>
+                          </section>
+                        </div>
                       </Row>
                     </div>
 
