@@ -274,11 +274,7 @@ function App() {
         t.src = 'https://www.clarity.ms/tag/' + i;
         y = l.getElementsByTagName(r)[0];
         y.parentNode.insertBefore(t, y);
-      })(window, document, 'clarity', 'script', ${
-        process.env.REACT_APP_STAGE === 'prod'
-          ? process.env.REACT_APP_CLARITY_KEY_PROD
-          : process.env.REACT_APP_CLARITY_KEY_DEV
-      });`}
+      })(window, document, 'clarity', 'script', '${process.env.REACT_APP_CLARITY_KEY}');`}
           </script>
         </Helmet>
         <ThemeProvider theme={theme}>
