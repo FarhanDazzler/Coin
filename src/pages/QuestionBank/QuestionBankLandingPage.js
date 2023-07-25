@@ -85,13 +85,17 @@ const QuestionBank = () => {
                 >
                   <span className="text-white">Modify MICS-Specific</span>
                 </Button>
+              </QuestionBankBox>
+            </div>
+
+            <div className="col-lg-12 py-4">
+              <QuestionBankBox title="Change questions language" description="Set other language">
                 <Button
                   variant="outlined"
                   size="large"
                   startIcon={<TranslateIcon />}
                   onClick={() => {
                     history.push('/questionbank/change-language');
-                    // handleChangeLang('MICS-Specific');
                   }}
                 >
                   <span className="text-white">Change language</span>
