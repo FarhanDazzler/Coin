@@ -33,8 +33,8 @@ const RenderHomeModalTable = ({
 }) => {
   const dispatch = useDispatch();
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
-  const isSection3Failed = Object.keys(ansSection3).find((i) =>
-    Object.values(ansSection3[i])[0].includes('no'),
+  const isSection3Failed = Object.keys(ansSection3)?.find((i) =>
+    Object.values(ansSection3[i])[0]?.includes('no'),
   );
   React.useEffect(() => {
     let sectionTerminating = false;
@@ -115,8 +115,7 @@ const RenderHomeModalTable = ({
 
           {!isModal && terminating ? (
             <>
-              {section1TerminatingLogicValue ||
-              (!!isSection3Failed) ? (
+              {section1TerminatingLogicValue || !!isSection3Failed ? (
                 <div style={{ color: 'red', marginBottom: '10px' }}>
                   Based on above response, the control is assessed as failed because of{' '}
                   {Object.keys(ansSection3).length == 1
