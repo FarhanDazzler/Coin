@@ -16,7 +16,11 @@ export const QuestionType = [
 
 export const TranslateType = [
   { label: 'French', value: 'French' },
+  { label: 'Mandarin', value: 'Mandarin' },
   { label: 'Spanish', value: 'Spanish' },
+  { label: 'Korean', value: 'Korean' },
+  { label: 'Vietnamese', value: 'Vietnamese' },
+  { label: 'Portuguese', value: 'Portuguese' },
 ];
 
 const AddSection1Questions = ({ open, handleClose, type, controlId }) => {

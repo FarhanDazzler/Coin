@@ -28,6 +28,8 @@ import {
   GET_SECTION1_QUESTIONS_TRANSLATION_SUCCESS,
   GET_SECTION1_QUESTIONS_TRANSLATION_FAILED,
   ATTEMPT_EDIT_SECTION1_QUESTIONS_TRANSLATION,
+  EDIT_SECTION1_QUESTIONS_TRANSLATION_SUCCESS,
+  EDIT_SECTION1_QUESTIONS_TRANSLATION_FAILED,
 } from '../types';
 import { ACTION_ADD_ERROR_NOTIFICATION_DATA } from '../ErrorNotification/ErrorNotificationReducer';
 import { Axios } from '../../api/axios';
@@ -89,12 +91,12 @@ function* editSection1QuestionTranslationData(payload) {
     const response = yield editSection1QuestionDataTranslationApiCall(payload);
     if (response?.success === true) {
       yield put({
-        type: GET_SECTION1_QUESTIONS_TRANSLATION_SUCCESS,
+        type: EDIT_SECTION1_QUESTIONS_TRANSLATION_SUCCESS,
         data: response?.data,
       });
     } else {
       yield put({
-        type: GET_SECTION1_QUESTIONS_TRANSLATION_FAILED,
+        type: EDIT_SECTION1_QUESTIONS_TRANSLATION_FAILED,
         message: 'Somthing went wrong',
       });
     }

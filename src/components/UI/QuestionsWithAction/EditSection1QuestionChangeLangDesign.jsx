@@ -16,6 +16,8 @@ const EditSection1QuestionChangeLangDesign = ({
   questionOptions,
   handleChangeOption,
   options,
+  questionText = 'Question text',
+  questionOptionText = 'Question options',
 }) => {
   const handleChangeQuestionInput = (e) => {
     if (handleChangeQuestion) handleChangeQuestion(e);
@@ -28,38 +30,14 @@ const EditSection1QuestionChangeLangDesign = ({
   return (
     <div>
       <Input
-        label={'Question text'}
+        label={questionText}
         value={question}
         block={block}
         disabled={!handleChangeQuestion}
         handleChange={handleChangeQuestionInput}
         placeholder=" Enter question text"
-        formControlProps={{ className: 'input-wrapper full-input' }}
+        formControlProps={{ className: 'input-wrapper full-input mb-4' }}
       />
-      <div className="d-flex justify-content-end pt-5">
-        <Form.Group className="input-group mb-3" style={{ maxWidth: 193 }}>
-          <Form.Control
-            as="select"
-            name=""
-            placeholder=""
-            className="form-select"
-            disabled={!setBlock}
-            onChange={(e) => {
-              setBlock && setBlock({ ...block, question_type: e.target.value });
-            }}
-            value={block.question_type}
-          >
-            <option value="" disabled>
-              Select Question Type
-            </option>
-            {QuestionType.map((data, i) => (
-              <option value={data?.value} key={i}>
-                {data?.label}
-              </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
-      </div>
 
       {['Free Text', 'Is AD'].includes(block.question_type) ? (
         <div className="d-flex align-items-end justify-content-between">
@@ -85,7 +63,7 @@ const EditSection1QuestionChangeLangDesign = ({
       ) : (
         <div className="mt-2 w-full">
           <FormControl className="input-wrapper">
-            <FormLabel>Question options</FormLabel>
+            <FormLabel>{questionOptionText}</FormLabel>
           </FormControl>
           {questionOptions.map((op) => {
             if (op.isRemove) return;
