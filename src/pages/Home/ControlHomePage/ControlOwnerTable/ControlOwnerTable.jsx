@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,12 +48,18 @@ const ControlOwnerTable = ({
   const loginUserRole = loginRole ?? userRole;
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
 
-  let controlOwnerData = ([] = []);
-  if (loginUserRole === 'Control owner') {
-    controlOwnerData = getControlOwnerData.data[0]?.cOwnerData || [];
-  } else {
-    controlOwnerData = getControlOwnerData.data[1]?.cOverSightData || [];
-  }
+  // let controlOwnerData = ([] = []);
+  // if (loginUserRole === 'Control owner') {
+  //   controlOwnerData = getControlOwnerData.data[0]?.cOwnerData || [];
+  // } else {
+  //   controlOwnerData = getControlOwnerData.data[1]?.cOverSightData || [];
+  // }
+
+  const controlOwnerData = useMemo(() => {
+    return loginUserRole === 'Control owner'
+      ? getControlOwnerData.data[0]?.cOwnerData || []
+      : getControlOwnerData.data[1]?.cOverSightData || [];
+  }, [getControlOwnerData.data, loginUserRole]);
 
   useEffect(() => {
     dispatch(
@@ -222,38 +228,69 @@ const ControlOwnerTable = ({
     },
   ];
 
-  const Zone = controlOwnerData?.map((i) => i.Zone);
-  const BU = controlOwnerData?.map((i) => i.BU);
-  const Receiver = controlOwnerData?.map((i) => i.Receiver);
-  const Provider = controlOwnerData?.map((i) => i.Provider);
-  const year = controlOwnerData?.map((i) => i.Year);
-  const assessment_Cycle = controlOwnerData?.map((i) => i.Assessment_Cycle);
-  const handleControlIDClick = (id, row) => {
-    //TODO: modal redirect
-    let payload = {
-      controlId: id,
-      coOwner: row?.Control_Owner,
-      provider:row?.Provider
-    };
-    let gcdPayload = {
-      controlId: id,
-    };
-    dispatch(getControlDataAction(payload));
-    dispatch(getControlDataGcdAction(gcdPayload));
-    history.push(`${history.location.pathname}?Control_ID=${id}`, row);
-  };
+  // Memoize static data to prevent re-creation on every render
+  const Zone = useMemo(() => controlOwnerData?.map((i) => i.Zone), [controlOwnerData]);
+  const BU = useMemo(() => controlOwnerData?.map((i) => i.BU), [controlOwnerData]);
+  const Receiver = useMemo(() => controlOwnerData?.map((i) => i.Receiver), [controlOwnerData]);
+  const Provider = useMemo(() => controlOwnerData?.map((i) => i.Provider), [controlOwnerData]);
+  const year = useMemo(() => controlOwnerData?.map((i) => i.Year), [controlOwnerData]);
+  const assessment_Cycle = useMemo(
+    () => controlOwnerData?.map((i) => i.Assessment_Cycle),
+    [controlOwnerData],
+  );
+
+  // const Zone = controlOwnerData?.map((i) => i.Zone);
+  // const BU = controlOwnerData?.map((i) => i.BU);
+  // const Receiver = controlOwnerData?.map((i) => i.Receiver);
+  // const Provider = controlOwnerData?.map((i) => i.Provider);
+  // const year = controlOwnerData?.map((i) => i.Year);
+  // const assessment_Cycle = controlOwnerData?.map((i) => i.Assessment_Cycle);
+
+  // Memoize the function to prevent re-creation on every render
+  const handleControlIDClick = useCallback(
+    (id, row) => {
+      let payload = {
+        controlId: id,
+        coOwner: row?.Control_Owner,
+        provider: row?.Provider,
+      };
+      let gcdPayload = {
+        controlId: id,
+      };
+      dispatch(getControlDataAction(payload));
+      dispatch(getControlDataGcdAction(gcdPayload));
+      history.push(`${history.location.pathname}?Control_ID=${id}`, row);
+    },
+    [dispatch, history],
+  );
+
+  // const handleControlIDClick = (id, row) => {
+  //   //TODO: modal redirect
+  //   let payload = {
+  //     controlId: id,
+  //     coOwner: row?.Control_Owner,
+  //     provider: row?.Provider,
+  //   };
+  //   let gcdPayload = {
+  //     controlId: id,
+  //   };
+  //   dispatch(getControlDataAction(payload));
+  //   dispatch(getControlDataGcdAction(gcdPayload));
+  //   history.push(`${history.location.pathname}?Control_ID=${id}`, row);
+  // };
 
   function removeDuplicates(arr) {
     return [...new Set(arr)];
   }
 
   useEffect(() => {
-    if (loginUserRole === 'Control owner') {
-      setTableData(getControlOwnerData.data[0]?.cOwnerData || []);
-    } else {
-      setTableData(getControlOwnerData.data[1]?.cOverSightData || []);
-    }
-  }, [getControlOwnerData.data, loginUserRole]);
+    setTableData(controlOwnerData);
+    // if (loginUserRole === 'Control owner') {
+    //   setTableData(getControlOwnerData.data[0]?.cOwnerData || []);
+    // } else {
+    //   setTableData(getControlOwnerData.data[1]?.cOverSightData || []);
+    // }
+  }, [getControlOwnerData.data, loginUserRole, controlOwnerData]);
 
   useEffect(() => {
     if (!tableData.length) return setTableDataArray([]);
