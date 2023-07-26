@@ -208,15 +208,6 @@ const ControlOwnerAndOversightTable = () => {
       size: 230,
     },
     {
-      accessorKey: 'receiver_entity',
-      id: 'receiver_entity',
-      header: 'Receiver Organization',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 230,
-    },
-    {
       accessorKey: 'Control_ID',
       id: 'Control_ID',
       header: 'Control ID',
@@ -300,6 +291,15 @@ const ControlOwnerAndOversightTable = () => {
         );
       },
     },
+    {
+      accessorKey: 'receiver_entity',
+      id: 'receiver_entity',
+      header: 'Receiver Organization',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 230,
+    },
   ];
 
   useEffect(() => {
@@ -329,7 +329,11 @@ const ControlOwnerAndOversightTable = () => {
 
   const handleOnclickEdit = () => {
     if (editTableIndex.length == 0) {
-      Swal.fire('Oops...', 'You need to select a row from the table first to Edit/Add LCD', 'error');
+      Swal.fire(
+        'Oops...',
+        'You need to select a row from the table first to Edit/Add LCD',
+        'error',
+      );
     } else if (editTableIndex.length >= 1) {
       const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
       setAssignTableData(data);

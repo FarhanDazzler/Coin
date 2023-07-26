@@ -278,8 +278,16 @@ export const languageToTextKey = (language) => {
   switch (language) {
     case 'French':
       return 'fr_';
+    case 'Mandarin':
+      return 'md_';
     case 'Spanish':
       return 'es_';
+    case 'Korean':
+      return 'ko_';
+    case 'Vietnamese':
+      return 'vi_';
+    case 'Portuguese':
+      return 'pt_';
     default:
       return '';
   }

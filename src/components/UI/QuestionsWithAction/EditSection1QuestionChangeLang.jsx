@@ -20,7 +20,9 @@ const EditSection1QuestionChangeLang = ({
   block: apiBlock = {},
   setShowEditModal,
   allQuestions,
-  isChangeLang,
+  number,
+  section1QuestionsData,
+  setSection1QuestionsData,
 }) => {
   const dispatch = useDispatch();
   const [block, setBlock] = useState(apiBlock);
@@ -32,13 +34,12 @@ const EditSection1QuestionChangeLang = ({
   const [options, setOptions] = useState([]);
   const [freeTextChildQId, setFreeTextChildQId] = useState('');
   const question1EditLoadingList = useSelector(question1EditLoadingListSelector);
-  const [isFailedFreeText, setIsFailedFreeText] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
   const section1GetQuestionTranslation = useSelector(
     (state) => state?.section1QuestionData?.section1GetQuestionTranslation,
   );
   const [loading, setLoading] = useState(false);
-  const [language, setLanguage] = useState('French');
+  const [language, setLanguage] = useState('');
   const [isChange, setIsChange] = useState(false);
 
   useEffect(() => {
@@ -61,15 +62,6 @@ const EditSection1QuestionChangeLang = ({
     setIsChange(true);
     setQuestionLang(value);
   };
-
-  useEffect(() => {
-    if (
-      [blockType.TEXT, blockType.IS_AD].includes(apiBlock.question_type) &&
-      apiBlock.options?.length > 0
-    ) {
-      setIsFailedFreeText(!!apiBlock.options[0]?.is_Failing);
-    }
-  }, [apiBlock.options]);
 
   useEffect(() => {
     dispatch(getSection1QuestionTranslationDataAction([block?.q_id, language]));
@@ -135,6 +127,7 @@ const EditSection1QuestionChangeLang = ({
       }
       dispatch(editSection1QuestionTranslationDataAction(payload));
     }
+    setShowEditModal(false);
   };
 
   useEffect(() => {
@@ -162,8 +155,8 @@ const EditSection1QuestionChangeLang = ({
     >
       <div>
         <div className="d-flex">
-          <div className="p-5 w-50">
-            <div style={{ height: 50 }} />
+          <div className="p-5 w-50 border-right">
+            <h3 className="text-str">Q.{number} in english</h3>
             <EditSection1QuestionChangeLangDesign
               question={question}
               block={block}
@@ -197,20 +190,30 @@ const EditSection1QuestionChangeLang = ({
                 </Form.Control>
               </Form.Group>
             </div>
-            {loading ? (
-              <div className="question-loader">
-                <Loader />
-              </div>
+            {language ? (
+              <>
+                {loading ? (
+                  <div className="question-loader">
+                    <Loader />
+                  </div>
+                ) : (
+                  <EditSection1QuestionChangeLangDesign
+                    question={questionLang}
+                    block={blockLang}
+                    handleChangeQuestion={handleChangeQuestion}
+                    freeTextChildQId={freeTextChildQId}
+                    questionOptions={questionOptionsLang}
+                    handleChangeOption={handleChangeOption}
+                    options={options}
+                    questionText="Input the question in your local langDesign"
+                    questionOptionText="Input the options in your local langDesign"
+                  />
+                )}{' '}
+              </>
             ) : (
-              <EditSection1QuestionChangeLangDesign
-                question={questionLang}
-                block={blockLang}
-                handleChangeQuestion={handleChangeQuestion}
-                freeTextChildQId={freeTextChildQId}
-                questionOptions={questionOptionsLang}
-                handleChangeOption={handleChangeOption}
-                options={options}
-              />
+              <div className="no-data-placeholder">
+                <p>Select language</p>
+              </div>
             )}
           </div>
         </div>

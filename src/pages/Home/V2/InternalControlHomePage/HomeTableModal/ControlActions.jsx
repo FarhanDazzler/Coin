@@ -10,7 +10,6 @@ const ControlActions = ({activeData}) => {
   };
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   const stateGcdData = useSelector((state) => state?.controlData?.gcd?.data);
-  console.log('stateControlData', stateControlData);
   const isClear = (text) => activeTab === text;
   return (
     <div className="control-actions-wrapper">

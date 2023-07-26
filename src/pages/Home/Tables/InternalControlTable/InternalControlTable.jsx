@@ -62,7 +62,7 @@ const InternalControlTable = ({
     let payload = {
       controlId: id,
       coOwner: row.Control_Owner,
-      provider: row?.Provider
+      provider: row?.Provider,
     };
     let gcdPayload = {
       controlId: id,
@@ -110,7 +110,8 @@ const InternalControlTable = ({
       Cell: (row) => {
         return (
           <div>
-            {(row.row.original.Status === 'Completed' || row.row.original.Status === 'Incorrect Owner' ) && (
+            {(row.row.original.Status === 'Completed' ||
+              row.row.original.Status === 'Incorrect Owner') && (
               <Button
                 className="mr-2"
                 // onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
@@ -248,14 +249,14 @@ const InternalControlTable = ({
 
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
-    const updatedData = getDashBoardDataState?.data?.map((i, index) => {
-      return {
-        id: i.id,
-        ...i,
-      };
-    });
-    setTableData(updatedData);
-    setTableDataArray(updatedData);
+    // const updatedData = getDashBoardDataState?.data?.map((i, index) => {
+    //   return {
+    //     id: i.id,
+    //     ...i,
+    //   };
+    // });
+    setTableData(getDashBoardDataState?.data);
+    setTableDataArray(getDashBoardDataState?.data);
   }, [getDashBoardDataState?.data]);
 
   // Function to remove duplicate value from array
