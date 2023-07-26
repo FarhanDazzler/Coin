@@ -88,7 +88,7 @@ const QuestionBank = () => {
               </QuestionBankBox>
             </div>
 
-            <div className="col-lg-12 py-4">
+            {/* <div className="col-lg-12 py-4">
               <QuestionBankBox title="Change questions language" description="Set other language">
                 <Button
                   variant="outlined"
@@ -101,7 +101,7 @@ const QuestionBank = () => {
                   <span className="text-white">Change language</span>
                 </Button>
               </QuestionBankBox>
-            </div>
+            </div> */}
           </div>
         )}
         <div className="row">
