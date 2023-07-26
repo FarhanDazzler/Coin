@@ -29,7 +29,7 @@ const RenderHomeModalTable = ({
   handleSaveDraftProps = {},
   loadingSubmit,
   isModal = false,
-  activeData={}
+  activeData = {},
 }) => {
   const dispatch = useDispatch();
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
@@ -72,7 +72,7 @@ const RenderHomeModalTable = ({
 
   return (
     <div className="modal-form-body">
-      <ControlActions activeData={activeData}/>
+      <ControlActions activeData={activeData} />
 
       {questionsInfo.loading ? (
         <div className="d-flex w-100 align-items-center justify-content-center py-5 my-5">

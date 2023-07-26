@@ -37,6 +37,7 @@ const initialState = {
     loading: false,
     error: null,
     success: null,
+    callAPi: false,
   },
   section1GetQuestion: {
     data: {},
@@ -139,6 +140,7 @@ export default function section1QuestionDataReducer(state = getInitialState(), a
           loading: true,
           error: '',
           success: '',
+          callAPi: state.section1EditQuestionTranslation.callAPi,
         },
       };
     case EDIT_SECTION1_QUESTIONS_TRANSLATION_SUCCESS:
@@ -149,6 +151,7 @@ export default function section1QuestionDataReducer(state = getInitialState(), a
           loading: false,
           error: '',
           success: '',
+          callAPi: !state.section1EditQuestionTranslation.callAPi,
         },
       };
     case EDIT_SECTION1_QUESTIONS_TRANSLATION_FAILED:
@@ -159,6 +162,7 @@ export default function section1QuestionDataReducer(state = getInitialState(), a
           loading: false,
           error: '',
           success: '',
+          callAPi: state.section1EditQuestionTranslation.callAPi,
         },
       };
 

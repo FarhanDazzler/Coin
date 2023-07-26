@@ -19,6 +19,8 @@ const QuestionsWithAction = ({
   handleSave = () => {},
   templateType,
   isChangeLang,
+  section1QuestionsData,
+  setSection1QuestionsData,
 }) => {
   const [showEditModal, setShowEditModal] = useState(null);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
@@ -98,6 +100,9 @@ const QuestionsWithAction = ({
           setShowEditModal={setChangeLangModal}
           allQuestions={allQuestions}
           handleSave={handleSave}
+          number={number}
+          section1QuestionsData={section1QuestionsData}
+          setSection1QuestionsData={setSection1QuestionsData}
         />
       )}
     </div>
