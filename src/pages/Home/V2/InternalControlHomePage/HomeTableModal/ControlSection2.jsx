@@ -287,7 +287,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       if (d.id === row.id) {
         row.KPI_Value = (row.Numerator / row.Denominator).toFixed(2);
         if (row.Positive_direction === 'Lower is better') {
-          if (row.L1_Result === '') {
+          if (row.MICS_L1_Threshold === '-' || row.L1_Result === '') {
             row.L1_Result = 'NA';
           } else {
             if (row.KPI_Value <= row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
@@ -297,7 +297,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
 
-          if (row.L2_Result === '') {
+          if (row.MICS_L2_Threshold === '-' || row.L2_Result === '' || row.KPI_Value === 'NaN') {
             row.L2_Result = 'NA';
           } else {
             if (row.KPI_Value <= row.MICS_L2_Threshold) {
@@ -307,7 +307,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
 
-          if (row.L3_Result === '') {
+          if (row.MICS_L3_Threshold === '-' || row.L3_Result === '' || row.KPI_Value === 'NaN') {
             row.L3_Result = 'NA';
           } else {
             if (row.KPI_Value <= row.MICS_L3_Threshold) {
@@ -317,7 +317,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
         } else if (row.Positive_direction === 'Higher is better') {
-          if (row.L1_Result === '') {
+          if (row.MICS_L1_Threshold === '-' || row.L1_Result === '' || row.KPI_Value === 'NaN') {
             row.L1_Result = 'NA';
           } else {
             if (row.KPI_Value >= row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
@@ -327,7 +327,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
 
-          if (row.L2_Result === '') {
+          if (row.MICS_L2_Threshold === '-' || row.L2_Result === '' || row.KPI_Value === 'NaN') {
             row.L2_Result = 'NA';
           } else {
             if (row.KPI_Value >= row.MICS_L2_Threshold) {
@@ -337,7 +337,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
 
-          if (row.L3_Result === '') {
+          if (row.MICS_L3_Threshold === '-' || row.L3_Result === '' || row.KPI_Value === 'NaN') {
             row.L3_Result = 'NA';
           } else {
             if (row.KPI_Value >= row.MICS_L3_Threshold) {
