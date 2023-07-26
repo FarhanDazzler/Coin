@@ -147,13 +147,13 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       headerStyle: {
         ...headerStyles,
       },
-      editable: (value, row, rowIndex, columnIndex) => row.isManual,
+      editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
       editor: { type: 'number' },
       style: (cell, row, rowIndex, colIndex) => {
         if (row.isManual) {
           return {
             backgroundColor: 'white',
-            border: '1px solid gold',
+            border: '2px solid gold',
             color: 'black',
           };
         }
@@ -170,7 +170,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
     {
       dataField: 'Denominator',
       text: 'Denominator',
-      editable: (value, row, rowIndex, columnIndex) => row.isManual,
+      editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
       editor: { type: 'number' },
       headerStyle: {
         ...headerStyles,
@@ -179,7 +179,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         if (row.isManual) {
           return {
             backgroundColor: 'white',
-            border: '1px solid gold',
+            border: '2px solid gold',
             color: 'black',
           };
         }
