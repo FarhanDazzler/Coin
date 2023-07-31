@@ -7,7 +7,10 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import Workbook from 'react-excel-workbook';
 import readXlsxFile from 'read-excel-file';
-import { kpiResultSelector } from '../../../../../redux/Assessments/AssessmentSelectors';
+import {
+  kpiResultSelector,
+  getResponseSelector,
+} from '../../../../../redux/Assessments/AssessmentSelectors';
 import { getCsvTampredDataAction } from '../../../../../redux/CsvTampred/CsvTampredAction';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 
@@ -19,7 +22,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   } else {
     headerStyles = { color: '#fff', fontWeight: '700', backgroundColor: '#000' };
   }
-
+  const getKPIResponse = useSelector(getResponseSelector);
   const kpiResultData = useSelector(kpiResultSelector);
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();
@@ -249,7 +252,9 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
 
   console.log('table_data', kpiResultData?.data);
   useEffect(() => {
-    if (kpiResultData?.data?.length > 0) {
+    if (getKPIResponse?.data?.Latest_Response?.kpis) {
+      setTableData(getKPIResponse?.data?.Latest_Response?.kpis);
+    } else if (kpiResultData?.data?.length > 0) {
       const table_data = [...kpiResultData.data];
       table_data.forEach((tData, i) => {
         if (tData.KPI_Value === '' || tData.KPI_Value === 0) {
@@ -482,69 +487,75 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   return (
     <div>
       <CollapseFrame title="Section 2 : KPI" active>
-        <div className="mt-5">
-          <div id="my_btns">
-            <div className="d-flex align-items-center">
-              <div className="row " id="export_button_right">
-                <Workbook
-                  filename={`data-${controlId}.xlsx`}
-                  element={
-                    <button className="export_button">
-                      <strong>Export To Excel</strong>
-                    </button>
-                  }
-                >
-                  <Workbook.Sheet data={tableData} name="Sheet A">
-                    {/* <Workbook.Column label="sep" value="sep" /> */}
-                    <Workbook.Column label="Global_KPI_Code" value="Global_KPI_Code" />
-                    <Workbook.Column label="Entity_ID" value="Entity_ID" />
-                    <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />
-                    <Workbook.Column label="Numerator" value="Numerator" />
-                    <Workbook.Column label="Expected_Denominator" value="Expected_Denominator" />
-                    <Workbook.Column label="Denominator" value="Denominator" />
-                    <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
-                    {/* <Workbook.Column label="KPI_Value" value="KPI_Value" /> */}
-                    <Workbook.Column label="Month" value="Month" />
-                    {/* <Workbook.Column label="L1_Result" value="L1_Result" />
+        {tableData?.length !== 0 ? (
+          <div className="mt-5">
+            <div id="my_btns">
+              <div className="d-flex align-items-center">
+                <div className="row " id="export_button_right">
+                  <Workbook
+                    filename={`data-${controlId}.xlsx`}
+                    element={
+                      <button className="export_button">
+                        <strong>Export To Excel</strong>
+                      </button>
+                    }
+                  >
+                    <Workbook.Sheet data={tableData} name="Sheet A">
+                      {/* <Workbook.Column label="sep" value="sep" /> */}
+                      <Workbook.Column label="Global_KPI_Code" value="Global_KPI_Code" />
+                      <Workbook.Column label="Entity_ID" value="Entity_ID" />
+                      <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />
+                      <Workbook.Column label="Numerator" value="Numerator" />
+                      <Workbook.Column label="Expected_Denominator" value="Expected_Denominator" />
+                      <Workbook.Column label="Denominator" value="Denominator" />
+                      <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
+                      {/* <Workbook.Column label="KPI_Value" value="KPI_Value" /> */}
+                      <Workbook.Column label="Month" value="Month" />
+                      {/* <Workbook.Column label="L1_Result" value="L1_Result" />
                     <Workbook.Column label="L2_Result" value="L2_Result" />
                     <Workbook.Column label="L3_Result" value="L3_Result" /> */}
-                  </Workbook.Sheet>
-                </Workbook>
+                    </Workbook.Sheet>
+                  </Workbook>
+                </div>
+                <h1 className="table-modal-title">Excel File Upload & Download</h1>
               </div>
-              <h1 className="table-modal-title">Excel File Upload & Download</h1>
+              {!isModal && (
+                <form onSubmit={handleSubmit} id="combine_btn">
+                  <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
+                  <button type="submit" className="submit_btn black-text">
+                    <strong>Submit</strong>
+                  </button>
+                </form>
+              )}
             </div>
-            {!isModal && (
-              <form onSubmit={handleSubmit} id="combine_btn">
-                <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
-                <button type="submit" className="submit_btn black-text">
-                  <strong>Submit</strong>
-                </button>
-              </form>
-            )}
+            <div
+              className={`renderBlockWrapper section2-table ${
+                isModal ? 'section2-table-ismodal' : 'section2-table-notmodal'
+              }`}
+            >
+              <BootstrapTable
+                keyField="id"
+                // cellEdit={ cellEditProp }
+                data={tableData}
+                columns={columns}
+                filter={filterFactory()}
+                pagination={paginationFactory()}
+                className="container pagination"
+                responsive
+                rowStyle={rowStyle2}
+                cellEdit={cellEditFactory({
+                  mode: 'click',
+                  blurToSave: true,
+                  afterSaveCell: handleChange,
+                })}
+              />
+            </div>
           </div>
-          <div
-            className={`renderBlockWrapper section2-table ${
-              isModal ? 'section2-table-ismodal' : 'section2-table-notmodal'
-            }`}
-          >
-            <BootstrapTable
-              keyField="id"
-              // cellEdit={ cellEditProp }
-              data={tableData}
-              columns={columns}
-              filter={filterFactory()}
-              pagination={paginationFactory()}
-              className="container pagination"
-              responsive
-              rowStyle={rowStyle2}
-              cellEdit={cellEditFactory({
-                mode: 'click',
-                blurToSave: true,
-                afterSaveCell: handleChange,
-              })}
-            />
+        ) : (
+          <div className="mt-5 text-center">
+            <h1 className="table-modal-title">KPI is not applicable for this Control</h1>
           </div>
-        </div>
+        )}
       </CollapseFrame>
     </div>
   );
