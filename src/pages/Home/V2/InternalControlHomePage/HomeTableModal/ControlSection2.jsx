@@ -377,7 +377,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       body: apiBody,
     };
 
-    fetch('https://acoemicsgrcpwa-devbe.azurewebsites.net/is_csv_tampered', requestParameters)
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/is_csv_tampered`, requestParameters)
       .then((response) => response.text())
       .then((response) => {
         const flag = JSON.parse(response).data;
@@ -434,7 +434,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         body: apiBody,
       };
 
-      // fetch('https://acoemicsgrcpwa-devbe.azurewebsites.net/is_csv_tampered', requestParameters)
+      // fetch(`${process.env.REACT_APP_API_BASE_URL}/is_csv_tampered`, requestParameters)
       //   .then((response) => response.text())
       //   .then((response) => {
       //     console.log(JSON.parse(response).data, 'Check Section 2 validation data');

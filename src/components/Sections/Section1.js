@@ -25,20 +25,20 @@ const Section1 = () => {
   const validationSchema = Yup.object().shape({});
   //get quesitons from the database
   useEffect(() => {
-    Axios.get(
-      'https://acoemicsgrcpwa-devbe.azurewebsites.net/get_questions?ControlID=' + control_id,
-    ).then(function (response) {
-      var status_code = response.status;
-      var status_text = response.statusText;
-      var api_data = response?.data.data;
+    Axios.get(`${process.env.REACT_APP_API_BASE_URL}/get_questions?ControlID=` + control_id).then(
+      function (response) {
+        var status_code = response.status;
+        var status_text = response.statusText;
+        var api_data = response?.data.data;
 
-      if (status_code === 200 && status_text === 'OK') {
-        control_questions = api_data;
-        loading = false;
-      } else {
-        console.log(response.error.message);
-      }
-    });
+        if (status_code === 200 && status_text === 'OK') {
+          control_questions = api_data;
+          loading = false;
+        } else {
+          console.log(response.error.message);
+        }
+      },
+    );
   }, []);
 
   async function hideAlert() {

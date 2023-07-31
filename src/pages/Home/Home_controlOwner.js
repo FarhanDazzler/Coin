@@ -109,7 +109,7 @@ const Home = ({ getControlId }) => {
   const pending_control = 2;
 
   useEffect(() => {
-    Axios.get('https://acoemicsgrcpwa-devbe.azurewebsites.net/get_assessment_trigger_surveys').then(
+    Axios.get(`${process.env.REACT_APP_API_BASE_URL}/get_assessment_trigger_surveys`).then(
       function (response) {
         var status_code = response.status;
         var status_text = response.statusText;
