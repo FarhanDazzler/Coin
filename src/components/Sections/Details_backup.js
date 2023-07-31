@@ -33,7 +33,7 @@ const Details = ({ control_id }) => {
   const [scope, setscope] = useState({});
   const getScope = () => {
     Axios.get(
-      'https://acoemicsgrcpwa-devbe.azurewebsites.net/get_control_scope?ControlID=ATR_ACCR_01b-K&coOwner=Kushal.Khandelwal@ab-inbev.com',
+      `${process.env.REACT_APP_API_BASE_URL}/get_control_scope?ControlID=ATR_ACCR_01b-K&coOwner=Kushal.Khandelwal@ab-inbev.com`,
     )
       .then(async (res) => {
         console.log(res.data.data.priod_of_assessment);
@@ -55,8 +55,7 @@ const Details = ({ control_id }) => {
     //for LCD and other details
 
     Axios.get(
-      'https://acoemicsgrcpwa-devbe.azurewebsites.net/get_control_instances?ControlID=' +
-        control_id,
+      `${process.env.REACT_APP_API_BASE_URL}/get_control_instances?ControlID=` + control_id,
     ).then(function (response) {
       console.log(response);
       var status_code = response.status;
@@ -98,8 +97,7 @@ const Details = ({ control_id }) => {
   const getGCDDesc = () => {
     //for GCD
     Axios.get(
-      'https://acoemicsgrcpwa-devbe.azurewebsites.net/get_mics_framework_details?ControlID=' +
-        control_id,
+      `${process.env.REACT_APP_API_BASE_URL}/get_mics_framework_details?ControlID=` + control_id,
     ).then(function (response) {
       var status_code = response.status;
       var status_text = response.statusText;
