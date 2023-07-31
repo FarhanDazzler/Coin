@@ -111,3 +111,11 @@
     }
   }
 }
+#noOptionInput{
+  input{
+    color: #000 !important;
+    &:focus {
+    color: #fff !important;
+    }
+  }
+}

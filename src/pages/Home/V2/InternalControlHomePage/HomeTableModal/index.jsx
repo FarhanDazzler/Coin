@@ -95,6 +95,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     history.push('/');
   };
   useEffect(() => {
+    if(ansSection3?.noQueAns){
+      setShowNoQuestionAns(ansSection3?.noQueAns);
+    }
+
+  }, [ansSection3])
+  useEffect(() => {
     dispatch(
       getQuestions({
         Control_ID: activeData.Question_Bank === 'Template1' ? 'Standard' : activeData.Control_ID,
