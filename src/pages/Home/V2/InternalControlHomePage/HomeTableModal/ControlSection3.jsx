@@ -175,6 +175,9 @@ const ControlSection3 = ({
         updateAns.L3 = ans.L3;
         setAns(updateAns);
       }
+      if(ans.noQueAns){
+        setShowNoQuestion(true);
+      }
     }, 200);
   }, [lastAns]);
 
