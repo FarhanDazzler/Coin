@@ -12,7 +12,7 @@ const getToken = (name = 'token') => {
 
 const Axios = axios.create({
   baseURL,
-  timeout: 80000,
+  //timeout: 80000,
 });
 
 Axios.interceptors.request.use(
