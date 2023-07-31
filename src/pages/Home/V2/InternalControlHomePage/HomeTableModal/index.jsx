@@ -95,11 +95,10 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     history.push('/');
   };
   useEffect(() => {
-    if(ansSection3?.noQueAns){
+    if (ansSection3?.noQueAns) {
       setShowNoQuestionAns(ansSection3?.noQueAns);
     }
-
-  }, [ansSection3])
+  }, [ansSection3]);
   useEffect(() => {
     dispatch(
       getQuestions({
@@ -123,15 +122,16 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           }),
         );
       }
-
-      dispatch(
-        getAssessmentSection2Ans({
-          MICS_code: activeData.Control_ID || Control_ID,
-          Entity_ID: activeData.Receiver,
-          KPI_From: activeData.KPI_From || '',
-          KPI_To: activeData.KPI_To || '',
-        }),
-      );
+      if (!isModal) {
+        dispatch(
+          getAssessmentSection2Ans({
+            MICS_code: activeData.Control_ID || Control_ID,
+            Entity_ID: activeData.Receiver,
+            KPI_From: activeData.KPI_From || '',
+            KPI_To: activeData.KPI_To || '',
+          }),
+        );
+      }
     }, 400);
   }, [Control_ID]);
 
