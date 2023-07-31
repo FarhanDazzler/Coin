@@ -540,7 +540,7 @@ function Section2(props) {
   useEffect(() => {
     axios
       .get(
-        'https://acoemicsgrcpwa-devbe.azurewebsites.net/kpi_result?ControlID=ATR_ACCR_01b-K&Entity=Argentina',
+        `${process.env.REACT_APP_API_BASE_URL}/kpi_result?ControlID=ATR_ACCR_01b-K&Entity=Argentina`,
       )
       .then((res) => {
         // console.log(res.data.data);

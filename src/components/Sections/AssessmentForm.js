@@ -131,7 +131,7 @@ function AssessmentForm() {
 
     // console.log(map1)
     axios
-      .get('https://acoemicsgrcpwa-devbe.azurewebsites.net/get_questions?ControlID=ATR_MJE_01a-K')
+      .get(`${process.env.REACT_APP_API_BASE_URL}/get_questions?ControlID=ATR_MJE_01a-K`)
       .then(async (res) => {
         // console.log(res.data.data);
         setvalues(res.data.data);
@@ -148,7 +148,7 @@ function AssessmentForm() {
 
     axios
       .get(
-        `https://acoemicsgrcpwa-devbe.azurewebsites.net/get_control_scope?ControlID=ATR_MJE_01a-K&coOwner=${accounts[0].username}`,
+        `${process.env.REACT_APP_API_BASE_URL}/get_control_scope?ControlID=ATR_MJE_01a-K&coOwner=${accounts[0].username}`,
       )
       .then((res) => {
         // console.log(res.data.data.priod_of_assessment);
