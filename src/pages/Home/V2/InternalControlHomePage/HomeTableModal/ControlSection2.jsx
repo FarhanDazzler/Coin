@@ -13,6 +13,7 @@ import {
 } from '../../../../../redux/Assessments/AssessmentSelectors';
 import { getCsvTampredDataAction } from '../../../../../redux/CsvTampred/CsvTampredAction';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
+import moment from 'moment';
 
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
 const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
@@ -273,7 +274,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         const d = new Date();
         d.setMonth(month - 1);
         // console.log(monthName);
-        tData['Month'] = d.toLocaleString('default', { month: 'long' });
+        tData['Month'] =moment(period,'YYYY-MM-DD').format('MMMM')
         tData['Type_of_KPI'] = tData.isManual ? 'Manual' : 'Automated';
       });
 
