@@ -1,31 +1,22 @@
 {
-    "selfAssessment": {
-      "homePage": {
-        "universalFilter_Year": "Année",
-          "universalFilter_Assessment_Cycle": "Cycle d'évaluation",
-          "universalFilter_Zone": "Zone",
-          "universalFilter_BU": "BU",
-          "universalFilter_Provider_Organization": "Organisation fournisseur",
-          "universalFilter_Placeholder": "Sélectionnez votre option",
-        
-        "controleOwner": {
-          "greeting": "Bienvenu",
-          "statsCard_NOT_STARTED": "PAS COMMENCÉ",
-          "statsCard_COMPLETED": "COMPLÉTÉ",
-          "statsCard_DRAFTED": "RÉDIGÉ",
-          "statsCard_RE_ASSESS": "RÉÉVALUER",
+  "selfAssessment": {
+    "homePage": {
+      "controleOwner": {
+        "select_language": "Select Language",
+        "select_role": "Select Role",
+        "greeting": "Welcome",
+        "statsCard_NOT_STARTED": "NOT STARTED",
+        "statsCard_COMPLETED": "COMPLETED",
+        "statsCard_DRAFTED": "DRAFTED",
 
-          "Table":{
-            "export_all_Rows_button": "Exporter toutes les lignes",
-            "export_selected_Rows_button": "Exporter les lignes sélectionnées",
-            "actions_button": "Action",
-            "review_button": "EXAMEN",
-            "take_assessment_button":"Faire une évaluation"
-          }
+        "Table": {
+          "export_all_Rows_button": "Export All Rows",
+          "export_selected_Rows_button": "Export Selected Rows",
+          "actions_button": "Action",
+          "review_button": "Review",
+          "take_assessment_button": "Take Assessment"
         }
       }
-    },
-    "repLetters": {
-      "homePage": {}
     }
   }
+}

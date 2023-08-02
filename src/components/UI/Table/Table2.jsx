@@ -7,6 +7,7 @@ import { Box, Button, Typography } from '@mui/material';
 import * as XLSX from 'xlsx';
 import './tableStyles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTranslation } from 'react-i18next';
 import {
   faArrowDownWideShort,
   faBars,
@@ -79,6 +80,7 @@ const Table2 = ({
   loading,
   Is_Expanding_Detail_Panel = { Is_Expanding: false },
 }) => {
+  const { t } = useTranslation();
   const [rowSelection, setRowSelection] = useState({});
 
   useEffect(() => {
@@ -345,7 +347,7 @@ const Table2 = ({
                         startIcon={<FileDownloadIcon />}
                         variant="contained"
                       >
-                        Export All Rows
+                        {t('selfAssessment.homePage.controleOwner.Table.export_all_Rows_button')}
                       </Button>
                     </div>
                     <div>
@@ -356,7 +358,9 @@ const Table2 = ({
                         startIcon={<FileDownloadIcon />}
                         variant="contained"
                       >
-                        Export Selected Rows
+                        {t(
+                          'selfAssessment.homePage.controleOwner.Table.export_selected_Rows_button',
+                        )}
                       </Button>
                     </div>
                   </div>
