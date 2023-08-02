@@ -25,6 +25,7 @@ const Section3MICSSpecific = ({
   handleChangeRenderBlock,
   inputCenter,
   moreOptions,
+  isChangeLang,
 }) => {
   const questionData = useSelector(question3Selector);
   return (
@@ -50,7 +51,6 @@ const Section3MICSSpecific = ({
             </FormControl>
           </div>
         </div>
-
         <div className="pt-5">
           {questionData.loading ? (
             <div className="d-flex w-100 justify-content-center pt-4" id="loader">
@@ -58,7 +58,11 @@ const Section3MICSSpecific = ({
             </div>
           ) : (
             <div className="d-flex align-items-center">
-              <RenderBlock blocks={section3} handleChange={handleChangeRenderBlock} />
+              <RenderBlock
+                blocks={section3}
+                handleChange={handleChangeRenderBlock}
+                isChangeLang={isChangeLang}
+              />
             </div>
           )}
         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import ControlOwnerTable from './ControlOwnerTable/ControlOwnerTable';
@@ -21,14 +21,7 @@ const ControlHomePage = () => {
   const Control_ID = query.get('Control_ID');
   const { accounts } = useMsal();
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
-  const [statusInfo, setStatusInfo] = useState({
-    notStarted: 0,
-    completed: 0,
-    draft: 0,
-    reAssessed: 0,
-  });
 
-  // multi choice user input State for filters button
   const [yearValue, setYearValue] = useState([]);
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
@@ -51,6 +44,19 @@ const ControlHomePage = () => {
 
   useEffect(() => {
     if (!userRole?.length || userRole === 'undefined') history.push('/not-authorized');
+  }, [
+    getControlOwnerData.data,
+    loginUserRole,
+    yearValue,
+    assessmentCycleValue,
+    zoneValue,
+    buValue,
+    receiverValue,
+    providerValue,
+    loginUserRole,
+  ]);
+
+  const statusInfo = useMemo(() => {
     const tableData =
       loginUserRole === 'Control owner'
         ? getControlOwnerData.data[0]?.cOwnerData || []
@@ -66,36 +72,34 @@ const ControlHomePage = () => {
       const allstatus = tableData.map((d) => {
         return d.Status;
       });
-      setStatusInfo({
+      return {
         notStarted: getNumberOfItem(allstatus, 'Not started'),
         completed: getNumberOfItem(allstatus, 'Completed'),
         draft: getNumberOfItem(allstatus, 'Drafted'),
         reAssessed: getNumberOfItem(allstatus, 'Re-Triggered'),
-      });
-    } else {
-      const updatedData = tableData.filter((i) => {
-        return (
-          (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-          (assessmentCycleValue?.length
-            ? assessmentCycleValue.includes(i.Assessment_Cycle)
-            : true) &&
-          (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-          (buValue?.length ? buValue.includes(i.BU) : true) &&
-          (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
-          (providerValue?.length ? providerValue.includes(i.Provider) : true)
-        );
-      });
-
-      const allUpdatestatus = updatedData.map((d) => {
-        return d.Status;
-      });
-      setStatusInfo({
-        notStarted: getNumberOfItem(allUpdatestatus, 'Not started'),
-        completed: getNumberOfItem(allUpdatestatus, 'Completed'),
-        draft: getNumberOfItem(allUpdatestatus, 'Drafted'),
-        reAssessed: getNumberOfItem(allUpdatestatus, 'Re-Triggered'),
-      });
+      };
     }
+
+    const updatedData = tableData.filter((i) => {
+      return (
+        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
+        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
+        (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+        (buValue?.length ? buValue.includes(i.BU) : true) &&
+        (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
+        (providerValue?.length ? providerValue.includes(i.Provider) : true)
+      );
+    });
+
+    const allUpdatestatus = updatedData.map((d) => {
+      return d.Status;
+    });
+    return {
+      notStarted: getNumberOfItem(allUpdatestatus, 'Not started'),
+      completed: getNumberOfItem(allUpdatestatus, 'Completed'),
+      draft: getNumberOfItem(allUpdatestatus, 'Drafted'),
+      reAssessed: getNumberOfItem(allUpdatestatus, 'Re-Triggered'),
+    };
   }, [
     getControlOwnerData.data,
     loginUserRole,

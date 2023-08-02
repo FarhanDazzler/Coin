@@ -31,7 +31,7 @@ const MenuProps = {
   },
 };
 
-const MICSSpecific = ({ handleClose }) => {
+const MICSSpecific = ({ handleClose, isChangeLang }) => {
   const dispatch = useDispatch();
   const [level, setLevel] = useState(['L1']);
   const [section3, setSection3] = useState([]);
@@ -173,6 +173,7 @@ const MICSSpecific = ({ handleClose }) => {
           section3={section3}
           handleChangeRenderBlock={handleChangeRenderBlock}
           inputCenter
+          isChangeLang={isChangeLang}
           moreOptions={
             <div className="select-light mr-4">
               <FormControl sx={{ width: 300 }}>

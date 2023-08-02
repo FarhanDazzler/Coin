@@ -36,7 +36,7 @@ const RenderHomeModalTable = ({
   const isSection3Failed = Object.keys(ansSection3)?.find((i) =>
     Object.values(ansSection3[i])[0]?.includes('no'),
   );
-  React.useEffect(() => {
+  useEffect(() => {
     let sectionTerminating = false;
     if (Object.keys(ansSection3).length !== 0) {
       ansSection1.forEach((data) => {
