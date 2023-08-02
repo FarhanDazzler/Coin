@@ -2,8 +2,8 @@
   "selfAssessment": {
     "homePage": {
       "controleOwner": {
-        "select_language": "Select Language",
-        "select_role": "Select Role",
+        "select_language": "Select Language:",
+        "select_role": "Select Role:",
         "greeting": "Welcome",
         "statsCard_NOT_STARTED": "NOT STARTED",
         "statsCard_COMPLETED": "COMPLETED",
