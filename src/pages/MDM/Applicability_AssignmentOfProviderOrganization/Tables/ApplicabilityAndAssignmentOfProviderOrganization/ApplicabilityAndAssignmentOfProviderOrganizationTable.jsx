@@ -19,6 +19,7 @@ import GlobalApprove from './GlobalApprove';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import Swal from 'sweetalert2';
 import ApplicabilityAndAssignmentTableFilter from './ApplicabilityAndAssignmentTableFilter';
+import { DotSpinner } from '@uiball/loaders';
 
 const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -250,109 +251,118 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
 
   return (
     <>
-      <div className="container-fluid mt-5">
-        <div className="row pt-5">
-          <div className="col-12 col-lg-12">
-            <div className="mdm-table-global-filters">
-              <ApplicabilityAndAssignmentTableFilter
-                //className={'mb-4'}
-                zoneData={filterData('Zone')}
-                zoneValue={zoneValue}
-                setZoneValue={setZoneValue}
-                entityData={filterData('Entity')}
-                entityValue={entityValue}
-                setEntityValue={setEntityValue}
-                control_IDData={filterData('Control_ID')}
-                control_IDValue={control_IDValue}
-                setControl_IDValue={setControl_IDValue}
-                providerOrganizationData={filterData('Provider_Entity')}
-                providerOrganizationValue={providerOrganizationValue}
-                setProviderOrganizationValue={setProviderOrganizationValue}
-              />
-            </div>
-            <div className="mdm-table-button">
-              <div className="table-heading" style={{ justifyContent: 'space-between' }}>
-                <div>
-                  <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                  <span style={{ paddingLeft: '16px' }}>
-                    Applicability And Assignment Of ProviderOrganization Table
-                  </span>
+      {assignApplicabilityAndAssignmentOfProviderOrganization.loading ? (
+        <div className="loader-animation">
+          <DotSpinner size={100} speed={0.9} color="#e3af32" />
+          <p className="loader-Desc ml-3">Please wait a moment while we finalize the process</p>
+        </div>
+      ) : (
+        <>
+          <div className="container-fluid mt-5">
+            <div className="row pt-5">
+              <div className="col-12 col-lg-12">
+                <div className="mdm-table-global-filters">
+                  <ApplicabilityAndAssignmentTableFilter
+                    //className={'mb-4'}
+                    zoneData={filterData('Zone')}
+                    zoneValue={zoneValue}
+                    setZoneValue={setZoneValue}
+                    entityData={filterData('Entity')}
+                    entityValue={entityValue}
+                    setEntityValue={setEntityValue}
+                    control_IDData={filterData('Control_ID')}
+                    control_IDValue={control_IDValue}
+                    setControl_IDValue={setControl_IDValue}
+                    providerOrganizationData={filterData('Provider_Entity')}
+                    providerOrganizationValue={providerOrganizationValue}
+                    setProviderOrganizationValue={setProviderOrganizationValue}
+                  />
                 </div>
-                <div>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ActiveToolEdit text="Free Text" />}
-                    className="edit-button-mdm-table"
-                    onClick={handleOnclickEdit}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ActiveToolAssign text="Free Text" />}
-                    className="add-button-mdm-table"
-                    onClick={handleOnclickAssign}
-                  >
-                    Applicability and Assign Provider
-                  </Button>
-                  {localStorage.getItem('selected_Role') === 'Global internal control' && (
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      startIcon={<ActiveToolGlobalApprove text="Free Text" />}
-                      className="add-button-mdm-table"
-                      onClick={handleOnclickGlobalApprove}
-                    >
-                      Global Approved
-                    </Button>
-                  )}
+                <div className="mdm-table-button">
+                  <div className="table-heading" style={{ justifyContent: 'space-between' }}>
+                    <div>
+                      <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
+                      <span style={{ paddingLeft: '16px' }}>
+                        Applicability And Assignment Of ProviderOrganization Table
+                      </span>
+                    </div>
+                    <div>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<ActiveToolEdit text="Free Text" />}
+                        className="edit-button-mdm-table"
+                        onClick={handleOnclickEdit}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<ActiveToolAssign text="Free Text" />}
+                        className="add-button-mdm-table"
+                        onClick={handleOnclickAssign}
+                      >
+                        Applicability and Assign Provider
+                      </Button>
+                      {localStorage.getItem('selected_Role') === 'Global internal control' && (
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          startIcon={<ActiveToolGlobalApprove text="Free Text" />}
+                          className="add-button-mdm-table"
+                          onClick={handleOnclickGlobalApprove}
+                        >
+                          Global Approved
+                        </Button>
+                      )}
+                    </div>
+                  </div>
                 </div>
+                <Table2
+                  tableData={tableData}
+                  loading={applicabilityAndAssignmentOfProviderOrganization.loading}
+                  tableColumns={tableColumns}
+                  setEditTableIndex={setEditTableIndex}
+                />
               </div>
             </div>
-            <Table2
-              tableData={tableData}
-              loading={applicabilityAndAssignmentOfProviderOrganization.loading}
-              tableColumns={tableColumns}
-              setEditTableIndex={setEditTableIndex}
-            />
           </div>
-        </div>
-      </div>
-      <CustomModal
-        className="add-org"
-        open={showModal}
-        onClose={() => setShowModal(false)}
-        width={900}
-        title="Assign Applicability And Assignment Of Provider Organization"
-        bodyClassName="p-0"
-      >
-        <AssignModal setShowModal={setShowModal} assignTableData={assignTableData} />
-      </CustomModal>
-      <CustomModal
-        className="add-org"
-        open={showEditModal}
-        onClose={() => setShowEditModal(false)}
-        width={900}
-        title="Edit"
-        bodyClassName="p-0"
-      >
-        <EditModal setShowEditModal={setShowEditModal} assignTableData={assignTableData} />
-      </CustomModal>
-      <CustomModal
-        className="add-org"
-        open={showGlobalApproveModal}
-        onClose={() => setShowGlobalApproveModal(false)}
-        width={900}
-        title="Global Approve"
-        bodyClassName="p-0"
-      >
-        <GlobalApprove
-          setShowGlobalApproveModal={setShowGlobalApproveModal}
-          assignTableData={assignTableData}
-        />
-      </CustomModal>
+          <CustomModal
+            className="add-org"
+            open={showModal}
+            onClose={() => setShowModal(false)}
+            width={900}
+            title="Assign Applicability And Assignment Of Provider Organization"
+            bodyClassName="p-0"
+          >
+            <AssignModal setShowModal={setShowModal} assignTableData={assignTableData} />
+          </CustomModal>
+          <CustomModal
+            className="add-org"
+            open={showEditModal}
+            onClose={() => setShowEditModal(false)}
+            width={900}
+            title="Edit"
+            bodyClassName="p-0"
+          >
+            <EditModal setShowEditModal={setShowEditModal} assignTableData={assignTableData} />
+          </CustomModal>
+          <CustomModal
+            className="add-org"
+            open={showGlobalApproveModal}
+            onClose={() => setShowGlobalApproveModal(false)}
+            width={900}
+            title="Global Approve"
+            bodyClassName="p-0"
+          >
+            <GlobalApprove
+              setShowGlobalApproveModal={setShowGlobalApproveModal}
+              assignTableData={assignTableData}
+            />
+          </CustomModal>
+        </>
+      )}
     </>
   );
 };

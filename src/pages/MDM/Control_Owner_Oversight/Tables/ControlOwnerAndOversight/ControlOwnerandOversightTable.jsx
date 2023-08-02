@@ -21,6 +21,7 @@ import AssignModal from './AssignModal';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import LcdModal from './LcdModal';
 import Swal from 'sweetalert2';
+import { DotSpinner } from '@uiball/loaders';
 
 // Filter buttons
 const FilterButtons = ({
@@ -371,88 +372,97 @@ const ControlOwnerAndOversightTable = () => {
   };
   return (
     <>
-      <div className="container-fluid mt-5">
-        {/*<Messaging color="#fff" width="100px" height="100px" duration="1s" />*/}
-        <div className="row pt-5">
-          <div className="col-12 col-lg-12">
-            <div className="mdm-table-global-filters">
-              <FilterButtons
-                Control_ID={removeDuplicates(controlIDArray)}
-                provider_entity={removeDuplicates(providerOrgArray)}
-                cowner={removeDuplicates(cownerArray)}
-                coversight={removeDuplicates(coversightArray)}
-                valueControl_ID={valueControl_ID}
-                valueProvider_entity={valueProvider_entity}
-                valueCowner={valueCowner}
-                valueCoversight={valueCoversight}
-                setValueControl_ID={setValueControl_ID}
-                setValueProvider_entity={setValueProvider_entity}
-                setValueCowner={setValueCowner}
-                setValueCoversight={setValueCoversight}
-              />
-            </div>
-            <div className="mdm-table-button">
-              <div className="table-heading" style={{ justifyContent: 'space-between' }}>
-                <div>
-                  <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                  <span style={{ paddingLeft: '16px' }}>Control Owner And Oversight Table</span>
+      {modifyControlOwnerAndOversightState.loading ? (
+        <div className="loader-animation">
+          <DotSpinner size={100} speed={0.9} color="#e3af32" />
+          <p className="loader-Desc ml-3">Please wait a moment while we finalize the process</p>
+        </div>
+      ) : (
+        <>
+          <div className="container-fluid mt-5">
+            {/*<Messaging color="#fff" width="100px" height="100px" duration="1s" />*/}
+            <div className="row pt-5">
+              <div className="col-12 col-lg-12">
+                <div className="mdm-table-global-filters">
+                  <FilterButtons
+                    Control_ID={removeDuplicates(controlIDArray)}
+                    provider_entity={removeDuplicates(providerOrgArray)}
+                    cowner={removeDuplicates(cownerArray)}
+                    coversight={removeDuplicates(coversightArray)}
+                    valueControl_ID={valueControl_ID}
+                    valueProvider_entity={valueProvider_entity}
+                    valueCowner={valueCowner}
+                    valueCoversight={valueCoversight}
+                    setValueControl_ID={setValueControl_ID}
+                    setValueProvider_entity={setValueProvider_entity}
+                    setValueCowner={setValueCowner}
+                    setValueCoversight={setValueCoversight}
+                  />
                 </div>
-                <div>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ActiveToolEdit text="Free Text" />}
-                    className="edit-button-mdm-table"
-                    onClick={handleOnclickEdit}
-                  >
-                    Edit/Add LCD
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ActiveToolADD text="Free Text" />}
-                    className="add-button-mdm-table"
-                    onClick={handleOnclickAdd}
-                  >
-                    Assign
-                  </Button>
+                <div className="mdm-table-button">
+                  <div className="table-heading" style={{ justifyContent: 'space-between' }}>
+                    <div>
+                      <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
+                      <span style={{ paddingLeft: '16px' }}>Control Owner And Oversight Table</span>
+                    </div>
+                    <div>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<ActiveToolEdit text="Free Text" />}
+                        className="edit-button-mdm-table"
+                        onClick={handleOnclickEdit}
+                      >
+                        Edit/Add LCD
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<ActiveToolADD text="Free Text" />}
+                        className="add-button-mdm-table"
+                        onClick={handleOnclickAdd}
+                      >
+                        Assign
+                      </Button>
+                    </div>
+                  </div>
                 </div>
+                <Table2
+                  tableData={tableData}
+                  loading={controlOwnerAndOversight.loading}
+                  tableColumns={tableColumns}
+                  setEditTableIndex={setEditTableIndex}
+                  Is_Expanding_Detail_Panel={Is_Expanding_Detail_Panel}
+                />
               </div>
             </div>
-            <Table2
-              tableData={tableData}
-              loading={controlOwnerAndOversight.loading}
-              tableColumns={tableColumns}
-              setEditTableIndex={setEditTableIndex}
-              Is_Expanding_Detail_Panel={Is_Expanding_Detail_Panel}
-            />
           </div>
-        </div>
-      </div>
-      <CustomModal
-        className="add-org"
-        open={showModal}
-        onClose={() => setShowModal(false)}
-        width={1080}
-        title="Assign Control Owner & Oversight"
-        bodyClassName="p-0"
-      >
-        <AssignModal
-          setShowModal={setShowModal}
-          assignTableData={assignTableData}
-          selectedControlIds={selectedControlIds}
-        />
-      </CustomModal>
-      <CustomModal
-        className="add-org"
-        open={showLcdModal}
-        onClose={() => setShowLcdModal(false)}
-        width={900}
-        title="Modify LCD"
-        bodyClassName="p-0"
-      >
-        <LcdModal setShowModal={setShowLcdModal} assignTableData={assignTableData} />
-      </CustomModal>
+          <CustomModal
+            className="add-org"
+            open={showModal}
+            onClose={() => setShowModal(false)}
+            width={1080}
+            title="Assign Control Owner & Oversight"
+            bodyClassName="p-0"
+          >
+            <AssignModal
+              setShowModal={setShowModal}
+              assignTableData={assignTableData}
+              selectedControlIds={selectedControlIds}
+            />
+          </CustomModal>
+          <CustomModal
+            className="add-org"
+            open={showLcdModal}
+            onClose={() => setShowLcdModal(false)}
+            width={900}
+            title="Modify LCD"
+            bodyClassName="p-0"
+          >
+            <LcdModal setShowModal={setShowLcdModal} assignTableData={assignTableData} />
+          </CustomModal>
+        </>
+      )}
     </>
   );
 };
