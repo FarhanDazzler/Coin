@@ -33,7 +33,7 @@ const FilterButtons = ({
           className="mantine-MultiSelect-wrapper"
           data={year}
           label={<span className="mantine-MultiSelect-label">Year</span>}
-          placeholder="Select your option"
+          placeholder={t('selfAssessment.multi_select_filter_placeHolder')}
           searchable
           limit={20}
           searchValue={searchValue}
@@ -53,7 +53,7 @@ const FilterButtons = ({
           className="mantine-MultiSelect-wrapper"
           data={assessment_Cycle}
           label={<span className="mantine-MultiSelect-label">Assessment Cycle</span>}
-          placeholder="Select your option"
+          placeholder={t('selfAssessment.multi_select_filter_placeHolder')}
           searchable
           limit={20}
           searchValue={searchValue}
@@ -73,7 +73,7 @@ const FilterButtons = ({
           className="mantine-MultiSelect-wrapper"
           data={Zone}
           label={<span className="mantine-MultiSelect-label">Zone</span>}
-          placeholder="Select your option"
+          placeholder={t('selfAssessment.multi_select_filter_placeHolder')}
           searchable
           limit={20}
           searchValue={searchValue}
@@ -93,7 +93,7 @@ const FilterButtons = ({
           className="mantine-MultiSelect-wrapper"
           data={BU}
           label={<span className="mantine-MultiSelect-label">BU</span>}
-          placeholder="Select your option"
+          placeholder={t('selfAssessment.multi_select_filter_placeHolder')}
           searchable
           limit={20}
           searchValue={searchValue}
@@ -114,7 +114,7 @@ const FilterButtons = ({
             className="mantine-MultiSelect-wrapper"
             data={Receiver}
             label={<span className="mantine-MultiSelect-label">{'Receiver Organization'}</span>}
-            placeholder="Select your option"
+            placeholder={t('selfAssessment.multi_select_filter_placeHolder')}
             searchable
             limit={20}
             searchValue={searchValue}
@@ -135,7 +135,7 @@ const FilterButtons = ({
           className="mantine-MultiSelect-wrapper"
           data={Provider}
           label={<span className="mantine-MultiSelect-label">Provider Organization</span>}
-          placeholder="Select your option"
+          placeholder={t('selfAssessment.multi_select_filter_placeHolder')}
           searchable
           limit={20}
           searchValue={searchValue}

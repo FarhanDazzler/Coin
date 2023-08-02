@@ -1,5 +1,6 @@
 {
   "selfAssessment": {
+    "multi_select_filter_placeHolder": "Select your option",
     "homePage": {
       "controleOwner": {
         "select_language": "Select Language:",

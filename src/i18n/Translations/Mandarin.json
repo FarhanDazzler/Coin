@@ -1,0 +1,23 @@
+{
+  "selfAssessment": {
+    "multi_select_filter_placeHolder": "选择您的选项",
+    "homePage": {
+      "controleOwner": {
+        "select_language": "选择语言 :",
+        "select_role": "选择角色 :",
+        "greeting": "欢迎",
+        "statsCard_NOT_STARTED": "未开始 / NOT STARTED",
+        "statsCard_COMPLETED": "已完成 / COMPLETED",
+        "statsCard_DRAFTED": "草稿 / DRAFTED",
+
+        "Table": {
+          "export_all_Rows_button": "导出所有行",
+          "export_selected_Rows_button": "导出选定的行",
+          "actions_button": "行动",
+          "review_button": "复习",
+          "take_assessment_button": "进行评估"
+        }
+      }
+    }
+  }
+}

@@ -24,10 +24,13 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '../../components/UI/Select/Select';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import i18n from '../../i18n/i18n';
+import { useTranslation } from 'react-i18next';
+
 const TopBar = (props) => {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const selected_Role = localStorage.getItem('selected_Role');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const selected_module_role = localStorage.getItem('selected_module_Role');
@@ -48,7 +51,6 @@ const TopBar = (props) => {
     { label: 'Portuguese', value: 'pt' },
     { label: 'Mandarin', value: 'zh' },
     { label: 'Korean', value: 'ko' },
-    { lable: 'Vietnamese', value: 'vi' },
   ];
 
   const changeLanguage = (lng) => {
@@ -413,7 +415,9 @@ const TopBar = (props) => {
               {props.isControlPage && (
                 <div className="mr-4 wrapperLanguage">
                   <div>
-                    <span className={'text-yellow ml-2'}>Select Language:</span>
+                    <span className={'text-yellow ml-2'}>
+                      {t('selfAssessment.homePage.controleOwner.select_language')}
+                    </span>
                   </div>
                   <FormControl sx={{ width: 200 }}>
                     <Select
@@ -439,7 +443,9 @@ const TopBar = (props) => {
               {roleValue.length > 0 && (
                 <div className="mr-4">
                   <div>
-                    <span className={'text-yellow ml-2'}>Select Role:</span>
+                    <span className={'text-yellow ml-2'}>
+                      {t('selfAssessment.homePage.controleOwner.select_role')}
+                    </span>
                   </div>
                   <FormControl sx={{ width: 200 }}>
                     <Select
