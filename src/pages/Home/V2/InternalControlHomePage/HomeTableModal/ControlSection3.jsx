@@ -33,7 +33,7 @@ const ControlSection3 = ({
   const [questionL2, setQuestionL2] = useState([]);
   const [questionL3, setQuestionL3] = useState([]);
   const [showNoQuestion, setShowNoQuestion] = useState(false);
-
+  console.log('questionData', questionData);
   const setSelectedQuestionAns = (question, ansObj) => {
     return question.map((q1) => {
       const updateInnerQ = q1.renderOption.map((innerQ) => {

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
 import { getSection1QuestionDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
 import AddSection1Questions from '../../QuestionBank/ModifyStandard/AddSection1Question';
+import MICSSpecific from '../../QuestionBank/ModifyMICSQuestions/MICSSpecific';
 
 const ModifyStandardChangeLang = ({ open, handleClose }) => {
   const [activeType, setActiveType] = useState('Standard');
@@ -215,8 +216,9 @@ const ModifyStandardChangeLang = ({ open, handleClose }) => {
               </div>
             </>
           )}
-          {activeType === 'MICS-Specific' && <h1> Coming soon!</h1>}
-          {/*{activeType === 'MICS-Specific' && <MICSSpecific handleClose={handleClose} />}*/}
+          {activeType === 'MICS-Specific' && (
+            <MICSSpecific handleClose={handleClose} isChangeLang />
+          )}
         </div>
         <AddSection1Questions
           controlId={finalTemplate_id}

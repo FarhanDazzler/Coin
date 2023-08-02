@@ -389,55 +389,51 @@ const TopBar = (props) => {
       <div className="header py-4">
         <div className="container-fluid">
           <div className="d-flex">
-            <a className="header-brand" href="/">
-              {
-                <img
-                  src={coinLogo}
-                  className="header-brand-img"
-                  style={{
-                    paddingRight: 8,
-                    borderRightStyle: 'solid',
-                    borderRightColor: 'White',
-                  }}
-                  //border-right-style: solid; border-right-color: #92a8d1;
-                  //style={{ paddingLeft: '0.5rem', height: '1.5rem' }}
-                  //style={{ borderRadius: '40px', height: '2.5rem', marginRight: '1rem' }}
-                  alt="App Logo"
-                />
-              }
-              <img
-                src={abiLogo}
-                className="header-brand-img"
-                alt="AB InBev Logo"
-                // style={{ borderLeft: '1px solid #c9c9c9', paddingLeft: '0.5rem', height: '1.5rem' }}
-                style={{ paddingLeft: '0.5rem', height: '2rem' }}
-              />
-            </a>
-            {props.isControlPage && (
-              <div className="mr-4">
-                <div>
-                  <span className={'text-yellow ml-2'}>Select Language:</span>
-                </div>
-
-                <FormControl sx={{ width: 200 }}>
-                  <Select
-                    size="small"
-                    inputLook
-                    classes={{ root: `select-options inputLook-text user-role-input` }}
-                    inputProps={{ 'aria-label': 'Without label' }}
-                    options={languages}
-                    onChange={(e) => {
-                      changeLanguage(e.target.value);
-                      setLan(e.target.value);
+            <div className="header-wrapper">
+              <a className="header-brand" href="/">
+                {
+                  <img
+                    src={coinLogo}
+                    className="header-brand-img"
+                    style={{
+                      paddingRight: 8,
+                      borderRightStyle: 'solid',
+                      borderRightColor: 'White',
                     }}
-                    value={lan || languages.find((item) => item.value == i18n.language).value}
+                    alt="App Logo"
                   />
-                  {console.log(i18n.language, 'Language')}
-                </FormControl>
-              </div>
-            )}
+                }
+                <img
+                  src={abiLogo}
+                  className="header-brand-img"
+                  alt="AB InBev Logo"
+                  style={{ paddingLeft: '0.5rem', height: '2rem' }}
+                />
+              </a>
+              {props.isControlPage && (
+                <div className="mr-4 wrapperLanguage">
+                  <div>
+                    <span className={'text-yellow ml-2'}>Select Language:</span>
+                  </div>
+                  <FormControl sx={{ width: 200 }}>
+                    <Select
+                      size="small"
+                      inputLook
+                      classes={{ root: `select-options inputLook-text user-role-input` }}
+                      inputProps={{ 'aria-label': 'Without label' }}
+                      options={languages}
+                      onChange={(e) => {
+                        changeLanguage(e.target.value);
+                        setLan(e.target.value);
+                      }}
+                      value={lan || languages.find((item) => item.value == i18n.language).value}
+                    />
+                  </FormControl>
+                </div>
+              )}
+            </div>
             <div
-              className="d-flex order-lg-2 ml-auto text-left"
+              className="d-flex order-lg-2 ml-auto text-left user-info-wrapper"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
             >
               {roleValue.length > 0 && (
@@ -463,64 +459,65 @@ const TopBar = (props) => {
                   </FormControl>
                 </div>
               )}
-              <span className="golden-text" style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-                {process.env.REACT_APP_STAGE === 'prod' ? null : <strong>{`BETA`}</strong>}
-              </span>
-              <div className="dropdown">
-                <a className="nav-link pr-0 leading-none" onClick={togglingDropDown}>
-                  <img
-                    className="avatar"
-                    src={
-                      userState?.profile_photo
-                        ? URL.createObjectURL(userState?.profile_photo)
-                        : defaultProfilePhoto
-                    }
-                    alt=""
-                  />
-                  {/* <img className="avatar" src={defaultProfilePhoto} alt="" /> */}
-                  <span className="ml-2 d-none d-lg-block">
-                    <span className="golden-text">
-                      <strong>{accounts.length > 0 ? accounts[0].name : ''}</strong>
+              <div className="d-flex align-items-center justify-content-end">
+                <span className="golden-text" style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+                  {process.env.REACT_APP_STAGE === 'prod' ? null : <strong>{`BETA`}</strong>}
+                </span>
+                <div className="dropdown">
+                  <a className="nav-link pr-0 leading-none" onClick={togglingDropDown}>
+                    <img
+                      className="avatar"
+                      src={
+                        userState?.profile_photo
+                          ? URL.createObjectURL(userState?.profile_photo)
+                          : defaultProfilePhoto
+                      }
+                      alt=""
+                    />
+                    {/* <img className="avatar" src={defaultProfilePhoto} alt="" /> */}
+                    <span className="ml-2 d-none d-lg-block">
+                      <span className="golden-text">
+                        <strong>{accounts.length > 0 ? accounts[0].name : ''}</strong>
+                      </span>
+                      <span>
+                        &emsp;&emsp;&emsp;
+                        <FeatherIcon icon="chevron-down" size={14} />
+                      </span>
+                      <small className="text-muted d-block mt-1">
+                        {accounts.length > 0 ? accounts[0].username : ''}
+                      </small>
                     </span>
-                    <span>
-                      &emsp;&emsp;&emsp;
-                      <FeatherIcon icon="chevron-down" size={14} />
-                    </span>
-                    <small className="text-muted d-block mt-1">
-                      {accounts.length > 0 ? accounts[0].username : ''}
-                    </small>
-                  </span>
-                </a>
-                {isDropDownOpen && (
-                  <div
-                    className="dropdown-menu dropdown-menu-right dropdown-menu-arrow show"
-                    style={{ cursor: 'pointer' }}
-                  >
-                    {/* <a className="dropdown-item text-left" onClick={handleProfile}>
-                      My Profile
-                    </a> */}
-                    <a
-                      className="dropdown-item text-left"
-                      onClick={() => {
-                        history.push('/contact-us');
-                      }}
+                  </a>
+                  {isDropDownOpen && (
+                    <div
+                      className="dropdown-menu dropdown-menu-right dropdown-menu-arrow show"
+                      style={{ cursor: 'pointer' }}
                     >
-                      Contact Us
-                    </a>
-                    <a className="dropdown-item text-left" onClick={handleLogout}>
-                      Sign out
-                    </a>
-                  </div>
-                )}
+                      <a
+                        className="dropdown-item text-left"
+                        onClick={() => {
+                          history.push('/contact-us');
+                        }}
+                      >
+                        Contact Us
+                      </a>
+                      <a className="dropdown-item text-left" onClick={handleLogout}>
+                        Sign out
+                      </a>
+                    </div>
+                  )}
+                </div>
+                <a
+                  style={{ marginTop: 'auto', marginBottom: 'auto' }}
+                  className={`header-toggler d-lg-none ml-3 ml-lg-0 ${
+                    isHeaderOpen ? '' : 'collapsed'
+                  }`}
+                  onClick={togglingHeader}
+                >
+                  <span className="header-toggler-icon"></span>
+                </a>
               </div>
             </div>
-            <a
-              style={{ marginTop: 'auto', marginBottom: 'auto' }}
-              className={`header-toggler d-lg-none ml-3 ml-lg-0 ${isHeaderOpen ? '' : 'collapsed'}`}
-              onClick={togglingHeader}
-            >
-              <span className="header-toggler-icon"></span>
-            </a>
           </div>
         </div>
       </div>
