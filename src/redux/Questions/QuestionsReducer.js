@@ -30,6 +30,10 @@ export const GET_SECTION_3_MICS_REQUEST = 'GET_SECTION_3_MICS_REQUEST';
 export const GET_SECTION_3_MICS_SUCCESS = 'GET_SECTION_3_MICS_SUCCESS';
 export const GET_SECTION_3_MICS_ERROR = 'GET_SECTION_3_MICS_ERROR';
 
+export const GET_SECTION_3_MICS__CHANGE_LANG_REQUEST = 'GET_SECTION_3_MICS__CHANGE_LANG_REQUEST';
+export const GET_SECTION_3_MICS__CHANGE_LANG_SUCCESS = 'GET_SECTION_3_MICS__CHANGE_LANG_SUCCESS';
+export const GET_SECTION_3_MIC_CHANGE_LANG_S_ERROR = 'GET_SECTION_3_MIC_CHANGE_LANG_S_ERROR';
+
 export const GET_SECTION_3_MICS_ADD_REQUEST = 'GET_SECTION_3_MICS_ADD_REQUEST';
 export const GET_SECTION_3_MICS_ADD_SUCCESS = 'GET_SECTION_3_MICS_ADD_SUCCESS';
 export const GET_SECTION_3_MICS_ADD_ERROR = 'GET_SECTION_3_MICS_ADD_ERROR';
@@ -77,6 +81,7 @@ const initialState = {
   question3Delete: { ...block },
   getRepositoryOfControlID: { ...block, data: [] },
   controlNameFromControlId: { ...block, data: [] },
+  question3ChangeLang: { ...block },
 };
 
 export const QuestionsReducer = (state = initialState, { type, payload = {} }) => {

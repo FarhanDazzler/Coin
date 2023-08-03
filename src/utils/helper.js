@@ -232,6 +232,19 @@ export const getQuestionsFormatData = (data) => {
   });
 };
 
+export const getQuestionsWithLangFormatData = (data) => {
+  return Object.keys(data).map((key) => {
+    const val = data[key];
+    return {
+      is_Failing: false,
+      ...val,
+      question_text: val.Header_Question,
+      question_type: blockType.RADIO_MULTI,
+      innerOptions: val.Inner_Questions ? JSON.parse(val.Inner_Questions) : [],
+    };
+  });
+};
+
 // TODO: old multi select logic
 // if (block.child_questions) {
 //   if (block.renderOption.length === Object.keys(ans[block.q_id]).length) {

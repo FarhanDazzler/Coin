@@ -6,8 +6,19 @@ import RemoveWarningModal from '../AttributesRemoveModal';
 import CustomModal from '../CustomModal';
 import EditRadioMultiQuestion from './EditRadioMultiQuestion';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import Button from '../Button';
+import EditIcon from '@mui/icons-material/Edit';
 
-const RadioMulti = ({ block, label, renderOption, handleChange, index, disabled }) => {
+const RadioMulti = ({
+  block,
+  label,
+  renderOption,
+  handleChange,
+  index,
+  disabled,
+  isChangeLang,
+}) => {
+  console.log('block');
   const [showEditModal, setShowEditModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const handleEditLabel = () => {
@@ -23,14 +34,30 @@ const RadioMulti = ({ block, label, renderOption, handleChange, index, disabled 
     <div className="radio-multi-wrapper">
       <div className="radio-wrapper">
         <div className="d-flex align-items-center w-100 justify-content-between">
-          <FormLabel>{label}</FormLabel>
-          {block?.isQuestionLabelEdit && (
-            <MultiActionMenu
-              handleEdit={handleEditLabel}
-              handleDelete={() => {
-                setShowRemoveModal(true);
-              }}
-            />
+          <FormLabel>
+            {block.Level && `${block.Level}: `}
+            {label}
+          </FormLabel>
+          {isChangeLang ? (
+            <Button
+              color="secondary"
+              className="w-max"
+              size="small"
+              endIcon={<EditIcon />}
+              variant="text"
+              onClick={handleEditLabel}
+            >
+              Select language
+            </Button>
+          ) : (
+            block?.isQuestionLabelEdit && (
+              <MultiActionMenu
+                handleEdit={handleEditLabel}
+                handleDelete={() => {
+                  setShowRemoveModal(true);
+                }}
+              />
+            )
           )}
         </div>
       </div>
@@ -61,7 +88,7 @@ const RadioMulti = ({ block, label, renderOption, handleChange, index, disabled 
           bodyClassName="p-0"
           title={
             <div className="d-flex align-items-center ">
-              Edit Question
+              {isChangeLang ? 'Change question language ' : 'Edit Question'}
               <EditOutlinedIcon fontSize="small" className="ml-2" />
             </div>
           }
@@ -73,6 +100,8 @@ const RadioMulti = ({ block, label, renderOption, handleChange, index, disabled 
             block={block}
             onClose={() => setShowEditModal(false)}
             onSave={saveQuestion}
+            isChangeLang={isChangeLang}
+            isChangeLang
           />
         </CustomModal>
         {showRemoveModal && (
