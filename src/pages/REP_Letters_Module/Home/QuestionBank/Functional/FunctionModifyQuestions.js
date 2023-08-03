@@ -7,17 +7,11 @@ import { Divider, Box, Group } from '@mantine/core';
 import { Radio } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import Select from 'react-select';
-import * as Yup from 'yup';
-import { useFormikContext, Formik } from 'formik';
-import { Form } from 'react-bootstrap';
 import PageWrapper from '../../../../../components/wrappers/PageWrapper';
 import '../RepLetterQuestionBank.scss';
 import Button from '../../../../../components/UI/Button';
 import CustomModal from '../../../../../components/UI/CustomModal';
 import AddNewQuestionModal from '../AddNewQuestion/AddNewQuestionModal';
-import { get_rep_functions } from '../../../../../redux/REP_Letters/RLMDM/RLMDMAction';
-import { get_rep_functionsSelector } from '../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
 import {
   get_Function_Questions,
   delete_Function_Questions,
@@ -119,117 +113,14 @@ const Questions = ({ questionIndex, questionText, questionID }) => {
   );
 };
 
-const ModifyFunctionLetter = ({
-  functionType,
-  setFunctionType,
-  functionLetterName,
-  setFunctionLetterName,
-  setIsLetterSelected,
-}) => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-
-  const [functionValid, setFunctionValid] = useState(false);
-  const [letterValid, setLetterValid] = useState(false);
-
-  const handleClickSelectFunction = (event) => {
-    const selectedFunction = event.target.value;
-    setFunctionType(selectedFunction);
-    setFunctionValid(!!selectedFunction); // Check if a function is selected
-    setLetterValid(false); // Reset letter validity
-    let payload = {
-      function: selectedFunction,
-    };
-    dispatch(getLetterNameFromFunction(payload));
-  };
-
-  const handleClickSelectLetterName = (event) => {
-    const selectedLetter = event.target.value;
-    setFunctionLetterName(selectedLetter);
-    setLetterValid(!!selectedLetter); // Check if a letter is selected
-    setIsLetterSelected(true);
-    let payload = {
-      function: functionType,
-      letter: selectedLetter,
-    };
-    dispatch(get_Function_Questions(payload));
-  };
-
-  const get_rep_functionsState = useSelector(get_rep_functionsSelector);
-  const getLetterNameFromFunctionState = useSelector(getLetterNameFromFunctionSelector);
-
-  const functionOptions = get_rep_functionsState?.data || [];
-
-  return (
-    <>
-      <div id="repp-letter-questionBank-inputPage" className="p-5">
-        <div className="row">
-          <div className="col-lg-4">
-            <h5>Select Function:</h5>
-            <Form.Group className="input-group mb-3">
-              <Form.Control
-                as="select"
-                name="Function"
-                placeholder=""
-                value={functionType}
-                onChange={handleClickSelectFunction}
-                disabled={false}
-                className={`form-select ${functionValid ? '' : 'is-invalid'}`}
-              >
-                <option value="">Select Function</option>
-                {functionOptions.map((data, i) => (
-                  <option key={i} value={data.functions}>
-                    {data.functions}
-                  </option>
-                ))}
-              </Form.Control>
-              {!functionValid && <div className="invalid-feedback">Please select a function.</div>}
-            </Form.Group>
-          </div>
-          {functionType && (
-            <div className="col-lg-4">
-              <h5>Select Letter:</h5>
-              <Form.Group className="input-group mb-3">
-                <Form.Control
-                  as="select"
-                  name="FunctionLetterName"
-                  placeholder=""
-                  value={functionLetterName}
-                  onChange={handleClickSelectLetterName}
-                  disabled={false}
-                  className={`form-select ${letterValid ? '' : 'is-invalid'}`}
-                >
-                  <option value="">Select Letter</option>
-                  {getLetterNameFromFunctionState?.data.map((data, i) => (
-                    <option key={i} value={data.Name}>
-                      {data.Name}
-                    </option>
-                  ))}
-                </Form.Control>
-                {!letterValid && <div className="invalid-feedback">Please select a letter.</div>}
-              </Form.Group>
-            </div>
-          )}
-        </div>
-      </div>
-    </>
-  );
-};
-
-const FunctionModifyQuestions = () => {
+const FunctionModifyQuestions = (props) => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const [functionLetterName, setFunctionLetterName] = useState('');
-  const [functionType, setFunctionType] = useState('');
+  const selectedFunction = props.location.state.data?.function;
   const [ShowBUModifyModal, setShowBUModifyModal] = useState(false);
   const [editableData, setEditableData] = useState();
   const [isEdit, setIsEdit] = useState(false);
-  const [isLetterSelected, setIsLetterSelected] = useState(false);
-
-  useEffect(() => {
-    dispatch(get_rep_functions());
-  }, []);
 
   const delete_Function_QuestionsState = useSelector(delete_Function_QuestionsSelector);
   const edit_Function_QuestionsState = useSelector(edit_Function_QuestionsSelector);
@@ -238,14 +129,11 @@ const FunctionModifyQuestions = () => {
 
   // logic for closing pop up
   useEffect(() => {
-    if (isLetterSelected) {
-      let payload = {
-        function: functionType,
-        letter: functionLetterName,
-      };
-      dispatch(get_Function_Questions(payload));
-      setShowBUModifyModal(false);
-    }
+    let payload = {
+      function: selectedFunction,
+    };
+    dispatch(get_Function_Questions(payload));
+    setShowBUModifyModal(false);
   }, [
     delete_Function_QuestionsState?.data,
     edit_Function_QuestionsState?.data,
@@ -272,19 +160,11 @@ const FunctionModifyQuestions = () => {
         <div className="container">
           <div className="row pt-5">
             <div className="rl-question-bank-TitleSectionTab">
-              <ModifyFunctionLetter
-                functionType={functionType}
-                setFunctionType={setFunctionType}
-                functionLetterName={functionLetterName}
-                setFunctionLetterName={setFunctionLetterName}
-                setIsLetterSelected={setIsLetterSelected}
-              />
-
               <div className="section-title" style={{ justifyContent: 'space-between' }}>
                 <div>
                   <span style={{ paddingLeft: '16px' }}>
                     Modify Questions for Function Letter :{' '}
-                    <span className="golden-text">{functionLetterName}</span>
+                    <span className="golden-text">{selectedFunction}</span>
                   </span>
                 </div>
                 <div>
@@ -339,7 +219,7 @@ const FunctionModifyQuestions = () => {
           setEditableData({});
         }}
         width={900}
-        title={'Add New Question'}
+        title={isEdit ? 'Edit Question' : 'Add New Question'}
         bodyClassName="p-0"
       >
         <AddNewQuestionModal
@@ -347,9 +227,8 @@ const FunctionModifyQuestions = () => {
           editableData={editableData}
           setEditableData={setEditableData}
           setShowModal={setShowBUModifyModal}
-          modalType={localStorage.getItem('selected_module_Role') == 'BU' ? 'BU' : 'Functions'}
-          functionType={functionType}
-          functionName={functionLetterName}
+          modalType={'Functions'}
+          functionType={selectedFunction}
         />
       </CustomModal>
     </>

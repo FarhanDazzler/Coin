@@ -4,7 +4,6 @@ import RL_MDM_BUMasterdataManagementLandingPage from '../../pages/REP_Letters_Mo
 import RL_MDM_FunctionalMasterdataManagementLandingPage from '../../pages/REP_Letters_Module/Home/MDM/FunctionalMasterdataManagement/FunctionalMasterdataManagementLandingPage';
 import RLQuestionBank from '../../pages/REP_Letters_Module/Home/QuestionBank/RepLetterQuestionBankLandingPage';
 import BUModifyQuestions from '../../pages/REP_Letters_Module/Home/QuestionBank/BU/BUModifyQuestions';
-import FunctionAddQuestions from '../../pages/REP_Letters_Module/Home/QuestionBank/Functional/FunctionAddQuestions';
 import FunctionModifyQuestions from '../../pages/REP_Letters_Module/Home/QuestionBank/Functional/FunctionModifyQuestions';
 export const RepLettersRoutes = [
   {
@@ -36,11 +35,6 @@ export const RepLettersRoutes = [
     path: '/REP-Letters/questionbank/BU-modify-questions',
     exact: true,
     component: BUModifyQuestions,
-  },
-  {
-    path: '/REP-Letters/questionbank/Function-add',
-    exact: true,
-    component: FunctionAddQuestions,
   },
   {
     path: '/REP-Letters/questionbank/Function-modify',

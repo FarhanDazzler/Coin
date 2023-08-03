@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Form } from 'react-bootstrap';
+import Select from 'react-select';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import './RepLetterQuestionBank.scss';
 import Button from '../../../../components/UI/Button';
@@ -9,13 +11,32 @@ import { useHistory, useLocation } from 'react-router-dom';
 import Instructions from './Instructions/Instructions';
 import { getInstructions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import { modifyInstructionsSelector } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
+import { get_rep_functions } from '../../../../redux/REP_Letters/RLMDM/RLMDMAction';
+import { get_rep_functionsSelector } from '../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
 
 const RLQuestionBank = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(get_rep_functions());
+  }, []);
+
+  const [functionList, setFunctionList] = useState([]);
+  const [selectedFunction, setSelectedFunction] = useState();
   const [instructionsShowModal, setInstructionsShowModal] = useState(false);
   const modifyInstructionsState = useSelector(modifyInstructionsSelector);
+  const get_rep_functionsState = useSelector(get_rep_functionsSelector);
+
+  useEffect(() => {
+    if (get_rep_functionsState?.data.length !== 0) {
+      let functionArray = [];
+      get_rep_functionsState?.data.map((data) => {
+        functionArray.push({ label: data.functions, value: data.functions });
+      });
+      setFunctionList(functionArray);
+    }
+  }, [get_rep_functionsState]);
 
   // logic for closing pop up
   useEffect(() => {
@@ -41,10 +62,11 @@ const RLQuestionBank = () => {
     history.push('/REP-Letters/questionbank/BU-modify-questions', { data });
   };
   const handleFunctionalModify = () => {
-    history.push('/REP-Letters/questionbank/Function-modify');
-  };
-  const handleFunctionalCreate = () => {
-    history.push('/REP-Letters/questionbank/Function-add');
+    const data = {
+      function: selectedFunction.value,
+    };
+    console.log(data, '@@@@@@@@');
+    history.push('/REP-Letters/questionbank/Function-modify', { data });
   };
   return (
     <>
@@ -84,7 +106,7 @@ const RLQuestionBank = () => {
                       endIcon={<ArrowNarrowRight />}
                       onClick={() => handleBuModify('Zone')}
                     >
-                      <span className="text-white">Modify Existing Questions</span>
+                      <span className="text-white">Modify Questions</span>
                     </Button>
                   </div>
                 </div>
@@ -111,7 +133,7 @@ const RLQuestionBank = () => {
                       endIcon={<ArrowNarrowRight />}
                       onClick={() => handleBuModify('BU')}
                     >
-                      <span className="text-white">Modify Existing Questions</span>
+                      <span className="text-white">Modify Questions</span>
                     </Button>
                   </div>
                 </div>
@@ -126,46 +148,56 @@ const RLQuestionBank = () => {
                       <h3>Functional</h3>
                       <p>Choose a sub-category to proceed with the necessary action.</p>
                     </div>
-                    {/* <Form.Group className="input-group mb-3">
+                    <Form.Group className="input-group mb-3">
                       <div style={{ width: '100%' }}>
                         <Select
+                          theme={(theme) => ({
+                            ...theme,
+                            borderRadius: 10,
+                            colors: {
+                              ...theme.colors,
+                              neutral0: 'black',
+                              neutral90: 'white',
+                              neutral80: 'white',
+                              //neutral70: 'white',
+                              primary25: 'grey',
+                              primary: 'white',
+                              neutral20: 'grey',
+                              primary50: 'grey',
+                              primary75: 'grey',
+                            },
+                          })}
                           maxMenuHeight={200}
                           placeholder="Select Function"
-                          //   value={controlIDOption}
-                          //   defaultValue={controlIDOption}
-                          //   onChange={(e) => handleChangeControlId(e)}
+                          value={selectedFunction}
+                          defaultValue={selectedFunction}
+                          onChange={(e) => setSelectedFunction(e)}
                           className="l-input functional-select"
                           //MenuProps={MenuProps}
                           //inputProps={{ 'aria-label': 'Without label' }}
-                          options={[]}
+                          options={functionList}
                         />
                       </div>
-                    </Form.Group> */}
+                    </Form.Group>
 
-                    <Button
+                    {/* <Button
                       variant="outlined"
                       size="large"
                       endIcon={<ArrowNarrowRight />}
                       onClick={handleInstructions}
                     >
                       <span className="text-white">Instructions</span>
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="large"
-                      endIcon={<ArrowNarrowRight />}
-                      onClick={handleFunctionalCreate}
-                    >
-                      <span className="text-white">Create New</span>
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="large"
-                      endIcon={<ArrowNarrowRight />}
-                      onClick={handleFunctionalModify}
-                    >
-                      <span className="text-white">Modify Existing</span>
-                    </Button>
+                    </Button> */}
+                    {selectedFunction && (
+                      <Button
+                        variant="outlined"
+                        size="large"
+                        endIcon={<ArrowNarrowRight />}
+                        onClick={handleFunctionalModify}
+                      >
+                        <span className="text-white">Modify Questions</span>
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>
