@@ -19,6 +19,8 @@ import Button from '../../../../components/UI/Button';
 import { Group } from '@mantine/core';
 import FilterButtons from '../../../../components/FilterButtons';
 import Cookies from 'js-cookie';
+import { useTranslation } from 'react-i18next';
+
 const ControlOwnerTable = ({
   tableName,
   yearValue,
@@ -34,6 +36,7 @@ const ControlOwnerTable = ({
   providerValue,
   setProviderValue,
 }) => {
+  const { t } = useTranslation();
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
@@ -71,11 +74,12 @@ const ControlOwnerTable = ({
     setTableColumns(TABLE_COLUMNS);
   }, [token]);
 
+  const actionHeader = t('selfAssessment.homePage.controleOwner.Table.actions_button');
   const TABLE_COLUMNS = [
     {
       accessorKey: 'Action',
       id: 'Action',
-      header: 'Action',
+      header: actionHeader,
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -89,7 +93,7 @@ const ControlOwnerTable = ({
                 // onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
                 onClick={() => handleControlIDClick(row.row.original.Control_ID, row.row.original)}
               >
-                Review
+                {t('selfAssessment.homePage.controleOwner.Table.review_button')}
               </Button>
             )}
             {['Not started', 'Re-assessed', 'Drafted'].includes(row.row.original.Status) && (
@@ -98,7 +102,7 @@ const ControlOwnerTable = ({
                   history.push(`/Assessments/${row.row.original.Control_ID}`, row.row.original)
                 }
               >
-                Take Assessment
+                {t('selfAssessment.homePage.controleOwner.Table.take_assessment_button')}
               </Button>
             )}
           </div>

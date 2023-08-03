@@ -1,44 +1,23 @@
 {
   "selfAssessment": {
+    "multi_select_filter_placeHolder": "Select your option",
     "homePage": {
-        "universalFilter_Year": "Year",
-        "universalFilter_Zone": "Zone",
-        "universalFilter_BU": "BU",
-        "universalFilter_Provider_Organization": "Provider Organization",
-        "universalFilter_Placeholder": "Select your option",
-
       "controleOwner": {
+        "select_language": "Select Language:",
+        "select_role": "Select Role:",
         "greeting": "Welcome",
         "statsCard_NOT_STARTED": "NOT STARTED",
         "statsCard_COMPLETED": "COMPLETED",
         "statsCard_DRAFTED": "DRAFTED",
-        "statsCard_RE_ASSESS": "RE-ASSESS",
 
-        "Table":{
+        "Table": {
           "export_all_Rows_button": "Export All Rows",
           "export_selected_Rows_button": "Export Selected Rows",
           "actions_button": "Action",
           "review_button": "Review",
-          "take_assessment_button":"Take Assessment",
-          "table_Headers":{
-            "providerOrganization":"Provider Organization",
-            "assessmentCycle":"Assessment Cycle",
-            "year"  :"Year",
-            "status":{
-              "title":"Status",
-              "notStarted":"Not Started",
-              "completed":"Completed",
-              "drafted":"Drafted",
-              "reAssess":"Re-Assess"
-            }
-            }
-
-          }
+          "take_assessment_button": "Take Assessment"
         }
       }
-    },
- 
-  "repLetters": {
-    "homePage": {}
+    }
   }
 }

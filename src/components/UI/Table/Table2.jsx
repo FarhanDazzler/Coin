@@ -7,6 +7,7 @@ import { Box, Button, Typography } from '@mui/material';
 import * as XLSX from 'xlsx';
 import './tableStyles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTranslation } from 'react-i18next';
 import {
   faArrowDownWideShort,
   faBars,
@@ -79,6 +80,7 @@ const Table2 = ({
   loading,
   Is_Expanding_Detail_Panel = { Is_Expanding: false },
 }) => {
+  const { t } = useTranslation();
   const [rowSelection, setRowSelection] = useState({});
 
   useEffect(() => {
@@ -229,78 +231,6 @@ const Table2 = ({
                     />
                   </div>
                 </div>
-
-                <div className="col">
-                  <div className="row mb-4">
-                    <Typography>Recommended Standardization:</Typography>
-                    <p
-                      class="left-aligned-text"
-                      dangerouslySetInnerHTML={{
-                        __html: row.original.Recommended_Standardization,
-                      }}
-                    />
-                  </div>
-                </div>
-
-                <div className="col">
-                  <div className="row mb-4">
-                    <Typography>ABI DAG:</Typography>
-                    <p
-                      class="left-aligned-text"
-                      dangerouslySetInnerHTML={{
-                        __html: row.original.ABI_DAG,
-                      }}
-                    />
-                  </div>
-                </div>
-
-                <div className="col">
-                  <div className="row mb-4">
-                    <Typography>AmBev DAG:</Typography>
-                    <p
-                      class="left-aligned-text"
-                      dangerouslySetInnerHTML={{
-                        __html: row.original.AmBev_DAG,
-                      }}
-                    />
-                  </div>
-                </div>
-
-                <div className="col">
-                  <div className="row mb-4">
-                    <Typography>Risk:</Typography>
-                    <p
-                      class="left-aligned-text"
-                      dangerouslySetInnerHTML={{
-                        __html: row.original.Risk,
-                      }}
-                    />
-                  </div>
-                </div>
-
-                <div className="col">
-                  <div className="row mb-4">
-                    <Typography>Balance Sheet Impact:</Typography>
-                    <p
-                      class="left-aligned-text"
-                      dangerouslySetInnerHTML={{
-                        __html: row.original.BS_impact,
-                      }}
-                    />
-                  </div>
-                </div>
-
-                <div className="col">
-                  <div className="row mb-4">
-                    <Typography>P&L Impact:</Typography>
-                    <p
-                      class="left-aligned-text"
-                      dangerouslySetInnerHTML={{
-                        __html: row.original.PnL_impact,
-                      }}
-                    />
-                  </div>
-                </div>
               </div>
             )}
           </Box>
@@ -345,7 +275,7 @@ const Table2 = ({
                         startIcon={<FileDownloadIcon />}
                         variant="contained"
                       >
-                        Export All Rows
+                        {t('selfAssessment.homePage.controleOwner.Table.export_all_Rows_button')}
                       </Button>
                     </div>
                     <div>
@@ -356,7 +286,9 @@ const Table2 = ({
                         startIcon={<FileDownloadIcon />}
                         variant="contained"
                       >
-                        Export Selected Rows
+                        {t(
+                          'selfAssessment.homePage.controleOwner.Table.export_selected_Rows_button',
+                        )}
                       </Button>
                     </div>
                   </div>

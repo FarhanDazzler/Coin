@@ -44,6 +44,21 @@ const AddNewQuestionModal = ({
               } else {
                 const payload = {
                   text: values.questionText,
+                  type: 'BU',
+                };
+                dispatch(add_BU_Questions(payload));
+              }
+            } else if (modalType === 'Zone') {
+              if (isEdit === true) {
+                const payload = {
+                  id: editableData.questionID,
+                  text: values.questionText,
+                };
+                dispatch(edit_BU_Questions(payload));
+              } else {
+                const payload = {
+                  text: values.questionText,
+                  type: 'Zone',
                 };
                 dispatch(add_BU_Questions(payload));
               }

@@ -1,0 +1,23 @@
+{
+  "selfAssessment": {
+    "multi_select_filter_placeHolder": "selecione sua opção",
+    "homePage": {
+      "controleOwner": {
+        "select_language": "Selecionar Idioma :",
+        "select_role": "Selecionar Função :",
+        "greeting": "Bem-vindo(a)",
+        "statsCard_NOT_STARTED": "NÃO INICIADO / NOT STARTED",
+        "statsCard_COMPLETED": "COMPLETADO / COMPLETED",
+        "statsCard_DRAFTED": "ELABORADO / DRAFTED",
+
+        "Table": {
+          "export_all_Rows_button": "Exportar todas as linhas",
+          "export_selected_Rows_button": "Exportar linhas selecionadas",
+          "actions_button": "Action",
+          "review_button": "AVALIAÇÃO",
+          "take_assessment_button": "REALIZAR AVALIAÇÃO"
+        }
+      }
+    }
+  }
+}

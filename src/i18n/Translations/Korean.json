@@ -1,0 +1,23 @@
+{
+  "selfAssessment": {
+    "multi_select_filter_placeHolder": "옵션을 선택하십시오",
+    "homePage": {
+      "controleOwner": {
+        "select_language": "언어 선택:",
+        "select_role": "역할 선택:",
+        "greeting": "환영합니다",
+        "statsCard_NOT_STARTED": "시작하지 않음 / NOT STARTED",
+        "statsCard_COMPLETED": "완료됨 / COMPLETED",
+        "statsCard_DRAFTED": "작성된 / DRAFTED",
+
+        "Table": {
+          "export_all_Rows_button": "모든 행 내보내기",
+          "export_selected_Rows_button": "선택한 행 내보내기",
+          "actions_button": "Action",
+          "review_button": "검토",
+          "take_assessment_button": "평가 시작"
+        }
+      }
+    }
+  }
+}

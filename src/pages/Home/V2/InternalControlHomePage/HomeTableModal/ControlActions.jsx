@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Button from '../../../../../components/UI/Button';
 
-const ControlActions = ({activeData}) => {
+const ControlActions = ({ activeData }) => {
   const [activeTab, setActiveTab] = useState('');
   const [isReadMore, setIsReadMore] = useState(true);
   const toggleReadMore = () => {
@@ -10,6 +10,27 @@ const ControlActions = ({activeData}) => {
   };
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   const stateGcdData = useSelector((state) => state?.controlData?.gcd?.data);
+
+  const renderPeriodOfAssessment = () => {
+    const year = stateControlData?.Year;
+    switch (stateControlData?.Assessment_Cycle) {
+      case 'Assessment Cycle 1':
+        return 'As on March / ' + year;
+
+      case 'Assessment Cycle 2':
+        return 'As on June / ' + year;
+
+      case 'Assessment Cycle 3':
+        return 'As on September / ' + year;
+
+      case 'Assessment Cycle 4':
+        return 'As on December / ' + year;
+
+      default:
+        return '';
+    }
+  };
+
   const isClear = (text) => activeTab === text;
   return (
     <div className="control-actions-wrapper">
@@ -89,19 +110,19 @@ const ControlActions = ({activeData}) => {
           <div>
             <p className="mb-2">
               <span className="font-weight-bold">Receiving entity: </span>
-              <span>{stateControlData?.Receiver||activeData.Receiver}</span>
+              <span>{stateControlData?.Receiver || activeData.Receiver}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Provider organization: </span>
-              <span>{stateControlData?.Provider||activeData.Provider}</span>
+              <span>{stateControlData?.Provider || activeData.Provider}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Period of assessment: </span>
-              <span>{stateControlData?.priod_of_assessment}</span>
+              <span>{renderPeriodOfAssessment()}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Assessment Cycle: </span>
-              <span>{stateControlData?.Assessment_Cycle||activeData.Assessment_Cycle}</span>
+              <span>{stateControlData?.Assessment_Cycle || activeData.Assessment_Cycle}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Frequency of control: </span>
@@ -113,11 +134,11 @@ const ControlActions = ({activeData}) => {
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Control owner: </span>
-              <span>{stateControlData?.Control_Owner||activeData.Control_Owner}</span>
+              <span>{stateControlData?.Control_Owner || activeData.Control_Owner}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Control Oversight: </span>
-              <span>{stateControlData?.Control_Oversight||activeData.Control_Oversight}</span>
+              <span>{stateControlData?.Control_Oversight || activeData.Control_Oversight}</span>
             </p>
           </div>
         )}

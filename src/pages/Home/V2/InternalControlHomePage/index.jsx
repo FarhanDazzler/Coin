@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import './homeStyles.scss';
 import NumberWithText from './NumberWithText';
 import { useMsal } from '@azure/msal-react';
@@ -28,21 +28,12 @@ const InternalControlHomePage = () => {
   const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const getControlOwnerData = useSelector(getInternalControlDataSelector);
-  const [statusInfo, setStatusInfo] = useState({
-    notStarted: 0,
-    completed: 0,
-    draft: 0,
-    reAssessed: 0,
-    completedRatio: 0,
-  });
 
   const getNumberOfItem = (array = [], itemName) => {
     return array?.filter((val) => val === itemName)?.length;
   };
 
-  useEffect(() => {
-    if (!userRole?.length || userRole === 'undefined') history.push('/not-authorized');
-
+  const statusInfo = useMemo(() => {
     if (
       !yearValue.length &&
       !assessmentCycleValue.length &&
@@ -55,14 +46,14 @@ const InternalControlHomePage = () => {
         return d.Status;
       });
       const completedAssessment = getNumberOfItem(allstatus, 'Completed');
-      setStatusInfo({
+      return {
         notStarted: getNumberOfItem(allstatus, 'Not started'),
         completed: completedAssessment,
         draft: getNumberOfItem(allstatus, 'Drafted'),
         reAssessed: getNumberOfItem(allstatus, 'Incorrect Owner'),
         completedRatio: ((completedAssessment / allstatus.length) * 100)?.toFixed(0),
         total: allstatus?.length,
-      });
+      };
       return;
     }
     const updateData = getControlOwnerData?.data?.filter((i) => {
@@ -80,14 +71,27 @@ const InternalControlHomePage = () => {
     });
 
     const completedAssessment = getNumberOfItem(allstatusUpdateData, 'Completed');
-    setStatusInfo({
+    return {
       notStarted: getNumberOfItem(allstatusUpdateData, 'Not started'),
       completed: completedAssessment,
       draft: getNumberOfItem(allstatusUpdateData, 'Drafted'),
       reAssessed: getNumberOfItem(allstatusUpdateData, 'Incorrect Owner'),
       completedRatio: ((completedAssessment / allstatusUpdateData.length) * 100)?.toFixed(0),
       total: allstatusUpdateData?.length,
-    });
+    };
+  }, [
+    getControlOwnerData,
+    userRole,
+    yearValue,
+    assessmentCycleValue,
+    zoneValue,
+    buValue,
+    receiverValue,
+    providerValue,
+  ]);
+
+  useEffect(() => {
+    if (!userRole?.length || userRole === 'undefined') history.push('/not-authorized');
   }, [
     getControlOwnerData,
     userRole,
