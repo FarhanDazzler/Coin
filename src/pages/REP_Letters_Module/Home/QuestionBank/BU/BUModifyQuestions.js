@@ -110,8 +110,12 @@ const Questions = ({ questionIndex, questionText, questionID }) => {
   );
 };
 
-const BUModifyQuestions = () => {
+const BUModifyQuestions = (props) => {
   const dispatch = useDispatch();
+
+  // Access passed props from location.state
+  const modalType = props.location.state.data?.modalType;
+  const title = props.location.state.data?.title;
 
   const delete_BU_QuestionsState = useSelector(delete_BU_QuestionsSelector);
   const edit_BU_QuestionsState = useSelector(edit_BU_QuestionsSelector);
@@ -119,7 +123,10 @@ const BUModifyQuestions = () => {
 
   // logic for closing pop up
   useEffect(() => {
-    dispatch(get_BU_Questions());
+    let payload = {
+      type: modalType,
+    };
+    dispatch(get_BU_Questions(payload));
     setShowBUModifyModal(false);
   }, [delete_BU_QuestionsState?.data, edit_BU_QuestionsState?.data, add_BU_QuestionsState?.data]);
 
@@ -145,7 +152,7 @@ const BUModifyQuestions = () => {
             <div className="rl-question-bank-TitleSectionTab">
               <div className="section-title" style={{ justifyContent: 'space-between' }}>
                 <div>
-                  <span style={{ paddingLeft: '16px' }}>Modify Questions for BU Letter</span>
+                  <span style={{ paddingLeft: '16px' }}>{title}</span>
                 </div>
 
                 <div>
@@ -156,7 +163,7 @@ const BUModifyQuestions = () => {
                     className="add-button"
                     onClick={handleOnclickAdd}
                   >
-                    Add New
+                    Add New Question
                   </Button>
                 </div>
               </div>
@@ -200,7 +207,7 @@ const BUModifyQuestions = () => {
           setEditableData({});
         }}
         width={900}
-        title={'Add New Question'}
+        title={isEdit ? 'Edit Question' : 'Add New Question'}
         bodyClassName="p-0"
       >
         <AddNewQuestionModal
@@ -208,7 +215,7 @@ const BUModifyQuestions = () => {
           editableData={editableData}
           setEditableData={setEditableData}
           setShowModal={setShowBUModifyModal}
-          modalType={localStorage.getItem('selected_module_Role') == 'BU' ? 'BU' : 'Functions'}
+          modalType={modalType}
         />
       </CustomModal>
     </>

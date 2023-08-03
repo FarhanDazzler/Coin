@@ -36,8 +36,9 @@ const RLQuestionBank = () => {
     dispatch(getInstructions(payload));
   };
 
-  const handleBuModify = () => {
-    history.push('/REP-Letters/questionbank/BU-modify-questions');
+  const handleBuModify = (module) => {
+    const data = { title: `Modify Questions for ${module} Letter`, modalType: module };
+    history.push('/REP-Letters/questionbank/BU-modify-questions', { data });
   };
   const handleFunctionalModify = () => {
     history.push('/REP-Letters/questionbank/Function-modify');
@@ -59,10 +60,38 @@ const RLQuestionBank = () => {
               Representation Letter
             </p>
           </div>
-          <div className="col-lg-12 py-4 RlQuestionBankBoxWrapper">
-            <div id="admin-panel" className="content">
-              {localStorage.getItem('selected_module_Role') == 'BU' ? (
-                <>
+
+          {localStorage.getItem('selected_module_Role') == 'BU' ? (
+            <div className="row">
+              <div className="col-lg-5 py-4 mr-2 RlQuestionBankBoxWrapper">
+                <div id="admin-panel" className="content">
+                  <div className="wrapper">
+                    <div className="RlQuestionBankHeader">
+                      <h3>Zone</h3>
+                      <p>Choose a sub-category to proceed with the necessary action.</p>
+                    </div>
+                    <Button
+                      variant="outlined"
+                      size="large"
+                      endIcon={<ArrowNarrowRight />}
+                      onClick={handleInstructions}
+                    >
+                      <span className="text-white">Instructions</span>
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      size="large"
+                      endIcon={<ArrowNarrowRight />}
+                      onClick={() => handleBuModify('Zone')}
+                    >
+                      <span className="text-white">Modify Existing Questions</span>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-lg-5 py-4 RlQuestionBankBoxWrapper">
+                <div id="admin-panel" className="content">
                   <div className="wrapper">
                     <div className="RlQuestionBankHeader">
                       <h3>BU</h3>
@@ -80,14 +109,18 @@ const RLQuestionBank = () => {
                       variant="outlined"
                       size="large"
                       endIcon={<ArrowNarrowRight />}
-                      onClick={handleBuModify}
+                      onClick={() => handleBuModify('BU')}
                     >
-                      <span className="text-white">Modify Existing</span>
+                      <span className="text-white">Modify Existing Questions</span>
                     </Button>
                   </div>
-                </>
-              ) : (
-                <>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="col-lg-12 py-4 RlQuestionBankBoxWrapper">
+                <div id="admin-panel" className="content">
                   <div className="wrapper">
                     <div className="RlQuestionBankHeader">
                       <h3>Functional</h3>
@@ -134,10 +167,10 @@ const RLQuestionBank = () => {
                       <span className="text-white">Modify Existing</span>
                     </Button>
                   </div>
-                </>
-              )}
-            </div>
-          </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </PageWrapper>
       <CustomModal
