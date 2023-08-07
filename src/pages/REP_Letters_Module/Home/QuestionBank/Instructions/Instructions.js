@@ -159,7 +159,9 @@ const Instructions = ({ setShowModal, modalType }) => {
                             className="ml-4"
                             startIcon={<PictureAsPdfIcon />}
                             onClick={() => {
-                              window.open(getInstructionsState?.data[0]?.opening_file_sass_token);
+                              const pdfUrl = getInstructionsState?.data[0]?.opening_file_sass_token;
+                              window.open(pdfUrl, '_blank');
+                              //window.open(getInstructionsState?.data[0]?.opening_file_sass_token);
                             }}
                           >
                             Opening Instructions
@@ -172,7 +174,9 @@ const Instructions = ({ setShowModal, modalType }) => {
                             className="ml-4"
                             startIcon={<PictureAsPdfIcon />}
                             onClick={() => {
-                              window.open(getInstructionsState?.data[0]?.closing_file_sass_token);
+                              const pdfUrl = getInstructionsState?.data[0]?.closing_file_sass_token;
+                              window.open(pdfUrl, '_blank');
+                              //window.open(getInstructionsState?.data[0]?.closing_file_sass_token);
                             }}
                           >
                             Closing Instructions
