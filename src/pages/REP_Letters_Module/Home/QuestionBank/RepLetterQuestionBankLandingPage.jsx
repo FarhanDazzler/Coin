@@ -208,11 +208,7 @@ const RLQuestionBank = () => {
         open={instructionsShowModal}
         onClose={() => setInstructionsShowModal(false)}
         width={1100}
-        title={
-          localStorage.getItem('selected_module_Role') == 'BU'
-            ? 'Instructions for BU Representation Letter'
-            : 'Instructions for Functions Representation Letter'
-        }
+        title={`Instructions for ${selectedModule} Representation Letter`}
         bodyClassName="p-0"
       >
         <Instructions setShowModal={setInstructionsShowModal} modalType={selectedModule} />
