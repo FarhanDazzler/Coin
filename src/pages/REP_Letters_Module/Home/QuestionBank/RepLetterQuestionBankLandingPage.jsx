@@ -22,6 +22,7 @@ const RLQuestionBank = () => {
     dispatch(get_rep_functions());
   }, []);
 
+  const [selectedModule, setSelectedModule] = useState();
   const [functionList, setFunctionList] = useState([]);
   const [selectedFunction, setSelectedFunction] = useState();
   const [instructionsShowModal, setInstructionsShowModal] = useState(false);
@@ -40,21 +41,18 @@ const RLQuestionBank = () => {
 
   // logic for closing pop up
   useEffect(() => {
-    const payload = {
-      module: localStorage.getItem('selected_module_Role') == 'BU' ? 'BU' : 'Functional',
-    };
-    dispatch(getInstructions(payload));
     setInstructionsShowModal(false);
   }, [modifyInstructionsState?.data]);
 
   useEffect(() => {}, []);
   // Code for Instructions
-  const handleInstructions = () => {
+  const handleInstructions = (modalType) => {
+    setSelectedModule(modalType);
     const payload = {
-      module: localStorage.getItem('selected_module_Role') == 'BU' ? 'BU' : 'Functional',
+      module: modalType,
     };
-    setInstructionsShowModal(true);
     dispatch(getInstructions(payload));
+    setInstructionsShowModal(true);
   };
 
   const handleBuModify = (module) => {
@@ -96,7 +94,7 @@ const RLQuestionBank = () => {
                       variant="outlined"
                       size="large"
                       endIcon={<ArrowNarrowRight />}
-                      onClick={handleInstructions}
+                      onClick={() => handleInstructions('Zone')}
                     >
                       <span className="text-white">Instructions</span>
                     </Button>
@@ -123,7 +121,7 @@ const RLQuestionBank = () => {
                       variant="outlined"
                       size="large"
                       endIcon={<ArrowNarrowRight />}
-                      onClick={handleInstructions}
+                      onClick={() => handleInstructions('BU')}
                     >
                       <span className="text-white">Instructions</span>
                     </Button>
@@ -210,18 +208,10 @@ const RLQuestionBank = () => {
         open={instructionsShowModal}
         onClose={() => setInstructionsShowModal(false)}
         width={1100}
-        title={
-          localStorage.getItem('selected_module_Role') == 'BU'
-            ? 'Instructions for BU Representation Letter'
-            : 'Instructions for Functions Representation Letter'
-        }
+        title={`Instructions for ${selectedModule} Representation Letter`}
         bodyClassName="p-0"
       >
-        <Instructions
-          setShowModal={setInstructionsShowModal}
-          ediatbleData={null}
-          modalType={localStorage.getItem('selected_module_Role') == 'BU' ? 'BU' : 'Functional'}
-        />
+        <Instructions setShowModal={setInstructionsShowModal} modalType={selectedModule} />
       </CustomModal>
     </>
   );
