@@ -9,8 +9,15 @@ import CustomModal from '../../../../components/UI/CustomModal';
 import { ArrowNarrowRight } from 'tabler-icons-react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Instructions from './Instructions/Instructions';
-import { getInstructions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
-import { modifyInstructionsSelector } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
+import FunctionalInstructions from './Instructions/FunctionalInstructions';
+import {
+  getInstructions,
+  getFunctionalInstructions,
+} from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
+import {
+  modifyInstructionsSelector,
+  modifyFunctionalInstructionsSelector,
+} from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
 import { get_rep_functions } from '../../../../redux/REP_Letters/RLMDM/RLMDMAction';
 import { get_rep_functionsSelector } from '../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
 
@@ -26,7 +33,9 @@ const RLQuestionBank = () => {
   const [functionList, setFunctionList] = useState([]);
   const [selectedFunction, setSelectedFunction] = useState();
   const [instructionsShowModal, setInstructionsShowModal] = useState(false);
+  const [functionalInstructionsShowModal, setFunctionalInstructionsShowModal] = useState(false);
   const modifyInstructionsState = useSelector(modifyInstructionsSelector);
+  const modifyFunctionalInstructionsState = useSelector(modifyFunctionalInstructionsSelector);
   const get_rep_functionsState = useSelector(get_rep_functionsSelector);
 
   useEffect(() => {
@@ -42,10 +51,11 @@ const RLQuestionBank = () => {
   // logic for closing pop up
   useEffect(() => {
     setInstructionsShowModal(false);
-  }, [modifyInstructionsState?.data]);
+    setFunctionalInstructionsShowModal(false);
+  }, [modifyInstructionsState?.data, modifyFunctionalInstructionsState?.data]);
 
   useEffect(() => {}, []);
-  // Code for Instructions
+  // Code for BU and Zone BU Instructions
   const handleInstructions = (modalType) => {
     setSelectedModule(modalType);
     const payload = {
@@ -55,6 +65,11 @@ const RLQuestionBank = () => {
     setInstructionsShowModal(true);
   };
 
+  // Code for Functional Instructions
+  const handleFunctionalInstructions = () => {
+    dispatch(getFunctionalInstructions());
+    setFunctionalInstructionsShowModal(true);
+  };
   const handleBuModify = (module) => {
     const data = { title: `Modify Questions for ${module} Letter`, modalType: module };
     history.push('/REP-Letters/questionbank/BU-modify-questions', { data });
@@ -146,6 +161,14 @@ const RLQuestionBank = () => {
                       <h3>Functional</h3>
                       <p>Choose a sub-category to proceed with the necessary action.</p>
                     </div>
+                    <Button
+                      variant="outlined"
+                      size="large"
+                      endIcon={<ArrowNarrowRight />}
+                      onClick={handleFunctionalInstructions}
+                    >
+                      <span className="text-white">Instructions</span>
+                    </Button>
                     <Form.Group className="input-group mb-3">
                       <div style={{ width: '100%' }}>
                         <Select
@@ -177,15 +200,6 @@ const RLQuestionBank = () => {
                         />
                       </div>
                     </Form.Group>
-
-                    {/* <Button
-                      variant="outlined"
-                      size="large"
-                      endIcon={<ArrowNarrowRight />}
-                      onClick={handleInstructions}
-                    >
-                      <span className="text-white">Instructions</span>
-                    </Button> */}
                     {selectedFunction && (
                       <Button
                         variant="outlined"
@@ -212,6 +226,16 @@ const RLQuestionBank = () => {
         bodyClassName="p-0"
       >
         <Instructions setShowModal={setInstructionsShowModal} modalType={selectedModule} />
+      </CustomModal>
+      <CustomModal
+        className="add-org"
+        open={functionalInstructionsShowModal}
+        onClose={() => setFunctionalInstructionsShowModal(false)}
+        width={1100}
+        title={`Instructions for Functional Representation Letter`}
+        bodyClassName="p-0"
+      >
+        <FunctionalInstructions setShowModal={setFunctionalInstructionsShowModal} />
       </CustomModal>
     </>
   );
