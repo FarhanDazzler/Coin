@@ -6,6 +6,7 @@ import {
 } from '../../../redux/Questions/QuestionsSelectors';
 import {
   addSection3Questions,
+  addSection3QuestionsChangeLang,
   deleteSection3Questions,
   getSection3Questions,
   updateSection3Questions,
@@ -15,6 +16,7 @@ import {
   getFormatQuestions,
   getQuestionsFormatData,
   getQuestionsWithLangFormatData,
+  languageToTextKey,
 } from '../../../utils/helper';
 import blockType from '../../../components/RenderBlock/constant';
 import Section3MICSSpecific from '../../QuestionBank/Section3MICSSpecific';
@@ -43,6 +45,7 @@ const MICSSpecificChangeLanguage = () => {
   const [showAddQuestion, setShowAddQuestion] = useState(false);
   const [controlIDList, setControlIDList] = useState([]);
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
+
   useEffect(() => {
     if (repositoryOfControlID?.data.length !== 0) {
       let controlidArray = [];
@@ -52,6 +55,7 @@ const MICSSpecificChangeLanguage = () => {
       setControlIDList(controlidArray);
     }
   }, [repositoryOfControlID]);
+
   useEffect(() => {
     if (level[0] && control_ID.value)
       dispatch(getSection3Questions({ Level: level[0], Control_ID: control_ID.value }));
@@ -94,37 +98,6 @@ const MICSSpecificChangeLanguage = () => {
     setControl_ID(typeof value === 'string' ? value.split(',') : value);
   };
 
-  const handleAddQuestion = () => {
-    const payload = {
-      Control_ID: control_ID.value,
-      Header_Question: 'Header question title',
-      Inner_Questions: '',
-      Level: level[0],
-    };
-    // dispatch(addSection3Questions(payload));
-    setIsEdit(true);
-    const newDataQuestion = getQuestionsFormatData([payload]);
-    setSection3(getFormatQuestions(newDataQuestion, 'isQuestionEdit'));
-  };
-
-  const handleSaveQuestion = (saveWithCloseModal = true) => {
-    if (section3.length > 0 && isEdit) {
-      const payload = {
-        Header_Question: section3[0].label,
-        Inner_Questions: JSON.stringify(section3[0].innerOptions),
-        Level: level[0],
-        is_Failing: section3[0].is_Failing,
-        Control_ID: control_ID.value,
-      };
-      if (questionData.data.length > 0) {
-        dispatch(updateSection3Questions(payload));
-      } else {
-        dispatch(addSection3Questions(payload));
-      }
-      setIsEdit(false);
-    }
-  };
-
   const handleChangeRenderBlock = (value, innerBlock, block) => {
     if (value === 'delete') {
       const updateSection3 = section3.filter((section) => section.Control_ID !== block.Control_ID);
@@ -144,13 +117,25 @@ const MICSSpecificChangeLanguage = () => {
         });
         const formatData = getFormatQuestions(updateRadioMultiData, 'isQuestionEdit');
         setSection3(formatData);
+        const payload = formatData.map((d) => {
+          const keyQuestion = languageToTextKey(value.language) + 'Header_Question';
+          const keyOption = languageToTextKey(value.language) + 'Inner_Questions';
+          return {
+            language: value.language,
+            Level: value.Level,
+            Control_ID: value.Control_ID,
+            [keyQuestion]: d[keyQuestion],
+            [keyOption]: JSON.stringify(d.innerOptions),
+          };
+        });
+        dispatch(addSection3QuestionsChangeLang(payload));
         return;
     }
   };
+
   useEffect(() => {
     if (Object.keys(questionData?.data || {})?.length > 0) {
-      const apiQuestion = getQuestionsWithLangFormatData(questionData.data);
-      console.log('questionData.data', apiQuestion);
+      const apiQuestion = getQuestionsWithLangFormatData(questionData.data, true);
       setSection3(getFormatQuestions(apiQuestion, 'isQuestionEdit'));
       return;
     }
@@ -193,36 +178,6 @@ const MICSSpecificChangeLanguage = () => {
           }
         />
       </div>
-
-      {control_ID.value && (
-        <div>
-          <div>
-            {showAddQuestion && !questionData.loading && (
-              <Button
-                color="secondary"
-                className="ml-2"
-                onClick={handleAddQuestion}
-                disabled={!control_ID.value}
-              >
-                Add Question
-              </Button>
-            )}
-          </div>
-          <div className="d-flex align-items-center justify-content-end">
-            <Button variant="text" color="secondary">
-              Cancel
-            </Button>
-            <Button
-              color="secondary"
-              className="ml-2"
-              disabled={!isEdit}
-              onClick={handleSaveQuestion}
-            >
-              Save
-            </Button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

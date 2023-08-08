@@ -15,7 +15,7 @@ import {
   GET_REPOSITORY_OF_CONTROL_ID_DATA_REQUEST,
   RESET_SECTION_3_REQUEST,
   GET_CONTROL_NAME_FROM_CONTROL_ID_REQUEST,
-  GET_SECTION_3_MICS__CHANGE_LANG_REQUEST,
+  ADD_SECTION_3_MICS__CHANGE_LANG_REQUEST,
 } from './QuestionsReducer';
 
 export const getSection1Questions = (payload) => ({
@@ -62,8 +62,8 @@ export const addSection1Questions = (payload) => ({
 
 export const getSection3Questions = (payload) => ({ type: GET_SECTION_3_MICS_REQUEST, payload });
 
-export const getSection3QuestionsChangeLang = (payload) => ({
-  type: GET_SECTION_3_MICS__CHANGE_LANG_REQUEST,
+export const addSection3QuestionsChangeLang = (payload) => ({
+  type: ADD_SECTION_3_MICS__CHANGE_LANG_REQUEST,
   payload,
 });
 

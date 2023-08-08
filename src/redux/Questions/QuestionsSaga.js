@@ -40,9 +40,9 @@ import {
   GET_CONTROL_NAME_FROM_CONTROL_ID_ERROR,
   GET_CONTROL_NAME_FROM_CONTROL_ID_REQUEST,
   GET_CONTROL_NAME_FROM_CONTROL_ID_SUCCESS,
-  GET_SECTION_3_MICS__CHANGE_LANG_REQUEST,
-  GET_SECTION_3_MICS__CHANGE_LANG_SUCCESS,
-  GET_SECTION_3_MIC_CHANGE_LANG_S_ERROR,
+  ADD_SECTION_3_MICS__CHANGE_LANG_REQUEST,
+  ADD_SECTION_3_MICS__CHANGE_LANG_SUCCESS,
+  ADD_SECTION_3_MIC_CHANGE_LANG_S_ERROR,
 } from './QuestionsReducer';
 import Swal from 'sweetalert2';
 
@@ -151,21 +151,21 @@ function* handleGetSection3({ payload }) {
     });
   }
 }
-async function getSection3ChangeLangApi(params) {
-  return await Axios.post('/get_section3_questions_translation', { params });
+async function addSection3ChangeLangApi(params) {
+  return await Axios.post('/add_Section3_Question_Translation', params);
 }
-function* handleGetSection3ChangeLang({ payload }) {
+function* handleAddSection3ChangeLang({ payload }) {
   try {
-    const response = yield call(getSection3ChangeLangApi, payload);
+    const response = yield call(addSection3ChangeLangApi, payload);
     if (response.success) {
       yield put({
-        type: GET_SECTION_3_MICS__CHANGE_LANG_SUCCESS,
+        type: ADD_SECTION_3_MICS__CHANGE_LANG_SUCCESS,
         payload: { data: response.data, Level: { [payload.Level]: response.data } },
       });
     }
   } catch (error) {
     yield put({
-      type: GET_SECTION_3_MIC_CHANGE_LANG_S_ERROR,
+      type: ADD_SECTION_3_MIC_CHANGE_LANG_S_ERROR,
       payload: getSimplifiedError(error),
     });
   }
@@ -345,7 +345,7 @@ export default all([
   takeLatest(DELETE_OPTION_SECTION_1_MICS_REQUEST, handleDeleteSection1Option),
   takeLatest(DELETE_SECTION_1_MICS_REQUEST, handleDeleteSection1),
   takeLatest(GET_SECTION_3_MICS_REQUEST, handleGetSection3),
-  takeLatest(GET_SECTION_3_MICS__CHANGE_LANG_REQUEST, handleGetSection3ChangeLang),
+  takeLatest(ADD_SECTION_3_MICS__CHANGE_LANG_REQUEST, handleAddSection3ChangeLang),
   takeLatest(GET_SECTION_3_MICS_ADD_REQUEST, handleAddSection3),
   takeLatest(GET_SECTION_3_MICS_UPDATE_REQUEST, handleUpdateSection3),
   takeLatest(GET_SECTION_3_MICS_DELETE_REQUEST, handleDeleteSection3),

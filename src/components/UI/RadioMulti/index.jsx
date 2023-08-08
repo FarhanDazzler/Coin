@@ -18,7 +18,6 @@ const RadioMulti = ({
   disabled,
   isChangeLang,
 }) => {
-  console.log('block');
   const [showEditModal, setShowEditModal] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const handleEditLabel = () => {
@@ -101,7 +100,6 @@ const RadioMulti = ({
             onClose={() => setShowEditModal(false)}
             onSave={saveQuestion}
             isChangeLang={isChangeLang}
-            isChangeLang
           />
         </CustomModal>
         {showRemoveModal && (
