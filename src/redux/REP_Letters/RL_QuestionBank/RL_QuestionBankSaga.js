@@ -38,6 +38,12 @@ import {
   MODIFY_INSTRUCTIONS_REQUEST,
   MODIFY_INSTRUCTIONS_SUCCESS,
   MODIFY_INSTRUCTIONS_ERROR,
+  GET_FUNCTIONAL_INSTRUCTIONS_REQUEST,
+  GET_FUNCTIONAL_INSTRUCTIONS_SUCCESS,
+  GET_FUNCTIONAL_INSTRUCTIONS_ERROR,
+  MODIFY_FUNCTIONAL_INSTRUCTIONS_REQUEST,
+  MODIFY_FUNCTIONAL_INSTRUCTIONS_SUCCESS,
+  MODIFY_FUNCTIONAL_INSTRUCTIONS_ERROR,
 } from './RL_QuestionBankReducer';
 import Swal from 'sweetalert2';
 
@@ -339,6 +345,60 @@ function* modifyInstructions_Data({ payload }) {
   }
 }
 
+// GET FUNCTIONAL INSTRUCTIONS
+async function getFunctionalInstructionsApi(params) {
+  return await Axios.get('/get_function_instructions', { params });
+}
+function* handleGet_Functional_Instructions({ payload }) {
+  try {
+    const response = yield call(getFunctionalInstructionsApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_FUNCTIONAL_INSTRUCTIONS_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_FUNCTIONAL_INSTRUCTIONS_ERROR,
+    });
+  }
+}
+
+// MODIFY FUNCTIONAL INSTRUCTIONS
+async function modifyFunctionalInstructionsApi(payload) {
+  return await Axios.post('/update_function_instructions', payload, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+}
+function* modifyFunctionalInstructions_Data({ payload }) {
+  try {
+    const { formdata, event } = payload;
+    const response = yield call(modifyFunctionalInstructionsApi, formdata);
+
+    if (response.success) {
+      yield put({
+        type: MODIFY_FUNCTIONAL_INSTRUCTIONS_SUCCESS,
+        payload: response.data,
+      });
+      if (event && event.onSuccess) {
+        event.onSuccess(response.data);
+      }
+      Swal.fire('Done!', 'Instructions Modified Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: MODIFY_FUNCTIONAL_INSTRUCTIONS_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
 export default all([
   takeLatest(GET_BU_QUESTIONS_REQUEST, handleGet_BU_Questions),
   takeLatest(ADD_BU_QUESTIONS_REQUEST, add_BU_Questions_Data),
@@ -352,4 +412,6 @@ export default all([
   takeLatest(DELETE_FUNCTION_QUESTIONS_REQUEST, delete_Function_Questions_Data),
   takeLatest(GET_INSTRUCTIONS_REQUEST, handleGet_Instructions),
   takeLatest(MODIFY_INSTRUCTIONS_REQUEST, modifyInstructions_Data),
+  takeLatest(GET_FUNCTIONAL_INSTRUCTIONS_REQUEST, handleGet_Functional_Instructions),
+  takeLatest(MODIFY_FUNCTIONAL_INSTRUCTIONS_REQUEST, modifyFunctionalInstructions_Data),
 ]);

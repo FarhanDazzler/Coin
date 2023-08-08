@@ -29,10 +29,27 @@ const Instructions = ({ setShowModal, modalType }) => {
   var formdata = new FormData();
 
   const handleSave = (value, resetForm) => {
-    if (value.isFileAttached === 'Yes') {
+    if (value.isFileAttached === 'Both') {
       formdata.append('id', getInstructionsState?.data[0]?.id);
       formdata.append('isFileAttached', true);
+      formdata.append('fileType', 'Both');
       formdata.append('openingFile', value.OpeningFile);
+      formdata.append('closingFile', value.ClosingFile);
+      formdata.append('instructions', value.Instructions);
+      formdata.append('module', modalType);
+    } else if (value.isFileAttached === 'Opening') {
+      formdata.append('id', getInstructionsState?.data[0]?.id);
+      formdata.append('isFileAttached', true);
+      formdata.append('fileType', 'OpeningFile');
+      formdata.append('openingFile', value.OpeningFile);
+      //formdata.append('closingFile', null);
+      formdata.append('instructions', value.Instructions);
+      formdata.append('module', modalType);
+    } else if (value.isFileAttached === 'Closing') {
+      formdata.append('id', getInstructionsState?.data[0]?.id);
+      formdata.append('isFileAttached', true);
+      formdata.append('fileType', 'ClosingFile');
+      //formdata.append('openingFile', null);
       formdata.append('closingFile', value.ClosingFile);
       formdata.append('instructions', value.Instructions);
       formdata.append('module', modalType);
@@ -68,11 +85,11 @@ const Instructions = ({ setShowModal, modalType }) => {
           Instructions: Yup.string().required('Instructions is required'),
           isFileAttached: Yup.string().required('Please select do you want to re-upload Files?'),
           OpeningFile: Yup.mixed().when('isFileAttached', {
-            is: 'Yes',
-            then: Yup.mixed().required('Opening Notes is required'),
+            is: (value) => ['Both', 'Opening'].includes(value),
+            then: Yup.mixed().required('Opening Instructions is required'),
           }),
           ClosingFile: Yup.mixed().when('isFileAttached', {
-            is: 'Yes',
+            is: (value) => ['Both', 'Closing'].includes(value),
             then: Yup.mixed().required('Closing Instructions is required'),
           }),
         })}
@@ -141,17 +158,18 @@ const Instructions = ({ setShowModal, modalType }) => {
                   )} */}
                 </div>
               </div>
-              {getInstructionsState?.data[0]?.opening_file_sass_token.length > 0 &&
-                getInstructionsState?.data[0]?.closing_file_sass_token.length > 0 && (
-                  <div className="row">
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <div>
-                        <h5>
-                          There is an existing Opening Notes and Closing Instructions files, Do you
-                          want to reupload?
-                        </h5>
-                      </div>
-                      <div className="row">
+              {(getInstructionsState?.data[0]?.opening_file_sass_token.length > 0 ||
+                getInstructionsState?.data[0]?.closing_file_sass_token.length > 0) && (
+                <div className="row">
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div>
+                      <h5>
+                        There is an existing Opening Notes / Closing Instructions files, Do you want
+                        to reupload? (PFD File Only)
+                      </h5>
+                    </div>
+                    <div className="row">
+                      {getInstructionsState?.data[0]?.opening_file_sass_token.length > 0 && (
                         <div className="col">
                           <Button
                             variant="outlined"
@@ -167,6 +185,8 @@ const Instructions = ({ setShowModal, modalType }) => {
                             Opening Instructions
                           </Button>
                         </div>
+                      )}
+                      {getInstructionsState?.data[0]?.closing_file_sass_token.length > 0 && (
                         <div className="col">
                           <Button
                             variant="outlined"
@@ -182,36 +202,39 @@ const Instructions = ({ setShowModal, modalType }) => {
                             Closing Instructions
                           </Button>
                         </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-lg-4">
-                        <Form.Group className="input-group mb-3">
-                          <Form.Control
-                            as="select"
-                            name="isFileAttached"
-                            placeholder=""
-                            value={values.isFileAttached}
-                            isInvalid={!!errors.isFileAttached}
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            readOnly={false}
-                            className="form-select"
-                          >
-                            <option value="">Re - Upload</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                          </Form.Control>
-
-                          <Form.Control.Feedback type="invalid">
-                            {errors.isFileAttached}
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                      </div>
+                      )}
                     </div>
                   </div>
-                )}
-              {values.isFileAttached === 'Yes' && (
+                  <div className="row">
+                    <div className="col-lg-4">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          as="select"
+                          name="isFileAttached"
+                          placeholder=""
+                          value={values.isFileAttached}
+                          isInvalid={!!errors.isFileAttached}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          readOnly={false}
+                          className="form-select"
+                        >
+                          <option value="">Re - Upload</option>
+                          <option value="Both">Both files</option>
+                          <option value="Opening">Only Opening Instructions</option>
+                          <option value="Closing">Only Closing Instructions</option>
+                          <option value="No">No</option>
+                        </Form.Control>
+
+                        <Form.Control.Feedback type="invalid">
+                          {errors.isFileAttached}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {values.isFileAttached === 'Both' && (
                 <div className="row mb-4">
                   <div className="col-lg-4">
                     <Form.Group className="position-relative mb-3">
@@ -219,6 +242,7 @@ const Instructions = ({ setShowModal, modalType }) => {
                       <Form.Control
                         type="file"
                         required
+                        accept=".pdf"
                         name="OpeningFile"
                         //onChange={handleChange}
                         onChange={(event) => {
@@ -237,6 +261,53 @@ const Instructions = ({ setShowModal, modalType }) => {
                       <Form.Control
                         type="file"
                         required
+                        accept=".pdf"
+                        name="ClosingFile"
+                        //onChange={handleChange}
+                        onChange={(event) => {
+                          setFieldValue('ClosingFile', event.currentTarget.files[0]);
+                        }}
+                        isInvalid={!!errors.ClosingFile}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.ClosingFile}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </div>
+                </div>
+              )}
+              {values.isFileAttached === 'Opening' && (
+                <div className="row mb-4">
+                  <div className="col-lg-4">
+                    <Form.Group className="position-relative mb-3">
+                      <Form.Label className="mt-5">Opening Instructions :</Form.Label>
+                      <Form.Control
+                        type="file"
+                        required
+                        accept=".pdf"
+                        name="OpeningFile"
+                        //onChange={handleChange}
+                        onChange={(event) => {
+                          setFieldValue('OpeningFile', event.currentTarget.files[0]);
+                        }}
+                        isInvalid={!!errors.OpeningFile}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.OpeningFile}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </div>
+                </div>
+              )}
+              {values.isFileAttached === 'Closing' && (
+                <div className="row mb-4">
+                  <div className="col-lg-4">
+                    <Form.Group className="position-relative mb-3">
+                      <Form.Label className="mt-5">Closing Instructions :</Form.Label>
+                      <Form.Control
+                        type="file"
+                        required
+                        accept=".pdf"
                         name="ClosingFile"
                         //onChange={handleChange}
                         onChange={(event) => {

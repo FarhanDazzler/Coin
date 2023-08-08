@@ -16,3 +16,7 @@ export const getLetterNameFromFunctionSelector = (state) =>
   state?.RL_QuestionBank?.getLetterNameFromFunction;
 export const getInstructionsSelector = (state) => state?.RL_QuestionBank?.getInstructions;
 export const modifyInstructionsSelector = (state) => state?.RL_QuestionBank?.modifyInstructions;
+export const getFunctionalInstructionsSelector = (state) =>
+  state?.RL_QuestionBank?.getFunctionalInstructions;
+export const modifyFunctionalInstructionsSelector = (state) =>
+  state?.RL_QuestionBank?.modifyFunctionalInstructions;
