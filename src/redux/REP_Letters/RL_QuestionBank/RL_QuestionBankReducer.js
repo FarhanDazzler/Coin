@@ -81,6 +81,20 @@ export const MODIFY_INSTRUCTIONS_ERROR = 'MODIFY_INSTRUCTIONS_ERROR';
 
 // =================== Question Bank Modify Instructions ========================//
 
+// =================== FUNCTIONAL_Question Bank Get Instructions ========================//
+export const GET_FUNCTIONAL_INSTRUCTIONS_REQUEST = 'GET_FUNCTIONAL_INSTRUCTIONS_REQUEST';
+export const GET_FUNCTIONAL_INSTRUCTIONS_SUCCESS = 'GET_FUNCTIONAL_INSTRUCTIONS_SUCCESS';
+export const GET_FUNCTIONAL_INSTRUCTIONS_ERROR = 'GET_FUNCTIONAL_INSTRUCTIONS_ERROR';
+// =================== Question Bank Get Instructions ========================//
+
+// =================== FUNCTIONAL_Question Bank Modify Instructions ========================//
+
+export const MODIFY_FUNCTIONAL_INSTRUCTIONS_REQUEST = 'MODIFY_FUNCTIONAL_INSTRUCTIONS_REQUEST';
+export const MODIFY_FUNCTIONAL_INSTRUCTIONS_SUCCESS = 'MODIFY_FUNCTIONAL_INSTRUCTIONS_SUCCESS';
+export const MODIFY_FUNCTIONAL_INSTRUCTIONS_ERROR = 'MODIFY_FUNCTIONAL_INSTRUCTIONS_ERROR';
+
+// =================== FUNCTIONAL_Question Bank Modify Instructions ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -100,6 +114,8 @@ const initialState = {
   delete_Function_Questions: { ...block, data: [] },
   getInstructions: { ...block, data: [] },
   modifyInstructions: { ...block, data: [] },
+  getFunctionalInstructions: { ...block, data: [] },
+  modifyFunctionalInstructions: { ...block, data: [] },
 };
 
 export const RL_QuestionBankReducer = (state = initialState, { type, payload = {} }) => {
@@ -329,6 +345,48 @@ export const RL_QuestionBankReducer = (state = initialState, { type, payload = {
       return {
         ...state,
         modifyInstructions: { ...state.modifyInstructions, loading: false },
+      };
+
+    // FUNCTIONAL_Question Bank Get Instructions
+    case GET_FUNCTIONAL_INSTRUCTIONS_REQUEST:
+      return {
+        ...state,
+        getFunctionalInstructions: { ...state.getFunctionalInstructions, loading: true },
+      };
+    case GET_FUNCTIONAL_INSTRUCTIONS_SUCCESS:
+      return {
+        ...state,
+        getFunctionalInstructions: {
+          ...state.getFunctionalInstructions,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_FUNCTIONAL_INSTRUCTIONS_ERROR:
+      return {
+        ...state,
+        getFunctionalInstructions: { ...state.getFunctionalInstructions, loading: false },
+      };
+
+    // FUNCTIONAL_Question Bank Modify Instructions
+    case MODIFY_FUNCTIONAL_INSTRUCTIONS_REQUEST:
+      return {
+        ...state,
+        modifyFunctionalInstructions: { ...state.modifyFunctionalInstructions, loading: true },
+      };
+    case MODIFY_FUNCTIONAL_INSTRUCTIONS_SUCCESS:
+      return {
+        ...state,
+        modifyFunctionalInstructions: {
+          ...state.modifyFunctionalInstructions,
+          data: payload,
+          loading: false,
+        },
+      };
+    case MODIFY_FUNCTIONAL_INSTRUCTIONS_ERROR:
+      return {
+        ...state,
+        modifyFunctionalInstructions: { ...state.modifyFunctionalInstructions, loading: false },
       };
 
     default:
