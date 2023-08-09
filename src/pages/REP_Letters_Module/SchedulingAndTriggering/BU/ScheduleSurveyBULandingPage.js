@@ -12,7 +12,7 @@ const ScheduleSurveyBUPage = () => {
         <div className="col-lg-12 py-4 AssessmentBankBoxWrapper">
           <div id="schedule-survey" className="content">
             <div className="wrapper">
-              <h4 className="AssessmentBank-inputPage-title">Schedule Assessment BU</h4>
+              <h4 className="AssessmentBank-inputPage-title">Schedule BU Letter</h4>
               <div className="AssessmentBankInnerBoxWrapper">
                 <SelectAssessmentDetailsBU />
               </div>

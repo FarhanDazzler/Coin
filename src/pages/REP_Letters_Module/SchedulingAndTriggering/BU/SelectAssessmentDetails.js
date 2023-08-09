@@ -20,10 +20,8 @@ const GetFormikFieldValue = () => {
 const SelectAssessmentDetailsBU = ({ handleNext }) => {
   const dispatch = useDispatch();
   const history = useHistory();
- 
-  useEffect(() => {
-   
-  }, []);
+
+  useEffect(() => {}, []);
 
   const handleOnclickCancel = () => {
     history.push('/REP-Letters/scheduling-and-triggering');
@@ -31,7 +29,6 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
 
   const handleSaveAdd = (value) => {
     //console.log(value);
-
   };
 
   // logic for Year picker
@@ -44,11 +41,12 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
 
   return (
     <div className="p-5">
-      <h4 className="AssessmentBank-inputPage-sub-title">Select Assessment Details</h4>
+      <h4 className="AssessmentBank-inputPage-sub-title">Select Letter Details</h4>
       <Formik
         enableReinitialize
         initialValues={{
           Function: '',
+          Title: '',
           Assessment_Cycle: '',
           Year: currentYear || '',
           Start_Date: '',
@@ -58,6 +56,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
         }}
         validationSchema={Yup.object().shape({
           Function: Yup.string().required('Function is required'),
+          Title: Yup.string().required('Title is required'),
           Assessment_Cycle: Yup.string().required('Assessment Cycle is required'),
           Year: Yup.string().required('Year is required'),
           // KPI_From_Year: Yup.string().required('KPI From is required'),
@@ -97,7 +96,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                   <div className="col-lg-6">
                     <Form.Group className="input-group mb-3">
                       <Form.Control
-                        type="text"
+                        as="select"
                         name="Function"
                         placeholder=""
                         value={values.Function}
@@ -105,8 +104,11 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                         onBlur={handleBlur}
                         onChange={handleChange}
                         readOnly={false}
-                        className="form-control"
-                      />
+                        className="form-select"
+                      >
+                        <option value="">Select</option>
+                        <option value="Assessment Cycle 1">Sales</option>
+                      </Form.Control>
 
                       {!!touched.Function && (
                         <Form.Control.Feedback type="invalid">
@@ -119,7 +121,30 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
               </div>
 
               <div className="col-lg-6">
-                
+                <div className="row mb-4">
+                  <div className="col-lg-4">
+                    <Form.Label>Title</Form.Label>
+                  </div>
+                  <div className="col-lg-6">
+                    <Form.Group className="input-group mb-3">
+                      <Form.Control
+                        type="text"
+                        name="Title"
+                        placeholder=""
+                        value={values.Title}
+                        isInvalid={Boolean(touched.Title && errors.Title)}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        readOnly={false}
+                        className="form-control"
+                      />
+
+                      {!!touched.Title && (
+                        <Form.Control.Feedback type="invalid">{errors.Title}</Form.Control.Feedback>
+                      )}
+                    </Form.Group>
+                  </div>
+                </div>
               </div>
 
               <div className="col-lg-6">
@@ -326,7 +351,6 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                   </div>
                 </div>
               </div>
-
             </div>
             <div className="footer-action-AssessmentBank">
               <div className="d-flex align-items-center justify-content-end">
@@ -336,7 +360,6 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                     color="secondary"
                     onClick={() => {
                       handleOnclickCancel();
-                     
                     }}
                   >
                     Cancel
