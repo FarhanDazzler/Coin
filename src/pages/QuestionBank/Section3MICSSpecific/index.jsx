@@ -33,23 +33,25 @@ const Section3MICSSpecific = ({
       <div className="pt-5 px-4 ">
         <div className={inputCenter ? 'd-flex justify-content-center' : ''}>
           {moreOptions && moreOptions}
-          <div className="select-light">
-            <FormControl sx={{ width: 300 }}>
-              <Select
-                value={level}
-                onChange={handleChangeLevel}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return <em>Placeholder</em>;
-                  }
-                  return selected.join(', ');
-                }}
-                MenuProps={MenuProps}
-                inputProps={{ 'aria-label': 'Without label' }}
-                options={levels}
-              />
-            </FormControl>
-          </div>
+          {!isChangeLang && (
+            <div className="select-light">
+              <FormControl sx={{ width: 300 }}>
+                <Select
+                  value={level}
+                  onChange={handleChangeLevel}
+                  renderValue={(selected) => {
+                    if (selected.length === 0) {
+                      return <em>Placeholder</em>;
+                    }
+                    return selected.join(', ');
+                  }}
+                  MenuProps={MenuProps}
+                  inputProps={{ 'aria-label': 'Without label' }}
+                  options={levels}
+                />
+              </FormControl>
+            </div>
+          )}
         </div>
         <div className="pt-5">
           {questionData.loading ? (
