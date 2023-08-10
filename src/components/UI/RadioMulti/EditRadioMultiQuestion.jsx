@@ -105,7 +105,7 @@ const EditRadioMultiQuestion = ({ block, onClose, onSave, isChangeLang }) => {
     <div>
       <div className={cs({ ['isChangeLang']: isChangeLang })}>
         <div className="p-5 border-right">
-          <h3 className="text-str">{block?.Level ? block?.Level : ''} in english</h3>
+          <h3 className="text-str">{block?.Level ? block?.Level : ''} in English</h3>
           <div className="mb-4 d-flex align-items-center">
             <Input
               block={block}
@@ -172,7 +172,7 @@ const EditRadioMultiQuestion = ({ block, onClose, onSave, isChangeLang }) => {
                 value={language}
               >
                 <option value="" disabled>
-                  Select language
+                  Select Language
                 </option>
                 {TranslateType.map((data, i) => (
                   <option value={data?.value} key={i}>
@@ -213,7 +213,7 @@ const EditRadioMultiQuestion = ({ block, onClose, onSave, isChangeLang }) => {
             </>
           ) : (
             <div className="no-data-placeholder">
-              <p>Select language</p>
+              <p>Select Language</p>
             </div>
           )}
         </div>
