@@ -29,4 +29,15 @@
 .langage-bg {
   background: white;
   border-radius: 10px;
+  color: #595959;
+  .renderBlockWrapper {
+    .radio-wrapper {
+      label {
+        color: #595959 !important;
+      }
+    }
+  }
+  .MuiRadio-root svg {
+    color: #595959 !important;
+  }
 }
