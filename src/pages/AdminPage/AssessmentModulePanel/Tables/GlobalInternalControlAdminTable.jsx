@@ -175,28 +175,29 @@ const GlobalInternalControlAdminTable = () => {
     <>
       <div className="container mt-5">
         <div className="row pt-5">
-          {tableData?.length && (
-            <div className="col-12 col-lg-12">
-              <div className="mdm-table-button">
-                <div className="table-heading" style={{ justifyContent: 'space-between' }}>
-                  <div>
-                    <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                    <span style={{ paddingLeft: '16px' }}>Global Internal Control Role Table</span>
-                  </div>
-                  <div>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      startIcon={<ActiveToolAdd text="Free Text" />}
-                      className="add-button-mdm-table"
-                      onClick={handleAdd}
-                    >
-                      Add User
-                    </Button>
-                  </div>
+          <div className="col-12 col-lg-12">
+            <div className="mdm-table-button">
+              <div className="table-heading" style={{ justifyContent: 'space-between' }}>
+                <div>
+                  <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
+                  <span style={{ paddingLeft: '16px' }}>Global Internal Control Role Table</span>
+                </div>
+                <div>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    startIcon={<ActiveToolAdd text="Free Text" />}
+                    className="add-button-mdm-table"
+                    onClick={handleAdd}
+                  >
+                    Add User
+                  </Button>
                 </div>
               </div>
-
+            </div>
+          </div>
+          {tableData?.length && (
+            <div className="col-12 col-lg-12">
               <Table2
                 tableData={tableData}
                 loading={getAll_Roles_data.loading}

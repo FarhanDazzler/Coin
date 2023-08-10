@@ -210,35 +210,33 @@ const AssessmentsSummaryTable = () => {
 
   return (
     <>
-      <PageWrapper>
-        <div className="mt-5">
-          <div className="row">
-            <div className="col-12 col-lg-12">
-              <div className="mdm-table-global-filters">
-                <FilterButtons
-                  year={removeDuplicates(year)}
-                  assessment_Cycle={removeDuplicates(assessment_Cycle)}
-                  yearValue={yearValue}
-                  assessmentCycleValue={assessmentCycleValue}
-                  setYearValue={setYearValue}
-                  setAssessmentCycleValue={setAssessmentCycleValue}
-                />
-              </div>
-              <>
-                {tableData?.length > 0 ? (
-                  <Table2
-                    tableData={tableData}
-                    loading={getAssessmentsSummaryTableState.loading}
-                    tableColumns={tableColumns}
-                  />
-                ) : (
-                  <NoDataPlaceholder />
-                )}
-              </>
+      <div className="mt-5">
+        <div className="row">
+          <div className="col-12 col-lg-12">
+            <div className="mdm-table-global-filters">
+              <FilterButtons
+                year={removeDuplicates(year)}
+                assessment_Cycle={removeDuplicates(assessment_Cycle)}
+                yearValue={yearValue}
+                assessmentCycleValue={assessmentCycleValue}
+                setYearValue={setYearValue}
+                setAssessmentCycleValue={setAssessmentCycleValue}
+              />
             </div>
+            <>
+              {tableData?.length > 0 ? (
+                <Table2
+                  tableData={tableData}
+                  loading={getAssessmentsSummaryTableState.loading}
+                  tableColumns={tableColumns}
+                />
+              ) : (
+                <NoDataPlaceholder />
+              )}
+            </>
           </div>
         </div>
-      </PageWrapper>
+      </div>
     </>
   );
 };
