@@ -45,7 +45,7 @@ const MICSSpecificChangeLanguage = () => {
   const [showAddQuestion, setShowAddQuestion] = useState(false);
   const [controlIDList, setControlIDList] = useState([]);
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
-
+  console.log('section3', section3);
   useEffect(() => {
     if (repositoryOfControlID?.data.length !== 0) {
       let controlidArray = [];
@@ -116,7 +116,23 @@ const MICSSpecificChangeLanguage = () => {
           return { ...val };
         });
         const formatData = getFormatQuestions(updateRadioMultiData, 'isQuestionEdit');
-        setSection3(formatData);
+        const updateRadioMultiDataAPI = section3.map((val) => {
+          if (val.Level === block.Level) {
+            const keyQuestion = languageToTextKey(value.language) + 'Header_Question';
+            const keyOption = languageToTextKey(value.language) + 'Inner_Questions';
+            const keyInnerOption = languageToTextKey(value.language) + 'innerOptions';
+            delete val[keyQuestion];
+            delete val[keyOption];
+            val[keyInnerOption] = value.innerOptions;
+            return {
+              ...value,
+              ...val,
+            };
+          }
+          return { ...val };
+        });
+        const stateUpdate = getFormatQuestions(updateRadioMultiDataAPI, 'isQuestionEdit');
+        setSection3(stateUpdate);
         const payload = formatData.map((d) => {
           const keyQuestion = languageToTextKey(value.language) + 'Header_Question';
           const keyOption = languageToTextKey(value.language) + 'Inner_Questions';
