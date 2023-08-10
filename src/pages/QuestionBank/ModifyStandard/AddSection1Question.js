@@ -19,7 +19,6 @@ export const TranslateType = [
   { label: 'Mandarin', value: 'Mandarin' },
   { label: 'Spanish', value: 'Spanish' },
   { label: 'Korean', value: 'Korean' },
-  { label: 'Vietnamese', value: 'Vietnamese' },
   { label: 'Portuguese', value: 'Portuguese' },
 ];
 
