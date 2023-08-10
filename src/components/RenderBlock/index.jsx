@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Dropdown from '../UI/Dropdown';
 import InputWidthSelect from '../UI/InputWidthSelect/InputWidthSelect';
 
-const RenderBlock = ({ blocks = [], handleChange, userApiStart, isModal }) => {
+const RenderBlock = ({ blocks = [], handleChange, userApiStart, isModal, isChangeLang }) => {
   const controlDataResponse = useSelector((state) => state?.controlData?.controlData?.data);
   for (let i = 0; i < blocks.length; i++) {
     let question = blocks[i].question_text;
@@ -64,6 +64,7 @@ const RenderBlock = ({ blocks = [], handleChange, userApiStart, isModal }) => {
                   handleChange={handleChange}
                   index={i}
                   disabled={!isModal}
+                  isChangeLang={isChangeLang}
                 />
               </RenderBlockWrapper>
             );

@@ -166,6 +166,23 @@ const Pages = () => {
           console.log(`Error occurred while acquiring token: ${err}`);
         });
     }
+    // logic for getting NPS api auth token
+    if (accounts) {
+      instance
+        .acquireTokenSilent({
+          scopes: [process.env.REACT_APP_NPS_AUTH_API],
+          account: accounts[0],
+        })
+        .then((response) => {
+          if (response) {
+            //setToken(response.accessToken);
+            localStorage.setItem('nps-auth-token', response.accessToken);
+          }
+        })
+        .catch((error) => {
+          console.log('error in custom', error);
+        });
+    }
   }, [accounts, inProgress]);
 
   return (

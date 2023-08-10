@@ -273,6 +273,7 @@ export const AssessmentBankReducer = (state = initialState, { type, payload = {}
           ...state.addAssessmentSchedulingAndTriggering,
           data: payload,
           loading: false,
+          success: true,
         },
       };
     case ADD_ASSESSMENT_SCHEDULING_AND_TRIGGERING_ERROR:
@@ -300,6 +301,7 @@ export const AssessmentBankReducer = (state = initialState, { type, payload = {}
           ...state.getAssessmentsSummaryTable,
           data: payload,
           loading: false,
+          success: true,
         },
       };
     case GET_ASSESSMENTS_SUMMARY_TABLE_ERROR:
