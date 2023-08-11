@@ -35,7 +35,15 @@ const MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage = () => {
     }
   }, [getAllZone_State?.data]);
 
-  console.log(zoneList, 'zoneList');
+  const OnClickSelectZone = (e) => {
+    setSelectedZone(e);
+
+    let payload = {
+      zone: e.value,
+    };
+    console.log(payload, 'payload 2');
+    dispatch(getApplicabilityAndAssignmentOfProviderOrganization(payload));
+  };
 
   // API Call using dispatch
   useEffect(() => {
@@ -45,17 +53,8 @@ const MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage = () => {
       };
       console.log(payload, 'payload 1');
       dispatch(getApplicabilityAndAssignmentOfProviderOrganization(payload));
-    } else {
-      let payload = {
-        zone: selectedZone?.value,
-      };
-      console.log(payload, 'payload 2');
-      dispatch(getApplicabilityAndAssignmentOfProviderOrganization(payload));
     }
-  }, [selectedZone]);
-
-  // to select data from redux store using selector
-  // const orgStructures = useSelector(getOrgStructuresSelector);
+  }, []);
 
   return (
     <PageWrapper>
@@ -95,7 +94,7 @@ const MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage = () => {
                         placeholder="Select Zone"
                         value={selectedZone}
                         defaultValue={selectedZone}
-                        onChange={(e) => setSelectedZone(e)}
+                        onChange={(e) => OnClickSelectZone(e)}
                         className="l-input functional-select"
                         //MenuProps={MenuProps}
                         //inputProps={{ 'aria-label': 'Without label' }}
