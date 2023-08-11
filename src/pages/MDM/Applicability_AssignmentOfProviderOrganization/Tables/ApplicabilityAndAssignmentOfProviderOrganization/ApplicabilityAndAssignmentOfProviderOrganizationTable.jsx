@@ -31,7 +31,6 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
   const [showGlobalApproveModal, setShowGlobalApproveModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
 
-  const [zoneValue, setZoneValue] = useState([]);
   const [entityValue, setEntityValue] = useState([]);
   const [control_IDValue, setControl_IDValue] = useState([]);
   const [providerOrganizationValue, setProviderOrganizationValue] = useState([]);
@@ -227,7 +226,6 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
     const updateData = applicabilityAndAssignmentOfProviderOrganization?.data?.filter((i) => {
       return (
         (entityValue?.length ? entityValue.includes(i.Entity) : true) &&
-        (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (control_IDValue?.length ? control_IDValue.includes(i.Control_ID) : true) &&
         (providerOrganizationValue?.length
           ? providerOrganizationValue.includes(i.Provider_Entity)
@@ -243,7 +241,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
         };
       }),
     );
-  }, [zoneValue, entityValue, control_IDValue, providerOrganizationValue]);
+  }, [entityValue, control_IDValue, providerOrganizationValue]);
 
   const filterData = (key) => {
     const kayValuesArray =
@@ -267,9 +265,6 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
                 <div className="mdm-table-global-filters">
                   <ApplicabilityAndAssignmentTableFilter
                     //className={'mb-4'}
-                    zoneData={filterData('Zone')}
-                    zoneValue={zoneValue}
-                    setZoneValue={setZoneValue}
                     entityData={filterData('Entity')}
                     entityValue={entityValue}
                     setEntityValue={setEntityValue}
