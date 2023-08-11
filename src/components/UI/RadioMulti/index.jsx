@@ -46,7 +46,7 @@ const RadioMulti = ({
               variant="text"
               onClick={handleEditLabel}
             >
-              Select language
+              Add Language Translation
             </Button>
           ) : (
             block?.isQuestionLabelEdit && (
@@ -87,7 +87,7 @@ const RadioMulti = ({
           bodyClassName="p-0"
           title={
             <div className="d-flex align-items-center ">
-              {isChangeLang ? 'Change question language ' : 'Edit Question'}
+              {isChangeLang ? 'Add Language Translation ' : 'Edit Question'}
               <EditOutlinedIcon fontSize="small" className="ml-2" />
             </div>
           }

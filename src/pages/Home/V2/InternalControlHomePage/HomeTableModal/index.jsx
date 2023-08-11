@@ -25,6 +25,9 @@ import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAc
 import CustomModal from '../../../../../components/UI/CustomModal';
 import blockType from '../../../../../components/RenderBlock/constant';
 import CloseIcon from '@mui/icons-material/Close';
+import { Form } from 'react-bootstrap';
+import { TranslateType } from '../../../../QuestionBank/ModifyStandard/AddSection1Question';
+import { languageToTextKey } from '../../../../../utils/helper';
 
 const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
@@ -46,11 +49,13 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const [startEdit, setStartEdit] = useState(false);
   const addOrEditUpdateDraft = useSelector(addOrEditUpdateDraftSelector);
   const [loading, setLoading] = useState(false);
-  const [closeAssessment, setCloseAssessment] = useState(false);
-  // const Control_ID = query.get('Assessment_id') || !isModal ? 'ATR_MJE_01a-K' : '';
   const Control_ID = Assessment_id || query.get('Control_ID');
+  const [language, setLanguage] = useState('');
   const responseUpdatedData =
     responseData.data?.Latest_Response || responseData.data?.Latest_response;
+
+  console.log('ansSection1', responseUpdatedData, ansSection1);
+
   const handleClose = () => {
     if (startEdit && responseData?.data?.Attempt_no <= 5) {
       Swal.fire({
@@ -136,6 +141,31 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   }, [Control_ID]);
 
   useEffect(() => {
+    if (ansSection1?.length > 0) {
+      const updateArray = ansSection1.map((ans) => {
+        if (language) {
+          const keyQuestion = languageToTextKey(language) + 'question_text';
+          const keyOption = languageToTextKey(language) + 'option_value';
+          const options = ans.question_options.map((d) => {
+            return {
+              label: d[keyOption],
+              value: d.option_id,
+            };
+          });
+          return {
+            ...ans,
+            en_question_text: ans.question_text,
+            question_text: ans[keyQuestion],
+            options,
+          };
+        }
+        return { ...ans };
+      });
+      setAnsSection1(updateArray);
+    }
+  }, [language]);
+
+  useEffect(() => {
     const handle = setTimeout(() => {
       if (terminating) {
         const btn = document.getElementById('submit-button');
@@ -185,30 +215,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       }
     }
   }, [responseData.data]);
-
-  const getIsFaildValueSelect = () => {
-    let isFail = false;
-    ansSection1.forEach((ans) => {
-      switch (true) {
-        case ans.question_type === blockType.EMAIL_WIDTH_SELECT:
-        case ans.question_type === blockType.IS_AD:
-        case ans.question_type === blockType.TEXT:
-          ans.options.forEach((d) => {
-            if (d.is_Failing === 1) isFail = true;
-          });
-          break;
-        case ans.question_type === blockType.RADIO:
-        case ans.question_type === blockType.DROPDOWN:
-          ans.question_options.forEach((d) => {
-            if (d.is_Failing === 1) isFail = true;
-          });
-          break;
-        default:
-          break;
-      }
-    });
-    return isFail;
-  };
 
   const handleSubmit = () => {
     Swal.fire({
@@ -353,13 +359,35 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         {Control_ID && (
           <div className="homeTableModalTop">
             <div className="topBar d-flex justify-content-between">
-              <div>
-                <div className="mb-2">
-                  {/*<CloseIcon className="close-modal-icon" onClick={handleClose} />*/}
-                  {Control_ID}
+              <div className="d-flex justify-content-between align-items-center w-100">
+                <div>
+                  <div className="mb-2">{Control_ID}</div>
+                  <span className="font-weight-bold">Control Name: </span>
+                  <span>{stateControlData.control_name}</span>
                 </div>
-                <span className="font-weight-bold">Control Name: </span>
-                <span>{stateControlData.control_name}</span>
+                <div>
+                  <Form.Group className="input-group" style={{ minWidth: 180 }}>
+                    <Form.Control
+                      as="select"
+                      name=""
+                      placeholder=""
+                      className="form-select"
+                      onChange={({ target: { value } }) => {
+                        setLanguage(value);
+                      }}
+                      value={language}
+                    >
+                      <option value="" disabled>
+                        Select Language
+                      </option>
+                      {[{ label: 'English', value: 'English' }, ...TranslateType].map((data, i) => (
+                        <option value={data?.value} key={i}>
+                          {data?.label}
+                        </option>
+                      ))}
+                    </Form.Control>
+                  </Form.Group>
+                </div>
               </div>
               <CloseIcon className="close-modal-icon" onClick={() => handleCloseAssessment()} />
             </div>

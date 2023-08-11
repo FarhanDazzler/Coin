@@ -5,6 +5,9 @@ import RL_MDM_FunctionalMasterdataManagementLandingPage from '../../pages/REP_Le
 import RLQuestionBank from '../../pages/REP_Letters_Module/Home/QuestionBank/RepLetterQuestionBankLandingPage';
 import BUModifyQuestions from '../../pages/REP_Letters_Module/Home/QuestionBank/BU/BUModifyQuestions';
 import FunctionModifyQuestions from '../../pages/REP_Letters_Module/Home/QuestionBank/Functional/FunctionModifyQuestions';
+import SchedulingAndTriggering from '../../pages/REP_Letters_Module/SchedulingAndTriggering/SchedulingAndTriggeringLandingPage';
+import ScheduleSurveyBUPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/ScheduleSurveyBULandingPage';
+import ScheduleSurveyFunctionalPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/ScheduleSurveyFunctionalLandingPage';
 export const RepLettersRoutes = [
   {
     path: '/REP-Letters/master-data-management',
@@ -40,5 +43,20 @@ export const RepLettersRoutes = [
     path: '/REP-Letters/questionbank/Function-modify',
     exact: true,
     component: FunctionModifyQuestions,
+  },
+  {
+    path: '/REP-Letters/scheduling-and-triggering',
+    exact: true,
+    component: SchedulingAndTriggering,
+  },
+  {
+    path: '/REP-Letters/scheduling-and-triggering/schedule-survey-bu',
+    exact: true,
+    component: ScheduleSurveyBUPage,
+  },
+  {
+    path: '/REP-Letters/scheduling-and-triggering/schedule-survey-functional',
+    exact: true,
+    component: ScheduleSurveyFunctionalPage,
   },
 ];
