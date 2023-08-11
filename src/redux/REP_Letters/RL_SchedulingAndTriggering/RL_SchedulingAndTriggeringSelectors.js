@@ -1,0 +1,2 @@
+export const getFunctionalDropdowndataSelector = (state) => state?.RLSchedulingAndTriggering?.rlFunctionData;
+export const getFunctionalPage1dataSelector = (state) => state?.RLSchedulingAndTriggering?.rlFunctionalPage1Data;
