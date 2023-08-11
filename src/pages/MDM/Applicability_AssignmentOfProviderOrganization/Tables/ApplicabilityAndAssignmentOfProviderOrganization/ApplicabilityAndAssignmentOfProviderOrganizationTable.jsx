@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Table2 from '../../../../../components/UI/Table/Table2';
 import '../TableStyle.scss';
 // geting data from redux
+import { getApplicabilityAndAssignmentOfProviderOrganization } from '../../../../../redux/MDM/MDM_Action';
 import {
   getApplicabilityAndAssignmentOfProviderOrganizationSelector,
   assignApplicabilityAndAssignmentOfProviderOrganizationSelector,
@@ -21,7 +22,7 @@ import Swal from 'sweetalert2';
 import ApplicabilityAndAssignmentTableFilter from './ApplicabilityAndAssignmentTableFilter';
 import { DotSpinner } from '@uiball/loaders';
 
-const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
+const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone }) => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [assignTableData, setAssignTableData] = useState();
@@ -30,7 +31,6 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
   const [showGlobalApproveModal, setShowGlobalApproveModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
 
-  const [zoneValue, setZoneValue] = useState([]);
   const [entityValue, setEntityValue] = useState([]);
   const [control_IDValue, setControl_IDValue] = useState([]);
   const [providerOrganizationValue, setProviderOrganizationValue] = useState([]);
@@ -50,10 +50,12 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     setShowModal(false);
     setShowGlobalApproveModal(false);
     setShowEditModal(false);
-  }, [
-    applicabilityAndAssignmentOfProviderOrganization?.data,
-    assignApplicabilityAndAssignmentOfProviderOrganization?.data,
-  ]);
+    dispatch(
+      getApplicabilityAndAssignmentOfProviderOrganization({
+        zone: selectedZone,
+      }),
+    );
+  }, [assignApplicabilityAndAssignmentOfProviderOrganization?.data]);
 
   const TABLE_COLUMNS = [
     {
@@ -159,14 +161,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
 
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
-    setTableData(
-      applicabilityAndAssignmentOfProviderOrganization.data.map((i, index) => {
-        return {
-          id: index,
-          ...i,
-        };
-      }),
-    );
+    setTableData(applicabilityAndAssignmentOfProviderOrganization.data);
   }, [applicabilityAndAssignmentOfProviderOrganization.data]);
 
   const ActiveToolAssign = ({ text }) => (
@@ -224,7 +219,6 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     const updateData = applicabilityAndAssignmentOfProviderOrganization?.data?.filter((i) => {
       return (
         (entityValue?.length ? entityValue.includes(i.Entity) : true) &&
-        (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (control_IDValue?.length ? control_IDValue.includes(i.Control_ID) : true) &&
         (providerOrganizationValue?.length
           ? providerOrganizationValue.includes(i.Provider_Entity)
@@ -232,15 +226,8 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
       );
     });
 
-    setTableData(
-      updateData.map((i, index) => {
-        return {
-          id: index,
-          ...i,
-        };
-      }),
-    );
-  }, [zoneValue, entityValue, control_IDValue, providerOrganizationValue]);
+    setTableData(updateData);
+  }, [entityValue, control_IDValue, providerOrganizationValue]);
 
   const filterData = (key) => {
     const kayValuesArray =
@@ -264,9 +251,6 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
                 <div className="mdm-table-global-filters">
                   <ApplicabilityAndAssignmentTableFilter
                     //className={'mb-4'}
-                    zoneData={filterData('Zone')}
-                    zoneValue={zoneValue}
-                    setZoneValue={setZoneValue}
                     entityData={filterData('Entity')}
                     entityValue={entityValue}
                     setEntityValue={setEntityValue}
