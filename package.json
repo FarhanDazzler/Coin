@@ -13,6 +13,7 @@
     "@mantine/core": "^4.2.12",
     "@mantine/hooks": "^4.2.12",
     "@mantine/rte": "^4.2.12",
+    "@mantine/form": "^4.2.12",
     "@material-ui/core": "^4.12.4",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.7",

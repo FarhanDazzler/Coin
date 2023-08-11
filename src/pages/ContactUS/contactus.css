@@ -1,0 +1,47 @@
+.upload-sec {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 9px;
+}
+
+.upload-sec .icon-button {
+  background: rgb(250, 204, 55);
+  min-width: 46px;
+  width: 70px;
+  padding: 6px 0px;
+  color: #000;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px,
+    rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
+}
+
+.upload-sec .icon-button-contained {
+  background: rgb(250, 204, 55);
+  color: #000;
+}
+
+.cardContainer .customCard {
+  padding: 4% 5%;
+  /* width: '100%'; */
+}
+
+.cardContainer .customCard .cardNote {
+  font-size: 14px;
+  text-align: left;
+}
+
+.cardContainer .customCard .cardInputGroup {
+  margin-bottom: 15px;
+}
+.cardContainer .customCard .cardInputGroup .cardInputHeader {
+  margin-bottom: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .upload-attachment-block {
+    margin-top: 10px;
+  }
+}
