@@ -119,7 +119,7 @@ function* addOrgStructureData({ payload }) {
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: "Duplicate Organization Found", type: 'danger' },
+          data: { text: 'Duplicate Organization Found', type: 'danger' },
         },
       });
       yield put({
@@ -604,7 +604,7 @@ function* assignApplicabilityAndAssignmentOfProviderOrganizationData({ payload }
         payload: response.data,
       });
       Swal.fire('Done!', 'Updated Successfully!', 'success');
-      yield put(getApplicabilityAndAssignmentOfProviderOrganization());
+      //yield put(getApplicabilityAndAssignmentOfProviderOrganization());
     } else {
       // Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }

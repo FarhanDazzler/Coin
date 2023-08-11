@@ -3,9 +3,6 @@ import { Group, MultiSelect } from '@mantine/core';
 
 const ApplicabilityAndAssignmentTableFilter = ({
   className,
-  zoneData,
-  zoneValue,
-  setZoneValue,
   entityData,
   entityValue,
   setEntityValue,
@@ -21,26 +18,6 @@ const ApplicabilityAndAssignmentTableFilter = ({
   return (
     <div className={className}>
       <Group spacing="xs">
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={zoneData}
-          label={<span className="mantine-MultiSelect-label">{'Zone'}</span>}
-          placeholder={'Select Zone'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={zoneValue}
-          onChange={(e) => {
-            setZoneValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />
         <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={entityData}

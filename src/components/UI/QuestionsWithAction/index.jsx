@@ -47,7 +47,7 @@ const QuestionsWithAction = ({
               }
             }}
           >
-            {isChangeLang ? 'Select language' : 'Edit'}
+            {isChangeLang ? 'Add Language Translation' : 'Edit'}
           </Button>
           {!isChangeLang && (
             <Button

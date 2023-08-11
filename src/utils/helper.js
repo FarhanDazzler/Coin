@@ -232,6 +232,64 @@ export const getQuestionsFormatData = (data) => {
   });
 };
 
+const convertInnerOptions = (langArray = [], existArray) => {
+  const objArray = isJsonString(langArray) ? JSON.parse(langArray) : [];
+  return existArray.map((dt) => {
+    const obj =
+      typeof objArray === 'string'
+        ? { question_text: objArray }
+        : objArray.find((d) => d.q_id === dt.q_id) || {};
+    return { ...dt, question_text: '', ...obj };
+  });
+};
+
+export const getQuestionsWithLangFormatData = (data, isChangeLang) => {
+  return Object.keys(data).map((key) => {
+    const val = data[key];
+    const innerOptions = isJsonString(val.Inner_Questions) ? JSON.parse(val.Inner_Questions) : [];
+    if (isChangeLang) {
+      return {
+        is_Failing: false,
+        ...val,
+        question_text: val.Header_Question,
+        question_type: blockType.RADIO_MULTI,
+        innerOptions: innerOptions,
+
+        es_Header_Question: val.es_Header_Question,
+        es_innerOptions: convertInnerOptions(val.es_Inner_Questions, innerOptions),
+
+        fr_Header_Question: val.fr_Header_Question,
+        fr_innerOptions: convertInnerOptions(val.fr_Inner_Questions, innerOptions),
+
+        ko_Header_Question: val.ko_Header_Question,
+        ko_innerOptions: convertInnerOptions(val.ko_Inner_Questions, innerOptions),
+
+        md_Header_Question: val.md_Header_Question,
+        md_innerOptions: convertInnerOptions(val.md_Inner_Questions, innerOptions),
+
+        pt_Header_Question: val.pt_Header_Question,
+        pt_innerOptions: convertInnerOptions(val.pt_Inner_Questions, innerOptions),
+      };
+    }
+    return {
+      is_Failing: false,
+      ...val,
+      question_text: val.Header_Question,
+      question_type: blockType.RADIO_MULTI,
+      innerOptions: val.Inner_Questions ? JSON.parse(val.Inner_Questions) : [],
+    };
+  });
+};
+
+export const isJsonString = (str) => {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};
+
 // TODO: old multi select logic
 // if (block.child_questions) {
 //   if (block.renderOption.length === Object.keys(ans[block.q_id]).length) {

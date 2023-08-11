@@ -39,10 +39,6 @@ const TopBar = (props) => {
 
   const apiRoles = useSelector((state) => state?.auth?.apiRoles);
   const [userState, userDispatch] = useContext(UserContext);
-  console.log('loginRole', loginRole, apiRoles, selected_module_role);
-  // const [location, setLocation] = useState();
-
-  // Logic for Language Change
 
   const languages = [
     { label: 'English', value: 'en' },

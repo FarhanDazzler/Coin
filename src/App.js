@@ -32,6 +32,7 @@ import { RepLettersRoutes } from './routes/RepLettersRoutes/RepLetterRoutes';
 import { AssessmentModuleRoutes } from './routes/AssessmentModuleRoutes/AssessmentModuleRoutes';
 import { AdminRoutes } from './routes/AdminRoutes/AdminRoutes';
 import ContactUSLandingPage from './pages/ContactUS/ContactUSLandingPage';
+import ContactUs from './pages/ContactUS/contactus';
 
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/i18n';
@@ -166,6 +167,23 @@ const Pages = () => {
           console.log(`Error occurred while acquiring token: ${err}`);
         });
     }
+    // logic for getting NPS api auth token
+    if (accounts) {
+      instance
+        .acquireTokenSilent({
+          scopes: [process.env.REACT_APP_NPS_AUTH_API],
+          account: accounts[0],
+        })
+        .then((response) => {
+          if (response) {
+            //setToken(response.accessToken);
+            localStorage.setItem('nps-auth-token', response.accessToken);
+          }
+        })
+        .catch((error) => {
+          console.log('error in custom', error);
+        });
+    }
   }, [accounts, inProgress]);
 
   return (
@@ -213,7 +231,7 @@ const Pages = () => {
             ? AdminRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
 
-          <Route exact path="/contact-us" component={ContactUSLandingPage} />
+          <Route exact path="/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
           <Route exact path="/POC" component={POC} />
           <Route

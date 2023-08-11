@@ -156,7 +156,7 @@ const EditSection1QuestionChangeLang = ({
       <div>
         <div className="d-flex">
           <div className="p-5 w-50 border-right">
-            <h3 className="text-str">Q.{number} in english</h3>
+            <h3 className="text-str">Q.{number} in English</h3>
             <EditSection1QuestionChangeLangDesign
               question={question}
               block={block}
@@ -180,7 +180,7 @@ const EditSection1QuestionChangeLang = ({
                   value={language}
                 >
                   <option value="" disabled>
-                    Select language
+                    Select Language
                   </option>
                   {TranslateType.map((data, i) => (
                     <option value={data?.value} key={i}>
@@ -205,14 +205,14 @@ const EditSection1QuestionChangeLang = ({
                     questionOptions={questionOptionsLang}
                     handleChangeOption={handleChangeOption}
                     options={options}
-                    questionText="Input the question in your local langDesign"
-                    questionOptionText="Input the options in your local langDesign"
+                    questionText="Provide question translation in the selected language"
+                    questionOptionText="Provide option translation in the selected language"
                   />
                 )}{' '}
               </>
             ) : (
               <div className="no-data-placeholder">
-                <p>Select language</p>
+                <p>Select Language</p>
               </div>
             )}
           </div>

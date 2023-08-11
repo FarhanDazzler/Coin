@@ -9,6 +9,8 @@ import { getRepositoryOfControlIDSelector } from '../../../redux/Questions/Quest
 import { getSection1QuestionDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
 import AddSection1Questions from '../../QuestionBank/ModifyStandard/AddSection1Question';
 import MICSSpecific from '../../QuestionBank/ModifyMICSQuestions/MICSSpecific';
+import MICSSpecificChangeLanguage from './MICSSpecificChangeLanguage';
+import PageWrapper from '../../../components/wrappers/PageWrapper';
 
 const ModifyStandardChangeLang = ({ open, handleClose }) => {
   const [activeType, setActiveType] = useState('Standard');
@@ -116,8 +118,9 @@ const ModifyStandardChangeLang = ({ open, handleClose }) => {
 
   return (
     <div>
-      <>
-        <div className="container py-5 langage-bg">
+      <PageWrapper>
+       <div className='py-5'>
+       <div className="container py-5 langage-bg text-left">
           <div className="buttons">
             <Button
               className="mx-3"
@@ -216,16 +219,15 @@ const ModifyStandardChangeLang = ({ open, handleClose }) => {
               </div>
             </>
           )}
-          {activeType === 'MICS-Specific' && (
-            <MICSSpecific handleClose={handleClose} isChangeLang />
-          )}
+          {activeType === 'MICS-Specific' && <MICSSpecificChangeLanguage />}
         </div>
+       </div>
         <AddSection1Questions
           controlId={finalTemplate_id}
           open={showAddQuestion}
           handleClose={handleAddQuestionClose}
         />
-      </>
+      </PageWrapper>
     </div>
   );
 };
