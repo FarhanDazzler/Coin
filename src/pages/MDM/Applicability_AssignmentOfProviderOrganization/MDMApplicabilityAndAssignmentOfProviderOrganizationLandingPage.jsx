@@ -13,56 +13,46 @@ import ApplicabilityAndAssignmentOfProviderOrganizationTable from './Tables/Appl
 
 const MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage = () => {
   const dispatch = useDispatch();
+  const [zoneList, setZoneList] = useState([]);
+  const [selectedZone, setSelectedZone] = useState();
+
+  const { data: getAllZoneData, loading: getAllZoneLoading } = useSelector(getAllZoneSelector);
 
   useEffect(() => {
     dispatch(getAllZone());
   }, []);
 
-  const [zoneList, setZoneList] = useState([]);
-  const [selectedZone, setSelectedZone] = useState();
-
-  const getAllZone_State = useSelector(getAllZoneSelector);
-
-  //getAllZone_State?.data?.map((i) => i.zone)
-
   useEffect(() => {
-    if (getAllZone_State?.data.length !== 0) {
-      let zoneArray = [];
-      getAllZone_State?.data.map((data) => {
-        zoneArray.push({ label: data.zone, value: data.zone });
-      });
+    if (getAllZoneData.length !== 0) {
+      const zoneArray = getAllZoneData.map((data) => ({
+        label: data.zone,
+        value: data.zone,
+      }));
       setZoneList(zoneArray);
+
+      if (localStorage.getItem('selected_Role') !== 'Global internal control') {
+        const payload = {
+          zone: zoneArray[0]?.value,
+        };
+        dispatch(getApplicabilityAndAssignmentOfProviderOrganization(payload));
+      }
     }
-  }, [getAllZone_State?.data]);
+  }, [getAllZoneData, dispatch]);
 
-  console.log(zoneList, 'zoneList');
-
-  // API Call using dispatch
-  useEffect(() => {
-    if (localStorage.getItem('selected_Role') != 'Global internal control') {
-      let payload = {
-        zone: getAllZone_State?.data[0]?.zone,
-      };
-      console.log(payload, 'payload 1');
-      dispatch(getApplicabilityAndAssignmentOfProviderOrganization(payload));
-    } else {
-      let payload = {
-        zone: selectedZone?.value,
-      };
-      console.log(payload, 'payload 2');
-      dispatch(getApplicabilityAndAssignmentOfProviderOrganization(payload));
-    }
-  }, [selectedZone]);
-
-  // to select data from redux store using selector
-  // const orgStructures = useSelector(getOrgStructuresSelector);
+  const OnClickSelectZone = (e) => {
+    setSelectedZone(e);
+    const payload = {
+      zone: e.value,
+    };
+    dispatch(getApplicabilityAndAssignmentOfProviderOrganization(payload));
+  };
 
   return (
     <PageWrapper>
       <div className="col-12 col-lg-12">
         <NavTabsMDM />
-        {localStorage.getItem('selected_Role') === 'Global internal control' &&
-          (getAllZone_State.loading ? (
+        {localStorage.getItem('selected_Role') === 'Global internal control' ? (
+          getAllZoneLoading ? (
             <div className="loader-animation">
               <DotSpinner size={100} speed={0.9} color="#e3af32" />
               <p className="loader-Desc ml-3">Please wait a moment while we finalize the process</p>
@@ -83,7 +73,6 @@ const MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage = () => {
                             neutral0: 'black',
                             neutral90: 'white',
                             neutral80: 'white',
-                            //neutral70: 'white',
                             primary25: 'grey',
                             primary: 'white',
                             neutral20: 'grey',
@@ -94,11 +83,8 @@ const MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage = () => {
                         maxMenuHeight={200}
                         placeholder="Select Zone"
                         value={selectedZone}
-                        defaultValue={selectedZone}
-                        onChange={(e) => setSelectedZone(e)}
+                        onChange={OnClickSelectZone}
                         className="l-input functional-select"
-                        //MenuProps={MenuProps}
-                        //inputProps={{ 'aria-label': 'Without label' }}
                         options={zoneList}
                       />
                     </div>
@@ -111,10 +97,10 @@ const MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage = () => {
                 />
               )}
             </>
-          ))}
-        {localStorage.getItem('selected_Role') !== 'Global internal control' && (
+          )
+        ) : (
           <ApplicabilityAndAssignmentOfProviderOrganizationTable
-            selectedZone={getAllZone_State?.data[0]?.zone}
+            selectedZone={getAllZoneData[0]?.zone}
           />
         )}
       </div>
