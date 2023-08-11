@@ -58,6 +58,11 @@
     border-radius: 10px 10px 0 0;
     padding: 20px 40px 12px 40px;
   }
+  .form-control,
+  .form-select {
+    background-color: #e7c55d;
+    color: #111;
+  }
 }
 .topBar {
   position: relative;
@@ -91,31 +96,30 @@
     }
   }
 }
-.section2-table-ismodal{
+.section2-table-ismodal {
   .table-bordered {
     // border: none !important;
     tbody {
       td {
-       
       }
     }
   }
 }
-.section2-table-notmodal{
+.section2-table-notmodal {
   .table-bordered {
     // border: none !important;
     tbody {
       tr {
-       color: #fff
+        color: #fff;
       }
     }
   }
 }
-#noOptionInput{
-  input{
+#noOptionInput {
+  input {
     color: #000 !important;
     &:focus {
-    color: #fff !important;
+      color: #fff !important;
     }
   }
 }
