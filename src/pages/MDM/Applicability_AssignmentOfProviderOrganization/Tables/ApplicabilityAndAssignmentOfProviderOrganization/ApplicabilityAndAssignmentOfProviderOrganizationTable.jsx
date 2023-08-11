@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Table2 from '../../../../../components/UI/Table/Table2';
 import '../TableStyle.scss';
 // geting data from redux
+import { getApplicabilityAndAssignmentOfProviderOrganization } from '../../../../../redux/MDM/MDM_Action';
 import {
   getApplicabilityAndAssignmentOfProviderOrganizationSelector,
   assignApplicabilityAndAssignmentOfProviderOrganizationSelector,
@@ -21,7 +22,7 @@ import Swal from 'sweetalert2';
 import ApplicabilityAndAssignmentTableFilter from './ApplicabilityAndAssignmentTableFilter';
 import { DotSpinner } from '@uiball/loaders';
 
-const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
+const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone }) => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [assignTableData, setAssignTableData] = useState();
@@ -50,10 +51,12 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = () => {
     setShowModal(false);
     setShowGlobalApproveModal(false);
     setShowEditModal(false);
-  }, [
-    applicabilityAndAssignmentOfProviderOrganization?.data,
-    assignApplicabilityAndAssignmentOfProviderOrganization?.data,
-  ]);
+    dispatch(
+      getApplicabilityAndAssignmentOfProviderOrganization({
+        zone: selectedZone,
+      }),
+    );
+  }, [assignApplicabilityAndAssignmentOfProviderOrganization?.data]);
 
   const TABLE_COLUMNS = [
     {
