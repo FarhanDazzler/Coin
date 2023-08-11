@@ -161,14 +161,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
 
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
-    setTableData(
-      applicabilityAndAssignmentOfProviderOrganization.data.map((i, index) => {
-        return {
-          id: index,
-          ...i,
-        };
-      }),
-    );
+    setTableData(applicabilityAndAssignmentOfProviderOrganization.data);
   }, [applicabilityAndAssignmentOfProviderOrganization.data]);
 
   const ActiveToolAssign = ({ text }) => (
@@ -233,14 +226,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
       );
     });
 
-    setTableData(
-      updateData.map((i, index) => {
-        return {
-          id: index,
-          ...i,
-        };
-      }),
-    );
+    setTableData(updateData);
   }, [entityValue, control_IDValue, providerOrganizationValue]);
 
   const filterData = (key) => {
