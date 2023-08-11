@@ -52,7 +52,7 @@ const FilterButtons = ({
   setValueZone,
 }) => {
   const [searchValue, onSearchChange] = useState('');
-
+  console.log('searchValue', searchValue);
   return (
     <div>
       <Group spacing="xs">
@@ -125,13 +125,24 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
   const handleClose = () => {
     setOpenReviewModal(false);
   };
-
-  // Function to remove duplicate value from array
-  function removeDuplicates(arr) {
-    return [...new Set(arr)];
-  }
   // Arrays for showing data on filters
   const zoneArray = getFunctionalPage1dataState?.data?.functional_mdm_data?.map((i) => i.Zone);
+  useEffect(() => {
+    if (getFunctionalPage1dataState?.data?.functional_mdm_data) {
+      const updateData = getFunctionalPage1dataState?.data?.functional_mdm_data?.filter((i) => {
+        return valueZone?.length ? valueZone.includes(i.Zone) : true;
+      });
+      console.log('hi bebe', updateData);
+      setTableData(updateData);
+    }
+  }, [valueZone, getFunctionalPage1dataState?.data?.functional_mdm_data]);
+  // Function to remove duplicate value from array
+  function removeDuplicates(key) {
+    const allData = [...new Set(zoneArray)];
+    return allData.filter((d) => !!d);
+    // return [...new Set(arr)];
+  }
+
   console.log('zoneArray', zoneArray);
   const class_to_apply = (item) => {
     let className = '';
@@ -659,7 +670,9 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
                           valueZone={valueZone}
                           setValueZone={setValueZone}
                         />
-                      </span><br /><br />
+                      </span>
+                      <br />
+                      <br />
                     </div>
                     <div className="col-12 col-lg-12">
                       <div className="mdm-table-button">
