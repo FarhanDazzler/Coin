@@ -8,8 +8,13 @@ import RenderBlock from '../../../../../components/RenderBlock';
 import RenderBlockWrapper from '../../../../../components/RenderBlock/RenderBlockWrapper';
 import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAction';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
-import { getFormatQuestions, getQuestionsFormatData } from '../../../../../utils/helper';
+import {
+  getFormatQuestions,
+  getLanguageFormat,
+  getQuestionsFormatData,
+} from '../../../../../utils/helper';
 import { useLocation } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 const ControlSection3 = ({
   setTerminating,
@@ -28,6 +33,8 @@ const ControlSection3 = ({
   const Control_ID = Assessment_id || query.get('Control_ID');
   const questionData = useSelector(question3Selector);
   const dispatch = useDispatch();
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
   const [render, setRender] = useState(false);
   const [questionL1, setQuestionL1] = useState([]);
   const [questionL2, setQuestionL2] = useState([]);
@@ -175,7 +182,7 @@ const ControlSection3 = ({
         updateAns.L3 = ans.L3;
         setAns(updateAns);
       }
-      if(ans.noQueAns){
+      if (ans.noQueAns) {
         setShowNoQuestion(true);
       }
     }, 200);
@@ -244,12 +251,12 @@ const ControlSection3 = ({
             {questionL1.length > 0 && (
               <RenderBlock blocks={questionL1} isModal={isModal} handleChange={handleChange} />
             )}
-            {questionL2.length > 0 && (
-              <RenderBlock blocks={questionL2} isModal={isModal} handleChange={handleChange} />
-            )}
-            {questionL3.length > 0 && (
-              <RenderBlock blocks={questionL3} isModal={isModal} handleChange={handleChange} />
-            )}
+            {/*{questionL2.length > 0 && (*/}
+            {/*  <RenderBlock blocks={questionL2} isModal={isModal} handleChange={handleChange} />*/}
+            {/*)}*/}
+            {/*{questionL3.length > 0 && (*/}
+            {/*  <RenderBlock blocks={questionL3} isModal={isModal} handleChange={handleChange} />*/}
+            {/*)}*/}
           </>
 
           {showNoQuestion && (

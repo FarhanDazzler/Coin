@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getQuestionsSelector } from '../../../../../redux/Assessments/AssessmentSelectors';
-import { getFormatQuestions, validateEmail } from '../../../../../utils/helper';
+import { getFormatQuestions, getLanguageFormat, validateEmail } from '../../../../../utils/helper';
 import { getUserFromAD } from '../../../../../redux/AzureAD/AD_Action';
 import { getUserFromADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
 import useDebounce from '../../../../../hooks/useDebounce';
@@ -16,6 +16,7 @@ const ControlSection1 = ({
   setAns,
   setStartEdit,
   isModal,
+  language,
 }) => {
   const getQuestions = useSelector(getQuestionsSelector);
   const [data, setData] = useState([]);
@@ -143,11 +144,12 @@ const ControlSection1 = ({
   useEffect(() => {
     if (getQuestions?.data?.length > 0) {
       const allData = getFormatQuestions(getQuestions?.data, false, null, true);
-      setData(allData);
-      const showData = allData.filter((d) => d.show);
+      const updateLang = getLanguageFormat(allData, language, null);
+      setData(updateLang);
+      const showData = updateLang.filter((d) => d.show);
       setAns(showData);
     }
-  }, [getQuestions.data]);
+  }, [getQuestions.data, language]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -167,7 +169,6 @@ const ControlSection1 = ({
             userApiStart={isStart}
           />
           <div id="lastShow" />
-          {/*<Table />*/}
         </div>
       </CollapseFrame>
     </div>

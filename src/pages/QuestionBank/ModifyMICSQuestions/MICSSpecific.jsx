@@ -148,7 +148,7 @@ const MICSSpecific = ({ handleClose, isChangeLang }) => {
   };
 
   useEffect(() => {
-    if (questionData.data.length > 0) {
+    if (Object.keys(questionData.data)?.length > 0) {
       const apiQuestion = getQuestionsFormatData(questionData.data);
       setSection3(getFormatQuestions(apiQuestion, 'isQuestionEdit'));
       return;

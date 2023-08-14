@@ -13,14 +13,12 @@ import InputWidthSelect from '../UI/InputWidthSelect/InputWidthSelect';
 const RenderBlock = ({ blocks = [], handleChange, userApiStart, isModal, isChangeLang }) => {
   const controlDataResponse = useSelector((state) => state?.controlData?.controlData?.data);
   for (let i = 0; i < blocks.length; i++) {
-    let question = blocks[i].question_text;
-    question = question.replaceAll('{{org}}', controlDataResponse?.provider_org);
-    question = question.replaceAll('{{ReceiverOrg}}', controlDataResponse?.provider_org);
-    question = question.replaceAll('{{freq}}', controlDataResponse?.frequency);
-    question = question.replaceAll('({{Frequency}})', controlDataResponse?.frequency);
-    blocks[i].question_text = question;
+    let question = blocks[i].label;
+    question = question?.replaceAll('{{org}}', controlDataResponse?.provider_org);
+    question = question?.replaceAll('{{ReceiverOrg}}', controlDataResponse?.provider_org);
+    question = question?.replaceAll('{{freq}}', controlDataResponse?.frequency);
+    question = question?.replaceAll('({{Frequency}})', controlDataResponse?.frequency);
     blocks[i].label = question;
-    // console.log(question);
   }
   return (
     <div className="w-100">
@@ -29,7 +27,7 @@ const RenderBlock = ({ blocks = [], handleChange, userApiStart, isModal, isChang
         switch (block.question_type) {
           case blockType.RADIO:
             return (
-              <RenderBlockWrapper key={i}>
+              <RenderBlockWrapper key={`${i}--Radio`}>
                 <Radio
                   block={block}
                   label={block.label}

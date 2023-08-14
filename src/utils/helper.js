@@ -69,6 +69,63 @@ export const getFormatQuestions = (questions, action, startStr, handOverUser) =>
   });
 };
 
+export const getLanguageFormat = (data = [], lang = 'en', startStr) => {
+  return data.map((d, i) => {
+    const language = lang === 'en' || !lang ? '' : lang + '_';
+    const keyHeader_Question = language + 'Header_Question';
+    const keyQuestion = language + 'question_text';
+    const keyOption = language + 'option_value';
+
+    switch (d.question_type) {
+      case blockType.RADIO_WITH_INPUT:
+      case blockType.RADIO:
+        const optionData = d.question_options.map((d) => {
+          return { value: d.option_id, label: d[keyOption] || d.option_value };
+        });
+        return {
+          ...d,
+          label: `${startStr ? startStr + `: Q${i + 1}. ` : ''}${
+            d[keyQuestion] || d.question_text
+          }`,
+          options: optionData,
+        };
+
+      case blockType.DROPDOWN:
+        const dropdownData = d.options.map((d) => {
+          return { value: d.option_id, label: d[keyOption] || d.option_value };
+        });
+        return {
+          ...d,
+          label: d[keyQuestion] || d.question_text,
+          options: dropdownData,
+        };
+
+      case blockType.TEXT:
+        return {
+          ...d,
+          label: d[keyQuestion] || d.question_text,
+        };
+
+      case blockType.RADIO_MULTI:
+        return {
+          ...d,
+          label: d[keyHeader_Question] || d[keyQuestion] || d.question_text,
+          renderOption: getLanguageFormat(d.innerOptions, lang, startStr),
+        };
+
+      case blockType.IS_AD:
+        return {
+          ...d,
+          label: d.Header_Question || d.question_text,
+          renderOption: getLanguageFormat(d.innerOptions, lang, startStr),
+        };
+
+      default:
+        return { ...d, label: d[keyQuestion] || d.question_text };
+    }
+  });
+};
+
 export const gatAllChildIds = (data) => {
   const childIds = [];
   data.forEach((d) => {
@@ -220,8 +277,23 @@ export const handleSelectAns = ({ question = [], ans, data }) => {
   return { newQuestionList, newAnsList, isTerminating };
 };
 
-export const getQuestionsFormatData = (data) => {
-  return data.map((val) => {
+export const getQuestionsFormatData = (data = []) => {
+  if (!Array.isArray(data)) {
+    if (typeof data === 'object') {
+      return Object.keys(data)?.map((value) => {
+        const val = data[value];
+        return {
+          is_Failing: false,
+          ...val,
+          question_text: val.Header_Question,
+          question_type: blockType.RADIO_MULTI,
+          innerOptions: val.Inner_Questions ? JSON.parse(val.Inner_Questions) : [],
+        };
+      });
+    }
+    return [];
+  }
+  return data?.map((val) => {
     return {
       is_Failing: false,
       ...val,

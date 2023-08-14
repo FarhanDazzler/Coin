@@ -27,12 +27,18 @@ import blockType from '../../../../../components/RenderBlock/constant';
 import CloseIcon from '@mui/icons-material/Close';
 import { Form } from 'react-bootstrap';
 import { TranslateType } from '../../../../QuestionBank/ModifyStandard/AddSection1Question';
-import { languageToTextKey } from '../../../../../utils/helper';
+import {
+  getFormatQuestions,
+  getLanguageFormat,
+  languageToTextKey,
+} from '../../../../../utils/helper';
+import { useTranslation } from 'react-i18next';
 
 const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
   const { accounts } = useMsal();
   const query = new URLSearchParams(history.location.search);
+  const { t, i18n } = useTranslation();
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   const { Assessment_id = '' } = useParams();
   const dispatch = useDispatch();
@@ -50,11 +56,14 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const addOrEditUpdateDraft = useSelector(addOrEditUpdateDraftSelector);
   const [loading, setLoading] = useState(false);
   const Control_ID = Assessment_id || query.get('Control_ID');
-  const [language, setLanguage] = useState('');
+  const currentLanguage = i18n.language;
+  const [language, setLanguage] = useState(currentLanguage);
   const responseUpdatedData =
     responseData.data?.Latest_Response || responseData.data?.Latest_response;
 
-  console.log('ansSection1', responseUpdatedData, ansSection1);
+  useEffect(() => {
+    setLanguage(currentLanguage);
+  }, [currentLanguage]);
 
   const handleClose = () => {
     if (startEdit && responseData?.data?.Attempt_no <= 5) {
@@ -142,26 +151,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
 
   useEffect(() => {
     if (ansSection1?.length > 0) {
-      const updateArray = ansSection1.map((ans) => {
-        if (language) {
-          const keyQuestion = languageToTextKey(language) + 'question_text';
-          const keyOption = languageToTextKey(language) + 'option_value';
-          const options = ans.question_options.map((d) => {
-            return {
-              label: d[keyOption],
-              value: d.option_id,
-            };
-          });
-          return {
-            ...ans,
-            en_question_text: ans.question_text,
-            question_text: ans[keyQuestion],
-            options,
-          };
-        }
-        return { ...ans };
-      });
-      setAnsSection1(updateArray);
+      setAnsSection1(getLanguageFormat(ansSection1, language));
     }
   }, [language]);
 
@@ -365,29 +355,29 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
                   <span className="font-weight-bold">Control Name: </span>
                   <span>{stateControlData.control_name}</span>
                 </div>
-                <div>
-                  <Form.Group className="input-group" style={{ minWidth: 180 }}>
-                    <Form.Control
-                      as="select"
-                      name=""
-                      placeholder=""
-                      className="form-select"
-                      onChange={({ target: { value } }) => {
-                        setLanguage(value);
-                      }}
-                      value={language}
-                    >
-                      <option value="" disabled>
-                        Select Language
-                      </option>
-                      {[{ label: 'English', value: 'English' }, ...TranslateType].map((data, i) => (
-                        <option value={data?.value} key={i}>
-                          {data?.label}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  </Form.Group>
-                </div>
+                {/*<div>*/}
+                {/*  <Form.Group className="input-group" style={{ minWidth: 180 }}>*/}
+                {/*    <Form.Control*/}
+                {/*      as="select"*/}
+                {/*      name=""*/}
+                {/*      placeholder=""*/}
+                {/*      className="form-select"*/}
+                {/*      onChange={({ target: { value } }) => {*/}
+                {/*        setLanguage(value);*/}
+                {/*      }}*/}
+                {/*      value={language}*/}
+                {/*    >*/}
+                {/*      <option value="" disabled>*/}
+                {/*        Select Language*/}
+                {/*      </option>*/}
+                {/*      {[{ label: 'English', value: 'English' }, ...TranslateType].map((data, i) => (*/}
+                {/*        <option value={data?.value} key={i}>*/}
+                {/*          {data?.label}*/}
+                {/*        </option>*/}
+                {/*      ))}*/}
+                {/*    </Form.Control>*/}
+                {/*  </Form.Group>*/}
+                {/*</div>*/}
               </div>
               <CloseIcon className="close-modal-icon" onClick={() => handleCloseAssessment()} />
             </div>
@@ -418,6 +408,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           }}
           isModal={false}
           setStartEdit={setStartEdit}
+          language={language}
         />
       </>
     );
@@ -455,6 +446,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         }}
         isModal={true}
         setStartEdit={setStartEdit}
+        language={language}
       />
     </CustomModal>
   );

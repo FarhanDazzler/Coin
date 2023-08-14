@@ -30,6 +30,7 @@ const RenderHomeModalTable = ({
   loadingSubmit,
   isModal = false,
   activeData = {},
+  language,
 }) => {
   const dispatch = useDispatch();
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
@@ -90,6 +91,7 @@ const RenderHomeModalTable = ({
             setAns={setAnsSection1}
             setStartEdit={setStartEdit}
             isModal={!isModal}
+            language={language}
           />
           {showMoreSection && (
             <>
