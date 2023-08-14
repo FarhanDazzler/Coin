@@ -1,5 +1,34 @@
 {
   "selfAssessment": {
+    "assessmentForm": {
+      "globalControlDescriptionBtn": "全球控制描述（GCD）",
+      "localControlDescriptionBtn": "本地控制描述（LCD）",
+      "scopeBtn": "范围",
+      "showMoreBtn": "显示更多",
+      "showLessBtn": "显示更少",
+      "section1_Standard": "第一节：标准",
+      "section2KPI": "第二节：关键绩效指标（KPI）",
+      "exportToExcel": "导出到Excel",
+      "excelFileUploadAndDownload": "Excel文件上传和下载",
+      "section2NoKPIavailableText": "此控制不适用于KPI",
+      "section3_MICS": "第三节：MICS特定",
+      "saveDraftBtn": "保存草稿！",
+      "saveDraftText": "您是否要保存为草稿？",
+      "saveDraftRemainingResponseText": "剩余回应",
+      "saveDraftNoLimiteText": "您没有限制",
+      "saveDraftSuccessText": "草稿保存成功",
+      "submitBtn": "提交",
+      "submitText": "您是否要提交评估？",
+      "submitRemainingResponseText": "剩余回应",
+      "submitConfirmBtn": "是的，提交！",
+      "assessmentSubmittedText": "您的评估已提交",
+      "assessmentPassText": "您的评估已通过",
+      "assessmentFailText": "您的评估未通过",
+      "closePopupBtnTitle": "您确定吗？",
+      "closePopupBtnText": "您是否要关闭评估？",
+      "closePopupBtnCloseBtn": "返回",
+      "closePopupBtnConfirmBtn": "关闭评估"
+    },
     "multi_select_filter_placeHolder": "选择您的选项",
     "homePage": {
       "controleOwner": {

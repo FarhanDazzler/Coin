@@ -1,5 +1,34 @@
 {
   "selfAssessment": {
+    "assessmentForm": {
+      "globalControlDescriptionBtn": "글로벌 컨트롤 설명 (GCD)",
+      "localControlDescriptionBtn": "로컬 컨트롤 설명 (LCD)",
+      "scopeBtn": "범위",
+      "showMoreBtn": "더 보기",
+      "showLessBtn": "덜 보이기",
+      "section1_Standard": "섹션 1 : 표준",
+      "section2KPI": "섹션 2 : KPI",
+      "exportToExcel": "엑셀로 내보내기",
+      "excelFileUploadAndDownload": "엑셀 파일 업로드 및 다운로드",
+      "section2NoKPIavailableText": "이 컨트롤에는 KPI가 적용되지 않습니다.",
+      "section3_MICS": "섹션 3 : MICS 특정",
+      "saveDraftBtn": "임시 저장!",
+      "saveDraftText": "임시 저장하시겠습니까?",
+      "saveDraftRemainingResponseText": "남은 응답",
+      "saveDraftNoLimiteText": "제한이 없습니다",
+      "saveDraftSuccessText": "임시 저장이 성공적으로 완료되었습니다",
+      "submitBtn": "제출",
+      "submitText": "평가 제출하시겠습니까?",
+      "submitRemainingResponseText": "남은 응답",
+      "submitConfirmBtn": "네, 제출합니다!",
+      "assessmentSubmittedText": "평가가 제출되었습니다",
+      "assessmentPassText": "평가가 통과되었습니다",
+      "assessmentFailText": "평가가 실패되었습니다",
+      "closePopupBtnTitle": "확실합니까?",
+      "closePopupBtnText": "평가를 닫으시겠습니까?",
+      "closePopupBtnCloseBtn": "뒤로",
+      "closePopupBtnConfirmBtn": "평가 닫기"
+    },
     "multi_select_filter_placeHolder": "옵션을 선택하십시오",
     "homePage": {
       "controleOwner": {

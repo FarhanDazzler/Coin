@@ -1,5 +1,34 @@
 {
   "selfAssessment": {
+    "assessmentForm": {
+      "globalControlDescriptionBtn": "Description globale du contrôle (DGC)",
+      "localControlDescriptionBtn": "Description du contrôle local (DCL)",
+      "scopeBtn": "Portée",
+      "showMoreBtn": "Afficher plus",
+      "showLessBtn": "Afficher moins",
+      "section1_Standard": "Section 1 : Standard",
+      "section2KPI": "Section 2 : KPI",
+      "exportToExcel": "Exporter vers Excel",
+      "excelFileUploadAndDownload": "Téléchargement et téléversement de fichiers Excel",
+      "section2NoKPIavailableText": "Le KPI n'est pas applicable à ce contrôle",
+      "section3_MICS": "Section 3 : Spécificités MICS",
+      "saveDraftBtn": "Enregistrer le brouillon !",
+      "saveDraftText": "Souhaitez-vous enregistrer en tant que brouillon ?",
+      "saveDraftRemainingResponseText": "Réponse restante",
+      "saveDraftNoLimiteText": "Vous n'avez pas de limite",
+      "saveDraftSuccessText": "Brouillon enregistré avec succès",
+      "submitBtn": "Soumettre",
+      "submitText": "Souhaitez-vous soumettre l'évaluation ?",
+      "submitRemainingResponseText": "Réponse restante",
+      "submitConfirmBtn": "Oui, le soumettre !",
+      "assessmentSubmittedText": "Votre évaluation a été soumise",
+      "assessmentPassText": "Votre évaluation a été réussie",
+      "assessmentFailText": "Votre évaluation a échoué",
+      "closePopupBtnTitle": "Êtes-vous sûr ?",
+      "closePopupBtnText": "Voulez-vous fermer l'évaluation ?",
+      "closePopupBtnCloseBtn": "retour",
+      "closePopupBtnConfirmBtn": "Fermer l'évaluation"
+    },
     "multi_select_filter_placeHolder": "sélectionnez votre option",
     "homePage": {
       "controleOwner": {
