@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Group } from '@mantine/core';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import Button from '../../../components/UI/Button';
+import FunctionalLetterSummaryTable from './Table/FunctionalLetterSummaryTable';
 
 const SchedulingAndTriggering = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   useEffect(() => {
-  
   }, []);
   const handleSheduleSurvey = () => {
     if(localStorage.getItem('selected_module_Role') == 'BU'){
@@ -41,6 +41,7 @@ const SchedulingAndTriggering = () => {
                   </div>
                 </div>
               </div>
+              <FunctionalLetterSummaryTable />
             </div>
           </div>
         </div>
