@@ -220,8 +220,9 @@ export const handleSelectAns = ({ question = [], ans, data }) => {
   return { newQuestionList, newAnsList, isTerminating };
 };
 
-export const getQuestionsFormatData = (data) => {
-  return data.map((val) => {
+export const getQuestionsFormatData = (data=[]) => {
+  if(!data.length) return []
+  return data?.map((val) => {
     return {
       is_Failing: false,
       ...val,
@@ -345,6 +346,25 @@ export const languageToTextKey = (language) => {
     case 'Vietnamese':
       return 'vi_';
     case 'Portuguese':
+      return 'pt_';
+    default:
+      return '';
+  }
+};
+
+export const getLanguageToTextKey = (language) => {
+  switch (language) {
+    case 'fr':
+      return 'fr_';
+    case 'md':
+      return 'md_';
+    case 'es':
+      return 'es_';
+    case 'ko':
+      return 'ko_';
+    case 'vi':
+      return 'vi_';
+    case 'pt':
       return 'pt_';
     default:
       return '';

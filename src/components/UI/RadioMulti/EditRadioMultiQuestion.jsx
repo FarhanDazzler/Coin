@@ -105,7 +105,9 @@ const EditRadioMultiQuestion = ({ block, onClose, onSave, isChangeLang }) => {
     <div>
       <div className={cs({ ['isChangeLang']: isChangeLang })}>
         <div className="p-5 border-right">
-          <h3 className="text-str">{block?.Level ? block?.Level : ''} in English</h3>
+          <h3 className="text-str">
+            {block?.Level ? block?.Level : ''} {!!isChangeLang && 'in English'}
+          </h3>
           <div className="mb-4 d-flex align-items-center">
             <Input
               block={block}
@@ -158,65 +160,67 @@ const EditRadioMultiQuestion = ({ block, onClose, onSave, isChangeLang }) => {
           </div>
         </div>
 
-        <div className="p-5">
-          <div className="d-flex justify-content-end">
-            <Form.Group className="input-group mb-3" style={{ maxWidth: 193 }}>
-              <Form.Control
-                as="select"
-                name=""
-                placeholder=""
-                className="form-select"
-                onChange={({ target: { value } }) => {
-                  setLanguage(value);
-                }}
-                value={language}
-              >
-                <option value="" disabled>
-                  Select Language
-                </option>
-                {TranslateType.map((data, i) => (
-                  <option value={data?.value} key={i}>
-                    {data?.label}
+        {!!isChangeLang && (
+          <div className="p-5">
+            <div className="d-flex justify-content-end">
+              <Form.Group className="input-group mb-3" style={{ maxWidth: 193 }}>
+                <Form.Control
+                  as="select"
+                  name=""
+                  placeholder=""
+                  className="form-select"
+                  onChange={({ target: { value } }) => {
+                    setLanguage(value);
+                  }}
+                  value={language}
+                >
+                  <option value="" disabled>
+                    Select Language
                   </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
-          </div>
-          {language ? (
-            <>
-              <div className="mb-4 d-flex align-items-center">
-                <Input
-                  block={block}
-                  label="Question header"
-                  value={localLangBlock.question_text}
-                  handleChange={handleChangeQuestion}
-                  formControlProps={{ className: 'input-wrapper full-input' }}
-                />
-              </div>
-              <div className="mb-4">
-                <label>Question text</label>
-                {localLangBlock.innerOptions.map((op, i) => {
-                  return (
-                    <div className="d-flex align-items-center mb-2" key={op.q_id}>
-                      <span className="typography-18-medium mr-2">{i + 1}</span>
-                      <Input
-                        block={op}
-                        value={op.question_text}
-                        handleChange={handleChangeLabel}
-                        formControlProps={{ className: 'input-wrapper full-input' }}
-                      />
-                    </div>
-                  );
-                })}
-                <div id="show-display" />
-              </div>
-            </>
-          ) : (
-            <div className="no-data-placeholder">
-              <p>Select Language</p>
+                  {TranslateType.map((data, i) => (
+                    <option value={data?.value} key={i}>
+                      {data?.label}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
             </div>
-          )}
-        </div>
+            {language ? (
+              <>
+                <div className="mb-4 d-flex align-items-center">
+                  <Input
+                    block={block}
+                    label="Question header"
+                    value={localLangBlock.question_text}
+                    handleChange={handleChangeQuestion}
+                    formControlProps={{ className: 'input-wrapper full-input' }}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label>Question text</label>
+                  {localLangBlock.innerOptions.map((op, i) => {
+                    return (
+                      <div className="d-flex align-items-center mb-2" key={op.q_id}>
+                        <span className="typography-18-medium mr-2">{i + 1}</span>
+                        <Input
+                          block={op}
+                          value={op.question_text}
+                          handleChange={handleChangeLabel}
+                          formControlProps={{ className: 'input-wrapper full-input' }}
+                        />
+                      </div>
+                    );
+                  })}
+                  <div id="show-display" />
+                </div>
+              </>
+            ) : (
+              <div className="no-data-placeholder">
+                <p>Select Language</p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <div className="footer-action">
         <div className="d-flex align-items-center justify-content-between">
