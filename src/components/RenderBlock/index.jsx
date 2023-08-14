@@ -13,7 +13,7 @@ import InputWidthSelect from '../UI/InputWidthSelect/InputWidthSelect';
 const RenderBlock = ({ blocks = [], handleChange, userApiStart, isModal, isChangeLang }) => {
   const controlDataResponse = useSelector((state) => state?.controlData?.controlData?.data);
   for (let i = 0; i < blocks.length; i++) {
-    let question = blocks[i].question_text;
+    let question = blocks[i].question_text || '';
     question = question.replaceAll('{{org}}', controlDataResponse?.provider_org);
     question = question.replaceAll('{{ReceiverOrg}}', controlDataResponse?.provider_org);
     question = question.replaceAll('{{freq}}', controlDataResponse?.frequency);

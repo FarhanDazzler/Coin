@@ -1,5 +1,34 @@
 {
   "selfAssessment": {
+    "assessmentForm": {
+      "globalControlDescriptionBtn": "Global Control Description (GCD)",
+      "localControlDescriptionBtn": "Local Control Description (LCD)",
+      "scopeBtn": "Scope",
+      "showMoreBtn": "Show More",
+      "showLessBtn": "Show Less",
+      "section1_Standard": "Section 1 : Standard",
+      "section2KPI": "Section 2 : KPI",
+      "exportToExcel": "Export To Excel",
+      "excelFileUploadAndDownload": "Excel File Upload & Download",
+      "section2NoKPIavailableText": "KPI is not applicable for this Control",
+      "section3_MICS": "Section 3 : MICS SPECIFIC",
+      "section3FailedText": "Based on above response, action plans needs to be created on the failed control. Request you to elaborate the action Plan? (Hint: Action plan is a time bound proposition designed to remediate the control breakdown with the objective of ensuring MICS compliance)",
+      "saveDraftBtn": "Save draft!",
+      "saveDraftText": "Do you want save as draft!",
+      "saveDraftRemainingResponseText": "Remaining response",
+      "saveDraftNoLimiteText": "You don't have a limited",
+      "saveDraftSuccessText": "Draft saved successfully",
+      "submitBtn": "Submit",
+      "submitText": "Do you want Submit assessment",
+      "submitRemainingResponseText": "Remaining response",
+      "submitConfirmBtn": "Yes, submit it!",
+      "assessmentSubmittedText": "Your Assesment has been submitted",
+      "assessmentPassText": "Your Assesment has been passed",
+      "assessmentFailText": "Your Assesment has been failed",
+      "closePopupBtnTitle": "Are you sure?",
+      "closePopupBtnText": "You want to close the Assessment",
+      "closePopupBtnConfirmBtn": "Close Assessment"
+    },
     "multi_select_filter_placeHolder": "Select your option",
     "homePage": {
       "controleOwner": {

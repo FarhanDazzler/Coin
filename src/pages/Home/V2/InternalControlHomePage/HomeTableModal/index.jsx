@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import './homeTableModalStyles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
+import { useTranslation } from 'react-i18next';
 import {
   addAssessmentAns,
   addAssessmentSection2Ans,
@@ -27,11 +28,12 @@ import blockType from '../../../../../components/RenderBlock/constant';
 import CloseIcon from '@mui/icons-material/Close';
 import { Form } from 'react-bootstrap';
 import { TranslateType } from '../../../../QuestionBank/ModifyStandard/AddSection1Question';
-import { languageToTextKey } from '../../../../../utils/helper';
+import { getLanguageToTextKey, languageToTextKey } from '../../../../../utils/helper';
 
 const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
   const { accounts } = useMsal();
+  const { t, i18n } = useTranslation();
   const query = new URLSearchParams(history.location.search);
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   const { Assessment_id = '' } = useParams();
@@ -50,17 +52,17 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const addOrEditUpdateDraft = useSelector(addOrEditUpdateDraftSelector);
   const [loading, setLoading] = useState(false);
   const Control_ID = Assessment_id || query.get('Control_ID');
-  const [language, setLanguage] = useState('');
   const responseUpdatedData =
     responseData.data?.Latest_Response || responseData.data?.Latest_response;
-
+  const currentLanguage = i18n.language;
+  const [language, setLanguage] = useState(currentLanguage);
   console.log('ansSection1', responseUpdatedData, ansSection1);
 
   const handleClose = () => {
     if (startEdit && responseData?.data?.Attempt_no <= 5) {
       Swal.fire({
-        title: 'Do you want save as draft!',
-        text: `Remaining response ${
+        title: t('selfAssessment.assessmentForm.saveDraftText'),
+        text: `${t('selfAssessment.assessmentForm.saveDraftRemainingResponseText')} ${
           responseData?.data?.Attempt_no
             ? responseData?.data?.Attempt_no < 5
               ? 4 - responseData?.data?.Attempt_no
@@ -74,7 +76,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         showCancelButton: true,
         showDenyButton: true,
         denyButtonColor: 'silver',
-        denyButtonText: 'Save draft!',
+        denyButtonText: t('selfAssessment.assessmentForm.saveDraftBtn'),
       }).then((result) => {
         if (result.isDismissed) {
           history.push('/');
@@ -104,6 +106,11 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       setShowNoQuestionAns(ansSection3?.noQueAns);
     }
   }, [ansSection3]);
+
+  useEffect(() => {
+    setLanguage(currentLanguage);
+  }, [currentLanguage]);
+
   useEffect(() => {
     dispatch(
       getQuestions({
@@ -141,17 +148,20 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   }, [Control_ID]);
 
   useEffect(() => {
+    console.log('currentLanguagecurrentLanguagecurrentLanguage', ansSection1);
     if (ansSection1?.length > 0) {
       const updateArray = ansSection1.map((ans) => {
         if (language) {
-          const keyQuestion = languageToTextKey(language) + 'question_text';
-          const keyOption = languageToTextKey(language) + 'option_value';
+          const keyQuestion = getLanguageToTextKey(language) + 'question_text';
+          const keyOption = getLanguageToTextKey(language) + 'option_value';
           const options = ans.question_options.map((d) => {
             return {
               label: d[keyOption],
               value: d.option_id,
             };
           });
+
+          console.log('ans[keyQuestion]', ans[keyQuestion]);
           return {
             ...ans,
             en_question_text: ans.question_text,
@@ -163,7 +173,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       });
       setAnsSection1(updateArray);
     }
-  }, [language]);
+  }, [language, currentLanguage]);
 
   useEffect(() => {
     const handle = setTimeout(() => {
@@ -218,8 +228,8 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
 
   const handleSubmit = () => {
     Swal.fire({
-      title: 'Do you want Submit assessment',
-      text: `Remaining response ${
+      title: t('selfAssessment.assessmentForm.submitText'),
+      text: `${t('selfAssessment.assessmentForm.submitRemainingResponseText')} ${
         responseData?.data?.Attempt_no
           ? responseData?.data?.Attempt_no < 5
             ? 4 - responseData?.data?.Attempt_no
@@ -232,9 +242,9 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       showCancelButton: true,
       confirmButtonColor: 'golden',
       cancelButtonColor: 'black',
-      confirmButtonText: 'Yes, submit it!',
+      confirmButtonText: t('selfAssessment.assessmentForm.submitConfirmBtn'),
       showDenyButton: !(responseData?.data?.Attempt_no >= 5),
-      denyButtonText: 'Save draft!',
+      denyButtonText: t('selfAssessment.assessmentForm.saveDraftBtn'),
       denyButtonColor: 'silver',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -258,13 +268,17 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             onSuccess: () => {
               setLoading(false);
               if (isupdated) {
-                Swal.fire('Your Assesment has been submitted', '', 'success');
+                Swal.fire(
+                  t('selfAssessment.assessmentForm.assessmentSubmittedText'),
+                  '',
+                  'success',
+                );
                 history.push('/');
               } else {
                 if (dataArray.length > 0 ? isS3Failed || s1FailObj : s1FailObj) {
-                  Swal.fire('Your Assesment has been failed', '', 'success');
+                  Swal.fire(t('selfAssessment.assessmentForm.assessmentFailText'), '', 'success');
                 } else {
-                  Swal.fire('Your Assesment has been passed', '', 'success');
+                  Swal.fire(t('selfAssessment.assessmentForm.assessmentPassText'), '', 'success');
                 }
                 history.push('/');
               }
@@ -276,7 +290,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       }
       if (result.isDenied) {
         if (responseData?.data?.Attempt_no >= 5) {
-          Swal.fire("You don't have a limited", '', 'error');
+          Swal.fire(t('selfAssessment.assessmentForm.saveDraftNoLimiteText'), '', 'error');
           return;
         }
         const payload = {
@@ -299,12 +313,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
 
   const handleSaveDraft = () => {
     if (responseData?.data?.Attempt_no >= 5) {
-      Swal.fire("You don't have a limited", '', 'error');
+      Swal.fire(t('selfAssessment.assessmentForm.saveDraftNoLimiteText'), '', 'error');
       return;
     }
     Swal.fire({
-      title: 'Do you want save draft?',
-      text: `Remaining response ${
+      title: t('selfAssessment.assessmentForm.saveDraftText'),
+      text: `${t('selfAssessment.assessmentForm.saveDraftRemainingResponseText')} ${
         responseData?.data?.Attempt_no
           ? responseData?.data?.Attempt_no < 5
             ? 4 - responseData?.data?.Attempt_no
@@ -317,7 +331,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       showCancelButton: true,
       confirmButtonColor: 'golden',
       cancelButtonColor: 'black',
-      confirmButtonText: 'Save draft!',
+      confirmButtonText: t('selfAssessment.assessmentForm.saveDraftBtn'),
     }).then((result) => {
       if (result.isConfirmed) {
         const payload = {
@@ -328,7 +342,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           },
           events: {
             onSuccess: () => {
-              Swal.fire('Draft saved successfully', '', 'success');
+              Swal.fire(t('selfAssessment.assessmentForm.saveDraftSuccessText'), '', 'success');
               history.push('/');
             },
           },
@@ -340,13 +354,13 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   };
   const handleCloseAssessment = () => {
     Swal.fire({
-      title: 'Are you sure?',
-      text: `You want to close the Assessment`,
+      title: t('selfAssessment.assessmentForm.closePopupBtnTitle'),
+      text: t('selfAssessment.assessmentForm.closePopupBtnText'),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
       cancelButtonColor: 'black',
-      confirmButtonText: 'Close Assessment',
+      confirmButtonText: t('selfAssessment.assessmentForm.closePopupBtnConfirmBtn'),
     }).then((result) => {
       if (result.isConfirmed) {
         history.push('/');
@@ -365,7 +379,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
                   <span className="font-weight-bold">Control Name: </span>
                   <span>{stateControlData.control_name}</span>
                 </div>
-                <div>
+                {/* <div>
                   <Form.Group className="input-group" style={{ minWidth: 180 }}>
                     <Form.Control
                       as="select"
@@ -387,7 +401,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
                       ))}
                     </Form.Control>
                   </Form.Group>
-                </div>
+                </div> */}
               </div>
               <CloseIcon className="close-modal-icon" onClick={() => handleCloseAssessment()} />
             </div>
