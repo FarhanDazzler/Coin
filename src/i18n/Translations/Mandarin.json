@@ -13,6 +13,7 @@
       "section2NoKPIavailableText": "此控制不适用于KPI",
       "section3_MICS": "第三节：MICS特定",
       "saveDraftBtn": "保存草稿！",
+      "section3FailedText": "基于上述回答，需要为失败的控制制定行动计划。请详细说明行动计划？（提示：行动计划是一项限时提案，旨在纠正控制失效，以确保MICS合规性）",
       "saveDraftText": "您是否要保存为草稿？",
       "saveDraftRemainingResponseText": "剩余回应",
       "saveDraftNoLimiteText": "您没有限制",
@@ -26,7 +27,6 @@
       "assessmentFailText": "您的评估未通过",
       "closePopupBtnTitle": "您确定吗？",
       "closePopupBtnText": "您是否要关闭评估？",
-      "closePopupBtnCloseBtn": "返回",
       "closePopupBtnConfirmBtn": "关闭评估"
     },
     "multi_select_filter_placeHolder": "选择您的选项",

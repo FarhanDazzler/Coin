@@ -12,6 +12,7 @@
       "excelFileUploadAndDownload": "Téléchargement et téléversement de fichiers Excel",
       "section2NoKPIavailableText": "Le KPI n'est pas applicable à ce contrôle",
       "section3_MICS": "Section 3 : Spécificités MICS",
+      "section3FailedText": "À partir de la réponse ci-dessus, des plans d'action doivent être créés sur le contrôle échoué. Nous vous demandons de développer le plan d'action ? (Indice : Le plan d'action est une proposition à durée déterminée conçue pour remédier à la défaillance du contrôle dans le but d'assurer la conformité MICS)",
       "saveDraftBtn": "Enregistrer le brouillon !",
       "saveDraftText": "Souhaitez-vous enregistrer en tant que brouillon ?",
       "saveDraftRemainingResponseText": "Réponse restante",
@@ -26,7 +27,6 @@
       "assessmentFailText": "Votre évaluation a échoué",
       "closePopupBtnTitle": "Êtes-vous sûr ?",
       "closePopupBtnText": "Voulez-vous fermer l'évaluation ?",
-      "closePopupBtnCloseBtn": "retour",
       "closePopupBtnConfirmBtn": "Fermer l'évaluation"
     },
     "multi_select_filter_placeHolder": "sélectionnez votre option",

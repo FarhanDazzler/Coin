@@ -13,6 +13,7 @@
       "section2NoKPIavailableText": "KPI não se aplica a este Controle",
       "section3_MICS": "Seção 3: ESPECÍFICO MICS",
       "saveDraftBtn": "Salvar rascunho!",
+      "section3FailedText": "Com base na resposta acima, é necessário criar planos de ação para o controle que falhou. Poderia detalhar o plano de ação? (Dica: Um plano de ação é uma proposta com prazo definido projetada para remediar a falha no controle, com o objetivo de garantir a conformidade com o MICS)",
       "saveDraftText": "Você deseja salvar como rascunho?",
       "saveDraftRemainingResponseText": "Resposta restante",
       "saveDraftNoLimiteText": "Você não possui um limite",
@@ -26,7 +27,6 @@
       "assessmentFailText": "Sua avaliação foi reprovada",
       "closePopupBtnTitle": "Você tem certeza?",
       "closePopupBtnText": "Você deseja fechar a Avaliação?",
-      "closePopupBtnCloseBtn": "voltar",
       "closePopupBtnConfirmBtn": "Fechar Avaliação"
     },
     "multi_select_filter_placeHolder": "selecione sua opção",
