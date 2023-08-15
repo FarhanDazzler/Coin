@@ -226,88 +226,87 @@ const ContactUs = () => {
   };
 
   return (
-    <>
-      <PageWrapper>
-        {!loading ? (
-          <div className="contactUs">
-            <Container
-              fluid
-              style={{ paddingTop: '0.75rem', paddingBottom: '0.75rem' }}
-              className="cardContainer"
-            >
-              <Row>
-                <Col md={10} lg={10} sm={10} xs={11} style={{ margin: 'auto' }}>
-                  <form onSubmit={onSubmit}>
-                    <Card
-                      className="customCard"
-                      style={{
-                        border: '0.5px solid gray',
-                        borderRadius: '10px',
-                      }}
-                    >
-                      <div>
-                        <Text
-                          size="xl"
-                          weight={780}
-                          color="goldenrod"
-                          align="left"
-                          style={{
-                            fontSize: '30px',
-                            paddingLeft: '10px',
-                            fontFamily: 'Avantt-Bold',
-                          }}
-                        >{`Contact Us`}</Text>
-                      </div>
-                      <hr
+    <div className="contactus-dark-wrapper">
+      {!loading ? (
+        <div className="contactUs">
+          <Container
+            fluid
+            style={{ paddingTop: '0.75rem', paddingBottom: '0.75rem' }}
+            className="cardContainer"
+          >
+            <Row>
+              <Col md={10} lg={10} sm={10} xs={11} style={{ margin: 'auto' }}>
+                <form onSubmit={onSubmit}>
+                  <Card
+                    className="customCard"
+                    style={{
+                      border: '0.5px solid gray',
+                      borderRadius: '10px',
+                    }}
+                  >
+                    <div>
+                      <Text
+                        size="xl"
+                        weight={780}
+                        color="goldenrod"
+                        align="left"
                         style={{
-                          color: 'black',
-                          marginTop: '1rem',
-                          marginBottom: '1rem',
+                          fontSize: '30px',
+                          paddingLeft: '10px',
+                          fontFamily: 'Avantt-Bold',
                         }}
-                      />
-                      <div className="cardNote">
-                        <p style={{ fontFamily: 'Avantt-SemiBold' }}>
-                          Please fill the following details to create a support ticket on your
-                          queries. The team will get back to you shortly.
-                        </p>
-                      </div>
+                      >{`Contact Us`}</Text>
+                    </div>
+                    <hr
+                      style={{
+                        color: 'black',
+                        marginTop: '1rem',
+                        marginBottom: '1rem',
+                      }}
+                    />
+                    <div className="cardNote">
+                      <p style={{ fontFamily: 'Avantt-SemiBold' }}>
+                        Please fill the following details to create a support ticket on your
+                        queries. The team will get back to you shortly.
+                      </p>
+                    </div>
 
-                      <Row className="cardInputGroup">
-                        <Col md={3} sm={6} xs={12} className="cardInput">
-                          <Text size="md" weight={500} color="black" align="left">
-                            {`Type of Issue `}
-                            {<span style={{ color: 'red' }}>*</span>}
-                          </Text>
-                          <Select
-                            placeholder="Select"
-                            required
-                            data={issueTypeDropDownOptions}
-                            name="issueType"
-                            border="2px"
-                            radius="14px"
-                            value={issueType}
-                            onChange={setIssueType}
-                            error={errors.issueType}
-                          />
-                        </Col>
-                        <Col md={3} sm={6} xs={12} className="cardInput">
-                          <Text size="md" weight={500} color="black" align="left">
-                            {`Module`}
-                            {<span style={{ color: 'red' }}>*</span>}
-                          </Text>
-                          <Select
-                            placeholder="Select"
-                            required
-                            data={moduleDropDownOptions}
-                            name="module"
-                            border="2px"
-                            radius="14px"
-                            value={module}
-                            onChange={setModule}
-                            error={errors.issueType}
-                          />
-                        </Col>
-                        {/* <Col md={3} sm={6} xs={12} className="cardInput">
+                    <Row className="cardInputGroup">
+                      <Col md={3} sm={6} xs={12} className="cardInput">
+                        <Text size="md" weight={500} color="black" align="left">
+                          {`Type of Issue `}
+                          {<span style={{ color: 'red' }}>*</span>}
+                        </Text>
+                        <Select
+                          placeholder="Select"
+                          required
+                          data={issueTypeDropDownOptions}
+                          name="issueType"
+                          border="2px"
+                          radius="14px"
+                          value={issueType}
+                          onChange={setIssueType}
+                          error={errors.issueType}
+                        />
+                      </Col>
+                      <Col md={3} sm={6} xs={12} className="cardInput">
+                        <Text size="md" weight={500} color="black" align="left">
+                          {`Module`}
+                          {<span style={{ color: 'red' }}>*</span>}
+                        </Text>
+                        <Select
+                          placeholder="Select"
+                          required
+                          data={moduleDropDownOptions}
+                          name="module"
+                          border="2px"
+                          radius="14px"
+                          value={module}
+                          onChange={setModule}
+                          error={errors.issueType}
+                        />
+                      </Col>
+                      {/* <Col md={3} sm={6} xs={12} className="cardInput">
                         <Text size="md" weight={500} color="black" align="left">
                           {`MJE ID `}
                         </Text>
@@ -321,186 +320,167 @@ const ContactUs = () => {
                           error={errors.mjeId}
                         />
                       </Col> */}
-                      </Row>
-                      <Row style={{ marginTop: '20px' }}>
-                        <Col
-                          md={7}
-                          sx={12}
-                          style={{
-                            border: 'solid 0.5px gray',
-                            borderRadius: '10px',
-                            padding: '20px',
-                          }}
-                        >
-                          <Row>
-                            <Col md={12}>
-                              <Text size="md" weight={500} color="black" align="left">
-                                {`Subject `}
-                                {<span style={{ color: 'red' }}>*</span>}
-                              </Text>
-                              <TextInput
-                                placeholder="Enter Subject"
-                                required
-                                mt="md"
-                                name="shortDescription"
-                                radius="14px"
-                                style={{ borderRadius: '14px', marginTop: '0px' }}
-                                {...form.getInputProps('shortDescription')}
-                                error={errors.shortDescription}
+                    </Row>
+                    <Row style={{ marginTop: '20px' }}>
+                      <Col
+                        md={7}
+                        sx={12}
+                        style={{
+                          border: 'solid 0.5px gray',
+                          borderRadius: '10px',
+                          padding: '20px',
+                        }}
+                      >
+                        <Row>
+                          <Col md={12}>
+                            <Text size="md" weight={500} color="black" align="left">
+                              {`Subject `}
+                              {<span style={{ color: 'red' }}>*</span>}
+                            </Text>
+                            <TextInput
+                              placeholder="Enter Subject"
+                              required
+                              mt="md"
+                              name="shortDescription"
+                              radius="14px"
+                              style={{ borderRadius: '14px', marginTop: '0px' }}
+                              {...form.getInputProps('shortDescription')}
+                              error={errors.shortDescription}
+                            />
+                          </Col>
+                          <Col md={12} style={{ marginTop: '10px' }}>
+                            <Text size="md" weight={500} color="black" align="left">
+                              {`Issue Description `}
+                              {<span style={{ color: 'red' }}>*</span>}
+                            </Text>
+                            <Textarea
+                              mt="md"
+                              required
+                              placeholder="Enter Detailed Description"
+                              maxRows={10}
+                              minRows={3}
+                              autosize
+                              name="issueDescription"
+                              border="2px"
+                              radius="14px"
+                              style={{ marginTop: '0px' }}
+                              {...form.getInputProps('issueDescription')}
+                              error={errors.issueDescription}
+                            />
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col
+                        md={4}
+                        sx={12}
+                        className="upload-attachment-block"
+                        style={{
+                          border: 'solid 0.5px gray',
+                          borderRadius: '10px',
+                          marginLeft: '40px',
+                          padding: '20px',
+                        }}
+                      >
+                        <Row>
+                          <Col md={12} className="cardInputHeader" style={{ margin: '0' }}>
+                            <Text
+                              size="md"
+                              weight={500}
+                              color="black"
+                              align="left"
+                            >{`Attachment `}</Text>
+                          </Col>
+                          <Col md={12} className="cardNote">
+                            <p style={{ margin: '0' }}>
+                              (Strictly allowed File types : .zip, .png , .jpeg, .jpg, .docx, .xlsx,
+                              .csv)
+                            </p>
+                          </Col>
+                          <Col md={12} sm={8} xs={12}>
+                            <div className="upload-sec">
+                              <input
+                                type="file"
+                                className="form-control"
+                                id="mp-attachment"
+                                multiple={false}
+                                style={{ display: 'none' }}
+                                // ref={uploadInputRef}
+                                onChange={handleFileSelect}
                               />
-                            </Col>
-                            <Col md={12} style={{ marginTop: '10px' }}>
-                              <Text size="md" weight={500} color="black" align="left">
-                                {`Issue Description `}
-                                {<span style={{ color: 'red' }}>*</span>}
-                              </Text>
-                              <Textarea
-                                mt="md"
-                                required
-                                placeholder="Enter Detailed Description"
-                                maxRows={10}
-                                minRows={3}
-                                autosize
-                                name="issueDescription"
-                                border="2px"
-                                radius="14px"
-                                style={{ marginTop: '0px' }}
-                                {...form.getInputProps('issueDescription')}
-                                error={errors.issueDescription}
-                              />
-                            </Col>
-                          </Row>
-                        </Col>
-                        <Col
-                          md={4}
-                          sx={12}
-                          className="upload-attachment-block"
-                          style={{
-                            border: 'solid 0.5px gray',
-                            borderRadius: '10px',
-                            marginLeft: '40px',
-                            padding: '20px',
-                          }}
-                        >
-                          <Row>
-                            <Col md={12} className="cardInputHeader" style={{ margin: '0' }}>
-                              <Text
-                                size="md"
-                                weight={500}
-                                color="black"
-                                align="left"
-                              >{`Attachment `}</Text>
-                            </Col>
-                            <Col md={12} className="cardNote">
-                              <p style={{ margin: '0' }}>
-                                (Strictly allowed File types : .zip, .png , .jpeg, .jpg, .docx,
-                                .xlsx, .csv)
-                              </p>
-                            </Col>
-                            <Col md={12} sm={8} xs={12}>
-                              <div className="upload-sec">
-                                <input
-                                  type="file"
-                                  className="form-control"
-                                  id="mp-attachment"
-                                  multiple={false}
-                                  style={{ display: 'none' }}
-                                  // ref={uploadInputRef}
-                                  onChange={handleFileSelect}
-                                />
-                                <div style={{ paddingRight: '15px' }}>
-                                  <label style={{ marginBottom: '0.2rem' }}>Choose Files</label>
-                                  <div
-                                    style={{
-                                      maxWidth: 150,
-                                      fontWeight: 600,
-                                      fontSize: 10,
-                                      paddingBottom: '3px',
-                                    }}
+                              <div style={{ paddingRight: '15px' }}>
+                                <label style={{ marginBottom: '0.2rem' }}>Choose Files</label>
+                                <div
+                                  style={{
+                                    maxWidth: 150,
+                                    fontWeight: 600,
+                                    fontSize: 10,
+                                    paddingBottom: '3px',
+                                  }}
+                                >
+                                  {' '}
+                                  (Max-Size: 2MB){' '}
+                                </div>
+                              </div>
+                              <div>
+                                <label htmlFor="mp-attachment" id="uploadEvidencebtn">
+                                  <Button
+                                    className="icon-button"
+                                    variant="contained"
+                                    color="primary"
+                                    component="span"
                                   >
-                                    {' '}
-                                    (Max-Size: 2MB){' '}
-                                  </div>
-                                </div>
-                                <div>
-                                  <label htmlFor="mp-attachment" id="uploadEvidencebtn">
-                                    <Button
-                                      className="icon-button"
-                                      variant="contained"
-                                      color="primary"
-                                      component="span"
-                                    >
-                                      <FeatherIcon icon="upload" size={14} />
-                                    </Button>
-                                  </label>
-                                </div>
+                                    <FeatherIcon icon="upload" size={14} />
+                                  </Button>
+                                </label>
                               </div>
-                            </Col>
-                            <Col md={12}>
-                              <div
-                                className="attachment-links"
-                                style={{
-                                  paddingLeft: '10px',
-                                  paddingTop: '30px',
-                                }}
-                              >
-                                {files.length > 0 ? (
-                                  <>
-                                    {files[0]?.name ? (
-                                      <div>
-                                        {files[0]?.name}
-                                        <FeatherIcon
-                                          icon="x"
-                                          size={14}
-                                          className="close-icon"
-                                          onClick={removeAttachment}
-                                          style={{ cursor: 'pointer' }}
-                                        ></FeatherIcon>
-                                      </div>
-                                    ) : (
-                                      <div>
-                                        {files[0]?.fileName}
-                                        <FeatherIcon
-                                          icon="x"
-                                          size={14}
-                                          className="close-icon"
-                                          onClick={removeAttachment}
-                                          style={{ cursor: 'pointer' }}
-                                        ></FeatherIcon>
-                                      </div>
-                                    )}
-                                  </>
-                                ) : (
-                                  <></>
-                                )}
-                              </div>
-                            </Col>
-                          </Row>
-                        </Col>
-                      </Row>
+                            </div>
+                          </Col>
+                          <Col md={12}>
+                            <div
+                              className="attachment-links"
+                              style={{
+                                paddingLeft: '10px',
+                                paddingTop: '30px',
+                              }}
+                            >
+                              {files.length > 0 ? (
+                                <>
+                                  {files[0]?.name ? (
+                                    <div>
+                                      {files[0]?.name}
+                                      <FeatherIcon
+                                        icon="x"
+                                        size={14}
+                                        className="close-icon"
+                                        onClick={removeAttachment}
+                                        style={{ cursor: 'pointer' }}
+                                      ></FeatherIcon>
+                                    </div>
+                                  ) : (
+                                    <div>
+                                      {files[0]?.fileName}
+                                      <FeatherIcon
+                                        icon="x"
+                                        size={14}
+                                        className="close-icon"
+                                        onClick={removeAttachment}
+                                        style={{ cursor: 'pointer' }}
+                                      ></FeatherIcon>
+                                    </div>
+                                  )}
+                                </>
+                              ) : (
+                                <></>
+                              )}
+                            </div>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
 
-                      <Group position="right" mt="xl">
-                        <Link to="/">
-                          <button
-                            size="md"
-                            radius="xl"
-                            style={{
-                              height: '36px',
-                              borderRadius: '10px',
-                              backgroundColor: 'red',
-                              fontFamily: 'Avantt-SemiBold',
-                              fontSize: '14px',
-                              backgroundColor: 'lightgray',
-                              color: 'black',
-                              border: 'none',
-                              width: '100px',
-                            }}
-                          >
-                            Cancel
-                          </button>
-                        </Link>
+                    <Group position="right" mt="xl">
+                      <Link to="/">
                         <button
-                          type="submit"
                           size="md"
                           radius="xl"
                           style={{
@@ -509,57 +489,75 @@ const ContactUs = () => {
                             backgroundColor: 'red',
                             fontFamily: 'Avantt-SemiBold',
                             fontSize: '14px',
-                            backgroundColor: 'black',
-                            color: 'white',
+                            backgroundColor: 'lightgray',
+                            color: 'black',
                             border: 'none',
                             width: '100px',
                           }}
                         >
-                          Submit
+                          Cancel
                         </button>
-                      </Group>
-                    </Card>
-                  </form>
-                </Col>
-              </Row>
+                      </Link>
+                      <button
+                        type="submit"
+                        size="md"
+                        radius="xl"
+                        style={{
+                          height: '36px',
+                          borderRadius: '10px',
+                          backgroundColor: 'red',
+                          fontFamily: 'Avantt-SemiBold',
+                          fontSize: '14px',
+                          backgroundColor: 'black',
+                          color: 'white',
+                          border: 'none',
+                          width: '100px',
+                        }}
+                      >
+                        Submit
+                      </button>
+                    </Group>
+                  </Card>
+                </form>
+              </Col>
+            </Row>
 
-              <Modal show={showProgress} backdrop="static" keyboard={false} position="center">
-                <Modal.Header>
-                  <Modal.Title style={{ fontFamily: 'Avantt-Bold' }}>Thank You!</Modal.Title>
-                </Modal.Header>
-                <Modal.Body text-align="center" style={{ fontFamily: 'Avantt-SemiBold' }}>
-                  Please wait we are communicating your query to the support team.
-                  <div className="loader" style={{ margin: 'auto' }}></div>
-                </Modal.Body>
-              </Modal>
-              <Modal
-                show={show}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-                position="center"
-                className="successModal"
-              >
-                <Modal.Header>
-                  <Modal.Title>
-                    <span style={{ color: 'green', fontFamily: 'Avantt-Bold' }}>Success</span>
-                  </Modal.Title>
-                  <Link to="/">
-                    <FeatherIcon icon="x" size={20} />
-                  </Link>
-                </Modal.Header>
-                <Modal.Body text-align="center" style={{ fontFamily: 'Avantt-SemiBold' }}>
-                  Your ticket has been raised with Incident Number: {INC_NUM}. On Clicking Close,
-                  you will be redirected to Home page.
-                </Modal.Body>
-              </Modal>
-            </Container>
-          </div>
-        ) : (
-          <div className="loader"> </div>
-        )}
-      </PageWrapper>
-    </>
+            <Modal show={showProgress} backdrop="static" keyboard={false} position="center">
+              <Modal.Header>
+                <Modal.Title style={{ fontFamily: 'Avantt-Bold' }}>Thank You!</Modal.Title>
+              </Modal.Header>
+              <Modal.Body text-align="center" style={{ fontFamily: 'Avantt-SemiBold' }}>
+                Please wait we are communicating your query to the support team.
+                <div className="loader" style={{ margin: 'auto' }}></div>
+              </Modal.Body>
+            </Modal>
+            <Modal
+              show={show}
+              onHide={handleClose}
+              backdrop="static"
+              keyboard={false}
+              position="center"
+              className="successModal"
+            >
+              <Modal.Header>
+                <Modal.Title>
+                  <span style={{ color: 'green', fontFamily: 'Avantt-Bold' }}>Success</span>
+                </Modal.Title>
+                <Link to="/">
+                  <FeatherIcon icon="x" size={20} />
+                </Link>
+              </Modal.Header>
+              <Modal.Body text-align="center" style={{ fontFamily: 'Avantt-SemiBold' }}>
+                Your ticket has been raised with Incident Number: {INC_NUM}. On Clicking Close, you
+                will be redirected to Home page.
+              </Modal.Body>
+            </Modal>
+          </Container>
+        </div>
+      ) : (
+        <div className="loader"> </div>
+      )}
+    </div>
   );
 };
 

@@ -1,5 +1,34 @@
 {
   "selfAssessment": {
+    "assessmentForm": {
+      "globalControlDescriptionBtn": "글로벌 컨트롤 설명 (GCD)",
+      "localControlDescriptionBtn": "로컬 컨트롤 설명 (LCD)",
+      "scopeBtn": "범위",
+      "showMoreBtn": "더 보기",
+      "showLessBtn": "덜 보이기",
+      "section1_Standard": "섹션 1 : 표준",
+      "section2KPI": "섹션 2 : KPI",
+      "exportToExcel": "엑셀로 내보내기",
+      "excelFileUploadAndDownload": "엑셀 파일 업로드 및 다운로드",
+      "section2NoKPIavailableText": "이 컨트롤에는 KPI가 적용되지 않습니다.",
+      "section3_MICS": "섹션 3 : MICS 특정",
+      "section3FailedText": "위의 응답을 기반으로 실패한 통제에 대한 대응 계획을 작성해야 합니다. 대응 계획을 자세히 설명해 주시겠습니까? (힌트: 대응 계획은 MICS 준수를 보장하기 위해 통제 결함을 복구하기 위한 시간 제한 제안입니다)",
+      "saveDraftBtn": "임시 저장!",
+      "saveDraftText": "임시 저장하시겠습니까?",
+      "saveDraftRemainingResponseText": "남은 응답",
+      "saveDraftNoLimiteText": "제한이 없습니다",
+      "saveDraftSuccessText": "임시 저장이 성공적으로 완료되었습니다",
+      "submitBtn": "제출",
+      "submitText": "평가 제출하시겠습니까?",
+      "submitRemainingResponseText": "남은 응답",
+      "submitConfirmBtn": "네, 제출합니다!",
+      "assessmentSubmittedText": "평가가 제출되었습니다",
+      "assessmentPassText": "평가가 통과되었습니다",
+      "assessmentFailText": "평가가 실패되었습니다",
+      "closePopupBtnTitle": "확실합니까?",
+      "closePopupBtnText": "평가를 닫으시겠습니까?",
+      "closePopupBtnConfirmBtn": "평가 닫기"
+    },
     "multi_select_filter_placeHolder": "옵션을 선택하십시오",
     "homePage": {
       "controleOwner": {

@@ -10,6 +10,7 @@ import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAc
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import { getFormatQuestions, getQuestionsFormatData } from '../../../../../utils/helper';
 import { useLocation } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 const ControlSection3 = ({
   setTerminating,
@@ -21,6 +22,7 @@ const ControlSection3 = ({
   isModal,
   showMoreSection,
 }) => {
+  const { t } = useTranslation();
   const history = useHistory();
   const { state } = useLocation();
   const { Assessment_id = '' } = useParams();
@@ -175,7 +177,7 @@ const ControlSection3 = ({
         updateAns.L3 = ans.L3;
         setAns(updateAns);
       }
-      if(ans.noQueAns){
+      if (ans.noQueAns) {
         setShowNoQuestion(true);
       }
     }, 200);
@@ -238,7 +240,7 @@ const ControlSection3 = ({
 
   return (
     <div>
-      <CollapseFrame title="Section 3 : MICS SPECIFIC" active>
+      <CollapseFrame title={t('selfAssessment.assessmentForm.section3_MICS')} active>
         <div className="mt-5" id="section3">
           <>
             {questionL1.length > 0 && (
@@ -265,10 +267,8 @@ const ControlSection3 = ({
               />
               */}
               <Form.Label>
-                Based on above response, action plans needs to be created on the failed control.
-                Request you to elaborate the action Plan? (Hint: Action plan is a time bound
-                proposition designed to remediate the control breakdown with the objective of
-                ensuring MICS compliance) <span className="text-danger">*</span>
+                {t('selfAssessment.assessmentForm.section3FailedText')}{' '}
+                <span className="text-danger">*</span>
               </Form.Label>
               <Form.Group className="input-group mb-3">
                 <Form.Control

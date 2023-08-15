@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useMsal } from '@azure/msal-react';
 import { TableExport } from 'tabler-icons-react';
 import { Form } from 'react-bootstrap';
@@ -7,9 +7,14 @@ import Button from '../../../MDM/MDM_Tab_Buttons/Button';
 import { Divider, Box } from '@mantine/core';
 import Workbook from 'react-excel-workbook';
 import { months } from '../../../QuestionBank/CreateQuestions/constant';
+import { addRlFunctionalAssessmentData } from '../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
 
-const ReviewLetterDetails = ({finalPayload, onClose}) => {
+const ReviewLetterDetails = ({ finalPayload, onClose }) => {
   console.log('finalPayload', finalPayload);
+  const dispatch = useDispatch();
+  const handleSubmit = () => {
+    dispatch(addRlFunctionalAssessmentData(finalPayload))
+  }
 
   return (
     <>
@@ -118,38 +123,28 @@ const ReviewLetterDetails = ({finalPayload, onClose}) => {
               </>
             }
           >
-            <Workbook.Sheet
-            data={finalPayload?.SelectedDataFromTable}
-            name="Recipients"
-          >
-            <Workbook.Column label="Zone" value="Zone" />
-            <Workbook.Column label="BU" value="BU" />
-            <Workbook.Column label="Functional" value="Functional" />
-            <Workbook.Column label="Applicability" value="Applicability" />
-            <Workbook.Column
-              label="Recipient"
-              value="Recipient"
-            />
-            <Workbook.Column label="Recipient Status" value="Recipient_Status" />
-            <Workbook.Column label="Title/Position" value="Title_Position" />
-            <Workbook.Column label="Zone Control" value="Zone_Control" />
-            <Workbook.Column label="Zone Control Status" value="Zone_Control_Status" />
-          </Workbook.Sheet>
+            <Workbook.Sheet data={finalPayload?.SelectedDataFromTable} name="Recipients">
+              <Workbook.Column label="Zone" value="Zone" />
+              <Workbook.Column label="BU" value="BU" />
+              <Workbook.Column label="Functional" value="Functional" />
+              <Workbook.Column label="Applicability" value="Applicability" />
+              <Workbook.Column label="Recipient" value="Recipient" />
+              <Workbook.Column label="Recipient Status" value="Recipient_Status" />
+              <Workbook.Column label="Title/Position" value="Title_Position" />
+              <Workbook.Column label="Zone Control" value="Zone_Control" />
+              <Workbook.Column label="Zone Control Status" value="Zone_Control_Status" />
+            </Workbook.Sheet>
           </Workbook>
         </div>
 
         <div className="footer-action-AssessmentBank">
           <div className="d-flex align-items-center justify-content-end">
             <div>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={onClose}
-              >
+              <Button variant="outlined" color="secondary" onClick={onClose}>
                 Cancel
               </Button>
 
-              <Button color="neutral" className="ml-4">
+              <Button color="neutral" className="ml-4" onClick={() => handleSubmit()}>
                 Submit
               </Button>
             </div>
