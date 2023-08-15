@@ -1,0 +1,23 @@
+.noDataPlaceholderWrapper {
+    max-width: 850px;
+    margin: 100px auto;
+    background: rgba(61, 61, 61, 0.25);
+    backdrop-filter: blur(16.767px);
+    border-radius: 20px;
+    padding: 50px;
+    .d-flex {
+      gap: 15px
+    }
+  }
+  
+  .info-text-wrapper {
+    p {
+      color: #FFFFFF9E;
+    }
+    h3 {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+  }

@@ -8,6 +8,7 @@ import FunctionModifyQuestions from '../../pages/REP_Letters_Module/Home/Questio
 import SchedulingAndTriggering from '../../pages/REP_Letters_Module/SchedulingAndTriggering/SchedulingAndTriggeringLandingPage';
 import ScheduleSurveyBUPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/ScheduleSurveyBULandingPage';
 import ScheduleSurveyFunctionalPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/ScheduleSurveyFunctionalLandingPage';
+import FunctionalDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Table/FunctionalDetailsTableData';
 export const RepLettersRoutes = [
   {
     path: '/REP-Letters/master-data-management',
@@ -58,5 +59,10 @@ export const RepLettersRoutes = [
     path: '/REP-Letters/scheduling-and-triggering/schedule-survey-functional',
     exact: true,
     component: ScheduleSurveyFunctionalPage,
+  },
+  {
+    path: '/REP-Letters/scheduling-and-triggering/functional-letter-details',
+    exact: true,
+    component: FunctionalDetailsTableData,
   },
 ];

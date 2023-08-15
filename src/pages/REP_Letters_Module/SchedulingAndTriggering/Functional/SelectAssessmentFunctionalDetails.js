@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as Yup from 'yup';
+import { useMsal } from '@azure/msal-react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useFormikContext, Formik } from 'formik';
 import { Form } from 'react-bootstrap';
@@ -84,6 +85,7 @@ const FilterButtons = ({
 const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { instance, accounts, inProgress } = useMsal();
   const [editTableIndex, setEditTableIndex] = useState([]);
   const getFunctionalDropdowndataState = useSelector(getFunctionalDropdowndataSelector);
   const getFunctionalPage1dataState = useSelector(getFunctionalPage1dataSelector);
@@ -286,6 +288,11 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
         confirmButtonText: 'Yes, submit it!',
       }).then((res) => {
         if (res.isConfirmed) {
+          const cloneData = tableData?.map((data, i) => {
+            const clone = (({ id, Functional, ...o }) => o)(data);
+            return clone;
+          })
+
           let payload = {
             Function: values.Function,
             Title: values.Title,
@@ -295,7 +302,11 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
             Due_Date: values.Due_Date,
             Recipient_Reminder_1: values.Recipient_Reminder_1,
             Recipient_Reminder_2: values.Recipient_Reminder_2,
-            SelectedDataFromTable: tableData,
+            SelectedDataFromTable: cloneData,
+            Created_By: {
+              Email: accounts[0]?.username,
+              name: accounts[0]?.name ? accounts[0].name : '',
+            },
           };
           console.log(payload, 'Page payload');
           setOpenReviewModal(true);
@@ -306,7 +317,10 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
       setOpenReviewModal(true);
       console.log(editTableIndex, 'editTableIndex');
       const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
-
+      const cloneData = data?.map((data, i) => {
+        const clone = (({ id, Functional, ...o }) => o)(data);
+        return clone;
+      })
       let payload = {
         Function: values.Function,
         Title: values.Title,
@@ -316,7 +330,11 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
         Due_Date: values.Due_Date,
         Recipient_Reminder_1: values.Recipient_Reminder_1,
         Recipient_Reminder_2: values.Recipient_Reminder_2,
-        SelectedDataFromTable: data,
+        SelectedDataFromTable: cloneData,
+        Created_By: {
+          Email: accounts[0]?.username,
+          name: accounts[0]?.name ? accounts[0].name : '',
+        },
       };
       console.log(payload, 'Page payload');
       setFinalPayload(payload);
