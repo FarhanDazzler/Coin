@@ -182,14 +182,14 @@ function AssessmentForm() {
   const freq = localStorage.getItem('frequency');
 
   for (let i = 0; i < parentQuestions.length; i++) {
-    let question = parentQuestions[i].question_text;
+    let question = parentQuestions[i].question_text ||"";
     question = question?.replaceAll('{{org}}', controlDataResponse?.provider_org);
     question = question?.replaceAll('{{freq}}', controlDataResponse?.frequency);
     parentQuestions[i].question_text = question;
     // console.log(question);
   }
   for (let i = 0; i < child_question.length; i++) {
-    let question = child_question[i].question_text;
+    let question = child_question[i].question_text||"";
     question = question?.replaceAll('{{org}}', controlDataResponse?.provider_org);
     question = question?.replaceAll('{{freq}}', controlDataResponse?.frequency);
     child_question[i].question_text = question;
@@ -198,14 +198,14 @@ function AssessmentForm() {
 
   useEffect(() => {
     for (let i = 0; i < parentQuestions.length; i++) {
-      let question = parentQuestions[i].question_text;
+      let question = parentQuestions[i].question_text||"";
       question = question?.replaceAll('{{org}}', org || controlDataResponse?.provider_org);
       question = question?.replaceAll('{{freq}}', freq);
       parentQuestions[i].question_text = question;
       // console.log(question);
     }
     for (let i = 0; i < child_question.length; i++) {
-      let question = child_question[i].question_text;
+      let question = child_question[i].question_text||"";
       question = question?.replaceAll('{{org}}', org || controlDataResponse?.provider_org);
       question = question?.replaceAll('{{freq}}', freq);
       child_question[i].question_text = question;

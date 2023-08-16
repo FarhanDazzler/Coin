@@ -425,3 +425,22 @@ export const languageToTextKey = (language) => {
       return '';
   }
 };
+
+export const getLanguageToTextKey = (language) => {
+  switch (language) {
+    case 'fr':
+      return 'fr_';
+    case 'md':
+      return 'md_';
+    case 'es':
+      return 'es_';
+    case 'ko':
+      return 'ko_';
+    case 'vi':
+      return 'vi_';
+    case 'pt':
+      return 'pt_';
+    default:
+      return '';
+  }
+};

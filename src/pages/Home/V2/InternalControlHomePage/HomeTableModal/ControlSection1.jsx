@@ -8,6 +8,7 @@ import useDebounce from '../../../../../hooks/useDebounce';
 import blockType from '../../../../../components/RenderBlock/constant';
 import RenderBlock from '../../../../../components/RenderBlock';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
+import { useTranslation } from 'react-i18next';
 
 const ControlSection1 = ({
   setShowMoreSection,
@@ -18,6 +19,7 @@ const ControlSection1 = ({
   isModal,
   language,
 }) => {
+  const { t } = useTranslation();
   const getQuestions = useSelector(getQuestionsSelector);
   const [data, setData] = useState([]);
   const [qId2Value, setQId2Value] = useState('');
@@ -160,7 +162,7 @@ const ControlSection1 = ({
 
   return (
     <div>
-      <CollapseFrame title="Section 1 : Standard" active>
+      <CollapseFrame title={t('selfAssessment.assessmentForm.section1_Standard')} active>
         <div className="mt-5">
           <RenderBlock
             blocks={ans}

@@ -14,9 +14,11 @@ import {
 import { getCsvTampredDataAction } from '../../../../../redux/CsvTampred/CsvTampredAction';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import moment from 'moment';
+import { useTranslation } from 'react-i18next';
 
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
 const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
+  const { t } = useTranslation();
   let headerStyles;
   if (isModal) {
     headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
@@ -274,7 +276,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         const d = new Date();
         d.setMonth(month - 1);
         // console.log(monthName);
-        tData['Month'] =moment(period,'YYYY-MM-DD').format('MMMM')
+        tData['Month'] = moment(period, 'YYYY-MM-DD').format('MMMM');
         tData['Type_of_KPI'] = tData.isManual ? 'Manual' : 'Automated';
       });
 
@@ -487,7 +489,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
 
   return (
     <div>
-      <CollapseFrame title="Section 2 : KPI" active>
+      <CollapseFrame title={t('selfAssessment.assessmentForm.section2KPI')} active>
         {tableData?.length !== 0 ? (
           <div className="mt-5">
             <div id="my_btns">
@@ -497,7 +499,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
                     filename={`data-${controlId}.xlsx`}
                     element={
                       <button className="export_button">
-                        <strong>Export To Excel</strong>
+                        <strong>{t('selfAssessment.assessmentForm.exportToExcel')}</strong>
                       </button>
                     }
                   >
@@ -518,13 +520,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
                     </Workbook.Sheet>
                   </Workbook>
                 </div>
-                <h1 className="table-modal-title">Excel File Upload & Download</h1>
+                <h1 className="table-modal-title">
+                  {t('selfAssessment.assessmentForm.excelFileUploadAndDownload')}
+                </h1>
               </div>
               {!isModal && (
                 <form onSubmit={handleSubmit} id="combine_btn">
                   <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
                   <button type="submit" className="submit_btn black-text">
-                    <strong>Submit</strong>
+                    <strong>{t('selfAssessment.assessmentForm.submitBtn')}</strong>
                   </button>
                 </form>
               )}
@@ -554,7 +558,9 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
           </div>
         ) : (
           <div className="mt-5 text-center">
-            <h1 className="table-modal-title">KPI is not applicable for this Control</h1>
+            <h1 className="table-modal-title">
+              {t('selfAssessment.assessmentForm.section2NoKPIavailableText')}
+            </h1>
           </div>
         )}
       </CollapseFrame>

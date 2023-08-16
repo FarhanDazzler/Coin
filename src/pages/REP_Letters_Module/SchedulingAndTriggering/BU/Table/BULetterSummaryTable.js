@@ -1,19 +1,13 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import '../../../assets/styles/custom.css';
+import '../../../../../assets/styles/custom.css';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Table from '../../../components/UI/Table';
-import Table2 from '../../../components/UI/Table/Table2';
-import NoDataPlaceholder from '../../../components/NoDataPlaceholder';
-import { getAssessmentsSummaryTable } from '../../../redux/AssessmentBank/AssessmentBankAction';
-import {
-  getAssessmentsSummaryTableSelector,
-  addAssessmentSchedulingAndTriggeringSelector,
-} from '../../../redux/AssessmentBank/AssessmentBankSelectors';
+import Table2 from '../../../../../components/UI/Table/Table2';
+import NoDataLetterPlaceholder from './NoDataPlaceHolder';
 import { MultiSelect } from '@mantine/core';
 import { Group } from '@mantine/core';
-import PageWrapper from '../../../components/wrappers/PageWrapper';
+import PageWrapper from '../../../../../components/wrappers/PageWrapper';
 
 // Filter buttons
 const FilterButtons = ({
@@ -74,7 +68,7 @@ const FilterButtons = ({
   );
 };
 
-const AssessmentsSummaryTable = () => {
+const BULetterSummaryTable = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [tableColumns, setTableColumns] = useState([]);
@@ -83,15 +77,13 @@ const AssessmentsSummaryTable = () => {
 
   // multi choice user input State for filters button
   const [yearValue, setYearValue] = useState([]);
-  const { loading } = useSelector(addAssessmentSchedulingAndTriggeringSelector);
 
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
 
   useEffect(() => {
-    dispatch(getAssessmentsSummaryTable());
-  }, [loading]);
 
-  const getAssessmentsSummaryTableState = useSelector(getAssessmentsSummaryTableSelector);
+  }, []);
+
 
   useEffect(() => {
     if (!yearValue.length && !assessmentCycleValue.length) {
@@ -108,23 +100,25 @@ const AssessmentsSummaryTable = () => {
     );
   }, [yearValue, assessmentCycleValue]);
 
-  const handleSurveyNameClick = (Survey_Name, Created_On, Created_By, Assessment_Cycle, Year) => {
+  const handleSurveyNameClick = (Title, Created_On, Created_By, Assessment_Cycle, Year, Function,) => {
+    console.log(Function, "Function")
     //code for opening second table in pop up
     const data = {
-      SurveyName: Survey_Name,
+      Tilte: Title,
+      Function: Function,
       Created_On: Created_On,
       Created_By: Created_By,
       Assessment_Cycle: Assessment_Cycle,
       Year: Year,
     };
-    history.push('/assessmentbank/assessment-details', { data });
+   
   };
 
   const TABLE_COLUMNS = [
     {
-      accessorKey: 'Survey_Name',
-      id: 'Survey_Name',
-      header: 'Assessment Name',
+      accessorKey: 'Title',
+      id: 'Title',
+      header: 'Title',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -135,18 +129,28 @@ const AssessmentsSummaryTable = () => {
             className={'text-yellow cursor-pointer'}
             onClick={() =>
               handleSurveyNameClick(
-                row.row.original.Survey_Name,
+                row.row.original.Title,
                 row.row.original.Created_On,
                 row.row.original.Created_By,
                 row.row.original.Assessment_Cycle,
                 row.row.original.Year,
+                row.row.original.Function,
               )
             }
           >
-            {row.row.original.Survey_Name}
+            {row.row.original.Title}
           </span>
         );
       },
+    },
+    {
+      accessorKey: 'Function',
+      id: 'Function',
+      header: 'Function',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 150,
     },
     {
       accessorKey: 'Created_On',
@@ -188,16 +192,16 @@ const AssessmentsSummaryTable = () => {
 
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
-    const updatedData = getAssessmentsSummaryTableState?.data.map((i, index) => {
-      return {
-        id: index,
-        ...i,
-      };
-    });
+    // const updatedData = getAssessmentsSummaryTableState?.data.map((i, index) => {
+    //   return {
+    //     id: index,
+    //     ...i,
+    //   };
+    // });
 
-    setTableData(updatedData);
-    setTableDataArray(updatedData);
-  }, [getAssessmentsSummaryTableState?.data]);
+    // setTableData(updatedData);
+    // setTableDataArray(updatedData);
+  }, []);
 
   // Function to remove duplicate value from array
   function removeDuplicates(arr) {
@@ -205,8 +209,8 @@ const AssessmentsSummaryTable = () => {
   }
 
   // Arrays for showing data on filters
-  const year = getAssessmentsSummaryTableState?.data.map((i) => i.Year);
-  const assessment_Cycle = getAssessmentsSummaryTableState?.data.map((i) => i.Assessment_Cycle);
+  const year = []
+  const assessment_Cycle = []
 
   return (
     <>
@@ -227,11 +231,10 @@ const AssessmentsSummaryTable = () => {
               {tableData?.length > 0 ? (
                 <Table2
                   tableData={tableData}
-                  loading={getAssessmentsSummaryTableState.loading}
                   tableColumns={tableColumns}
                 />
               ) : (
-                <NoDataPlaceholder />
+                <NoDataLetterPlaceholder />
               )}
             </>
           </div>
@@ -241,4 +244,4 @@ const AssessmentsSummaryTable = () => {
   );
 };
 
-export default AssessmentsSummaryTable;
+export default BULetterSummaryTable;

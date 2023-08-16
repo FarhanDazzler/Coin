@@ -1,5 +1,34 @@
 {
   "selfAssessment": {
+    "assessmentForm": {
+      "globalControlDescriptionBtn": "Descripción de Control Global (DCG)",
+      "localControlDescriptionBtn": "Descripción de Control Local (DCL)",
+      "scopeBtn": "Alcance",
+      "showMoreBtn": "Mostrar Más",
+      "showLessBtn": "Mostrar Menos",
+      "section1_Standard": "Sección 1: Estándar",
+      "section2KPI": "Sección 2: KPI",
+      "exportToExcel": "Exportar a Excel",
+      "excelFileUploadAndDownload": "Carga y Descarga de Archivos Excel",
+      "section2NoKPIavailableText": "El KPI no es aplicable a este Control",
+      "section3_MICS": "Sección 3: ESPECÍFICO MICS",
+      "section3FailedText": "Basado en la respuesta anterior, es necesario crear planes de acción para el control que no ha tenido éxito. ¿Podría detallar el plan de acción? (Pista: Un plan de acción es una propuesta con plazo definido diseñada para remediar la falla en el control con el objetivo de asegurar el cumplimiento de MICS)",
+      "saveDraftBtn": "¡Guardar Borrador!",
+      "saveDraftText": "¿Desea guardar como borrador?",
+      "saveDraftRemainingResponseText": "Respuesta Restante",
+      "saveDraftNoLimiteText": "No tiene límite",
+      "saveDraftSuccessText": "Borrador guardado exitosamente",
+      "submitBtn": "Enviar",
+      "submitText": "¿Desea Enviar la Evaluación?",
+      "submitRemainingResponseText": "Respuesta Restante",
+      "submitConfirmBtn": "Sí, ¡enviar!",
+      "assessmentSubmittedText": "Su Evaluación ha sido Enviada",
+      "assessmentPassText": "Su Evaluación ha sido Aprobada",
+      "assessmentFailText": "Su Evaluación ha sido Reprobada",
+      "closePopupBtnTitle": "¿Estás seguro?",
+      "closePopupBtnText": "¿Desea cerrar la Evaluación?",
+      "closePopupBtnConfirmBtn": "Cerrar Evaluación"
+    },
     "multi_select_filter_placeHolder": "seleccione su opción",
     "homePage": {
       "controleOwner": {

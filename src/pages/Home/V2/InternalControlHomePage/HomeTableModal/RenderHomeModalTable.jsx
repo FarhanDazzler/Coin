@@ -7,6 +7,7 @@ import ControlSection3 from './ControlSection3';
 import Button from '../../../../../components/UI/Button';
 import { useDispatch } from 'react-redux';
 import { resetSection3 } from '../../../../../redux/Questions/QuestionsAction';
+import { useTranslation } from 'react-i18next';
 
 const RenderHomeModalTable = ({
   questionsInfo,
@@ -32,6 +33,7 @@ const RenderHomeModalTable = ({
   activeData = {},
   language,
 }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
   const isSection3Failed = Object.keys(ansSection3)?.find((i) =>
@@ -142,13 +144,13 @@ const RenderHomeModalTable = ({
                 loading={loadingSubmit}
                 onClick={handleSubmit}
               >
-                Submit
+                {t('selfAssessment.assessmentForm.submitBtn')}
               </Button>
             </>
           ) : handleSaveDraft && !isModal ? (
             <div className="save-draft-btn-wrapper">
               <Button onClick={handleSaveDraft} {...handleSaveDraftProps}>
-                Save draft!
+                {t('selfAssessment.assessmentForm.saveDraftBtn')}
               </Button>
             </div>
           ) : (

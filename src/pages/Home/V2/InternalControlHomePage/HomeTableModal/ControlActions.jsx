@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Button from '../../../../../components/UI/Button';
+import { useTranslation } from 'react-i18next';
 
 const ControlActions = ({ activeData }) => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('');
   const [isReadMore, setIsReadMore] = useState(true);
   const toggleReadMore = () => {
@@ -40,21 +42,21 @@ const ControlActions = ({ activeData }) => {
           className={activeTab === 'GCD' ? 'mr-4 active' : 'mr-4'}
           onClick={() => setActiveTab(isClear('GCD') ? '' : 'GCD')}
         >
-          Global Control Description (GCD)
+          {t('selfAssessment.assessmentForm.globalControlDescriptionBtn')}
         </Button>
         <Button
           // disabled={activeTab && activeTab !== 'LCD'}
           className={activeTab === 'LCD' ? 'mr-4 active' : 'mr-4'}
           onClick={() => setActiveTab(isClear('LCD') ? '' : 'LCD')}
         >
-          Local Control Description (LCD)
+          {t('selfAssessment.assessmentForm.localControlDescriptionBtn')}
         </Button>
         <Button
           // disabled={activeTab && activeTab !== 'Scope'}
           className={activeTab === 'Scope' ? 'mr-4 active' : 'mr-4'}
           onClick={() => setActiveTab(isClear('Scope') ? '' : 'Scope')}
         >
-          Scope
+          {t('selfAssessment.assessmentForm.scopeBtn')}
         </Button>
       </div>
       <div className="control-actions-collapse">
@@ -96,7 +98,9 @@ const ControlActions = ({ activeData }) => {
 
             <strong>
               <span onClick={toggleReadMore} className="golden-text read-or-hide">
-                {isReadMore ? '...Show more' : ' Show less'}
+                {isReadMore
+                  ? `...${t('selfAssessment.assessmentForm.showMoreBtn')}`
+                  : t('selfAssessment.assessmentForm.showLessBtn')}
               </span>
             </strong>
           </div>
