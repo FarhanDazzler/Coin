@@ -8,7 +8,7 @@ import FunctionModifyQuestions from '../../pages/REP_Letters_Module/Home/Questio
 import SchedulingAndTriggering from '../../pages/REP_Letters_Module/SchedulingAndTriggering/SchedulingAndTriggeringLandingPage';
 import ScheduleSurveyBUPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/ScheduleSurveyBULandingPage';
 import ScheduleSurveyFunctionalPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/ScheduleSurveyFunctionalLandingPage';
-import FunctionalDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Table/FunctionalDetailsTableData';
+import FunctionalDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/Table/FunctionalDetailsTableData';
 export const RepLettersRoutes = [
   {
     path: '/REP-Letters/master-data-management',
