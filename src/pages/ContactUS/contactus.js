@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { TextInput, Textarea, Group, Title, Button, Select, Text, Loader } from '@mantine/core';
+import React, { useEffect, useState } from 'react';
+import { TextInput, Textarea, Group, Button, Select, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Card, Modal, Container, Row, Col } from 'react-bootstrap';
 import FeatherIcon from 'feather-icons-react';
 // import {  IconInfoCircle, IconX, IconPlaystationX, IconFileUpload} from '@tabler/icons';
-import { useIsAuthenticated, useMsal } from '@azure/msal-react';
+import { useMsal } from '@azure/msal-react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 // import { Constants } from '../../Constants/Constants';
 import '../../assets/styles/custom.css';
 import './contactus.css';
 import { toast } from 'react-toastify';
-import PageWrapper from '../../components/wrappers/PageWrapper';
+import { Delete } from '@mui/icons-material';
 
 let INC_NUM;
 
@@ -322,15 +322,7 @@ const ContactUs = () => {
                       </Col> */}
                     </Row>
                     <Row style={{ marginTop: '20px' }}>
-                      <Col
-                        md={7}
-                        sx={12}
-                        style={{
-                          border: 'solid 0.5px gray',
-                          borderRadius: '10px',
-                          padding: '20px',
-                        }}
-                      >
+                      <Col>
                         <Row>
                           <Col md={12}>
                             <Text size="md" weight={500} color="black" align="left">
@@ -369,18 +361,6 @@ const ContactUs = () => {
                             />
                           </Col>
                         </Row>
-                      </Col>
-                      <Col
-                        md={4}
-                        sx={12}
-                        className="upload-attachment-block"
-                        style={{
-                          border: 'solid 0.5px gray',
-                          borderRadius: '10px',
-                          marginLeft: '40px',
-                          padding: '20px',
-                        }}
-                      >
                         <Row>
                           <Col md={12} className="cardInputHeader" style={{ margin: '0' }}>
                             <Text
@@ -388,7 +368,7 @@ const ContactUs = () => {
                               weight={500}
                               color="black"
                               align="left"
-                            >{`Attachment `}</Text>
+                            >{`Attachment (If Any)`}</Text>
                           </Col>
                           <Col md={12} className="cardNote">
                             <p style={{ margin: '0' }}>
@@ -448,24 +428,22 @@ const ContactUs = () => {
                                   {files[0]?.name ? (
                                     <div>
                                       {files[0]?.name}
-                                      <FeatherIcon
-                                        icon="x"
+                                      <Delete
                                         size={14}
                                         className="close-icon"
                                         onClick={removeAttachment}
                                         style={{ cursor: 'pointer' }}
-                                      ></FeatherIcon>
+                                      ></Delete>
                                     </div>
                                   ) : (
                                     <div>
                                       {files[0]?.fileName}
-                                      <FeatherIcon
-                                        icon="x"
+                                      <Delete
                                         size={14}
                                         className="close-icon"
                                         onClick={removeAttachment}
                                         style={{ cursor: 'pointer' }}
-                                      ></FeatherIcon>
+                                      ></Delete>
                                     </div>
                                   )}
                                 </>
@@ -541,15 +519,18 @@ const ContactUs = () => {
             >
               <Modal.Header>
                 <Modal.Title>
-                  <span style={{ color: 'green', fontFamily: 'Avantt-Bold' }}>Success</span>
+                  <span style={{ color: 'green', fontFamily: 'Avantt-Bold' }}>
+                    Ticket Created Successfully
+                  </span>
                 </Modal.Title>
                 <Link to="/">
                   <FeatherIcon icon="x" size={20} />
                 </Link>
               </Modal.Header>
               <Modal.Body text-align="center" style={{ fontFamily: 'Avantt-SemiBold' }}>
-                Your ticket has been raised with Incident Number: {INC_NUM}. On Clicking Close, you
-                will be redirected to Home page.
+                Your ticket has been raised with Incident Number:{' '}
+                <span className="golden-text">{INC_NUM}</span>. On Clicking Close, you will be
+                redirected to Home page.
               </Modal.Body>
             </Modal>
           </Container>
