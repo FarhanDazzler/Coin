@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
 import { Loader } from 'semantic-ui-react';
@@ -26,7 +26,6 @@ const ControlSection3 = ({
   isModal,
   showMoreSection,
 }) => {
-  const { t } = useTranslation();
   const history = useHistory();
   const { state } = useLocation();
   const { Assessment_id = '' } = useParams();
@@ -35,12 +34,18 @@ const ControlSection3 = ({
   const questionData = useSelector(question3Selector);
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
-  const language = i18n.language;
+  const languageVal = i18n.language;
+  const [language, setLanguage] = useState(languageVal);
   const [render, setRender] = useState(false);
   const [questionL1, setQuestionL1] = useState([]);
   const [questionL2, setQuestionL2] = useState([]);
   const [questionL3, setQuestionL3] = useState([]);
   const [showNoQuestion, setShowNoQuestion] = useState(false);
+
+  const isSameLang = useMemo(() => {
+    return languageVal === language;
+  }, [language, languageVal]);
+
   const setSelectedQuestionAns = (question, ansObj) => {
     return question.map((q1) => {
       const updateInnerQ = q1.renderOption.map((innerQ) => {
@@ -193,23 +198,22 @@ const ControlSection3 = ({
     setRender(!render);
     if (questionData.Level?.L1) {
       const apiQuestionL1 = getQuestionsFormatData([questionData.Level?.L1]);
-      if (!questionL1.length > 0) {
-        // console.log(
-        //   'getFormatQuestions(apiQuestionL1,',
-        //   apiQuestionL1,
-        //   getLanguageFormat(apiQuestionL1, language),
-        // );
-        setQuestionL1(getFormatQuestions(apiQuestionL1, null, 'L1'));
+      if (!questionL1.length > 0 || !isSameLang) {
+        const questionsVal = getFormatQuestions(apiQuestionL1, null, 'L1');
+        const data = getLanguageFormat(questionsVal, languageVal, null, true);
+        console.log('data', data);
+        setQuestionL1(questionsVal);
+        setLanguage(languageVal);
       }
     }
     if (questionData.Level?.L2 && ans.L1) {
-      const apiQuestionL2 = getQuestionsFormatData(questionData.Level?.L2);
+      const apiQuestionL2 = getQuestionsFormatData([questionData.Level?.L2]);
       if (!questionL2.length > 0) {
         setQuestionL2(getFormatQuestions(apiQuestionL2, null, 'L2'));
       }
     }
     if (questionData.Level?.L3 && ans.L2) {
-      const apiQuestionL3 = getQuestionsFormatData(questionData.Level?.L3);
+      const apiQuestionL3 = getQuestionsFormatData([questionData.Level?.L3]);
       if (!questionL3.length > 0) {
         setQuestionL3(getFormatQuestions(apiQuestionL3, null, 'L3'));
       } else {
@@ -222,7 +226,7 @@ const ControlSection3 = ({
         }
       }
     }
-  }, [questionData.Level]);
+  }, [questionData.Level, languageVal]);
 
   useEffect(() => {
     if (questionData.loading) {
@@ -257,12 +261,12 @@ const ControlSection3 = ({
             {questionL1.length > 0 && (
               <RenderBlock blocks={questionL1} isModal={isModal} handleChange={handleChange} />
             )}
-            {/*{questionL2.length > 0 && (*/}
-            {/*  <RenderBlock blocks={questionL2} isModal={isModal} handleChange={handleChange} />*/}
-            {/*)}*/}
-            {/*{questionL3.length > 0 && (*/}
-            {/*  <RenderBlock blocks={questionL3} isModal={isModal} handleChange={handleChange} />*/}
-            {/*)}*/}
+            {questionL2.length > 0 && (
+              <RenderBlock blocks={questionL2} isModal={isModal} handleChange={handleChange} />
+            )}
+            {questionL3.length > 0 && (
+              <RenderBlock blocks={questionL3} isModal={isModal} handleChange={handleChange} />
+            )}
           </>
 
           {showNoQuestion && (

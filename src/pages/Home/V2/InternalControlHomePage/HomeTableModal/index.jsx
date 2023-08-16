@@ -26,19 +26,10 @@ import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAc
 import CustomModal from '../../../../../components/UI/CustomModal';
 import blockType from '../../../../../components/RenderBlock/constant';
 import CloseIcon from '@mui/icons-material/Close';
-import { Form } from 'react-bootstrap';
-import { TranslateType } from '../../../../QuestionBank/ModifyStandard/AddSection1Question';
-import {getLanguageToTextKey,
-  getFormatQuestions,
-  getLanguageFormat,
-  languageToTextKey,
-} from '../../../../../utils/helper';
-import { useTranslation } from 'react-i18next';
-
+import { getLanguageFormat } from '../../../../../utils/helper';
 const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
   const { accounts } = useMsal();
-  const { t, i18n } = useTranslation();
   const query = new URLSearchParams(history.location.search);
   const { t, i18n } = useTranslation();
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
@@ -156,7 +147,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   }, [Control_ID]);
 
   useEffect(() => {
-    console.log('currentLanguagecurrentLanguagecurrentLanguage', ansSection1);
     if (ansSection1?.length > 0) {
       setAnsSection1(getLanguageFormat(ansSection1, language));
     }

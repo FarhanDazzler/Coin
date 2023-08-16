@@ -395,7 +395,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       });
   };
 
-  console.log(excelFile, 'after upload');
   const handleSubmit = (e) => {
     e.preventDefault();
     if (excelFile !== null) {

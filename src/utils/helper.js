@@ -7,7 +7,7 @@ export const validateEmail = (email) => {
 
 export const getFormatQuestions = (questions, action, startStr, handOverUser) => {
   const isQuestionLabelEdit = action === 'isQuestionEdit';
-  return questions.map((d, i) => {
+  return questions?.map((d, i) => {
     if (handOverUser && d.is_AD) {
       return {
         ...d,
@@ -21,7 +21,7 @@ export const getFormatQuestions = (questions, action, startStr, handOverUser) =>
     switch (d.question_type) {
       case blockType.RADIO_WITH_INPUT:
       case blockType.RADIO:
-        const optionData = d.options.map((d) => {
+        const optionData = d.options?.map((d) => {
           return { value: d.option_id, label: d.option_value };
         });
         return {
@@ -34,7 +34,7 @@ export const getFormatQuestions = (questions, action, startStr, handOverUser) =>
         };
 
       case blockType.DROPDOWN:
-        const dropdownData = d.options.map((d) => {
+        const dropdownData = d.options?.map((d) => {
           return { value: d.option_id, label: d.option_value };
         });
         return {
@@ -69,20 +69,21 @@ export const getFormatQuestions = (questions, action, startStr, handOverUser) =>
   });
 };
 
-export const getLanguageFormat = (data = [], lang = 'en', startStr) => {
-  return data.map((d, i) => {
+export const getLanguageFormat = (data = [], lang = 'en', startStr, isValid, recarsive) => {
+  return data?.map((d, i) => {
     const language = lang === 'en' || !lang ? '' : lang + '_';
     const keyHeader_Question = language + 'Header_Question';
+    const innerOption = language + 'Inner_Questions';
     const keyInner_Questions =
-      typeof d.innerOptions === 'string' ? JSON.parse(d.innerOptions) : d.innerOptions || [];
-    console.log('keyInner_Questions', keyInner_Questions);
+      typeof d[innerOption] === 'string' ? JSON.parse(d[innerOption]) : d[innerOption] || [];
+
     const keyQuestion = language + 'question_text';
     const keyOption = language + 'option_value';
 
     switch (d.question_type) {
       case blockType.RADIO_WITH_INPUT:
       case blockType.RADIO:
-        const optionData = d.question_options.map((d) => {
+        const optionData = d.question_options?.map((d) => {
           return { value: d.option_id, label: d[keyOption] || d.option_value };
         });
         return {
@@ -94,7 +95,7 @@ export const getLanguageFormat = (data = [], lang = 'en', startStr) => {
         };
 
       case blockType.DROPDOWN:
-        const dropdownData = d.options.map((d) => {
+        const dropdownData = d.options?.map((d) => {
           return { value: d.option_id, label: d[keyOption] || d.option_value };
         });
         return {
@@ -110,12 +111,16 @@ export const getLanguageFormat = (data = [], lang = 'en', startStr) => {
         };
 
       case blockType.RADIO_MULTI:
-        return {
-          ...d,
-          label: d[keyHeader_Question] || d[keyQuestion] || d.question_text,
-          renderOption: getLanguageFormat(keyInner_Questions, lang, startStr),
-        };
+        const { renderOption, ...updateVal } = d;
 
+        const newObj = {
+          ...updateVal,
+          label: d[keyHeader_Question] || d[keyQuestion] || d.question_text,
+          renderOption: keyInner_Questions,
+        };
+        return { ...newObj };
+
+      // eslint-disable-next-line no-fallthrough
       case blockType.IS_AD:
         return {
           ...d,
@@ -309,7 +314,7 @@ export const getQuestionsFormatData = (data = []) => {
 
 const convertInnerOptions = (langArray = [], existArray) => {
   const objArray = isJsonString(langArray) ? JSON.parse(langArray) : [];
-  return existArray.map((dt) => {
+  return existArray?.map((dt) => {
     const obj =
       typeof objArray === 'string'
         ? { question_text: objArray }
@@ -319,7 +324,7 @@ const convertInnerOptions = (langArray = [], existArray) => {
 };
 
 export const getQuestionsWithLangFormatData = (data, isChangeLang) => {
-  return Object.keys(data).map((key) => {
+  return Object.keys(data)?.map((key) => {
     const val = data[key];
     const innerOptions = isJsonString(val.Inner_Questions) ? JSON.parse(val.Inner_Questions) : [];
     if (isChangeLang) {

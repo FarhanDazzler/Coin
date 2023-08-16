@@ -136,7 +136,9 @@ const MICSSpecific = ({ handleClose, isChangeLang }) => {
     switch (block.question_type) {
       case blockType.RADIO_MULTI:
         const updateRadioMultiData = section3.map((val) => {
-          if (val.q_id === block.q_id || val.Level === block.Level) {
+          const isIdMatch = val.q_id ? val.q_id === block.q_id : false;
+          const isLevelMatch = val.Level ? val.Level === block.Level : false;
+          if (isIdMatch || isLevelMatch) {
             return { ...val, ...value, Header_Question: value.label };
           }
           return { ...val };

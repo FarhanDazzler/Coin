@@ -78,7 +78,6 @@ const RLQuestionBank = () => {
     const data = {
       function: selectedFunction.value,
     };
-    console.log(data, '@@@@@@@@');
     history.push('/REP-Letters/questionbank/Function-modify', { data });
   };
   return (
