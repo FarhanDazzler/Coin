@@ -146,7 +146,7 @@ const ContactUs = () => {
     data['issueDescription'] = value.issueDescription;
     data['issueType'] = issueType;
     if (module != '') {
-      data['shortDescription'] = 'COIN Module: ' + module + +value.shortDescription;
+      data['shortDescription'] = 'COIN Module: ' + module + ' || ' + value.shortDescription;
     } else {
       data['shortDescription'] = 'COIN: ' + module + ' || ' + value.shortDescription;
     }
