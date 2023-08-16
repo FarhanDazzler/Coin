@@ -40,6 +40,15 @@ const OrgStructuresTable = () => {
 
   const TABLE_COLUMNS = [
     {
+      accessorKey: 'Zone',
+      id: 'Zone',
+      header: 'Zone',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 110,
+    },
+    {
       accessorKey: 'Org_name',
       id: 'Org_name',
       header: 'Organization Name',
