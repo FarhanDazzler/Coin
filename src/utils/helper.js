@@ -73,6 +73,9 @@ export const getLanguageFormat = (data = [], lang = 'en', startStr) => {
   return data.map((d, i) => {
     const language = lang === 'en' || !lang ? '' : lang + '_';
     const keyHeader_Question = language + 'Header_Question';
+    const keyInner_Questions =
+      typeof d.innerOptions === 'string' ? JSON.parse(d.innerOptions) : d.innerOptions || [];
+    console.log('keyInner_Questions', keyInner_Questions);
     const keyQuestion = language + 'question_text';
     const keyOption = language + 'option_value';
 
@@ -110,14 +113,14 @@ export const getLanguageFormat = (data = [], lang = 'en', startStr) => {
         return {
           ...d,
           label: d[keyHeader_Question] || d[keyQuestion] || d.question_text,
-          renderOption: getLanguageFormat(d.innerOptions, lang, startStr),
+          renderOption: getLanguageFormat(keyInner_Questions, lang, startStr),
         };
 
       case blockType.IS_AD:
         return {
           ...d,
           label: d.Header_Question || d.question_text,
-          renderOption: getLanguageFormat(d.innerOptions, lang, startStr),
+          renderOption: getLanguageFormat(keyInner_Questions, lang, startStr),
         };
 
       default:

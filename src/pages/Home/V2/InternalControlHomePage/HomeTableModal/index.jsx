@@ -169,7 +169,8 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
 
   useEffect(() => {
     if (responseUpdatedData) {
-      if (responseUpdatedData.s1) setAnsSection1(responseUpdatedData.s1);
+      if (responseUpdatedData.s1)
+        setAnsSection1(getLanguageFormat(responseUpdatedData.s1, language));
 
       if (responseUpdatedData?.s3?.length > 0) {
         const section3Data = responseUpdatedData?.s3?.reduce(

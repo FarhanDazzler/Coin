@@ -40,7 +40,6 @@ const ControlSection3 = ({
   const [questionL2, setQuestionL2] = useState([]);
   const [questionL3, setQuestionL3] = useState([]);
   const [showNoQuestion, setShowNoQuestion] = useState(false);
-  console.log('questionData', questionData);
   const setSelectedQuestionAns = (question, ansObj) => {
     return question.map((q1) => {
       const updateInnerQ = q1.renderOption.map((innerQ) => {
@@ -93,6 +92,7 @@ const ControlSection3 = ({
   useEffect(() => {
     if (questionL1.length > 0 && ans.L1) {
       const updateAnsL1 = setSelectedQuestionAns(questionL1, ans.L1);
+      console.log('updateAnsL1', updateAnsL1);
       setQuestionL1(updateAnsL1);
     }
     if (questionL2.length > 0 && ans.L2) {
@@ -191,8 +191,13 @@ const ControlSection3 = ({
   useEffect(() => {
     setRender(!render);
     if (questionData.Level?.L1) {
-      const apiQuestionL1 = getQuestionsFormatData(questionData.Level?.L1);
+      const apiQuestionL1 = getQuestionsFormatData([questionData.Level?.L1]);
       if (!questionL1.length > 0) {
+        // console.log(
+        //   'getFormatQuestions(apiQuestionL1,',
+        //   apiQuestionL1,
+        //   getLanguageFormat(apiQuestionL1, language),
+        // );
         setQuestionL1(getFormatQuestions(apiQuestionL1, null, 'L1'));
       }
     }
