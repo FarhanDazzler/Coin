@@ -137,11 +137,13 @@ async function getSection3Api(params) {
 }
 function* handleGetSection3({ payload }) {
   try {
+    const level=payload.Level
+    console.log('levellevellevel',payload)
     const response = yield call(getSection3Api, payload);
     if (response.success) {
       yield put({
         type: GET_SECTION_3_MICS_SUCCESS,
-        payload: { data: response.data, Level: { [payload.Level]: response.data[payload.Level] } },
+        payload: { data: response.data, Level: { [level]: response.data[level] } },
       });
     }
   } catch (error) {

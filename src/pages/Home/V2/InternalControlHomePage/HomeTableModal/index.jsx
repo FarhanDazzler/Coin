@@ -27,12 +27,14 @@ import CustomModal from '../../../../../components/UI/CustomModal';
 import blockType from '../../../../../components/RenderBlock/constant';
 import CloseIcon from '@mui/icons-material/Close';
 import { getLanguageFormat } from '../../../../../utils/helper';
+import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
 const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
   const { accounts } = useMsal();
   const query = new URLSearchParams(history.location.search);
   const { t, i18n } = useTranslation();
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
+  const questionData = useSelector(question3Selector);
   const { Assessment_id = '' } = useParams();
   const dispatch = useDispatch();
   const getResponse = useSelector(getResponseSelector);
@@ -177,7 +179,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         setAnsSection3(section3Data);
         setShowMoreSection(true);
 
-        if (section3Data.L2) {
+        if (section3Data.L2 && questionData.Level?.L1 && !questionData.Level?.L2) {
           setTimeout(() => {
             dispatch(
               getSection3Questions({
@@ -188,7 +190,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             );
           }, 1000);
         }
-        if (section3Data.L3) {
+        if (section3Data.L3 && questionData.Level?.L2 && !questionData.Level?.L3) {
           setTimeout(() => {
             dispatch(
               getSection3Questions({
@@ -202,7 +204,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         }
       }
     }
-  }, [responseData.data]);
+  }, [responseData.data,questionData]);
 
   const handleSubmit = () => {
     Swal.fire({

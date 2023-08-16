@@ -83,9 +83,10 @@ export const getLanguageFormat = (data = [], lang = 'en', startStr, isValid, rec
     switch (d.question_type) {
       case blockType.RADIO_WITH_INPUT:
       case blockType.RADIO:
-        const optionData = d.question_options?.map((d) => {
+        const optionData = (!recarsive?d.question_options:d.options)?.map((d) => {
           return { value: d.option_id, label: d[keyOption] || d.option_value };
         });
+      if(recarsive)  console.log('keyInner_QuestionskeyInner_QuestionskeyInner_Questions',d)
         return {
           ...d,
           label: `${startStr ? startStr + `: Q${i + 1}. ` : ''}${
@@ -112,11 +113,10 @@ export const getLanguageFormat = (data = [], lang = 'en', startStr, isValid, rec
 
       case blockType.RADIO_MULTI:
         const { renderOption, ...updateVal } = d;
-
         const newObj = {
           ...updateVal,
           label: d[keyHeader_Question] || d[keyQuestion] || d.question_text,
-          renderOption: keyInner_Questions,
+          renderOption:  getLanguageFormat(keyInner_Questions, lang, startStr,'',true),
         };
         return { ...newObj };
 

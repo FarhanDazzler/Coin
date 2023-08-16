@@ -98,7 +98,6 @@ const ControlSection3 = ({
   useEffect(() => {
     if (questionL1.length > 0 && ans.L1) {
       const updateAnsL1 = setSelectedQuestionAns(questionL1, ans.L1);
-      console.log('updateAnsL1', updateAnsL1);
       setQuestionL1(updateAnsL1);
     }
     if (questionL2.length > 0 && ans.L2) {
@@ -114,7 +113,7 @@ const ControlSection3 = ({
   useEffect(() => {
     setTimeout(() => {
       const updateAns = {};
-      if (ans.L1) {
+      if (ans.L1 && questionData.Level?.L1) {
         const ansObjectL1 = Object.keys(ans.L1);
         if (ansObjectL1.length === questionL1[0]?.innerOptions?.length) {
           let allYesFilterData1 = Object.keys(ans.L1).filter((key) => {
@@ -142,7 +141,7 @@ const ControlSection3 = ({
           }
         }
       }
-      if (ans.L2) {
+      if (ans.L2 && questionData.Level?.L2) {
         const ansObjectL2 = Object.keys(ans.L2);
         if (ansObjectL2.length === questionL2[0]?.innerOptions?.length) {
           let allYesFilterData2 = Object.keys(ans.L2).filter((key) => {
@@ -201,21 +200,24 @@ const ControlSection3 = ({
       if (!questionL1.length > 0 || !isSameLang) {
         const questionsVal = getFormatQuestions(apiQuestionL1, null, 'L1');
         const data = getLanguageFormat(questionsVal, languageVal, null, true);
-        console.log('data', data);
-        setQuestionL1(questionsVal);
+        setQuestionL1(data);
         setLanguage(languageVal);
       }
     }
-    if (questionData.Level?.L2 && ans.L1) {
+    if (!!questionData.Level?.L2 && !!ans.L1) {
       const apiQuestionL2 = getQuestionsFormatData([questionData.Level?.L2]);
-      if (!questionL2.length > 0) {
-        setQuestionL2(getFormatQuestions(apiQuestionL2, null, 'L2'));
+      if (!(questionL2.length > 0) || !isSameLang) {
+        const questionsVal2 = getFormatQuestions(apiQuestionL2, null, 'L2');
+        const data2 = getLanguageFormat(questionsVal2, languageVal, null, true);
+        setQuestionL2(data2);
       }
     }
-    if (questionData.Level?.L3 && ans.L2) {
+    if (!!questionData.Level?.L3 && !!ans.L2) {
       const apiQuestionL3 = getQuestionsFormatData([questionData.Level?.L3]);
-      if (!questionL3.length > 0) {
-        setQuestionL3(getFormatQuestions(apiQuestionL3, null, 'L3'));
+      if (!(questionL3.length > 0) || !isSameLang) {
+        const questionsVal3 = getFormatQuestions(apiQuestionL3, null, 'L3');
+        const data3 = getLanguageFormat(questionsVal3, languageVal, null, true);
+        setQuestionL3(data3);
       } else {
         if (
           apiQuestionL3 &&
