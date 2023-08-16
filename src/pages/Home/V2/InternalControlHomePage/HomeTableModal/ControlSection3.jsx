@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
 import { Loader } from 'semantic-ui-react';
@@ -8,7 +8,11 @@ import RenderBlock from '../../../../../components/RenderBlock';
 import RenderBlockWrapper from '../../../../../components/RenderBlock/RenderBlockWrapper';
 import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAction';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
-import { getFormatQuestions, getQuestionsFormatData } from '../../../../../utils/helper';
+import {
+  getFormatQuestions,
+  getLanguageFormat,
+  getQuestionsFormatData,
+} from '../../../../../utils/helper';
 import { useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
 
@@ -22,7 +26,6 @@ const ControlSection3 = ({
   isModal,
   showMoreSection,
 }) => {
-  const { t } = useTranslation();
   const history = useHistory();
   const { state } = useLocation();
   const { Assessment_id = '' } = useParams();
@@ -30,12 +33,19 @@ const ControlSection3 = ({
   const Control_ID = Assessment_id || query.get('Control_ID');
   const questionData = useSelector(question3Selector);
   const dispatch = useDispatch();
+  const { t, i18n } = useTranslation();
+  const languageVal = i18n.language;
+  const [language, setLanguage] = useState(languageVal);
   const [render, setRender] = useState(false);
   const [questionL1, setQuestionL1] = useState([]);
   const [questionL2, setQuestionL2] = useState([]);
   const [questionL3, setQuestionL3] = useState([]);
   const [showNoQuestion, setShowNoQuestion] = useState(false);
-  console.log('questionData', questionData);
+
+  const isSameLang = useMemo(() => {
+    return languageVal === language;
+  }, [language, languageVal]);
+
   const setSelectedQuestionAns = (question, ansObj) => {
     return question.map((q1) => {
       const updateInnerQ = q1.renderOption.map((innerQ) => {
@@ -103,7 +113,7 @@ const ControlSection3 = ({
   useEffect(() => {
     setTimeout(() => {
       const updateAns = {};
-      if (ans.L1) {
+      if (ans.L1 && questionData.Level?.L1) {
         const ansObjectL1 = Object.keys(ans.L1);
         if (ansObjectL1.length === questionL1[0]?.innerOptions?.length) {
           let allYesFilterData1 = Object.keys(ans.L1).filter((key) => {
@@ -131,7 +141,7 @@ const ControlSection3 = ({
           }
         }
       }
-      if (ans.L2) {
+      if (ans.L2 && questionData.Level?.L2) {
         const ansObjectL2 = Object.keys(ans.L2);
         if (ansObjectL2.length === questionL2[0]?.innerOptions?.length) {
           let allYesFilterData2 = Object.keys(ans.L2).filter((key) => {
@@ -186,21 +196,28 @@ const ControlSection3 = ({
   useEffect(() => {
     setRender(!render);
     if (questionData.Level?.L1) {
-      const apiQuestionL1 = getQuestionsFormatData(questionData.Level?.L1);
-      if (!questionL1.length > 0) {
-        setQuestionL1(getFormatQuestions(apiQuestionL1, null, 'L1'));
+      const apiQuestionL1 = getQuestionsFormatData([questionData.Level?.L1]);
+      if (!questionL1.length > 0 || !isSameLang) {
+        const questionsVal = getFormatQuestions(apiQuestionL1, null, 'L1');
+        const data = getLanguageFormat(questionsVal, languageVal, null, true);
+        setQuestionL1(data);
+        setLanguage(languageVal);
       }
     }
-    if (questionData.Level?.L2 && ans.L1) {
-      const apiQuestionL2 = getQuestionsFormatData(questionData.Level?.L2);
-      if (!questionL2.length > 0) {
-        setQuestionL2(getFormatQuestions(apiQuestionL2, null, 'L2'));
+    if (!!questionData.Level?.L2 && !!ans.L1) {
+      const apiQuestionL2 = getQuestionsFormatData([questionData.Level?.L2]);
+      if (!(questionL2.length > 0) || !isSameLang) {
+        const questionsVal2 = getFormatQuestions(apiQuestionL2, null, 'L2');
+        const data2 = getLanguageFormat(questionsVal2, languageVal, null, true);
+        setQuestionL2(data2);
       }
     }
-    if (questionData.Level?.L3 && ans.L2) {
-      const apiQuestionL3 = getQuestionsFormatData(questionData.Level?.L3);
-      if (!questionL3.length > 0) {
-        setQuestionL3(getFormatQuestions(apiQuestionL3, null, 'L3'));
+    if (!!questionData.Level?.L3 && !!ans.L2) {
+      const apiQuestionL3 = getQuestionsFormatData([questionData.Level?.L3]);
+      if (!(questionL3.length > 0) || !isSameLang) {
+        const questionsVal3 = getFormatQuestions(apiQuestionL3, null, 'L3');
+        const data3 = getLanguageFormat(questionsVal3, languageVal, null, true);
+        setQuestionL3(data3);
       } else {
         if (
           apiQuestionL3 &&
@@ -211,7 +228,7 @@ const ControlSection3 = ({
         }
       }
     }
-  }, [questionData.Level]);
+  }, [questionData.Level, languageVal]);
 
   useEffect(() => {
     if (questionData.loading) {

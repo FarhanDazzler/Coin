@@ -22,7 +22,10 @@ import {
 import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
 import Swal from 'sweetalert2';
 import Section3MICSSpecific from '../Section3MICSSpecific';
-import { getRepositoryOfControlIDSelector, getControlNameFromControlIDSelector } from '../../../redux/Questions/QuestionsSelectors';
+import {
+  getRepositoryOfControlIDSelector,
+  getControlNameFromControlIDSelector,
+} from '../../../redux/Questions/QuestionsSelectors';
 import Select from 'react-select';
 import { Form } from 'react-bootstrap';
 import { getControlNameFromControlId } from '../../../redux/Questions/QuestionsAction';
@@ -39,7 +42,6 @@ const MenuProps = {
 };
 
 const CreateQuestions = ({ open, handleClose }) => {
-  console.log("handleClose", handleClose);
   const { accounts } = useMsal();
   const dispatch = useDispatch();
   const [section1, setSection1] = useState(questions);
@@ -53,7 +55,7 @@ const CreateQuestions = ({ open, handleClose }) => {
   const [controlIDList, setControlIDList] = useState([]);
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
   const controlNameFromControlIDState = useSelector(getControlNameFromControlIDSelector);
-  console.log("controlNameFromControlIDState", controlNameFromControlIDState);
+
   useEffect(() => {
     if (repositoryOfControlID?.data.length !== 0) {
       let controlidArray = [];
@@ -125,7 +127,7 @@ const CreateQuestions = ({ open, handleClose }) => {
   }, [questionData.loading]);
 
   useEffect(() => {
-    if (questionData.data.length > 0) {
+    if (Object.keys(questionData.data)?.length > 0) {
       const apiQuestion = getQuestionsFormatData(questionData.data);
       setSection3(getFormatQuestions(apiQuestion, 'isQuestionEdit'));
       return;
@@ -210,7 +212,9 @@ const CreateQuestions = ({ open, handleClose }) => {
         }
         width={1080}
         onClose={handleClose}
-        controlNameFromID = {control_ID[0] ? controlNameFromControlIDState?.data[0]?.Control_name : ''}
+        controlNameFromID={
+          control_ID[0] ? controlNameFromControlIDState?.data[0]?.Control_name : ''
+        }
       >
         <div className="select-light">
           <Form.Group className="input-group mb-3">

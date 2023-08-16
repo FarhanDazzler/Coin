@@ -31,6 +31,7 @@ const RenderHomeModalTable = ({
   loadingSubmit,
   isModal = false,
   activeData = {},
+  language,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -92,6 +93,7 @@ const RenderHomeModalTable = ({
             setAns={setAnsSection1}
             setStartEdit={setStartEdit}
             isModal={!isModal}
+            language={language}
           />
           {showMoreSection && (
             <>

@@ -107,6 +107,7 @@ const MICSSpecificChangeLanguage = () => {
       return;
     }
     setIsEdit(true);
+    // eslint-disable-next-line default-case
     switch (block.question_type) {
       case blockType.RADIO_MULTI:
         const updateRadioMultiData = section3.map((val) => {
