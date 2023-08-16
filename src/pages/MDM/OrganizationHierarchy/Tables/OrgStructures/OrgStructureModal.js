@@ -140,22 +140,14 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
           : value.orgType === 'Zone' || value.orgType === 'Cognos' || value.orgType === 'SAP/ERP'
           ? 'N/A'
           : value.isProvider,
-      Category:
-        value.orgType === 'Zone' ||
-        value.orgType === 'Cognos' ||
-        value.orgType === 'SAP/ERP' ||
-        value.orgType === 'Plant'
-          ? 'N/A'
-          : value.orgType === 'Entity' && value.Org_name.slice(0, 3) === 'SSC'
-          ? value.Category
-          : value.orgType === 'Entity' && value.Org_name.slice(0, 3) !== 'SSC'
-          ? 'On-Shore'
-          : value.Category,
+      Category: value.Category,
       Valid_from: value.validFrom,
       Valid_to: value.validTo,
     };
     let editPayload = {
-      Org_code: ediatbleData?.Org_code, ...payload};
+      Org_code: ediatbleData?.Org_code,
+      ...payload,
+    };
 
     if (modalType === 'add') {
       dispatch(addOrgStructureAction(payload));
@@ -350,8 +342,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                           values.orgType === 'Cognos' ||
                           values.orgType === 'SAP/ERP' ? (
                           <option value="N/A">N/A</option>
-                        ) : values.orgType === 'Entity' &&
-                          values.Org_name.slice(0, 3) !== 'SSC' ? (
+                        ) : values.orgType === 'Entity' && values.Org_name.slice(0, 3) !== 'SSC' ? (
                           <>
                             <option value="Yes">Yes</option>
                           </>
@@ -444,30 +435,11 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                         readOnly={false}
                         className="form-select"
                       >
-                        {values.orgType === 'Zone' ||
-                        values.orgType === 'Cognos' ||
-                        values.orgType === 'SAP/ERP' ||
-                        values.orgType === 'Plant' ? (
-                          <option value="N/A">N/A</option>
-                        ) : values.orgType === 'Entity' &&
-                          values.Org_name.slice(0, 3) === 'SSC' ? (
-                          <>
-                            <option value="">Select Category</option>
-                            <option value="Off-Shore">Off Shore</option>
-                            <option value="Near Shore">Near Shore</option>
-                          </>
-                        ) : values.orgType === 'Entity' &&
-                          values.Org_name.slice(0, 3) !== 'SSC' ? (
-                          <option value="On-Shore">On Shore</option>
-                        ) : (
-                          <>
-                            <option value="">Select Category</option>
-                            <option value="Off-Shore">Off Shore</option>
-                            <option value="Near Shore">Near Shore</option>
-                            <option value="In-Country">In-Country</option>
-                            <option value="N/A">N/A</option>
-                          </>
-                        )}
+                        <option value="">Select Category</option>
+                        <option value="Off-Shore">Off Shore</option>
+                        <option value="Near Shore">Near Shore</option>
+                        <option value="In-Country">In-Country</option>
+                        <option value="N/A">N/A</option>
                       </Form.Control>
 
                       {!!touched.Category && (

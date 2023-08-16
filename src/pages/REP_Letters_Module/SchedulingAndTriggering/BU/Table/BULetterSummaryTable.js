@@ -1,15 +1,13 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import '../../../../assets/styles/custom.css';
+import '../../../../../assets/styles/custom.css';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Table2 from '../../../../components/UI/Table/Table2';
+import Table2 from '../../../../../components/UI/Table/Table2';
 import NoDataLetterPlaceholder from './NoDataPlaceHolder';
-import { getRlAllFunctionalAssessmentData } from '../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
-import { getAllFunctionaldataSelector } from '../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
 import { MultiSelect } from '@mantine/core';
 import { Group } from '@mantine/core';
-import PageWrapper from '../../../../components/wrappers/PageWrapper';
+import PageWrapper from '../../../../../components/wrappers/PageWrapper';
 
 // Filter buttons
 const FilterButtons = ({
@@ -70,7 +68,7 @@ const FilterButtons = ({
   );
 };
 
-const FunctionalLetterSummaryTable = () => {
+const BULetterSummaryTable = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [tableColumns, setTableColumns] = useState([]);
@@ -83,10 +81,9 @@ const FunctionalLetterSummaryTable = () => {
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
 
   useEffect(() => {
-    dispatch(getRlAllFunctionalAssessmentData());
+
   }, []);
 
-  const getAssessmentsSummaryTableState = useSelector(getAllFunctionaldataSelector);
 
   useEffect(() => {
     if (!yearValue.length && !assessmentCycleValue.length) {
@@ -114,7 +111,7 @@ const FunctionalLetterSummaryTable = () => {
       Assessment_Cycle: Assessment_Cycle,
       Year: Year,
     };
-    history.push('/REP-Letters/scheduling-and-triggering/functional-letter-details', { data });
+   
   };
 
   const TABLE_COLUMNS = [
@@ -195,16 +192,16 @@ const FunctionalLetterSummaryTable = () => {
 
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
-    const updatedData = getAssessmentsSummaryTableState?.data.map((i, index) => {
-      return {
-        id: index,
-        ...i,
-      };
-    });
+    // const updatedData = getAssessmentsSummaryTableState?.data.map((i, index) => {
+    //   return {
+    //     id: index,
+    //     ...i,
+    //   };
+    // });
 
-    setTableData(updatedData);
-    setTableDataArray(updatedData);
-  }, [getAssessmentsSummaryTableState?.data]);
+    // setTableData(updatedData);
+    // setTableDataArray(updatedData);
+  }, []);
 
   // Function to remove duplicate value from array
   function removeDuplicates(arr) {
@@ -212,8 +209,8 @@ const FunctionalLetterSummaryTable = () => {
   }
 
   // Arrays for showing data on filters
-  const year = getAssessmentsSummaryTableState?.data.map((i) => i.Year);
-  const assessment_Cycle = getAssessmentsSummaryTableState?.data.map((i) => i.Assessment_Cycle);
+  const year = []
+  const assessment_Cycle = []
 
   return (
     <>
@@ -234,7 +231,6 @@ const FunctionalLetterSummaryTable = () => {
               {tableData?.length > 0 ? (
                 <Table2
                   tableData={tableData}
-                  loading={getAssessmentsSummaryTableState.loading}
                   tableColumns={tableColumns}
                 />
               ) : (
@@ -248,4 +244,4 @@ const FunctionalLetterSummaryTable = () => {
   );
 };
 
-export default FunctionalLetterSummaryTable;
+export default BULetterSummaryTable;
