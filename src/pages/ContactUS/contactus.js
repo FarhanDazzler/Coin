@@ -161,7 +161,7 @@ const ContactUs = () => {
       data['assignmentGroup'] = process.env.REACT_APP_SNOW_ASSIGNMENT_GROUP_BUSINESS;
     }
     data['typeOfSolution'] = 'PWA';
-    //data['businessService'] = '62a65f2fdbf92090c014fe03f3961915';
+    data['businessService'] = '62a65f2fdbf92090c014fe03f3961915';
 
     async function uploadFile(data) {
       const formData = new FormData();
