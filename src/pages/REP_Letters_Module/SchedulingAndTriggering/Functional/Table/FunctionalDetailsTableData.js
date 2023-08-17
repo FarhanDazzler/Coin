@@ -128,7 +128,7 @@ const FunctionalDetailsTableData = (props) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 230,
+      size: 200,
     },
     {
       accessorKey: 'Zone_Control',
@@ -146,7 +146,7 @@ const FunctionalDetailsTableData = (props) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 150,
+      size: 250,
       Cell: (row) => {
         return (
           <span className={class_to_apply(row.row.original.Zone_Control_Status)}>
@@ -164,7 +164,7 @@ const FunctionalDetailsTableData = (props) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 100,
+      size: 250,
     },
 
     {
@@ -174,7 +174,7 @@ const FunctionalDetailsTableData = (props) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 230,
+      size: 100,
     },
   ];
 
