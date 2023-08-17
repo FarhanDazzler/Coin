@@ -129,7 +129,8 @@ const CreateQuestions = ({ open, handleClose }) => {
   useEffect(() => {
     if (Object.keys(questionData.data)?.length > 0) {
       const apiQuestion = getQuestionsFormatData(questionData.data);
-      setSection3(getFormatQuestions(apiQuestion, 'isQuestionEdit'));
+      const currentData = apiQuestion.filter((d) => d.Level === level[0]);
+      setSection3(getFormatQuestions(currentData, 'isQuestionEdit'));
       return;
     }
     setSection3([]);
@@ -145,7 +146,7 @@ const CreateQuestions = ({ open, handleClose }) => {
     if (value === 'delete') {
       const updateSection3 = section3.filter((section) => section.Control_ID !== block.Control_ID);
       setSection3(updateSection3);
-      if (questionData.data.length > 0)
+      if (Object.keys(questionData.data)?.length > 0)
         dispatch(deleteSection3Questions({ Control_ID: control_ID[0], Level: level[0] }));
       if (updateSection3.length === 0) {
         setShowAddQuestion(true);
@@ -156,7 +157,9 @@ const CreateQuestions = ({ open, handleClose }) => {
     switch (block.question_type) {
       case blockType.RADIO_MULTI:
         const updateRadioMultiData = section3.map((val) => {
-          if (val.q_id === block.q_id) {
+          const isIdMatch = val.q_id ? val.q_id === block.q_id : false;
+          const isLevelMatch = val.Level ? val.Level === block.Level : false;
+          if (isIdMatch || isLevelMatch) {
             return { ...val, ...value, Header_Question: value.label };
           }
           return { ...val };
@@ -175,7 +178,7 @@ const CreateQuestions = ({ open, handleClose }) => {
         Level: level[0],
         Control_ID: control_ID[0],
       };
-      if (questionData.data.length > 0) {
+      if (Object.keys(questionData.data)?.length > 0) {
         dispatch(updateSection3Questions(payload));
       } else {
         dispatch(addSection3Questions(payload));
