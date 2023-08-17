@@ -19,7 +19,7 @@ import {
   recallFunctionAssessment,
   reTriggerFunctionAssessment,
 } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
-import { getFunctiondataSelector } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
+import { getFunctiondataSelector, reTriggerFunctionAssessmentSelector, recallFunctionAssessmentSelector } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
 
 const FunctionalDetailsTableData = (props) => {
   console.log('props', props);
@@ -32,6 +32,9 @@ const FunctionalDetailsTableData = (props) => {
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [editTableData, setEditTableData] = useState();
   const getFunctiondataState = useSelector(getFunctiondataSelector);
+  const reTriggerFunctionAssessmentState = useSelector(reTriggerFunctionAssessmentSelector);
+  const recallFunctionAssessmentState = useSelector(recallFunctionAssessmentSelector);
+
   //console.log(editTableIndex);
 
   useEffect(() => {
@@ -52,6 +55,8 @@ const FunctionalDetailsTableData = (props) => {
     props.location.state.data?.Created_By,
     props.location.state.data?.Assessment_Cycle,
     props.location.state.data?.Year,
+    reTriggerFunctionAssessmentState?.data,
+    recallFunctionAssessmentState?.data
   ]);
 
   useEffect(() => {}, []);
@@ -209,10 +214,20 @@ const FunctionalDetailsTableData = (props) => {
       //setEditTableData(data);
 
       let payload = {
-        Assessment_ids: tableId,
-        Modified_By: {
-          Email: accounts[0]?.username,
-          name: accounts[0]?.name ? accounts[0].name : '',
+        params: {
+          Assessment_ids: tableId,
+          Modified_By: {
+            Email: accounts[0]?.username,
+            name: accounts[0]?.name ? accounts[0].name : '',
+          },
+        },
+        body: {
+          Function: props.location.state.data?.Function,
+          Title: props.location.state.data?.Tilte,
+          Created_On: props.location.state.data?.Created_On,
+          Created_By: props.location.state.data?.Created_By,
+          Assessment_Cycle: props.location.state.data?.Assessment_Cycle,
+          Year: props.location.state.data?.Year,
         },
       };
       console.log(payload, 'payload for Recall');
@@ -251,10 +266,20 @@ const FunctionalDetailsTableData = (props) => {
         //setEditTableData(data);
 
         let payload = {
-          Assessment_ids: tableId,
-          Modified_By: {
-            Email: accounts[0]?.username,
-            name: accounts[0]?.name ? accounts[0].name : '',
+          params: {
+            Assessment_ids: tableId,
+            Modified_By: {
+              Email: accounts[0]?.username,
+              name: accounts[0]?.name ? accounts[0].name : '',
+            },
+          },
+          body: {
+            Function: props.location.state.data?.Function,
+            Title: props.location.state.data?.Tilte,
+            Created_On: props.location.state.data?.Created_On,
+            Created_By: props.location.state.data?.Created_By,
+            Assessment_Cycle: props.location.state.data?.Assessment_Cycle,
+            Year: props.location.state.data?.Year,
           },
         };
         console.log(payload, 'payload for Re-Trigger');
@@ -295,7 +320,7 @@ const FunctionalDetailsTableData = (props) => {
                 {tableData?.length > 0 ? (
                   <Table2
                     tableData={tableData}
-                    loading={getFunctiondataSelector.loading}
+                    loading={getFunctiondataState.loading}
                     tableColumns={tableColumns}
                     setEditTableIndex={setEditTableIndex}
                   />

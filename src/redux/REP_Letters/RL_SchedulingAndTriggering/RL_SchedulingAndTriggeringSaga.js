@@ -145,7 +145,8 @@ async function recallFunctionAssessmentApi(payload) {
 }
 function* recallFunctionAssessmentData({ payload }) {
   try {
-    const response = yield call(recallFunctionAssessmentApi, payload);
+    const params = payload.body;
+    const response = yield call(recallFunctionAssessmentApi, payload.params);
     if (response.success) {
       yield put({
         type: RECALL_FUNCTION_ASSESSMENT_SUCCESS,
@@ -153,7 +154,7 @@ function* recallFunctionAssessmentData({ payload }) {
       });
       yield put({
         type: GET_RL_FUNCTION_ASSESSMENT_DATA_REQUEST,
-        payload: payload,
+        payload: params,
       });
       Swal.fire('Done!', 'Function Assessment Recalled Successfully!', 'success');
     } else {
@@ -174,7 +175,8 @@ async function reTriggerFunctionAssessmentApi(payload) {
 }
 function* reTriggerFunctionAssessmentData({ payload }) {
   try {
-    const response = yield call(reTriggerFunctionAssessmentApi, payload);
+    const params = payload.body;
+    const response = yield call(reTriggerFunctionAssessmentApi, payload.params);
     if (response.success) {
       yield put({
         type: RE_TRIGGER_FUNCTION_ASSESSMENT_SUCCESS,
@@ -182,7 +184,7 @@ function* reTriggerFunctionAssessmentData({ payload }) {
       });
       yield put({
         type: GET_RL_FUNCTION_ASSESSMENT_DATA_REQUEST,
-        payload: payload,
+        payload: params,
       });
       Swal.fire('Done!', 'Function Assessment Re-Triggered Successfully!', 'success');
     } else {
