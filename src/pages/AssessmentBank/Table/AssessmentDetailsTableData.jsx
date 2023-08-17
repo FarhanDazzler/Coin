@@ -12,7 +12,7 @@ import {
   recallAssessment,
   reTriggerAssessment,
 } from '../../../redux/AssessmentBank/AssessmentBankAction';
-import { getAssessmentDetailsTableDataSelector } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
+import { getAssessmentDetailsTableDataSelector, recallAssessmentSelector, reTriggerAssessmentSelector } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
 import { MultiSelect } from '@mantine/core';
 import { Group } from '@mantine/core';
 import Swal from 'sweetalert2';
@@ -190,7 +190,16 @@ const AssessmentDetailsTableData = (props) => {
   const [megaProcessValue, setMegaProcessValue] = useState([]);
 
   const getAssessmentDetailsTableDataState = useSelector(getAssessmentDetailsTableDataSelector);
+  const recallAssessmentState = useSelector(recallAssessmentSelector);
+  const reTriggerAssessmentState = useSelector(reTriggerAssessmentSelector);
 
+  useEffect(() => {
+    setZoneValue([]);
+    setBUValue([]);
+    setReceiverValue([]);
+    setProviderValue([]);
+    setMegaProcessValue([]);
+  }, [recallAssessmentState?.data, reTriggerAssessmentState?.data]);
   useEffect(() => {
     if (
       !zoneValue.length &&
