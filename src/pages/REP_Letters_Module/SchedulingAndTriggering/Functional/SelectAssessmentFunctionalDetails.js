@@ -25,6 +25,7 @@ import {
 import {
   getFunctionalDropdowndataSelector,
   getFunctionalPage1dataSelector,
+  rlAddFunctionalAssessmentDataSelector
 } from '../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
 import ReviewLetterDetails from './ReviewLetterDetails';
 const GetFormikFieldValue = ({ setFunctionValue }) => {
@@ -89,6 +90,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
   const [editTableIndex, setEditTableIndex] = useState([]);
   const getFunctionalDropdowndataState = useSelector(getFunctionalDropdowndataSelector);
   const getFunctionalPage1dataState = useSelector(getFunctionalPage1dataSelector);
+  const rlAddFunctionalAssessmentDataState = useSelector(rlAddFunctionalAssessmentDataSelector);
   console.log('getFunctionalDropdowndataState', getFunctionalPage1dataState);
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -107,7 +109,9 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
     reminder1: '',
     reminder2: '',
   });
-
+  useEffect(() => {
+    setOpenReviewModal(false);
+  }, [rlAddFunctionalAssessmentDataState?.data])
   useEffect(() => {
     if (getFunctionalPage1dataState?.data?.auto_fill_data) {
       setPage1Data({
