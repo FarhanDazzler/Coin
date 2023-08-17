@@ -29,7 +29,7 @@ const Radio = ({
       <RadioGroup value={value} onChange={onChange} {...radioGroupProps}>
         {options.map((o, i) => (
           <FormControlLabel
-            key={i}
+            key={`${i}--FormControlLabel-option--${o.value}`}
             value={o.value}
             control={<BaseRadio checked={o.value === value} />}
             disabled={disabled}

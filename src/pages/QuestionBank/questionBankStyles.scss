@@ -30,6 +30,13 @@
   background: white;
   border-radius: 10px;
   color: #595959;
+
+  input {
+    color: #595959 !important;
+    &:focus {
+      outline: none !important;
+    }
+  }
   .renderBlockWrapper {
     .radio-wrapper {
       label {

@@ -136,7 +136,9 @@ const MICSSpecific = ({ handleClose, isChangeLang }) => {
     switch (block.question_type) {
       case blockType.RADIO_MULTI:
         const updateRadioMultiData = section3.map((val) => {
-          if (val.q_id === block.q_id) {
+          const isIdMatch = val.q_id ? val.q_id === block.q_id : false;
+          const isLevelMatch = val.Level ? val.Level === block.Level : false;
+          if (isIdMatch || isLevelMatch) {
             return { ...val, ...value, Header_Question: value.label };
           }
           return { ...val };
@@ -146,9 +148,10 @@ const MICSSpecific = ({ handleClose, isChangeLang }) => {
         return;
     }
   };
+  console.log('section3section3', section3);
 
   useEffect(() => {
-    if (questionData.data.length > 0) {
+    if (Object.keys(questionData.data)?.length > 0) {
       const apiQuestion = getQuestionsFormatData(questionData.data);
       setSection3(getFormatQuestions(apiQuestion, 'isQuestionEdit'));
       return;
