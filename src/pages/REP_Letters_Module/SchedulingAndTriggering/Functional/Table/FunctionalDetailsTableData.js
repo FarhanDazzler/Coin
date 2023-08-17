@@ -69,27 +69,18 @@ const FunctionalDetailsTableData = (props) => {
 
   const TABLE_COLUMNS = [
     {
-      accessorKey: 'Assessment_Cycle',
-      id: 'Assessment_Cycle',
-      header: 'Assessment Cycle',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 100,
-    },
-    {
-      accessorKey: 'BU',
-      id: 'BU',
-      header: 'BU',
+      accessorKey: 'Function',
+      id: 'Function',
+      header: 'Function',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 200,
     },
     {
-      accessorKey: 'Function',
-      id: 'Function',
-      header: 'Function',
+      accessorKey: 'Title',
+      id: 'Title',
+      header: 'Title',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -129,32 +120,15 @@ const FunctionalDetailsTableData = (props) => {
         );
       },
     },
+
     {
-      accessorKey: 'Title',
-      id: 'Title',
-      header: 'Title',
+      accessorKey: 'Title_Position',
+      id: 'Title_Position',
+      header: 'Designation',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 200,
-    },
-    {
-      accessorKey: 'Title_Position',
-      id: 'Title_Position',
-      header: 'Title/Position',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 230,
-    },
-    {
-      accessorKey: 'Year',
-      id: 'Year',
-      header: 'Year',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 230,
     },
     {
       accessorKey: 'Zone_Control',
@@ -172,7 +146,7 @@ const FunctionalDetailsTableData = (props) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 150,
+      size: 250,
       Cell: (row) => {
         return (
           <span className={class_to_apply(row.row.original.Zone_Control_Status)}>
@@ -182,6 +156,25 @@ const FunctionalDetailsTableData = (props) => {
           </span>
         );
       },
+    },
+    {
+      accessorKey: 'Assessment_Cycle',
+      id: 'Assessment_Cycle',
+      header: 'Assessment Cycle',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 250,
+    },
+
+    {
+      accessorKey: 'Year',
+      id: 'Year',
+      header: 'Year',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 100,
     },
   ];
 
@@ -232,9 +225,9 @@ const FunctionalDetailsTableData = (props) => {
     const dataUP = tableData?.filter(
       (data, i) => editTableIndex?.includes(data.id) && data.Survey_Status !== 'Recalled',
     );
-    console.log("dataUP", dataUP);
+    console.log('dataUP', dataUP);
     if (editTableIndex.length === 0 || dataUP.length !== 0) {
-        console.log("hi")
+      console.log('hi');
       Swal.fire(
         'Oops...',
         'Please select only Recalled Assessments from table for Re-Triggering',

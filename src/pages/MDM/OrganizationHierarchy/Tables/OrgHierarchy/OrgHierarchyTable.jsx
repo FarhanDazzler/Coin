@@ -14,6 +14,7 @@ import Button from '../../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import Tooltip from '@mui/material/Tooltip';
 import OrgHierarchyTableFilterButtons from './OrgHierarchyTableFilterButtons';
+import { updateOrgStructureSelector, addOrgStructureSelector } from '../../../../../redux/MDM/MDM_Selectors';
 
 const OrgHierarchyTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -24,10 +25,15 @@ const OrgHierarchyTable = () => {
   const [zoneValue, setZoneValue] = useState([]);
   const [entityValue, setEntityValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
-
+  const addOrgState = useSelector(addOrgStructureSelector);
+  const updateOrgState = useSelector(updateOrgStructureSelector);
   const orgHierarchy = useSelector(getOrgHierarchySelector);
   const orgManageButtonState = useSelector(orgManageButtonSelector);
-
+  useEffect(() => {
+    setBUValue([]);
+    setEntityValue([]);
+    setZoneValue([]);
+  }, [addOrgState.data, updateOrgState?.data]);
   const TABLE_COLUMNS = [
     {
       accessorKey: 'zone',

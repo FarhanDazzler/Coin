@@ -55,6 +55,10 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
         zone: selectedZone,
       }),
     );
+    setProviderOrganizationValue([]);
+    setControl_IDValue([]);
+    setEntityValue([]);
+
   }, [assignApplicabilityAndAssignmentOfProviderOrganization?.data]);
 
   const TABLE_COLUMNS = [
