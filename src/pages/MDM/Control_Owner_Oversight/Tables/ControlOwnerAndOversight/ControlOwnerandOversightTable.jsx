@@ -153,6 +153,10 @@ const ControlOwnerAndOversightTable = () => {
   useEffect(() => {
     setShowLcdModal(false);
     setShowModal(false);
+    setValueControl_ID([]);
+    setValueProvider_entity([]);
+    setValueCowner([]);
+    setValueCoversight([]);
   }, [modifyControlOwnerAndOversightState.data]);
   useEffect(() => {
     if (
@@ -302,7 +306,6 @@ const ControlOwnerAndOversightTable = () => {
       size: 230,
     },
   ];
-
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
     const updatedData = controlOwnerAndOversight.data.map((i, index) => {
