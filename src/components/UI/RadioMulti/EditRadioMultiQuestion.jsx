@@ -105,9 +105,11 @@ const EditRadioMultiQuestion = ({ block, onClose, onSave, isChangeLang }) => {
     <div>
       <div className={cs({ ['isChangeLang']: isChangeLang })}>
         <div className="p-5 border-right">
-          <h3 className="text-str">
+          {isChangeLang && (
+            <h3 className="text-str">
             {block?.Level ? block?.Level : ''} {!!isChangeLang && 'in English'}
           </h3>
+          )}
           <div className="mb-4 d-flex align-items-center">
             <Input
               block={block}
