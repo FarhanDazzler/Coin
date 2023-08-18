@@ -1,19 +1,22 @@
 import React, { useEffect } from 'react';
 import { useMsal } from '@azure/msal-react';
+import { useHistory } from 'react-router-dom';
 import { TableExport } from 'tabler-icons-react';
 import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Button from '../../../MDM/MDM_Tab_Buttons/Button';
+import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import { Divider, Box } from '@mantine/core';
 import Workbook from 'react-excel-workbook';
-import { months } from '../../../QuestionBank/CreateQuestions/constant';
-import { addRlFunctionalAssessmentData } from '../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
+import { months } from '../../../../QuestionBank/CreateQuestions/constant';
+import { addRlFunctionalAssessmentData } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
 
 const ReviewLetterDetails = ({ finalPayload, onClose }) => {
+  const history = useHistory();
   console.log('finalPayload', finalPayload);
   const dispatch = useDispatch();
   const handleSubmit = () => {
-    dispatch(addRlFunctionalAssessmentData(finalPayload))
+    dispatch(addRlFunctionalAssessmentData(finalPayload));
+    history.push('/REP-Letters/scheduling-and-triggering');
   }
 
   return (

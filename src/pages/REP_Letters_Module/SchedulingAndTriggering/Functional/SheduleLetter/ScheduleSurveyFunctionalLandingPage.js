@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PageWrapper from '../../../../components/wrappers/PageWrapper';
+import PageWrapper from '../../../../../components/wrappers/PageWrapper';
 import SelectAssessmentDetailsFunctional from './SelectAssessmentFunctionalDetails';
 
 

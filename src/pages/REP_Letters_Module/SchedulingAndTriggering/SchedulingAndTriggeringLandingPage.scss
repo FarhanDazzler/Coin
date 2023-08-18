@@ -1,0 +1,14 @@
+.loader-animation {
+    /* style for rendering loader in center of the screen */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  
+    .loader-Desc{
+      color: #FFFFFF;
+      font-size: 0.9375rem;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+  }

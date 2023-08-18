@@ -114,7 +114,7 @@ const MICSSpecific = ({ handleClose, isChangeLang }) => {
         is_Failing: section3[0].is_Failing,
         Control_ID: control_ID.value,
       };
-      if (questionData.data.length > 0) {
+      if (Object.keys(questionData.data)?.length > 0) {
         dispatch(updateSection3Questions(payload));
       } else {
         dispatch(addSection3Questions(payload));
@@ -128,7 +128,7 @@ const MICSSpecific = ({ handleClose, isChangeLang }) => {
     if (value === 'delete') {
       const updateSection3 = section3.filter((section) => section.Control_ID !== block.Control_ID);
       setSection3(updateSection3);
-      if (questionData.data.length > 0)
+      if (Object.keys(questionData.data)?.length > 0)
         dispatch(deleteSection3Questions({ Control_ID: control_ID.value, Level: level[0] }));
       return;
     }
@@ -148,12 +148,12 @@ const MICSSpecific = ({ handleClose, isChangeLang }) => {
         return;
     }
   };
-  console.log('section3section3', section3);
 
   useEffect(() => {
     if (Object.keys(questionData.data)?.length > 0) {
       const apiQuestion = getQuestionsFormatData(questionData.data);
-      setSection3(getFormatQuestions(apiQuestion, 'isQuestionEdit'));
+      const currentData = apiQuestion.filter((d) => d.Level === level[0]);
+      setSection3(getFormatQuestions(currentData, 'isQuestionEdit'));
       return;
     }
     setSection3([]);

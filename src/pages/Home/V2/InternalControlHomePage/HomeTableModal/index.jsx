@@ -176,8 +176,11 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           (acc, [k, v]) => ((acc[k] = v), acc),
           {},
         );
-        setAnsSection3(section3Data);
-        setShowMoreSection(true);
+        // debugger;
+        if (!startEdit) {
+          setAnsSection3(section3Data);
+          setShowMoreSection(true);
+        }
 
         if (section3Data.L2 && questionData.Level?.L1 && !questionData.Level?.L2) {
           setTimeout(() => {
@@ -204,7 +207,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         }
       }
     }
-  }, [responseData.data,questionData]);
+  }, [responseData.data, questionData]);
 
   const handleSubmit = () => {
     Swal.fire({
