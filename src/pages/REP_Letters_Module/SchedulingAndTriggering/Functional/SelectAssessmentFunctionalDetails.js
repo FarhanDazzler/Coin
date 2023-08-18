@@ -25,7 +25,7 @@ import {
 import {
   getFunctionalDropdowndataSelector,
   getFunctionalPage1dataSelector,
-  rlAddFunctionalAssessmentDataSelector
+  rlAddFunctionalAssessmentDataSelector,
 } from '../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
 import ReviewLetterDetails from './ReviewLetterDetails';
 const GetFormikFieldValue = ({ setFunctionValue }) => {
@@ -111,7 +111,12 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
   });
   useEffect(() => {
     setOpenReviewModal(false);
-  }, [rlAddFunctionalAssessmentDataState?.data])
+    if (rlAddFunctionalAssessmentDataState?.data?.length !== 0) {
+      setTimeout(() => {
+        history.push('/REP-Letters/scheduling-and-triggering');
+      }, 3000);
+    }
+  }, [rlAddFunctionalAssessmentDataState?.data]);
   useEffect(() => {
     if (getFunctionalPage1dataState?.data?.auto_fill_data) {
       setPage1Data({
@@ -295,7 +300,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
           const cloneData = tableData?.map((data, i) => {
             const clone = (({ id, Functional, ...o }) => o)(data);
             return clone;
-          })
+          });
 
           let payload = {
             Function: values.Function,
@@ -324,7 +329,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
       const cloneData = data?.map((data, i) => {
         const clone = (({ id, Functional, ...o }) => o)(data);
         return clone;
-      })
+      });
       let payload = {
         Function: values.Function,
         Title: values.Title,
