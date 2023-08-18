@@ -171,7 +171,7 @@ function* recallFunctionAssessmentData({ payload }) {
 
 // Re-Trigger Assessment
 async function reTriggerFunctionAssessmentApi(payload) {
-  return await Axios.post('/retrigger_assessment', payload);
+  return await Axios.post('/retrigger_function_assessment', payload);
 }
 function* reTriggerFunctionAssessmentData({ payload }) {
   try {

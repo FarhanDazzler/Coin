@@ -111,11 +111,6 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
   });
   useEffect(() => {
     setOpenReviewModal(false);
-    if (rlAddFunctionalAssessmentDataState?.data?.length !== 0) {
-      setTimeout(() => {
-        history.push('/REP-Letters/scheduling-and-triggering');
-      }, 3000);
-    }
   }, [rlAddFunctionalAssessmentDataState?.data]);
   useEffect(() => {
     if (getFunctionalPage1dataState?.data?.auto_fill_data) {
