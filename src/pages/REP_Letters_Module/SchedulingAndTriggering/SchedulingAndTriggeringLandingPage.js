@@ -29,7 +29,7 @@ const SchedulingAndTriggering = () => {
         <div className="loader-animation">
           <DotSpinner size={100} speed={0.9} color="#e3af32" />
           <p className="loader-Desc ml-3">
-            Please wait while we are scheduling Assessments for you
+            Please wait while we are scheduling Letter for you
           </p>
         </div>
       ) : (
