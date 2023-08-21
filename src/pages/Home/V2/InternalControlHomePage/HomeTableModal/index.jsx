@@ -165,7 +165,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       clearTimeout(handle);
     };
   }, [terminating]);
-
   useEffect(() => {
     if (responseUpdatedData) {
       if (responseUpdatedData.s1)
@@ -176,13 +175,17 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           (acc, [k, v]) => ((acc[k] = v), acc),
           {},
         );
+
         // debugger;
         if (!startEdit) {
           setAnsSection3(section3Data);
           setShowMoreSection(true);
         }
-
-        if (section3Data.L2 && questionData.Level?.L1 && !questionData.Level?.L2) {
+        // const isL1Applicable=JSON.parse(questionData.Level?.L1||'')
+        if (
+          ((section3Data.L2 && questionData.Level?.L1) || !questionData.Level?.L1?.length) &&
+          !questionData.Level?.L2
+        ) {
           setTimeout(() => {
             dispatch(
               getSection3Questions({
@@ -204,6 +207,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             );
             setTerminating(true);
           }, 2000);
+
         }
       }
     }
