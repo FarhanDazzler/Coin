@@ -40,6 +40,7 @@ const MICSSpecific = ({ handleClose, isChangeLang }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [showAddQuestion, setShowAddQuestion] = useState(false);
   const [controlIDList, setControlIDList] = useState([]);
+  const [activeData, setActiveData] = useState([]);
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
   useEffect(() => {
     if (repositoryOfControlID?.data.length !== 0) {
@@ -105,6 +106,7 @@ const MICSSpecific = ({ handleClose, isChangeLang }) => {
     setSection3(getFormatQuestions(newDataQuestion, 'isQuestionEdit'));
   };
 
+
   const handleSaveQuestion = (saveWithCloseModal = true) => {
     if (section3.length > 0 && isEdit) {
       const payload = {
@@ -114,7 +116,7 @@ const MICSSpecific = ({ handleClose, isChangeLang }) => {
         is_Failing: section3[0].is_Failing,
         Control_ID: control_ID.value,
       };
-      if (Object.keys(questionData.data)?.length > 0) {
+      if (activeData?.length) {
         dispatch(updateSection3Questions(payload));
       } else {
         dispatch(addSection3Questions(payload));
@@ -153,6 +155,7 @@ const MICSSpecific = ({ handleClose, isChangeLang }) => {
     if (Object.keys(questionData.data)?.length > 0) {
       const apiQuestion = getQuestionsFormatData(questionData.data);
       const currentData = apiQuestion.filter((d) => d.Level === level[0]);
+      setActiveData(currentData)
       setSection3(getFormatQuestions(currentData, 'isQuestionEdit'));
       return;
     }
