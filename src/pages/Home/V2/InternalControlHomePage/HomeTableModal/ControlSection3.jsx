@@ -115,7 +115,6 @@ const ControlSection3 = ({
       const updateAns = {};
       if (ans.L1 && questionData.Level?.L1) {
         const ansObjectL1 = Object.keys(ans.L1);
-        console.log('dsdsds', ansObjectL1);
         if (ansObjectL1.length === questionL1[0]?.innerOptions?.length) {
           let allYesFilterData1 = Object.keys(ans.L1).filter((key) => {
             return ans.L1[key].includes('yes');

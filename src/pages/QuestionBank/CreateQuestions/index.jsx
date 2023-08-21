@@ -53,6 +53,7 @@ const CreateQuestions = ({ open, handleClose }) => {
   const questionData = useSelector(question3Selector);
   const [section3, setSection3] = useState([]);
   const [controlIDList, setControlIDList] = useState([]);
+  const [activeData, setActiveData] = useState([]);
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
   const controlNameFromControlIDState = useSelector(getControlNameFromControlIDSelector);
 
@@ -130,6 +131,7 @@ const CreateQuestions = ({ open, handleClose }) => {
     if (Object.keys(questionData.data)?.length > 0) {
       const apiQuestion = getQuestionsFormatData(questionData.data);
       const currentData = apiQuestion.filter((d) => d.Level === level[0]);
+      setActiveData(currentData);
       setSection3(getFormatQuestions(currentData, 'isQuestionEdit'));
       return;
     }
@@ -178,13 +180,15 @@ const CreateQuestions = ({ open, handleClose }) => {
         Level: level[0],
         Control_ID: control_ID[0],
       };
-      if (Object.keys(questionData.data)?.length > 0) {
+      if (activeData?.length) {
         dispatch(updateSection3Questions(payload));
       } else {
         dispatch(addSection3Questions(payload));
       }
       setIsEdit(false);
-      if (saveWithCloseModal) handleClose();
+      if (saveWithCloseModal) {
+        setActiveData([])
+        handleClose();}
     }
   };
 
