@@ -75,7 +75,6 @@ const RenderHomeModalTable = ({
   useEffect(() => {
     dispatch(resetSection3());
   }, []);
-
   return (
     <div className="modal-form-body">
       <ControlActions activeData={activeData} />

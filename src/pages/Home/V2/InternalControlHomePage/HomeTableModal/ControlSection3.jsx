@@ -115,10 +115,12 @@ const ControlSection3 = ({
       const updateAns = {};
       if (ans.L1 && questionData.Level?.L1) {
         const ansObjectL1 = Object.keys(ans.L1);
+        console.log('dsdsds', ansObjectL1);
         if (ansObjectL1.length === questionL1[0]?.innerOptions?.length) {
           let allYesFilterData1 = Object.keys(ans.L1).filter((key) => {
             return ans.L1[key].includes('yes');
           });
+       
           if (ansObjectL1.length === allYesFilterData1.length && !questionL2.length) {
             dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
           }
@@ -254,6 +256,7 @@ const ControlSection3 = ({
   }, [questionL1.length, questionData.loading, ans.L3]);
 
   if (isEmptySection) return <div />;
+  console.log('ansSection3ansSection3ansSection3', questionL2);
 
   return (
     <div>
