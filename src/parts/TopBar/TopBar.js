@@ -499,6 +499,7 @@ const TopBar = (props) => {
                         className="dropdown-item text-left"
                         onClick={() => {
                           history.push('/contact-us');
+                          togglingDropDown();
                         }}
                       >
                         Contact Us
