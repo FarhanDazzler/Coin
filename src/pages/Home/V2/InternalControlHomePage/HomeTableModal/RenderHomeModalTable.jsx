@@ -103,6 +103,7 @@ const RenderHomeModalTable = ({
                 setStartEdit={setStartEdit}
                 isModal={isModal}
               />
+
               <ControlSection3
                 setTerminating={setTerminating}
                 ans={ansSection3}

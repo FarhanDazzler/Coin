@@ -83,10 +83,10 @@ export const getLanguageFormat = (data = [], lang = 'en', startStr, isValid, rec
     switch (d.question_type) {
       case blockType.RADIO_WITH_INPUT:
       case blockType.RADIO:
-        const optionData = (!recarsive?d.question_options:d.options)?.map((d) => {
+        const optionData = (!recarsive ? d.question_options : d.options)?.map((d) => {
           return { value: d.option_id, label: d[keyOption] || d.option_value };
         });
-      if(recarsive)  console.log('keyInner_QuestionskeyInner_QuestionskeyInner_Questions',d)
+        if (recarsive) console.log('keyInner_QuestionskeyInner_QuestionskeyInner_Questions', d);
         return {
           ...d,
           label: `${startStr ? startStr + `: Q${i + 1}. ` : ''}${
@@ -116,7 +116,7 @@ export const getLanguageFormat = (data = [], lang = 'en', startStr, isValid, rec
         const newObj = {
           ...updateVal,
           label: d[keyHeader_Question] || d[keyQuestion] || d.question_text,
-          renderOption:  getLanguageFormat(keyInner_Questions, lang, startStr,'',true),
+          renderOption: getLanguageFormat(keyInner_Questions, lang, startStr, '', true),
         };
         return { ...newObj };
 
@@ -293,9 +293,9 @@ export const getQuestionsFormatData = (data = []) => {
         return {
           is_Failing: false,
           ...val,
-          question_text: val.Header_Question,
+          question_text: val?.Header_Question,
           question_type: blockType.RADIO_MULTI,
-          innerOptions: val.Inner_Questions ? JSON.parse(val.Inner_Questions) : [],
+          innerOptions: val?.Inner_Questions ? JSON.parse(val?.Inner_Questions) : [],
         };
       });
     }
@@ -305,9 +305,9 @@ export const getQuestionsFormatData = (data = []) => {
     return {
       is_Failing: false,
       ...val,
-      question_text: val.Header_Question,
+      question_text: val?.Header_Question,
       question_type: blockType.RADIO_MULTI,
-      innerOptions: val.Inner_Questions ? JSON.parse(val.Inner_Questions) : [],
+      innerOptions: val?.Inner_Questions ? JSON.parse(val?.Inner_Questions) : [],
     };
   });
 };
@@ -326,12 +326,12 @@ const convertInnerOptions = (langArray = [], existArray) => {
 export const getQuestionsWithLangFormatData = (data, isChangeLang) => {
   return Object.keys(data)?.map((key) => {
     const val = data[key];
-    const innerOptions = isJsonString(val.Inner_Questions) ? JSON.parse(val.Inner_Questions) : [];
+    const innerOptions = isJsonString(val?.Inner_Questions) ? JSON.parse(val?.Inner_Questions) : [];
     if (isChangeLang) {
       return {
         is_Failing: false,
         ...val,
-        question_text: val.Header_Question,
+        question_text: val?.Header_Question,
         question_type: blockType.RADIO_MULTI,
         innerOptions: innerOptions,
 
@@ -354,9 +354,9 @@ export const getQuestionsWithLangFormatData = (data, isChangeLang) => {
     return {
       is_Failing: false,
       ...val,
-      question_text: val.Header_Question,
+      question_text: val?.Header_Question,
       question_type: blockType.RADIO_MULTI,
-      innerOptions: val.Inner_Questions ? JSON.parse(val.Inner_Questions) : [],
+      innerOptions: val?.Inner_Questions ? JSON.parse(val?.Inner_Questions) : [],
     };
   });
 };
