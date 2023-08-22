@@ -17,7 +17,7 @@ const AssessmentBankLandingPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { instance, accounts, inProgress } = useMsal();
-  const [opened, setOpened] = useState(false);
+  const [opened, setOpened] = useState(true);
 
   const addAssessmentSchedulingAndTriggeringState = useSelector(
     addAssessmentSchedulingAndTriggeringSelector,
