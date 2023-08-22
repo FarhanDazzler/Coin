@@ -26,7 +26,7 @@ import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAc
 import CustomModal from '../../../../../components/UI/CustomModal';
 import blockType from '../../../../../components/RenderBlock/constant';
 import CloseIcon from '@mui/icons-material/Close';
-import { getLanguageFormat } from '../../../../../utils/helper';
+import { getLanguageFormat, isJsonString } from '../../../../../utils/helper';
 import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
 const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
@@ -181,10 +181,25 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           setAnsSection3(section3Data);
           setShowMoreSection(true);
         }
-        // const isL1Applicable=JSON.parse(questionData.Level?.L1||'')
+        // || !questionData.Level?.L1?.length
+
+        const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions)
+          ? JSON.parse(questionData.Level?.L1?.Inner_Questions)
+          : [];
+        const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions)
+          ? JSON.parse(questionData.Level?.L2?.Inner_Questions)
+          : [];
+
+        const isLevel1NoInnerQuestion =
+          questionData.Level?.L1?.Header_Question && !L1InnerQuestion.length;
+        const isLevel2NoInnerQuestion =
+          questionData.Level?.L1?.Header_Question &&
+          questionData.Level?.L2?.Header_Question &&
+          !L2InnerQuestion.length;
+
         if (
-          ((section3Data.L2 && questionData.Level?.L1) || !questionData.Level?.L1?.length) &&
-          !questionData.Level?.L2
+          (section3Data.L2 && questionData.Level?.L1 && !questionData.Level?.L2) ||
+          (isLevel1NoInnerQuestion && !questionData.Level?.L2)
         ) {
           setTimeout(() => {
             dispatch(
@@ -196,7 +211,10 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             );
           }, 1000);
         }
-        if (section3Data.L3 && questionData.Level?.L2 && !questionData.Level?.L3) {
+        if (
+          (section3Data.L3 && questionData.Level?.L2 && !questionData.Level?.L3) ||
+          (isLevel2NoInnerQuestion && !questionData.Level?.L3)
+        ) {
           setTimeout(() => {
             dispatch(
               getSection3Questions({
@@ -207,7 +225,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             );
             setTerminating(true);
           }, 2000);
-
         }
       }
     }
