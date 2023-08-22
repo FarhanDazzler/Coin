@@ -301,10 +301,12 @@ export const getQuestionsFormatData = (data = []) => {
     }
     return [];
   }
+
   return data?.map((val) => {
     return {
       is_Failing: false,
       ...val,
+      label: val?.Header_Question,
       question_text: val?.Header_Question,
       question_type: blockType.RADIO_MULTI,
       innerOptions: val?.Inner_Questions ? JSON.parse(val?.Inner_Questions) : [],

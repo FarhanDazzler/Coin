@@ -113,11 +113,10 @@ const ControlSection3 = ({
       setQuestionL3(updateAnsL3);
     }
   }, [ans, render, questionData]);
-  console.log('questionData.Level?  @@', questionData.Level);
+
   useEffect(() => {
     setTimeout(() => {
       const updateAns = {};
-
       if (ans.L1 && questionData.Level?.L1) {
         const ansObjectL1 = Object.keys(ans.L1);
         if (ansObjectL1.length === questionL1[0]?.innerOptions?.length) {
@@ -186,7 +185,6 @@ const ControlSection3 = ({
             setTerminating(true);
             setShowNoQuestion(false);
           } else {
-            // setShowNoQuestion(true);
             setTerminating(true);
           }
         }
@@ -213,7 +211,6 @@ const ControlSection3 = ({
           setLanguage(languageVal);
         }
       }
-
       const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
         ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
         : [];
@@ -227,9 +224,10 @@ const ControlSection3 = ({
         questionData.Level?.L1?.Header_Question &&
         questionData.Level?.L2?.Header_Question &&
         !L2InnerQuestion.length;
+
       if ((!!questionData.Level?.L2 && !!ans.L1) || isLevel1NoInnerQuestion) {
         const apiQuestionL2 = getQuestionsFormatData([questionData.Level?.L2]);
-        if (!(questionL2.length > 0) || !isSameLang) {
+        if (!(questionL2.length > 0) || !isSameLang || isLevel1NoInnerQuestion) {
           const questionsVal2 = getFormatQuestions(apiQuestionL2, null, 'L2');
           const data2 = getLanguageFormat(questionsVal2, languageVal, null, true);
           setQuestionL2(data2);
@@ -237,7 +235,7 @@ const ControlSection3 = ({
       }
       if ((!!questionData.Level?.L3 && !!ans.L2) || isLevel2NoInnerQuestion) {
         const apiQuestionL3 = getQuestionsFormatData([questionData.Level?.L3]);
-        if (!(questionL3.length > 0) || !isSameLang) {
+        if (!(questionL3.length > 0) || !isSameLang || isLevel1NoInnerQuestion) {
           const questionsVal3 = getFormatQuestions(apiQuestionL3, null, 'L3');
           const data3 = getLanguageFormat(questionsVal3, languageVal, null, true);
           setQuestionL3(data3);
