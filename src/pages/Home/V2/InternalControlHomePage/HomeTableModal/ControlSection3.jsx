@@ -42,7 +42,6 @@ const ControlSection3 = ({
   const [questionL2, setQuestionL2] = useState([]);
   const [questionL3, setQuestionL3] = useState([]);
   const [showNoQuestion, setShowNoQuestion] = useState(false);
-  // console.log('@@@@@@@: questionData', questionData);
   const isSameLang = useMemo(() => {
     return languageVal === language;
   }, [language, languageVal]);
@@ -67,7 +66,11 @@ const ControlSection3 = ({
   const handleChange = (value, block, parentBlock) => {
     setStartEdit(true);
     setLastAns(value);
+    const noQueAns = value.includes('yes');
     let updateAns = { ...ans };
+    if (noQueAns) {
+      updateAns.noQueAns = false;
+    }
     if (parentBlock) {
       updateAns[parentBlock.Level] = { ...updateAns[parentBlock.Level], [block.q_id]: value };
     } else {
@@ -192,6 +195,8 @@ const ControlSection3 = ({
       }
       if (ans.noQueAns) {
         setShowNoQuestion(true);
+      } else {
+        setShowNoQuestion(false);
       }
     }, 300);
   }, [lastAns]);
@@ -199,7 +204,6 @@ const ControlSection3 = ({
   useEffect(() => {
     setTimeout(() => {
       setRender(!render);
-      console.log('@@@@@@@@: : outer ---', questionData.Level);
       if (questionData.Level?.L1) {
         const apiQuestionL1 = getQuestionsFormatData([questionData.Level?.L1]);
         if (!questionL1.length > 0 || !isSameLang) {
@@ -216,7 +220,6 @@ const ControlSection3 = ({
       const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions || '[]')
         ? JSON.parse(questionData.Level?.L2?.Inner_Questions || '[]')
         : [];
-      console.log('@@@@@@@@: : -----', questionData.Level);
 
       const isLevel1NoInnerQuestion =
         questionData.Level?.L1?.Header_Question && !L1InnerQuestion.length;
@@ -224,11 +227,9 @@ const ControlSection3 = ({
         questionData.Level?.L1?.Header_Question &&
         questionData.Level?.L2?.Header_Question &&
         !L2InnerQuestion.length;
-      console.log('isLevel1NoInnerQuestion', isLevel1NoInnerQuestion);
       if ((!!questionData.Level?.L2 && !!ans.L1) || isLevel1NoInnerQuestion) {
         const apiQuestionL2 = getQuestionsFormatData([questionData.Level?.L2]);
         if (!(questionL2.length > 0) || !isSameLang) {
-          console.log('@@@@@2 apiQuestionL2', questionData.Level, apiQuestionL2);
           const questionsVal2 = getFormatQuestions(apiQuestionL2, null, 'L2');
           const data2 = getLanguageFormat(questionsVal2, languageVal, null, true);
           setQuestionL2(data2);
