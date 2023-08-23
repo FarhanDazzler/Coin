@@ -6,14 +6,14 @@ import RecipientTable from './RecipientTable';
 import '../../styles.scss';
 import { getFunctionRecipientHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
-const AmountInfo = ({ amount, infoText }) => {
+const AmountInfo = React.memo(({ amount, infoText }) => {
   return (
     <div className="amountInfoWrapper">
       <div className="yellow-gradient-text amount">{amount}</div>
       <div className="amount-info">{infoText}</div>
     </div>
   );
-};
+});
 
 const RecipientHomePage = () => {
   const history = useHistory();
@@ -28,11 +28,10 @@ const RecipientHomePage = () => {
   const [buValue, setBUValue] = useState([]);
   const [functionValue, setFunctionValue] = useState([]);
 
-  const getNumberOfItem = (array, itemName) => {
-    return array.filter((val) => val === itemName)?.length;
-  };
+  const getNumberOfItem = useMemo(() => {
+    return (array, itemName) => array.filter((val) => val === itemName)?.length;
+  }, []);
 
-  //console.log(getRecipientHomePageData?.data[0]?.recipientData, '@@@@@');
   const statusInfo = useMemo(() => {
     const tableData = getRecipientHomePageData?.data[0]?.recipientData || [];
     if (
@@ -42,9 +41,7 @@ const RecipientHomePage = () => {
       !buValue.length &&
       !functionValue.length
     ) {
-      const allstatus = tableData?.map((d) => {
-        return d?.Status;
-      });
+      const allstatus = tableData?.map((d) => d?.Status);
       return {
         notStarted: getNumberOfItem(allstatus, 'Not started'),
         completed: getNumberOfItem(allstatus, 'Completed'),
@@ -62,9 +59,7 @@ const RecipientHomePage = () => {
       );
     });
 
-    const allUpdatestatus = updatedData?.map((d) => {
-      return d?.Status;
-    });
+    const allUpdatestatus = updatedData?.map((d) => d?.Status);
     return {
       notStarted: getNumberOfItem(allUpdatestatus, 'Not started'),
       completed: getNumberOfItem(allUpdatestatus, 'Completed'),
@@ -77,6 +72,7 @@ const RecipientHomePage = () => {
     zoneValue,
     buValue,
     functionValue,
+    getNumberOfItem,
   ]);
 
   return (
@@ -86,7 +82,7 @@ const RecipientHomePage = () => {
           <div className="col-lg-4 pt-5">
             <h4 className="welcome-text">Welcome</h4>
             <h2 className="user-name-home yellow-gradient-text mb-2 text-capitalize">
-              {accounts.length > 0 ? accounts[0].name.split('(').join(' (') : 'User Name'}
+              {accounts.length > 0 ? accounts[0].name : 'User Name'}
             </h2>
             {selectedUserRole && <h3 className="user-role">{selectedUserRole}</h3>}
           </div>

@@ -10,137 +10,32 @@ import Button from '../../../../../components/UI/Button';
 import { getFunctionRecipientHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { getFunctionRecipientHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 
-const FilterButtons = ({
-  year,
-  assessment_Cycle,
-  Zone,
-  BU,
-  Function,
-  yearValue,
-  assessmentCycleValue,
-  zoneValue,
-  buValue,
-  functionValue,
-  setZoneValue,
-  setBUValue,
-  setFunctionValue,
-  setYearValue,
-  setAssessmentCycleValue,
-  isHide = false,
-}) => {
+const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
 
   return (
-    <div>
-      <Group spacing="xs">
-        {/* <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={year}
-          label={<span className="mantine-MultiSelect-label">Year</span>}
-          placeholder="Select your option"
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={yearValue}
-          onChange={(e) => {
-            setYearValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        /> */}
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={assessment_Cycle}
-          label={<span className="mantine-MultiSelect-label">Assessment Cycle</span>}
-          placeholder="Select your option"
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={assessmentCycleValue}
-          onChange={(e) => {
-            setAssessmentCycleValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={Zone}
-          label={<span className="mantine-MultiSelect-label">Zone</span>}
-          placeholder="Select your option"
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={zoneValue}
-          onChange={(e) => {
-            setZoneValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={BU}
-          label={<span className="mantine-MultiSelect-label">BU</span>}
-          placeholder="Select your option"
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={buValue}
-          onChange={(e) => {
-            setBUValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={Function}
-          label={<span className="mantine-MultiSelect-label">{'Function'}</span>}
-          placeholder="Select your option"
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={functionValue}
-          onChange={(e) => {
-            setFunctionValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />
-      </Group>
-    </div>
+    <MultiSelect
+      className="mantine-MultiSelect-wrapper"
+      data={data}
+      label={<span className="mantine-MultiSelect-label">{label}</span>}
+      placeholder="Select your option"
+      searchable
+      limit={20}
+      searchValue={searchValue}
+      onSearchChange={onSearchChange}
+      nothingFound="Nothing found"
+      clearButtonLabel="Clear selection"
+      clearable
+      value={value}
+      onChange={onChange}
+      radius="xl"
+      variant="filled"
+      size="xs"
+    />
   );
 };
 
 const RecipientTable = ({
-  yearValue,
-  setYearValue,
   assessmentCycleValue,
   setAssessmentCycleValue,
   zoneValue,
@@ -150,7 +45,6 @@ const RecipientTable = ({
   functionValue,
   setFunctionValue,
 }) => {
-  const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
@@ -168,8 +62,7 @@ const RecipientTable = ({
 
   useEffect(() => {
     dispatch(getFunctionRecipientHomePageData());
-    setTableColumns(TABLE_COLUMNS);
-  }, [token]);
+  }, [token, dispatch]);
 
   const TABLE_COLUMNS = [
     {
@@ -280,7 +173,6 @@ const RecipientTable = ({
   useEffect(() => {
     if (!tableData?.length) return setTableDataArray([]);
     if (
-      !yearValue?.length &&
       !assessmentCycleValue?.length &&
       !zoneValue?.length &&
       !buValue?.length &&
@@ -290,15 +182,14 @@ const RecipientTable = ({
     }
     const updatedData = tableData?.filter((i) => {
       return (
-        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true) &&
-        (functionValue?.length ? functionValue.includes(i.function) : true)
+        (functionValue?.length ? functionValue.includes(i.Function) : true)
       );
     });
     setTableDataArray(updatedData);
-  }, [yearValue, assessmentCycleValue, zoneValue, buValue, functionValue, tableData]);
+  }, [assessmentCycleValue, zoneValue, buValue, functionValue, tableData]);
   return (
     <>
       <div className="container-fluid">
@@ -308,25 +199,29 @@ const RecipientTable = ({
           <div className="row pt-5">
             <div className="col-12 col-lg-12">
               <Group spacing="xs" className="actions-button-wrapper">
-                <FilterButtons
-                  //year={getRecipientHomePageData?.data[0]?.distinct_assesment_cycle}
-                  assessment_Cycle={
-                    getRecipientHomePageData?.data[0]?.distinct_assesment_cycle || []
-                  }
-                  Zone={getRecipientHomePageData?.data[0]?.distinct_zone || []}
-                  BU={getRecipientHomePageData?.data[0]?.distinct_bu || []}
-                  Function={getRecipientHomePageData?.data[0]?.distinct_function || []}
-                  //yearValue={yearValue}
-                  assessmentCycleValue={assessmentCycleValue}
-                  zoneValue={zoneValue}
-                  buValue={buValue}
-                  functionValue={functionValue}
-                  //setYearValue={setYearValue}
-                  setAssessmentCycleValue={setAssessmentCycleValue}
-                  setZoneValue={setZoneValue}
-                  setBUValue={setBUValue}
-                  setFunctionValue={setFunctionValue}
-                  isHide={true}
+                <FilterMultiSelect
+                  data={getRecipientHomePageData?.data[0]?.distinct_zone || []}
+                  label="Zone"
+                  value={zoneValue}
+                  onChange={setZoneValue}
+                />
+                <FilterMultiSelect
+                  data={getRecipientHomePageData?.data[0]?.distinct_bu || []}
+                  label="BU"
+                  value={buValue}
+                  onChange={setBUValue}
+                />
+                <FilterMultiSelect
+                  data={getRecipientHomePageData?.data[0]?.distinct_function || []}
+                  label="Function"
+                  value={functionValue}
+                  onChange={setFunctionValue}
+                />
+                <FilterMultiSelect
+                  data={getRecipientHomePageData?.data[0]?.distinct_assesment_cycle || []}
+                  label="Assessment Cycle"
+                  value={assessmentCycleValue}
+                  onChange={setAssessmentCycleValue}
                 />
               </Group>
             </div>
@@ -335,7 +230,7 @@ const RecipientTable = ({
               <Table2
                 tableData={tableDataArray}
                 loading={getRecipientHomePageData.loading}
-                tableColumns={tableColumns}
+                tableColumns={TABLE_COLUMNS}
               />
             </div>
           </div>
