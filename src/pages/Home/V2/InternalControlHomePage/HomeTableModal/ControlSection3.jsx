@@ -217,6 +217,9 @@ const ControlSection3 = ({
       const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions || '[]')
         ? JSON.parse(questionData.Level?.L2?.Inner_Questions || '[]')
         : [];
+      const L3InnerQuestion = isJsonString(questionData.Level?.L3?.Inner_Questions || '[]')
+        ? JSON.parse(questionData.Level?.L3?.Inner_Questions || '[]')
+        : [];
 
       const isLevel1NoInnerQuestion =
         questionData.Level?.L1?.Header_Question && !L1InnerQuestion.length;
@@ -235,10 +238,18 @@ const ControlSection3 = ({
       }
       if ((!!questionData.Level?.L3 && !!ans.L2) || isLevel2NoInnerQuestion) {
         const apiQuestionL3 = getQuestionsFormatData([questionData.Level?.L3]);
-        if (!(questionL3.length > 0) || !isSameLang || isLevel1NoInnerQuestion) {
+        if (
+          !(questionL3.length > 0) ||
+          !isSameLang ||
+          isLevel1NoInnerQuestion ||
+          isLevel2NoInnerQuestion
+        ) {
           const questionsVal3 = getFormatQuestions(apiQuestionL3, null, 'L3');
           const data3 = getLanguageFormat(questionsVal3, languageVal, null, true);
           setQuestionL3(data3);
+          if (!(L3InnerQuestion.length > 0)) {
+            setTerminating(true);
+          }
         } else {
           if (
             apiQuestionL3 &&
