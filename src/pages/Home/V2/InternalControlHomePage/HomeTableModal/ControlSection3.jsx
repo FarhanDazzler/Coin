@@ -12,6 +12,7 @@ import {
   getFormatQuestions,
   getLanguageFormat,
   getQuestionsFormatData,
+  isJsonString,
 } from '../../../../../utils/helper';
 import { useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
@@ -41,7 +42,7 @@ const ControlSection3 = ({
   const [questionL2, setQuestionL2] = useState([]);
   const [questionL3, setQuestionL3] = useState([]);
   const [showNoQuestion, setShowNoQuestion] = useState(false);
-
+  // console.log('@@@@@@@: questionData', questionData);
   const isSameLang = useMemo(() => {
     return languageVal === language;
   }, [language, languageVal]);
@@ -109,16 +110,18 @@ const ControlSection3 = ({
       setQuestionL3(updateAnsL3);
     }
   }, [ans, render, questionData]);
-
+  console.log('questionData.Level?  @@', questionData.Level);
   useEffect(() => {
     setTimeout(() => {
       const updateAns = {};
+
       if (ans.L1 && questionData.Level?.L1) {
         const ansObjectL1 = Object.keys(ans.L1);
         if (ansObjectL1.length === questionL1[0]?.innerOptions?.length) {
           let allYesFilterData1 = Object.keys(ans.L1).filter((key) => {
             return ans.L1[key].includes('yes');
           });
+
           if (ansObjectL1.length === allYesFilterData1.length && !questionL2.length) {
             dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
           }
@@ -190,44 +193,64 @@ const ControlSection3 = ({
       if (ans.noQueAns) {
         setShowNoQuestion(true);
       }
-    }, 200);
+    }, 300);
   }, [lastAns]);
 
   useEffect(() => {
-    setRender(!render);
-    if (questionData.Level?.L1) {
-      const apiQuestionL1 = getQuestionsFormatData([questionData.Level?.L1]);
-      if (!questionL1.length > 0 || !isSameLang) {
-        const questionsVal = getFormatQuestions(apiQuestionL1, null, 'L1');
-        const data = getLanguageFormat(questionsVal, languageVal, null, true);
-        setQuestionL1(data);
-        setLanguage(languageVal);
-      }
-    }
-    if (!!questionData.Level?.L2 && !!ans.L1) {
-      const apiQuestionL2 = getQuestionsFormatData([questionData.Level?.L2]);
-      if (!(questionL2.length > 0) || !isSameLang) {
-        const questionsVal2 = getFormatQuestions(apiQuestionL2, null, 'L2');
-        const data2 = getLanguageFormat(questionsVal2, languageVal, null, true);
-        setQuestionL2(data2);
-      }
-    }
-    if (!!questionData.Level?.L3 && !!ans.L2) {
-      const apiQuestionL3 = getQuestionsFormatData([questionData.Level?.L3]);
-      if (!(questionL3.length > 0) || !isSameLang) {
-        const questionsVal3 = getFormatQuestions(apiQuestionL3, null, 'L3');
-        const data3 = getLanguageFormat(questionsVal3, languageVal, null, true);
-        setQuestionL3(data3);
-      } else {
-        if (
-          apiQuestionL3 &&
-          ans?.L3 &&
-          apiQuestionL3[0]?.innerOptions?.length === Object.keys(ans?.L3).length
-        ) {
-          setTerminating(true);
+    setTimeout(() => {
+      setRender(!render);
+      console.log('@@@@@@@@: : outer ---', questionData.Level);
+      if (questionData.Level?.L1) {
+        const apiQuestionL1 = getQuestionsFormatData([questionData.Level?.L1]);
+        if (!questionL1.length > 0 || !isSameLang) {
+          const questionsVal = getFormatQuestions(apiQuestionL1, null, 'L1');
+          const data = getLanguageFormat(questionsVal, languageVal, null, true);
+          setQuestionL1(data);
+          setLanguage(languageVal);
         }
       }
-    }
+
+      const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
+        ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
+        : [];
+      const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions || '[]')
+        ? JSON.parse(questionData.Level?.L2?.Inner_Questions || '[]')
+        : [];
+      console.log('@@@@@@@@: : -----', questionData.Level);
+
+      const isLevel1NoInnerQuestion =
+        questionData.Level?.L1?.Header_Question && !L1InnerQuestion.length;
+      const isLevel2NoInnerQuestion =
+        questionData.Level?.L1?.Header_Question &&
+        questionData.Level?.L2?.Header_Question &&
+        !L2InnerQuestion.length;
+      console.log('isLevel1NoInnerQuestion', isLevel1NoInnerQuestion);
+      if ((!!questionData.Level?.L2 && !!ans.L1) || isLevel1NoInnerQuestion) {
+        const apiQuestionL2 = getQuestionsFormatData([questionData.Level?.L2]);
+        if (!(questionL2.length > 0) || !isSameLang) {
+          console.log('@@@@@2 apiQuestionL2', questionData.Level, apiQuestionL2);
+          const questionsVal2 = getFormatQuestions(apiQuestionL2, null, 'L2');
+          const data2 = getLanguageFormat(questionsVal2, languageVal, null, true);
+          setQuestionL2(data2);
+        }
+      }
+      if ((!!questionData.Level?.L3 && !!ans.L2) || isLevel2NoInnerQuestion) {
+        const apiQuestionL3 = getQuestionsFormatData([questionData.Level?.L3]);
+        if (!(questionL3.length > 0) || !isSameLang) {
+          const questionsVal3 = getFormatQuestions(apiQuestionL3, null, 'L3');
+          const data3 = getLanguageFormat(questionsVal3, languageVal, null, true);
+          setQuestionL3(data3);
+        } else {
+          if (
+            apiQuestionL3 &&
+            ans?.L3 &&
+            apiQuestionL3[0]?.innerOptions?.length === Object.keys(ans?.L3).length
+          ) {
+            setTerminating(true);
+          }
+        }
+      }
+    }, 600);
   }, [questionData.Level, languageVal]);
 
   useEffect(() => {
@@ -254,6 +277,7 @@ const ControlSection3 = ({
   }, [questionL1.length, questionData.loading, ans.L3]);
 
   if (isEmptySection) return <div />;
+  console.log('ansSection3ansSection3ansSection3', questionL2);
 
   return (
     <div>

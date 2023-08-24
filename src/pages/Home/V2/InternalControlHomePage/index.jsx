@@ -128,14 +128,14 @@ const InternalControlHomePage = () => {
                     number={statusInfo.notStarted}
                     tooltip={
                       <div>
-                        <span className="yellow-text"> Not started : </span>
+                        <span className="yellow-text"> Not Started : </span>
                         <span>
                           Contact Control Owners to complete assessments, and check fallbacks on
                           GRC.
                         </span>
                       </div>
                     }
-                    subTitle="Not started"
+                    subTitle="Not Started"
                   />
 
                   <NumberWithText
