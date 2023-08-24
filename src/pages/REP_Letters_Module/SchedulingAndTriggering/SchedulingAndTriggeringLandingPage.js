@@ -46,7 +46,7 @@ const SchedulingAndTriggering = () => {
                         startIcon={<MoreTimeIcon />}
                         onClick={handleSheduleSurvey}
                       >
-                        Schedule Survey
+                        Schedule Letter
                       </Button>
                     </Group>
                   </div>

@@ -55,8 +55,6 @@ const FunctionalDetailsTableData = (props) => {
     props.location.state.data?.Created_By,
     props.location.state.data?.Assessment_Cycle,
     props.location.state.data?.Year,
-    reTriggerFunctionAssessmentState?.data,
-    recallFunctionAssessmentState?.data
   ]);
 
   useEffect(() => {}, []);
@@ -245,7 +243,7 @@ const FunctionalDetailsTableData = (props) => {
       console.log('hi');
       Swal.fire(
         'Oops...',
-        'Please select only Recalled Assessments from table for Re-Triggering',
+        'Please select only Recalled Letters from table for Re-Triggering',
         'error',
       );
     } else if (editTableIndex.length >= 1) {

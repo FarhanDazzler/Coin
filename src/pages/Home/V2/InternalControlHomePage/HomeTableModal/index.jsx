@@ -55,6 +55,14 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     responseData.data?.Latest_Response || responseData.data?.Latest_response;
   const currentLanguage = i18n.language;
   const [language, setLanguage] = useState(currentLanguage);
+
+  const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
+    ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
+    : [];
+  const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions || '[]')
+    ? JSON.parse(questionData.Level?.L2?.Inner_Questions || '[]')
+    : [];
+
   useEffect(() => {
     setLanguage(currentLanguage);
   }, [currentLanguage]);
@@ -166,17 +174,24 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     };
   }, [terminating]);
   useEffect(() => {
-    if (responseUpdatedData) {
-      if (responseUpdatedData.s1)
+    const condition =
+      (!(L1InnerQuestion.length > 0) &&
+        questionData.Level?.L1?.Inner_Questions &&
+        !questionData.Level?.L1) ||
+      (!(L2InnerQuestion.length > 0) &&
+        questionData.Level?.L2?.Inner_Questions &&
+        !questionData.Level?.L3);
+
+    if (responseUpdatedData || condition) {
+      if (responseUpdatedData?.s1)
         setAnsSection1(getLanguageFormat(responseUpdatedData.s1, language));
 
-      if (responseUpdatedData?.s3?.length > 0) {
+      if (responseUpdatedData?.s3?.length > 0 || condition) {
         const section3Data = responseUpdatedData?.s3?.reduce(
           (acc, [k, v]) => ((acc[k] = v), acc),
           {},
         );
 
-        // debugger;
         if (!startEdit) {
           setAnsSection3(section3Data);
           setShowMoreSection(true);
@@ -198,8 +213,11 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           !L2InnerQuestion.length;
 
         if (
-          (section3Data.L2 && questionData.Level?.L1 && !questionData.Level?.L2) ||
-          (isLevel1NoInnerQuestion && !questionData.Level?.L2)
+          (section3Data?.L2 && questionData.Level?.L1 && !questionData.Level?.L2) ||
+          (isLevel1NoInnerQuestion && !questionData.Level?.L2) ||
+          (!(L1InnerQuestion.length > 0) &&
+            questionData.Level?.L1?.Inner_Questions &&
+            !questionData.Level?.L2)
         ) {
           setTimeout(() => {
             dispatch(
@@ -211,8 +229,9 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             );
           }, 1000);
         }
+
         if (
-          (section3Data.L3 && questionData.Level?.L2 && !questionData.Level?.L3) ||
+          (section3Data?.L3 && questionData.Level?.L2 && !questionData.Level?.L3) ||
           (isLevel2NoInnerQuestion && !questionData.Level?.L3)
         ) {
           setTimeout(() => {
