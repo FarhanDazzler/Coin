@@ -701,7 +701,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
                         <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                           <div>
                             <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                            <span style={{ paddingLeft: '16px' }}>Functional MDM Table</span>
+                            <span style={{ paddingLeft: '16px' }}>Functional Recipient Table</span>
                           </div>
                         </div>
                       </div>
