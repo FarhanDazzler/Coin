@@ -8,72 +8,49 @@ import ProgressBar from '../../../../Home/V2/InternalControlHomePage/HomePageTab
 import GlobalPersonaTable from './GlobalPersonaTable';
 import { ReactComponent as InfoIcon } from '../../../../../assets/images/InfoCircle.svg';
 import { getFunctionGlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
-
-const NumberWithText = ({ number, tooltip, subTitle }) => {
-  return (
-    <div className="d-flex justify-content-between bg-black mb-2 p-1 px-4 rounded-3">
-      <div className="d-flex align-items-center">
-        <Tooltip title={tooltip} arrow>
-          <InfoIcon />
-        </Tooltip>
-        {subTitle}
-      </div>
-      <h3 className="largeNumber yellow-gradient-text mb-0">{number}</h3>
+const NumberWithText = ({ number, tooltip, subTitle }) => (
+  <div className="d-flex justify-content-between bg-black mb-2 p-1 px-4 rounded-3">
+    <div className="d-flex align-items-center">
+      <Tooltip title={tooltip} arrow>
+        <InfoIcon />
+      </Tooltip>
+      {subTitle}
     </div>
-  );
-};
+    <h3 className="largeNumber yellow-gradient-text mb-0">{number}</h3>
+  </div>
+);
 
 const GlobalPersonaHomePage = () => {
   const history = useHistory();
+  const { accounts } = useMsal();
+  const selectedUserRole = localStorage.getItem('selected_Role');
+  const getGlobalPersonaHomePageData = useSelector(getFunctionGlobalPersonaHomePageDataSelector);
 
-  // multi choice user input State for filters button
   const [yearValue, setYearValue] = useState([]);
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
   const [functionValue, setFunctionValue] = useState([]);
 
-  const selectedUserRole = localStorage.getItem('selected_Role');
-
-  const getGlobalPersonaHomePageData = useSelector(getFunctionGlobalPersonaHomePageDataSelector);
-
-  console.log(getGlobalPersonaHomePageData, '@@@');
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
   }, []);
 
   const statusInfo = useMemo(() => {
     const tableData = getGlobalPersonaHomePageData?.data[0]?.home_page_table_global || [];
-    if (
-      !yearValue.length &&
-      !assessmentCycleValue.length &&
-      !zoneValue.length &&
-      !buValue.length &&
-      !functionValue.length
-    ) {
-      const allstatus = tableData?.map((d) => d?.Status);
-      const completedAssessment = getNumberOfItem(allstatus, 'Completed');
-      return {
-        notStarted: getNumberOfItem(allstatus, 'Not started'),
-        completed: completedAssessment,
-        draft: getNumberOfItem(allstatus, 'Drafted'),
-        completedRatio: ((completedAssessment / allstatus?.length) * 100)?.toFixed(0),
-        total: allstatus?.length,
-      };
-    }
-
-    const updatedData = tableData?.filter((i) => {
+    const updatedData = tableData.filter((i) => {
       return (
-        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
-        (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-        (buValue?.length ? buValue.includes(i.BU) : true) &&
-        (functionValue?.length ? functionValue.includes(i.Function) : true)
+        (!yearValue.length || yearValue.includes(i.Year)) &&
+        (!assessmentCycleValue.length || assessmentCycleValue.includes(i.Assessment_Cycle)) &&
+        (!zoneValue.length || zoneValue.includes(i.Zone)) &&
+        (!buValue.length || buValue.includes(i.BU)) &&
+        (!functionValue.length || functionValue.includes(i.Function))
       );
     });
 
-    const allUpdatestatus = updatedData?.map((d) => d?.Status);
+    const allUpdatestatus = updatedData.map((d) => d?.Status);
     const completedAssessment = getNumberOfItem(allUpdatestatus, 'Completed');
+
     return {
       notStarted: getNumberOfItem(allUpdatestatus, 'Not started'),
       completed: completedAssessment,
@@ -91,63 +68,6 @@ const GlobalPersonaHomePage = () => {
     getNumberOfItem,
   ]);
 
-  // const statusInfo = useMemo(() => {
-  //   if (
-  //     !yearValue.length &&
-  //     !assessmentCycleValue.length &&
-  //     !zoneValue.length &&
-  //     !buValue.length &&
-  //     !functionValue.length
-  //   ) {
-  //     const allstatus = getGlobalPersonaHomePageData?.data[0]?.home_page_table_global?.map((d) => {
-  //       return d.Status;
-  //     });
-  //     const completedAssessment = getNumberOfItem(allstatus, 'Completed');
-  //     return {
-  //       notStarted: getNumberOfItem(allstatus, 'Not started'),
-  //       completed: completedAssessment,
-  //       draft: getNumberOfItem(allstatus, 'Drafted'),
-  //       completedRatio: ((completedAssessment / allstatus?.length) * 100)?.toFixed(0),
-  //       total: allstatus?.length,
-  //     };
-  //     return;
-  //   }
-
-  //   const updateData = getGlobalPersonaHomePageData?.data[0]?.home_page_table_global?.filter(
-  //     (i) => {
-  //       return (
-  //         (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-  //         (assessmentCycleValue?.length
-  //           ? assessmentCycleValue.includes(i.Assessment_Cycle)
-  //           : true) &&
-  //         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-  //         (buValue?.length ? buValue.includes(i.BU) : true) &&
-  //         (functionValue?.length ? functionValue.includes(i.Function) : true)
-  //       );
-  //     },
-  //   );
-  //   const allstatusUpdateData = updateData?.map((d) => {
-  //     return d.Status;
-  //   });
-
-  //   const completedAssessment = getNumberOfItem(allstatusUpdateData, 'Completed');
-  //   return {
-  //     notStarted: getNumberOfItem(allstatusUpdateData, 'Not started'),
-  //     completed: completedAssessment,
-  //     draft: getNumberOfItem(allstatusUpdateData, 'Drafted'),
-  //     completedRatio: ((completedAssessment / allstatusUpdateData?.length) * 100)?.toFixed(0),
-  //     total: allstatusUpdateData?.length,
-  //   };
-  // }, [
-  //   getGlobalPersonaHomePageData?.data[0],
-  //   yearValue,
-  //   assessmentCycleValue,
-  //   zoneValue,
-  //   buValue,
-  //   functionValue,
-  // ]);
-
-  const { accounts } = useMsal();
   return (
     <div>
       <div className="container-fluid">
@@ -172,7 +92,7 @@ const GlobalPersonaHomePage = () => {
                     <div>
                       <span className="yellow-text"> Not Started : </span>
                       <span>
-                        Contact Control Owners to complete assessments, and check fallbacks on GRC.
+                        Contact Recipients to complete Letter, and check fallbacks on GRC.
                       </span>
                     </div>
                   }
@@ -184,7 +104,7 @@ const GlobalPersonaHomePage = () => {
                   tooltip={
                     <div>
                       <span className="yellow-text"> Completed : </span>
-                      <span>Check if the control results are reflected correctly in scoring.</span>
+                      <span>Check if the Letter results are reflected correctly in scoring.</span>
                     </div>
                   }
                   subTitle="Completed"
@@ -196,7 +116,7 @@ const GlobalPersonaHomePage = () => {
                     <div>
                       <span className="yellow-text"> Drafted : </span>
                       <span>
-                        Owner has started & saved the assessment as draft, however not submitted.
+                        Recipients has started & saved the Letter as draft, however not submitted.
                       </span>
                     </div>
                   }
@@ -207,7 +127,7 @@ const GlobalPersonaHomePage = () => {
                   tooltip={
                     <div>
                       <span className="yellow-text"> Total : </span>
-                      <span>Total number of assessment.</span>
+                      <span>Total number of Letter.</span>
                     </div>
                   }
                   subTitle="Total"
