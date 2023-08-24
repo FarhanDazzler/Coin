@@ -7,7 +7,7 @@ import '../../styles.scss';
 import ProgressBar from '../../../../Home/V2/InternalControlHomePage/HomePageTable/ProgressBar/ProgressBar';
 import GlobalPersonaTable from './GlobalPersonaTable';
 import { ReactComponent as InfoIcon } from '../../../../../assets/images/InfoCircle.svg';
-import { getFunctionRecipientHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { getFunctionGlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
 const NumberWithText = ({ number, tooltip, subTitle }) => {
   return (
@@ -35,8 +35,9 @@ const GlobalPersonaHomePage = () => {
 
   const selectedUserRole = localStorage.getItem('selected_Role');
 
-  const getGlobalPersonaHomePageData = useSelector(getFunctionRecipientHomePageDataSelector);
+  const getGlobalPersonaHomePageData = useSelector(getFunctionGlobalPersonaHomePageDataSelector);
 
+  console.log(getGlobalPersonaHomePageData, '@@@');
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
   }, []);
@@ -89,8 +90,6 @@ const GlobalPersonaHomePage = () => {
     functionValue,
     getNumberOfItem,
   ]);
-
-  console.log(statusInfo, '@@@');
 
   // const statusInfo = useMemo(() => {
   //   if (
