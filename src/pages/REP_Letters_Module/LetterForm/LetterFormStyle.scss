@@ -3,6 +3,54 @@
   border-radius: 8px;
   padding: 20px 25px;
   margin-bottom: 20px;
+
+  .renderBlockWrapper-control-actions-wrapper {
+    border-radius: 0 0 10px 10px;
+    padding: 12px 40px;
+    hr {
+      margin: 1rem 0;
+    }
+    .active {
+      background: #e7c55d !important;
+      color: #333333 !important;
+      font-weight: 600;
+    }
+  }
+  .renderBlockWrapper_title {
+    text-transform: capitalize;
+    color: #e3af32;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 5px;
+  }
+
+  .renderBlockWrapper_content {
+    color: #ffffff;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  .renderBlockWrapper_file {
+    color: #e3af32;
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .renderBlockWrapper_file_btn {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    //border: none !important;
+    border-radius: 8px !important;
+    margin-left: 1rem !important;
+    text-transform: capitalize !important;
+  }
+
+  .renderBlockWrapper_divider {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 }
 .Rep-Letter-form-Section0 {
   padding-top: 24px;

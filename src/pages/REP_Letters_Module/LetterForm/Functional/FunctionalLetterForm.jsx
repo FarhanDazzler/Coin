@@ -5,11 +5,11 @@ import '../LetterFormStyle.scss';
 
 const FunctionalLetterForm = (props) => {
   const scopeData = props.location.state.data?.scopeData;
-  const tableData = props.location.state.data?.tableData;
+  const modalType = props.location.state.data?.modalType;
   return (
     <div>
       <PageWrapper>
-        <Section0 scopeData={tableData} />
+        <Section0 scopeData={scopeData} />
       </PageWrapper>
     </div>
   );
