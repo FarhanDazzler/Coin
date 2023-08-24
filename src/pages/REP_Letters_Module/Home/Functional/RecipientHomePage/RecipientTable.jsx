@@ -87,9 +87,13 @@ const RecipientTable = ({
             )}
             {['Not started', 'Drafted'].includes(row.row.original.Status) && (
               <Button
-              // onClick={() =>
-              //   history.push(`/Assessments/${row.row.original.Control_ID}`, row.row.original)
-              // }
+                onClick={() => {
+                  const data = {
+                    scopeData: row.row.original,
+                    modalType: 'attempt',
+                  };
+                  history.push('/REP-Letters/attempt-letter/functional-letter-form', { data });
+                }}
               >
                 Letter
               </Button>
