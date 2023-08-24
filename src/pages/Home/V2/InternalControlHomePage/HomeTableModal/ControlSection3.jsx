@@ -42,7 +42,6 @@ const ControlSection3 = ({
   const [questionL2, setQuestionL2] = useState([]);
   const [questionL3, setQuestionL3] = useState([]);
   const [showNoQuestion, setShowNoQuestion] = useState(false);
-  // console.log('@@@@@@@: questionData', questionData);
   const isSameLang = useMemo(() => {
     return languageVal === language;
   }, [language, languageVal]);
@@ -67,7 +66,11 @@ const ControlSection3 = ({
   const handleChange = (value, block, parentBlock) => {
     setStartEdit(true);
     setLastAns(value);
+    const noQueAns = value.includes('yes');
     let updateAns = { ...ans };
+    if (noQueAns) {
+      updateAns.noQueAns = false;
+    }
     if (parentBlock) {
       updateAns[parentBlock.Level] = { ...updateAns[parentBlock.Level], [block.q_id]: value };
     } else {
@@ -110,11 +113,10 @@ const ControlSection3 = ({
       setQuestionL3(updateAnsL3);
     }
   }, [ans, render, questionData]);
-  console.log('questionData.Level?  @@', questionData.Level);
+
   useEffect(() => {
     setTimeout(() => {
       const updateAns = {};
-
       if (ans.L1 && questionData.Level?.L1) {
         const ansObjectL1 = Object.keys(ans.L1);
         if (ansObjectL1.length === questionL1[0]?.innerOptions?.length) {
@@ -183,7 +185,6 @@ const ControlSection3 = ({
             setTerminating(true);
             setShowNoQuestion(false);
           } else {
-            // setShowNoQuestion(true);
             setTerminating(true);
           }
         }
@@ -192,6 +193,8 @@ const ControlSection3 = ({
       }
       if (ans.noQueAns) {
         setShowNoQuestion(true);
+      } else {
+        setShowNoQuestion(false);
       }
     }, 300);
   }, [lastAns]);
@@ -199,7 +202,6 @@ const ControlSection3 = ({
   useEffect(() => {
     setTimeout(() => {
       setRender(!render);
-      console.log('@@@@@@@@: : outer ---', questionData.Level);
       if (questionData.Level?.L1) {
         const apiQuestionL1 = getQuestionsFormatData([questionData.Level?.L1]);
         if (!questionL1.length > 0 || !isSameLang) {
@@ -209,14 +211,15 @@ const ControlSection3 = ({
           setLanguage(languageVal);
         }
       }
-
       const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
         ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
         : [];
       const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions || '[]')
         ? JSON.parse(questionData.Level?.L2?.Inner_Questions || '[]')
         : [];
-      console.log('@@@@@@@@: : -----', questionData.Level);
+      const L3InnerQuestion = isJsonString(questionData.Level?.L3?.Inner_Questions || '[]')
+        ? JSON.parse(questionData.Level?.L3?.Inner_Questions || '[]')
+        : [];
 
       const isLevel1NoInnerQuestion =
         questionData.Level?.L1?.Header_Question && !L1InnerQuestion.length;
@@ -224,11 +227,10 @@ const ControlSection3 = ({
         questionData.Level?.L1?.Header_Question &&
         questionData.Level?.L2?.Header_Question &&
         !L2InnerQuestion.length;
-      console.log('isLevel1NoInnerQuestion', isLevel1NoInnerQuestion);
+
       if ((!!questionData.Level?.L2 && !!ans.L1) || isLevel1NoInnerQuestion) {
         const apiQuestionL2 = getQuestionsFormatData([questionData.Level?.L2]);
-        if (!(questionL2.length > 0) || !isSameLang) {
-          console.log('@@@@@2 apiQuestionL2', questionData.Level, apiQuestionL2);
+        if (!(questionL2.length > 0) || !isSameLang || isLevel1NoInnerQuestion) {
           const questionsVal2 = getFormatQuestions(apiQuestionL2, null, 'L2');
           const data2 = getLanguageFormat(questionsVal2, languageVal, null, true);
           setQuestionL2(data2);
@@ -236,10 +238,18 @@ const ControlSection3 = ({
       }
       if ((!!questionData.Level?.L3 && !!ans.L2) || isLevel2NoInnerQuestion) {
         const apiQuestionL3 = getQuestionsFormatData([questionData.Level?.L3]);
-        if (!(questionL3.length > 0) || !isSameLang) {
+        if (
+          !(questionL3.length > 0) ||
+          !isSameLang ||
+          isLevel1NoInnerQuestion ||
+          isLevel2NoInnerQuestion
+        ) {
           const questionsVal3 = getFormatQuestions(apiQuestionL3, null, 'L3');
           const data3 = getLanguageFormat(questionsVal3, languageVal, null, true);
           setQuestionL3(data3);
+          if (!(L3InnerQuestion.length > 0)) {
+            setTerminating(true);
+          }
         } else {
           if (
             apiQuestionL3 &&

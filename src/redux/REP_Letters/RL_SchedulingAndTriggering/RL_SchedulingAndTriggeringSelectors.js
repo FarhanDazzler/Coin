@@ -3,5 +3,5 @@ export const getFunctionalPage1dataSelector = (state) => state?.RLSchedulingAndT
 export const rlAddFunctionalAssessmentDataSelector = (state) => state?.RLSchedulingAndTriggering?.rlAddFunctionalAssessmentData;
 export const getAllFunctionaldataSelector = (state) => state?.RLSchedulingAndTriggering?.rlGetAllFunctionalAssessmentData;
 export const getFunctiondataSelector = (state) => state?.RLSchedulingAndTriggering?.rlGetFunctionalAssessmentData;
-export const recallFunctionAssessmentSelector = (state) => state.assessmentBank.recallFunctionAssessment;
-export const reTriggerFunctionAssessmentSelector = (state) => state.assessmentBank.reTriggerFunctionAssessment;
+export const recallFunctionAssessmentSelector = (state) => state.RLSchedulingAndTriggering.recallFunctionAssessment;
+export const reTriggerFunctionAssessmentSelector = (state) => state.RLSchedulingAndTriggering.reTriggerFunctionAssessment;

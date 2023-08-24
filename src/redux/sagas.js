@@ -13,6 +13,8 @@ import RLMDMSaga from './REP_Letters/RLMDM/RLMDMSaga';
 import AdminPageSaga from './AdminPage/AdminPageSaga';
 import RL_QuestionBankSaga from './REP_Letters/RL_QuestionBank/RL_QuestionBankSaga';
 import RL_SchedulingAndTriggeringSaga from './REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSaga';
+import RL_HomePageSaga from './REP_Letters/RL_HomePage/RL_HomePageSaga';
+
 export function* sagas() {
   yield all([
     AuthSaga,
@@ -28,6 +30,7 @@ export function* sagas() {
     RLMDMSaga,
     AdminPageSaga,
     RL_QuestionBankSaga,
-    RL_SchedulingAndTriggeringSaga
+    RL_SchedulingAndTriggeringSaga,
+    RL_HomePageSaga,
   ]);
 }

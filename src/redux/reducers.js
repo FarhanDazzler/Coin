@@ -14,7 +14,8 @@ import { RLMDMReducer } from './REP_Letters/RLMDM/RLMDMReducer';
 import { AdminPageReducer } from './AdminPage/AdminPageReducer';
 import { RL_QuestionBankReducer } from './REP_Letters/RL_QuestionBank/RL_QuestionBankReducer';
 import { ErrorNotificationReducer } from './ErrorNotification/ErrorNotificationReducer';
-import { RLSchedulingAndTriggeringReducer } from './REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringReducer'
+import { RLSchedulingAndTriggeringReducer } from './REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringReducer';
+import { RL_HomePageReducer } from './REP_Letters/RL_HomePage/RL_HomePageReducer';
 // we will connect our reducers here
 
 const appReducer = (history) =>
@@ -34,7 +35,8 @@ const appReducer = (history) =>
     adminPage: AdminPageReducer,
     RL_QuestionBank: RL_QuestionBankReducer,
     ErrorNotification: ErrorNotificationReducer,
-    RLSchedulingAndTriggering: RLSchedulingAndTriggeringReducer
+    RLSchedulingAndTriggering: RLSchedulingAndTriggeringReducer,
+    RL_HomePage: RL_HomePageReducer,
   });
 
 const createRootReducer = (history) => (state, action) => {

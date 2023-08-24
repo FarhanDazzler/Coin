@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import PageWrapper from '../../../../components/wrappers/PageWrapper';
-import SelectAssessmentDetailsBU from './SelectAssessmentDetails';
+import PageWrapper from '../../../../../components/wrappers/PageWrapper';
+import SelectAssessmentDetailsBU from './SelectAssessmentBUDetails';
 
 
 const ScheduleSurveyBUPage = () => {
