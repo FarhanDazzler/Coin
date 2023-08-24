@@ -192,7 +192,8 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                           className="form-select"
                         >
                           <option value="">Select</option>
-                          <option value="Assessment Cycle 1">Sales</option>
+                          <option value="bu-letter">BU Letter</option>
+                          <option value="zone-letter">Zone Letter</option>
                         </Form.Control>
 
                         {!!touched.Template && (
