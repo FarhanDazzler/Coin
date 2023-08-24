@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import { Divider, Box } from '@mantine/core';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
@@ -88,12 +90,14 @@ const Section0 = ({ scopeData }) => {
             <div className="renderBlockWrapper-control-actions-wrapper pb-5 pt-4">
               {/* setting active tab when click on button */}
               <Button
+                startIcon={<InfoOutlinedIcon />}
                 className={activeTab === 'Instructions' ? 'mr-4 active' : 'mr-4'}
                 onClick={() => setActiveTab(isClear('Instructions') ? '' : 'Instructions')}
               >
                 Instructions
               </Button>
               <Button
+                startIcon={<FeedOutlinedIcon />}
                 className={activeTab === 'Scope' ? 'mr-4 active' : 'mr-4'}
                 onClick={() => setActiveTab(isClear('Scope') ? '' : 'Scope')}
               >
