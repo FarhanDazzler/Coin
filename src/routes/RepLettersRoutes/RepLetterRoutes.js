@@ -6,7 +6,7 @@ import RLQuestionBank from '../../pages/REP_Letters_Module/Home/QuestionBank/Rep
 import BUModifyQuestions from '../../pages/REP_Letters_Module/Home/QuestionBank/BU/BUModifyQuestions';
 import FunctionModifyQuestions from '../../pages/REP_Letters_Module/Home/QuestionBank/Functional/FunctionModifyQuestions';
 import SchedulingAndTriggering from '../../pages/REP_Letters_Module/SchedulingAndTriggering/SchedulingAndTriggeringLandingPage';
-import ScheduleSurveyBUPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/ScheduleSurveyBULandingPage';
+import ScheduleSurveyBUPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/ScheduleLetter/ScheduleSurveyFunctionalLandingPage';
 import ScheduleSurveyFunctionalPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/ScheduleLetter/ScheduleSurveyFunctionalLandingPage';
 import FunctionalDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/Table/FunctionalDetailsTableData';
 export const RepLettersRoutes = [

@@ -80,7 +80,7 @@ function* handle_addRlFunctionalAssessment_data({ payload }) {
         type: ACTION_ADD_RL_FUNCTIONAL_ASSESSMENT_DATA_SUCCESS,
         payload: response.data,
       });
-      Swal.fire('Done!', 'Function Assessment Data added Successfully!', 'success');
+      Swal.fire('Done!', 'Function Letter Scheduled Successfully!', 'success');
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
@@ -156,7 +156,7 @@ function* recallFunctionAssessmentData({ payload }) {
         type: GET_RL_FUNCTION_ASSESSMENT_DATA_REQUEST,
         payload: params,
       });
-      Swal.fire('Done!', 'Function Assessment Recalled Successfully!', 'success');
+      Swal.fire('Done!', 'Function Letter Recalled Successfully!', 'success');
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
@@ -186,7 +186,7 @@ function* reTriggerFunctionAssessmentData({ payload }) {
         type: GET_RL_FUNCTION_ASSESSMENT_DATA_REQUEST,
         payload: params,
       });
-      Swal.fire('Done!', 'Function Assessment Re-Triggered Successfully!', 'success');
+      Swal.fire('Done!', 'Function Letter Re-Triggered Successfully!', 'success');
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
