@@ -9,12 +9,13 @@ import FunctionalLetterSummaryTable from './Functional/Table/FunctionalLetterSum
 import BULetterSummaryTable from './BU/Table/BULetterSummaryTable';
 import { DotSpinner } from '@uiball/loaders';
 import './SchedulingAndTriggeringLandingPage.scss';
-import { rlAddFunctionalAssessmentDataSelector } from '../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
+import { rlAddFunctionalAssessmentDataSelector, rlAddBuLetterDataSelector } from '../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
 
 const SchedulingAndTriggering = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const rlAddFunctionalAssessmentDataState = useSelector(rlAddFunctionalAssessmentDataSelector);
+  const rlAddBuLetterDataState = useSelector(rlAddBuLetterDataSelector);
   useEffect(() => {}, []);
   const handleSheduleSurvey = () => {
     if (localStorage.getItem('selected_module_Role') == 'BU') {
@@ -25,7 +26,7 @@ const SchedulingAndTriggering = () => {
   };
   return (
     <PageWrapper>
-      {rlAddFunctionalAssessmentDataState.loading ? (
+      {rlAddFunctionalAssessmentDataState.loading || rlAddBuLetterDataState.loading ? (
         <div className="loader-animation">
           <DotSpinner size={100} speed={0.9} color="#e3af32" />
           <p className="loader-Desc ml-3">
