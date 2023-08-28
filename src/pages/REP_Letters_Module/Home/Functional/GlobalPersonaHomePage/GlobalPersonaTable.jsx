@@ -7,8 +7,9 @@ import { Group, MultiSelect } from '@mantine/core';
 import Table2 from '../../../../../components/UI/Table/Table2';
 import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
-import { getFunctionRecipientHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
-import { getFunctionRecipientHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import NoDataPlaceholder from '../../../../../components/NoDataPlaceholder/NoDataPlaceholderForRepLetter';
+import { getFunctionGlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { getFunctionGlobalPersonaHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -35,7 +36,7 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const RecipientTable = ({
+const GlobalPersonaTable = ({
   assessmentCycleValue,
   setAssessmentCycleValue,
   zoneValue,
@@ -53,15 +54,15 @@ const RecipientTable = ({
 
   const { accounts } = useMsal();
   const dispatch = useDispatch();
-  const getRecipientHomePageData = useSelector(getFunctionRecipientHomePageDataSelector);
+  const getGlobalPersonaHomePageData = useSelector(getFunctionGlobalPersonaHomePageDataSelector);
 
-  //getRecipientHomePageData?.data[0]?.recipientData
+  //getGlobalPersonaHomePageData?.data[0]?.recipientData
   const recipientHomePageData = useMemo(() => {
-    return getRecipientHomePageData?.data[0]?.recipientData || [];
-  }, [getRecipientHomePageData?.data[0]]);
+    return getGlobalPersonaHomePageData?.data[0]?.home_page_table_global || [];
+  }, [getGlobalPersonaHomePageData?.data[0]]);
 
   useEffect(() => {
-    dispatch(getFunctionRecipientHomePageData());
+    dispatch(getFunctionGlobalPersonaHomePageData());
   }, [token, dispatch]);
 
   const TABLE_COLUMNS = [
@@ -79,23 +80,9 @@ const RecipientTable = ({
             {row.row.original.Status === 'Completed' && (
               <Button
                 className="mr-2"
-
                 //onClick={() => handleControlIDClick(row.row.original.Control_ID, row.row.original)}
               >
                 Review
-              </Button>
-            )}
-            {['Not started', 'Drafted'].includes(row.row.original.Status) && (
-              <Button
-                onClick={() => {
-                  const data = {
-                    scopeData: row.row.original,
-                    modalType: 'attempt',
-                  };
-                  history.push('/REP-Letters/attempt-letter/functional-letter-form', { data });
-                }}
-              >
-                Letter
               </Button>
             )}
           </div>
@@ -172,7 +159,7 @@ const RecipientTable = ({
 
   useEffect(() => {
     setTableData(recipientHomePageData);
-  }, [getRecipientHomePageData?.data[0], recipientHomePageData]);
+  }, [getGlobalPersonaHomePageData?.data[0], recipientHomePageData]);
 
   useEffect(() => {
     if (!tableData?.length) return setTableDataArray([]);
@@ -197,32 +184,32 @@ const RecipientTable = ({
   return (
     <>
       <div className="container-fluid">
-        {getRecipientHomePageData?.loading ? (
+        {getGlobalPersonaHomePageData?.loading ? (
           <TableLoader className="mt-8" />
         ) : (
           <div className="row pt-5">
             <div className="col-12 col-lg-12">
               <Group spacing="xs" className="actions-button-wrapper">
                 <FilterMultiSelect
-                  data={getRecipientHomePageData?.data[0]?.distinct_zone || []}
+                  data={getGlobalPersonaHomePageData?.data[0]?.distinct_zone || []}
                   label="Zone"
                   value={zoneValue}
                   onChange={setZoneValue}
                 />
                 <FilterMultiSelect
-                  data={getRecipientHomePageData?.data[0]?.distinct_bu || []}
+                  data={getGlobalPersonaHomePageData?.data[0]?.distinct_bu || []}
                   label="BU"
                   value={buValue}
                   onChange={setBUValue}
                 />
                 <FilterMultiSelect
-                  data={getRecipientHomePageData?.data[0]?.distinct_function || []}
+                  data={getGlobalPersonaHomePageData?.data[0]?.distinct_function || []}
                   label="Function"
                   value={functionValue}
                   onChange={setFunctionValue}
                 />
                 <FilterMultiSelect
-                  data={getRecipientHomePageData?.data[0]?.distinct_assesment_cycle || []}
+                  data={getGlobalPersonaHomePageData?.data[0]?.distinct_assesment_cycle || []}
                   label="Assessment Cycle"
                   value={assessmentCycleValue}
                   onChange={setAssessmentCycleValue}
@@ -231,11 +218,15 @@ const RecipientTable = ({
             </div>
 
             <div className="col-12 col-lg-12 mt-5">
-              <Table2
-                tableData={tableDataArray}
-                loading={getRecipientHomePageData.loading}
-                tableColumns={TABLE_COLUMNS}
-              />
+              {tableDataArray?.length > 0 ? (
+                <Table2
+                  tableData={tableDataArray}
+                  loading={getGlobalPersonaHomePageData.loading}
+                  tableColumns={TABLE_COLUMNS}
+                />
+              ) : (
+                <NoDataPlaceholder />
+              )}
             </div>
           </div>
         )}
@@ -244,4 +235,4 @@ const RecipientTable = ({
   );
 };
 
-export default RecipientTable;
+export default GlobalPersonaTable;

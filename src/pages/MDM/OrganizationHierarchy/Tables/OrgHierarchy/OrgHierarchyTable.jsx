@@ -14,7 +14,10 @@ import Button from '../../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import Tooltip from '@mui/material/Tooltip';
 import OrgHierarchyTableFilterButtons from './OrgHierarchyTableFilterButtons';
-import { updateOrgStructureSelector, addOrgStructureSelector } from '../../../../../redux/MDM/MDM_Selectors';
+import {
+  updateOrgStructureSelector,
+  addOrgStructureSelector,
+} from '../../../../../redux/MDM/MDM_Selectors';
 
 const OrgHierarchyTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -40,27 +43,27 @@ const OrgHierarchyTable = () => {
       id: 'zone',
       header: 'Zone',
       flex: 1,
-      filterFn: 'arrIncludesSome',
+      //filterFn: 'arrIncludesSome',
       size: 90,
-      filterVariant: 'multi-select',
+      //filterVariant: 'multi-select',
     },
     {
       accessorKey: 'BU',
       id: 'BU',
       header: 'Business Unit',
       flex: 1,
-      filterFn: 'arrIncludesSome',
+      //filterFn: 'arrIncludesSome',
       size: 230,
-      filterVariant: 'multi-select',
+      //filterVariant: 'multi-select',
     },
     {
       accessorKey: 'country_entity',
       id: 'country_entity',
       header: 'Entity',
       flex: 1,
-      filterFn: 'arrIncludesSome',
+      //filterFn: 'arrIncludesSome',
       size: 90,
-      filterVariant: 'multi-select',
+      //filterVariant: 'multi-select',
     },
     {
       accessorKey: 'cognos_entity',

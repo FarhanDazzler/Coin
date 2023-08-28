@@ -10,6 +10,8 @@ import ScheduleSurveyBUPage from '../../pages/REP_Letters_Module/SchedulingAndTr
 import ScheduleSurveyFunctionalPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/ScheduleLetter/ScheduleSurveyFunctionalLandingPage';
 import FunctionalDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/Table/FunctionalDetailsTableData';
 import BUDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Table/BUDetailsTableData';
+import FunctionalLetterForm from '../../pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm';
+
 export const RepLettersRoutes = [
   {
     path: '/REP-Letters/master-data-management',
@@ -70,5 +72,8 @@ export const RepLettersRoutes = [
     path: '/REP-Letters/scheduling-and-triggering/bu-letter-details',
     exact: true,
     component: BUDetailsTableData,
+    path: '/REP-Letters/attempt-letter/functional-letter-form',
+    exact: true,
+    component: FunctionalLetterForm,
   },
 ];

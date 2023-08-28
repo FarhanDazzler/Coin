@@ -29,7 +29,7 @@ const RecipientHomePage = () => {
   const [functionValue, setFunctionValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
-    return (array, itemName) => array.filter((val) => val === itemName)?.length;
+    return (array, itemName) => array?.filter((val) => val === itemName)?.length;
   }, []);
 
   const statusInfo = useMemo(() => {
