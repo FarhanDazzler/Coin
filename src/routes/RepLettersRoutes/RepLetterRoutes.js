@@ -9,6 +9,7 @@ import SchedulingAndTriggering from '../../pages/REP_Letters_Module/SchedulingAn
 import ScheduleSurveyBUPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/ScheduleLetter/ScheduleSurveyFunctionalLandingPage';
 import ScheduleSurveyFunctionalPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/ScheduleLetter/ScheduleSurveyFunctionalLandingPage';
 import FunctionalDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/Table/FunctionalDetailsTableData';
+import BUDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Table/BUDetailsTableData';
 import FunctionalLetterForm from '../../pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm';
 
 export const RepLettersRoutes = [
@@ -66,6 +67,11 @@ export const RepLettersRoutes = [
     path: '/REP-Letters/scheduling-and-triggering/functional-letter-details',
     exact: true,
     component: FunctionalDetailsTableData,
+  },
+  {
+    path: '/REP-Letters/scheduling-and-triggering/bu-letter-details',
+    exact: true,
+    component: BUDetailsTableData,
   },
   {
     path: '/REP-Letters/attempt-letter/functional-letter-form',

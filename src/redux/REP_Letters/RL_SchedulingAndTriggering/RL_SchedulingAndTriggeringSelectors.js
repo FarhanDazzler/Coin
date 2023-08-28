@@ -5,3 +5,13 @@ export const getAllFunctionaldataSelector = (state) => state?.RLSchedulingAndTri
 export const getFunctiondataSelector = (state) => state?.RLSchedulingAndTriggering?.rlGetFunctionalAssessmentData;
 export const recallFunctionAssessmentSelector = (state) => state.RLSchedulingAndTriggering.recallFunctionAssessment;
 export const reTriggerFunctionAssessmentSelector = (state) => state.RLSchedulingAndTriggering.reTriggerFunctionAssessment;
+
+// *********** Bu ******** //
+
+export const getBUPage1dataSelector = (state) => state?.RLSchedulingAndTriggering?.rlBUPage1Data;
+export const getBUZonedataSelector = (state) => state?.RLSchedulingAndTriggering?.rlBUZoneData;
+export const getBUBUdataSelector = (state) => state?.RLSchedulingAndTriggering?.rlBUBUData;
+export const getAllBuMdmdataSelector = (state) => state?.RLSchedulingAndTriggering?.rlGetAllBUMDMData;
+export const rlAddBuLetterDataSelector = (state) => state?.RLSchedulingAndTriggering?.rlAddBuLetterData;
+export const getAllBuLetterdataSelector = (state) => state?.RLSchedulingAndTriggering?.rlGetAllBULetterData;
+export const getBudataSelector = (state) => state?.RLSchedulingAndTriggering?.rlGetBuLetterData;

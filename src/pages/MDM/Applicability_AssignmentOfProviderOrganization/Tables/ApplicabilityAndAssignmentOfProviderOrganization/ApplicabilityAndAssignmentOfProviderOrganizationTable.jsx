@@ -58,7 +58,6 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
     setProviderOrganizationValue([]);
     setControl_IDValue([]);
     setEntityValue([]);
-
   }, [assignApplicabilityAndAssignmentOfProviderOrganization?.data]);
 
   const TABLE_COLUMNS = [
@@ -67,27 +66,27 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
       id: 'Zone',
       header: 'Zone',
       flex: 1,
-      filterFn: 'arrIncludesSome',
+      //filterFn: 'arrIncludesSome',
       size: 90,
-      filterVariant: 'multi-select',
+      //filterVariant: 'multi-select',
     },
     {
       accessorKey: 'Entity',
       id: 'Entity',
       header: 'Entity / Receiver',
       flex: 1,
-      filterFn: 'arrIncludesSome',
+      //filterFn: 'arrIncludesSome',
       size: 200,
-      filterVariant: 'multi-select',
+      //filterVariant: 'multi-select',
     },
     {
       accessorKey: 'Control_ID',
       id: 'Control_ID',
       header: 'Control ID',
       flex: 1,
-      filterFn: 'arrIncludesSome',
+      //filterFn: 'arrIncludesSome',
       size: 160,
-      filterVariant: 'multi-select',
+      //filterVariant: 'multi-select',
     },
     {
       accessorKey: 'Entity_Control_ID_IsApplicable',
@@ -112,9 +111,9 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
       id: 'Provider_Entity',
       header: 'Provider Organization',
       flex: 1,
-      filterFn: 'arrIncludesSome',
-      size: 200,
-      filterVariant: 'multi-select',
+      //filterFn: 'arrIncludesSome',
+      size: 230,
+      //filterVariant: 'multi-select',
     },
     {
       accessorKey: 'control_id_provider_entity',

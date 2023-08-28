@@ -8,14 +8,15 @@ import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import { Divider, Box } from '@mantine/core';
 import Workbook from 'react-excel-workbook';
 import { months } from '../../../../QuestionBank/CreateQuestions/constant';
-import { addRlFunctionalAssessmentData } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
+import { addRlFunctionalAssessmentData, addRlBuLetterData } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
 
 const ReviewLetterDetails = ({ finalPayload, onClose }) => {
   const history = useHistory();
   console.log('finalPayload', finalPayload);
   const dispatch = useDispatch();
   const handleSubmit = () => {
-    dispatch(addRlFunctionalAssessmentData(finalPayload));
+
+    dispatch(addRlBuLetterData(finalPayload));
     history.push('/REP-Letters/scheduling-and-triggering');
   };
 
@@ -27,9 +28,9 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
           <div className="col-lg-6">
             <div className="row mb-4">
               <div className="col-lg-6">
-                <span className="black-text font-weight-bold">Function:</span>
+                <span className="black-text font-weight-bold">Letter Type:</span>
               </div>
-              <div className="col-lg-6">{finalPayload?.Function}</div>
+              <div className="col-lg-6">{finalPayload?.Letter_Type}</div>
             </div>
           </div>
 
@@ -83,7 +84,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               <div className="col-lg-6">
                 <span className="black-text font-weight-bold">Reminder - 1:</span>
               </div>
-              <div className="col-lg-6">{finalPayload?.Recipient_Reminder_1}</div>
+              <div className="col-lg-6">{finalPayload?.Disclosure_Processor_Reminder_1}</div>
             </div>
           </div>
 
@@ -92,7 +93,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               <div className="col-lg-6">
                 <span className="black-text font-weight-bold">Reminder - 2:</span>
               </div>
-              <div className="col-lg-6">{finalPayload?.Recipient_Reminder_2}</div>
+              <div className="col-lg-6">{finalPayload?.Disclosure_Processor_Reminder_2}</div>
             </div>
           </div>
         </div>
@@ -107,7 +108,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               <>
                 <TableExport size={16} />
                 <Box ml={5}>
-                  <Form.Label>View All Selected Recipients:</Form.Label>
+                  <Form.Label>View All Selected Disclosure Processor:</Form.Label>
                 </Box>
               </>
             }
@@ -129,13 +130,12 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
             <Workbook.Sheet data={finalPayload?.SelectedDataFromTable} name="Recipients">
               <Workbook.Column label="Zone" value="Zone" />
               <Workbook.Column label="BU" value="BU" />
-              <Workbook.Column label="Functional" value="Functional" />
+              <Workbook.Column label="BU Head" value="BU_Head" />
               <Workbook.Column label="Applicability" value="Applicability" />
-              <Workbook.Column label="Recipient" value="Recipient" />
-              <Workbook.Column label="Recipient Status" value="Recipient_Status" />
-              <Workbook.Column label="Title/Position" value="Title_Position" />
+              <Workbook.Column label="Disclosure Processor" value="Disclosure_Processor" />
+              <Workbook.Column label="Finance Director" value="Finance_Director" />
+              <Workbook.Column label="Zone VP" value="Zone_VP" />
               <Workbook.Column label="Zone Control" value="Zone_Control" />
-              <Workbook.Column label="Zone Control Status" value="Zone_Control_Status" />
             </Workbook.Sheet>
           </Workbook>
         </div>

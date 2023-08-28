@@ -15,13 +15,13 @@ import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import PageWrapper from '../../../../../components/wrappers/PageWrapper';
 import {
-  getRlFunctionAssessmentData,
-  recallFunctionAssessment,
-  reTriggerFunctionAssessment,
+  getRlBuLetterData,
+  recallBuLetter,
+  reTriggerBuLetter,
 } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
-import { getFunctiondataSelector } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
+import { getBudataSelector } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
 
-const FunctionalDetailsTableData = (props) => {
+const BUDetailsTableData = (props) => {
   console.log('props', props);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -31,22 +31,20 @@ const FunctionalDetailsTableData = (props) => {
   const [tableDataArray, setTableDataArray] = useState([]);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [editTableData, setEditTableData] = useState();
-  const getFunctiondataState = useSelector(getFunctiondataSelector);
+  const getBudataState = useSelector(getBudataSelector);
   //console.log(editTableIndex);
 
   useEffect(() => {
     //code for opening second table in pop up
     let params = {
-      Function: props.location.state.data?.Function,
       Title: props.location.state.data?.Tilte,
       Created_On: props.location.state.data?.Created_On,
       Created_By: props.location.state.data?.Created_By,
       Assessment_Cycle: props.location.state.data?.Assessment_Cycle,
       Year: props.location.state.data?.Year,
     };
-    dispatch(getRlFunctionAssessmentData(params));
+    dispatch(getRlBuLetterData(params));
   }, [
-    props.location.state.data?.Function,
     props.location.state.data?.Tilte,
     props.location.state.data?.Created_On,
     props.location.state.data?.Created_By,
@@ -87,14 +85,15 @@ const FunctionalDetailsTableData = (props) => {
       size: 200,
     },
     {
-      accessorKey: 'Function',
-      id: 'Function',
-      header: 'Function',
+      accessorKey: 'BU_Head',
+      id: 'BU_Head',
+      header: 'BU Head',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 200,
     },
+    
     {
       accessorKey: 'Survey_Status',
       id: 'Survey_Status',
@@ -105,29 +104,22 @@ const FunctionalDetailsTableData = (props) => {
       size: 100,
     },
     {
-      accessorKey: 'Recipient',
-      id: 'Recipient',
-      header: 'Recipient',
+      accessorKey: 'Disclosure_Processor',
+      id: 'Disclosure_Processor',
+      header: 'Disclosure Processor',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 230,
     },
     {
-      accessorKey: 'Recipient_Status',
-      id: 'Recipient_Status',
-      header: 'Recipient Status',
+      accessorKey: 'Entity',
+      id: 'Entity',
+      header: 'Entity',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 150,
-      Cell: (row) => {
-        return (
-          <span className={class_to_apply(row.row.original.Recipient_Status)}>
-            {row.row.original.Recipient_Status === '' ? 'N/A' : row.row.original.Recipient_Status}
-          </span>
-        );
-      },
     },
     {
       accessorKey: 'Title',
@@ -139,9 +131,9 @@ const FunctionalDetailsTableData = (props) => {
       size: 200,
     },
     {
-      accessorKey: 'Title_Position',
-      id: 'Title_Position',
-      header: 'Title/Position',
+      accessorKey: 'Finance_Director',
+      id: 'Finance_Director',
+      header: 'Finance Director',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -157,6 +149,15 @@ const FunctionalDetailsTableData = (props) => {
       size: 230,
     },
     {
+      accessorKey: 'Zone',
+      id: 'Zone',
+      header: 'Zone',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 150,
+    },
+    {
       accessorKey: 'Zone_Control',
       id: 'Zone_Control',
       header: 'Zone Control',
@@ -165,29 +166,12 @@ const FunctionalDetailsTableData = (props) => {
       cellClassName: 'dashboardCell',
       size: 230,
     },
-    {
-      accessorKey: 'Zone_Control_Status',
-      id: 'Zone_Control_Status',
-      header: 'Zone Control Status',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 150,
-      Cell: (row) => {
-        return (
-          <span className={class_to_apply(row.row.original.Zone_Control_Status)}>
-            {row.row.original.Zone_Control_Status === ''
-              ? 'N/A'
-              : row.row.original.Zone_Control_Status}
-          </span>
-        );
-      },
-    },
+
   ];
 
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
-    const updatedData = getFunctiondataState?.data.map((i, index) => {
+    const updatedData = getBudataState?.data.map((i, index) => {
       return {
         id: index,
         ...i,
@@ -196,7 +180,7 @@ const FunctionalDetailsTableData = (props) => {
 
     setTableData(updatedData);
     setTableDataArray(updatedData);
-  }, [getFunctiondataState?.data]);
+  }, [getBudataState?.data]);
 
   const handelRecall = () => {
     //code for Recall Assessment
@@ -216,14 +200,23 @@ const FunctionalDetailsTableData = (props) => {
       //setEditTableData(data);
 
       let payload = {
-        Assessment_ids: tableId,
-        Modified_By: {
-          Email: accounts[0]?.username,
-          name: accounts[0]?.name ? accounts[0].name : '',
+        params: {
+          Assessment_ids: tableId,
+          Modified_By: {
+            Email: accounts[0]?.username,
+            name: accounts[0]?.name ? accounts[0].name : '',
+          },
+        },
+        body: {
+          Title: props.location.state.data?.Tilte,
+          Created_On: props.location.state.data?.Created_On,
+          Created_By: props.location.state.data?.Created_By,
+          Assessment_Cycle: props.location.state.data?.Assessment_Cycle,
+          Year: props.location.state.data?.Year,
         },
       };
       console.log(payload, 'payload for Recall');
-      dispatch(recallFunctionAssessment(payload));
+      dispatch(recallBuLetter(payload));
     }
   };
 
@@ -258,14 +251,23 @@ const FunctionalDetailsTableData = (props) => {
         //setEditTableData(data);
 
         let payload = {
-          Assessment_ids: tableId,
-          Modified_By: {
-            Email: accounts[0]?.username,
-            name: accounts[0]?.name ? accounts[0].name : '',
+          params: {
+            Assessment_ids: tableId,
+            Modified_By: {
+              Email: accounts[0]?.username,
+              name: accounts[0]?.name ? accounts[0].name : '',
+            },
+          },
+          body: {
+            Title: props.location.state.data?.Tilte,
+            Created_On: props.location.state.data?.Created_On,
+            Created_By: props.location.state.data?.Created_By,
+            Assessment_Cycle: props.location.state.data?.Assessment_Cycle,
+            Year: props.location.state.data?.Year,
           },
         };
         console.log(payload, 'payload for Re-Trigger');
-        dispatch(reTriggerFunctionAssessment(payload));
+        dispatch(reTriggerBuLetter(payload));
       }
     }
   };
@@ -302,7 +304,7 @@ const FunctionalDetailsTableData = (props) => {
                 {tableData?.length > 0 ? (
                   <Table2
                     tableData={tableData}
-                    loading={getFunctiondataSelector.loading}
+                    loading={getBudataSelector.loading}
                     tableColumns={tableColumns}
                     setEditTableIndex={setEditTableIndex}
                   />
@@ -336,4 +338,4 @@ const FunctionalDetailsTableData = (props) => {
   );
 };
 
-export default FunctionalDetailsTableData;
+export default BUDetailsTableData;

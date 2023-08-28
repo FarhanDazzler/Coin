@@ -8,6 +8,8 @@ import NoDataLetterPlaceholder from './NoDataPlaceHolder';
 import { MultiSelect } from '@mantine/core';
 import { Group } from '@mantine/core';
 import PageWrapper from '../../../../../components/wrappers/PageWrapper';
+import { getRlAllBuLetterData } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
+import { getAllBuLetterdataSelector } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
 
 // Filter buttons
 const FilterButtons = ({
@@ -74,6 +76,7 @@ const BULetterSummaryTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
+  const getAllBuLetterdataState = useSelector(getAllBuLetterdataSelector);
 
   // multi choice user input State for filters button
   const [yearValue, setYearValue] = useState([]);
@@ -81,7 +84,8 @@ const BULetterSummaryTable = () => {
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
 
   useEffect(() => {
-
+    console.log("Hi there");
+    dispatch(getRlAllBuLetterData())
   }, []);
 
 
@@ -100,18 +104,17 @@ const BULetterSummaryTable = () => {
     );
   }, [yearValue, assessmentCycleValue]);
 
-  const handleSurveyNameClick = (Title, Created_On, Created_By, Assessment_Cycle, Year, Function,) => {
+  const handleSurveyNameClick = (Title, Created_On, Created_By, Assessment_Cycle, Year) => {
     console.log(Function, "Function")
     //code for opening second table in pop up
     const data = {
       Tilte: Title,
-      Function: Function,
       Created_On: Created_On,
       Created_By: Created_By,
       Assessment_Cycle: Assessment_Cycle,
       Year: Year,
     };
-   
+    history.push('/REP-Letters/scheduling-and-triggering/bu-letter-details', { data });
   };
 
   const TABLE_COLUMNS = [
@@ -134,7 +137,6 @@ const BULetterSummaryTable = () => {
                 row.row.original.Created_By,
                 row.row.original.Assessment_Cycle,
                 row.row.original.Year,
-                row.row.original.Function,
               )
             }
           >
@@ -142,15 +144,6 @@ const BULetterSummaryTable = () => {
           </span>
         );
       },
-    },
-    {
-      accessorKey: 'Function',
-      id: 'Function',
-      header: 'Function',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 150,
     },
     {
       accessorKey: 'Created_On',
@@ -192,16 +185,16 @@ const BULetterSummaryTable = () => {
 
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
-    // const updatedData = getAssessmentsSummaryTableState?.data.map((i, index) => {
-    //   return {
-    //     id: index,
-    //     ...i,
-    //   };
-    // });
+    const updatedData = getAllBuLetterdataState?.data.map((i, index) => {
+      return {
+        id: index,
+        ...i,
+      };
+    });
 
-    // setTableData(updatedData);
-    // setTableDataArray(updatedData);
-  }, []);
+    setTableData(updatedData);
+    setTableDataArray(updatedData);
+  }, [getAllBuLetterdataState?.data]);
 
   // Function to remove duplicate value from array
   function removeDuplicates(arr) {
@@ -209,8 +202,9 @@ const BULetterSummaryTable = () => {
   }
 
   // Arrays for showing data on filters
-  const year = []
-  const assessment_Cycle = []
+ // Arrays for showing data on filters
+ const year = getAllBuLetterdataState?.data.map((i) => i.Year);
+ const assessment_Cycle = getAllBuLetterdataState?.data.map((i) => i.Assessment_Cycle);
 
   return (
     <>
@@ -232,6 +226,7 @@ const BULetterSummaryTable = () => {
                 <Table2
                   tableData={tableData}
                   tableColumns={tableColumns}
+                  loading={getAllBuLetterdataState.loading}
                 />
               ) : (
                 <NoDataLetterPlaceholder />
