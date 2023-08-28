@@ -194,7 +194,7 @@ const BULetterSummaryTable = () => {
 
     setTableData(updatedData);
     setTableDataArray(updatedData);
-  }, []);
+  }, [getAllBuLetterdataState?.data]);
 
   // Function to remove duplicate value from array
   function removeDuplicates(arr) {
@@ -202,8 +202,9 @@ const BULetterSummaryTable = () => {
   }
 
   // Arrays for showing data on filters
-  const year = []
-  const assessment_Cycle = []
+ // Arrays for showing data on filters
+ const year = getAllBuLetterdataState?.data.map((i) => i.Year);
+ const assessment_Cycle = getAllBuLetterdataState?.data.map((i) => i.Assessment_Cycle);
 
   return (
     <>
