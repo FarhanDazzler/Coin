@@ -97,7 +97,10 @@ export const getLanguageFormat = (data = [], lang = 'en', startStr, isValid, rec
 
       case blockType.DROPDOWN:
         const dropdownData = d.options?.map((d) => {
-          return { value: d.option_id, label: d[keyOption] || d.option_value };
+          return {
+            value: d.option_id || d.option_value,
+            label: d[keyOption] || d.label || d.option_value,
+          };
         });
         return {
           ...d,
@@ -285,7 +288,7 @@ export const handleSelectAns = ({ question = [], ans, data }) => {
   return { newQuestionList, newAnsList, isTerminating };
 };
 
-export const  getQuestionsFormatData = (data = []) => {
+export const getQuestionsFormatData = (data = []) => {
   if (!Array.isArray(data)) {
     if (typeof data === 'object') {
       return Object.keys(data)?.map((value) => {
