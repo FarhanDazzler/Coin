@@ -38,6 +38,61 @@ export const RE_TRIGGER_FUNCTION_ASSESSMENT_ERROR = 'RE_TRIGGER_FUNCTION_ASSESSM
 
 // =================== Re-Trigger Assessment ========================//
 
+// =================== Bu ========================//
+export const GET_RL_BU_PAGE1_DATA_REQUEST = 'GET_RL_BU_PAGE1_DATA_REQUEST';
+export const GET_RL_BU_PAGE1_DATA_SUCCESS = 'GET_RL_BU_PAGE1_DATA_SUCCESS';
+export const GET_RL_BU_PAGE1_DATA_ERROR = 'GET_RL_BU_PAGE1_DATA_ERROR';
+
+// =================== Zone LIST ========================//
+
+export const GET_RL_BU_ZONE_REQUEST = 'GET_RL_BU_ZONE_REQUEST';
+export const GET_RL_BU_ZONE_SUCCESS = 'GET_RL_BU_ZONE_SUCCESS';
+export const GET_RL_BU_ZONE_ERROR = 'GET_RL_BU_ZONE_ERROR';
+
+// =================== Zone List ========================//
+
+// =================== BU BU LIST ========================//
+
+export const GET_RL_BU_BU_REQUEST = 'GET_RL_BU_BU_REQUEST';
+export const GET_RL_BU_BU_SUCCESS = 'GET_RL_BU_BU_SUCCESS';
+export const GET_RL_BU_BU_ERROR = 'GET_RL_BU_BU_ERROR';
+
+// =================== BU BU List ========================//
+
+export const GET_RL_ALL_BU_MDM_DATA = 'GET_RL_ALL_BU_MDM_DATA';
+export const GET_RL_ALL_BU_MDM_DATA_SUCCESS = 'GET_RL_ALL_BU_MDM_DATA_SUCCESS';
+export const GET_RL_ALL_BU_MDM_DATA_FAILED = 'GET_RL_ALL_BU_MDM_DATA_FAILED';
+
+export const ACTION_ADD_RL_BU_LETTER_DATA = 'ACTION_ADD_RL_BU_LETTER_DATA';
+export const ACTION_ADD_RL_BU_LETTER_DATA_SUCCESS = 'ACTION_ADD_RL_BU_LETTER_DATA_SUCCESS';
+export const ACTION_ADD_RL_BU_LETTER_DATA_FAILED = 'ACTION_ADD_RL_BU_LETTER_DATA_FAILED';
+
+export const GET_RL_ALL_BU_LETTER_DATA = 'GET_RL_ALL_BU_LETTER_DATA';
+export const GET_RL_ALL_BU_LETTER_DATA_SUCCESS = 'GET_RL_ALL_BU_LETTER_DATA_SUCCESS';
+export const GET_RL_ALL_BU_LETTER_DATA_FAILED = 'GET_RL_ALL_BU_LETTER_DATA_FAILED';
+
+export const GET_RL_BU_LETTER_DATA_REQUEST = 'GET_RL_BU_LETTER_DATA_REQUEST';
+export const GET_RL_BU_LETTER_DATA_SUCCESS = 'GET_RL_BU_LETTER_DATA_SUCCESS';
+export const GET_RL_BU_LETTER_DATA_ERROR = 'GET_RL_BU_LETTER_DATA_ERROR';
+
+// =================== RECALL_FUNCTION Assessment ========================//
+
+export const RECALL_BU_LETTER_REQUEST = 'RECALL_BU_LETTER_REQUEST';
+export const RECALL_BU_LETTER_SUCCESS = 'RECALL_BU_LETTER_SUCCESS';
+export const RECALL_BU_LETTER_ERROR = 'RECALL_BU_LETTER_ERROR';
+
+// =================== RECALL_FUNCTION Assessment ========================//
+
+// =================== Re-Trigger Assessment ========================//
+
+export const RE_TRIGGER_BU_LETTER_REQUEST = 'RE_TRIGGER_BU_LETTER_REQUEST';
+export const RE_TRIGGER_BU_LETTER_SUCCESS = 'RE_TRIGGER_BU_LETTER_SUCCESS';
+export const RE_TRIGGER_BU_LETTER_ERROR = 'RE_TRIGGER_BU_LETTER_ERROR';
+
+// =================== Re-Trigger Assessment ========================//
+
+// =================== BU ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -52,6 +107,15 @@ const initialState = {
   rlGetFunctionalAssessmentData: { ...block, data: [] },
   recallFunctionAssessment: { ...block, data: [] },
   reTriggerFunctionAssessment: { ...block, data: [] },
+  rlBUPage1Data: { ...block, data: [] },
+  rlBUZoneData: { ...block, data: [] },
+  rlBUBUData: { ...block, data: [] },
+  rlGetAllBUMDMData: { ...block, data: [] },
+  rlAddBuLetterData: { ...block, data: [] },
+  rlGetAllBULetterData: { ...block, data: [] },
+  rlGetBuLetterData: { ...block, data: [] },
+  recallBuLetter: { ...block, data: [] },
+  reTriggerBuLetter: { ...block, data: [] },
 };
 export const RLSchedulingAndTriggeringReducer = (state = initialState, { type, payload = {} }) => {
   switch (type) {
@@ -219,6 +283,241 @@ export const RLSchedulingAndTriggeringReducer = (state = initialState, { type, p
         ...state,
         reTriggerFunctionAssessment: {
           ...state.reTriggerFunctionAssessment,
+          loading: false,
+        },
+      };
+    //BU ************* //
+
+    // BU Page1 data
+    case GET_RL_BU_PAGE1_DATA_REQUEST:
+      return {
+        ...state,
+        rlBUPage1Data: { ...state.rlBUPage1Data, loading: true },
+      };
+    case GET_RL_BU_PAGE1_DATA_SUCCESS:
+      return {
+        ...state,
+        rlBUPage1Data: { ...state.rlBUPage1Data, data: payload, loading: false },
+      };
+    case GET_RL_BU_PAGE1_DATA_ERROR:
+      return {
+        ...state,
+        rlBUPage1Data: { ...state.rlBUPage1Data, loading: false },
+      };
+
+    //BU Zones
+    case GET_RL_BU_ZONE_REQUEST:
+      return {
+        ...state,
+        rlBUZoneData: {
+          ...state.rlBUZoneData,
+          loading: true,
+        },
+      };
+    case GET_RL_BU_ZONE_SUCCESS:
+      return {
+        ...state,
+        rlBUZoneData: {
+          ...state.rlBUZoneData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_RL_BU_ZONE_ERROR:
+      return {
+        ...state,
+        rlBUZoneData: {
+          ...state.rlBUZoneData,
+          loading: false,
+        },
+      };
+
+    //BU BU
+    case GET_RL_BU_BU_REQUEST:
+      return {
+        ...state,
+        rlBUBUData: {
+          ...state.rlBUBUData,
+          loading: true,
+        },
+      };
+    case GET_RL_BU_BU_SUCCESS:
+      return {
+        ...state,
+        rlBUBUData: {
+          ...state.rlBUBUData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_RL_BU_BU_ERROR:
+      return {
+        ...state,
+        rlBUBUData: {
+          ...state.rlBUBUData,
+          loading: false,
+        },
+      };
+
+    // Add Functional Assessment Data
+    case ACTION_ADD_RL_BU_LETTER_DATA:
+      return {
+        ...state,
+        rlAddBuLetterData: {
+          ...state.rlAddBuLetterData,
+          loading: true,
+        },
+      };
+    case ACTION_ADD_RL_BU_LETTER_DATA_SUCCESS:
+      return {
+        ...state,
+        rlAddBuLetterData: {
+          ...state.rlAddBuLetterData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ACTION_ADD_RL_BU_LETTER_DATA_FAILED:
+      return {
+        ...state,
+        rlAddBuLetterData: {
+          ...state.rlAddBuLetterData,
+          loading: false,
+        },
+      };
+
+      
+    // Get All BU MDM Data
+    case GET_RL_ALL_BU_MDM_DATA:
+      return {
+        ...state,
+        rlGetAllBUMDMData: {
+          ...state.rlGetAllBUMDMData,
+          loading: true,
+        },
+      };
+    case GET_RL_ALL_BU_MDM_DATA_SUCCESS:
+      return {
+        ...state,
+        rlGetAllBUMDMData: {
+          ...state.rlGetAllBUMDMData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_RL_ALL_BU_MDM_DATA_FAILED:
+      return {
+        ...state,
+        rlGetAllBUMDMData: {
+          ...state.rlGetAllBUMDMData,
+          loading: false,
+        },
+      };
+
+    // Get All BU Letter Data
+    case GET_RL_ALL_BU_LETTER_DATA:
+      return {
+        ...state,
+        rlGetAllBULetterData: {
+          ...state.rlGetAllBULetterData,
+          loading: true,
+        },
+      };
+    case GET_RL_ALL_BU_LETTER_DATA_SUCCESS:
+      return {
+        ...state,
+        rlGetAllBULetterData: {
+          ...state.rlGetAllBULetterData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_RL_ALL_BU_LETTER_DATA_FAILED:
+      return {
+        ...state,
+        rlGetAllBULetterData: {
+          ...state.rlGetAllBULetterData,
+          loading: false,
+        },
+      };
+
+    // Get Functional Assessment Data
+    case GET_RL_BU_LETTER_DATA_REQUEST:
+      return {
+        ...state,
+        rlGetBuLetterData: {
+          ...state.rlGetBuLetterData,
+          loading: true,
+        },
+      };
+    case GET_RL_BU_LETTER_DATA_SUCCESS:
+      return {
+        ...state,
+        rlGetBuLetterData: {
+          ...state.rlGetBuLetterData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_RL_BU_LETTER_DATA_ERROR:
+      return {
+        ...state,
+        rlGetBuLetterData: {
+          ...state.rlGetBuLetterData,
+          loading: false,
+        },
+      };
+
+    //RECALL_FUNCTION Assessment
+    case RECALL_BU_LETTER_REQUEST:
+      return {
+        ...state,
+        recallBuLetter: {
+          ...state.recallBuLetter,
+          loading: true,
+        },
+      };
+    case RECALL_BU_LETTER_SUCCESS:
+      return {
+        ...state,
+        recallBuLetter: {
+          ...state.recallBuLetter,
+          data: payload,
+          loading: false,
+        },
+      };
+    case RECALL_BU_LETTER_ERROR:
+      return {
+        ...state,
+        recallBuLetter: {
+          ...state.recallBuLetter,
+          loading: false,
+        },
+      };
+
+    //Re-Trigger Assessment
+    case RE_TRIGGER_BU_LETTER_REQUEST:
+      return {
+        ...state,
+        reTriggerBuLetter: {
+          ...state.reTriggerBuLetter,
+          loading: true,
+        },
+      };
+    case RE_TRIGGER_BU_LETTER_SUCCESS:
+      return {
+        ...state,
+        reTriggerBuLetter: {
+          ...state.reTriggerBuLetter,
+          data: payload,
+          loading: false,
+        },
+      };
+    case RE_TRIGGER_BU_LETTER_ERROR:
+      return {
+        ...state,
+        reTriggerBuLetter: {
+          ...state.reTriggerBuLetter,
           loading: false,
         },
       };
