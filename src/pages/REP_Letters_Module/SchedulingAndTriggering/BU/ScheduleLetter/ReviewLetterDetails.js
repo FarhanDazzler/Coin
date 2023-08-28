@@ -28,9 +28,9 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
           <div className="col-lg-6">
             <div className="row mb-4">
               <div className="col-lg-6">
-                <span className="black-text font-weight-bold">Template:</span>
+                <span className="black-text font-weight-bold">Letter Type:</span>
               </div>
-              <div className="col-lg-6">{finalPayload?.Template}</div>
+              <div className="col-lg-6">{finalPayload?.Letter_Type}</div>
             </div>
           </div>
 
@@ -84,7 +84,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               <div className="col-lg-6">
                 <span className="black-text font-weight-bold">Reminder - 1:</span>
               </div>
-              <div className="col-lg-6">{finalPayload?.Recipient_Reminder_1}</div>
+              <div className="col-lg-6">{finalPayload?.Disclosure_Processor_Reminder_1}</div>
             </div>
           </div>
 
@@ -93,7 +93,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               <div className="col-lg-6">
                 <span className="black-text font-weight-bold">Reminder - 2:</span>
               </div>
-              <div className="col-lg-6">{finalPayload?.Recipient_Reminder_2}</div>
+              <div className="col-lg-6">{finalPayload?.Disclosure_Processor_Reminder_2}</div>
             </div>
           </div>
         </div>
@@ -108,7 +108,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               <>
                 <TableExport size={16} />
                 <Box ml={5}>
-                  <Form.Label>View All Selected Recipients:</Form.Label>
+                  <Form.Label>View All Selected Disclosure Processor:</Form.Label>
                 </Box>
               </>
             }

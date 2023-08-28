@@ -72,6 +72,8 @@ export const RepLettersRoutes = [
     path: '/REP-Letters/scheduling-and-triggering/bu-letter-details',
     exact: true,
     component: BUDetailsTableData,
+  },
+  {
     path: '/REP-Letters/attempt-letter/functional-letter-form',
     exact: true,
     component: FunctionalLetterForm,
