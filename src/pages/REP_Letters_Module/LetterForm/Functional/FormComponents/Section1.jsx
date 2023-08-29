@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const Section1 = ({ questions }) => {
+  const history = useHistory();
   const [responses, setResponses] = useState({}); // To store user responses
-  const [draftMode, setDraftMode] = useState(true); // To toggle draft mode
 
   const handleRadioChange = (questionId, questionText, value) => {
     setResponses({
@@ -96,10 +97,13 @@ const Section1 = ({ questions }) => {
         </div>
       ))}
       <div>
-        <button onClick={() => setDraftMode(!draftMode)}>
-          {draftMode ? 'Save Draft' : 'Submit'}
+        <button onClick={() => history.push('/')}>Cancel</button>
+        <button onClick={handleSubmit}>Save Draft</button>
+        <button
+        //onClick={handleSubmit}
+        >
+          Submit
         </button>
-        {!draftMode && <button onClick={handleSubmit}>Final Submit</button>}
       </div>
     </div>
   );
