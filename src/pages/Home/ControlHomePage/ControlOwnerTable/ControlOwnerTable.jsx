@@ -41,7 +41,6 @@ const ControlOwnerTable = ({
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
-
   const history = useHistory();
 
   const { accounts } = useMsal();
