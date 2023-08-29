@@ -1,0 +1,108 @@
+import React, { useState, useEffect } from 'react';
+
+const Section1 = ({ questions }) => {
+  const [responses, setResponses] = useState({}); // To store user responses
+  const [draftMode, setDraftMode] = useState(true); // To toggle draft mode
+
+  const handleRadioChange = (questionId, questionText, value) => {
+    setResponses({
+      ...responses,
+      [questionId]: {
+        questionText: questionText,
+        response: value,
+        comment: '',
+      },
+    });
+  };
+
+  const handleCommentChange = (questionId, comment) => {
+    setResponses({
+      ...responses,
+      [questionId]: {
+        ...responses[questionId],
+        comment,
+      },
+    });
+  };
+
+  // Load stored responses from local storage when the component mounts
+  useEffect(() => {
+    const storedResponses = localStorage.getItem('storedResponses');
+    if (storedResponses) {
+      setResponses(JSON.parse(storedResponses));
+    }
+  }, []);
+
+  const handleSubmit = () => {
+    // Implement your submission logic here
+    // Save the submitted responses to local storage
+    localStorage.setItem('storedResponses', JSON.stringify(responses));
+    console.log('Submitted responses:', responses);
+  };
+
+  return (
+    <div>
+      {questions?.map((question) => (
+        <div key={question.id}>
+          <div className="renderBlockWrapper mt-5">
+            <p
+              className="left-aligned-text"
+              dangerouslySetInnerHTML={{
+                __html: question.text,
+              }}
+            />
+            {/* <p>{question.text}</p> */}
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  value="Yes"
+                  checked={responses[question.id]?.response === 'Yes'}
+                  onChange={() => handleRadioChange(question.id, question.text, 'Yes')}
+                />
+                Yes
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="No"
+                  checked={responses[question.id]?.response === 'No'}
+                  onChange={() => handleRadioChange(question.id, question.text, 'No')}
+                />
+                No
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="NA"
+                  checked={responses[question.id]?.response === 'NA'}
+                  onChange={() => handleRadioChange(question.id, question.text, 'NA')}
+                />
+                NA
+              </label>
+            </div>
+            {(responses[question.id]?.response === 'No' ||
+              responses[question.id]?.response === 'NA') && (
+              <div>
+                <textarea
+                  required
+                  placeholder="Enter your comment..."
+                  value={responses[question.id]?.comment || ''}
+                  onChange={(e) => handleCommentChange(question.id, e.target.value)}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+      <div>
+        <button onClick={() => setDraftMode(!draftMode)}>
+          {draftMode ? 'Save Draft' : 'Submit'}
+        </button>
+        {!draftMode && <button onClick={handleSubmit}>Final Submit</button>}
+      </div>
+    </div>
+  );
+};
+
+export default Section1;
