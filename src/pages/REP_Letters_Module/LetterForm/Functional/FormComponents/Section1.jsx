@@ -119,8 +119,7 @@ const Section1 = ({ questions }) => {
                 NA
               </label>
             </div>
-            {(responses[question.id]?.response === 'No' ||
-              responses[question.id]?.response === 'NA') && (
+            {responses[question.id]?.response === 'Yes' ? (
               <div>
                 <textarea
                   required
@@ -129,6 +128,18 @@ const Section1 = ({ questions }) => {
                   onChange={(e) => handleCommentChange(question.id, e.target.value)}
                 />
               </div>
+            ) : (
+              (responses[question.id]?.response === 'No' ||
+                responses[question.id]?.response === 'NA') && (
+                <div>
+                  <textarea
+                    required
+                    placeholder="Enter your comment..."
+                    value={responses[question.id]?.comment || ''}
+                    onChange={(e) => handleCommentChange(question.id, e.target.value)}
+                  />
+                </div>
+              )
             )}
             {formErrors[question.id] && (
               <div className="error-message">{formErrors[question.id]}</div>
