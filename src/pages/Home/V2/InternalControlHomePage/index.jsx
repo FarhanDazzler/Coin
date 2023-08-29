@@ -9,6 +9,7 @@ import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import ProgressBar from './HomePageTable/ProgressBar/ProgressBar';
 import InternalControlTable from '../../Tables/InternalControlTable/InternalControlTable';
 import { getInternalControlDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
+import SummaryView from '../../../../components/SummaryView/SummaryView';
 
 const InternalControlHomePage = () => {
   const history = useHistory();
@@ -204,6 +205,7 @@ const InternalControlHomePage = () => {
           setProviderValue={setProviderValue}
         />
         {Control_ID && <HomeTableModal isModal={true} activeData={state} />}
+        {/*<SummaryView />*/}
       </PageWrapper>
     </div>
   );
