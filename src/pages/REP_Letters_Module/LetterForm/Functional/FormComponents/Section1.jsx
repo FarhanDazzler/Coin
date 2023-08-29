@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
+import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 
 const Section1 = ({ questions }) => {
   const history = useHistory();
@@ -81,7 +82,7 @@ const Section1 = ({ questions }) => {
   };
 
   return (
-    <div>
+    <CollapseFrame title="Section 1 : Please give your responses" active>
       {questions?.map((question) => (
         <div key={question.id}>
           <div className="renderBlockWrapper mt-5">
@@ -153,7 +154,7 @@ const Section1 = ({ questions }) => {
         <button onClick={handleDraft}>Save Draft</button>
         <button onClick={handleSubmit}>Submit</button>
       </div>
-    </div>
+    </CollapseFrame>
   );
 };
 
