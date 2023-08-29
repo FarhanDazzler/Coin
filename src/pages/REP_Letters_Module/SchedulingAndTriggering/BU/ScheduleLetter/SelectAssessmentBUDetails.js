@@ -163,15 +163,6 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
       cellClassName: 'dashboardCell',
       size: 230,
     },
-    {
-      accessorKey: 'Letter_Type',
-      id: 'Letter_Type',
-      header: 'Letter Type',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 230,
-    },
   ];
 
   useEffect(() => {

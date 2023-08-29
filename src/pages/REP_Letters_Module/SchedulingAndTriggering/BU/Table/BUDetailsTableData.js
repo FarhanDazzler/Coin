@@ -67,13 +67,13 @@ const BUDetailsTableData = (props) => {
 
   const TABLE_COLUMNS = [
     {
-      accessorKey: 'Assessment_Cycle',
-      id: 'Assessment_Cycle',
-      header: 'Assessment Cycle',
+      accessorKey: 'Title',
+      id: 'Title',
+      header: 'Title',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 100,
+      size: 200,
     },
     {
       accessorKey: 'BU',
@@ -85,15 +85,14 @@ const BUDetailsTableData = (props) => {
       size: 200,
     },
     {
-      accessorKey: 'BU_Head',
-      id: 'BU_Head',
-      header: 'BU Head',
+      accessorKey: 'Zone',
+      id: 'Zone',
+      header: 'Zone',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 200,
+      size: 150,
     },
-    
     {
       accessorKey: 'Survey_Status',
       id: 'Survey_Status',
@@ -102,15 +101,6 @@ const BUDetailsTableData = (props) => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 100,
-    },
-    {
-      accessorKey: 'Disclosure_Processor',
-      id: 'Disclosure_Processor',
-      header: 'Disclosure Processor',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 230,
     },
     {
       accessorKey: 'Entity',
@@ -122,13 +112,13 @@ const BUDetailsTableData = (props) => {
       size: 150,
     },
     {
-      accessorKey: 'Title',
-      id: 'Title',
-      header: 'Title',
+      accessorKey: 'Disclosure_Processor',
+      id: 'Disclosure_Processor',
+      header: 'Disclosure Processor',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 200,
+      size: 230,
     },
     {
       accessorKey: 'Finance_Director',
@@ -140,22 +130,13 @@ const BUDetailsTableData = (props) => {
       size: 230,
     },
     {
-      accessorKey: 'Year',
-      id: 'Year',
-      header: 'Year',
+      accessorKey: 'BU_Head',
+      id: 'BU_Head',
+      header: 'BU Head',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 230,
-    },
-    {
-      accessorKey: 'Zone',
-      id: 'Zone',
-      header: 'Zone',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 150,
+      size: 200,
     },
     {
       accessorKey: 'Zone_Control',
@@ -166,7 +147,42 @@ const BUDetailsTableData = (props) => {
       cellClassName: 'dashboardCell',
       size: 230,
     },
-
+    {
+      accessorKey: 'Zone_VP',
+      id: 'Zone_VP',
+      header: 'Zone VP',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 230,
+    },
+    {
+      accessorKey: 'Letter_Type',
+      id: 'Letter_Type',
+      header: 'Letter Type',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 100,
+    },
+    {
+      accessorKey: 'Assessment_Cycle',
+      id: 'Assessment_Cycle',
+      header: 'Assessment Cycle',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 100,
+    },
+    {
+      accessorKey: 'Year',
+      id: 'Year',
+      header: 'Year',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 230,
+    },
   ];
 
   useEffect(() => {
@@ -185,7 +201,7 @@ const BUDetailsTableData = (props) => {
   const handelRecall = () => {
     //code for Recall Assessment
     if (editTableIndex.length === 0) {
-      Swal.fire('Oops...', 'Please select atleast one Letter for Recalling', 'error');
+      Swal.fire('Oops...', 'Please select at least one Letter for Recalling', 'error');
     } else if (editTableIndex.length >= 1) {
       console.log(editTableIndex, 'editTableIndex');
       let tableId = [];
@@ -225,9 +241,9 @@ const BUDetailsTableData = (props) => {
     const dataUP = tableData?.filter(
       (data, i) => editTableIndex?.includes(data.id) && data.Survey_Status !== 'Recalled',
     );
-    console.log("dataUP", dataUP);
+    console.log('dataUP', dataUP);
     if (editTableIndex.length === 0 || dataUP.length !== 0) {
-        console.log("hi")
+      console.log('hi');
       Swal.fire(
         'Oops...',
         'Please select only Recalled Letter from table for Re-Triggering',
