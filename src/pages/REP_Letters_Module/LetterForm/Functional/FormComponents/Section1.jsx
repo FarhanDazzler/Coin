@@ -3,7 +3,8 @@ import { useHistory } from 'react-router-dom';
 
 const Section1 = ({ questions }) => {
   const history = useHistory();
-  const [responses, setResponses] = useState({}); // To store user responses
+  const [responses, setResponses] = useState({});
+  const [formErrors, setFormErrors] = useState({});
 
   const handleRadioChange = (questionId, questionText, value) => {
     setResponses({
@@ -11,8 +12,13 @@ const Section1 = ({ questions }) => {
       [questionId]: {
         questionText: questionText,
         response: value,
-        comment: '',
+        comment: value === 'Yes' ? '' : responses[questionId]?.comment || '',
       },
+    });
+
+    setFormErrors({
+      ...formErrors,
+      [questionId]: '',
     });
   };
 
@@ -24,9 +30,13 @@ const Section1 = ({ questions }) => {
         comment,
       },
     });
+
+    setFormErrors({
+      ...formErrors,
+      [questionId]: '',
+    });
   };
 
-  // Load stored responses from local storage when the component mounts
   useEffect(() => {
     const storedResponses = localStorage.getItem('storedResponses');
     if (storedResponses) {
@@ -34,9 +44,37 @@ const Section1 = ({ questions }) => {
     }
   }, []);
 
-  const handleSubmit = () => {
+  const handleDraft = () => {
     // Implement your submission logic here
     // Save the submitted responses to local storage
+    localStorage.setItem('storedResponses', JSON.stringify(responses));
+    console.log('Submitted responses:', responses);
+  };
+
+  const handleSubmit = () => {
+    let hasErrors = false;
+    const newFormErrors = {};
+
+    questions.forEach((question) => {
+      const response = responses[question.id]?.response;
+      const comment = responses[question.id]?.comment;
+
+      if (!response) {
+        newFormErrors[question.id] = 'Response is required.';
+        hasErrors = true;
+      }
+
+      if ((response === 'No' || response === 'NA') && !comment) {
+        newFormErrors[question.id] = 'Comment is required for No/NA responses.';
+        hasErrors = true;
+      }
+    });
+
+    if (hasErrors) {
+      setFormErrors(newFormErrors);
+      return;
+    }
+
     localStorage.setItem('storedResponses', JSON.stringify(responses));
     console.log('Submitted responses:', responses);
   };
@@ -52,7 +90,6 @@ const Section1 = ({ questions }) => {
                 __html: question.text,
               }}
             />
-            {/* <p>{question.text}</p> */}
             <div>
               <label>
                 <input
@@ -93,17 +130,16 @@ const Section1 = ({ questions }) => {
                 />
               </div>
             )}
+            {formErrors[question.id] && (
+              <div className="error-message">{formErrors[question.id]}</div>
+            )}
           </div>
         </div>
       ))}
       <div>
         <button onClick={() => history.push('/')}>Cancel</button>
-        <button onClick={handleSubmit}>Save Draft</button>
-        <button
-        //onClick={handleSubmit}
-        >
-          Submit
-        </button>
+        <button onClick={handleDraft}>Save Draft</button>
+        <button onClick={handleSubmit}>Submit</button>
       </div>
     </div>
   );
