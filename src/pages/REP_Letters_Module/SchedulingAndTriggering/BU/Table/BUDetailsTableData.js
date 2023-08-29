@@ -185,7 +185,7 @@ const BUDetailsTableData = (props) => {
   const handelRecall = () => {
     //code for Recall Assessment
     if (editTableIndex.length === 0) {
-      Swal.fire('Oops...', 'Please select atleast Assessment one for Recalling', 'error');
+      Swal.fire('Oops...', 'Please select atleast one Letter for Recalling', 'error');
     } else if (editTableIndex.length >= 1) {
       console.log(editTableIndex, 'editTableIndex');
       let tableId = [];
@@ -230,7 +230,7 @@ const BUDetailsTableData = (props) => {
         console.log("hi")
       Swal.fire(
         'Oops...',
-        'Please select only Recalled Assessments from table for Re-Triggering',
+        'Please select only Recalled Letter from table for Re-Triggering',
         'error',
       );
     } else if (editTableIndex.length >= 1) {
