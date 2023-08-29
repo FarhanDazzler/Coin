@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Form } from 'react-bootstrap';
 
 const Section1 = ({ questions }) => {
   const history = useHistory();
@@ -119,27 +120,27 @@ const Section1 = ({ questions }) => {
                 NA
               </label>
             </div>
-            {responses[question.id]?.response === 'Yes' ? (
+            {responses[question.id]?.response && (
               <div>
-                <textarea
-                  required
-                  placeholder="Enter your comment..."
-                  value={responses[question.id]?.comment || ''}
-                  onChange={(e) => handleCommentChange(question.id, e.target.value)}
-                />
-              </div>
-            ) : (
-              (responses[question.id]?.response === 'No' ||
-                responses[question.id]?.response === 'NA') && (
-                <div>
-                  <textarea
+                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                  {/* <Form.Label className="mt-5">Comment :</Form.Label> */}
+                  <Form.Control
+                    as="textarea"
+                    placeholder="Enter your comment..."
+                    required
+                    onChange={(e) => handleCommentChange(question.id, e.target.value)}
+                    name="comment"
+                    value={responses[question.id]?.comment || ''}
+                    rows={1}
+                  />
+                </Form.Group>
+                {/* <textarea
                     required
                     placeholder="Enter your comment..."
                     value={responses[question.id]?.comment || ''}
                     onChange={(e) => handleCommentChange(question.id, e.target.value)}
-                  />
-                </div>
-              )
+                  /> */}
+              </div>
             )}
             {formErrors[question.id] && (
               <div className="error-message">{formErrors[question.id]}</div>
