@@ -127,7 +127,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               </>
             }
           >
-            <Workbook.Sheet data={finalPayload?.SelectedDataFromTable} name="Recipients">
+            <Workbook.Sheet data={finalPayload?.SelectedDataFromTable} name="Disclosure-Processor-List">
               <Workbook.Column label="Zone" value="Zone" />
               <Workbook.Column label="BU" value="BU" />
               <Workbook.Column label="BU Head" value="BU_Head" />

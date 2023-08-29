@@ -29,9 +29,10 @@ import {
   getBUZonedataSelector,
   getBUBUdataSelector,
   getAllBuMdmdataSelector,
-  rlAddBuLetterDataSelector
+  rlAddBuLetterDataSelector,
 } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
-
+import { DotSpinner } from '@uiball/loaders';
+import NoRecordPlaceholder from './NoDataPlaceHolder';
 import ReviewLetterDetails from './ReviewLetterDetails';
 const GetFormikFieldValue = () => {
   // Grab values and submitForm from context
@@ -77,7 +78,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
   });
   useEffect(() => {
     setOpenReviewModal(false);
-  }, [rlAddBuLetterDataState?.data])
+  }, [rlAddBuLetterDataState?.data]);
   const class_to_apply = (item) => {
     let className = '';
     if (item.toUpperCase() === 'ACTIVE') {
@@ -111,7 +112,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
     {
       accessorKey: 'BU_Head',
       id: 'BU_Head',
-      header: 'BU_Head',
+      header: 'BU Head',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -138,7 +139,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
     {
       accessorKey: 'Finance_Director',
       id: 'Finance_Director',
-      header: 'Finance_Director',
+      header: 'Finance Director',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -157,6 +158,15 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
       accessorKey: 'Zone_Control',
       id: 'Zone_Control',
       header: 'Zone Control',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 230,
+    },
+    {
+      accessorKey: 'Letter_Type',
+      id: 'Letter_Type',
+      header: 'Letter Type',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -298,7 +308,6 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
   for (let year = currentYear; year >= startYear; year--) {
     years.push(year);
   }
-
   return (
     <div className="holder">
       <div className="p-5">
@@ -626,7 +635,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                   label={
                     <>
                       <Box ml={5}>
-                        <Form.Label>Select Provider Organization</Form.Label>
+                        <Form.Label>Select Business Unit</Form.Label>
                       </Box>
                     </>
                   }
@@ -685,25 +694,43 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                   </div>
                 )}
               </div>
-              {(buValue?.length != 0 && getAllBuMdmdataState?.data?.length != 0) && (
-                <div className="row" style={{ paddingTop: '24px' }}>
-                  <div className="col-12 col-lg-12">
-                    <div className="mdm-table-button">
-                      <div className="table-heading" style={{ justifyContent: 'space-between' }}>
-                        <div>
-                          <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                          <span style={{ paddingLeft: '16px' }}>BU MDM Table</span>
-                        </div>
-                      </div>
-                    </div>
-                    <Table2
-                      tableData={tableData}
-                      loading={getAllBuMdmdataState.loading}
-                      tableColumns={tableColumns}
-                      setEditTableIndex={setEditTableIndex}
-                    />
-                  </div>
+              {getAllBuMdmdataState.loading ? (
+                <div className="loader-animation">
+                  <DotSpinner size={100} speed={0.9} color="#e3af32" />
+                  <p className="loader-Desc ml-3">Please wait while Table Loading...</p>
                 </div>
+              ) : (
+                <>
+                  {buValue?.length != 0 && getAllBuMdmdataState?.data?.length == 0 ? (
+                    <NoRecordPlaceholder />
+                  ) : (
+                    <>
+                      {buValue?.length != 0 && getAllBuMdmdataState?.data?.length != 0 && (
+                        <div className="row" style={{ paddingTop: '24px' }}>
+                          <div className="col-12 col-lg-12">
+                            <div className="mdm-table-button">
+                              <div
+                                className="table-heading"
+                                style={{ justifyContent: 'space-between' }}
+                              >
+                                <div>
+                                  <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
+                                  <span style={{ paddingLeft: '16px' }}>BU MDM Table</span>
+                                </div>
+                              </div>
+                            </div>
+                            <Table2
+                              tableData={tableData}
+                              loading={getAllBuMdmdataState.loading}
+                              tableColumns={tableColumns}
+                              setEditTableIndex={setEditTableIndex}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </>
               )}
 
               <div className="footer-action-AssessmentBank">
@@ -718,9 +745,11 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                     >
                       Cancel
                     </Button>
-                    <Button color="neutral" className="ml-4" onClick={handleSubmit}>
-                      Review
-                    </Button>
+                    {buValue?.length != 0 && getAllBuMdmdataState?.data?.length != 0 && (
+                      <Button color="neutral" className="ml-4" onClick={handleSubmit}>
+                        Review
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>
