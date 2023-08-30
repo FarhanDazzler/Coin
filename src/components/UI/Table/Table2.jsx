@@ -248,7 +248,7 @@ const Table2 = ({
           enableColumnFilters
           columns={tableColumns}
           data={tableData}
-          initialState={({ showColumnFilters: false, density: 'compact' }, initialState)}
+          initialState={({ showColumnFilters: false, density: 'compact' })}
           // initialState={{ columnPinning: { left: ['Entity_Id'], right: ['Total'] } }}
           enableRowSelection
           enableStickyHeader
