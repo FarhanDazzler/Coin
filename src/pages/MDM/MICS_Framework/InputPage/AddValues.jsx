@@ -1539,7 +1539,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                       >
                         Cancel
                       </Button>
-                      <Button color="neutral" className="ml-4" onClick={handleSubmit}>
+                      <Button color="neutral" disabled={values.mics_L1desc.length > 5000 || values.mics_L2desc.length > 5000 || values.mics_L3desc.length > 5000}  className="ml-4" onClick={handleSubmit}>
                         Confirm
                       </Button>
                     </div>
