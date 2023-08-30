@@ -31,6 +31,14 @@
     margin-top: 20px;
     margin-bottom: 20px;
   }
+  .option-section {
+    .radio-option-label {
+      padding-left: 6px;
+      font-size: 16px;
+      font-weight: 400;
+      color: #ffffff;
+    }
+  }
 
   .renderBlockWrapper-control-actions-wrapper {
     border-radius: 0 0 10px 10px;
@@ -81,10 +89,10 @@
   }
 
   .error-message {
-    color: #ff0000;
-    font-size: 0.75rem;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 1.5;
+    color: #ff0000;
+    //line-height: 1.5;
     margin-top: 0.25rem;
   }
 }

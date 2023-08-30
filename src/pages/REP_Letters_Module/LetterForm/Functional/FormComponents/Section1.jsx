@@ -68,7 +68,7 @@ const Section1 = ({ questions, scopeData }) => {
       }
 
       if ((response === 'No' || response === 'NA') && !comment) {
-        newFormErrors[question.id] = 'Comment is required for No/NA responses.';
+        newFormErrors[question.id] = 'Comment is required.';
         hasErrors = true;
       }
     });
@@ -100,7 +100,7 @@ const Section1 = ({ questions, scopeData }) => {
             </div>
 
             <Divider color="gray" className="renderBlockWrapper_divider_form" size="xs" />
-            <div>
+            <div className="option-section">
               <Group position="left" spacing="sm">
                 <label>
                   <input
@@ -109,7 +109,7 @@ const Section1 = ({ questions, scopeData }) => {
                     checked={responses[question.id]?.response === 'Yes'}
                     onChange={() => handleRadioChange(question.id, question.text, 'Yes')}
                   />
-                  Yes
+                  <label className="radio-option-label">Yes</label>
                 </label>
                 <label>
                   <input
@@ -118,7 +118,7 @@ const Section1 = ({ questions, scopeData }) => {
                     checked={responses[question.id]?.response === 'No'}
                     onChange={() => handleRadioChange(question.id, question.text, 'No')}
                   />
-                  No
+                  <label className="radio-option-label">No</label>
                 </label>
                 <label>
                   <input
@@ -127,7 +127,7 @@ const Section1 = ({ questions, scopeData }) => {
                     checked={responses[question.id]?.response === 'NA'}
                     onChange={() => handleRadioChange(question.id, question.text, 'NA')}
                   />
-                  NA (Not Applicable)
+                  <label className="radio-option-label">NA (Not Applicable)</label>
                 </label>
               </Group>
             </div>
