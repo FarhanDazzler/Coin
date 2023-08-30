@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import { Divider, Box, Group, Radio } from '@mantine/core';
+import { Divider, Group } from '@mantine/core';
+import { toast } from 'react-toastify';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 
 const Section1 = ({ questions, scopeData }) => {
@@ -75,6 +76,7 @@ const Section1 = ({ questions, scopeData }) => {
 
     if (hasErrors) {
       setFormErrors(newFormErrors);
+      toast.error('Please fill all the required fields.');
       return;
     }
 
