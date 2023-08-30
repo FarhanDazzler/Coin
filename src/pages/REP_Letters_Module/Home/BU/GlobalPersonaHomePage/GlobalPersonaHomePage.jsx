@@ -7,7 +7,7 @@ import '../../styles.scss';
 import ProgressBar from '../../../../Home/V2/InternalControlHomePage/HomePageTable/ProgressBar/ProgressBar';
 import GlobalPersonaTable from './GlobalPersonaTable';
 import { ReactComponent as InfoIcon } from '../../../../../assets/images/InfoCircle.svg';
-import { getFunctionGlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { get_BU_GlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 const NumberWithText = ({ number, tooltip, subTitle }) => (
   <div className="d-flex justify-content-between bg-black mb-2 p-1 px-4 rounded-3">
     <div className="d-flex align-items-center">
@@ -24,13 +24,12 @@ const GlobalPersonaHomePage = () => {
   const history = useHistory();
   const { accounts } = useMsal();
   const selectedUserRole = localStorage.getItem('selected_Role');
-  const getGlobalPersonaHomePageData = useSelector(getFunctionGlobalPersonaHomePageDataSelector);
+  const getGlobalPersonaHomePageData = useSelector(get_BU_GlobalPersonaHomePageDataSelector);
 
   const [yearValue, setYearValue] = useState([]);
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
-  const [functionValue, setFunctionValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
@@ -43,8 +42,7 @@ const GlobalPersonaHomePage = () => {
         (!yearValue.length || yearValue.includes(i.Year)) &&
         (!assessmentCycleValue.length || assessmentCycleValue.includes(i.Assessment_Cycle)) &&
         (!zoneValue.length || zoneValue.includes(i.Zone)) &&
-        (!buValue.length || buValue.includes(i.BU)) &&
-        (!functionValue.length || functionValue.includes(i.Function))
+        (!buValue.length || buValue.includes(i.BU))
       );
     });
 
@@ -64,7 +62,6 @@ const GlobalPersonaHomePage = () => {
     assessmentCycleValue,
     zoneValue,
     buValue,
-    functionValue,
     getNumberOfItem,
   ]);
 
@@ -146,8 +143,6 @@ const GlobalPersonaHomePage = () => {
         setZoneValue={setZoneValue}
         buValue={buValue}
         setBUValue={setBUValue}
-        functionValue={functionValue}
-        setFunctionValue={setFunctionValue}
       />
     </div>
   );

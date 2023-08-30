@@ -8,8 +8,8 @@ import Table2 from '../../../../../components/UI/Table/Table2';
 import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
 import NoDataPlaceholder from '../../../../../components/NoDataPlaceholder/NoDataPlaceholderForRepLetter';
-import { getFunctionGlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
-import { getFunctionGlobalPersonaHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import { get_BU_GlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { get_BU_GlobalPersonaHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -43,8 +43,6 @@ const GlobalPersonaTable = ({
   setZoneValue,
   buValue,
   setBUValue,
-  functionValue,
-  setFunctionValue,
 }) => {
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
@@ -54,7 +52,7 @@ const GlobalPersonaTable = ({
 
   const { accounts } = useMsal();
   const dispatch = useDispatch();
-  const getGlobalPersonaHomePageData = useSelector(getFunctionGlobalPersonaHomePageDataSelector);
+  const getGlobalPersonaHomePageData = useSelector(get_BU_GlobalPersonaHomePageDataSelector);
 
   //getGlobalPersonaHomePageData?.data[0]?.recipientData
   const recipientHomePageData = useMemo(() => {
@@ -62,7 +60,7 @@ const GlobalPersonaTable = ({
   }, [getGlobalPersonaHomePageData?.data[0]]);
 
   useEffect(() => {
-    dispatch(getFunctionGlobalPersonaHomePageData());
+    dispatch(get_BU_GlobalPersonaHomePageData());
   }, [token, dispatch]);
 
   const TABLE_COLUMNS = [
@@ -99,9 +97,9 @@ const GlobalPersonaTable = ({
       size: 90,
     },
     {
-      accessorKey: 'Function',
-      id: 'Function',
-      header: 'Function',
+      accessorKey: 'BU',
+      id: 'BU',
+      header: 'BU',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -120,9 +118,18 @@ const GlobalPersonaTable = ({
       },
     },
     {
-      accessorKey: 'Recipient',
-      id: 'Recipient',
-      header: 'Recipient',
+      accessorKey: 'Disclosure_Processor',
+      id: 'Disclosure_Processor',
+      header: 'Disclosure Processor',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 200,
+    },
+    {
+      accessorKey: 'BU_Head',
+      id: 'BU_Head',
+      header: 'BU Head',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -136,6 +143,33 @@ const GlobalPersonaTable = ({
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 200,
+    },
+    {
+      accessorKey: 'Zone_VP',
+      id: 'Zone_VP',
+      header: 'Zone VP',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 200,
+    },
+    {
+      accessorKey: 'Finance_Director',
+      id: 'Finance_Director',
+      header: 'Finance Director',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 200,
+    },
+    {
+      accessorKey: 'Letter_Type',
+      id: 'Letter_Type',
+      header: 'Letter Type',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
     },
     {
       accessorKey: 'Assessment_Cycle',
@@ -163,24 +197,18 @@ const GlobalPersonaTable = ({
 
   useEffect(() => {
     if (!tableData?.length) return setTableDataArray([]);
-    if (
-      !assessmentCycleValue?.length &&
-      !zoneValue?.length &&
-      !buValue?.length &&
-      !functionValue?.length
-    ) {
+    if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
       return setTableDataArray(tableData);
     }
     const updatedData = tableData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-        (buValue?.length ? buValue.includes(i.BU) : true) &&
-        (functionValue?.length ? functionValue.includes(i.Function) : true)
+        (buValue?.length ? buValue.includes(i.BU) : true)
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, buValue, functionValue, tableData]);
+  }, [assessmentCycleValue, zoneValue, buValue, tableData]);
   return (
     <>
       <div className="container-fluid">
@@ -201,12 +229,6 @@ const GlobalPersonaTable = ({
                   label="BU"
                   value={buValue}
                   onChange={setBUValue}
-                />
-                <FilterMultiSelect
-                  data={getGlobalPersonaHomePageData?.data[0]?.distinct_function || []}
-                  label="Function"
-                  value={functionValue}
-                  onChange={setFunctionValue}
                 />
                 <FilterMultiSelect
                   data={getGlobalPersonaHomePageData?.data[0]?.distinct_assesment_cycle || []}
