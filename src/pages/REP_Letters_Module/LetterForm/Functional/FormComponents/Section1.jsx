@@ -84,15 +84,21 @@ const Section1 = ({ questions, scopeData }) => {
 
   return (
     <CollapseFrame title="Section 1 : Please give your responses" active>
-      {questions?.map((question) => (
+      {questions?.map((question, index) => (
         <div key={question.id}>
           <div className="renderBlockWrapper mt-5">
-            <p
-              className="left-aligned-text"
-              dangerouslySetInnerHTML={{
-                __html: question.text,
-              }}
-            />
+            <div className="question-text-section">
+              <div className="question-number"> {index + 1}</div>
+              <div className="question-text">
+                <p
+                  className="left-aligned-text"
+                  dangerouslySetInnerHTML={{
+                    __html: question.text,
+                  }}
+                />
+              </div>
+            </div>
+
             <Divider color="gray" className="renderBlockWrapper_divider_form" size="xs" />
             <div>
               <Group position="left" spacing="sm">
