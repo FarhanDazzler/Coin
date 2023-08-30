@@ -78,6 +78,7 @@ const Table2 = ({
   classes,
   setEditTableIndex,
   loading,
+  initialState = {},
   Is_Expanding_Detail_Panel = { Is_Expanding: false },
 }) => {
   const { t } = useTranslation();
@@ -247,7 +248,8 @@ const Table2 = ({
           enableColumnFilters
           columns={tableColumns}
           data={tableData}
-          initialState={{ showColumnFilters: false, density: 'compact' }}
+          initialState={({ showColumnFilters: false, density: 'compact' })}
+          // initialState={{ columnPinning: { left: ['Entity_Id'], right: ['Total'] } }}
           enableRowSelection
           enableStickyHeader
           getRowId={(row) => row.id} //give each row a more useful id

@@ -41,6 +41,7 @@ const ControlSection3 = ({
   const [questionL1, setQuestionL1] = useState([]);
   const [questionL2, setQuestionL2] = useState([]);
   const [questionL3, setQuestionL3] = useState([]);
+  const [question2Api, setQuestion2Api] = useState(false);
   const [showNoQuestion, setShowNoQuestion] = useState(false);
   const isSameLang = useMemo(() => {
     return languageVal === language;
@@ -113,6 +114,17 @@ const ControlSection3 = ({
       setQuestionL3(updateAnsL3);
     }
   }, [ans, render, questionData]);
+
+  useEffect(() => {
+    if (question2Api) return;
+    const isFirstSectionWithNoQuestion =
+      isJsonString(questionData.Level?.L1?.Inner_Questions) &&
+      !JSON.parse(questionData.Level?.L1?.Inner_Questions).length;
+    if (isFirstSectionWithNoQuestion) {
+      dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
+      setQuestion2Api(true);
+    }
+  }, [questionData.Level]);
 
   useEffect(() => {
     setTimeout(() => {
