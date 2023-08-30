@@ -155,9 +155,10 @@ const LcdModal = ({ setShowModal, assignTableData }) => {
                       >
                         Cancel
                       </Button>
-                      <Button color="neutral" className="ml-4" onClick={handleSubmit}>
-                        Confirm
-                      </Button>
+                        <Button color="neutral" className="ml-4" disabled={values.lcd.length > 5000} onClick={handleSubmit}>
+                          Confirm
+                        </Button>
+                      
                     </div>
                   </div>
                 </div>

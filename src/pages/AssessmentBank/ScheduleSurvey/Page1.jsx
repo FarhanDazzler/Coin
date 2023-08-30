@@ -185,6 +185,7 @@ const Page1 = ({ handleNext }) => {
                         isInvalid={Boolean(touched.Survey_Name && errors.Survey_Name)}
                         onBlur={handleBlur}
                         onChange={handleChange}
+                        maxLength={255}
                         readOnly={false}
                         className="form-control"
                       />
