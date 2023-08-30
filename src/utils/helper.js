@@ -35,7 +35,7 @@ export const getFormatQuestions = (questions, action, startStr, handOverUser) =>
 
       case blockType.DROPDOWN:
         const dropdownData = d.options?.map((d) => {
-          return { value: d.option_id, label: d.option_value };
+          return { value: d.option_id || d.option_value, label: d.option_value };
         });
         return {
           ...d,
@@ -98,7 +98,7 @@ export const getLanguageFormat = (data = [], lang = 'en', startStr, isValid, rec
       case blockType.DROPDOWN:
         const dropdownData = d.options?.map((d) => {
           return {
-            value: d.option_id || d.option_value,
+            value: d.option_id || d.value || d[keyOption] || d.label || d.option_value,
             label: d[keyOption] || d.label || d.option_value,
           };
         });

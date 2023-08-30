@@ -265,7 +265,9 @@ const EditSection1QuestionOption = ({
         <div className="p-5">
           <div className="row">
             <div className="col-md-9">
-              <label>Question</label>
+              <FormControl className="input-wrapper">
+                <FormLabel>Question Text</FormLabel>
+              </FormControl>
               <Form.Group className="input-group mb-3">
                 <Form.Control
                   type="text"

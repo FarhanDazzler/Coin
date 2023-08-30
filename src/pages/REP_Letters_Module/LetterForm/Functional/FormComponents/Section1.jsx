@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
+import { Divider, Box, Group, Radio } from '@mantine/core';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 
-const Section1 = ({ questions }) => {
+const Section1 = ({ questions, scopeData }) => {
   const history = useHistory();
   const [responses, setResponses] = useState({});
   const [formErrors, setFormErrors] = useState({});
@@ -83,43 +84,52 @@ const Section1 = ({ questions }) => {
 
   return (
     <CollapseFrame title="Section 1 : Please give your responses" active>
-      {questions?.map((question) => (
+      {questions?.map((question, index) => (
         <div key={question.id}>
           <div className="renderBlockWrapper mt-5">
-            <p
-              className="left-aligned-text"
-              dangerouslySetInnerHTML={{
-                __html: question.text,
-              }}
-            />
+            <div className="question-text-section">
+              <div className="question-number"> {index + 1}</div>
+              <div className="question-text">
+                <p
+                  className="left-aligned-text"
+                  dangerouslySetInnerHTML={{
+                    __html: question.text,
+                  }}
+                />
+              </div>
+            </div>
+
+            <Divider color="gray" className="renderBlockWrapper_divider_form" size="xs" />
             <div>
-              <label>
-                <input
-                  type="radio"
-                  value="Yes"
-                  checked={responses[question.id]?.response === 'Yes'}
-                  onChange={() => handleRadioChange(question.id, question.text, 'Yes')}
-                />
-                Yes
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="No"
-                  checked={responses[question.id]?.response === 'No'}
-                  onChange={() => handleRadioChange(question.id, question.text, 'No')}
-                />
-                No
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="NA"
-                  checked={responses[question.id]?.response === 'NA'}
-                  onChange={() => handleRadioChange(question.id, question.text, 'NA')}
-                />
-                NA
-              </label>
+              <Group position="left" spacing="sm">
+                <label>
+                  <input
+                    type="radio"
+                    value="Yes"
+                    checked={responses[question.id]?.response === 'Yes'}
+                    onChange={() => handleRadioChange(question.id, question.text, 'Yes')}
+                  />
+                  Yes
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    value="No"
+                    checked={responses[question.id]?.response === 'No'}
+                    onChange={() => handleRadioChange(question.id, question.text, 'No')}
+                  />
+                  No
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    value="NA"
+                    checked={responses[question.id]?.response === 'NA'}
+                    onChange={() => handleRadioChange(question.id, question.text, 'NA')}
+                  />
+                  NA (Not Applicable)
+                </label>
+              </Group>
             </div>
             {responses[question.id]?.response && (
               <div>
@@ -135,12 +145,6 @@ const Section1 = ({ questions }) => {
                     rows={1}
                   />
                 </Form.Group>
-                {/* <textarea
-                    required
-                    placeholder="Enter your comment..."
-                    value={responses[question.id]?.comment || ''}
-                    onChange={(e) => handleCommentChange(question.id, e.target.value)}
-                  /> */}
               </div>
             )}
             {formErrors[question.id] && (

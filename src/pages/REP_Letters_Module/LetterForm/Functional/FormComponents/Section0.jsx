@@ -17,9 +17,9 @@ const Section0 = ({ scopeData }) => {
   const isClear = (text) => activeTab === text;
   const getInstructionsState = useSelector(getFunctionalInstructionsSelector);
 
-  useEffect(() => {
-    dispatch(getFunctionalInstructions());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getFunctionalInstructions());
+  // }, []);
 
   const InstructionSection = () => {
     return (
@@ -85,7 +85,7 @@ const Section0 = ({ scopeData }) => {
     <div className="Rep-Letter-form-Section0">
       <CollapseFrame title="Instructions and Scope" active>
         <div className="renderBlockWrapper mt-5">
-          {getInstructionsState?.data?.length > 0 ? (
+          {getInstructionsState?.data?.length > 0 && (
             // if instructions are not there and scope is there then show scope only
             <div className="renderBlockWrapper-control-actions-wrapper pb-5 pt-4">
               {/* setting active tab when click on button */}
@@ -110,8 +110,6 @@ const Section0 = ({ scopeData }) => {
                 {activeTab === 'Instructions' && <InstructionSection />}
               </div>
             </div>
-          ) : (
-            <ScopeSection />
           )}
 
           <div id="lastShow" />
