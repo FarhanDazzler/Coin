@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { DotSpinner } from '@uiball/loaders';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import Section0 from './FormComponents/Section0';
 import Section1 from './FormComponents/Section1';
 import { getFunctionalInstructions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
-import { get_BU_Questions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
-import { get_BU_QuestionsSelector } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
+import { get_Function_Questions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
+import {
+  get_Function_QuestionsSelector,
+  getFunctionalInstructionsSelector,
+} from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
 import '../LetterFormStyle.scss';
 
 const FunctionalLetterForm = (props) => {
@@ -13,23 +17,31 @@ const FunctionalLetterForm = (props) => {
   const scopeData = props.location.state.data?.scopeData;
   const modalType = props.location.state.data?.modalType;
 
-  const get_BU_QuestionState = useSelector(get_BU_QuestionsSelector);
+  const questionState = useSelector(get_Function_QuestionsSelector);
+  const instructionState = useSelector(getFunctionalInstructionsSelector);
 
   useEffect(() => {
     let payload = {
-      type: 'BU',
+      function: scopeData?.Function,
     };
     dispatch(getFunctionalInstructions());
-    dispatch(get_BU_Questions(payload));
+    dispatch(get_Function_Questions(payload));
   }, []);
 
   return (
     <div>
       <PageWrapper>
-        <div className="col-lg-12">
-          <Section0 scopeData={scopeData} />
-          <Section1 questions={get_BU_QuestionState.data} scopeData={scopeData} />
-        </div>
+        {instructionState.loading || questionState.loading ? (
+          <div className="loader-animation">
+            <DotSpinner size={100} speed={0.9} color="#e3af32" />
+            <p className="loader-Desc ml-3">Please wait while we are Loading letter for you</p>
+          </div>
+        ) : (
+          <div className="col-lg-12">
+            <Section0 scopeData={scopeData} />
+            <Section1 questions={questionState.data} scopeData={scopeData} />
+          </div>
+        )}
       </PageWrapper>
     </div>
   );

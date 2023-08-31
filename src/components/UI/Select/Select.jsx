@@ -8,7 +8,7 @@ const Select = ({ options, classes = {}, startAdornment, placeholder, inputLook,
   return (
     <SelectBase classes={{ ...classes }} {...rest}>
       {placeholder && (
-        <MenuItem disabled value="">
+        <MenuItem disabled selected value="">
           <em>{placeholder}</em>
         </MenuItem>
       )}

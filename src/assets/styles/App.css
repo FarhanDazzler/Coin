@@ -12762,6 +12762,17 @@ body.fixed-header .page {
   border-bottom: 1px solid rgba(0, 40, 100, 0.12);
 }
 
+.header .MuiInputBase-formControl {
+  color: #fff;
+}
+
+.renderBlockWrapper .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium {
+  color: #ffffff8a;
+}
+.renderBlockWrapper .MuiOutlinedInput-notchedOutline {
+  border-color: #ffffff8a;
+}
+
 body.fixed-header .header {
   position: fixed;
   top: 0;
