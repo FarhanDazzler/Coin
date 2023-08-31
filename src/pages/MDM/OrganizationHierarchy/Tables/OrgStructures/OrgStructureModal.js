@@ -176,6 +176,16 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
         validationSchema={Yup.object().shape({
           orgType: Yup.string().required('Organization Type is required'),
           parentEntity: Yup.string().required('Parent Entity is required'),
+          isProvider: Yup.string().when(['orgType', 'Org_name'], {
+            is: (orgType, Org_name) => orgType === 'Entity' && !Org_name.startsWith('SSC'),
+            then: Yup.string().required('isProvider is required'),
+            otherwise: Yup.string(),
+          }),
+          isReceiver: Yup.string().when(['orgType', 'Org_name'], {
+            is: (orgType, Org_name) => orgType === 'Entity' && !Org_name.startsWith('SSC'),
+            then: Yup.string().required('isReceiver is required'),
+            otherwise: Yup.string(),
+          }),
           // isReceiver: Yup.string()
           //     .required('isReceiver is required'),
           // isProvider: Yup.string()
