@@ -456,6 +456,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
                               isInvalid={Boolean(touched.Title && errors.Title)}
                               onBlur={handleBlur}
                               onChange={handleChange}
+                              maxLength={255}
                               readOnly={false}
                               className="form-control"
                             />

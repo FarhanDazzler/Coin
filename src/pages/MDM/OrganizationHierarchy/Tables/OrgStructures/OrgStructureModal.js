@@ -129,14 +129,15 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
         (value.orgType === 'Entity' && value.Org_name.slice(0, 3) === 'SSC')
           ? 'No'
           : value.orgType === 'Entity' && value.Org_name.slice(0, 3) !== 'SSC'
-          ? 'Yes'
+          ? value.isReceiver
           : value.orgType === 'Zone' || value.orgType === 'Cognos' || value.orgType === 'SAP/ERP'
           ? 'N/A'
           : value.isReceiver,
       isProvider:
-        (value.orgType === 'Entity' && value.Org_name.slice(0, 3) === 'SSC') ||
-        (value.orgType === 'Entity' && value.Org_name.slice(0, 3) !== 'SSC')
+        value.orgType === 'Entity' && value.Org_name.slice(0, 3) === 'SSC'
           ? 'Yes'
+          : value.orgType === 'Entity' && value.Org_name.slice(0, 3) !== 'SSC'
+          ? value.isProvider
           : value.orgType === 'Zone' || value.orgType === 'Cognos' || value.orgType === 'SAP/ERP'
           ? 'N/A'
           : value.isProvider,
@@ -149,6 +150,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
       ...payload,
     };
 
+    //console.log(payload, '@@@@@@');
     if (modalType === 'add') {
       dispatch(addOrgStructureAction(payload));
     } else {
@@ -174,6 +176,16 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
         validationSchema={Yup.object().shape({
           orgType: Yup.string().required('Organization Type is required'),
           parentEntity: Yup.string().required('Parent Entity is required'),
+          isProvider: Yup.string().when(['orgType', 'Org_name'], {
+            is: (orgType, Org_name) => orgType === 'Entity' && !Org_name.startsWith('SSC'),
+            then: Yup.string().required('isProvider is required'),
+            otherwise: Yup.string(),
+          }),
+          isReceiver: Yup.string().when(['orgType', 'Org_name'], {
+            is: (orgType, Org_name) => orgType === 'Entity' && !Org_name.startsWith('SSC'),
+            then: Yup.string().required('isReceiver is required'),
+            otherwise: Yup.string(),
+          }),
           // isReceiver: Yup.string()
           //     .required('isReceiver is required'),
           // isProvider: Yup.string()
@@ -344,7 +356,9 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                           <option value="N/A">N/A</option>
                         ) : values.orgType === 'Entity' && values.Org_name.slice(0, 3) !== 'SSC' ? (
                           <>
+                            <option value="">Select isReceiver</option>
                             <option value="Yes">Yes</option>
+                            <option value="No">No</option>
                           </>
                         ) : (
                           <>
@@ -384,14 +398,21 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                         readOnly={false}
                         className="form-select"
                       >
-                        {(values.orgType === 'Entity' && values.Org_name.slice(0, 3) === 'SSC') ||
-                        (values.orgType === 'Entity' && values.Org_name.slice(0, 3) !== 'SSC') ? (
-                          <option value="Yes">Yes</option>
+                        {values.orgType === 'Entity' ? (
+                          values.Org_name.slice(0, 3) === 'SSC' ? (
+                            <option value="Yes">Yes</option>
+                          ) : (
+                            <>
+                              <option value="">Select isProvider</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
+                            </>
+                          )
                         ) : values.orgType === 'Zone' ||
                           values.orgType === 'Cognos' ||
                           values.orgType === 'SAP/ERP' ? (
                           <option value="N/A">N/A</option>
-                        ) : values.orgType === 'Entity' || values.orgType === 'BU' ? (
+                        ) : values.orgType === 'BU' ? (
                           <>
                             <option value="">Select isProvider</option>
                             <option value="Yes">Yes</option>
