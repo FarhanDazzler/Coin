@@ -306,7 +306,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
                 );
                 history.push('/');
               } else {
-                if (dataArray.length > 0 ? isS3Failed || s1FailObj : s1FailObj) {
+                if (dataArray.length > 0 ? isS3FailedData || s1FailObj : s1FailObj) {
                   Swal.fire(t('selfAssessment.assessmentForm.assessmentFailText'), '', 'success');
                 } else {
                   Swal.fire(t('selfAssessment.assessmentForm.assessmentPassText'), '', 'success');
