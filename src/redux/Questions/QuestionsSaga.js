@@ -45,6 +45,7 @@ import {
   ADD_SECTION_3_MIC_CHANGE_LANG_S_ERROR,
 } from './QuestionsReducer';
 import Swal from 'sweetalert2';
+import { isJsonString } from '../../utils/helper';
 
 async function getSection1Api(params) {
   return await Axios.get('/get_Section1_Question', { params });
@@ -137,14 +138,25 @@ async function getSection3Api(params) {
 }
 function* handleGetSection3({ payload }) {
   try {
-    const level=payload.Level
-    console.log('levellevellevel',payload)
+    const level = payload.Level;
     const response = yield call(getSection3Api, payload);
     if (response.success) {
+      const responseLevel = response.data[level];
       yield put({
         type: GET_SECTION_3_MICS_SUCCESS,
-        payload: { data: response.data, Level: { [level]: response.data[level] } },
+        payload: { data: response.data, Level: { [level]: responseLevel } },
       });
+      if (
+        isJsonString(responseLevel?.Inner_Questions) &&
+        !JSON.parse(responseLevel?.Inner_Questions).length > 0 &&
+        payload.Level !== 'L3'
+      ) {
+        const level = payload.Level === 'L1' ? 'L2' : 'L3';
+        yield put({
+          type: GET_SECTION_3_MICS_REQUEST,
+          payload: { Level: level, Control_ID: payload.Control_ID },
+        });
+      }
     }
   } catch (error) {
     yield put({

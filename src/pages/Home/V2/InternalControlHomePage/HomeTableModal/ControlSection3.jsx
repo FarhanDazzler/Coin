@@ -42,6 +42,7 @@ const ControlSection3 = ({
   const [questionL2, setQuestionL2] = useState([]);
   const [questionL3, setQuestionL3] = useState([]);
   const [question2Api, setQuestion2Api] = useState(false);
+  const [question3Api, setQuestion3Api] = useState(false);
   const [showNoQuestion, setShowNoQuestion] = useState(false);
   const isSameLang = useMemo(() => {
     return languageVal === language;
@@ -123,6 +124,15 @@ const ControlSection3 = ({
     if (isFirstSectionWithNoQuestion) {
       dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
       setQuestion2Api(true);
+    }
+
+    if (question3Api) return;
+    const isSecondSectionWithNoQuestion =
+      isJsonString(questionData.Level?.L2?.Inner_Questions) &&
+      !JSON.parse(questionData.Level?.L2?.Inner_Questions).length;
+    if (isSecondSectionWithNoQuestion) {
+      dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
+      setQuestion3Api(true);
     }
   }, [questionData.Level]);
 
@@ -233,12 +243,9 @@ const ControlSection3 = ({
         ? JSON.parse(questionData.Level?.L3?.Inner_Questions || '[]')
         : [];
 
-      const isLevel1NoInnerQuestion =
-        questionData.Level?.L1?.Header_Question && !L1InnerQuestion.length;
+      const isLevel1NoInnerQuestion = questionData.Level?.L1 && !L1InnerQuestion.length;
       const isLevel2NoInnerQuestion =
-        questionData.Level?.L1?.Header_Question &&
-        questionData.Level?.L2?.Header_Question &&
-        !L2InnerQuestion.length;
+        !!questionData.Level?.L1 && !!questionData.Level?.L2 && !L2InnerQuestion.length;
 
       if ((!!questionData.Level?.L2 && !!ans.L1) || isLevel1NoInnerQuestion) {
         const apiQuestionL2 = getQuestionsFormatData([questionData.Level?.L2]);
