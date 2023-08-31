@@ -29,7 +29,6 @@ const Dropdown = ({
       {...formControlProps}
       size="small"
     >
-      098765
       {label && <FormLabel {...formLabelProps}>{label}</FormLabel>}
       <Select
         labelId={uuidv4()}
