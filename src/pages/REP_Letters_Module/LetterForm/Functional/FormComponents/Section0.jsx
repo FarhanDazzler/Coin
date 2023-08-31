@@ -104,11 +104,15 @@ const Section0 = ({ scopeData }) => {
                 Scope
               </Button>
 
-              <div className="mt-5">
-                {/* when tab is active then show the content */}
-                {activeTab === 'Scope' && <ScopeSection />}
-                {activeTab === 'Instructions' && <InstructionSection />}
-              </div>
+              {/* when tab is active then show the content */}
+              {(activeTab === 'Scope' || activeTab === 'Instructions') && (
+                <>
+                  <div className="mt-5">
+                    {activeTab === 'Scope' && <ScopeSection />}
+                    {activeTab === 'Instructions' && <InstructionSection />}
+                  </div>
+                </>
+              )}
             </div>
           )}
 
