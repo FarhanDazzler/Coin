@@ -4,6 +4,9 @@
     font-size: 14px;
     color: #595959 !important;
   }
+  .MuiSvgIcon-root {
+    color: #595959 !important
+  }
   .MuiTypography-root {
     font-size: 14px;
   }
@@ -31,5 +34,12 @@
   }
   svg {
     color: #fff;
+  }
+}
+.App-header {
+  .radio-wrapper {
+    .MuiSvgIcon-root {
+      color: #fff !important
+    }
   }
 }
