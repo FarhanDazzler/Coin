@@ -1,9 +1,7 @@
 .page-wrapper {
-  background: url('../../../assets/images/bg.png');
   min-height: calc(100vh - 121px);
+  background: url('../../../assets/images/bg.png') no-repeat top;
   background-size: cover;
-  background-position: top;
-  background-repeat: no-repeat;
   text-align: left;
   color: #fff;
   padding-bottom: 60px;

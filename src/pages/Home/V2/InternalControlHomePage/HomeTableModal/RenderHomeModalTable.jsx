@@ -122,9 +122,10 @@ const RenderHomeModalTable = ({
               {section1TerminatingLogicValue || !!isSection3Failed ? (
                 <div style={{ color: 'red', marginBottom: '10px' }}>
                   Based on above response, the control is assessed as failed because of{' '}
-                  {Object.keys(ansSection3).length == 1
+                  {Object.keys(ansSection3).includes('L1') &&
+                  !!Object.values(ansSection3?.L1)[0].includes('no')
                     ? 'L1'
-                    : Object.keys(ansSection3).length == 2
+                    : Object.keys(ansSection3).includes('L2')
                     ? 'L2'
                     : ''}{' '}
                   {'  '}

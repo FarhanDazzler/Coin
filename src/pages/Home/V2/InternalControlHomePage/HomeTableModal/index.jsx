@@ -250,6 +250,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   }, [responseData.data, questionData]);
 
   const handleSubmit = () => {
+    let isS3FailedData;
     Swal.fire({
       title: t('selfAssessment.assessmentForm.submitText'),
       text: `${t('selfAssessment.assessmentForm.submitRemainingResponseText')} ${
@@ -278,10 +279,17 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         });
         const isupdated = ansSection1.find((i) => i.is_AD === 1);
         const dataArray = Object.keys(ansSection3) || [];
+        for (const key in ansSection3) {
+          if (key !== 'L3') {
+            if (Object.values(ansSection3[key])[0].includes('no')) {
+              isS3FailedData = true;
+            }
+          }
+        }
         const isS3Failed = !dataArray.includes('L3');
         const payload = {
           Assessment_ID: activeData.id,
-          Assessment_result: isupdated ? 'NA' : isS3Failed || s1FailObj ? 'Fail' : 'Pass',
+          Assessment_result: isupdated ? 'NA' : isS3FailedData || s1FailObj ? 'Fail' : 'Pass',
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
@@ -298,7 +306,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
                 );
                 history.push('/');
               } else {
-                if (dataArray.length > 0 ? isS3Failed || s1FailObj : s1FailObj) {
+                if (dataArray.length > 0 ? isS3FailedData || s1FailObj : s1FailObj) {
                   Swal.fire(t('selfAssessment.assessmentForm.assessmentFailText'), '', 'success');
                 } else {
                   Swal.fire(t('selfAssessment.assessmentForm.assessmentPassText'), '', 'success');
