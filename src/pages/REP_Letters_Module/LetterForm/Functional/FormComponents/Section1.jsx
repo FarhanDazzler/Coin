@@ -3,7 +3,9 @@ import { useHistory } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import { Divider, Group } from '@mantine/core';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
+import Button from '../../../../../components/UI/Button';
 
 const Section1 = ({ questions, scopeData }) => {
   const history = useHistory();
@@ -50,9 +52,47 @@ const Section1 = ({ questions, scopeData }) => {
     }
   }, []);
 
-  const handleSave = () => {
-    localStorage.setItem('storedResponses', JSON.stringify(responses));
-    console.log('Saved responses:', responses);
+  const handleSaveDraft = () => {
+    // if (responseData?.data?.Attempt_no >= 5) {
+    //   Swal.fire(`You don't have a limited`, '', 'error');
+    //   return;
+    // }
+    // Swal.fire({
+    //   title: `Do you want save as draft!`,
+    //   text: `Remaining response ${
+    //     responseData?.data?.Attempt_no
+    //       ? responseData?.data?.Attempt_no < 5
+    //         ? 4 - responseData?.data?.Attempt_no
+    //         : 0
+    //       : responseData?.data?.Attempt_no === 0
+    //       ? '4'
+    //       : '5'
+    //   }`,
+    //   icon: 'warning',
+    //   showCancelButton: true,
+    //   confirmButtonColor: 'golden',
+    //   cancelButtonColor: 'black',
+    //   confirmButtonText: `Save draft!`,
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     const payload = {
+    //       // Assessment_ID: activeData.id,
+    //       // Latest_response: {
+    //       //   s1: ansSection1,
+    //       //   s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+    //       // },
+    //       events: {
+    //         onSuccess: () => {
+    //           Swal.fire('Draft saved successfully', '', 'success');
+    //           history.push('/');
+    //         },
+    //       },
+    //     };
+    //     localStorage.setItem('storedResponses', JSON.stringify(responses));
+    //     console.log('Saved responses:', responses);
+    //     // dispatch(addOrUpdateDraft(payload));
+    //   }
+    //});
   };
 
   const handleSubmit = () => {
@@ -73,8 +113,65 @@ const Section1 = ({ questions, scopeData }) => {
       setFormErrors(newFormErrors);
       toast.error('Please fill all the required fields.');
     } else {
-      //handleSave();
-      console.log('Submitted responses:', responses);
+      Swal.fire({
+        title: 'Do you want Submit Letter!',
+        // text: `Remaining response ${
+        //   responseData?.data?.Attempt_no
+        //     ? responseData?.data?.Attempt_no < 5
+        //       ? 4 - responseData?.data?.Attempt_no
+        //       : 0
+        //     : responseData?.data?.Attempt_no === 0
+        //     ? '4'
+        //     : '5'
+        // }`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: 'golden',
+        cancelButtonColor: 'black',
+        confirmButtonText: 'Yes, submit it!',
+        //showDenyButton: !(responseData?.data?.Attempt_no >= 5),
+        denyButtonText: 'Save draft!',
+        denyButtonColor: 'silver',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const payload = {
+            // Assessment_ID: activeData.id,
+            // Latest_response: {
+            //   s1: ansSection1,
+            //   s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+            // },
+            event: {
+              onSuccess: () => {
+                Swal.fire('Your Letter has been submitted', '', 'success');
+                history.push('/');
+              },
+            },
+          };
+          console.log('Submitted responses:', responses);
+          //localStorage.setItem('storedResponses', JSON.stringify(responses));
+          // dispatch(addAssessmentAns(payload));
+        }
+        if (result.isDenied) {
+          // if (responseData?.data?.Attempt_no >= 5) {
+          //   Swal.fire(`You don't have a limit`, '', 'error');
+          //   return;
+          // }
+          const payload = {
+            // Assessment_ID: activeData?.id,
+            // Latest_response: {
+            //   s1: ansSection1,
+            //   s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+            // },
+            events: {
+              onSuccess: () => {
+                history.push('/');
+              },
+            },
+          };
+          // dispatch(addOrUpdateDraft(payload));
+          console.log('Submitted responses:', responses);
+        }
+      });
     }
   };
 
@@ -139,9 +236,26 @@ const Section1 = ({ questions, scopeData }) => {
         );
       })}
       <div>
-        <button onClick={() => history.push('/')}>Cancel</button>
-        <button onClick={handleSave}>Save Draft</button>
-        <button onClick={handleSubmit}>Submit</button>
+        <div className="rep-letter-form-bottom-btn">
+          <Button className="w-30" onClick={() => history.push('/')}>
+            Cancel
+          </Button>
+          <Button className="w-30" onClick={handleSaveDraft}>
+            Save as Draft
+          </Button>
+          <Button color="neutral" className="w-30" id="submit-button" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </div>
+
+        <div className="save-draft-btn-wrapper">
+          <Button id="save-draft-btn-rep-letter" onClick={handleSaveDraft}>
+            Save as Draft
+          </Button>
+        </div>
+        {/* <button onClick={() => history.push('/')}>Cancel</button>
+        <button onClick={handleSaveDraft}>Save Draft</button>
+        <button onClick={handleSubmit}>Submit</button> */}
       </div>
     </CollapseFrame>
   );
