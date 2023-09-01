@@ -1,6 +1,7 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { Axios } from '../../../api/axios';
 import { getSimplifiedError } from '../../../utils/error';
+import { push } from 'connected-react-router';
 import {
   GET_FUNCTION_RECIPIENT_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_FUNCTION_RECIPIENT_HOME_PAGE_TABLE_DATA_SUCCESS,
@@ -203,7 +204,7 @@ function* handle_Get_BU_Zone_VPHomePageData({ payload }) {
 
 // get Latest Function Draft Response
 async function getLatestFunctionDraftResponseApi(params) {
-  return await Axios.get('/', { params });
+  return await Axios.get('/get_bu_assessment_draft', { params });
 }
 function* handle_GetLatestFunctionDraftResponse({ payload }) {
   try {
@@ -223,7 +224,7 @@ function* handle_GetLatestFunctionDraftResponse({ payload }) {
 
 // add Or Update Function Draft Response
 async function addOrUpdateFunctionDraftResponseApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/save_bu_assessment_draft', payload);
 }
 function* updateAddOrUpdateFunctionDraftResponse({ payload }) {
   try {
@@ -234,6 +235,12 @@ function* updateAddOrUpdateFunctionDraftResponse({ payload }) {
         payload: response.data,
       });
       Swal.fire('Done!', 'Response Drafted Successfully!', 'success');
+
+      // Clear the getLatestFunctionDraftResponse state
+      yield put({ type: GET_LATEST_FUNCTION_DRAFT_RESPONSE_SUCCESS, payload: null });
+
+      // Redirect the user to '/'
+      yield put(push('/'));
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
@@ -279,6 +286,11 @@ function* updateAddFunctionSubmitResponse({ payload }) {
         payload: response.data,
       });
       Swal.fire('Done!', 'Response Submitted Successfully!', 'success');
+
+      // Clear the get Latest Function Submitted Response state
+      yield put({ type: GET_FUNCTION_SUBMIT_RESPONSE_SUCCESS, payload: null });
+      // Redirect the user to '/'
+      yield put(push('/'));
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }

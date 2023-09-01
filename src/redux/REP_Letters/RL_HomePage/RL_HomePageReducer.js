@@ -87,10 +87,15 @@ export const GET_LATEST_FUNCTION_DRAFT_RESPONSE_SUCCESS =
 export const GET_LATEST_FUNCTION_DRAFT_RESPONSE_ERROR = 'GET_LATEST_FUNCTION_DRAFT_RESPONSE_ERROR';
 // ============= GET LATEST FUNCTION DRAFT RESPONSE data ===============//
 
+// ============= CLEAR LATEST FUNCTION DRAFT RESPONSE data ===============//
+export const CLEAR_LATEST_FUNCTION_DRAFT_RESPONSE = 'CLEAR_LATEST_FUNCTION_DRAFT_RESPONSE';
+// ============= CLEAR LATEST FUNCTION DRAFT RESPONSE data ===============//
+
 // ============= GET FUNCTION SUBMIT RESPONSE data ===============//
 export const GET_FUNCTION_SUBMIT_RESPONSE_REQUEST = 'GET_FUNCTION_SUBMIT_RESPONSE_REQUEST';
 export const GET_FUNCTION_SUBMIT_RESPONSE_SUCCESS = 'GET_FUNCTION_SUBMIT_RESPONSE_SUCCESS';
 export const GET_FUNCTION_SUBMIT_RESPONSE_ERROR = 'GET_FUNCTION_SUBMIT_RESPONSE_ERROR';
+export const CLEAR_FUNCTION_SUBMIT_RESPONSE_REQUEST = 'CLEAR_FUNCTION_SUBMIT_RESPONSE_REQUEST';
 // ============= GET FUNCTION SUBMIT RESPONSE data ===============//
 
 // ============= ADD FUNCTION SUBMIT RESPONSE data ===============//
@@ -391,6 +396,15 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
           loading: false,
         },
       };
+    case CLEAR_LATEST_FUNCTION_DRAFT_RESPONSE:
+      return {
+        ...state,
+        getLatestFunctionDraftResponse: {
+          ...state.getLatestFunctionDraftResponse,
+          data: [],
+          loading: false,
+        },
+      };
 
     // GET FUNCTION SUBMIT RESPONSE data
     case GET_FUNCTION_SUBMIT_RESPONSE_REQUEST:
@@ -415,6 +429,15 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         ...state,
         getFunctionSubmitResponse: {
           ...state.getFunctionSubmitResponse,
+          loading: false,
+        },
+      };
+    case CLEAR_FUNCTION_SUBMIT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getFunctionSubmitResponse: {
+          ...state.getFunctionSubmitResponse,
+          data: [],
           loading: false,
         },
       };

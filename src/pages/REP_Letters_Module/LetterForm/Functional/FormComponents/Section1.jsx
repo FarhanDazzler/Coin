@@ -4,13 +4,29 @@ import { Form } from 'react-bootstrap';
 import { Divider, Group } from '@mantine/core';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
+import { useDispatch, useSelector } from 'react-redux';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import Button from '../../../../../components/UI/Button';
+import {
+  getLatestFunctionDraftResponse,
+  addOrUpdateFunctionDraftResponse,
+  clearLatestFunctionDraftResponse,
+  addFunctionSubmitResponse,
+  clearFunctionSubmitResponse,
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import {
+  addOrUpdateFunctionDraftResponseSelector,
+  getLatestFunctionDraftResponseSelector,
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
 const Section1 = ({ questions, scopeData }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [responses, setResponses] = useState({});
   const [formErrors, setFormErrors] = useState({});
+
+  const DraftResponseState = useSelector(getLatestFunctionDraftResponseSelector);
+  const addOrUpdateDraftResponseState = useSelector(addOrUpdateFunctionDraftResponseSelector);
 
   const handleRadioChange = (questionId, response, comment = '') => {
     const newResponses = {
@@ -45,54 +61,54 @@ const Section1 = ({ questions, scopeData }) => {
     });
   };
 
+  // clear all the states on page leave or refresh page or change url path or change module or change role
   useEffect(() => {
-    const storedResponses = localStorage.getItem('storedResponses');
-    if (storedResponses) {
-      setResponses(JSON.parse(storedResponses));
-    }
+    return () => {
+      dispatch(clearLatestFunctionDraftResponse());
+      dispatch(clearFunctionSubmitResponse());
+    };
   }, []);
 
+  useEffect(() => {
+    if (DraftResponseState?.data?.Latest_response) {
+      setResponses(DraftResponseState?.data?.Latest_response);
+    }
+  }, [DraftResponseState?.data]);
+
   const handleSaveDraft = () => {
-    // if (responseData?.data?.Attempt_no >= 5) {
-    //   Swal.fire(`You don't have a limited`, '', 'error');
-    //   return;
-    // }
-    // Swal.fire({
-    //   title: `Do you want save as draft!`,
-    //   text: `Remaining response ${
-    //     responseData?.data?.Attempt_no
-    //       ? responseData?.data?.Attempt_no < 5
-    //         ? 4 - responseData?.data?.Attempt_no
-    //         : 0
-    //       : responseData?.data?.Attempt_no === 0
-    //       ? '4'
-    //       : '5'
-    //   }`,
-    //   icon: 'warning',
-    //   showCancelButton: true,
-    //   confirmButtonColor: 'golden',
-    //   cancelButtonColor: 'black',
-    //   confirmButtonText: `Save draft!`,
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     const payload = {
-    //       // Assessment_ID: activeData.id,
-    //       // Latest_response: {
-    //       //   s1: ansSection1,
-    //       //   s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
-    //       // },
-    //       events: {
-    //         onSuccess: () => {
-    //           Swal.fire('Draft saved successfully', '', 'success');
-    //           history.push('/');
-    //         },
-    //       },
-    //     };
-    //     localStorage.setItem('storedResponses', JSON.stringify(responses));
-    //     console.log('Saved responses:', responses);
-    //     // dispatch(addOrUpdateDraft(payload));
-    //   }
-    //});
+    if (DraftResponseState?.data?.Attempt_no >= 5) {
+      Swal.fire(`You don't have a limited`, '', 'error');
+      return;
+    }
+    Swal.fire({
+      title: `Do you want save as draft!`,
+      text: `Remaining response ${
+        DraftResponseState?.data?.Attempt_no
+          ? DraftResponseState?.data?.Attempt_no < 5
+            ? 4 - DraftResponseState?.data?.Attempt_no
+            : 0
+          : DraftResponseState?.data?.Attempt_no === 0
+          ? '4'
+          : '5'
+      }`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'golden',
+      cancelButtonColor: 'black',
+      confirmButtonText: `Save draft!`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const payload = {
+          Assessment_ID: scopeData?.id,
+          Latest_response: responses,
+        };
+        //localStorage.setItem('storedResponses', JSON.stringify(responses));
+        dispatch(addOrUpdateFunctionDraftResponse(payload));
+        // after api success clear the redux state
+        dispatch(clearLatestFunctionDraftResponse());
+        history.push('/');
+      }
+    });
   };
 
   const handleSubmit = () => {
@@ -115,61 +131,53 @@ const Section1 = ({ questions, scopeData }) => {
     } else {
       Swal.fire({
         title: 'Do you want Submit Letter!',
-        // text: `Remaining response ${
-        //   responseData?.data?.Attempt_no
-        //     ? responseData?.data?.Attempt_no < 5
-        //       ? 4 - responseData?.data?.Attempt_no
-        //       : 0
-        //     : responseData?.data?.Attempt_no === 0
-        //     ? '4'
-        //     : '5'
-        // }`,
+        text: `Remaining response ${
+          DraftResponseState?.data?.Attempt_no
+            ? DraftResponseState?.data?.Attempt_no < 5
+              ? 4 - DraftResponseState?.data?.Attempt_no
+              : 0
+            : DraftResponseState?.data?.Attempt_no === 0
+            ? '4'
+            : '5'
+        }`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'golden',
         cancelButtonColor: 'black',
         confirmButtonText: 'Yes, submit it!',
-        //showDenyButton: !(responseData?.data?.Attempt_no >= 5),
+        showDenyButton: !(DraftResponseState?.data?.Attempt_no >= 5),
         denyButtonText: 'Save draft!',
         denyButtonColor: 'silver',
       }).then((result) => {
         if (result.isConfirmed) {
           const payload = {
-            // Assessment_ID: activeData.id,
-            // Latest_response: {
-            //   s1: ansSection1,
-            //   s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
-            // },
-            event: {
-              onSuccess: () => {
-                Swal.fire('Your Letter has been submitted', '', 'success');
-                history.push('/');
-              },
-            },
+            Assessment_ID: scopeData?.id,
+            Latest_response: responses,
           };
+          //localStorage.setItem('storedResponses', JSON.stringify(responses));
+          dispatch(addFunctionSubmitResponse(payload));
+          // after api success clear the redux state
+          dispatch(clearFunctionSubmitResponse());
+          history.push('/');
+
           console.log('Submitted responses:', responses);
           //localStorage.setItem('storedResponses', JSON.stringify(responses));
           // dispatch(addAssessmentAns(payload));
         }
         if (result.isDenied) {
-          // if (responseData?.data?.Attempt_no >= 5) {
-          //   Swal.fire(`You don't have a limit`, '', 'error');
-          //   return;
-          // }
+          if (DraftResponseState?.data?.Attempt_no >= 5) {
+            Swal.fire(`You don't have a limit`, '', 'error');
+            return;
+          }
           const payload = {
-            // Assessment_ID: activeData?.id,
-            // Latest_response: {
-            //   s1: ansSection1,
-            //   s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
-            // },
-            events: {
-              onSuccess: () => {
-                history.push('/');
-              },
-            },
+            Assessment_ID: scopeData?.id,
+            Latest_response: responses,
           };
-          // dispatch(addOrUpdateDraft(payload));
-          console.log('Submitted responses:', responses);
+          //localStorage.setItem('storedResponses', JSON.stringify(responses));
+          dispatch(addOrUpdateFunctionDraftResponse(payload));
+          // after api success clear the redux state
+          dispatch(clearLatestFunctionDraftResponse());
+          history.push('/');
         }
       });
     }
