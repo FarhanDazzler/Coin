@@ -3,6 +3,8 @@ import { OutlinedInput } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import './inpurstyles.scss';
 import FormLabel from '@mui/material/FormLabel';
+import cs from 'classnames';
+import { message } from 'react-widgets/PropTypes';
 
 const Input = ({
   formControlProps,
@@ -15,18 +17,25 @@ const Input = ({
   fullInput,
   disabled,
   maxLength = 255,
+  errorMessage,
   ...res
 }) => {
+  const isMaxValueEnter = maxLength === value?.length;
   const onChange = ({ target: { value } }) => {
-    if (handleChange) {
+    if (handleChange && value.length <= maxLength) {
       handleChange(value, block);
     }
   };
+
+  const message = errorMessage || `Only ${maxLength} character allow`;
+
   return (
     <FormControl className="input-wrapper" {...formControlProps}>
       {label && (
         <FormLabel {...formLabelProps}>
-          {label} {required && <span className="text-danger">*</span>}
+          <span className={cs({ ['text-danger']: isMaxValueEnter })}>
+            {label} {required && <span className="text-danger">*</span>}
+          </span>
         </FormLabel>
       )}
       <OutlinedInput
@@ -36,9 +45,11 @@ const Input = ({
         inputProps={{
           maxLength: maxLength,
         }}
+        classes={{ root: isMaxValueEnter ? 'error-input' : '' }}
         onChange={onChange}
         {...res}
       />
+      {isMaxValueEnter && <small className="text-danger input-error-message">{message}</small>}
     </FormControl>
   );
 };

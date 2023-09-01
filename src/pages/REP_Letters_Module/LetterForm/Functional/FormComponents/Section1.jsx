@@ -4,6 +4,7 @@ import { Form } from 'react-bootstrap';
 import { Divider, Group } from '@mantine/core';
 import { toast } from 'react-toastify';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
+import Button from '../../../../../components/UI/Button';
 
 const Section1 = ({ questions, scopeData }) => {
   const history = useHistory();
@@ -138,10 +139,16 @@ const Section1 = ({ questions, scopeData }) => {
           </div>
         );
       })}
-      <div>
-        <button onClick={() => history.push('/')}>Cancel</button>
-        <button onClick={handleSave}>Save Draft</button>
-        <button onClick={handleSubmit}>Submit</button>
+      <div className="text-right">
+        <Button onClick={() => history.push('/')} className="mr-4">
+          Cancel
+        </Button>
+        <Button variant="outlined" className="mr-4" onClick={handleSave}>
+          Save Draft
+        </Button>
+        <Button color="neutral" onClick={handleSubmit}>
+          Submit
+        </Button>
       </div>
     </CollapseFrame>
   );
