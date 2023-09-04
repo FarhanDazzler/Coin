@@ -14,3 +14,11 @@ export const get_BU_Zone_ControlHomePageDataSelector = (state) =>
   state?.RL_HomePage?.get_BU_Zone_ControlHomePageData;
 export const get_BU_Zone_VPHomePageDataSelector = (state) =>
   state?.RL_HomePage?.get_BU_Zone_VPHomePageData;
+export const addOrUpdateFunctionDraftResponseSelector = (state) =>
+  state?.RL_HomePage?.addOrUpdateFunctionDraftResponse;
+export const getLatestFunctionDraftResponseSelector = (state) =>
+  state?.RL_HomePage?.getLatestFunctionDraftResponse;
+export const getFunctionSubmitResponseSelector = (state) =>
+  state?.RL_HomePage?.getFunctionSubmitResponse;
+export const addFunctionSubmitResponseSelector = (state) =>
+  state?.RL_HomePage?.addFunctionSubmitResponse;

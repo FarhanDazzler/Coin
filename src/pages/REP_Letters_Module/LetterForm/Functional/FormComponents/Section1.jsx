@@ -3,12 +3,30 @@ import { useHistory } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import { Divider, Group } from '@mantine/core';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
+import { useDispatch, useSelector } from 'react-redux';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
+import Button from '../../../../../components/UI/Button';
+import {
+  getLatestFunctionDraftResponse,
+  addOrUpdateFunctionDraftResponse,
+  clearLatestFunctionDraftResponse,
+  addFunctionSubmitResponse,
+  clearFunctionSubmitResponse,
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import {
+  addOrUpdateFunctionDraftResponseSelector,
+  getLatestFunctionDraftResponseSelector,
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
 const Section1 = ({ questions, scopeData }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [responses, setResponses] = useState({});
   const [formErrors, setFormErrors] = useState({});
+
+  const DraftResponseState = useSelector(getLatestFunctionDraftResponseSelector);
+  const addOrUpdateDraftResponseState = useSelector(addOrUpdateFunctionDraftResponseSelector);
 
   const handleRadioChange = (questionId, response, comment = '') => {
     const newResponses = {
@@ -43,16 +61,54 @@ const Section1 = ({ questions, scopeData }) => {
     });
   };
 
+  // clear all the states on page leave or refresh page or change url path or change module or change role
   useEffect(() => {
-    const storedResponses = localStorage.getItem('storedResponses');
-    if (storedResponses) {
-      setResponses(JSON.parse(storedResponses));
-    }
+    return () => {
+      dispatch(clearLatestFunctionDraftResponse());
+      dispatch(clearFunctionSubmitResponse());
+    };
   }, []);
 
-  const handleSave = () => {
-    localStorage.setItem('storedResponses', JSON.stringify(responses));
-    console.log('Saved responses:', responses);
+  useEffect(() => {
+    if (DraftResponseState?.data?.Latest_response) {
+      setResponses(DraftResponseState?.data?.Latest_response);
+    }
+  }, [DraftResponseState?.data]);
+
+  const handleSaveDraft = () => {
+    if (DraftResponseState?.data?.Attempt_no >= 5) {
+      Swal.fire(`You don't have a limited`, '', 'error');
+      return;
+    }
+    Swal.fire({
+      title: `Do you want save as draft!`,
+      text: `Remaining response ${
+        DraftResponseState?.data?.Attempt_no
+          ? DraftResponseState?.data?.Attempt_no < 5
+            ? 4 - DraftResponseState?.data?.Attempt_no
+            : 0
+          : DraftResponseState?.data?.Attempt_no === 0
+          ? '4'
+          : '5'
+      }`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'golden',
+      cancelButtonColor: 'black',
+      confirmButtonText: `Save draft!`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const payload = {
+          Assessment_ID: scopeData?.id,
+          Latest_response: responses,
+        };
+        //localStorage.setItem('storedResponses', JSON.stringify(responses));
+        dispatch(addOrUpdateFunctionDraftResponse(payload));
+        // after api success clear the redux state
+        dispatch(clearLatestFunctionDraftResponse());
+        history.push('/');
+      }
+    });
   };
 
   const handleSubmit = () => {
@@ -73,8 +129,57 @@ const Section1 = ({ questions, scopeData }) => {
       setFormErrors(newFormErrors);
       toast.error('Please fill all the required fields.');
     } else {
-      //handleSave();
-      console.log('Submitted responses:', responses);
+      Swal.fire({
+        title: 'Do you want Submit Letter!',
+        text: `Remaining response ${
+          DraftResponseState?.data?.Attempt_no
+            ? DraftResponseState?.data?.Attempt_no < 5
+              ? 4 - DraftResponseState?.data?.Attempt_no
+              : 0
+            : DraftResponseState?.data?.Attempt_no === 0
+            ? '4'
+            : '5'
+        }`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: 'golden',
+        cancelButtonColor: 'black',
+        confirmButtonText: 'Yes, submit it!',
+        showDenyButton: !(DraftResponseState?.data?.Attempt_no >= 5),
+        denyButtonText: 'Save draft!',
+        denyButtonColor: 'silver',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const payload = {
+            Assessment_ID: scopeData?.id,
+            Latest_response: responses,
+          };
+          //localStorage.setItem('storedResponses', JSON.stringify(responses));
+          dispatch(addFunctionSubmitResponse(payload));
+          // after api success clear the redux state
+          dispatch(clearFunctionSubmitResponse());
+          history.push('/');
+
+          console.log('Submitted responses:', responses);
+          //localStorage.setItem('storedResponses', JSON.stringify(responses));
+          // dispatch(addAssessmentAns(payload));
+        }
+        if (result.isDenied) {
+          if (DraftResponseState?.data?.Attempt_no >= 5) {
+            Swal.fire(`You don't have a limit`, '', 'error');
+            return;
+          }
+          const payload = {
+            Assessment_ID: scopeData?.id,
+            Latest_response: responses,
+          };
+          //localStorage.setItem('storedResponses', JSON.stringify(responses));
+          dispatch(addOrUpdateFunctionDraftResponse(payload));
+          // after api success clear the redux state
+          dispatch(clearLatestFunctionDraftResponse());
+          history.push('/');
+        }
+      });
     }
   };
 
@@ -139,9 +244,26 @@ const Section1 = ({ questions, scopeData }) => {
         );
       })}
       <div>
-        <button onClick={() => history.push('/')}>Cancel</button>
-        <button onClick={handleSave}>Save Draft</button>
-        <button onClick={handleSubmit}>Submit</button>
+        <div className="rep-letter-form-bottom-btn">
+          <Button className="w-30" onClick={() => history.push('/')}>
+            Cancel
+          </Button>
+          <Button className="w-30" onClick={handleSaveDraft}>
+            Save as Draft
+          </Button>
+          <Button color="neutral" className="w-30" id="submit-button" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </div>
+
+        <div className="save-draft-btn-wrapper">
+          <Button id="save-draft-btn-rep-letter" onClick={handleSaveDraft}>
+            Save as Draft
+          </Button>
+        </div>
+        {/* <button onClick={() => history.push('/')}>Cancel</button>
+        <button onClick={handleSaveDraft}>Save Draft</button>
+        <button onClick={handleSubmit}>Submit</button> */}
       </div>
     </CollapseFrame>
   );

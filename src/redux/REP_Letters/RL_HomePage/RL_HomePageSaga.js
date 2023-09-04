@@ -1,6 +1,7 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { Axios } from '../../../api/axios';
 import { getSimplifiedError } from '../../../utils/error';
+import { push } from 'connected-react-router';
 import {
   GET_FUNCTION_RECIPIENT_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_FUNCTION_RECIPIENT_HOME_PAGE_TABLE_DATA_SUCCESS,
@@ -26,6 +27,18 @@ import {
   GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_SUCCESS,
   GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_ERROR,
+  ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST,
+  ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_SUCCESS,
+  ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_ERROR,
+  GET_LATEST_FUNCTION_DRAFT_RESPONSE_REQUEST,
+  GET_LATEST_FUNCTION_DRAFT_RESPONSE_SUCCESS,
+  GET_LATEST_FUNCTION_DRAFT_RESPONSE_ERROR,
+  GET_FUNCTION_SUBMIT_RESPONSE_REQUEST,
+  GET_FUNCTION_SUBMIT_RESPONSE_SUCCESS,
+  GET_FUNCTION_SUBMIT_RESPONSE_ERROR,
+  ADD_FUNCTION_SUBMIT_RESPONSE_REQUEST,
+  ADD_FUNCTION_SUBMIT_RESPONSE_SUCCESS,
+  ADD_FUNCTION_SUBMIT_RESPONSE_ERROR,
 } from './RL_HomePageReducer';
 import Swal from 'sweetalert2';
 
@@ -189,6 +202,107 @@ function* handle_Get_BU_Zone_VPHomePageData({ payload }) {
   }
 }
 
+// get Latest Function Draft Response
+async function getLatestFunctionDraftResponseApi(params) {
+  return await Axios.get('/get_bu_assessment_draft', { params });
+}
+function* handle_GetLatestFunctionDraftResponse({ payload }) {
+  try {
+    const response = yield call(getLatestFunctionDraftResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_LATEST_FUNCTION_DRAFT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_LATEST_FUNCTION_DRAFT_RESPONSE_ERROR,
+    });
+  }
+}
+
+// add Or Update Function Draft Response
+async function addOrUpdateFunctionDraftResponseApi(payload) {
+  return await Axios.post('/save_bu_assessment_draft', payload);
+}
+function* updateAddOrUpdateFunctionDraftResponse({ payload }) {
+  try {
+    const response = yield call(addOrUpdateFunctionDraftResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Response Drafted Successfully!', 'success');
+
+      // Clear the getLatestFunctionDraftResponse state
+      yield put({ type: GET_LATEST_FUNCTION_DRAFT_RESPONSE_SUCCESS, payload: null });
+
+      // Redirect the user to '/'
+      yield put(push('/'));
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+// get Function Submit Response
+async function getFunctionSubmitResponseApi(params) {
+  return await Axios.get('/', { params });
+}
+function* handle_GetFunctionSubmitResponse({ payload }) {
+  try {
+    const response = yield call(getFunctionSubmitResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_FUNCTION_SUBMIT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_FUNCTION_SUBMIT_RESPONSE_ERROR,
+    });
+  }
+}
+
+// add Function Submit Response
+async function addFunctionSubmitResponseApi(payload) {
+  return await Axios.post('/', payload);
+}
+function* updateAddFunctionSubmitResponse({ payload }) {
+  try {
+    const response = yield call(addFunctionSubmitResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_FUNCTION_SUBMIT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Response Submitted Successfully!', 'success');
+
+      // Clear the get Latest Function Submitted Response state
+      yield put({ type: GET_FUNCTION_SUBMIT_RESPONSE_SUCCESS, payload: null });
+      // Redirect the user to '/'
+      yield put(push('/'));
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_FUNCTION_SUBMIT_RESPONSE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
 export default all([
   takeLatest(
     GET_FUNCTION_RECIPIENT_HOME_PAGE_TABLE_DATA_REQUEST,
@@ -216,4 +330,8 @@ export default all([
     handle_Get_BU_Zone_ControlHomePageData,
   ),
   takeLatest(GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST, handle_Get_BU_Zone_VPHomePageData),
+  takeLatest(ADD_FUNCTION_SUBMIT_RESPONSE_REQUEST, updateAddFunctionSubmitResponse),
+  takeLatest(GET_FUNCTION_SUBMIT_RESPONSE_REQUEST, handle_GetFunctionSubmitResponse),
+  takeLatest(ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST, updateAddOrUpdateFunctionDraftResponse),
+  takeLatest(GET_LATEST_FUNCTION_DRAFT_RESPONSE_REQUEST, handle_GetLatestFunctionDraftResponse),
 ]);

@@ -7,6 +7,12 @@ import {
   GET_BU_FINANCE_DIRECTOR_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST,
+  ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST,
+  GET_LATEST_FUNCTION_DRAFT_RESPONSE_REQUEST,
+  CLEAR_LATEST_FUNCTION_DRAFT_RESPONSE,
+  GET_FUNCTION_SUBMIT_RESPONSE_REQUEST,
+  ADD_FUNCTION_SUBMIT_RESPONSE_REQUEST,
+  CLEAR_FUNCTION_SUBMIT_RESPONSE_REQUEST,
 } from './RL_HomePageReducer';
 
 export const getFunctionRecipientHomePageData = (payload) => ({
@@ -41,4 +47,32 @@ export const get_BU_Zone_ControlHomePageData = (payload) => ({
 export const get_BU_Zone_VPHomePageData = (payload) => ({
   type: GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST,
   payload,
+});
+
+export const addOrUpdateFunctionDraftResponse = (payload) => ({
+  type: ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST,
+  payload,
+});
+
+export const getLatestFunctionDraftResponse = (payload) => ({
+  type: GET_LATEST_FUNCTION_DRAFT_RESPONSE_REQUEST,
+  payload,
+});
+
+export const clearLatestFunctionDraftResponse = () => ({
+  type: CLEAR_LATEST_FUNCTION_DRAFT_RESPONSE,
+});
+
+export const getFunctionSubmitResponse = (payload) => ({
+  type: GET_FUNCTION_SUBMIT_RESPONSE_REQUEST,
+  payload,
+});
+
+export const addFunctionSubmitResponse = (payload) => ({
+  type: ADD_FUNCTION_SUBMIT_RESPONSE_REQUEST,
+  payload,
+});
+
+export const clearFunctionSubmitResponse = () => ({
+  type: CLEAR_FUNCTION_SUBMIT_RESPONSE_REQUEST,
 });

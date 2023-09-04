@@ -70,6 +70,40 @@ export const GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR';
 // ============= GET BU Zone Control home page table data ===============//
 
+// ============= ADD OR UPDATE FUNCTION DRAFT RESPONSE data ===============//
+export const ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST =
+  'ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST';
+export const ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_SUCCESS =
+  'ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_SUCCESS';
+export const ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_ERROR =
+  'ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_ERROR';
+// ============= ADD OR UPDATE FUNCTION DRAFT RESPONSE data ===============//
+
+// ============= GET LATEST FUNCTION DRAFT RESPONSE data ===============//
+export const GET_LATEST_FUNCTION_DRAFT_RESPONSE_REQUEST =
+  'GET_LATEST_FUNCTION_DRAFT_RESPONSE_REQUEST';
+export const GET_LATEST_FUNCTION_DRAFT_RESPONSE_SUCCESS =
+  'GET_LATEST_FUNCTION_DRAFT_RESPONSE_SUCCESS';
+export const GET_LATEST_FUNCTION_DRAFT_RESPONSE_ERROR = 'GET_LATEST_FUNCTION_DRAFT_RESPONSE_ERROR';
+// ============= GET LATEST FUNCTION DRAFT RESPONSE data ===============//
+
+// ============= CLEAR LATEST FUNCTION DRAFT RESPONSE data ===============//
+export const CLEAR_LATEST_FUNCTION_DRAFT_RESPONSE = 'CLEAR_LATEST_FUNCTION_DRAFT_RESPONSE';
+// ============= CLEAR LATEST FUNCTION DRAFT RESPONSE data ===============//
+
+// ============= GET FUNCTION SUBMIT RESPONSE data ===============//
+export const GET_FUNCTION_SUBMIT_RESPONSE_REQUEST = 'GET_FUNCTION_SUBMIT_RESPONSE_REQUEST';
+export const GET_FUNCTION_SUBMIT_RESPONSE_SUCCESS = 'GET_FUNCTION_SUBMIT_RESPONSE_SUCCESS';
+export const GET_FUNCTION_SUBMIT_RESPONSE_ERROR = 'GET_FUNCTION_SUBMIT_RESPONSE_ERROR';
+export const CLEAR_FUNCTION_SUBMIT_RESPONSE_REQUEST = 'CLEAR_FUNCTION_SUBMIT_RESPONSE_REQUEST';
+// ============= GET FUNCTION SUBMIT RESPONSE data ===============//
+
+// ============= ADD FUNCTION SUBMIT RESPONSE data ===============//
+export const ADD_FUNCTION_SUBMIT_RESPONSE_REQUEST = 'ADD_FUNCTION_SUBMIT_RESPONSE_REQUEST';
+export const ADD_FUNCTION_SUBMIT_RESPONSE_SUCCESS = 'ADD_FUNCTION_SUBMIT_RESPONSE_SUCCESS';
+export const ADD_FUNCTION_SUBMIT_RESPONSE_ERROR = 'ADD_FUNCTION_SUBMIT_RESPONSE_ERROR';
+// ============= ADD FUNCTION SUBMIT RESPONSE data ===============//
+
 const block = {
   loading: false,
   error: '',
@@ -85,6 +119,10 @@ const initialState = {
   get_BU_Finance_DirectorHomePageData: { ...block, data: [] },
   get_BU_Zone_ControlHomePageData: { ...block, data: [] },
   get_BU_Zone_VPHomePageData: { ...block, data: [] },
+  addOrUpdateFunctionDraftResponse: { ...block, data: [] },
+  getLatestFunctionDraftResponse: { ...block, data: [] },
+  getFunctionSubmitResponse: { ...block, data: [] },
+  addFunctionSubmitResponse: { ...block, data: [] },
 };
 
 export const RL_HomePageReducer = (state = initialState, { type, payload = {} }) => {
@@ -301,6 +339,132 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         ...state,
         get_BU_Zone_ControlHomePageData: {
           ...state.get_BU_Zone_ControlHomePageData,
+          loading: false,
+        },
+      };
+
+    // ADD OR UPDATE FUNCTION DRAFT RESPONSE data
+    case ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        addOrUpdateFunctionDraftResponse: {
+          ...state.addOrUpdateFunctionDraftResponse,
+          loading: true,
+        },
+      };
+    case ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        addOrUpdateFunctionDraftResponse: {
+          ...state.addOrUpdateFunctionDraftResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_ERROR:
+      return {
+        ...state,
+        addOrUpdateFunctionDraftResponse: {
+          ...state.addOrUpdateFunctionDraftResponse,
+          loading: false,
+        },
+      };
+
+    // GET LATEST FUNCTION DRAFT RESPONSE data
+    case GET_LATEST_FUNCTION_DRAFT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getLatestFunctionDraftResponse: {
+          ...state.getLatestFunctionDraftResponse,
+          loading: true,
+        },
+      };
+    case GET_LATEST_FUNCTION_DRAFT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        getLatestFunctionDraftResponse: {
+          ...state.getLatestFunctionDraftResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_LATEST_FUNCTION_DRAFT_RESPONSE_ERROR:
+      return {
+        ...state,
+        getLatestFunctionDraftResponse: {
+          ...state.getLatestFunctionDraftResponse,
+          loading: false,
+        },
+      };
+    case CLEAR_LATEST_FUNCTION_DRAFT_RESPONSE:
+      return {
+        ...state,
+        getLatestFunctionDraftResponse: {
+          ...state.getLatestFunctionDraftResponse,
+          data: [],
+          loading: false,
+        },
+      };
+
+    // GET FUNCTION SUBMIT RESPONSE data
+    case GET_FUNCTION_SUBMIT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getFunctionSubmitResponse: {
+          ...state.getFunctionSubmitResponse,
+          loading: true,
+        },
+      };
+    case GET_FUNCTION_SUBMIT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        getFunctionSubmitResponse: {
+          ...state.getFunctionSubmitResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_FUNCTION_SUBMIT_RESPONSE_ERROR:
+      return {
+        ...state,
+        getFunctionSubmitResponse: {
+          ...state.getFunctionSubmitResponse,
+          loading: false,
+        },
+      };
+    case CLEAR_FUNCTION_SUBMIT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getFunctionSubmitResponse: {
+          ...state.getFunctionSubmitResponse,
+          data: [],
+          loading: false,
+        },
+      };
+
+    // ADD FUNCTION SUBMIT RESPONSE data
+    case ADD_FUNCTION_SUBMIT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        addFunctionSubmitResponse: {
+          ...state.addFunctionSubmitResponse,
+          loading: true,
+        },
+      };
+    case ADD_FUNCTION_SUBMIT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        addFunctionSubmitResponse: {
+          ...state.addFunctionSubmitResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ADD_FUNCTION_SUBMIT_RESPONSE_ERROR:
+      return {
+        ...state,
+        addFunctionSubmitResponse: {
+          ...state.addFunctionSubmitResponse,
           loading: false,
         },
       };

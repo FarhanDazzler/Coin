@@ -43,6 +43,7 @@
   .renderBlockWrapper-control-actions-wrapper {
     border-radius: 0 0 10px 10px;
     padding: 12px 40px;
+    text-align: right;
     hr {
       margin: 1rem 0;
     }
@@ -95,6 +96,21 @@
     //line-height: 1.5;
     margin-top: 0.25rem;
   }
+}
+
+.rep-letter-form-bottom-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+#save-draft-btn-rep-letter {
+  position: fixed;
+  bottom: -4px;
+  right: 10px;
+  z-index: 999;
+  margin-bottom: 50px;
 }
 .Rep-Letter-form-Section0 {
   padding-top: 24px;
