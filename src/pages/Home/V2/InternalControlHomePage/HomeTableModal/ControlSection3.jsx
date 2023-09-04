@@ -114,7 +114,7 @@ const ControlSection3 = ({
       const updateAnsL3 = setSelectedQuestionAns(questionL3, ans.L3);
       setQuestionL3(updateAnsL3);
     }
-  }, [ans, render, questionData]);
+  }, [ans, render, questionL1, questionL2, questionL3, questionData]);
 
   useEffect(() => {
     if (question2Api) return;
@@ -219,7 +219,7 @@ const ControlSection3 = ({
         setShowNoQuestion(false);
       }
     }, 300);
-  }, [lastAns]);
+  }, [lastAns, questionData.Level]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -280,7 +280,7 @@ const ControlSection3 = ({
         }
       }
     }, 600);
-  }, [questionData.Level, languageVal]);
+  }, [questionData.Level, ans, languageVal]);
 
   useEffect(() => {
     if (questionData.loading) {
@@ -306,7 +306,6 @@ const ControlSection3 = ({
   }, [questionL1.length, questionData.loading, ans.L3]);
 
   if (isEmptySection) return <div />;
-  console.log('ansSection3ansSection3ansSection3', questionL2);
 
   return (
     <div>
