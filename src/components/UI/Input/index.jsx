@@ -16,7 +16,7 @@ const Input = ({
   value,
   fullInput,
   disabled,
-  maxLength = 255,
+  maxLength = 1000,
   errorMessage,
   ...res
 }) => {
