@@ -43,7 +43,7 @@ const ControlHomePage = () => {
   };
 
   useEffect(() => {
-    if (!userRole?.length || userRole === 'undefined') history.push('/not-authorized');
+    // if (!userRole?.length || userRole === 'undefined') history.push('/not-authorized');
   }, [
     getControlOwnerData.data,
     loginUserRole,
