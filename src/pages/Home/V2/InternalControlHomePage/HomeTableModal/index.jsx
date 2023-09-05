@@ -136,12 +136,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       if (!isModal) {
         dispatch(getLatestDraft({ assessment_id: activeData.id || Control_ID }));
       } else {
-        // dispatch(
-        //   getAssessmentAns({
-        //     assessment_id: activeData.id,
-        //     cowner: activeData?.Control_Owner,
-        //   }),
-        // );
+        dispatch(
+          getAssessmentAns({
+            assessment_id: activeData.id,
+            cowner: activeData?.Control_Owner,
+          }),
+        );
         setTimeout(() => {
           dispatch(
             getAssessmentAns({
