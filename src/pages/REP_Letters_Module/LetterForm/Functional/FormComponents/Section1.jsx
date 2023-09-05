@@ -82,7 +82,7 @@ const Section1 = ({ questions, scopeData }) => {
     }
     Swal.fire({
       title: `Do you want save as draft!`,
-      text: `Remaining response ${
+      text: `${
         DraftResponseState?.data?.Attempt_no
           ? DraftResponseState?.data?.Attempt_no < 5
             ? 4 - DraftResponseState?.data?.Attempt_no
@@ -90,7 +90,7 @@ const Section1 = ({ questions, scopeData }) => {
           : DraftResponseState?.data?.Attempt_no === 0
           ? '4'
           : '5'
-      }`,
+      } save draft assessments remaining`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
@@ -131,7 +131,7 @@ const Section1 = ({ questions, scopeData }) => {
     } else {
       Swal.fire({
         title: 'Do you want Submit Letter!',
-        text: `Remaining response ${
+        text: `${
           DraftResponseState?.data?.Attempt_no
             ? DraftResponseState?.data?.Attempt_no < 5
               ? 4 - DraftResponseState?.data?.Attempt_no
@@ -139,7 +139,7 @@ const Section1 = ({ questions, scopeData }) => {
             : DraftResponseState?.data?.Attempt_no === 0
             ? '4'
             : '5'
-        }`,
+        } save draft assessments remaining`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'golden',
