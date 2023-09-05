@@ -35,6 +35,7 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
       is_Terminating: null,
     },
   ]);
+  const maxLength = 1000;
   useEffect(() => {
     setQuestionText('');
     setQuestionType();
@@ -62,7 +63,7 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
       >
         <div className="row modal-min-height">
           <div className="col-md-9">
-            <label>Question</label>
+            <label>Question Text</label>
             <Form.Group className="input-group mb-3">
               <Form.Control
                 type="text"
@@ -70,8 +71,15 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
                 placeholder="Question Text"
                 className="form-control"
                 value={questionText}
+                maxLength={maxLength}
+                  isInvalid={Boolean(questionText?.length == maxLength)}
                 onChange={(e) => setQuestionText(e.target.value)}
               />
+              {questionText?.length == maxLength && (
+                  <Form.Control.Feedback type="invalid">
+                    Only {maxLength} character allow
+                  </Form.Control.Feedback>
+                )}
             </Form.Group>
           </div>
           <div className="col-md-3">
