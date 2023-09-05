@@ -17,7 +17,9 @@
     padding: 21px 32px 32px;
     text-align: center;
     width: 356px;
-    height: max-content;
+    min-height: 200px;
+    overflow: auto;
+    max-height: 410px;
     background: #ffffff;
     border: 1px solid #cfcfcf;
     border-radius: 4px;
