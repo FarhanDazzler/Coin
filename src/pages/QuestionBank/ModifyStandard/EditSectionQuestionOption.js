@@ -37,6 +37,7 @@ const EditSection1QuestionOption = ({
   const [isFailedFreeText, setIsFailedFreeText] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(null);
   const [saveLoading, setSaveLoading] = useState(false);
+  const maxLength = 1000;
   useEffect(() => {
     if (questionOptions.length > 0) setFreeTextChildQId(questionOptions[0].child_question);
   }, [questionOptions]);
@@ -276,8 +277,15 @@ const EditSection1QuestionOption = ({
                   className="form-control"
                   block={block}
                   value={question}
+                  maxLength={maxLength}
+                  isInvalid={Boolean(question.length == maxLength)}
                   onChange={handleChangeQuestion}
                 />
+                {question.length == maxLength && (
+                  <Form.Control.Feedback type="invalid">
+                    Only {maxLength} character allow
+                  </Form.Control.Feedback>
+                )}
               </Form.Group>
             </div>
             <div className="col-md-3">
