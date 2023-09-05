@@ -12,13 +12,18 @@ import { getSimplifiedError } from '../../utils/error';
 
 function getControlDataApiCall(data) {
   let params = data.payload.data;
+
+  const encodedControlId = encodeURIComponent(params.controlId);
+  const encodedCoOwner = encodeURIComponent(params.coOwner);
+  const encodedProvider = encodeURIComponent(params.provider);
+
   return Axios.get(
     '/get_control_scope?ControlID=' +
-      params.controlId +
+      encodedControlId +
       '&coOwner=' +
-      params.coOwner +
+      encodedCoOwner +
       '&provider=' +
-      params.provider,
+      encodedProvider,
   );
 }
 
