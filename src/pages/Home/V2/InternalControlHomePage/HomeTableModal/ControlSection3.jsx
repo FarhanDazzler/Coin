@@ -114,7 +114,7 @@ const ControlSection3 = ({
       const updateAnsL3 = setSelectedQuestionAns(questionL3, ans.L3);
       setQuestionL3(updateAnsL3);
     }
-  }, [ans, render, questionL1, questionL2, questionL3, questionData]);
+  }, [ans, render, questionData]);
 
   useEffect(() => {
     if (question2Api) return;
@@ -219,7 +219,7 @@ const ControlSection3 = ({
         setShowNoQuestion(false);
       }
     }, 300);
-  }, [lastAns, questionData.Level]);
+  }, [lastAns]);
 
   useEffect(() => {
     setTimeout(() => {
