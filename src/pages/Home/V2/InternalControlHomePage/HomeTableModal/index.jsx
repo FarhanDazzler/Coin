@@ -70,7 +70,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     if (startEdit && responseData?.data?.Attempt_no <= 5) {
       Swal.fire({
         title: t('selfAssessment.assessmentForm.saveDraftText'),
-        text: `${t('selfAssessment.assessmentForm.saveDraftRemainingResponseText')} ${
+        text: `${
           responseData?.data?.Attempt_no
             ? responseData?.data?.Attempt_no < 5
               ? 4 - responseData?.data?.Attempt_no
@@ -78,7 +78,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             : responseData?.data?.Attempt_no === 0
             ? '4'
             : '5'
-        }`,
+        } ${t('selfAssessment.assessmentForm.saveDraftRemainingResponseText')}`,
         icon: 'warning',
         showConfirmButton: false,
         showCancelButton: true,
@@ -245,7 +245,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     let isS3FailedData;
     Swal.fire({
       title: t('selfAssessment.assessmentForm.submitText'),
-      text: `${t('selfAssessment.assessmentForm.submitRemainingResponseText')} ${
+      text: `${
         responseData?.data?.Attempt_no
           ? responseData?.data?.Attempt_no < 5
             ? 4 - responseData?.data?.Attempt_no
@@ -253,7 +253,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
-      }`,
+      } ${t('selfAssessment.assessmentForm.submitRemainingResponseText')}`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
@@ -341,7 +341,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     }
     Swal.fire({
       title: t('selfAssessment.assessmentForm.saveDraftText'),
-      text: `${t('selfAssessment.assessmentForm.saveDraftRemainingResponseText')} ${
+      text: `${
         responseData?.data?.Attempt_no
           ? responseData?.data?.Attempt_no < 5
             ? 4 - responseData?.data?.Attempt_no
@@ -349,7 +349,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
-      }`,
+      } ${t('selfAssessment.assessmentForm.saveDraftRemainingResponseText')}`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',

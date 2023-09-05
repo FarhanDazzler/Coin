@@ -170,7 +170,7 @@ const InternalControlHomePage = () => {
                     tooltip={
                       <div>
                         <span className="yellow-text"> Incorrect Owner : </span>
-                        <span>if owner has reassessed the already submitted assessment.</span>
+                        <span>Control owner indicated that (s)he is no longer the owner.</span>
                       </div>
                     }
                     subTitle="Incorrect Owner"

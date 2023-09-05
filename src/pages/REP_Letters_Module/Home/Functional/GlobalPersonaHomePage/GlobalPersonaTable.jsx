@@ -80,7 +80,13 @@ const GlobalPersonaTable = ({
             {row.row.original.Status === 'Completed' && (
               <Button
                 className="mr-2"
-                //onClick={() => handleControlIDClick(row.row.original.Control_ID, row.row.original)}
+                onClick={() => {
+                  const data = {
+                    scopeData: row.row.original,
+                    modalType: 'review',
+                  };
+                  history.push('/REP-Letters/attempt-letter/functional-letter-form', { data });
+                }}
               >
                 Review
               </Button>
