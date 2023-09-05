@@ -104,25 +104,38 @@ const FunctionalLetterForm = (props) => {
   };
   return (
     <div>
-      {/* <PageWrapper>
-        <div className="container-fluid">
-          {instructionState.loading ||
-          questionState.loading ||
-          getLatestFunctionDraftResponseState.loading ? (
-            <div className="loader-animation">
-              <DotSpinner size={100} speed={0.9} color="#e3af32" />
-              <p className="loader-Desc ml-3">Please wait while we are Loading letter for you</p>
-            </div>
-          ) : (
-            <div className="col-lg-12">
-              <Section0 scopeData={scopeData} />
-              <Section1 questions={questionState.data} scopeData={scopeData} />
-            </div>
-          )}
-        </div>
-      </PageWrapper> */}
       <PageWrapper>
-        <ReviewResponsePage submittedResponses={submittedResponses} />
+        {modalType === 'attempt' ? (
+          <div className="container-fluid">
+            {instructionState.loading ||
+            questionState.loading ||
+            getLatestFunctionDraftResponseState.loading ? (
+              <div className="loader-animation">
+                <DotSpinner size={100} speed={0.9} color="#e3af32" />
+                <p className="loader-Desc ml-3">Please wait while we are Loading letter for you</p>
+              </div>
+            ) : (
+              <div className="col-lg-12">
+                <Section0 scopeData={scopeData} />
+                <Section1 questions={questionState.data} scopeData={scopeData} />
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="container-fluid">
+            {instructionState.loading || getLatestFunctionDraftResponseState.loading ? (
+              <div className="loader-animation">
+                <DotSpinner size={100} speed={0.9} color="#e3af32" />
+                <p className="loader-Desc ml-3">Please wait while we are Loading letter for you</p>
+              </div>
+            ) : (
+              <div className="col-lg-12">
+                <Section0 scopeData={scopeData} />
+                <ReviewResponsePage submittedResponses={submittedResponses} />
+              </div>
+            )}
+          </div>
+        )}
       </PageWrapper>
     </div>
   );
