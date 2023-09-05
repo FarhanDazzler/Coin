@@ -30,7 +30,6 @@ import { getLanguageFormat, isJsonString } from '../../../../../utils/helper';
 import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
 const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
-  const { accounts } = useMsal();
   const query = new URLSearchParams(history.location.search);
   const { t, i18n } = useTranslation();
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
@@ -126,12 +125,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         Control_ID: activeData.Question_Bank === 'Template1' ? 'Standard' : activeData.Control_ID,
       }),
     );
-    // dispatch(
-    //   getKPIData({
-    //     MICS_code: activeData.Control_ID || Control_ID,
-    //     Entity_ID: activeData.Provider,
-    //   }),
-    // );
     setTimeout(() => {
       if (!isModal) {
         dispatch(getLatestDraft({ assessment_id: activeData.id || Control_ID }));
@@ -142,14 +135,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             cowner: activeData?.Control_Owner,
           }),
         );
-        setTimeout(() => {
-          dispatch(
-            getAssessmentAns({
-              assessment_id: activeData.id,
-              cowner: activeData?.Control_Owner,
-            }),
-          );
-        }, 4000);
       }
       if (!isModal) {
         dispatch(
@@ -204,7 +189,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           setAnsSection3(section3Data);
           setShowMoreSection(true);
         }
-        // || !questionData.Level?.L1?.length
 
         const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions)
           ? JSON.parse(questionData.Level?.L1?.Inner_Questions)
@@ -294,7 +278,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             }
           }
         }
-        const isS3Failed = !dataArray.includes('L3');
+
         const payload = {
           Assessment_ID: activeData.id,
           Assessment_result: isupdated ? 'NA' : isS3FailedData || s1FailObj ? 'Fail' : 'Pass',
@@ -418,29 +402,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
                   <span className="font-weight-bold">Control Name: </span>
                   <span>{stateControlData.control_name}</span>
                 </div>
-                {/* <div>*/}
-                {/*  <Form.Group className="input-group" style={{ minWidth: 180 }}>*/}
-                {/*    <Form.Control*/}
-                {/*      as="select"*/}
-                {/*      name=""*/}
-                {/*      placeholder=""*/}
-                {/*      className="form-select"*/}
-                {/*      onChange={({ target: { value } }) => {*/}
-                {/*        setLanguage(value);*/}
-                {/*      }}*/}
-                {/*      value={language}*/}
-                {/*    >*/}
-                {/*      <option value="" disabled>*/}
-                {/*        Select Language*/}
-                {/*      </option>*/}
-                {/*      {[{ label: 'English', value: 'English' }, ...TranslateType].map((data, i) => (*/}
-                {/*        <option value={data?.value} key={i}>*/}
-                {/*          {data?.label}*/}
-                {/*        </option>*/}
-                {/*      ))}*/}
-                {/*    </Form.Control>*/}
-                {/*  </Form.Group>*/}
-                {/*</div> */}
               </div>
               <CloseIcon className="close-modal-icon" onClick={() => handleCloseAssessment()} />
             </div>

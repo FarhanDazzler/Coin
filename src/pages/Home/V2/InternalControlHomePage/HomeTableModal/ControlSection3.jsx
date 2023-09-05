@@ -28,7 +28,6 @@ const ControlSection3 = ({
   showMoreSection,
 }) => {
   const history = useHistory();
-  const { state } = useLocation();
   const { Assessment_id = '' } = useParams();
   const query = new URLSearchParams(history.location.search);
   const Control_ID = Assessment_id || query.get('Control_ID');
@@ -229,7 +228,16 @@ const ControlSection3 = ({
         if (!questionL1.length > 0 || !isSameLang) {
           const questionsVal = getFormatQuestions(apiQuestionL1, null, 'L1');
           const data = getLanguageFormat(questionsVal, languageVal, null, true);
-          setQuestionL1(data);
+          if (ans.L1) {
+            const updateAnsL1 = setSelectedQuestionAns(data, ans.L1);
+            setQuestionL1(updateAnsL1);
+            if (!question2Api) {
+              dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
+              setQuestion2Api(true);
+            }
+          } else {
+            setQuestionL1(data);
+          }
           setLanguage(languageVal);
         }
       }
@@ -252,7 +260,18 @@ const ControlSection3 = ({
         if (!(questionL2.length > 0) || !isSameLang || isLevel1NoInnerQuestion) {
           const questionsVal2 = getFormatQuestions(apiQuestionL2, null, 'L2');
           const data2 = getLanguageFormat(questionsVal2, languageVal, null, true);
-          setQuestionL2(data2);
+
+          if (ans.L2) {
+            const updateAnsL2 = setSelectedQuestionAns(data2, ans.L2);
+            setQuestionL2(updateAnsL2);
+            if (!question3Api) {
+              console.log('@@@@@@@@@@@---111');
+              dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
+              setQuestion3Api(true);
+            }
+          } else {
+            setQuestionL2(data2);
+          }
         }
       }
       if ((!!questionData.Level?.L3 && !!ans.L2) || isLevel2NoInnerQuestion) {
@@ -265,7 +284,14 @@ const ControlSection3 = ({
         ) {
           const questionsVal3 = getFormatQuestions(apiQuestionL3, null, 'L3');
           const data3 = getLanguageFormat(questionsVal3, languageVal, null, true);
-          setQuestionL3(data3);
+
+          if (ans.L3) {
+            const updateAnsL3 = setSelectedQuestionAns(data3, ans.L3);
+            setQuestionL3(updateAnsL3);
+          } else {
+            setQuestionL3(data3);
+          }
+
           if (!(L3InnerQuestion.length > 0)) {
             setTerminating(true);
           }
