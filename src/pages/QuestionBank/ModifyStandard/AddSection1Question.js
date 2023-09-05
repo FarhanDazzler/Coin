@@ -6,6 +6,8 @@ import './ModifyStandard.scss';
 import { addSection1QuestionDataAction } from '../../../redux/QuestionBank/QuestionBankAction';
 import { useDispatch } from 'react-redux';
 import Button from '../../../components/UI/Button';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 export const QuestionType = [
   { label: 'Radio', value: 'Radio' },
@@ -63,7 +65,9 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
       >
         <div className="row modal-min-height">
           <div className="col-md-9">
-            <label>Question Text</label>
+            <FormControl className="input-wrapper">
+              <FormLabel>Question Text</FormLabel>
+            </FormControl>
             <Form.Group className="input-group mb-3">
               <Form.Control
                 type="text"
@@ -72,14 +76,14 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
                 className="form-control"
                 value={questionText}
                 maxLength={maxLength}
-                  isInvalid={Boolean(questionText?.length == maxLength)}
+                isInvalid={Boolean(questionText?.length == maxLength)}
                 onChange={(e) => setQuestionText(e.target.value)}
               />
               {questionText?.length == maxLength && (
-                  <Form.Control.Feedback type="invalid">
-                    Only {maxLength} character allow
-                  </Form.Control.Feedback>
-                )}
+                <Form.Control.Feedback type="invalid">
+                  Only {maxLength} character allow
+                </Form.Control.Feedback>
+              )}
             </Form.Group>
           </div>
           <div className="col-md-3">
