@@ -86,7 +86,6 @@ export const getLanguageFormat = (data = [], lang = 'en', startStr, isValid, rec
         const optionData = (!recarsive ? d.question_options : d.options)?.map((d) => {
           return { value: d.option_id, label: d[keyOption] || d.option_value };
         });
-        if (recarsive) console.log('keyInner_QuestionskeyInner_QuestionskeyInner_Questions', d);
         return {
           ...d,
           label: `${startStr ? startStr + `: Q${i + 1}. ` : ''}${
