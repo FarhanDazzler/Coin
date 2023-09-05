@@ -253,7 +253,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
     return style;
   };
 
-  console.log('table_data', kpiResultData?.data);
   useEffect(() => {
     if (getKPIResponse?.data?.Latest_Response?.kpis) {
       setTableData(getKPIResponse?.data?.Latest_Response?.kpis);

@@ -137,7 +137,7 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
     case GET_ASSESSMENT_RESPONSE_REQUEST:
       return {
         ...state,
-        getResponse: { ...state.getResponse, loading: true },
+        getResponse: { ...initialState.getResponse, loading: true },
       };
     case GET_ASSESSMENT_RESPONSE_SUCCESS:
       // const currentResp = payload?.data?.find((d) => d.Control_ID === payload.Control_ID);

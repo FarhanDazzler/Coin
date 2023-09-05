@@ -142,6 +142,14 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             cowner: activeData?.Control_Owner,
           }),
         );
+        setTimeout(() => {
+          dispatch(
+            getAssessmentAns({
+              assessment_id: activeData.id,
+              cowner: activeData?.Control_Owner,
+            }),
+          );
+        }, 4000);
       }
       if (!isModal) {
         dispatch(
