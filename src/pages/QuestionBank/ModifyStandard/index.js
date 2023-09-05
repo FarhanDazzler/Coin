@@ -138,7 +138,7 @@ const ModifyStandard = ({ open, handleClose, type = '' }) => {
       <CustomModal
         className="modify-standard"
         open={open}
-        title={<span>Modify Questions for Existing MICS</span>}
+        title={<span>Modify Questions for {activeType === 'Standard' ? "Standard" : "Existing MICS"}</span>}
         width={1080}
         onClose={handleClose}
       >
