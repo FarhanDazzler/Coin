@@ -278,10 +278,10 @@ const EditSection1QuestionOption = ({
                   block={block}
                   value={question}
                   maxLength={maxLength}
-                  isInvalid={Boolean(question.length == maxLength)}
+                  isInvalid={Boolean(question?.length == maxLength)}
                   onChange={handleChangeQuestion}
                 />
-                {question.length == maxLength && (
+                {question?.length == maxLength && (
                   <Form.Control.Feedback type="invalid">
                     Only {maxLength} character allow
                   </Form.Control.Feedback>
