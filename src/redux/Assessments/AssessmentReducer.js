@@ -113,7 +113,7 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
       if (typeof payload.data === 'string') {
         return {
           ...state,
-          getLatestDraft: { ...state.getLatestDraft,data: {}, loading: true },
+          getLatestDraft: { ...state.getLatestDraft, data: {}, loading: true },
         };
       }
       return {
@@ -188,7 +188,7 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
         ...state,
         getResponse: {
           ...state.getResponse,
-          data: [],
+          data: {},
           loading: false,
         },
       };
@@ -319,11 +319,11 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
           data: {},
           loading: false,
         },
-        getLatestDraft:{
+        getLatestDraft: {
           ...state.getLatestDraft,
-            data: {},
-            loading: false,
-          }
+          data: {},
+          loading: false,
+        },
       };
 
     // Add and Update Draft response data
