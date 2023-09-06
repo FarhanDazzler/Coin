@@ -3,12 +3,14 @@ import {
   RESET_FLAGS_ASSESSMENT,
   SAVE_ANS,
   GET_ASSESSMENT_RESPONSE_REQUEST,
+  CLEAR_GET_ASSESSMENT_RESPONSE,
   ADD_ASSESSMENT_RESPONSE_REQUEST,
   UPDATE_ASSESSMENT_RESPONSE_REQUEST,
   GET_CONTROL_RESPONSE_REQUEST,
   GET_QUESTIONS_REQUEST,
   GET_KPI_RESULT_REQUEST,
   GET_DRAFT_RESPONSE_REQUEST,
+  CLEAR_GET_LATEST_DRAFT_RESPONSE,
   ADD_UPDATE_DRAFT_RESPONSE_REQUEST,
   GET_FINAL_SUBMIT_RESPONSE_REQUEST,
   ADD_UPDATE_FINAL_SUBMIT_RESPONSE_REQUEST,
@@ -23,6 +25,10 @@ export const saveAssessmentAns = (payload) => ({ type: SAVE_ANS, payload });
 export const getQuestions = (payload) => ({ type: GET_QUESTIONS_REQUEST, payload });
 
 export const getAssessmentAns = (payload) => ({ type: GET_ASSESSMENT_RESPONSE_REQUEST, payload });
+
+export const clearAssessmentResponse = () => ({
+  type: CLEAR_GET_ASSESSMENT_RESPONSE,
+});
 
 export const addAssessmentSection2Ans = (payload) => ({
   type: ADD_ASSESSMENT_SECTION_2_REQUEST,
@@ -48,6 +54,10 @@ export const addOrUpdateDraft = (payload) => ({
 export const getLatestDraft = (payload) => ({
   type: GET_LATEST_DRAFT_REQUEST,
   payload,
+});
+
+export const clearLatestDraftResponse = () => ({
+  type: CLEAR_GET_LATEST_DRAFT_RESPONSE,
 });
 
 export const getKPIData = (payload) => ({
