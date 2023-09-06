@@ -167,6 +167,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       clearTimeout(handle);
     };
   }, [terminating]);
+
   useEffect(() => {
     return () => {
       dispatch(clearLatestDraftResponse());
@@ -281,7 +282,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         const dataArray = Object.keys(ansSection3) || [];
         for (const key in ansSection3) {
           if (key !== 'L3') {
-            if (Object.values(ansSection3[key])[0].includes('no')) {
+            if (key !== 'noQueAns' && Object.values(ansSection3[key])[0].includes('no')) {
               isS3FailedData = true;
             }
           }
