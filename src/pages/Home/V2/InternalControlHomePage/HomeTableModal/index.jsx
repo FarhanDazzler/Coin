@@ -13,6 +13,8 @@ import {
   getKPIData,
   getLatestDraft,
   getQuestions,
+  clearAssessmentResponse,
+  clearLatestDraftResponse,
 } from '../../../../../redux/Assessments/AssessmentAction';
 import {
   addOrEditUpdateDraftSelector,
@@ -52,6 +54,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const Control_ID = Assessment_id || query.get('Control_ID');
   const responseUpdatedData =
     responseData.data?.Latest_Response || responseData.data?.Latest_response;
+
   const currentLanguage = i18n.language;
   const [language, setLanguage] = useState(currentLanguage);
 
@@ -107,6 +110,8 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       });
       return;
     }
+    // for clearing the assessment response after closing the modal
+    dispatch(clearAssessmentResponse());
     history.push('/');
   };
   useEffect(() => {
@@ -114,10 +119,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       setShowNoQuestionAns(ansSection3?.noQueAns);
     }
   }, [ansSection3]);
-
-  useEffect(() => {
-    setLanguage(currentLanguage);
-  }, [currentLanguage]);
 
   useEffect(() => {
     dispatch(
@@ -167,6 +168,14 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     };
   }, [terminating]);
   useEffect(() => {
+    return () => {
+      dispatch(clearLatestDraftResponse());
+      setAnsSection1([]);
+      setAnsSection3([]);
+    };
+  }, []);
+
+  useEffect(() => {
     const condition =
       (!(L1InnerQuestion.length > 0) &&
         questionData.Level?.L1?.Inner_Questions &&
@@ -174,7 +183,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       (!(L2InnerQuestion.length > 0) &&
         questionData.Level?.L2?.Inner_Questions &&
         !questionData.Level?.L3);
-
     if (responseUpdatedData || condition) {
       if (responseUpdatedData?.s1)
         setAnsSection1(getLanguageFormat(responseUpdatedData.s1, language));
@@ -239,7 +247,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         }
       }
     }
-  }, [responseData.data, questionData]);
+  }, [responseData.data, questionData, Control_ID]);
 
   const handleSubmit = () => {
     let isS3FailedData;

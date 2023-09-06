@@ -6,6 +6,10 @@ export const GET_ASSESSMENT_RESPONSE_REQUEST = 'GET_ASSESSMENT_RESPONSE_REQUEST'
 export const GET_ASSESSMENT_RESPONSE_SUCCESS = 'GET_ASSESSMENT_RESPONSE_SUCCESS';
 export const GET_ASSESSMENT_RESPONSE_ERROR = 'GET_ASSESSMENT_RESPONSE_ERROR';
 
+// ============= CLEAR Assessment RESPONSE data ===============//
+export const CLEAR_GET_ASSESSMENT_RESPONSE = 'CLEAR_GET_ASSESSMENT_RESPONSE';
+// ============= CLEAR Assessment RESPONSE data ===============//
+
 export const GET_CONTROL_RESPONSE_REQUEST = 'GET_CONTROL_RESPONSE_REQUEST';
 export const GET_CONTROL_RESPONSE_SUCCESS = 'GET_CONTROL_RESPONSE_SUCCESS';
 export const GET_CONTROL_RESPONSE_ERROR = 'GET_CONTROL_RESPONSE_ERROR';
@@ -37,6 +41,10 @@ export const GET_KPI_RESULT_ERROR = 'GET_KPI_RESULT_ERROR';
 export const GET_DRAFT_RESPONSE_REQUEST = 'GET_DRAFT_RESPONSE_REQUEST';
 export const GET_DRAFT_RESPONSE_SUCCESS = 'GET_DRAFT_RESPONSE_SUCCESS';
 export const GET_DRAFT_RESPONSE_ERROR = 'GET_DRAFT_RESPONSE_ERROR';
+
+// ============= CLEAR LATEST DRAFT RESPONSE data ===============//
+export const CLEAR_GET_LATEST_DRAFT_RESPONSE = 'CLEAR_GET_LATEST_DRAFT_RESPONSE';
+// ============= CLEAR LATEST DRAFT RESPONSE data ===============//
 
 export const ADD_UPDATE_DRAFT_RESPONSE_REQUEST = 'ADD_UPDATE_DRAFT_RESPONSE_REQUEST';
 export const ADD_UPDATE_DRAFT_RESPONSE_SUCCESS = 'ADD_UPDATE_DRAFT_RESPONSE_SUCCESS';
@@ -105,7 +113,7 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
       if (typeof payload.data === 'string') {
         return {
           ...state,
-          getLatestDraft: { ...state.getLatestDraft, loading: true },
+          getLatestDraft: { ...state.getLatestDraft,data: {}, loading: true },
         };
       }
       return {
@@ -175,6 +183,16 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
         ...state,
         getResponse: { ...state.getResponse, loading: false },
       };
+    case CLEAR_GET_ASSESSMENT_RESPONSE:
+      return {
+        ...state,
+        getResponse: {
+          ...state.getResponse,
+          data: [],
+          loading: false,
+        },
+      };
+
     case GET_CONTROL_RESPONSE_REQUEST:
       return {
         ...state,
@@ -292,6 +310,20 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
       return {
         ...state,
         getDraftResponse: { ...state.getDraftResponse, loading: false },
+      };
+    case CLEAR_GET_LATEST_DRAFT_RESPONSE:
+      return {
+        ...state,
+        getDraftResponse: {
+          ...state.getDraftResponse,
+          data: {},
+          loading: false,
+        },
+        getLatestDraft:{
+          ...state.getLatestDraft,
+            data: {},
+            loading: false,
+          }
       };
 
     // Add and Update Draft response data
