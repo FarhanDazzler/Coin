@@ -13,6 +13,7 @@ import {
   getKPIData,
   getLatestDraft,
   getQuestions,
+  clearAssessmentResponse,
 } from '../../../../../redux/Assessments/AssessmentAction';
 import {
   addOrEditUpdateDraftSelector,
@@ -107,6 +108,8 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       });
       return;
     }
+    // for clearing the assessment response after closing the modal
+    dispatch(clearAssessmentResponse());
     history.push('/');
   };
   useEffect(() => {
