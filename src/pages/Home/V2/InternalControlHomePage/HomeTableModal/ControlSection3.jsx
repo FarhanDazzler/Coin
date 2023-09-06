@@ -111,6 +111,7 @@ const ControlSection3 = ({
     }
     if (questionL3.length > 0 && ans.L3) {
       const updateAnsL3 = setSelectedQuestionAns(questionL3, ans.L3);
+      console.log('@@@@@@ -- 1111');
       setQuestionL3(updateAnsL3);
     }
   }, [ans, render, questionData]);
@@ -255,7 +256,10 @@ const ControlSection3 = ({
       const isLevel2NoInnerQuestion =
         !!questionData.Level?.L1 && !!questionData.Level?.L2 && !L2InnerQuestion.length;
 
-      if ((!!questionData.Level?.L2 && !!ans.L1) || isLevel1NoInnerQuestion) {
+      if (
+        (!!questionData.Level?.L2 && !!ans.L1 && !JSON.stringify(ans.L1).includes('no')) ||
+        isLevel1NoInnerQuestion
+      ) {
         const apiQuestionL2 = getQuestionsFormatData([questionData.Level?.L2]);
         if (!(questionL2.length > 0) || !isSameLang || isLevel1NoInnerQuestion) {
           const questionsVal2 = getFormatQuestions(apiQuestionL2, null, 'L2');
@@ -265,7 +269,6 @@ const ControlSection3 = ({
             const updateAnsL2 = setSelectedQuestionAns(data2, ans.L2);
             setQuestionL2(updateAnsL2);
             if (!question3Api) {
-              console.log('@@@@@@@@@@@---111');
               dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
               setQuestion3Api(true);
             }
@@ -274,7 +277,11 @@ const ControlSection3 = ({
           }
         }
       }
-      if ((!!questionData.Level?.L3 && !!ans.L2) || isLevel2NoInnerQuestion) {
+
+      if (
+        (!!questionData.Level?.L3 && !!ans.L2 && !JSON.stringify(ans.L2).includes('no')) ||
+        isLevel2NoInnerQuestion
+      ) {
         const apiQuestionL3 = getQuestionsFormatData([questionData.Level?.L3]);
         if (
           !(questionL3.length > 0) ||
