@@ -111,7 +111,6 @@ const ControlSection3 = ({
     }
     if (questionL3.length > 0 && ans.L3) {
       const updateAnsL3 = setSelectedQuestionAns(questionL3, ans.L3);
-      console.log('@@@@@@ -- 1111');
       setQuestionL3(updateAnsL3);
     }
   }, [ans, render, questionData]);

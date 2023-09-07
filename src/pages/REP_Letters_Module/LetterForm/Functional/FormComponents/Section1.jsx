@@ -24,6 +24,8 @@ const Section1 = ({ questions, scopeData }) => {
   const dispatch = useDispatch();
   const [responses, setResponses] = useState({});
   const [formErrors, setFormErrors] = useState({});
+  const [characterCount, setCharacterCount] = useState(0);
+  const maxCharacterLimit = 5000;
 
   const DraftResponseState = useSelector(getLatestFunctionDraftResponseSelector);
   const addOrUpdateDraftResponseState = useSelector(addOrUpdateFunctionDraftResponseSelector);
@@ -46,19 +48,27 @@ const Section1 = ({ questions, scopeData }) => {
   };
 
   const handleCommentChange = (questionId, comment) => {
-    const updatedResponses = {
-      ...responses,
-      [questionId]: {
-        ...responses[questionId],
-        comment,
-      },
-    };
-
-    setResponses(updatedResponses);
-    setFormErrors({
-      ...formErrors,
-      [questionId]: '',
-    });
+    if (comment.length <= maxCharacterLimit) {
+      const updatedResponses = {
+        ...responses,
+        [questionId]: {
+          ...responses[questionId],
+          comment,
+        },
+      };
+      setResponses(updatedResponses);
+      setFormErrors({
+        ...formErrors,
+        [questionId]: '',
+      });
+      setCharacterCount(comment.length);
+    } else {
+      // Character limit exceeded
+      setFormErrors({
+        ...formErrors,
+        [questionId]: 'Character limit exceeded (Max 1000 characters).',
+      });
+    }
   };
 
   // clear all the states on page leave or refresh page or change url path or change module or change role
@@ -231,7 +241,7 @@ const Section1 = ({ questions, scopeData }) => {
                       onChange={(e) => handleCommentChange(question.id, e.target.value)}
                       name="comment"
                       value={response.comment || ''}
-                      rows={1}
+                      rows={2}
                     />
                   </Form.Group>
                 </div>

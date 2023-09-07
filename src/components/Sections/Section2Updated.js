@@ -1407,9 +1407,7 @@ function Section2(props) {
   };
 
   function handleChange(oldValue, newValue, row, column) {
-    // console.log('@@@@: ---> ', oldValue, newValue, row, column)
     const updateProduct = product.map((d) => (d.id === row.id ? row : d));
-    // console.log('@@@@@: updateProduct',updateProduct, product);
     setproduct(updateProduct);
   }
 
