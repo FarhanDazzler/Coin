@@ -9,6 +9,7 @@ import blockType from '../../../../../components/RenderBlock/constant';
 import RenderBlock from '../../../../../components/RenderBlock';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import { useTranslation } from 'react-i18next';
+import { updateLastAccess } from '../../../../../redux/Assessments/AssessmentAction';
 
 const ControlSection1 = ({
   setShowMoreSection,
@@ -78,6 +79,7 @@ const ControlSection1 = ({
       case block.question_type === blockType.TEXT:
         if (block.options[0].is_Terminating === 1) {
           setTerminating(true);
+          // dispatch(updateLastAccess({ s1: updateCurrentAns }));
           setAns(updateCurrentAns);
           return;
         }
@@ -94,6 +96,7 @@ const ControlSection1 = ({
               }
             });
           }
+          // dispatch(updateLastAccess({ s1: updateCurrentAns }));
           setAns(updateCurrentAns);
           return;
         }
@@ -105,6 +108,7 @@ const ControlSection1 = ({
         const matchQuestion = block.question_options.find((o) => o.option_id === value);
         if (matchQuestion.is_Terminating) {
           setTerminating(true);
+          // dispatch(updateLastAccess({ s1: updateCurrentAns }));
           setAns(updateCurrentAns);
           return;
         }
@@ -132,9 +136,11 @@ const ControlSection1 = ({
 
     if (selectedChildQuestion) {
       setShowMoreSection(false);
+      // dispatch(updateLastAccess({ s1: [...updateCurrentAns, selectedChildQuestion] }));
       setAns([...updateCurrentAns, selectedChildQuestion]);
     } else {
       setShowMoreSection(true);
+      // dispatch(updateLastAccess({ s1: updateCurrentAns }));
       setAns(updateCurrentAns);
     }
 
