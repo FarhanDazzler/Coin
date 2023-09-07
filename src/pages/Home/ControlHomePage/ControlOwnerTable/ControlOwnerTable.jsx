@@ -20,6 +20,7 @@ import { Group } from '@mantine/core';
 import FilterButtons from '../../../../components/FilterButtons';
 import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
+import { clearLatestDraftResponse } from '../../../../redux/Assessments/AssessmentAction';
 
 const ControlOwnerTable = ({
   tableName,
@@ -90,16 +91,20 @@ const ControlOwnerTable = ({
               <Button
                 className="mr-2"
                 // onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
-                onClick={() => handleControlIDClick(row.row.original.Control_ID, row.row.original)}
+                onClick={() => {
+                  dispatch(clearLatestDraftResponse());
+                  handleControlIDClick(row.row.original.Control_ID, row.row.original);
+                }}
               >
                 {t('selfAssessment.homePage.controleOwner.Table.review_button')}
               </Button>
             )}
             {['Not started', 'Re-assessed', 'Drafted'].includes(row.row.original.Status) && (
               <Button
-                onClick={() =>
-                  history.push(`/Assessments/${row.row.original.Control_ID}`, row.row.original)
-                }
+                onClick={() => {
+                  dispatch(clearLatestDraftResponse());
+                  history.push(`/Assessments/${row.row.original.Control_ID}`, row.row.original);
+                }}
               >
                 {t('selfAssessment.homePage.controleOwner.Table.take_assessment_button')}
               </Button>
