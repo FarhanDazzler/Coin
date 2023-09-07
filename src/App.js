@@ -31,7 +31,6 @@ import ErrorNotification from './common/ErrorNotification';
 import { RepLettersRoutes } from './routes/RepLettersRoutes/RepLetterRoutes';
 import { AssessmentModuleRoutes } from './routes/AssessmentModuleRoutes/AssessmentModuleRoutes';
 import { AdminRoutes } from './routes/AdminRoutes/AdminRoutes';
-import ContactUSLandingPage from './pages/ContactUS/ContactUSLandingPage';
 import ContactUs from './pages/ContactUS/contactus';
 
 import { I18nextProvider } from 'react-i18next';

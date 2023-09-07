@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DotSpinner } from '@uiball/loaders';
+import * as XLSX from 'xlsx';
+import { compile, convert } from 'html-to-text';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import Section0 from './FormComponents/Section0';
 import Section1 from './FormComponents/Section1';
@@ -114,6 +116,36 @@ const FunctionalLetterForm = (props) => {
       comment: 'last question no selected',
     },
   };
+
+  // Function to export data to Excel
+  const exportResponseToExcel = (info, responses) => {
+    const workbook = XLSX.utils.book_new();
+
+    // Create the info details table
+    const infoRows = Object.keys(info).map((key) => [key, info[key]]);
+    const infoWorksheet = XLSX.utils.aoa_to_sheet([...infoRows]);
+
+    // Create the responses table
+    const responseRows = Object.keys(responses).map((key) => {
+      const item = responses[key];
+      // Convert HTML to plain text for the "Question Text" column
+      const questionTextPlainText = convert(item.questionText);
+      return [questionTextPlainText, item.response, item.comment];
+    });
+    const responseWorksheet = XLSX.utils.aoa_to_sheet([
+      ['Question Text', 'Response', 'Comment'],
+      ...responseRows,
+    ]);
+
+    // Add the info and responses worksheets to the workbook
+    XLSX.utils.book_append_sheet(workbook, infoWorksheet, 'Information');
+    XLSX.utils.book_append_sheet(workbook, responseWorksheet, 'Responses');
+
+    // Save the workbook to a file
+    const fileName = `${scopeData?.Function} - ${scopeData?.Recipient} - Submitted-Responses - ${scopeData?.Title} - ${scopeData?.Assessment_Cycle} - ${scopeData?.Year}`;
+    XLSX.writeFile(workbook, `${fileName}.xlsx`);
+  };
+
   return (
     <div>
       <PageWrapper>
@@ -142,6 +174,29 @@ const FunctionalLetterForm = (props) => {
               </div>
             ) : (
               <div className="col-lg-12">
+                <div>
+                  <div className="d-flex align-items-center">
+                    <span className="font-weight-bold">Response:</span>
+                    <button
+                      className="export_excel_button"
+                      onClick={() => {
+                        const info = {
+                          Title: scopeData?.Title,
+                          Assessment_Cycle: scopeData?.Assessment_Cycle,
+                          Year: scopeData?.Year,
+                          Zone: scopeData?.Zone,
+                          BU: scopeData?.BU,
+                          Function: scopeData?.Function,
+                          Recipient: scopeData?.Recipient,
+                          Zone_Control: scopeData?.Zone_Control,
+                        };
+                        exportResponseToExcel(info, submittedResponses);
+                      }}
+                    >
+                      <strong>Export To Excel</strong>
+                    </button>
+                  </div>
+                </div>
                 <Section0 scopeData={scopeData} />
                 <ReviewResponsePage submittedResponses={submittedResponses} />
               </div>
