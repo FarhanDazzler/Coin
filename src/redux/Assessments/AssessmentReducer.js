@@ -66,6 +66,8 @@ export const GET_LATEST_DRAFT_REQUEST = 'GET_LATEST_DRAFT_REQUEST';
 export const GET_LATEST_DRAFT_SUCCESS = 'GET_LATEST_DRAFT_SUCCESS';
 export const GET_LATEST_DRAFT_ERROR = 'GET_LATEST_DRAFT_ERROR';
 
+export const UPDATE_LATEST_DRAFT = 'UPDATE_LATEST_DRAFT';
+
 export const RESET_BLOCK_ASSESSMENT = 'RESET_BLOCK_ASSESSMENT';
 export const RESET_FLAGS_ASSESSMENT = 'RESET_FLAGS_ASSESSMENT';
 
@@ -113,7 +115,7 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
       if (typeof payload.data === 'string') {
         return {
           ...state,
-          getLatestDraft: { ...state.getLatestDraft,data: {}, loading: true },
+          getLatestDraft: { ...state.getLatestDraft, data: {}, loading: true },
         };
       }
       return {
@@ -124,6 +126,19 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
       return {
         ...state,
         getLatestDraft: { ...state.getLatestDraft, loading: true },
+      };
+
+    case UPDATE_LATEST_DRAFT:
+      return {
+        ...state,
+        getLatestDraft: {
+          ...state.getLatestDraft,
+          data: { ...state.getLatestDraft.data, ...payload },
+        },
+        getResponse: {
+          ...state.getResponse,
+          data: { ...state.getResponse.data, ...payload },
+        },
       };
 
     case ADD_OR_UPDATE_DRAFT_REQUEST:
@@ -319,11 +334,11 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
           data: {},
           loading: false,
         },
-        getLatestDraft:{
+        getLatestDraft: {
           ...state.getLatestDraft,
-            data: {},
-            loading: false,
-          }
+          data: {},
+          loading: false,
+        },
       };
 
     // Add and Update Draft response data

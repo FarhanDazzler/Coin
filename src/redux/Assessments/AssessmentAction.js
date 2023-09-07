@@ -18,6 +18,7 @@ import {
   ADD_OR_UPDATE_DRAFT_REQUEST,
   ADD_ASSESSMENT_SECTION_2_REQUEST,
   GET_ASSESSMENT_SECTION_2_REQUEST,
+  UPDATE_LATEST_DRAFT,
 } from './AssessmentReducer';
 
 export const saveAssessmentAns = (payload) => ({ type: SAVE_ANS, payload });
@@ -25,6 +26,10 @@ export const saveAssessmentAns = (payload) => ({ type: SAVE_ANS, payload });
 export const getQuestions = (payload) => ({ type: GET_QUESTIONS_REQUEST, payload });
 
 export const getAssessmentAns = (payload) => ({ type: GET_ASSESSMENT_RESPONSE_REQUEST, payload });
+
+export const updateLastAccess = () => ({
+  type: UPDATE_LATEST_DRAFT,
+});
 
 export const clearAssessmentResponse = () => ({
   type: CLEAR_GET_ASSESSMENT_RESPONSE,

@@ -15,6 +15,7 @@ import {
   getQuestions,
   clearAssessmentResponse,
   clearLatestDraftResponse,
+  updateLastAccess,
 } from '../../../../../redux/Assessments/AssessmentAction';
 import {
   addOrEditUpdateDraftSelector,
@@ -55,6 +56,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const responseUpdatedData =
     responseData.data?.Latest_Response || responseData.data?.Latest_response;
 
+  console.log('@@@@@@', !getResponse?.data?.Latest_Response);
   const currentLanguage = i18n.language;
   const [language, setLanguage] = useState(currentLanguage);
 
@@ -152,6 +154,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
 
   useEffect(() => {
     if (ansSection1?.length > 0) {
+      dispatch(updateLastAccess({ s1: getLanguageFormat(ansSection1, language) }));
       setAnsSection1(getLanguageFormat(ansSection1, language));
     }
   }, [language, currentLanguage]);
@@ -184,6 +187,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       (!(L2InnerQuestion.length > 0) &&
         questionData.Level?.L2?.Inner_Questions &&
         !questionData.Level?.L3);
+
+    const isNoQueAns =
+      responseUpdatedData?.s3?.length === 1 &&
+      responseUpdatedData?.s3[0]?.length === 2 &&
+      responseUpdatedData?.s3[0][0] === 'noQueAns';
+
     if (responseUpdatedData || condition) {
       if (responseUpdatedData?.s1)
         setAnsSection1(getLanguageFormat(responseUpdatedData.s1, language));
@@ -194,7 +203,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           {},
         );
 
-        if (!startEdit) {
+        if (!startEdit && !isNoQueAns) {
           setAnsSection3(section3Data);
           setShowMoreSection(true);
         }
