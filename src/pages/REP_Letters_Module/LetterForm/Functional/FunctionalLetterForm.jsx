@@ -175,8 +175,8 @@ const FunctionalLetterForm = (props) => {
             ) : (
               <div className="col-lg-12">
                 <div>
-                  <div className="d-flex align-items-center">
-                    <span className="font-weight-bold">Response:</span>
+                  <div className="d-flex align-items-center" style={{ paddingTop: '14px' }}>
+                    <span className="review-response-page-title">Review Responses</span>
                     <button
                       className="export_excel_button"
                       onClick={() => {
@@ -193,7 +193,7 @@ const FunctionalLetterForm = (props) => {
                         exportResponseToExcel(info, submittedResponses);
                       }}
                     >
-                      <strong>Export To Excel</strong>
+                      <strong>Export</strong>
                     </button>
                   </div>
                 </div>
