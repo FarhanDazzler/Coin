@@ -28,8 +28,6 @@ const AssessmentBankLandingPage = () => {
   };
 
   useEffect(() => {
-    //console.log('success @@@@@@');
-    //console.log(addAssessmentSchedulingAndTriggeringState.success, '@@@@@@');
     if (addAssessmentSchedulingAndTriggeringState.success) {
       // Delay by 1 second (1000 milliseconds)
       const timeoutId = setTimeout(() => {

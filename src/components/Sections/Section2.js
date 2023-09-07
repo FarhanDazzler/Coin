@@ -1321,7 +1321,6 @@ function Section2(props) {
       }
       return d;
     });
-    // console.log('@@@@@: updateProduct',updateProduct, product);
     setproduct(updateProduct);
   }
 
