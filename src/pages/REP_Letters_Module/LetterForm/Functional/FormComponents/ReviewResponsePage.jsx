@@ -54,7 +54,7 @@ const ReviewResponsePage = ({ submittedResponses }) => {
                       required
                       name="comment"
                       value={response.comment || ''}
-                      rows={1}
+                      rows={3}
                       readonly
                     />
                   </Form.Group>

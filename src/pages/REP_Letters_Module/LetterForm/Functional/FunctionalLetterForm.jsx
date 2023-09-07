@@ -45,7 +45,7 @@ const FunctionalLetterForm = (props) => {
       questionText:
         '<p>Principle: All suspected and confirmed fraud cases are disclosed properly.&nbsp;</p><p>Confirmation of correct behaviour: As a signatory, I confirm that all irregularities (suspected or confirmed fraud) identified during the quarter under review, have been reported to Legal, Ethics &amp; Compliance, Global Risk Management and corrective actions have or will be taken for substantiated fraud (i.e. punitive action against perpetrator and mitigation of control weakness). Overview of confirmed irregularities (fraud), resulting in financial loss per event of more than 500k USD, are disclosed in this representation letter. Amongst others, this includes such transactions during the course of the previous period, (a) whereby funds of third parties were transferred using the company’s bank accounts, (b) whereby persons and/or entities registered in money laundering-sensitive areas were involved, (c) of capital investments, increases of capital or loans from entities and/or persons registered in money laundering-sensitive areas.</p><p>If I am aware of any violation, I disclosed it through this representation letter.</p>',
       response: 'Yes',
-      comment: '',
+      comment: 'gfjfjfg',
     },
     'BF2D3B91-A445-EE11-A9BC-854637048545': {
       questionText:
@@ -63,7 +63,19 @@ const FunctionalLetterForm = (props) => {
       questionText:
         '<p>Principle: We adhere to our Anti-Corruption Policy.</p><p>Confirmation of correct behavior: As a signatory, I confirm that:&nbsp;</p><p>(i) all gifts, entertainment and hospitality offered to Public Officials (as defined under the Anti-Corruption Policy) were communicated to and authorized by Global or Zone Ethics &amp; Compliance in compliance with our Anti-Corruption Policy and were appropriately accounted for and reported. All gifts, entertainment and hospitality provided to Public Officials by the Company were booked correctly according to the Global Chart of Accounts.&nbsp;</p><p>(ii) licenses and permits were obtained in compliance with our Anti-Corruption Policy meaning, among other things, that no improper payment to Public Officials has been made in the process.</p><p>If I am aware of any violation, I disclosed it through this representation letter.</p>',
       response: 'NA',
-      comment: 'NA Comment',
+      comment: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+
+      Why do we use it?
+      It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+      
+      
+      Where does it come from?
+      Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+      
+      The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+      
+      Where can I get some?
+      There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.`,
     },
     '2A9387B2-A445-EE11-A9BC-854637048545': {
       questionText:
