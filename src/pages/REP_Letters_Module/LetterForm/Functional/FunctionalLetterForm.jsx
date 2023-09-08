@@ -35,13 +35,14 @@ const FunctionalLetterForm = (props) => {
   const getFunctionSubmitResponseState = useSelector(getFunctionSubmitResponseSelector);
 
   useEffect(() => {
-    let payload = {
-      function: scopeData?.Function,
-    };
     dispatch(getFunctionalInstructions());
-    dispatch(get_Function_Questions(payload));
 
     if (modalType === 'attempt') {
+      let payload = {
+        function: scopeData?.Function,
+      };
+
+      dispatch(get_Function_Questions(payload));
       let payloadForGettingDraftResp = {
         assessment_id: scopeData?.id,
       };
@@ -131,7 +132,7 @@ const FunctionalLetterForm = (props) => {
                         };
                         exportResponseToExcel(
                           info,
-                          getFunctionSubmitResponseState?.data?.Latest_response,
+                          getFunctionSubmitResponseState?.data?.Latest_Response,
                         );
                       }}
                     >
@@ -141,7 +142,7 @@ const FunctionalLetterForm = (props) => {
                 </div>
                 <Section0 scopeData={scopeData} />
                 <ReviewResponsePage
-                  submittedResponses={getFunctionSubmitResponseState?.data?.Latest_response}
+                  submittedResponses={getFunctionSubmitResponseState?.data?.Latest_Response}
                 />
               </div>
             )}
