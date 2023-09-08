@@ -12,10 +12,9 @@ const ControlActions = ({ activeData }) => {
   };
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   const stateGcdData = useSelector((state) => state?.controlData?.gcd?.data);
-
   const renderPeriodOfAssessment = () => {
-    const year = stateControlData?.Year;
-    switch (stateControlData?.Assessment_Cycle) {
+    const year = activeData?.Year;
+    switch (activeData?.Assessment_Cycle) {
       case 'Assessment Cycle 1':
         return 'As on March / ' + year;
 
