@@ -138,6 +138,15 @@ const ContactUs = () => {
         module: module === '' ? true : false,
       });
       return;
+    } else if (
+      value.shortDescription.length >= 5000 ||
+      value.issueDescription.length >= 5000) {
+      toast.error('Only 5000 character allow');
+      setErrors({
+        shortDescription: value.shortDescription.length >= 5000 ? true : false,
+        issueDescription: value.issueDescription.length >= 5000 ? true : false,
+      });
+      return;
     }
     setShowProgress(true);
     let data = {};
