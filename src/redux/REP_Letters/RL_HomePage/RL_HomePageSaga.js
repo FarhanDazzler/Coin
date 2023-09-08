@@ -204,7 +204,7 @@ function* handle_Get_BU_Zone_VPHomePageData({ payload }) {
 
 // get Latest Function Draft Response
 async function getLatestFunctionDraftResponseApi(params) {
-  return await Axios.get('/get_bu_assessment_draft', { params });
+  return await Axios.get('/get_functional_assessment_draft', { params });
 }
 function* handle_GetLatestFunctionDraftResponse({ payload }) {
   try {
@@ -224,7 +224,7 @@ function* handle_GetLatestFunctionDraftResponse({ payload }) {
 
 // add Or Update Function Draft Response
 async function addOrUpdateFunctionDraftResponseApi(payload) {
-  return await Axios.post('/save_bu_assessment_draft', payload);
+  return await Axios.post('/save_functional_assessment_draft', payload);
 }
 function* updateAddOrUpdateFunctionDraftResponse({ payload }) {
   try {
@@ -255,7 +255,7 @@ function* updateAddOrUpdateFunctionDraftResponse({ payload }) {
 
 // get Function Submit Response
 async function getFunctionSubmitResponseApi(params) {
-  return await Axios.get('/', { params });
+  return await Axios.get('/get_functional_assessment_response', { params });
 }
 function* handle_GetFunctionSubmitResponse({ payload }) {
   try {
@@ -275,7 +275,7 @@ function* handle_GetFunctionSubmitResponse({ payload }) {
 
 // add Function Submit Response
 async function addFunctionSubmitResponseApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/save_functional_assessment_response', payload);
 }
 function* updateAddFunctionSubmitResponse({ payload }) {
   try {

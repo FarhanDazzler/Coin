@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import Button from '../../../../../components/UI/Button';
 
-const ReviewResponsePage = ({ submittedResponses }) => {
+const ReviewResponsePage = ({ submittedResponses = {} }) => {
   const history = useHistory();
 
   return (
     <CollapseFrame title="Section 1 : Please give your responses" active>
-      {Object.keys(submittedResponses).map((questionId, index) => {
+      {Object.keys(submittedResponses)?.map((questionId, index) => {
         const response = submittedResponses[questionId];
 
         return (

@@ -170,9 +170,8 @@ const Section1 = ({ questions, scopeData }) => {
           dispatch(clearFunctionSubmitResponse());
           history.push('/');
 
-          console.log('Submitted responses:', responses);
+          //console.log('Submitted responses:', responses);
           //localStorage.setItem('storedResponses', JSON.stringify(responses));
-          // dispatch(addAssessmentAns(payload));
         }
         if (result.isDenied) {
           if (DraftResponseState?.data?.Attempt_no >= 5) {
