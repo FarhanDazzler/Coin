@@ -9,6 +9,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './assets/styles/App.css';
 import './assets/styles/mixins.scss';
 import TopBar from './parts/TopBar/TopBar';
+import ServiceWorkerWrapper from './parts/ServiceWorkerWrapper/ServiceWorkerWrapper';
 import Footer from './parts/Footer/Footer';
 import Login from './pages/Login/Login';
 import Cookies from 'js-cookie';
@@ -287,6 +288,7 @@ function App() {
           </header>
           <Footer />
         </ThemeProvider>
+        <ServiceWorkerWrapper />
       </div>
     </I18nextProvider>
   );
