@@ -380,6 +380,7 @@ const ControlSection3 = ({
                   maxLength="1000"
                   value={showNoQuestionAns}
                   onChange={(e) => handleChangeNoQuestion(e.target.value)}
+                  disabled={!isModal}
                 />
               </Form.Group>
             </RenderBlockWrapper>
