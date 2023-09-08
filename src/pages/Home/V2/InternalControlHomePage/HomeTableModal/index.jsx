@@ -56,7 +56,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const responseUpdatedData =
     responseData.data?.Latest_Response || responseData.data?.Latest_response;
 
-  console.log('@@@@@@', !getResponse?.data?.Latest_Response);
   const currentLanguage = i18n.language;
   const [language, setLanguage] = useState(currentLanguage);
 
@@ -194,8 +193,9 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       responseUpdatedData?.s3[0][0] === 'noQueAns';
 
     if (responseUpdatedData || condition) {
-      if (responseUpdatedData?.s1)
+      if (responseUpdatedData?.s1 && !startEdit) {
         setAnsSection1(getLanguageFormat(responseUpdatedData.s1, language));
+      }
 
       if (responseUpdatedData?.s3?.length > 0 || condition) {
         const section3Data = responseUpdatedData?.s3?.reduce(
