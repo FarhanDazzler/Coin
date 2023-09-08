@@ -103,7 +103,10 @@ const ControlOwnerTable = ({
               <Button
                 onClick={() => {
                   dispatch(clearLatestDraftResponse());
-                  history.push(`/Assessments/${row.row.original.Control_ID}`, row.row.original);
+                  const data = { row: row.row.original };
+                  history.push(`/Assessments/${row.row.original.Control_ID}`, {
+                    data,
+                  });
                 }}
               >
                 {t('selfAssessment.homePage.controleOwner.Table.take_assessment_button')}
