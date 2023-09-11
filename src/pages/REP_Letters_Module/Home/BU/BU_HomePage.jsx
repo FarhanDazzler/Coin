@@ -8,7 +8,7 @@ const BU_HomePage = () => {
 
   return (
     <div>
-      {selectedUserRole !== 'Disclosure Processor' ? (
+      {selectedUserRole === 'Disclosure Processor' ? (
         <DisclosureProcessorHomePage />
       ) : (
         <GlobalPersonaHomePage />
