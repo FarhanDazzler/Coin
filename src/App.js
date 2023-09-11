@@ -288,7 +288,7 @@ function App() {
           </header>
           <Footer />
         </ThemeProvider>
-        <ServiceWorkerWrapper />
+        {/* <ServiceWorkerWrapper /> */}
       </div>
     </I18nextProvider>
   );
