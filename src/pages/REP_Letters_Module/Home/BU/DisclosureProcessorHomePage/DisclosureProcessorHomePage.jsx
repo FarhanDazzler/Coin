@@ -34,7 +34,7 @@ const DisclosureProcessorHomePage = () => {
   }, []);
 
   const statusInfo = useMemo(() => {
-    const tableData = getDisclosureProcessorHomePageData?.data[0]?.recipientData || [];
+    const tableData = getDisclosureProcessorHomePageData?.data[0]?.dpData || [];
     if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length && !buValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_status);

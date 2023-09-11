@@ -60,7 +60,7 @@ const DisclosureProcessorTable = ({
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const disclosureProcessorHomePageData = useMemo(() => {
-    return getDisclosureProcessorHomePageData?.data[0]?.recipientData || [];
+    return getDisclosureProcessorHomePageData?.data[0]?.dpData || [];
   }, [getDisclosureProcessorHomePageData?.data[0]]);
 
   useEffect(() => {
