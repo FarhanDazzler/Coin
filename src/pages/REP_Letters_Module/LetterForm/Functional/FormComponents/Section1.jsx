@@ -66,7 +66,7 @@ const Section1 = ({ questions, scopeData }) => {
       // Character limit exceeded
       setFormErrors({
         ...formErrors,
-        [questionId]: 'Character limit exceeded (Max 1000 characters).',
+        [questionId]: 'Character limit exceeded (Max 2500 characters).',
       });
     }
   };
