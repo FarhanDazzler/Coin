@@ -37,7 +37,7 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
       is_Terminating: null,
     },
   ]);
-  const maxLength = 1000;
+  const maxLength = 2500;
   useEffect(() => {
     setQuestionText('');
     setQuestionType();
