@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import GlobalPersonaHomePage from './GlobalPersonaHomePage/GlobalPersonaHomePage';
+import DisclosureProcessorHomePage from './DisclosureProcessorHomePage/DisclosureProcessorHomePage';
 import '../styles.scss';
 
 const BU_HomePage = () => {
@@ -7,8 +8,11 @@ const BU_HomePage = () => {
 
   return (
     <div>
-      <GlobalPersonaHomePage />
-      {/* {selectedUserRole === 'Recipient' ? <RecipientHomePage /> : <GlobalPersonaHomePage />} */}
+      {selectedUserRole !== 'Disclosure Processor' ? (
+        <DisclosureProcessorHomePage />
+      ) : (
+        <GlobalPersonaHomePage />
+      )}
     </div>
   );
 };

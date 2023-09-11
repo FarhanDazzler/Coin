@@ -47,9 +47,11 @@ const GlobalPersonaHomePage = () => {
     });
 
     const allUpdatestatus = updatedData.map((d) => d?.Status);
-    const completedAssessment = getNumberOfItem(allUpdatestatus, 'Completed');
+    const RBAStatus = updatedData.map((d) => d?.RBA_status);
+    const completedAssessment = getNumberOfItem(allUpdatestatus, 'Completed'); // Signature_status
 
     return {
+      RBA_completed: getNumberOfItem(RBAStatus, 'Attached'),
       notStarted: getNumberOfItem(allUpdatestatus, 'Not started'),
       completed: completedAssessment,
       draft: getNumberOfItem(allUpdatestatus, 'Drafted'),
@@ -128,6 +130,16 @@ const GlobalPersonaHomePage = () => {
                     </div>
                   }
                   subTitle="Total"
+                />
+                <NumberWithText
+                  number={statusInfo.RBA_completed}
+                  tooltip={
+                    <div>
+                      <span className="yellow-text"> Total : </span>
+                      <span>Total number of RBA files attached.</span>
+                    </div>
+                  }
+                  subTitle="RBA Attached"
                 />
               </div>
             </div>
