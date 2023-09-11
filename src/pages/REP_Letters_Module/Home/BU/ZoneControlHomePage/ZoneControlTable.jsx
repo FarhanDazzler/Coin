@@ -58,7 +58,7 @@ const ZoneControlTable = ({
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const HomePageData = useMemo(() => {
-    return getHomePageData?.data[0]?.recipientData || [];
+    return getHomePageData?.data[0]?.zoneControlData || [];
   }, [getHomePageData?.data[0]]);
 
   useEffect(() => {

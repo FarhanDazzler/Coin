@@ -58,7 +58,7 @@ const FinanceDirectorTable = ({
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const HomePageData = useMemo(() => {
-    return getHomePageData?.data[0]?.recipientData || [];
+    return getHomePageData?.data[0]?.financeDirectorData || [];
   }, [getHomePageData?.data[0]]);
 
   useEffect(() => {

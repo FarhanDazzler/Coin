@@ -32,7 +32,7 @@ const ZoneVPHomePage = () => {
   }, []);
 
   const statusInfo = useMemo(() => {
-    const tableData = getHomePageData?.data[0]?.recipientData || [];
+    const tableData = getHomePageData?.data[0]?.zoneVPData || [];
     if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length && !buValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_status);

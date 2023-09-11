@@ -8,19 +8,17 @@ import ZoneVPHomePage from './ZoneVP/ZoneVPHomePage';
 import '../styles.scss';
 
 const BU_HomePage = () => {
-  const selectedUserRole = localStorage.getItem('selected_Role');
-
   return (
     <div>
-      {selectedUserRole === 'Disclosure Processor' ? (
+      {localStorage.getItem('selected_Role') === 'Disclosure Processor' ? (
         <DisclosureProcessorHomePage />
-      ) : selectedUserRole === 'BU Head' ? (
+      ) : localStorage.getItem('selected_Role') === 'BU Head' ? (
         <BUHeadHomePage />
-      ) : selectedUserRole === 'Finance Director' ? (
+      ) : localStorage.getItem('selected_Role') === 'Finance Director' ? (
         <FinanceDirectorHomePage />
-      ) : selectedUserRole === 'Zone Control' ? (
+      ) : localStorage.getItem('selected_Role') === 'Zone Control' ? (
         <ZoneControlHomePage />
-      ) : selectedUserRole === 'Zone VP' ? (
+      ) : localStorage.getItem('selected_Role') === 'Zone VP' ? (
         <ZoneVPHomePage />
       ) : (
         <GlobalPersonaHomePage />
