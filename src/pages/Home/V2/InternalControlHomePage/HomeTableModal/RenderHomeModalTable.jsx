@@ -36,9 +36,11 @@ const RenderHomeModalTable = ({
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
-  const isSection3Failed = Object.keys(ansSection3)?.find((i) =>
-    Object.values(ansSection3[i])[0]?.includes('no'),
-  );
+  const isSection3Failed = Object.keys(ansSection3)?.find((i) => {
+    const value = ansSection3[i] && Object.values(ansSection3[i]);
+    if (value?.length > 0) return value[0]?.includes('no');
+  });
+
   useEffect(() => {
     let sectionTerminating = false;
     if (Object.keys(ansSection3).length !== 0) {
