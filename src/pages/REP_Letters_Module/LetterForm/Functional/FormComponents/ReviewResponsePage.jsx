@@ -16,14 +16,10 @@ const ReviewResponsePage = ({ submittedResponses = [] }) => {
           <div className="renderBlockWrapper mt-5">
             <div className="question-text-section">
               <div className="question-number"> {item.questionNumber}</div>
-              <div className="question-text">
-                <p
-                  className="left-aligned-text"
-                  dangerouslySetInnerHTML={{
-                    __html: item.questionText,
-                  }}
-                />
-              </div>
+              <div
+                className="question-text"
+                dangerouslySetInnerHTML={{ __html: item.questionText }}
+              />
             </div>
 
             <Divider color="gray" className="renderBlockWrapper_divider_form" size="xs" />

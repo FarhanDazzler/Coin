@@ -220,14 +220,10 @@ const Section1 = ({ questions, scopeData }) => {
             <div className="renderBlockWrapper mt-5">
               <div className="question-text-section">
                 <div className="question-number"> {index + 1}</div>
-                <div className="question-text">
-                  <p
-                    className="left-aligned-text"
-                    dangerouslySetInnerHTML={{
-                      __html: question.text,
-                    }}
-                  />
-                </div>
+                <div
+                  className="question-text"
+                  dangerouslySetInnerHTML={{ __html: question.text }}
+                />
               </div>
 
               <Divider color="gray" className="renderBlockWrapper_divider_form" size="xs" />
