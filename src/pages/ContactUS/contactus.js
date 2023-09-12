@@ -156,7 +156,9 @@ const ContactUs = () => {
     data['typeOfSolution'] = 'PWA';
     data['issueType'] = 'u_performance';
     if (issueType === 'Technical') {
-      data['assignmentGroup'] = process.env.REACT_APP_SNOW_ASSIGNMENT_GROUP_TECHNICAL;
+      // please uncomment the below code once RnM handover is done
+      data['assignmentGroup'] = process.env.REACT_APP_SNOW_ASSIGNMENT_GROUP_BUSINESS;
+      //data['assignmentGroup'] = process.env.REACT_APP_SNOW_ASSIGNMENT_GROUP_TECHNICAL;
     } else {
       data['assignmentGroup'] = process.env.REACT_APP_SNOW_ASSIGNMENT_GROUP_BUSINESS;
     }

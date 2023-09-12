@@ -15,27 +15,27 @@ import HomeTableModal from '../../pages/Home/V2/InternalControlHomePage/HomeTabl
 import PageWrapper from '../../components/wrappers/PageWrapper';
 import { getControlOwnerDataSelector } from '../../redux/DashBoard/DashBoardSelectors';
 
-const AssessmentForm = () => {
+const AssessmentForm = (props) => {
   const { Assessment_id } = useParams();
   const history = useHistory();
-  const { state } = useLocation();
+  console.log(props.location.state.data?.row, '@@@');
+  const state = props.location.state.data?.row;
   const query = new URLSearchParams(history.location.pathname);
   // const Assessment_id = 'ATR_MJE_01a-K';
   const { accounts } = useMsal();
   const dispatch = useDispatch();
   const Id = Assessment_id || query.get('Assessment_id');
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
-  
 
   useEffect(() => {
     const ownerData = (getControlOwnerData.data[0]?.cOwnerData || []).find(
       (d) => d.Control_ID === Id,
     );
-    if (!ownerData&& !state) return;
+    if (!ownerData && !state) return;
     let payload = {
       controlId: Id,
-      coOwner: ownerData?.Control_Owner||state.Control_Owner,
-      provider: ownerData?.Provider||state.Provider,
+      coOwner: ownerData?.Control_Owner || state.Control_Owner,
+      provider: ownerData?.Provider || state.Provider,
       ownerData,
     };
     let gcdPayload = {

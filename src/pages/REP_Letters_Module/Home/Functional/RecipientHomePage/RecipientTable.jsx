@@ -7,7 +7,11 @@ import { Group, MultiSelect } from '@mantine/core';
 import Table2 from '../../../../../components/UI/Table/Table2';
 import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
-import { getFunctionRecipientHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import {
+  getFunctionRecipientHomePageDataSelector,
+  addFunctionSubmitResponseSelector,
+  addOrUpdateFunctionDraftResponseSelector,
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { getFunctionRecipientHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
@@ -53,7 +57,10 @@ const RecipientTable = ({
 
   const { accounts } = useMsal();
   const dispatch = useDispatch();
+
   const getRecipientHomePageData = useSelector(getFunctionRecipientHomePageDataSelector);
+  const addOrUpdateDraftResponseState = useSelector(addOrUpdateFunctionDraftResponseSelector);
+  const addFunctionSubmitResponseState = useSelector(addFunctionSubmitResponseSelector);
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const recipientHomePageData = useMemo(() => {
@@ -62,7 +69,7 @@ const RecipientTable = ({
 
   useEffect(() => {
     dispatch(getFunctionRecipientHomePageData());
-  }, [token, dispatch]);
+  }, [token, dispatch, addOrUpdateDraftResponseState?.data, addFunctionSubmitResponseState?.data]);
 
   const TABLE_COLUMNS = [
     {

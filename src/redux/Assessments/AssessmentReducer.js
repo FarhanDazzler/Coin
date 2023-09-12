@@ -203,7 +203,7 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
         ...state,
         getResponse: {
           ...state.getResponse,
-          data: [],
+          data: {},
           loading: false,
         },
       };
