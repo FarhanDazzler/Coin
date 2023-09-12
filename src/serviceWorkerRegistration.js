@@ -10,8 +10,8 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://cra.link/PWA
 
-// import React from 'react';
-// import { Button, Card, Col, Container, Modal, Row } from 'react-bootstrap';
+import React from 'react';
+import { Button, Card, Col, Container, Modal, Row } from 'react-bootstrap';
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -59,9 +59,11 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
+      registration.update();
+
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
-        if (installingWorker === null) {
+        if (installingWorker == null) {
           return;
         }
         installingWorker.onstatechange = () => {

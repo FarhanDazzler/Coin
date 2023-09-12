@@ -13,7 +13,7 @@ import CustomModal from '../../../../../components/UI/CustomModal';
 const Section0 = ({ scopeData }) => {
   const dispatch = useDispatch();
   const [ShowVideoModal, setShowVideoModal] = useState(false);
-  const [activeTab, setActiveTab] = useState('');
+  const [activeTab, setActiveTab] = useState('Instructions');
   const isClear = (text) => activeTab === text;
   const getInstructionsState = useSelector(getFunctionalInstructionsSelector);
 
@@ -60,6 +60,10 @@ const Section0 = ({ scopeData }) => {
         <p className="mb-2">
           <span className="renderBlockWrapper_title">Function : </span>
           <span>{scopeData?.Function}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">BU : </span>
+          <span>{scopeData?.BU}</span>
         </p>
         <p className="mb-2">
           <span className="renderBlockWrapper_title">Recipient : </span>

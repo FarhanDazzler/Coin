@@ -35,13 +35,14 @@ const FunctionalLetterForm = (props) => {
   const getFunctionSubmitResponseState = useSelector(getFunctionSubmitResponseSelector);
 
   useEffect(() => {
-    let payload = {
-      function: scopeData?.Function,
-    };
     dispatch(getFunctionalInstructions());
-    dispatch(get_Function_Questions(payload));
 
     if (modalType === 'attempt') {
+      let payload = {
+        function: scopeData?.Function,
+      };
+
+      dispatch(get_Function_Questions(payload));
       let payloadForGettingDraftResp = {
         assessment_id: scopeData?.id,
       };
@@ -54,8 +55,40 @@ const FunctionalLetterForm = (props) => {
     }
   }, []);
 
-  // Function to export data to Excel
   const exportResponseToExcel = (info, responses) => {
+    // Create a new workbook
+    const wb = XLSX.utils.book_new();
+
+    // Create a worksheet for the info data
+    const infoSheet = XLSX.utils.json_to_sheet([
+      { Key: 'Title', Value: info.Title },
+      { Key: 'Assessment_Cycle', Value: info.Assessment_Cycle },
+      { Key: 'Year', Value: info.Year },
+      { Key: 'Zone', Value: info.Zone },
+      { Key: 'BU', Value: info.BU },
+      { Key: 'Function', Value: info.Function },
+      { Key: 'Recipient', Value: info.Recipient },
+      { Key: 'Zone_Control', Value: info.Zone_Control },
+    ]);
+    XLSX.utils.book_append_sheet(wb, infoSheet, 'Info');
+
+    // Create a worksheet for the responses data with questionText converted to plain text
+    const responsesSheet = XLSX.utils.json_to_sheet(
+      responses.map((response) => ({
+        questionNumber: response.questionNumber,
+        questionText: convert(response.questionText),
+        response: response.response,
+        comment: response.comment,
+      })),
+    );
+    XLSX.utils.book_append_sheet(wb, responsesSheet, 'Responses');
+
+    // Save the workbook to an Excel file
+    XLSX.writeFile(wb, 'exported_data.xlsx');
+  };
+
+  // Function to export data to Excel
+  const exportResponseToExcel2 = (info, responses) => {
     const workbook = XLSX.utils.book_new();
 
     // Create the info details table
@@ -131,7 +164,7 @@ const FunctionalLetterForm = (props) => {
                         };
                         exportResponseToExcel(
                           info,
-                          getFunctionSubmitResponseState?.data?.Latest_response,
+                          getFunctionSubmitResponseState?.data?.Latest_Response,
                         );
                       }}
                     >
@@ -141,7 +174,7 @@ const FunctionalLetterForm = (props) => {
                 </div>
                 <Section0 scopeData={scopeData} />
                 <ReviewResponsePage
-                  submittedResponses={getFunctionSubmitResponseState?.data?.Latest_response}
+                  submittedResponses={getFunctionSubmitResponseState?.data?.Latest_Response}
                 />
               </div>
             )}
