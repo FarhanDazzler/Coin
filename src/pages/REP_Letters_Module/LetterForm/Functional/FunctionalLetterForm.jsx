@@ -55,33 +55,37 @@ const FunctionalLetterForm = (props) => {
     }
   }, []);
 
-  // Function to export data to Excel
   const exportResponseToExcel = (info, responses) => {
-    const workbook = XLSX.utils.book_new();
+    // Create a new workbook
+    const wb = XLSX.utils.book_new();
 
-    // Create the info details table
-    const infoRows = Object.keys(info).map((key) => [key, info[key]]);
-    const infoWorksheet = XLSX.utils.aoa_to_sheet([...infoRows]);
-
-    // Create the responses table
-    const responseRows = Object.keys(responses).map((key) => {
-      const item = responses[key];
-      // Convert HTML to plain text for the "Question Text" column
-      const questionTextPlainText = convert(item.questionText);
-      return [questionTextPlainText, item.response, item.comment];
-    });
-    const responseWorksheet = XLSX.utils.aoa_to_sheet([
-      ['Question Text', 'Response', 'Comment'],
-      ...responseRows,
+    // Create a worksheet for the info data
+    const infoSheet = XLSX.utils.json_to_sheet([
+      { Key: 'Title', Value: info.Title },
+      { Key: 'Assessment_Cycle', Value: info.Assessment_Cycle },
+      { Key: 'Year', Value: info.Year },
+      { Key: 'Zone', Value: info.Zone },
+      { Key: 'BU', Value: info.BU },
+      { Key: 'Function', Value: info.Function },
+      { Key: 'Recipient', Value: info.Recipient },
+      { Key: 'Zone_Control', Value: info.Zone_Control },
     ]);
+    XLSX.utils.book_append_sheet(wb, infoSheet, 'Information');
 
-    // Add the info and responses worksheets to the workbook
-    XLSX.utils.book_append_sheet(workbook, infoWorksheet, 'Information');
-    XLSX.utils.book_append_sheet(workbook, responseWorksheet, 'Responses');
+    // Create a worksheet for the responses data with questionText converted to plain text
+    const responsesSheet = XLSX.utils.json_to_sheet(
+      responses.map((response) => ({
+        questionNumber: response.questionNumber,
+        questionText: convert(response.questionText),
+        response: response.response,
+        comment: response.comment,
+      })),
+    );
+    XLSX.utils.book_append_sheet(wb, responsesSheet, 'Responses');
 
-    // Save the workbook to a file
+    // Save the workbook to an Excel file
     const fileName = `${scopeData?.Function} - ${scopeData?.Recipient} - Submitted-Responses - ${scopeData?.Title} - ${scopeData?.Assessment_Cycle} - ${scopeData?.Year}`;
-    XLSX.writeFile(workbook, `${fileName}.xlsx`);
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
 
   return (

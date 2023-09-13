@@ -91,7 +91,7 @@ const GlobalPersonaHomePage = () => {
                     <div>
                       <span className="yellow-text"> Not Started : </span>
                       <span>
-                        Contact Recipients to complete Letter, and check fallbacks on GRC.
+                        Contact Disclosure Processor to complete Letter, and check fallbacks on GRC.
                       </span>
                     </div>
                   }
@@ -115,7 +115,8 @@ const GlobalPersonaHomePage = () => {
                     <div>
                       <span className="yellow-text"> Drafted : </span>
                       <span>
-                        Recipients has started & saved the Letter as draft, however not submitted.
+                        Disclosure Processor has started & saved the Letter as draft, however not
+                        submitted.
                       </span>
                     </div>
                   }

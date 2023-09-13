@@ -60,7 +60,7 @@ const DisclosureProcessorTable = ({
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const disclosureProcessorHomePageData = useMemo(() => {
-    return getDisclosureProcessorHomePageData?.data[0]?.recipientData || [];
+    return getDisclosureProcessorHomePageData?.data[0]?.dpData || [];
   }, [getDisclosureProcessorHomePageData?.data[0]]);
 
   useEffect(() => {
@@ -90,8 +90,9 @@ const DisclosureProcessorTable = ({
                   const data = {
                     scopeData: row.row.original,
                     modalType: 'review',
+                    letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
                   };
-                  history.push('/REP-Letters/attempt-letter/functional-letter-form', { data });
+                  history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
               >
                 Review
@@ -103,8 +104,9 @@ const DisclosureProcessorTable = ({
                   const data = {
                     scopeData: row.row.original,
                     modalType: 'attempt',
+                    letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
                   };
-                  history.push('/REP-Letters/attempt-letter/functional-letter-form', { data });
+                  history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
               >
                 Letter

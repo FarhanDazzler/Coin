@@ -22,6 +22,7 @@ import {
 const Section1 = ({ questions, scopeData }) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const newFormat = [];
   const [responses, setResponses] = useState({});
   const [formErrors, setFormErrors] = useState({});
   const [characterCount, setCharacterCount] = useState(0);
@@ -30,10 +31,11 @@ const Section1 = ({ questions, scopeData }) => {
   const DraftResponseState = useSelector(getLatestFunctionDraftResponseSelector);
   const addOrUpdateDraftResponseState = useSelector(addOrUpdateFunctionDraftResponseSelector);
 
-  const handleRadioChange = (questionId, response, comment = '') => {
+  const handleRadioChange = (questionId, index, response, comment = '') => {
     const newResponses = {
       ...responses,
       [questionId]: {
+        questionNumber: index + 1,
         questionText: response.questionText,
         response: response.value,
         comment: response.value === 'Yes' ? '' : comment,
@@ -160,9 +162,25 @@ const Section1 = ({ questions, scopeData }) => {
         denyButtonColor: 'silver',
       }).then((result) => {
         if (result.isConfirmed) {
+          for (const key in responses) {
+            if (responses.hasOwnProperty(key)) {
+              const item = responses[key];
+              const questionID = key;
+              const { questionNumber, questionText, response, comment } = item;
+
+              const newItem = {
+                questionNumber,
+                questionText,
+                response,
+                comment,
+                questionID,
+              };
+              newFormat.push(newItem);
+            }
+          }
           const payload = {
             Assessment_ID: scopeData?.id,
-            Latest_response: responses,
+            Latest_response: newFormat?.sort((a, b) => a.questionNumber - b.questionNumber),
           };
           //localStorage.setItem('storedResponses', JSON.stringify(responses));
           dispatch(addFunctionSubmitResponse(payload));
@@ -202,27 +220,26 @@ const Section1 = ({ questions, scopeData }) => {
             <div className="renderBlockWrapper mt-5">
               <div className="question-text-section">
                 <div className="question-number"> {index + 1}</div>
-                <div className="question-text">
-                  <p
-                    className="left-aligned-text"
-                    dangerouslySetInnerHTML={{
-                      __html: question.text,
-                    }}
-                  />
-                </div>
+                <div
+                  className="question-text"
+                  dangerouslySetInnerHTML={{ __html: question.text }}
+                />
               </div>
 
               <Divider color="gray" className="renderBlockWrapper_divider_form" size="xs" />
               <div className="option-section">
                 <Group position="left" spacing="sm">
-                  {['Yes', 'No', 'NA'].map((value) => (
+                  {['Yes', 'No'].map((value) => (
                     <label key={value}>
                       <input
                         type="radio"
                         value={value}
                         checked={response.response === value}
                         onChange={() =>
-                          handleRadioChange(question.id, { questionText: question.text, value })
+                          handleRadioChange(question.id, index, {
+                            questionText: question.text,
+                            value,
+                          })
                         }
                       />
                       <label className="radio-option-label">{value}</label>
