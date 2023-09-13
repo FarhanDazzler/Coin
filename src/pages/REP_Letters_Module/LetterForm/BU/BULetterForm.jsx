@@ -5,7 +5,7 @@ import * as XLSX from 'xlsx';
 import { compile, convert } from 'html-to-text';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import Section0 from './FormComponents/Section0';
-// import Section1 from './FormComponents/Section1';
+import Section1 from './FormComponents/Section1';
 // import ReviewResponsePage from './FormComponents/ReviewResponsePage';
 import { getInstructions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import { get_BU_Questions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
@@ -96,7 +96,19 @@ const BULetterForm = (props) => {
   return (
     <div>
       <PageWrapper>
-        <Section0 scopeData={scopeData} letterType={letterType} />
+        <div className="container-fluid">
+          {instructionState.loading || questionState.loading ? (
+            <div className="loader-animation">
+              <DotSpinner size={100} speed={0.9} color="#e3af32" />
+              <p className="loader-Desc ml-3">Please wait while we are Loading letter for you</p>
+            </div>
+          ) : (
+            <div className="col-lg-12">
+              <Section0 scopeData={scopeData} letterType={letterType} />
+              <Section1 questions={questionState.data} scopeData={scopeData} />
+            </div>
+          )}
+        </div>
         {/* {modalType === 'attempt' ? (
           <div className="container-fluid">
             {instructionState.loading ||
