@@ -178,6 +178,9 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     };
   }, []);
 
+  let timeOutSection2 = null;
+  let timeOutSection3 = null;
+
   useEffect(() => {
     const condition =
       (!(L1InnerQuestion.length > 0) &&
@@ -229,7 +232,8 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             questionData.Level?.L1?.Inner_Questions &&
             !questionData.Level?.L2)
         ) {
-          setTimeout(() => {
+          if (timeOutSection2) clearTimeout(timeOutSection2);
+          timeOutSection2 = setTimeout(() => {
             dispatch(
               getSection3Questions({
                 Level: 'L2',
@@ -244,7 +248,8 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           (section3Data?.L3 && questionData.Level?.L2 && !questionData.Level?.L3) ||
           (isLevel2NoInnerQuestion && !questionData.Level?.L3)
         ) {
-          setTimeout(() => {
+          if (timeOutSection3) clearTimeout(timeOutSection3);
+          timeOutSection3 = setTimeout(() => {
             dispatch(
               getSection3Questions({
                 Level: 'L3',

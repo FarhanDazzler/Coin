@@ -13,7 +13,7 @@ import CustomModal from '../../../../../components/UI/CustomModal';
 const Section0 = ({ scopeData }) => {
   const dispatch = useDispatch();
   const [ShowVideoModal, setShowVideoModal] = useState(false);
-  const [activeTab, setActiveTab] = useState('');
+  const [activeTab, setActiveTab] = useState('Instructions');
   const isClear = (text) => activeTab === text;
   const getInstructionsState = useSelector(getFunctionalInstructionsSelector);
 
