@@ -111,6 +111,7 @@ const ControlSection3 = ({
     }
     if (questionL3.length > 0 && ans.L3) {
       const updateAnsL3 = setSelectedQuestionAns(questionL3, ans.L3);
+      console.log('@@@@@@@ ->> 1');
       setQuestionL3(updateAnsL3);
     }
   }, [ans, render, questionData]);
@@ -293,9 +294,15 @@ const ControlSection3 = ({
 
           if (ans.L3) {
             const updateAnsL3 = setSelectedQuestionAns(data3, ans.L3);
+            console.log('@@@@@ -->>  222');
             setQuestionL3(updateAnsL3);
           } else {
-            setQuestionL3(data3);
+            console.log('@@@@ -->> 3');
+            if (!showNoQuestion) {
+              setQuestionL3(data3);
+            } else {
+              setQuestionL3([]);
+            }
           }
 
           if (!(L3InnerQuestion.length > 0)) {
@@ -339,6 +346,10 @@ const ControlSection3 = ({
 
   if (isEmptySection) return <div />;
 
+  console.log('questionL1', ans);
+  const isL1NoAnsSelect = ans?.L1 ? JSON.stringify(ans?.L1).includes('_no') : false;
+  const isL2NoAnsSelect = ans?.L2 ? JSON.stringify(ans?.L2).includes('_no') : false;
+
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section3_MICS')} active>
@@ -347,10 +358,10 @@ const ControlSection3 = ({
             {questionL1.length > 0 && (
               <RenderBlock blocks={questionL1} isModal={isModal} handleChange={handleChange} />
             )}
-            {questionL2.length > 0 && (
+            {questionL2.length > 0 && !isL1NoAnsSelect && (
               <RenderBlock blocks={questionL2} isModal={isModal} handleChange={handleChange} />
             )}
-            {questionL3.length > 0 && (
+            {questionL3.length > 0 && !isL1NoAnsSelect && !isL2NoAnsSelect && (
               <RenderBlock blocks={questionL3} isModal={isModal} handleChange={handleChange} />
             )}
           </>
