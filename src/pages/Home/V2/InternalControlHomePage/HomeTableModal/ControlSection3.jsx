@@ -111,7 +111,6 @@ const ControlSection3 = ({
     }
     if (questionL3.length > 0 && ans.L3) {
       const updateAnsL3 = setSelectedQuestionAns(questionL3, ans.L3);
-      console.log('@@@@@@@ ->> 1');
       setQuestionL3(updateAnsL3);
     }
   }, [ans, render, questionData]);
@@ -294,10 +293,8 @@ const ControlSection3 = ({
 
           if (ans.L3) {
             const updateAnsL3 = setSelectedQuestionAns(data3, ans.L3);
-            console.log('@@@@@ -->>  222');
             setQuestionL3(updateAnsL3);
           } else {
-            console.log('@@@@ -->> 3');
             if (!showNoQuestion) {
               setQuestionL3(data3);
             } else {
@@ -346,7 +343,6 @@ const ControlSection3 = ({
 
   if (isEmptySection) return <div />;
 
-  console.log('questionL1', ans);
   const isL1NoAnsSelect = ans?.L1 ? JSON.stringify(ans?.L1).includes('_no') : false;
   const isL2NoAnsSelect = ans?.L2 ? JSON.stringify(ans?.L2).includes('_no') : false;
 
