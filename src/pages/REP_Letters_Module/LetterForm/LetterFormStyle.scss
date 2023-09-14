@@ -123,3 +123,8 @@
   line-height: 87.52%;
   color: #e3af32;
 }
+
+.scopeSectionGrid {
+  display: grid;
+  grid-template-columns: 40% 60%;
+}

@@ -67,58 +67,65 @@ const Section0 = ({ scopeData, letterType }) => {
     const entityString = scopeData?.Entity;
     const entityObject = JSON.parse(entityString.replace(/'/g, '"'));
     return (
-      <div>
-        <p className="mb-2">
-          <span className="renderBlockWrapper_title">Zone : </span>
-          <span>{scopeData?.Zone}</span>
-        </p>
-        <p className="mb-2">
-          <span className="renderBlockWrapper_title">Letter Type : </span>
-          <span>{scopeData?.Letter_Type}</span>
-        </p>
-        <p className="mb-2">
-          <span className="renderBlockWrapper_title">BU : </span>
-          <span>{scopeData?.BU}</span>
-        </p>
-        <p className="mb-2">
-          <span className="renderBlockWrapper_title">Entity : </span>
-          <ul>
-            {/* <li> Country : Entity Code</li> */}
-            {Object.keys(entityObject).map((key) => (
-              <li key={key}>
-                {key} : {entityObject[key]}
-              </li>
-            ))}
-          </ul>
-        </p>
-        <p className="mb-2">
-          <span className="renderBlockWrapper_title">Disclosure Processor : </span>
-          <span>{scopeData?.Disclosure_Processor}</span>
-        </p>
-        <p className="mb-2">
-          <span className="renderBlockWrapper_title">BU Head : </span>
-          <span>{scopeData?.BU_Head}</span>
-        </p>
-        <p className="mb-2">
-          <span className="renderBlockWrapper_title">Finance Director : </span>
-          <span>{scopeData?.Finance_Director}</span>
-        </p>
-        <p className="mb-2">
-          <span className="renderBlockWrapper_title">Zone Control : </span>
-          <span>{scopeData?.Zone_Control}</span>
-        </p>
-        <p className="mb-2">
-          <span className="renderBlockWrapper_title">Zone VP : </span>
-          <span>{scopeData?.Zone_VP}</span>
-        </p>
-        <p className="mb-2">
-          <span className="renderBlockWrapper_title">Assessment Cycle : </span>
-          <span>{scopeData?.Assessment_Cycle}</span>
-        </p>
-        <p className="mb-2">
-          <span className="renderBlockWrapper_title">Year : </span>
-          <span>{scopeData?.Year}</span>
-        </p>
+      <div className="scopeSectionGrid">
+        <div>
+          <p className="mb-2">
+            <span className="renderBlockWrapper_title">Zone : </span>
+            <span>{scopeData?.Zone}</span>
+          </p>
+          <p className="mb-2">
+            <span className="renderBlockWrapper_title">Letter Type : </span>
+            <span>{scopeData?.Letter_Type}</span>
+          </p>
+          <p className="mb-2">
+            <span className="renderBlockWrapper_title">BU : </span>
+            <span>{scopeData?.BU}</span>
+          </p>
+          <p className="mb-2">
+            <span className="renderBlockWrapper_title">Entity : </span>
+            <ul>
+              {/* <li> Country : Entity Code</li> */}
+              {Object.keys(entityObject).map((key) => (
+                <li key={key}>
+                  {key} : {entityObject[key]}
+                </li>
+              ))}
+            </ul>
+          </p>
+
+          <p className="mb-2">
+            <span className="renderBlockWrapper_title">Year : </span>
+            <span>{scopeData?.Year}</span>
+          </p>
+        </div>
+
+        <div>
+          {' '}
+          <p className="mb-2">
+            <span className="renderBlockWrapper_title">Disclosure Processor : </span>
+            <span>{scopeData?.Disclosure_Processor}</span>
+          </p>
+          <p className="mb-2">
+            <span className="renderBlockWrapper_title">BU Head : </span>
+            <span>{scopeData?.BU_Head}</span>
+          </p>
+          <p className="mb-2">
+            <span className="renderBlockWrapper_title">Finance Director : </span>
+            <span>{scopeData?.Finance_Director}</span>
+          </p>
+          <p className="mb-2">
+            <span className="renderBlockWrapper_title">Zone Control : </span>
+            <span>{scopeData?.Zone_Control}</span>
+          </p>
+          <p className="mb-2">
+            <span className="renderBlockWrapper_title">Zone VP : </span>
+            <span>{scopeData?.Zone_VP}</span>
+          </p>
+          <p className="mb-2">
+            <span className="renderBlockWrapper_title">Assessment Cycle : </span>
+            <span>{scopeData?.Assessment_Cycle}</span>
+          </p>
+        </div>
       </div>
     );
   };
