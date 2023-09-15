@@ -82,7 +82,8 @@ const Instructions = ({ setShowModal, modalType }) => {
           ClosingInstructionFile: null,
         }}
         validationSchema={Yup.object().shape({
-          Instructions: Yup.string().required('Instructions is required'),
+          Instructions: Yup.string().required('Instructions is required')
+          .max(4999, 'Instructions is not allowed more than 5000 characters'),
           isFileAttached: Yup.string().required('Please select do you want to re-upload Files?'),
           OpeningFile: Yup.mixed().when('isFileAttached', {
             is: (value) => ['Both', 'Opening'].includes(value),
@@ -128,6 +129,7 @@ const Instructions = ({ setShowModal, modalType }) => {
                       onChange={handleChange}
                       isInvalid={!!errors.Instructions}
                       name="Instructions"
+                      maxLength={5000}
                       value={values.Instructions}
                       rows={3}
                     />
