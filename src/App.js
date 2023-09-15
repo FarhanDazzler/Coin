@@ -89,18 +89,18 @@ const Pages = () => {
     axios
       .get(`${process.env.REACT_APP_API_BASE_URL}/login?User_oid=${accounts[0]?.idTokenClaims.oid}`)
       .then(async (res) => {
-        if (!localStorage.getItem('Roles'))
-          localStorage.setItem('Roles', res?.data.data?.sa_roles || []);
+        const saRoles = res?.data.data?.sa_roles || [];
+        if (!localStorage.getItem('Roles')) localStorage.setItem('Roles', saRoles);
         const updatedParam = {};
         if (res?.data.data?.rl_roles?.BU) updatedParam.BU = res?.data.data?.rl_roles?.BU;
         if (res?.data.data?.rl_roles?.Functional)
           updatedParam.Functional = res?.data.data?.rl_roles?.Functional;
         localStorage.setItem('rl_roles', JSON.stringify(updatedParam || []));
-        localStorage.setItem('sa_roles', res?.data.data?.sa_roles || []);
+        localStorage.setItem('sa_roles', saRoles);
         dispatch(
           setRoles({
             rl_roles: updatedParam || [],
-            sa_roles: res?.data.data?.sa_roles || [],
+            sa_roles: saRoles,
           }),
         );
         Cookies.set('token', res?.data.token);
