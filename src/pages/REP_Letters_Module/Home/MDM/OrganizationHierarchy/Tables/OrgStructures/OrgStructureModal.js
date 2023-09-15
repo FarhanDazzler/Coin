@@ -91,7 +91,8 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
           orgType: Yup.string().required('Organization Type is required'),
           parentEntity: Yup.string().required('Parent Entity is required'),
           EntityName: Yup.string()
-              .required('EntityName is required'),
+              .required('EntityName is required')
+              .max(5000, 'Max 5000 characters allowed'),
           validFrom: Yup.string().required('Valid Date is required'),
           validTo: Yup.string().required('Valid Date is required'),
           Org_name: Yup.string().required('Organization Name is required'),
@@ -245,6 +246,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                         onBlur={handleBlur}
                         onChange={handleChange}
                         readOnly={false}
+                        maxLength={5000}
                         className="form-control"
                       />
                        
