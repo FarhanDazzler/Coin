@@ -229,7 +229,7 @@ const Section1 = ({ questions, scopeData }) => {
               <Divider color="gray" className="renderBlockWrapper_divider_form" size="xs" />
               <div className="option-section">
                 <Group position="left" spacing="sm">
-                  {['Yes', 'No', 'NA'].map((value) => (
+                  {['Yes', 'No'].map((value) => (
                     <label key={value}>
                       <input
                         type="radio"

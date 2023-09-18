@@ -93,7 +93,8 @@ const TopBar = (props) => {
       : {};
     switch (true) {
       case activeModule === 'Assessment Module':
-        const data = localStorage.getItem('sa_roles')?.split(',') || [];
+        const sa_roles_data = localStorage.getItem('sa_roles')?.split(',') || [];
+        const data = sa_roles_data.filter((d) => d);
         if (data.length > 0) {
           localStorage.setItem('selected_Role', data[0]);
           setRole(data[0]);
@@ -556,9 +557,7 @@ const TopBar = (props) => {
                           onClick={() => {
                             if (val.isDisabled) return;
                             setActiveModule(val.label);
-                            // history.push(
-                            //   '/'
-                            // );
+                            // history.push('/');
                           }}
                           menu={
                             val.subVal?.length > 0
@@ -570,6 +569,7 @@ const TopBar = (props) => {
                                       onClick={() => {
                                         if (sVal.isDisabled) return;
                                         setActiveModule(sVal.label);
+                                        history.push('/');
                                       }}
                                     >
                                       {sVal.label}

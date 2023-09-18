@@ -70,7 +70,7 @@ const FunctionalLetterForm = (props) => {
       { Key: 'Recipient', Value: info.Recipient },
       { Key: 'Zone_Control', Value: info.Zone_Control },
     ]);
-    XLSX.utils.book_append_sheet(wb, infoSheet, 'Info');
+    XLSX.utils.book_append_sheet(wb, infoSheet, 'Information');
 
     // Create a worksheet for the responses data with questionText converted to plain text
     const responsesSheet = XLSX.utils.json_to_sheet(
@@ -84,36 +84,8 @@ const FunctionalLetterForm = (props) => {
     XLSX.utils.book_append_sheet(wb, responsesSheet, 'Responses');
 
     // Save the workbook to an Excel file
-    XLSX.writeFile(wb, 'exported_data.xlsx');
-  };
-
-  // Function to export data to Excel
-  const exportResponseToExcel2 = (info, responses) => {
-    const workbook = XLSX.utils.book_new();
-
-    // Create the info details table
-    const infoRows = Object.keys(info).map((key) => [key, info[key]]);
-    const infoWorksheet = XLSX.utils.aoa_to_sheet([...infoRows]);
-
-    // Create the responses table
-    const responseRows = Object.keys(responses).map((key) => {
-      const item = responses[key];
-      // Convert HTML to plain text for the "Question Text" column
-      const questionTextPlainText = convert(item.questionText);
-      return [questionTextPlainText, item.response, item.comment];
-    });
-    const responseWorksheet = XLSX.utils.aoa_to_sheet([
-      ['Question Text', 'Response', 'Comment'],
-      ...responseRows,
-    ]);
-
-    // Add the info and responses worksheets to the workbook
-    XLSX.utils.book_append_sheet(workbook, infoWorksheet, 'Information');
-    XLSX.utils.book_append_sheet(workbook, responseWorksheet, 'Responses');
-
-    // Save the workbook to a file
     const fileName = `${scopeData?.Function} - ${scopeData?.Recipient} - Submitted-Responses - ${scopeData?.Title} - ${scopeData?.Assessment_Cycle} - ${scopeData?.Year}`;
-    XLSX.writeFile(workbook, `${fileName}.xlsx`);
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
 
   return (
