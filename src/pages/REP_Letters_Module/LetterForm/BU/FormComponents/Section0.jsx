@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { Divider, Box } from '@mantine/core';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import { getInstructions } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
@@ -9,7 +11,9 @@ import { getInstructionsSelector } from '../../../../../redux/REP_Letters/RL_Que
 
 const Section0 = ({ scopeData, letterType }) => {
   const dispatch = useDispatch();
-
+  const [ShowVideoModal, setShowVideoModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('Instructions');
+  const isClear = (text) => activeTab === text;
   const getInstructionsState = useSelector(getInstructionsSelector);
 
   //   useEffect(() => {
@@ -83,16 +87,23 @@ const Section0 = ({ scopeData, letterType }) => {
           </p>
           <p className="mb-2">
             <span className="renderBlockWrapper_title">Entity : </span>
-            <ul>
-              {/* <li> Country : Entity Code</li> */}
-              {Object.keys(entityObject).map((key) => (
-                <li key={key}>
-                  {key} : {entityObject[key]}
-                </li>
-              ))}
-            </ul>
+            {Object.keys(entityObject).length > 0 ? (
+              <span>No entity </span>
+            ) : (
+              <ul>
+                {/* <li> Country : Entity Code</li> */}
+                {Object.keys(entityObject).map((key) => (
+                  <li key={key}>
+                    {key} : {entityObject[key]}
+                  </li>
+                ))}
+              </ul>
+            )}
           </p>
-
+          <p className="mb-2">
+            <span className="renderBlockWrapper_title">Assessment Cycle : </span>
+            <span>{scopeData?.Assessment_Cycle}</span>
+          </p>
           <p className="mb-2">
             <span className="renderBlockWrapper_title">Year : </span>
             <span>{scopeData?.Year}</span>
@@ -121,10 +132,6 @@ const Section0 = ({ scopeData, letterType }) => {
             <span className="renderBlockWrapper_title">Zone VP : </span>
             <span>{scopeData?.Zone_VP}</span>
           </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Assessment Cycle : </span>
-            <span>{scopeData?.Assessment_Cycle}</span>
-          </p>
         </div>
       </div>
     );
@@ -137,16 +144,16 @@ const Section0 = ({ scopeData, letterType }) => {
           {getInstructionsState?.data?.length > 0 && (
             // if instructions are not there and scope is there then show scope only
             <div className="renderBlockWrapper-control-actions-wrapper pb-5 pt-4">
-              <div className="row">
+              {/* <div className="row">
                 <div className="col-lg-6">
                   <InstructionSection />
                 </div>
                 <div className="col-lg-6">
                   <ScopeSection />
                 </div>
-              </div>
+              </div> */}
               {/* setting active tab when click on button */}
-              {/* <Button
+              <Button
                 startIcon={<InfoOutlinedIcon />}
                 className={activeTab === 'Instructions' ? 'mr-4 active' : 'mr-4'}
                 onClick={() => setActiveTab(isClear('Instructions') ? '' : 'Instructions')}
@@ -159,17 +166,17 @@ const Section0 = ({ scopeData, letterType }) => {
                 onClick={() => setActiveTab(isClear('Scope') ? '' : 'Scope')}
               >
                 Scope
-              </Button> */}
+              </Button>
 
               {/* when tab is active then show the content */}
-              {/* {(activeTab === 'Scope' || activeTab === 'Instructions') && (
+              {(activeTab === 'Scope' || activeTab === 'Instructions') && (
                 <>
                   <div className="mt-5">
                     {activeTab === 'Scope' && <ScopeSection />}
                     {activeTab === 'Instructions' && <InstructionSection />}
                   </div>
                 </>
-              )} */}
+              )}
             </div>
           )}
 
