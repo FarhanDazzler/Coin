@@ -31,7 +31,7 @@ const Section1 = ({ questions, scopeData }) => {
   //   const DraftResponseState = useSelector(getLatestFunctionDraftResponseSelector);
   //   const addOrUpdateDraftResponseState = useSelector(addOrUpdateFunctionDraftResponseSelector);
 
-  const handleRadioChange = (questionId, index, response, comment = '') => {
+  const handleRadioChange = (questionId, index, response, comment = '', month = '') => {
     const newResponses = {
       ...responses,
       [questionId]: {
@@ -39,6 +39,8 @@ const Section1 = ({ questions, scopeData }) => {
         questionText: response.questionText,
         response: response.value,
         comment: response.value === 'Yes' ? '' : comment,
+        //month: response.value === 'NA' ? month : '',
+        month: response.value === 'NA' ? month || '' : '',
       },
     };
 
@@ -73,6 +75,21 @@ const Section1 = ({ questions, scopeData }) => {
     }
   };
 
+  const handleMonthChange = (questionId, month) => {
+    const updatedResponses = {
+      ...responses,
+      [questionId]: {
+        ...responses[questionId],
+        month,
+      },
+    };
+    setResponses(updatedResponses);
+    setFormErrors({
+      ...formErrors,
+      [questionId]: '',
+    });
+  };
+
   // clear all the states on page leave or refresh page or change url path or change module or change role
   //   useEffect(() => {
   //     return () => {
@@ -88,6 +105,7 @@ const Section1 = ({ questions, scopeData }) => {
   //   }, [DraftResponseState?.data]);
 
   const handleSaveDraft = () => {
+    console.log('Submitted responses:', responses);
     // if (DraftResponseState?.data?.Attempt_no >= 5) {
     //   Swal.fire(`You don't have a limited`, '', 'error');
     //   return;
@@ -132,6 +150,8 @@ const Section1 = ({ questions, scopeData }) => {
     //     newFormErrors[question.id] = 'Response is required.';
     //   } else if ((response === 'No' || response === 'NA') && !comment) {
     //     newFormErrors[question.id] = 'Comment is required.';
+    //   } else if (response === 'NA' && !month) {
+    //     newFormErrors[question.id] = 'month is required.';
     //   }
     // });
     // if (Object.keys(newFormErrors).length > 0) {
@@ -242,7 +262,7 @@ const Section1 = ({ questions, scopeData }) => {
                   ))}
                 </Group>
               </div>
-              {response.response && (
+              {response.response !== 'NA' ? (
                 <div>
                   <Form.Group className="mb-3" controlId={`comment-${question.id}`}>
                     <Form.Control
@@ -252,8 +272,39 @@ const Section1 = ({ questions, scopeData }) => {
                       onChange={(e) => handleCommentChange(question.id, e.target.value)}
                       name="comment"
                       value={response.comment || ''}
-                      rows={2}
+                      rows={4}
                     />
+                  </Form.Group>
+                </div>
+              ) : (
+                <div>
+                  <Form.Group className="mb-3" controlId={`comment-${question.id}`}>
+                    <Form.Control
+                      as="textarea"
+                      placeholder="Enter your comment..."
+                      required
+                      onChange={(e) => handleCommentChange(question.id, e.target.value)}
+                      name="comment"
+                      value={response.comment || ''}
+                      rows={4}
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label className="mb-3">Please select month: </Form.Label>
+                    <Form.Control
+                      as="select"
+                      name="Month"
+                      placeholder="Please select Month"
+                      required
+                      value={response.month || ''}
+                      onChange={(e) => handleMonthChange(question.id, e.target.value)}
+                      className="form-select"
+                      style={{ width: '300px' }}
+                    >
+                      <option value="">Select</option>
+                      <option value="January">January</option>
+                      <option value="February">February</option>
+                    </Form.Control>
                   </Form.Group>
                 </div>
               )}
@@ -282,9 +333,6 @@ const Section1 = ({ questions, scopeData }) => {
             Save as Draft
           </Button>
         </div>
-        {/* <button onClick={() => history.push('/')}>Cancel</button>
-        <button onClick={handleSaveDraft}>Save Draft</button>
-        <button onClick={handleSubmit}>Submit</button> */}
       </div>
     </CollapseFrame>
   );
