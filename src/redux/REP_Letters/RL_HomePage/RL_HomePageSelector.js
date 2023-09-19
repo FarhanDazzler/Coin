@@ -22,3 +22,9 @@ export const getFunctionSubmitResponseSelector = (state) =>
   state?.RL_HomePage?.getFunctionSubmitResponse;
 export const addFunctionSubmitResponseSelector = (state) =>
   state?.RL_HomePage?.addFunctionSubmitResponse;
+export const addOrUpdateBUDraftResponseSelector = (state) =>
+  state?.RL_HomePage?.addOrUpdateBUDraftResponse;
+export const getLatestBUDraftResponseSelector = (state) =>
+  state?.RL_HomePage?.getLatestBUDraftResponse;
+export const getBUSubmitResponseSelector = (state) => state?.RL_HomePage?.getBUSubmitResponse;
+export const addBUSubmitResponseSelector = (state) => state?.RL_HomePage?.addBUSubmitResponse;

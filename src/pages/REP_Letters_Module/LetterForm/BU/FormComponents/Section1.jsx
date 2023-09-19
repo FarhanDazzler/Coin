@@ -19,6 +19,21 @@ import Button from '../../../../../components/UI/Button';
 //   getLatestFunctionDraftResponseSelector,
 // } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
+const months = [
+  { value: 'January', label: 'January' },
+  { value: 'February', label: 'February' },
+  { value: 'March', label: 'March' },
+  { value: 'April', label: 'April' },
+  { value: 'May', label: 'May' },
+  { value: 'June', label: 'June' },
+  { value: 'July', label: 'July' },
+  { value: 'August', label: 'August' },
+  { value: 'September', label: 'September' },
+  { value: 'October', label: 'October' },
+  { value: 'November', label: 'November' },
+  { value: 'December', label: 'December' },
+];
+
 const Section1 = ({ questions, scopeData }) => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -302,8 +317,11 @@ const Section1 = ({ questions, scopeData }) => {
                       style={{ width: '300px' }}
                     >
                       <option value="">Select</option>
-                      <option value="January">January</option>
-                      <option value="February">February</option>
+                      {months.map((month) => (
+                        <option key={month.value} value={month.value}>
+                          {month.label}
+                        </option>
+                      ))}
                     </Form.Control>
                   </Form.Group>
                 </div>
