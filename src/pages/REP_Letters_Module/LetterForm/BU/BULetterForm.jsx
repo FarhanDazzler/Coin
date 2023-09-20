@@ -13,15 +13,15 @@ import {
   get_BU_QuestionsSelector,
   getInstructionsSelector,
 } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
-// import {
-//   getLatestFunctionDraftResponse,
-//   getFunctionSubmitResponse,
-// } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
-// import {
-//   addOrUpdateFunctionDraftResponseSelector,
-//   getLatestFunctionDraftResponseSelector,
-//   getFunctionSubmitResponseSelector,
-// } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import {
+  getLatestBUDraftResponse,
+  getBUSubmitResponse,
+} from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import {
+  addOrUpdateBUDraftResponseSelector,
+  getLatestBUDraftResponseSelector,
+  getBUSubmitResponseSelector,
+} from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../LetterFormStyle.scss';
 
 const BULetterForm = (props) => {
@@ -32,8 +32,8 @@ const BULetterForm = (props) => {
 
   const questionState = useSelector(get_BU_QuestionsSelector);
   const instructionState = useSelector(getInstructionsSelector);
-  // const getLatestFunctionDraftResponseState = useSelector(getLatestFunctionDraftResponseSelector);
-  // const getFunctionSubmitResponseState = useSelector(getFunctionSubmitResponseSelector);
+  const getLatestBUDraftResponseState = useSelector(getLatestBUDraftResponseSelector);
+  const getBUSubmitResponseState = useSelector(getBUSubmitResponseSelector);
 
   useEffect(() => {
     const payload = {
@@ -48,15 +48,15 @@ const BULetterForm = (props) => {
       };
       dispatch(get_BU_Questions(payload));
 
-      // let payloadForGettingDraftResp = {
-      //   assessment_id: scopeData?.id,
-      // };
-      // dispatch(getLatestFunctionDraftResponse(payloadForGettingDraftResp));
+      let payloadForGettingDraftResp = {
+        assessment_id: scopeData?.id,
+      };
+      dispatch(getLatestBUDraftResponse(payloadForGettingDraftResp));
     } else {
-      // let payloadForGettingSubmittedResp = {
-      //   assessment_id: scopeData?.id,
-      // };
-      // dispatch(getFunctionSubmitResponse(payloadForGettingSubmittedResp));
+      let payloadForGettingSubmittedResp = {
+        assessment_id: scopeData?.id,
+      };
+      dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
     }
   }, []);
 
@@ -96,24 +96,11 @@ const BULetterForm = (props) => {
   return (
     <div>
       <PageWrapper>
-        <div className="container-fluid">
-          {instructionState.loading || questionState.loading ? (
-            <div className="loader-animation">
-              <DotSpinner size={100} speed={0.9} color="#e3af32" />
-              <p className="loader-Desc ml-3">Please wait while we are Loading letter for you</p>
-            </div>
-          ) : (
-            <div className="col-lg-12">
-              <Section0 scopeData={scopeData} letterType={letterType} />
-              <Section1 questions={questionState.data} scopeData={scopeData} />
-            </div>
-          )}
-        </div>
-        {/* {modalType === 'attempt' ? (
+        {modalType === 'attempt' ? (
           <div className="container-fluid">
             {instructionState.loading ||
             questionState.loading ||
-            getLatestFunctionDraftResponseState.loading ? (
+            getLatestBUDraftResponseState.loading ? (
               <div className="loader-animation">
                 <DotSpinner size={100} speed={0.9} color="#e3af32" />
                 <p className="loader-Desc ml-3">Please wait while we are Loading letter for you</p>
@@ -127,7 +114,7 @@ const BULetterForm = (props) => {
           </div>
         ) : (
           <div className="container-fluid">
-            {instructionState.loading || getFunctionSubmitResponseState.loading ? (
+            {instructionState.loading || getBUSubmitResponseState.loading ? (
               <div className="loader-animation">
                 <DotSpinner size={100} speed={0.9} color="#e3af32" />
                 <p className="loader-Desc ml-3">
@@ -154,7 +141,7 @@ const BULetterForm = (props) => {
                         };
                         exportResponseToExcel(
                           info,
-                          getFunctionSubmitResponseState?.data?.Latest_Response,
+                          getBUSubmitResponseState?.data?.Latest_Response,
                         );
                       }}
                     >
@@ -163,13 +150,13 @@ const BULetterForm = (props) => {
                   </div>
                 </div>
                 <Section0 scopeData={scopeData} letterType={letterType} />
-                <ReviewResponsePage
-                  submittedResponses={getFunctionSubmitResponseState?.data?.Latest_Response}
-                />
+                {/* <ReviewResponsePage
+                  submittedResponses={getBUSubmitResponseState?.data?.Latest_Response}
+                /> */}
               </div>
             )}
           </div>
-        )} */}
+        )}
       </PageWrapper>
     </div>
   );

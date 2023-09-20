@@ -81,7 +81,7 @@ const TopBar = (props) => {
     { label: 'Assessment Module', value: 'Assessment Module' },
     { label: 'Representation Letter', value: 'Representation Letter', isDisabled: true },
   ];
-  const [module, setModule] = useState(initModule);
+  const [module, setModule] = useState([]);
   const [activeModule, setActiveModule] = useState(selected_module_role || 'Assessment Module');
   const [lan, setLan] = useState(i18n.language);
 
@@ -163,18 +163,88 @@ const TopBar = (props) => {
     }, 500);
   }, [roles.length]);
 
+  const rl_roles = localStorage.getItem('rl_roles')
+    ? JSON.parse(localStorage.getItem('rl_roles'))
+    : {};
+
+  console.log({ apiRoles, rl_roles });
   useEffect(() => {
     if (Object.keys(apiRoles).length > 0) {
       const newArray = initModule.map((val) => {
         if (val.value === 'Representation Letter' && apiRoles.rl_roles) {
           const newObj = Object.keys(apiRoles.rl_roles).map((r) => {
+            console.log('@@@@@@Q -> r', r);
             return { value: r, label: r };
           });
-          val.subVal = newObj.filter((d) => d.value !== 'is_admin');
+          val.subVal = newObj.filter((d) => {
+            let isValid = false;
+            switch (true) {
+              case d.value === 'BU':
+                if (rl_roles.BU) {
+                  if (rl_roles.BU.length > 0) {
+                    isValid = true;
+                  }
+                }
+                break;
+              case d.value === 'Functional':
+                if (rl_roles.Functional) {
+                  if (rl_roles.Functional.length > 0) {
+                    isValid = true;
+                  }
+                }
+                break;
+              default:
+                break;
+            }
+            return d.value !== 'is_admin' && isValid;
+          });
         }
         return val;
       });
-      setModule(newArray);
+
+      const newDataArray = newArray.filter((d) => {
+        let isValid = false;
+        const rl_roles = apiRoles?.rl_roles;
+        switch (true) {
+          case d.value === 'Assessment Module':
+            const sa_roles_data = apiRoles?.sa_rolesa || [];
+            const data = sa_roles_data.filter((d) => d);
+            if (data.length > 0) {
+              isValid = true;
+            }
+            return false;
+
+          case d.value === 'Representation Letter':
+            d.subVal.forEach((vl) => {
+              switch (true) {
+                case vl.value === 'BU':
+                  if (rl_roles.BU) {
+                    if (rl_roles.BU.length > 0) {
+                      isValid = true;
+                    }
+                  }
+                  break;
+                case vl.value === 'Functional':
+                  if (rl_roles.Functional) {
+                    if (rl_roles.Functional.length > 0) {
+                      isValid = true;
+                    }
+                  }
+                  break;
+                default:
+                  break;
+              }
+            });
+            isValid = true;
+            break;
+
+          default:
+            break;
+        }
+
+        return isValid;
+      });
+      setModule(newDataArray);
     }
   }, [apiRoles]);
   const TopBar_SA = () => {

@@ -102,7 +102,7 @@ const Section1 = ({ questions, scopeData }) => {
           : DraftResponseState?.data?.Attempt_no === 0
           ? '4'
           : '5'
-      } save draft assessments remaining`,
+      } save draft letter remaining`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
@@ -151,7 +151,7 @@ const Section1 = ({ questions, scopeData }) => {
             : DraftResponseState?.data?.Attempt_no === 0
             ? '4'
             : '5'
-        } save draft assessments remaining`,
+        } save draft letter remaining`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'golden',

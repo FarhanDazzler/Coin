@@ -108,6 +108,11 @@ const AddNewQuestionModal = ({
                       ]}
                       radius="md"
                     />
+                    {values.questionText.length > 5000 && (
+                      <span className="error">
+                        Question Text is not allowed more than 5000 characters
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -126,7 +131,7 @@ const AddNewQuestionModal = ({
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" color="neutral" className="ml-4">
+                  <Button type="submit" color="neutral" disabled={values.questionText.length >= 5000} className="ml-4">
                     Confirm
                   </Button>
                 </div>

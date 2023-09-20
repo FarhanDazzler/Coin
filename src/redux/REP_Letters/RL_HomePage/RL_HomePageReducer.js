@@ -104,6 +104,35 @@ export const ADD_FUNCTION_SUBMIT_RESPONSE_SUCCESS = 'ADD_FUNCTION_SUBMIT_RESPONS
 export const ADD_FUNCTION_SUBMIT_RESPONSE_ERROR = 'ADD_FUNCTION_SUBMIT_RESPONSE_ERROR';
 // ============= ADD FUNCTION SUBMIT RESPONSE data ===============//
 
+// ============= ADD OR UPDATE BU DRAFT RESPONSE data ===============//
+export const ADD_OR_UPDATE_BU_DRAFT_RESPONSE_REQUEST = 'ADD_OR_UPDATE_BU_DRAFT_RESPONSE_REQUEST';
+export const ADD_OR_UPDATE_BU_DRAFT_RESPONSE_SUCCESS = 'ADD_OR_UPDATE_BU_DRAFT_RESPONSE_SUCCESS';
+export const ADD_OR_UPDATE_BU_DRAFT_RESPONSE_ERROR = 'ADD_OR_UPDATE_BU_DRAFT_RESPONSE_ERROR';
+// ============= ADD OR UPDATE BU DRAFT RESPONSE data ===============//
+
+// ============= GET LATEST BU DRAFT RESPONSE data ===============//
+export const GET_LATEST_BU_DRAFT_RESPONSE_REQUEST = 'GET_LATEST_BU_DRAFT_RESPONSE_REQUEST';
+export const GET_LATEST_BU_DRAFT_RESPONSE_SUCCESS = 'GET_LATEST_BU_DRAFT_RESPONSE_SUCCESS';
+export const GET_LATEST_BU_DRAFT_RESPONSE_ERROR = 'GET_LATEST_BU_DRAFT_RESPONSE_ERROR';
+// ============= GET LATEST BU DRAFT RESPONSE data ===============//
+
+// ============= CLEAR LATEST BU DRAFT RESPONSE data ===============//
+export const CLEAR_LATEST_BU_DRAFT_RESPONSE = 'CLEAR_LATEST_BU_DRAFT_RESPONSE';
+// ============= CLEAR LATEST BU DRAFT RESPONSE data ===============//
+
+// ============= GET BU SUBMIT RESPONSE data ===============//
+export const GET_BU_SUBMIT_RESPONSE_REQUEST = 'GET_BU_SUBMIT_RESPONSE_REQUEST';
+export const GET_BU_SUBMIT_RESPONSE_SUCCESS = 'GET_BU_SUBMIT_RESPONSE_SUCCESS';
+export const GET_BU_SUBMIT_RESPONSE_ERROR = 'GET_BU_SUBMIT_RESPONSE_ERROR';
+export const CLEAR_BU_SUBMIT_RESPONSE_REQUEST = 'CLEAR_BU_SUBMIT_RESPONSE_REQUEST';
+// ============= GET BU SUBMIT RESPONSE data ===============//
+
+// ============= ADD BU SUBMIT RESPONSE data ===============//
+export const ADD_BU_SUBMIT_RESPONSE_REQUEST = 'ADD_BU_SUBMIT_RESPONSE_REQUEST';
+export const ADD_BU_SUBMIT_RESPONSE_SUCCESS = 'ADD_BU_SUBMIT_RESPONSE_SUCCESS';
+export const ADD_BU_SUBMIT_RESPONSE_ERROR = 'ADD_BU_SUBMIT_RESPONSE_ERROR';
+// ============= ADD BU SUBMIT RESPONSE data ===============//
+
 const block = {
   loading: false,
   error: '',
@@ -123,6 +152,10 @@ const initialState = {
   getLatestFunctionDraftResponse: { ...block, data: [] },
   getFunctionSubmitResponse: { ...block, data: [] },
   addFunctionSubmitResponse: { ...block, data: [] },
+  addOrUpdateBUDraftResponse: { ...block, data: [] },
+  getLatestBUDraftResponse: { ...block, data: [] },
+  getBUSubmitResponse: { ...block, data: [] },
+  addBUSubmitResponse: { ...block, data: [] },
 };
 
 export const RL_HomePageReducer = (state = initialState, { type, payload = {} }) => {
@@ -465,6 +498,132 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         ...state,
         addFunctionSubmitResponse: {
           ...state.addFunctionSubmitResponse,
+          loading: false,
+        },
+      };
+
+    // ADD OR UPDATE BU DRAFT RESPONSE data
+    case ADD_OR_UPDATE_BU_DRAFT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        addOrUpdateBUDraftResponse: {
+          ...state.addOrUpdateBUDraftResponse,
+          loading: true,
+        },
+      };
+    case ADD_OR_UPDATE_BU_DRAFT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        addOrUpdateBUDraftResponse: {
+          ...state.addOrUpdateBUDraftResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ADD_OR_UPDATE_BU_DRAFT_RESPONSE_ERROR:
+      return {
+        ...state,
+        addOrUpdateBUDraftResponse: {
+          ...state.addOrUpdateBUDraftResponse,
+          loading: false,
+        },
+      };
+
+    // GET LATEST BU DRAFT RESPONSE data
+    case GET_LATEST_BU_DRAFT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getLatestBUDraftResponse: {
+          ...state.getLatestBUDraftResponse,
+          loading: true,
+        },
+      };
+    case GET_LATEST_BU_DRAFT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        getLatestBUDraftResponse: {
+          ...state.getLatestBUDraftResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_LATEST_BU_DRAFT_RESPONSE_ERROR:
+      return {
+        ...state,
+        getLatestBUDraftResponse: {
+          ...state.getLatestBUDraftResponse,
+          loading: false,
+        },
+      };
+    case CLEAR_LATEST_BU_DRAFT_RESPONSE:
+      return {
+        ...state,
+        getLatestBUDraftResponse: {
+          ...state.getLatestBUDraftResponse,
+          data: [],
+          loading: false,
+        },
+      };
+
+    // GET BU SUBMIT RESPONSE data
+    case GET_BU_SUBMIT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getBUSubmitResponse: {
+          ...state.getBUSubmitResponse,
+          loading: true,
+        },
+      };
+    case GET_BU_SUBMIT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        getBUSubmitResponse: {
+          ...state.getBUSubmitResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BU_SUBMIT_RESPONSE_ERROR:
+      return {
+        ...state,
+        getBUSubmitResponse: {
+          ...state.getBUSubmitResponse,
+          loading: false,
+        },
+      };
+    case CLEAR_BU_SUBMIT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getBUSubmitResponse: {
+          ...state.getBUSubmitResponse,
+          data: [],
+          loading: false,
+        },
+      };
+
+    // ADD BU SUBMIT RESPONSE data
+    case ADD_BU_SUBMIT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        addBUSubmitResponse: {
+          ...state.addBUSubmitResponse,
+          loading: true,
+        },
+      };
+    case ADD_BU_SUBMIT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        addBUSubmitResponse: {
+          ...state.addBUSubmitResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ADD_BU_SUBMIT_RESPONSE_ERROR:
+      return {
+        ...state,
+        addBUSubmitResponse: {
+          ...state.addBUSubmitResponse,
           loading: false,
         },
       };
