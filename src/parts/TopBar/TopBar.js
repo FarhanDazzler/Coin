@@ -82,7 +82,7 @@ const TopBar = (props) => {
     { label: 'Representation Letter', value: 'Representation Letter', isDisabled: true },
   ];
   const [module, setModule] = useState([]);
-  const [activeModule, setActiveModule] = useState(selected_module_role || 'Assessment Module');
+  const [activeModule, setActiveModule] = useState(selected_module_role);
   const [lan, setLan] = useState(i18n.language);
 
   useEffect(() => {
@@ -167,13 +167,12 @@ const TopBar = (props) => {
     ? JSON.parse(localStorage.getItem('rl_roles'))
     : {};
 
-  console.log({ apiRoles, rl_roles });
   useEffect(() => {
     if (Object.keys(apiRoles).length > 0) {
+      let isSetVal = !!selected_module_role && selected_module_role !== 'null';
       const newArray = initModule.map((val) => {
         if (val.value === 'Representation Letter' && apiRoles.rl_roles) {
           const newObj = Object.keys(apiRoles.rl_roles).map((r) => {
-            console.log('@@@@@@Q -> r', r);
             return { value: r, label: r };
           });
           val.subVal = newObj.filter((d) => {
@@ -244,6 +243,22 @@ const TopBar = (props) => {
 
         return isValid;
       });
+
+      if (!isSetVal)
+        newDataArray.forEach((arrVal, i) => {
+          if (!arrVal?.subVal && !arrVal?.subVal?.length) {
+            localStorage.setItem('selected_module_Role', arrVal?.value);
+            setActiveModule(arrVal?.value);
+            window.location.href = '/';
+          } else {
+            if (arrVal?.subVal?.length > 0) {
+              localStorage.setItem('selected_module_Role', arrVal?.subVal[0].value);
+              setActiveModule(arrVal?.subVal[0].value);
+              window.location.href = '/';
+            }
+          }
+        });
+
       setModule(newDataArray);
     }
   }, [apiRoles]);
@@ -627,7 +642,7 @@ const TopBar = (props) => {
                           onClick={() => {
                             if (val.isDisabled) return;
                             setActiveModule(val.label);
-                            // history.push('/');
+                            window.location.href = '/';
                           }}
                           menu={
                             val.subVal?.length > 0
@@ -639,7 +654,7 @@ const TopBar = (props) => {
                                       onClick={() => {
                                         if (sVal.isDisabled) return;
                                         setActiveModule(sVal.label);
-                                        history.push('/');
+                                        window.location.href = '/';
                                       }}
                                     >
                                       {sVal.label}
