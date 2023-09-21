@@ -6,6 +6,7 @@ import { compile, convert } from 'html-to-text';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import Section0 from './FormComponents/Section0';
 import Section1 from './FormComponents/Section1';
+import Section2 from './FormComponents/Section2';
 // import ReviewResponsePage from './FormComponents/ReviewResponsePage';
 import { getInstructions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import { get_BU_Questions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
@@ -96,7 +97,7 @@ const BULetterForm = (props) => {
   return (
     <div>
       <PageWrapper>
-        {modalType === 'attempt' ? (
+        {modalType !== 'attempt' ? (
           <div className="container-fluid">
             {instructionState.loading ||
             questionState.loading ||
@@ -109,6 +110,7 @@ const BULetterForm = (props) => {
               <div className="col-lg-12">
                 <Section0 scopeData={scopeData} letterType={letterType} />
                 <Section1 questions={questionState.data} scopeData={scopeData} />
+                <Section2 />
               </div>
             )}
           </div>

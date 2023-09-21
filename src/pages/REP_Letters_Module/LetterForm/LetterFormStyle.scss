@@ -128,3 +128,23 @@
   display: grid;
   grid-template-columns: 40% 60%;
 }
+
+// section2-form
+
+.section2-form{
+  .form-select{
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+  }
+  .footer-action{
+    background: transparent;
+    border-top: none
+  }
+}
+.section2-form{
+  input[type='file']{
+    background-color: #1a1a1a !important;
+    color: #fff;
+  }
+}
