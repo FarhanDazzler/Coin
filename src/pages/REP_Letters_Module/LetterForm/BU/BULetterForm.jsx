@@ -97,7 +97,7 @@ const BULetterForm = (props) => {
   return (
     <div>
       <PageWrapper>
-        {modalType !== 'attempt' ? (
+        {modalType === 'attempt' ? (
           <div className="container-fluid">
             {instructionState.loading ||
             questionState.loading ||
