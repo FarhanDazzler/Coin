@@ -39,6 +39,18 @@ import {
   ADD_FUNCTION_SUBMIT_RESPONSE_REQUEST,
   ADD_FUNCTION_SUBMIT_RESPONSE_SUCCESS,
   ADD_FUNCTION_SUBMIT_RESPONSE_ERROR,
+  ADD_OR_UPDATE_BU_DRAFT_RESPONSE_REQUEST,
+  ADD_OR_UPDATE_BU_DRAFT_RESPONSE_SUCCESS,
+  ADD_OR_UPDATE_BU_DRAFT_RESPONSE_ERROR,
+  GET_LATEST_BU_DRAFT_RESPONSE_REQUEST,
+  GET_LATEST_BU_DRAFT_RESPONSE_SUCCESS,
+  GET_LATEST_BU_DRAFT_RESPONSE_ERROR,
+  GET_BU_SUBMIT_RESPONSE_REQUEST,
+  GET_BU_SUBMIT_RESPONSE_SUCCESS,
+  GET_BU_SUBMIT_RESPONSE_ERROR,
+  ADD_BU_SUBMIT_RESPONSE_REQUEST,
+  ADD_BU_SUBMIT_RESPONSE_SUCCESS,
+  ADD_BU_SUBMIT_RESPONSE_ERROR,
 } from './RL_HomePageReducer';
 import Swal from 'sweetalert2';
 
@@ -303,6 +315,107 @@ function* updateAddFunctionSubmitResponse({ payload }) {
   }
 }
 
+// get Latest BU Draft Response
+async function getLatestBUDraftResponseApi(params) {
+  return await Axios.get('/get_bu_assessment_draft', { params });
+}
+function* handle_GetLatestBUDraftResponse({ payload }) {
+  try {
+    const response = yield call(getLatestBUDraftResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_LATEST_BU_DRAFT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_LATEST_BU_DRAFT_RESPONSE_ERROR,
+    });
+  }
+}
+
+// add Or Update BU Draft Response
+async function addOrUpdateBUDraftResponseApi(payload) {
+  return await Axios.post('/save_bu_assessment_draft', payload);
+}
+function* updateAddOrUpdateBUDraftResponse({ payload }) {
+  try {
+    const response = yield call(addOrUpdateBUDraftResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_OR_UPDATE_BU_DRAFT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Response Drafted Successfully!', 'success');
+
+      // Clear the getLatestFunctionDraftResponse state
+      yield put({ type: GET_LATEST_BU_DRAFT_RESPONSE_SUCCESS, payload: null });
+
+      // Redirect the user to '/'
+      yield put(push('/'));
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_OR_UPDATE_BU_DRAFT_RESPONSE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+// get BU Submit Response
+async function getBUSubmitResponseApi(params) {
+  return await Axios.get('/get_bu_assessment_response', { params });
+}
+function* handle_GetBUSubmitResponse({ payload }) {
+  try {
+    const response = yield call(getBUSubmitResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BU_SUBMIT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BU_SUBMIT_RESPONSE_ERROR,
+    });
+  }
+}
+
+// add BU Submit Response
+async function addBUSubmitResponseApi(payload) {
+  return await Axios.post('/save_bu_assessment_response', payload);
+}
+function* updateAddBUSubmitResponse({ payload }) {
+  try {
+    const response = yield call(addBUSubmitResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_BU_SUBMIT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Response Submitted Successfully!', 'success');
+
+      // Clear the get Latest Function Submitted Response state
+      yield put({ type: GET_BU_SUBMIT_RESPONSE_SUCCESS, payload: null });
+      // Redirect the user to '/'
+      yield put(push('/'));
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_BU_SUBMIT_RESPONSE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
 export default all([
   takeLatest(
     GET_FUNCTION_RECIPIENT_HOME_PAGE_TABLE_DATA_REQUEST,
@@ -334,4 +447,8 @@ export default all([
   takeLatest(GET_FUNCTION_SUBMIT_RESPONSE_REQUEST, handle_GetFunctionSubmitResponse),
   takeLatest(ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST, updateAddOrUpdateFunctionDraftResponse),
   takeLatest(GET_LATEST_FUNCTION_DRAFT_RESPONSE_REQUEST, handle_GetLatestFunctionDraftResponse),
+  takeLatest(ADD_BU_SUBMIT_RESPONSE_REQUEST, updateAddBUSubmitResponse),
+  takeLatest(GET_BU_SUBMIT_RESPONSE_REQUEST, handle_GetBUSubmitResponse),
+  takeLatest(ADD_OR_UPDATE_BU_DRAFT_RESPONSE_REQUEST, updateAddOrUpdateBUDraftResponse),
+  takeLatest(GET_LATEST_BU_DRAFT_RESPONSE_REQUEST, handle_GetLatestBUDraftResponse),
 ]);

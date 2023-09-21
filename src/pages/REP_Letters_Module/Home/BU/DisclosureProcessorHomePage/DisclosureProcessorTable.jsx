@@ -7,7 +7,11 @@ import { Group, MultiSelect } from '@mantine/core';
 import Table2 from '../../../../../components/UI/Table/Table2';
 import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
-import { get_BU_Disclosure_ProcessorHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import {
+  get_BU_Disclosure_ProcessorHomePageDataSelector,
+  addBUSubmitResponseSelector,
+  addOrUpdateBUDraftResponseSelector,
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BU_Disclosure_ProcessorHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
@@ -55,8 +59,8 @@ const DisclosureProcessorTable = ({
   const getDisclosureProcessorHomePageData = useSelector(
     get_BU_Disclosure_ProcessorHomePageDataSelector,
   );
-  //   const addOrUpdateDraftResponseState = useSelector(addOrUpdateFunctionDraftResponseSelector);
-  //   const addFunctionSubmitResponseState = useSelector(addFunctionSubmitResponseSelector);
+  const addOrUpdateDraftResponseState = useSelector(addOrUpdateBUDraftResponseSelector);
+  const addBUSubmitResponseState = useSelector(addBUSubmitResponseSelector);
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const disclosureProcessorHomePageData = useMemo(() => {
@@ -67,9 +71,9 @@ const DisclosureProcessorTable = ({
     dispatch(get_BU_Disclosure_ProcessorHomePageData());
   }, [token, dispatch]);
 
-  //   useEffect(() => {
-  //     dispatch(get_BU_Disclosure_ProcessorHomePageData());
-  //   }, [token, dispatch, addOrUpdateDraftResponseState?.data, addFunctionSubmitResponseState?.data]);
+  useEffect(() => {
+    dispatch(get_BU_Disclosure_ProcessorHomePageData());
+  }, [token, dispatch, addOrUpdateDraftResponseState?.data, addBUSubmitResponseState?.data]);
 
   const TABLE_COLUMNS = [
     {

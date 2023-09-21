@@ -13,6 +13,12 @@ import {
   GET_FUNCTION_SUBMIT_RESPONSE_REQUEST,
   ADD_FUNCTION_SUBMIT_RESPONSE_REQUEST,
   CLEAR_FUNCTION_SUBMIT_RESPONSE_REQUEST,
+  ADD_OR_UPDATE_BU_DRAFT_RESPONSE_REQUEST,
+  GET_LATEST_BU_DRAFT_RESPONSE_REQUEST,
+  CLEAR_LATEST_BU_DRAFT_RESPONSE,
+  GET_BU_SUBMIT_RESPONSE_REQUEST,
+  ADD_BU_SUBMIT_RESPONSE_REQUEST,
+  CLEAR_BU_SUBMIT_RESPONSE_REQUEST,
 } from './RL_HomePageReducer';
 
 export const getFunctionRecipientHomePageData = (payload) => ({
@@ -75,4 +81,32 @@ export const addFunctionSubmitResponse = (payload) => ({
 
 export const clearFunctionSubmitResponse = () => ({
   type: CLEAR_FUNCTION_SUBMIT_RESPONSE_REQUEST,
+});
+
+export const addOrUpdateBUDraftResponse = (payload) => ({
+  type: ADD_OR_UPDATE_BU_DRAFT_RESPONSE_REQUEST,
+  payload,
+});
+
+export const getLatestBUDraftResponse = (payload) => ({
+  type: GET_LATEST_BU_DRAFT_RESPONSE_REQUEST,
+  payload,
+});
+
+export const clearLatestBUDraftResponse = () => ({
+  type: CLEAR_LATEST_BU_DRAFT_RESPONSE,
+});
+
+export const getBUSubmitResponse = (payload) => ({
+  type: GET_BU_SUBMIT_RESPONSE_REQUEST,
+  payload,
+});
+
+export const addBUSubmitResponse = (payload) => ({
+  type: ADD_BU_SUBMIT_RESPONSE_REQUEST,
+  payload,
+});
+
+export const clearBUSubmitResponse = () => ({
+  type: CLEAR_BU_SUBMIT_RESPONSE_REQUEST,
 });

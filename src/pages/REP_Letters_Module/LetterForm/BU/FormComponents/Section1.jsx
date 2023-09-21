@@ -7,17 +7,32 @@ import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import Button from '../../../../../components/UI/Button';
-// import {
-//   getLatestFunctionDraftResponse,
-//   addOrUpdateFunctionDraftResponse,
-//   clearLatestFunctionDraftResponse,
-//   addFunctionSubmitResponse,
-//   clearFunctionSubmitResponse,
-// } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
-// import {
-//   addOrUpdateFunctionDraftResponseSelector,
-//   getLatestFunctionDraftResponseSelector,
-// } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import {
+  getLatestBUDraftResponse,
+  addOrUpdateBUDraftResponse,
+  clearLatestBUDraftResponse,
+  addBUSubmitResponse,
+  clearBUSubmitResponse,
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import {
+  addOrUpdateBUDraftResponseSelector,
+  getLatestBUDraftResponseSelector,
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+
+const months = [
+  { value: 'January', label: 'January' },
+  { value: 'February', label: 'February' },
+  { value: 'March', label: 'March' },
+  { value: 'April', label: 'April' },
+  { value: 'May', label: 'May' },
+  { value: 'June', label: 'June' },
+  { value: 'July', label: 'July' },
+  { value: 'August', label: 'August' },
+  { value: 'September', label: 'September' },
+  { value: 'October', label: 'October' },
+  { value: 'November', label: 'November' },
+  { value: 'December', label: 'December' },
+];
 
 const Section1 = ({ questions, scopeData }) => {
   const history = useHistory();
@@ -28,8 +43,8 @@ const Section1 = ({ questions, scopeData }) => {
   const [characterCount, setCharacterCount] = useState(0);
   const maxCharacterLimit = 5000;
 
-  //   const DraftResponseState = useSelector(getLatestFunctionDraftResponseSelector);
-  //   const addOrUpdateDraftResponseState = useSelector(addOrUpdateFunctionDraftResponseSelector);
+  const DraftResponseState = useSelector(getLatestBUDraftResponseSelector);
+  const addOrUpdateDraftResponseState = useSelector(addOrUpdateBUDraftResponseSelector);
 
   const handleRadioChange = (questionId, index, response, comment = '', month = '') => {
     const newResponses = {
@@ -40,7 +55,7 @@ const Section1 = ({ questions, scopeData }) => {
         response: response.value,
         comment: response.value === 'Yes' ? '' : comment,
         //month: response.value === 'NA' ? month : '',
-        month: response.value === 'NA' ? month || '' : '',
+        month: response.value === 'No' ? month || '' : '',
       },
     };
 
@@ -91,138 +106,139 @@ const Section1 = ({ questions, scopeData }) => {
   };
 
   // clear all the states on page leave or refresh page or change url path or change module or change role
-  //   useEffect(() => {
-  //     return () => {
-  //       dispatch(clearLatestFunctionDraftResponse());
-  //       dispatch(clearFunctionSubmitResponse());
-  //     };
-  //   }, []);
-  //
-  //   useEffect(() => {
-  //     if (DraftResponseState?.data?.Latest_response) {
-  //       setResponses(DraftResponseState?.data?.Latest_response);
-  //     }
-  //   }, [DraftResponseState?.data]);
+  useEffect(() => {
+    return () => {
+      dispatch(clearLatestBUDraftResponse());
+      dispatch(clearBUSubmitResponse());
+    };
+  }, []);
+
+  useEffect(() => {
+    if (DraftResponseState?.data?.Latest_response) {
+      setResponses(DraftResponseState?.data?.Latest_response);
+    }
+  }, [DraftResponseState?.data]);
 
   const handleSaveDraft = () => {
-    console.log('Submitted responses:', responses);
-    // if (DraftResponseState?.data?.Attempt_no >= 5) {
-    //   Swal.fire(`You don't have a limited`, '', 'error');
-    //   return;
-    // }
-    // Swal.fire({
-    //   title: `Do you want save as draft!`,
-    //   text: `${
-    //     DraftResponseState?.data?.Attempt_no
-    //       ? DraftResponseState?.data?.Attempt_no < 5
-    //         ? 4 - DraftResponseState?.data?.Attempt_no
-    //         : 0
-    //       : DraftResponseState?.data?.Attempt_no === 0
-    //       ? '4'
-    //       : '5'
-    //   } save draft assessments remaining`,
-    //   icon: 'warning',
-    //   showCancelButton: true,
-    //   confirmButtonColor: 'golden',
-    //   cancelButtonColor: 'black',
-    //   confirmButtonText: `Save draft!`,
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     const payload = {
-    //       Assessment_ID: scopeData?.id,
-    //       Latest_response: responses,
-    //     };
-    //     //localStorage.setItem('storedResponses', JSON.stringify(responses));
-    //     dispatch(addOrUpdateFunctionDraftResponse(payload));
-    //     // after api success clear the redux state
-    //     dispatch(clearLatestFunctionDraftResponse());
-    //     history.push('/');
-    //   }
-    // });
+    //console.log('Submitted responses:', responses);
+    if (DraftResponseState?.data?.Attempt_no >= 5) {
+      Swal.fire(`You don't have a limited`, '', 'error');
+      return;
+    }
+    Swal.fire({
+      title: `Do you want save as draft!`,
+      text: `${
+        DraftResponseState?.data?.Attempt_no
+          ? DraftResponseState?.data?.Attempt_no < 5
+            ? 4 - DraftResponseState?.data?.Attempt_no
+            : 0
+          : DraftResponseState?.data?.Attempt_no === 0
+          ? '4'
+          : '5'
+      } save draft letter remaining`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'golden',
+      cancelButtonColor: 'black',
+      confirmButtonText: `Save draft!`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const payload = {
+          Assessment_ID: scopeData?.id,
+          Latest_response: responses,
+        };
+        //localStorage.setItem('storedResponses', JSON.stringify(responses));
+        dispatch(addOrUpdateBUDraftResponse(payload));
+        // after api success clear the redux state
+        dispatch(clearLatestBUDraftResponse());
+        history.push('/');
+      }
+    });
   };
 
   const handleSubmit = () => {
-    // const newFormErrors = {};
-    // questions.forEach((question) => {
-    //   const response = responses[question.id]?.response;
-    //   const comment = responses[question.id]?.comment;
-    //   if (!response) {
-    //     newFormErrors[question.id] = 'Response is required.';
-    //   } else if ((response === 'No' || response === 'NA') && !comment) {
-    //     newFormErrors[question.id] = 'Comment is required.';
-    //   } else if (response === 'NA' && !month) {
-    //     newFormErrors[question.id] = 'month is required.';
-    //   }
-    // });
-    // if (Object.keys(newFormErrors).length > 0) {
-    //   setFormErrors(newFormErrors);
-    //   toast.error('Please fill all the required fields.');
-    // } else {
-    //   Swal.fire({
-    //     title: 'Do you want Submit Letter!',
-    //     text: `${
-    //       DraftResponseState?.data?.Attempt_no
-    //         ? DraftResponseState?.data?.Attempt_no < 5
-    //           ? 4 - DraftResponseState?.data?.Attempt_no
-    //           : 0
-    //         : DraftResponseState?.data?.Attempt_no === 0
-    //         ? '4'
-    //         : '5'
-    //     } save draft assessments remaining`,
-    //     icon: 'warning',
-    //     showCancelButton: true,
-    //     confirmButtonColor: 'golden',
-    //     cancelButtonColor: 'black',
-    //     confirmButtonText: 'Yes, submit it!',
-    //     showDenyButton: !(DraftResponseState?.data?.Attempt_no >= 5),
-    //     denyButtonText: 'Save draft!',
-    //     denyButtonColor: 'silver',
-    //   }).then((result) => {
-    //     if (result.isConfirmed) {
-    //       for (const key in responses) {
-    //         if (responses.hasOwnProperty(key)) {
-    //           const item = responses[key];
-    //           const questionID = key;
-    //           const { questionNumber, questionText, response, comment } = item;
-    //           const newItem = {
-    //             questionNumber,
-    //             questionText,
-    //             response,
-    //             comment,
-    //             questionID,
-    //           };
-    //           newFormat.push(newItem);
-    //         }
-    //       }
-    //       const payload = {
-    //         Assessment_ID: scopeData?.id,
-    //         Latest_response: newFormat?.sort((a, b) => a.questionNumber - b.questionNumber),
-    //       };
-    //       //localStorage.setItem('storedResponses', JSON.stringify(responses));
-    //       dispatch(addFunctionSubmitResponse(payload));
-    //       // after api success clear the redux state
-    //       dispatch(clearFunctionSubmitResponse());
-    //       history.push('/');
-    //       //console.log('Submitted responses:', responses);
-    //       //localStorage.setItem('storedResponses', JSON.stringify(responses));
-    //     }
-    //     if (result.isDenied) {
-    //       if (DraftResponseState?.data?.Attempt_no >= 5) {
-    //         Swal.fire(`You don't have a limit`, '', 'error');
-    //         return;
-    //       }
-    //       const payload = {
-    //         Assessment_ID: scopeData?.id,
-    //         Latest_response: responses,
-    //       };
-    //       //localStorage.setItem('storedResponses', JSON.stringify(responses));
-    //       dispatch(addOrUpdateFunctionDraftResponse(payload));
-    //       // after api success clear the redux state
-    //       dispatch(clearLatestFunctionDraftResponse());
-    //       history.push('/');
-    //     }
-    //   });
-    // }
+    const newFormErrors = {};
+    questions.forEach((question) => {
+      const response = responses[question.id]?.response;
+      const comment = responses[question.id]?.comment;
+      const month = responses[question.id]?.month;
+      if (!response) {
+        newFormErrors[question.id] = 'Response is required.';
+      } else if ((response === 'No' || response === 'NA') && !comment) {
+        newFormErrors[question.id] = 'Comment is required.';
+      } else if (response === 'No' && !month) {
+        newFormErrors[question.id] = 'month is required.';
+      }
+    });
+    if (Object.keys(newFormErrors).length > 0) {
+      setFormErrors(newFormErrors);
+      toast.error('Please fill all the required fields.');
+    } else {
+      Swal.fire({
+        title: 'Do you want Submit Letter!',
+        text: `${
+          DraftResponseState?.data?.Attempt_no
+            ? DraftResponseState?.data?.Attempt_no < 5
+              ? 4 - DraftResponseState?.data?.Attempt_no
+              : 0
+            : DraftResponseState?.data?.Attempt_no === 0
+            ? '4'
+            : '5'
+        } save draft letter remaining`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: 'golden',
+        cancelButtonColor: 'black',
+        confirmButtonText: 'Yes, submit it!',
+        showDenyButton: !(DraftResponseState?.data?.Attempt_no >= 5),
+        denyButtonText: 'Save draft!',
+        denyButtonColor: 'silver',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          for (const key in responses) {
+            if (responses.hasOwnProperty(key)) {
+              const item = responses[key];
+              const questionID = key;
+              const { questionNumber, questionText, response, comment } = item;
+              const newItem = {
+                questionNumber,
+                questionText,
+                response,
+                comment,
+                questionID,
+              };
+              newFormat.push(newItem);
+            }
+          }
+          const payload = {
+            Assessment_ID: scopeData?.id,
+            Latest_response: newFormat?.sort((a, b) => a.questionNumber - b.questionNumber),
+          };
+          //localStorage.setItem('storedResponses', JSON.stringify(responses));
+          dispatch(addBUSubmitResponse(payload));
+          // after api success clear the redux state
+          dispatch(clearBUSubmitResponse());
+          history.push('/');
+          //console.log('Submitted responses:', responses);
+          //localStorage.setItem('storedResponses', JSON.stringify(responses));
+        }
+        if (result.isDenied) {
+          if (DraftResponseState?.data?.Attempt_no >= 5) {
+            Swal.fire(`You don't have a limit`, '', 'error');
+            return;
+          }
+          const payload = {
+            Assessment_ID: scopeData?.id,
+            Latest_response: responses,
+          };
+          //localStorage.setItem('storedResponses', JSON.stringify(responses));
+          dispatch(addOrUpdateBUDraftResponse(payload));
+          // after api success clear the redux state
+          dispatch(clearLatestBUDraftResponse());
+          history.push('/');
+        }
+      });
+    }
   };
 
   return (
@@ -262,7 +278,7 @@ const Section1 = ({ questions, scopeData }) => {
                   ))}
                 </Group>
               </div>
-              {response.response !== 'NA' ? (
+              {response.response !== 'No' ? (
                 <div>
                   <Form.Group className="mb-3" controlId={`comment-${question.id}`}>
                     <Form.Control
@@ -281,7 +297,7 @@ const Section1 = ({ questions, scopeData }) => {
                   <Form.Group className="mb-3" controlId={`comment-${question.id}`}>
                     <Form.Control
                       as="textarea"
-                      placeholder="Enter your comment..."
+                      placeholder="Enter your action plan..."
                       required
                       onChange={(e) => handleCommentChange(question.id, e.target.value)}
                       name="comment"
@@ -302,8 +318,11 @@ const Section1 = ({ questions, scopeData }) => {
                       style={{ width: '300px' }}
                     >
                       <option value="">Select</option>
-                      <option value="January">January</option>
-                      <option value="February">February</option>
+                      {months.map((month) => (
+                        <option key={month.value} value={month.value}>
+                          {month.label}
+                        </option>
+                      ))}
                     </Form.Control>
                   </Form.Group>
                 </div>
