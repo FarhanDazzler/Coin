@@ -199,12 +199,13 @@ const Section1 = ({ questions, scopeData }) => {
             if (responses.hasOwnProperty(key)) {
               const item = responses[key];
               const questionID = key;
-              const { questionNumber, questionText, response, comment } = item;
+              const { questionNumber, questionText, response, comment, month } = item;
               const newItem = {
                 questionNumber,
                 questionText,
                 response,
                 comment,
+                month,
                 questionID,
               };
               newFormat.push(newItem);
