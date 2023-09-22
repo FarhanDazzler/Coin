@@ -34,6 +34,9 @@ const months = [
   { value: 'December', label: 'December' },
 ];
 
+const currentYear = new Date().getFullYear();
+const years = Array.from({ length: 5 }, (_, index) => currentYear - 2 + index);
+
 const Section1 = ({ questions, scopeData }) => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -46,7 +49,7 @@ const Section1 = ({ questions, scopeData }) => {
   const DraftResponseState = useSelector(getLatestBUDraftResponseSelector);
   const addOrUpdateDraftResponseState = useSelector(addOrUpdateBUDraftResponseSelector);
 
-  const handleRadioChange = (questionId, index, response, comment = '', month = '') => {
+  const handleRadioChange = (questionId, index, response, comment = '', month = '', year = '') => {
     const newResponses = {
       ...responses,
       [questionId]: {
@@ -56,6 +59,7 @@ const Section1 = ({ questions, scopeData }) => {
         comment: response.value === 'Yes' ? '' : comment,
         //month: response.value === 'NA' ? month : '',
         month: response.value === 'No' ? month || '' : '',
+        year: response.value === 'No' ? year || '' : '',
       },
     };
 
@@ -96,6 +100,21 @@ const Section1 = ({ questions, scopeData }) => {
       [questionId]: {
         ...responses[questionId],
         month,
+      },
+    };
+    setResponses(updatedResponses);
+    setFormErrors({
+      ...formErrors,
+      [questionId]: '',
+    });
+  };
+
+  const handleYearChange = (questionId, year) => {
+    const updatedResponses = {
+      ...responses,
+      [questionId]: {
+        ...responses[questionId],
+        year,
       },
     };
     setResponses(updatedResponses);
@@ -162,12 +181,15 @@ const Section1 = ({ questions, scopeData }) => {
       const response = responses[question.id]?.response;
       const comment = responses[question.id]?.comment;
       const month = responses[question.id]?.month;
+      const year = responses[question.id]?.year;
       if (!response) {
         newFormErrors[question.id] = 'Response is required.';
       } else if ((response === 'No' || response === 'NA') && !comment) {
         newFormErrors[question.id] = 'Comment is required.';
       } else if (response === 'No' && !month) {
-        newFormErrors[question.id] = 'month is required.';
+        newFormErrors[question.id] = 'Month is required.';
+      } else if (response === 'No' && !year) {
+        newFormErrors[question.id] = 'Year is required.';
       }
     });
     if (Object.keys(newFormErrors).length > 0) {
@@ -199,13 +221,14 @@ const Section1 = ({ questions, scopeData }) => {
             if (responses.hasOwnProperty(key)) {
               const item = responses[key];
               const questionID = key;
-              const { questionNumber, questionText, response, comment, month } = item;
+              const { questionNumber, questionText, response, comment, month, year } = item;
               const newItem = {
                 questionNumber,
                 questionText,
                 response,
                 comment,
                 month,
+                year,
                 questionID,
               };
               newFormat.push(newItem);
@@ -306,26 +329,45 @@ const Section1 = ({ questions, scopeData }) => {
                       rows={4}
                     />
                   </Form.Group>
-                  <Form.Group>
-                    <Form.Label className="mb-3">Please select month: </Form.Label>
+                  <Form.Label className="mb-3">Please select month: </Form.Label>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Form.Group>
+                      <Form.Control
+                        as="select"
+                        name="Month"
+                        placeholder="Please select Month"
+                        required
+                        value={response.month || ''}
+                        onChange={(e) => handleMonthChange(question.id, e.target.value)}
+                        className="form-select"
+                        style={{ width: '150px', marginRight: '10px' }}
+                      >
+                        <option value="">Select</option>
+                        {months.map((month) => (
+                          <option key={month.value} value={month.value}>
+                            {month.label}
+                          </option>
+                        ))}
+                      </Form.Control>
+                    </Form.Group>
                     <Form.Control
                       as="select"
-                      name="Month"
-                      placeholder="Please select Month"
+                      name="Year"
+                      placeholder="Please select Year"
                       required
-                      value={response.month || ''}
-                      onChange={(e) => handleMonthChange(question.id, e.target.value)}
+                      value={response.year || ''}
+                      onChange={(e) => handleYearChange(question.id, e.target.value)}
                       className="form-select"
-                      style={{ width: '300px' }}
+                      style={{ width: '150px' }}
                     >
-                      <option value="">Select</option>
-                      {months.map((month) => (
-                        <option key={month.value} value={month.value}>
-                          {month.label}
+                      <option value="">Select Year</option>
+                      {years.map((year) => (
+                        <option key={year} value={year}>
+                          {year}
                         </option>
                       ))}
                     </Form.Control>
-                  </Form.Group>
+                  </div>
                 </div>
               )}
               {formErrors[question.id] && (

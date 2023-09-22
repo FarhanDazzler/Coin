@@ -64,7 +64,10 @@ const ReviewSection1 = ({ submittedResponses = [] }) => {
                     </Form.Group>
                     <Form.Group>
                       <Form.Label className="mb-3">
-                        Please select month: <span className="golden-text">{item.month}</span>
+                        Please select month:{' '}
+                        <span className="golden-text">
+                          {item.month} / {item.year}
+                        </span>
                       </Form.Label>
                     </Form.Group>
                   </div>

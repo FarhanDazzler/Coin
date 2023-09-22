@@ -92,6 +92,7 @@ const BULetterForm = (props) => {
         response: response.response,
         comment: response.comment,
         month: response.month,
+        year: response.year,
       })),
     );
     XLSX.utils.book_append_sheet(wb, responsesSheet, 'Responses');
@@ -101,7 +102,6 @@ const BULetterForm = (props) => {
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
 
-  console.log(getBUSubmitResponseState?.data?.Latest_Response, '@@@');
   return (
     <div>
       <PageWrapper>
