@@ -157,8 +157,12 @@ const TopBar = (props) => {
       });
       if (userRoles?.length > 0) {
         const value = selected_Role?.split('_')?.join(' ');
-        dispatch(setLoginRole(value ?? userRoles[0]));
-        localStorage.setItem('selected_Role', value ?? userRoles[0]);
+        const val = value ? value.charAt(0).toUpperCase() + value.slice(1) : '';
+        const userRoleVal = userRoles[0]
+          ? userRoles[0].charAt(0).toUpperCase() + userRoles[0].slice(1)
+          : '';
+        dispatch(setLoginRole(val ?? userRoleVal));
+        localStorage.setItem('selected_Role', val ?? userRoleVal);
       }
     }, 500);
   }, [roles.length]);
@@ -206,12 +210,12 @@ const TopBar = (props) => {
         const rl_roles = apiRoles?.rl_roles;
         switch (true) {
           case d.value === 'Assessment Module':
-            const sa_roles_data = apiRoles?.sa_rolesa || [];
+            const sa_roles_data = apiRoles?.sa_roles || [];
             const data = sa_roles_data.filter((d) => d);
             if (data.length > 0) {
               isValid = true;
             }
-            return false;
+            return isValid;
 
           case d.value === 'Representation Letter':
             d.subVal.forEach((vl) => {
@@ -244,20 +248,25 @@ const TopBar = (props) => {
         return isValid;
       });
 
-      if (!isSetVal)
+      if (!isSetVal) {
+        let isSet = false;
         newDataArray.forEach((arrVal, i) => {
+          if (isSet) return;
           if (!arrVal?.subVal && !arrVal?.subVal?.length) {
             localStorage.setItem('selected_module_Role', arrVal?.value);
             setActiveModule(arrVal?.value);
+            isSet = true;
             window.location.href = '/';
           } else {
             if (arrVal?.subVal?.length > 0) {
               localStorage.setItem('selected_module_Role', arrVal?.subVal[0].value);
               setActiveModule(arrVal?.subVal[0].value);
+              isSet = true;
               window.location.href = '/';
             }
           }
         });
+      }
 
       setModule(newDataArray);
     }
