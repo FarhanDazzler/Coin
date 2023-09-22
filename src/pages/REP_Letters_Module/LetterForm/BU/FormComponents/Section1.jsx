@@ -55,7 +55,7 @@ const Section1 = ({ questions, scopeData }) => {
         response: response.value,
         comment: response.value === 'Yes' ? '' : comment,
         //month: response.value === 'NA' ? month : '',
-        month: response.value === 'NA' ? month || '' : '',
+        month: response.value === 'No' ? month || '' : '',
       },
     };
 
@@ -166,7 +166,7 @@ const Section1 = ({ questions, scopeData }) => {
         newFormErrors[question.id] = 'Response is required.';
       } else if ((response === 'No' || response === 'NA') && !comment) {
         newFormErrors[question.id] = 'Comment is required.';
-      } else if (response === 'NA' && !month) {
+      } else if (response === 'No' && !month) {
         newFormErrors[question.id] = 'month is required.';
       }
     });
@@ -175,7 +175,7 @@ const Section1 = ({ questions, scopeData }) => {
       toast.error('Please fill all the required fields.');
     } else {
       Swal.fire({
-        title: 'Do you want Submit Letter!',
+        title: 'You are about to submit the Representation letter.',
         text: `${
           DraftResponseState?.data?.Attempt_no
             ? DraftResponseState?.data?.Attempt_no < 5
@@ -278,7 +278,7 @@ const Section1 = ({ questions, scopeData }) => {
                   ))}
                 </Group>
               </div>
-              {response.response !== 'NA' ? (
+              {response.response !== 'No' ? (
                 <div>
                   <Form.Group className="mb-3" controlId={`comment-${question.id}`}>
                     <Form.Control
@@ -297,7 +297,7 @@ const Section1 = ({ questions, scopeData }) => {
                   <Form.Group className="mb-3" controlId={`comment-${question.id}`}>
                     <Form.Control
                       as="textarea"
-                      placeholder="Enter your comment..."
+                      placeholder="Enter your action plan..."
                       required
                       onChange={(e) => handleCommentChange(question.id, e.target.value)}
                       name="comment"

@@ -142,7 +142,7 @@ const Section1 = ({ questions, scopeData }) => {
       toast.error('Please fill all the required fields.');
     } else {
       Swal.fire({
-        title: 'Do you want Submit Letter!',
+        title: 'You are about to submit the Representation letter.',
         text: `${
           DraftResponseState?.data?.Attempt_no
             ? DraftResponseState?.data?.Attempt_no < 5

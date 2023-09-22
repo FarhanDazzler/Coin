@@ -86,27 +86,23 @@ const Section0 = ({ scopeData, letterType }) => {
             <span>{scopeData?.BU}</span>
           </p>
           <p className="mb-2">
-            <span className="renderBlockWrapper_title">Entity : </span>
-            {Object.keys(entityObject).length > 0 ? (
-              <span>No entity </span>
-            ) : (
-              <ul>
-                {/* <li> Country : Entity Code</li> */}
-                {Object.keys(entityObject).map((key) => (
-                  <li key={key}>
-                    {key} : {entityObject[key]}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </p>
-          <p className="mb-2">
             <span className="renderBlockWrapper_title">Assessment Cycle : </span>
             <span>{scopeData?.Assessment_Cycle}</span>
           </p>
           <p className="mb-2">
             <span className="renderBlockWrapper_title">Year : </span>
             <span>{scopeData?.Year}</span>
+          </p>
+          <p className="mb-2">
+            <span className="renderBlockWrapper_title">Cognos Code : Legal Entity Name </span>
+
+            <ul>
+              {Object.keys(entityObject).map((key) => (
+                <li key={key}>
+                  {key} : {entityObject[key]}
+                </li>
+              ))}
+            </ul>
           </p>
         </div>
 
