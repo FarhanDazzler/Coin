@@ -55,20 +55,21 @@ const FunctionalLetterForm = (props) => {
     }
   }, []);
 
-  const exportResponseToExcel = (info, responses) => {
+  const exportResponseToExcel = (info, responses, Last_Saved_At) => {
     // Create a new workbook
     const wb = XLSX.utils.book_new();
 
     // Create a worksheet for the info data
     const infoSheet = XLSX.utils.json_to_sheet([
       { Key: 'Title', Value: info.Title },
-      { Key: 'Assessment_Cycle', Value: info.Assessment_Cycle },
+      { Key: 'Assessment Cycle', Value: info.Assessment_Cycle },
       { Key: 'Year', Value: info.Year },
       { Key: 'Zone', Value: info.Zone },
       { Key: 'BU', Value: info.BU },
       { Key: 'Function', Value: info.Function },
       { Key: 'Recipient', Value: info.Recipient },
-      { Key: 'Zone_Control', Value: info.Zone_Control },
+      { Key: 'Zone Control', Value: info.Zone_Control },
+      { Key: 'Submitted on', Value: Last_Saved_At },
     ]);
     XLSX.utils.book_append_sheet(wb, infoSheet, 'Information');
 
@@ -137,6 +138,7 @@ const FunctionalLetterForm = (props) => {
                         exportResponseToExcel(
                           info,
                           getFunctionSubmitResponseState?.data?.Latest_Response,
+                          getFunctionSubmitResponseState?.data?.Last_Saved_At,
                         );
                       }}
                     >
