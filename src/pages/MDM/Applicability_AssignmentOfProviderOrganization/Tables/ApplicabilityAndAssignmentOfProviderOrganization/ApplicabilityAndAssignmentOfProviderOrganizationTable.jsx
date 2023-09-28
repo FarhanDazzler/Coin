@@ -47,6 +47,9 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
 
   // for closing POP after confirm
   useEffect(() => {
+    if (applicabilityAndAssignmentOfProviderOrganization?.loading) {
+      return;
+    }
     setShowModal(false);
     setShowGlobalApproveModal(false);
     setShowEditModal(false);
