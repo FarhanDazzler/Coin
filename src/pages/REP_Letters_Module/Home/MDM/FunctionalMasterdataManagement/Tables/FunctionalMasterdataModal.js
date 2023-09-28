@@ -153,7 +153,7 @@ const FunctionalMasterdataModal = ({ setShowModal, assignTableData }) => {
                     <thead className="thead-light">
                       <tr>
                         <th>Zone</th>
-                        <th>BU/Org Type</th>
+                        <th>BU / Entity</th>
                         <th>Functional</th>
                       </tr>
                     </thead>
