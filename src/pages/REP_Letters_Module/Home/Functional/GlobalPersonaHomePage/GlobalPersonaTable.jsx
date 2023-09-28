@@ -116,7 +116,7 @@ const GlobalPersonaTable = ({
     {
       accessorKey: 'Status',
       id: 'Status',
-      header: 'Over All Status',
+      header: 'Status',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -204,7 +204,7 @@ const GlobalPersonaTable = ({
                 />
                 <FilterMultiSelect
                   data={getGlobalPersonaHomePageData?.data[0]?.distinct_bu || []}
-                  label="BU"
+                  label="BU / Entity"
                   value={buValue}
                   onChange={setBUValue}
                 />

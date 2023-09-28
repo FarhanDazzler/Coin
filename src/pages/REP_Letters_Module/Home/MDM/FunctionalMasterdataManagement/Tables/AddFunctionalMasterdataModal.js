@@ -200,7 +200,7 @@ const AddFunctionalMasterdataModal = ({ setShowModal }) => {
                   <div className="col-lg-6">
                     <div className="row mb-4">
                       <div className="col-lg-4">
-                        <Form.Label>Select BU/Org Type:</Form.Label>
+                        <Form.Label>Select BU / Entity:</Form.Label>
                       </div>
                       <div className="col-lg-8">
                         <Form.Group className="input-group mb-3">
