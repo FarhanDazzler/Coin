@@ -28,3 +28,6 @@ export const getLatestBUDraftResponseSelector = (state) =>
   state?.RL_HomePage?.getLatestBUDraftResponse;
 export const getBUSubmitResponseSelector = (state) => state?.RL_HomePage?.getBUSubmitResponse;
 export const addBUSubmitResponseSelector = (state) => state?.RL_HomePage?.addBUSubmitResponse;
+export const getBUSection2SignatureResponseSelector = (state) => state?.RL_HomePage?.getBUSection2SignatureResponse;
+export const addBUSection2CheckboxSelector = (state) => state?.RL_HomePage?.addBUSection2Checkbox;
+export const addBUSection2UploadMailApprovalSelector = (state) => state?.RL_HomePage?.addBUSection2UploadMailApproval;
