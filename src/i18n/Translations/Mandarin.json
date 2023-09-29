@@ -27,7 +27,8 @@
       "assessmentFailText": "您的评估未通过",
       "closePopupBtnTitle": "您确定吗？",
       "closePopupBtnText": "您是否要关闭评估？",
-      "closePopupBtnConfirmBtn": "关闭评估"
+      "closePopupBtnConfirmBtn": "关闭评估",
+      "section2UploadExcelBtn": "上传"
     },
     "multi_select_filter_placeHolder": "选择您的选项",
     "homePage": {

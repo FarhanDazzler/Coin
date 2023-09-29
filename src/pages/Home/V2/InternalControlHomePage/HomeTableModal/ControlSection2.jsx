@@ -303,17 +303,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
               row.L1_Result = 'Fail';
             }
           }
-          
+
           if (row.MICS_L2_Threshold === '-' || row.L2_Result === '' || row.KPI_Value === 'NaN') {
             row.L2_Result = 'NA';
-          } else if
-            (+row.KPI_Value <= +row.MICS_L2_Threshold && row.MICS_L2_Threshold !== '') {
-              row.L2_Result = 'Pass';
-            } else {
-              console.log("");
-              row.L2_Result = 'Fail';
-            }
-          
+          } else if (+row.KPI_Value <= +row.MICS_L2_Threshold && row.MICS_L2_Threshold !== '') {
+            row.L2_Result = 'Pass';
+          } else {
+            console.log('');
+            row.L2_Result = 'Fail';
+          }
 
           if (row.MICS_L3_Threshold === '-' || row.L3_Result === '' || row.KPI_Value === 'NaN') {
             row.L3_Result = 'NA';
@@ -527,7 +525,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
                 <form onSubmit={handleSubmit} id="combine_btn">
                   <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
                   <button type="submit" className="submit_btn black-text">
-                    <strong>{t('selfAssessment.assessmentForm.submitBtn')}</strong>
+                    <strong>{t('selfAssessment.assessmentForm.section2UploadExcelBtn')}</strong>
                   </button>
                 </form>
               )}
