@@ -12,10 +12,7 @@ import {
 
 const RLMDM = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getRlOrgHierarchy());
-    dispatch(getRlOrgMd());
-  }, []);
+  
   return (
     <PageWrapper>
       <div className="container-fluid py-5" style={{ display: 'flex' }}>
