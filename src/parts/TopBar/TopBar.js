@@ -104,7 +104,7 @@ const TopBar = (props) => {
           return str.charAt(0).toUpperCase() + str.slice(1);
         });
         setRoleValue(userRoles);
-        history.push('/');
+        // history.push('/');
         break;
       case activeModule === 'BU':
         if (rl_roles.BU) {
@@ -121,7 +121,7 @@ const TopBar = (props) => {
         } else {
           localStorage.setItem('Roles', '');
         }
-        history.push('/');
+        // history.push('/');
         break;
       case activeModule === 'Functional':
         if (rl_roles.Functional) {
@@ -134,7 +134,7 @@ const TopBar = (props) => {
         } else {
           localStorage.setItem('Roles', '');
         }
-        history.push('/');
+        // history.push('/');
         break;
       default:
         break;
@@ -256,13 +256,13 @@ const TopBar = (props) => {
             localStorage.setItem('selected_module_Role', arrVal?.value);
             setActiveModule(arrVal?.value);
             isSet = true;
-            window.location.href = '/';
+            // window.location.href = '/';
           } else {
             if (arrVal?.subVal?.length > 0) {
               localStorage.setItem('selected_module_Role', arrVal?.subVal[0].value);
               setActiveModule(arrVal?.subVal[0].value);
               isSet = true;
-              window.location.href = '/';
+              // window.location.href = '/';
             }
           }
         });
@@ -477,6 +477,14 @@ const TopBar = (props) => {
     );
   };
 
+  useEffect(() => {
+    if (!(loginRole || selected_Role) && roleValue?.length > 0) {
+      localStorage.setItem('selected_Role', roleValue[0]);
+      dispatch(setLoginRole(roleValue[0]));
+      window.location.reload();
+    }
+  }, [roleValue, loginRole, selected_Role]);
+
   return (
     <div className="top-nav">
       <div className="header py-4">
@@ -531,6 +539,7 @@ const TopBar = (props) => {
               className="d-flex order-lg-2 ml-auto text-left user-info-wrapper"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
             >
+              {console.log('roleValue', roleValue, loginRole, selected_Role)}
               {roleValue.length > 0 && (
                 <div className="mr-4">
                   <div>
@@ -551,7 +560,11 @@ const TopBar = (props) => {
                         localStorage.setItem('selected_Role', e.target.value);
                         history.push('/');
                       }}
-                      value={loginRole ?? selected_Role}
+                      value={
+                        (loginRole || selected_Role) === 'control_oversight'
+                          ? 'Control oversight'
+                          : loginRole || selected_Role
+                      }
                     />
                   </FormControl>
                 </div>
