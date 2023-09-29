@@ -27,7 +27,8 @@
       "assessmentFailText": "평가가 실패되었습니다",
       "closePopupBtnTitle": "확실합니까?",
       "closePopupBtnText": "평가를 닫으시겠습니까?",
-      "closePopupBtnConfirmBtn": "평가 닫기"
+      "closePopupBtnConfirmBtn": "평가 닫기",
+      "section2UploadExcelBtn": "업로드"
     },
     "multi_select_filter_placeHolder": "옵션을 선택하십시오",
     "homePage": {
