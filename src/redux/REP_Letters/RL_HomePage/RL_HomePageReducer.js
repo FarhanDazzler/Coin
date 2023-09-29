@@ -134,15 +134,20 @@ export const ADD_BU_SUBMIT_RESPONSE_ERROR = 'ADD_BU_SUBMIT_RESPONSE_ERROR';
 // ============= ADD BU SUBMIT RESPONSE data ===============//
 
 // ============= ADD BU SUBMIT RESPONSE data ===============//
-export const GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST = 'GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST';
-export const GET_BU_SECTION2_SIGNATURE_RESPONSE_SUCCESS = 'GET_BU_SECTION2_SIGNATURE_RESPONSE_SUCCESS';
+export const GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST =
+  'GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST';
+export const GET_BU_SECTION2_SIGNATURE_RESPONSE_SUCCESS =
+  'GET_BU_SECTION2_SIGNATURE_RESPONSE_SUCCESS';
 export const GET_BU_SECTION2_SIGNATURE_RESPONSE_ERROR = 'GET_BU_SECTION2_SIGNATURE_RESPONSE_ERROR';
 // ============= ADD BU SUBMIT RESPONSE data ===============//
 
 // ============= ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL ===============//
-export const ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST = 'ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST';
-export const ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS = 'ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS';
-export const ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR = 'ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR';
+export const ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST =
+  'ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST';
+export const ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS =
+  'ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS';
+export const ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR =
+  'ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR';
 // ============= ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL ===============//
 
 // ============= ADD BU SECTION2 CHECKBOX data ===============//
@@ -174,14 +179,66 @@ const initialState = {
   getLatestBUDraftResponse: { ...block, data: [] },
   getBUSubmitResponse: { ...block, data: [] },
   addBUSubmitResponse: { ...block, data: [] },
-  getBUSection2SignatureResponse: {...block, data:[]},
-  addBUSection2UploadMailApproval: {...block, data:[]},
-  addBUSection2Checkbox: {...block, data:[]}
+  getBUSection2SignatureResponse: { ...block, data: [] },
+  addBUSection2UploadMailApproval: { ...block, data: [] },
+  addBUSection2Checkbox: { ...block, data: [] },
 };
 
 export const RL_HomePageReducer = (state = initialState, { type, payload = {} }) => {
   switch (type) {
+    // GET Functional Recipient home page table data
+    case GET_FUNCTION_RECIPIENT_HOME_PAGE_TABLE_DATA_REQUEST:
+      return {
+        ...state,
+        getFunctionRecipientHomePageData: {
+          ...state.getFunctionRecipientHomePageData,
+          loading: true,
+        },
+      };
+    case GET_FUNCTION_RECIPIENT_HOME_PAGE_TABLE_DATA_SUCCESS:
+      return {
+        ...state,
+        getFunctionRecipientHomePageData: {
+          ...state.getFunctionRecipientHomePageData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_FUNCTION_RECIPIENT_HOME_PAGE_TABLE_DATA_ERROR:
+      return {
+        ...state,
+        getFunctionRecipientHomePageData: {
+          ...state.getFunctionRecipientHomePageData,
+          loading: false,
+        },
+      };
 
+    // GET Functional Global Persona home page table data
+    case GET_FUNCTION_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST:
+      return {
+        ...state,
+        getFunctionGlobalPersonaHomePageData: {
+          ...state.getFunctionGlobalPersonaHomePageData,
+          loading: true,
+        },
+      };
+    case GET_FUNCTION_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS:
+      return {
+        ...state,
+        getFunctionGlobalPersonaHomePageData: {
+          ...state.getFunctionGlobalPersonaHomePageData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_FUNCTION_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_ERROR:
+      return {
+        ...state,
+        getFunctionGlobalPersonaHomePageData: {
+          ...state.getFunctionGlobalPersonaHomePageData,
+          loading: false,
+        },
+      };
     // GET BU Global Persona home page table data
     case GET_BU_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST:
       return {
@@ -595,86 +652,85 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
           loading: false,
         },
       };
-             // ADD_BU_SECTION2_CHECKBOX_REQUEST data
-             case ADD_BU_SECTION2_CHECKBOX_REQUEST:
-              return {
-                ...state,
-                addBUSection2Checkbox: {
-                  ...state.addBUSection2Checkbox,
-                  loading: true,
-                },
-              };
-            case ADD_BU_SECTION2_CHECKBOX_SUCCESS:
-              return {
-                ...state,
-                addBUSection2Checkbox: {
-                  ...state.addBUSection2Checkbox,
-                  data: payload,
-                  loading: false,
-                },
-              };
-            case ADD_BU_SECTION2_CHECKBOX_ERROR:
-              return {
-                ...state,
-                addBUSection2Checkbox: {
-                  ...state.addBUSection2Checkbox,
-                  loading: false,
-                },
-              };
-        // ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST data
-        case ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST:
-          return {
-            ...state,
-            addBUSection2UploadMailApproval: {
-              ...state.addBUSection2UploadMailApproval,
-              loading: true,
-            },
-          };
-        case ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS:
-          return {
-            ...state,
-            addBUSection2UploadMailApproval: {
-              ...state.addBUSection2UploadMailApproval,
-              data: payload,
-              loading: false,
-            },
-          };
-        case ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR:
-          return {
-            ...state,
-            addBUSection2UploadMailApproval: {
-              ...state.addBUSection2UploadMailApproval,
-              loading: false,
-            },
-          };
-    
-        // GET_BU_SECTION2_SIGNATURE_RESPONSE data
-        case GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST :
-          return {
-            ...state,
-            getBUSection2SignatureResponse: {
-              ...state.getBUSection2SignatureResponse,
-              loading: true,
-            },
-          };
-        case GET_BU_SECTION2_SIGNATURE_RESPONSE_SUCCESS:
-          return {
-            ...state,
-            getBUSection2SignatureResponse: {
-              ...state.getBUSection2SignatureResponse,
-              data: payload,
-              loading: false,
-            },
-          };
-        case GET_BU_SECTION2_SIGNATURE_RESPONSE_ERROR:
-          return {
-            ...state,
-            getBUSection2SignatureResponse: {
-              ...state.getBUSection2SignatureResponse,
-              loading: false,
-            },
-          };
-    
+    // ADD_BU_SECTION2_CHECKBOX_REQUEST data
+    case ADD_BU_SECTION2_CHECKBOX_REQUEST:
+      return {
+        ...state,
+        addBUSection2Checkbox: {
+          ...state.addBUSection2Checkbox,
+          loading: true,
+        },
+      };
+    case ADD_BU_SECTION2_CHECKBOX_SUCCESS:
+      return {
+        ...state,
+        addBUSection2Checkbox: {
+          ...state.addBUSection2Checkbox,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ADD_BU_SECTION2_CHECKBOX_ERROR:
+      return {
+        ...state,
+        addBUSection2Checkbox: {
+          ...state.addBUSection2Checkbox,
+          loading: false,
+        },
+      };
+    // ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST data
+    case ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST:
+      return {
+        ...state,
+        addBUSection2UploadMailApproval: {
+          ...state.addBUSection2UploadMailApproval,
+          loading: true,
+        },
+      };
+    case ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS:
+      return {
+        ...state,
+        addBUSection2UploadMailApproval: {
+          ...state.addBUSection2UploadMailApproval,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR:
+      return {
+        ...state,
+        addBUSection2UploadMailApproval: {
+          ...state.addBUSection2UploadMailApproval,
+          loading: false,
+        },
+      };
+
+    // GET_BU_SECTION2_SIGNATURE_RESPONSE data
+    case GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getBUSection2SignatureResponse: {
+          ...state.getBUSection2SignatureResponse,
+          loading: true,
+        },
+      };
+    case GET_BU_SECTION2_SIGNATURE_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        getBUSection2SignatureResponse: {
+          ...state.getBUSection2SignatureResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BU_SECTION2_SIGNATURE_RESPONSE_ERROR:
+      return {
+        ...state,
+        getBUSection2SignatureResponse: {
+          ...state.getBUSection2SignatureResponse,
+          loading: false,
+        },
+      };
 
     default:
       return state;
