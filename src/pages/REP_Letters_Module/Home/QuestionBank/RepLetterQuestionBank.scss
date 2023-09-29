@@ -114,6 +114,7 @@
   .question-text-section {
     display: flex;
     align-items: center; /* Optional, to vertically center the content */
+    width: 100%;
   }
 
   .question-number {
@@ -130,6 +131,7 @@
     // font-weight: 600;
     color: #ffffff;
     margin-left: 10px; /* Optional, adjust the spacing between the two elements */
+    flex-grow: 1;
   }
   p {
     margin-bottom: 0;
