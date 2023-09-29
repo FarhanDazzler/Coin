@@ -118,7 +118,7 @@ const BULetterForm = (props) => {
               <div className="col-lg-12">
                 <Section0 scopeData={scopeData} letterType={letterType} />
                 <Section1 questions={questionState.data} scopeData={scopeData} />
-                <Section2 />
+                {/* <Section2 /> */}
               </div>
             )}
           </div>
