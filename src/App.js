@@ -70,10 +70,8 @@ const Pages = () => {
   const { instance, accounts, inProgress } = useMsal();
   const userRole = localStorage.getItem('selected_Role');
   const module = localStorage.getItem('selected_module_Role');
-  const userData = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const [userState, userDispatch] = useContext(UserContext);
-  const [userToken, setUserToken] = useState('');
   const role = loginRole ?? userRole;
 
   const isControlPage = useMemo(() => {
@@ -104,7 +102,6 @@ const Pages = () => {
           }),
         );
         Cookies.set('token', res?.data.token);
-        setUserToken(res?.data.token);
       })
       .catch((err) => {
         console.log(err);

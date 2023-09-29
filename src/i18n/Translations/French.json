@@ -27,7 +27,8 @@
       "assessmentFailText": "Votre évaluation a échoué",
       "closePopupBtnTitle": "Êtes-vous sûr ?",
       "closePopupBtnText": "Voulez-vous fermer l'évaluation ?",
-      "closePopupBtnConfirmBtn": "Fermer l'évaluation"
+      "closePopupBtnConfirmBtn": "Fermer l'évaluation",
+      "section2UploadExcelBtn": "Télécharger"
     },
     "multi_select_filter_placeHolder": "sélectionnez votre option",
     "homePage": {
