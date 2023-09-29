@@ -88,24 +88,12 @@ const ZoneVPTable = ({
                   const data = {
                     scopeData: row.row.original,
                     modalType: 'review',
+                    letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
                   };
-                  history.push('/REP-Letters/attempt-letter/functional-letter-form', { data });
+                  history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
               >
                 Review
-              </Button>
-            )}
-            {['Not started', 'Drafted'].includes(row.row.original.Status) && (
-              <Button
-                onClick={() => {
-                  const data = {
-                    scopeData: row.row.original,
-                    modalType: 'attempt',
-                  };
-                  history.push('/REP-Letters/attempt-letter/functional-letter-form', { data });
-                }}
-              >
-                Letter
               </Button>
             )}
           </div>
