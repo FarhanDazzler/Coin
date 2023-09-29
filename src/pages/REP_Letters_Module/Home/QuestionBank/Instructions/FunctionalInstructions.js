@@ -48,7 +48,11 @@ const FunctionalInstructions = ({ setShowModal, modalType }) => {
       }),
     );
   };
+  const validFileExtensions = { Video: ['mp4', 'mov', 'avi', 'mkv'] };
 
+  function isValidFileType(fileName, fileType) {
+    return fileName && validFileExtensions[fileType].indexOf(fileName.split('.').pop()) > -1;
+  }
   return (
     <div className="p-5">
       <Formik
@@ -58,11 +62,17 @@ const FunctionalInstructions = ({ setShowModal, modalType }) => {
           Video: null,
         }}
         validationSchema={Yup.object().shape({
-          Instructions: Yup.string().required('Instructions is required'),
+          Instructions: Yup.string()
+            .required('Instructions is required')
+            .max(5000, 'Instructions is not allowed more than 5000 characters'),
           isFileAttached: Yup.string().required('Please select do you want to re-upload Video?'),
           Video: Yup.mixed().when('isFileAttached', {
             is: (value) => ['Yes'].includes(value),
-            then: Yup.mixed().required('Instructions Video is required'),
+            then: Yup.mixed()
+              .required('Instructions Video is required')
+              .test('is-valid-type', 'Please Upload only Videos', (value) =>
+                isValidFileType(value && value.name.toLowerCase(), 'Video'),
+              ),
           }),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
@@ -99,6 +109,7 @@ const FunctionalInstructions = ({ setShowModal, modalType }) => {
                       required
                       onChange={handleChange}
                       isInvalid={!!errors.Instructions}
+                      maxLength={5001}
                       name="Instructions"
                       value={values.Instructions}
                       rows={3}
