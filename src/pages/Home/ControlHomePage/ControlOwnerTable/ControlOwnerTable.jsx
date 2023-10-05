@@ -50,7 +50,7 @@ const ControlOwnerTable = ({
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const loginUserRole = loginRole ?? userRole;
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
-
+  console.log('getControlOwnerData', getControlOwnerData);
   // let controlOwnerData = ([] = []);
   // if (loginUserRole === 'Control owner') {
   //   controlOwnerData = getControlOwnerData.data[0]?.cOwnerData || [];
