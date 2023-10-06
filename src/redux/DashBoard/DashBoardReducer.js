@@ -62,7 +62,7 @@ export const dashBoardReducer = (state = initialState, { type, payload = {} }) =
     case GET_CONTROL_OWNER_TABLE_ERROR:
       return {
         ...state,
-        controlOwnerData: { ...state.controlOwnerData, loading: true },
+        controlOwnerData: { ...state.controlOwnerData, loading: false },
       };
 
     //reset block with flag and data

@@ -32,7 +32,7 @@ function* handleGetInternalControlData({ payload: copyPayload }) {
   } catch (error) {
     yield put({
       type: GET_INTERNAL_CONTROL_TABLE_ERROR,
-      error: getSimplifiedError(error),
+      error: 'Something went wrong, please try again later',
     });
   }
 }
