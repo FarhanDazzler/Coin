@@ -6,10 +6,19 @@ import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import { Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useFormikContext, Field, Formik } from 'formik';
+import {
+  getBUSection2SignatureResponseAction,
+  addBUSection2CheckboxAction,
+  addBUSection2UploadMailApprovalAction,
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import {
+  getBUSection2SignatureResponseSelector
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
 const Section2 = ({ scopeData, letterType }) => {
   const dispatch = useDispatch();
   const [ShowVideoModal, setShowVideoModal] = useState(false);
+  const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
   const [activeTab, setActiveTab] = useState('test');
   const SignatoryList = [
     { label: 'BU Head', value: 'BU Head' },
@@ -17,10 +26,32 @@ const Section2 = ({ scopeData, letterType }) => {
     { label: 'Zone VP', value: 'Zone VP' },
     { label: 'Finance Director', value: 'Finance Director' },
   ];
-  var formdata = new FormData();
 
-  const handleSave = (value, resetForm) => {
-    console.log('values', value);
+  const handleAutoAuth = (value) => {
+    dispatch(addBUSection2CheckboxAction(value.toggle));
+  }
+
+  const handleSave = (values, resetForm) => {
+    console.log('values', values);
+    const formData = new FormData();
+
+    if (!getBUSection2SignatureResponseState && values.FinanceDirectorSignature) {
+      formData.append('FinanceDirectorSignature', values.FinanceDirectorSignature);
+    }
+
+    if (!getBUSection2SignatureResponseState && values.BUHeadSignature) {
+      formData.append('BUHeadSignature', values.BUHeadSignature);
+    }
+
+    if (!getBUSection2SignatureResponseState && values.ZoneControlSignature) {
+      formData.append('ZoneControlSignature', values.ZoneControlSignature);
+    }
+
+    if (!getBUSection2SignatureResponseState && values.ZoneVPSignature) {
+      formData.append('ZoneVPSignature', values.ZoneVPSignature);
+    }
+
+    dispatch(addBUSection2UploadMailApprovalAction(formData));
   };
 
   const EmailAttachmentDiv = () => {
@@ -29,14 +60,16 @@ const Section2 = ({ scopeData, letterType }) => {
         <Formik
           enableReinitialize
           initialValues={{
-            toggle: false,
+            FinanceDirectorSignature: '',
+            BUHeadSignature: '',
+            ZoneControlSignature: '',
+            ZoneVPSignature: '',
           }}
           validationSchema={Yup.object().shape({
-            isFileAttached: Yup.string().required('Please select to upload Files?'),
-            Signature: Yup.mixed().when('isFileAttached', {
-              is: (value) => ['Opening'].includes(value),
-              then: Yup.mixed().required('Email Attachment required'),
-            }),
+            FinanceDirectorSignature: Yup.string().required('Attachment required'),
+            BUHeadSignature: Yup.string().required('Attachment required'),
+            ZoneControlSignature: Yup.string().required('Attachment required'),
+            ZoneVPSignature: Yup.string().required('Attachment required'),
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {
@@ -64,54 +97,81 @@ const Section2 = ({ scopeData, letterType }) => {
               <div className="row">
                 <div className="col-lg-12">
                   <div className="row">
-                    <div className="col-lg-4">
+                    <div className="col-lg-6">
                       <Form.Group className="position-relative mb-3">
-                        <Form.Label className="mt-3">Select Signatory :</Form.Label>
+                        <Form.Label className="mt-3">Finance Director :</Form.Label>
                         <Form.Control
-                          as="select"
-                          name="isFileAttached"
-                          placeholder=""
-                          value={values.isFileAttached}
-                          isInvalid={!!errors.isFileAttached}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          readOnly={false}
-                          className="form-select"
-                        >
-                          <option value="">Select</option>
-                          {SignatoryList.map((data, i) => (
-                            <option key={i} value={data.value}>
-                              {data.label}
-                            </option>
-                          ))}
-                        </Form.Control>
-
+                          type="file"
+                          required
+                          name="FinanceDirectorSignature"
+                          //onChange={handleChange}
+                          onChange={(event) => {
+                            setFieldValue('FinanceDirectorSignature', event.currentTarget.files[0]);
+                          }}
+                          isInvalid={!!errors.FinanceDirectorSignature}
+                        />
                         <Form.Control.Feedback type="invalid">
-                          {errors.isFileAttached}
+                          {errors.FinanceDirectorSignature}
                         </Form.Control.Feedback>
                       </Form.Group>
                     </div>
 
-                    {values.isFileAttached && (
-                      <div className="col-lg-4">
-                        <Form.Group className="position-relative mb-3">
-                          <Form.Label className="mt-3">Email Attachment :</Form.Label>
-                          <Form.Control
-                            type="file"
-                            required
-                            name="Signature"
-                            //onChange={handleChange}
-                            onChange={(event) => {
-                              setFieldValue('Signature', event.currentTarget.files[0]);
-                            }}
-                            isInvalid={!!errors.Signature}
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            {errors.Signature}
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                      </div>
-                    )}
+                    <div className="col-lg-6">
+                      <Form.Group className="position-relative mb-3">
+                        <Form.Label className="mt-3">BU Head :</Form.Label>
+                        <Form.Control
+                          type="file"
+                          required
+                          name="BUHeadSignature"
+                          //onChange={handleChange}
+                          onChange={(event) => {
+                            setFieldValue('BUHeadSignature', event.currentTarget.files[0]);
+                          }}
+                          isInvalid={!!errors.BUHeadSignature}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.BUHeadSignature}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <Form.Group className="position-relative mb-3">
+                        <Form.Label className="mt-3">Zone Control :</Form.Label>
+                        <Form.Control
+                          type="file"
+                          required
+                          name="ZoneControlSignature"
+                          //onChange={handleChange}
+                          onChange={(event) => {
+                            setFieldValue('ZoneControlSignature', event.currentTarget.files[0]);
+                          }}
+                          isInvalid={!!errors.ZoneControlSignature}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.ZoneControlSignature}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <Form.Group className="position-relative mb-3">
+                        <Form.Label className="mt-3">Zone VP :</Form.Label>
+                        <Form.Control
+                          type="file"
+                          required
+                          name="ZoneVPSignature"
+                          //onChange={handleChange}
+                          onChange={(event) => {
+                            setFieldValue('ZoneVPSignature', event.currentTarget.files[0]);
+                          }}
+                          isInvalid={!!errors.ZoneVPSignature}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.ZoneVPSignature}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -158,7 +218,7 @@ const Section2 = ({ scopeData, letterType }) => {
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {
-              handleSave(values);
+                handleAutoAuth(values);
               //history.push('/master-data-management/mics-framework');
             } catch (error) {
               const message = error.message || 'Something went wrong';
@@ -183,9 +243,13 @@ const Section2 = ({ scopeData, letterType }) => {
                 <Form.Label className="mt-3">
                   <Field type="checkbox" name="toggle" />
                   <span>
-                    &nbsp;&nbsp;I Agree to let COIN collect the exact timestamp of submission for
-                    authentication
+                    &nbsp;&nbsp;I hereby declare, that the above responses are in alignment with the
+                    business expectations
                   </span>
+                  <p>
+                    with this selection, I agree to let COIN collect my information - (ie. Timestamp
+                    & email adress) for authentication
+                  </p>
                 </Form.Label>
               </Form.Group>
 
@@ -227,17 +291,30 @@ const Section2 = ({ scopeData, letterType }) => {
             <div>
               <div className="renderBlockWrapper_content">
                 <p>
-                  <b>Select how Finance Director will provide signature.</b>
+                  <b>
+                    As a{' '}
+                    {activeTab === 'test'
+                      ? 'Disclosure Processor'
+                      : `${localStorage.getItem('selected_Role')} - Signatory`}
+                  </b>
                 </p>
               </div>
               <div className="renderBlockWrapper_content">
-                <p>
-                  In case of wet signature, use below button for signature & signing date to attach
-                  signed PDF.
-                </p>
-                <p>
-                  In case of signature email, attach the email containing the signature to this PDF.
-                </p>
+                {activeTab === 'test' ? (
+                  <>
+                    <p>Upload the approval email from the respective signatories/authenticators</p>
+                  </>
+                ) : (
+                  <>
+                    <p>Choose your method of approval/authentication</p>
+                    <ul>
+                      <li>
+                        Select the check-box below to provide your approval for the above filled
+                        responses
+                      </li>
+                    </ul>
+                  </>
+                )}
               </div>
               <Divider
                 className="renderBlockWrapper_divider"
@@ -246,7 +323,7 @@ const Section2 = ({ scopeData, letterType }) => {
                 labelPosition="center"
               />
               <div className="renderBlockWrapper_file">
-                <div>{activeTab !== 'test' ? <EmailAttachmentDiv /> : <AutoAuth />}</div>
+                <div>{activeTab === 'test' ? <EmailAttachmentDiv /> : <AutoAuth />}</div>
               </div>
             </div>
           </div>

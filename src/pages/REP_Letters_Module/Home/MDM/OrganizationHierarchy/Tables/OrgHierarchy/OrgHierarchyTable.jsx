@@ -31,7 +31,7 @@ const OrgHierarchyTable = ({ setRlOrgManageButtonState }) => {
     {
       accessorKey: 'BU',
       id: 'BU',
-      header: 'Business Unit',
+      header: 'Business Unit / Entity',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',

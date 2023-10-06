@@ -12,13 +12,9 @@ import {
 
 const RLMDM = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getRlOrgHierarchy());
-    dispatch(getRlOrgMd());
-  }, []);
+  
   return (
     <PageWrapper>
-     
       <div className="container-fluid py-5" style={{ display: 'flex' }}>
         <div className="col-lg-6 py-4 MDMBoxWrapper" style={{ marginRight: '16px' }}>
           <MDMBox
@@ -42,7 +38,7 @@ const RLMDM = () => {
             <div className="col-lg-6 py-4 MDMBoxWrapper">
               <MDMBox
                 title="Functional Masterdata management"
-                description="Create or modify MICS in the MICS Framework table."
+                description="Create or modify Function related Framework table."
                 url="/REP-Letters/master-data-management/functional-masterdata-management"
               />
             </div>

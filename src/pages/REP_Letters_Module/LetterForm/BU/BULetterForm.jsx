@@ -7,6 +7,7 @@ import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import Section0 from './FormComponents/Section0';
 import Section1 from './FormComponents/Section1';
 import Section2 from './FormComponents/Section2';
+import ReviewSection1 from './FormComponents/ReviewResponseComponents/ReviewSection1';
 // import ReviewResponsePage from './FormComponents/ReviewResponsePage';
 import { getInstructions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import { get_BU_Questions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
@@ -61,20 +62,25 @@ const BULetterForm = (props) => {
     }
   }, []);
 
-  const exportResponseToExcel = (info, responses) => {
+  const exportResponseToExcel = (info, responses, Last_Saved_At) => {
     // Create a new workbook
     const wb = XLSX.utils.book_new();
 
     // Create a worksheet for the info data
     const infoSheet = XLSX.utils.json_to_sheet([
       { Key: 'Title', Value: info.Title },
-      { Key: 'Assessment_Cycle', Value: info.Assessment_Cycle },
+      { Key: 'Letter Type', Value: info.Letter_Type },
+      { Key: 'Assessment Cycle', Value: info.Assessment_Cycle },
       { Key: 'Year', Value: info.Year },
       { Key: 'Zone', Value: info.Zone },
       { Key: 'BU', Value: info.BU },
-      { Key: 'Function', Value: info.Function },
-      { Key: 'Recipient', Value: info.Recipient },
-      { Key: 'Zone_Control', Value: info.Zone_Control },
+      { Key: 'Entity', Value: info.Entity },
+      { Key: 'Disclosure Processor', Value: info.Disclosure_Processor },
+      { Key: 'Finance Director', Value: info.Finance_Director },
+      { Key: 'BU Head', Value: info.BU_Head },
+      { Key: 'Zone Control', Value: info.Zone_Control },
+      { Key: 'Zone VP', Value: info.Zone_VP },
+      { Key: 'Submitted on', Value: Last_Saved_At },
     ]);
     XLSX.utils.book_append_sheet(wb, infoSheet, 'Information');
 
@@ -85,12 +91,14 @@ const BULetterForm = (props) => {
         questionText: convert(response.questionText),
         response: response.response,
         comment: response.comment,
+        month: response.month,
+        year: response.year,
       })),
     );
     XLSX.utils.book_append_sheet(wb, responsesSheet, 'Responses');
 
     // Save the workbook to an Excel file
-    const fileName = `${scopeData?.Function} - ${scopeData?.Recipient} - Submitted-Responses - ${scopeData?.Title} - ${scopeData?.Assessment_Cycle} - ${scopeData?.Year}`;
+    const fileName = `${scopeData?.Letter_Type} - ${scopeData?.Disclosure_Processor} - Submitted-Responses - ${scopeData?.Title} - ${scopeData?.Assessment_Cycle} - ${scopeData?.Year}`;
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
 
@@ -110,7 +118,7 @@ const BULetterForm = (props) => {
               <div className="col-lg-12">
                 <Section0 scopeData={scopeData} letterType={letterType} />
                 <Section1 questions={questionState.data} scopeData={scopeData} />
-                <Section2 />
+                {/* <Section2 /> */}
               </div>
             )}
           </div>
@@ -133,17 +141,22 @@ const BULetterForm = (props) => {
                       onClick={() => {
                         const info = {
                           Title: scopeData?.Title,
+                          Letter_Type: scopeData?.Letter_Type,
                           Assessment_Cycle: scopeData?.Assessment_Cycle,
                           Year: scopeData?.Year,
                           Zone: scopeData?.Zone,
                           BU: scopeData?.BU,
-                          Function: scopeData?.Function,
-                          Recipient: scopeData?.Recipient,
+                          Entity: scopeData?.Entity,
+                          Disclosure_Processor: scopeData?.Disclosure_Processor,
+                          Finance_Director: scopeData?.Finance_Director,
+                          BU_Head: scopeData?.BU_Head,
                           Zone_Control: scopeData?.Zone_Control,
+                          Zone_VP: scopeData?.Zone_VP,
                         };
                         exportResponseToExcel(
                           info,
                           getBUSubmitResponseState?.data?.Latest_Response,
+                          getBUSubmitResponseState?.data?.Last_Saved_At,
                         );
                       }}
                     >
@@ -152,9 +165,9 @@ const BULetterForm = (props) => {
                   </div>
                 </div>
                 <Section0 scopeData={scopeData} letterType={letterType} />
-                {/* <ReviewResponsePage
+                <ReviewSection1
                   submittedResponses={getBUSubmitResponseState?.data?.Latest_Response}
-                /> */}
+                />
               </div>
             )}
           </div>

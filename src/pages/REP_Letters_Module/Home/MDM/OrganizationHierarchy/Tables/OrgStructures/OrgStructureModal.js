@@ -4,7 +4,11 @@ import { useFormikContext, Formik, Field } from 'formik';
 import { Form } from 'react-bootstrap';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRlParentEntityData, addOrganizationalMd, updateOrganizationalMd } from '../../../../../../../redux/REP_Letters/RLMDM/RLMDMAction';
+import {
+  getRlParentEntityData,
+  addOrganizationalMd,
+  updateOrganizationalMd,
+} from '../../../../../../../redux/REP_Letters/RLMDM/RLMDMAction';
 import { getRlParentEntityDataSelector } from '../../../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
 import moment from 'moment';
 const GetParentEntityValue = ({ setOrgTypeValue }) => {
@@ -32,7 +36,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
   const [categoryValue, setCategoryValue] = useState('');
   const [orgTypeValue, setOrgTypeValue] = useState('');
   const getRlParentEntityDataState = useSelector(getRlParentEntityDataSelector);
-  console.log("getRlParentEntityDataState", getRlParentEntityDataState);
+  console.log('getRlParentEntityDataState', getRlParentEntityDataState);
   console.log('state=>>>>>>>>>>>>>>>>>>', ediatbleData);
   console.log(orgTypeValue);
   const orgTypeData = [
@@ -42,7 +46,7 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
     },
     {
       value: 'BU',
-      label: 'BU',
+      label: 'BU / Entity',
     },
     {
       value: 'Cognos Code',
@@ -50,20 +54,18 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
     },
   ];
 
-
-
   const handleSaveAdd = (value) => {
     console.log(value, modalType);
-    
-    let payload= {
-      "id": ediatbleData?.id,
-      "Organization_Name" : value.Org_name,
-      "Organization_Type" : value.orgType,
-      "Parent_Entity" : value.parentEntity,
-      "Entity_Name" : value.EntityName,
-      "Valid_To" : value.validTo,
-      "Valid_From" : value.validFrom
-    }
+
+    let payload = {
+      id: ediatbleData?.id,
+      Organization_Name: value.Org_name,
+      Organization_Type: value.orgType,
+      Parent_Entity: value.parentEntity,
+      Entity_Name: value.EntityName,
+      Valid_To: value.validTo,
+      Valid_From: value.validFrom,
+    };
     if (modalType === 'add') {
       console.log('ADD=>>>>>>>>>>>>>>>>>>');
       dispatch(addOrganizationalMd(payload));
@@ -91,8 +93,8 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
           orgType: Yup.string().required('Organization Type is required'),
           parentEntity: Yup.string().required('Parent Entity is required'),
           EntityName: Yup.string()
-              .required('EntityName is required')
-              .max(5000, 'Max 5000 characters allowed'),
+            .required('EntityName is required')
+            .max(5000, 'Max 5000 characters allowed'),
           validFrom: Yup.string().required('Valid Date is required'),
           validTo: Yup.string().required('Valid Date is required'),
           Org_name: Yup.string().required('Organization Name is required'),
@@ -207,17 +209,18 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                         className="form-select"
                       >
                         <option value="">Select Parent Entity</option>
-                        {
-                          getRlParentEntityDataState?.data instanceof Array ? 
-                          (
-                            getRlParentEntityDataState?.data &&
-                            getRlParentEntityDataState?.data.map((data, i) => (
-                              <option value={data[0]} key={i}>
-                                {data[0]}
-                              </option>
-                            ))
-                          ) : <option value={getRlParentEntityDataState?.data}>{getRlParentEntityDataState?.data}</option>
-                        }
+                        {getRlParentEntityDataState?.data instanceof Array ? (
+                          getRlParentEntityDataState?.data &&
+                          getRlParentEntityDataState?.data.map((data, i) => (
+                            <option value={data[0]} key={i}>
+                              {data[0]}
+                            </option>
+                          ))
+                        ) : (
+                          <option value={getRlParentEntityDataState?.data}>
+                            {getRlParentEntityDataState?.data}
+                          </option>
+                        )}
                       </Form.Control>
 
                       {!!touched.parentEntity && (
@@ -249,7 +252,6 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
                         maxLength={5000}
                         className="form-control"
                       />
-                       
 
                       {!!touched.EntityName && (
                         <Form.Control.Feedback type="invalid">

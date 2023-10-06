@@ -51,6 +51,15 @@ import {
   ADD_BU_SUBMIT_RESPONSE_REQUEST,
   ADD_BU_SUBMIT_RESPONSE_SUCCESS,
   ADD_BU_SUBMIT_RESPONSE_ERROR,
+  GET_BU_SECTION2_SIGNATURE_RESPONSE_ERROR,
+  GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST,
+  GET_BU_SECTION2_SIGNATURE_RESPONSE_SUCCESS,
+  ADD_BU_SECTION2_CHECKBOX_ERROR,
+  ADD_BU_SECTION2_CHECKBOX_REQUEST,
+  ADD_BU_SECTION2_CHECKBOX_SUCCESS,
+  ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR,
+  ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
+  ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS,
 } from './RL_HomePageReducer';
 import Swal from 'sweetalert2';
 
@@ -416,6 +425,66 @@ function* updateAddBUSubmitResponse({ payload }) {
   }
 }
 
+// GET BU Section2 Signature Response data
+async function getBUSection2SignatureResponseApi(params) {
+  return await Axios.get('/', { params });
+}
+function* handle_GetBUSection2SignatureResponseData({ payload }) {
+  try {
+    const response = yield call(getBUSection2SignatureResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BU_SECTION2_SIGNATURE_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BU_SECTION2_SIGNATURE_RESPONSE_ERROR,
+    });
+  }
+}
+
+// ADD BU Section2 Upload Mail Approval
+async function addBUSection2UploadMailApprovalApi(payload) {
+  return await Axios.get('/', payload);
+}
+function* handle_AddBUSection2UploadMailApprovalData({ payload }) {
+  try {
+    const response = yield call(addBUSection2UploadMailApprovalApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR,
+    });
+  }
+}
+
+// ADD BU Section2 Checkbox
+async function addBUSection2CheckboxApi(payload) {
+  return await Axios.get('/', payload);
+}
+function* handle_AddBUSection2CheckboxData({ payload }) {
+  try {
+    const response = yield call(addBUSection2CheckboxApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_BU_SECTION2_CHECKBOX_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_BU_SECTION2_CHECKBOX_ERROR,
+    });
+  }
+}
+
 export default all([
   takeLatest(
     GET_FUNCTION_RECIPIENT_HOME_PAGE_TABLE_DATA_REQUEST,
@@ -451,4 +520,10 @@ export default all([
   takeLatest(GET_BU_SUBMIT_RESPONSE_REQUEST, handle_GetBUSubmitResponse),
   takeLatest(ADD_OR_UPDATE_BU_DRAFT_RESPONSE_REQUEST, updateAddOrUpdateBUDraftResponse),
   takeLatest(GET_LATEST_BU_DRAFT_RESPONSE_REQUEST, handle_GetLatestBUDraftResponse),
+  takeLatest(GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST, handle_GetBUSection2SignatureResponseData),
+  takeLatest(ADD_BU_SECTION2_CHECKBOX_ERROR, handle_AddBUSection2CheckboxData),
+  takeLatest(
+    ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
+    handle_AddBUSection2UploadMailApprovalData,
+  ),
 ]);

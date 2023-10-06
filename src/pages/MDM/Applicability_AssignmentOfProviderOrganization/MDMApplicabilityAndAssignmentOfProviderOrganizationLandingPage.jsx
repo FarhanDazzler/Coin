@@ -37,7 +37,7 @@ const MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage = () => {
         dispatch(getApplicabilityAndAssignmentOfProviderOrganization(payload));
       }
     }
-  }, [getAllZoneData, dispatch]);
+  }, [getAllZoneData]);
 
   const OnClickSelectZone = (e) => {
     setSelectedZone(e);
@@ -83,7 +83,7 @@ const MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage = () => {
                         maxMenuHeight={200}
                         placeholder="Select Zone"
                         value={selectedZone}
-                        onChange={OnClickSelectZone}
+                        onChange={(e) => OnClickSelectZone(e)}
                         className="l-input functional-select"
                         options={zoneList}
                       />

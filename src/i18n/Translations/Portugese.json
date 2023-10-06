@@ -27,7 +27,8 @@
       "assessmentFailText": "Sua avaliação foi reprovada",
       "closePopupBtnTitle": "Você tem certeza?",
       "closePopupBtnText": "Você deseja fechar a Avaliação?",
-      "closePopupBtnConfirmBtn": "Fechar Avaliação"
+      "closePopupBtnConfirmBtn": "Fechar Avaliação",
+      "section2UploadExcelBtn": "Carregar"
     },
     "multi_select_filter_placeHolder": "selecione sua opção",
     "homePage": {

@@ -27,7 +27,8 @@
       "assessmentFailText": "Your Assesment has been failed",
       "closePopupBtnTitle": "Are you sure?",
       "closePopupBtnText": "You want to close the Assessment",
-      "closePopupBtnConfirmBtn": "Close Assessment"
+      "closePopupBtnConfirmBtn": "Close Assessment",
+      "section2UploadExcelBtn": "Upload"
     },
     "multi_select_filter_placeHolder": "Select your option",
     "homePage": {
