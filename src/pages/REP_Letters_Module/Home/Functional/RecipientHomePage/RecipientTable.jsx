@@ -49,7 +49,6 @@ const RecipientTable = ({
   functionValue,
   setFunctionValue,
 }) => {
-  const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
 
@@ -63,13 +62,13 @@ const RecipientTable = ({
   const addFunctionSubmitResponseState = useSelector(addFunctionSubmitResponseSelector);
 
   //getRecipientHomePageData?.data[0]?.recipientData
-  const recipientHomePageData = useMemo(() => {
+  const tableData = useMemo(() => {
     return getRecipientHomePageData?.data[0]?.recipientData || [];
   }, [getRecipientHomePageData?.data[0]]);
 
   useEffect(() => {
     dispatch(getFunctionRecipientHomePageData());
-  }, [token, dispatch, addOrUpdateDraftResponseState?.data, addFunctionSubmitResponseState?.data]);
+  }, [token, addOrUpdateDraftResponseState?.data, addFunctionSubmitResponseState?.data]);
 
   const TABLE_COLUMNS = [
     {
@@ -181,10 +180,6 @@ const RecipientTable = ({
       size: 90,
     },
   ];
-
-  useEffect(() => {
-    setTableData(recipientHomePageData);
-  }, [getRecipientHomePageData?.data[0], recipientHomePageData]);
 
   useEffect(() => {
     if (!tableData?.length) return setTableDataArray([]);
