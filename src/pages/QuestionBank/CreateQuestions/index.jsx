@@ -42,7 +42,6 @@ const MenuProps = {
 };
 
 const CreateQuestions = ({ open, handleClose }) => {
-  const { accounts } = useMsal();
   const dispatch = useDispatch();
   const [section1, setSection1] = useState(questions);
   const [control_ID, setControl_ID] = useState(['']);
@@ -54,7 +53,6 @@ const CreateQuestions = ({ open, handleClose }) => {
   const questionData = useSelector(question3Selector);
   const [section3, setSection3] = useState([]);
   const [controlIDList, setControlIDList] = useState([]);
-  const [activeData, setActiveData] = useState([]);
   const repositoryOfControlID = useSelector(getRepositoryOfControlIDSelector);
   const controlNameFromControlIDState = useSelector(getControlNameFromControlIDSelector);
 
@@ -132,7 +130,6 @@ const CreateQuestions = ({ open, handleClose }) => {
     if (Object.keys(questionData.data)?.length > 0) {
       const apiQuestion = getQuestionsFormatData(questionData.data);
       const currentData = apiQuestion.filter((d) => d.Level === level[0]);
-      setActiveData(currentData);
       setSection3(getFormatQuestions(currentData, 'isQuestionEdit'));
       return;
     }
@@ -189,7 +186,6 @@ const CreateQuestions = ({ open, handleClose }) => {
       setIsNewQuestion(false);
       setIsEdit(false);
       if (saveWithCloseModal) {
-        setActiveData([]);
         handleClose();
       }
     }

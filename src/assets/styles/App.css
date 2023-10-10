@@ -472,8 +472,13 @@ input[type='month'] {
 textarea {
   overflow: auto;
   resize: vertical;
+  background: transparent;
+  width: 100%;
+  outline: none;
 }
-
+textarea:focus-visible {
+  outline: none;
+}
 fieldset {
   min-width: 0;
   padding: 0;
