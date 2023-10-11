@@ -81,6 +81,15 @@ const FunctionalDetailsTableData = (props) => {
       size: 200,
     },
     {
+      accessorKey: 'BU',
+      id: 'BU',
+      header: 'BU/Entity',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 200,
+    },
+    {
       accessorKey: 'Title',
       id: 'Title',
       header: 'Title',
