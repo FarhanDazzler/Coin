@@ -46,7 +46,7 @@
     font-weight: 400 !important;
   }
   .side-by-side-radio {
-        display: grid !important;
+    display: grid !important;
     align-items: center;
     gap: 2%;
     grid-template-columns: 68% 28%;
@@ -120,5 +120,37 @@
     &:focus {
       color: #fff !important;
     }
+  }
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  background: #eceff1;
+}
+
+.page-wrapper {
+  .controlSection2ChartWrapper {
+    text {
+      fill: #fff;
+    }
+    .apexcharts-tooltip.apexcharts-theme-light,
+    .apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
+      background: #2d2d2de6;
+    }
+  }
+}
+
+.chart-info-table {
+  th,
+  td {
+    padding: 10px;
+  }
+  th {
+    color: #ffd232;
+    font-size: 24px;
+    font-weight: 500;
+  }
+  tbody {
+    background: rgba(255, 210, 50, 0.28);
+    border-radius: 6px;
   }
 }
