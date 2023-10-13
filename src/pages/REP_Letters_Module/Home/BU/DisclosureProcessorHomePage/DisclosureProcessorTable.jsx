@@ -47,7 +47,6 @@ const DisclosureProcessorTable = ({
   buValue,
   setBUValue,
 }) => {
-  const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
 
@@ -225,15 +224,11 @@ const DisclosureProcessorTable = ({
   ];
 
   useEffect(() => {
-    setTableData(disclosureProcessorHomePageData);
-  }, [getDisclosureProcessorHomePageData?.data[0], disclosureProcessorHomePageData]);
-
-  useEffect(() => {
-    if (!tableData?.length) return setTableDataArray([]);
+    if (!disclosureProcessorHomePageData?.length) return setTableDataArray([]);
     if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
-      return setTableDataArray(tableData);
+      return setTableDataArray(disclosureProcessorHomePageData);
     }
-    const updatedData = tableData?.filter((i) => {
+    const updatedData = disclosureProcessorHomePageData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
@@ -241,7 +236,7 @@ const DisclosureProcessorTable = ({
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, buValue, tableData]);
+  }, [assessmentCycleValue, zoneValue, buValue, disclosureProcessorHomePageData]);
   return (
     <>
       <div className="container-fluid">

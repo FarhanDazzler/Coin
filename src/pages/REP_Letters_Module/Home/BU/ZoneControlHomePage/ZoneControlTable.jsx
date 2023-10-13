@@ -43,7 +43,6 @@ const ZoneControlTable = ({
   buValue,
   setBUValue,
 }) => {
-  const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
 
@@ -205,15 +204,11 @@ const ZoneControlTable = ({
   ];
 
   useEffect(() => {
-    setTableData(HomePageData);
-  }, [getHomePageData?.data[0], HomePageData]);
-
-  useEffect(() => {
-    if (!tableData?.length) return setTableDataArray([]);
+    if (!HomePageData?.length) return setTableDataArray([]);
     if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
-      return setTableDataArray(tableData);
+      return setTableDataArray(HomePageData);
     }
-    const updatedData = tableData?.filter((i) => {
+    const updatedData = HomePageData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
@@ -221,7 +216,7 @@ const ZoneControlTable = ({
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, buValue, tableData]);
+  }, [assessmentCycleValue, zoneValue, buValue, HomePageData]);
   return (
     <>
       <div className="container-fluid">
