@@ -341,6 +341,22 @@ const TopBar = (props) => {
               </li>
             }
 
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/reporting'].includes(location?.pathname) ? ' active' : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/reporting');
+                  }}
+                >
+                  <FeatherIcon icon="flag" size={14} />
+                  &nbsp;{'Reporting'}
+                </a>
+              </li>
+            }
+
             {localStorage.getItem('selected_Role') == 'Global internal control' && (
               <li className="nav-item">
                 <a

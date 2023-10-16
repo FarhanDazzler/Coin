@@ -131,20 +131,38 @@
 
 // section2-form
 
-.section2-form{
-  .form-select{
+.section2-form {
+  .form-select {
     background-color: #1a1a1a !important;
     color: #ffffff !important;
     border-radius: 8px !important;
   }
-  .footer-action{
+  .footer-action {
     background: transparent;
-    border-top: none
+    border-top: none;
   }
 }
-.section2-form{
-  input[type='file']{
+.section2-form {
+  input[type='file'] {
     background-color: #1a1a1a !important;
     color: #fff;
+  }
+}
+
+.bu-letter-section3 {
+  padding: 0px;
+  color: #ffffff;
+  background: rgba(140, 140, 140, 0.14);
+
+  .section3-divider {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .section3-footer-action {
+    position: sticky;
+    bottom: 0;
+    padding: 15px 20px;
+    z-index: 999;
+    margin-top: 20px;
   }
 }

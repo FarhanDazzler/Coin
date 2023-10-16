@@ -25,6 +25,8 @@ import {
   getBUSubmitResponseSelector,
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../LetterFormStyle.scss';
+import AttemptSection3 from './FormComponents/Section3/AttemptSection3';
+import ApprovalPageSection3 from './FormComponents/Section3/ApprovalPageSection3';
 
 const BULetterForm = (props) => {
   const dispatch = useDispatch();
@@ -116,9 +118,9 @@ const BULetterForm = (props) => {
               </div>
             ) : (
               <div className="col-lg-12">
-                <Section0 scopeData={scopeData} letterType={letterType} />
-                <Section1 questions={questionState.data} scopeData={scopeData} />
-                {/* <Section2 /> */}
+                {/* <Section0 scopeData={scopeData} letterType={letterType} />
+                <Section1 questions={questionState.data} scopeData={scopeData} /> */}
+                <ApprovalPageSection3 scopeData={scopeData} />
               </div>
             )}
           </div>

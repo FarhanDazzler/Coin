@@ -65,9 +65,14 @@ export const graphConfig = {
   graphMeEndpoint: 'https://graph.microsoft.com/v1.0/me',
   graphProfilePhotoEndpoint: 'https://graph.microsoft.com/v1.0/me/photo/$value',
 };
-// for Genrating bearar Token for snow tickets
+// for Generating bearar Token for snow tickets
 export const snowBackendRequest = {
   scopes: [process.env.REACT_APP_SNOW_BE_REQUEST],
+};
+// for generating bearar Token for powerbi
+export const powerbiRequest = {
+  // scopes: [`https://analysis.windows.net/powerbi/api/Report.Read.All`],
+  scopes: [process.env.REACT_APP_POWERBI_SCOPE],
 };
 /**
  * Add here the scopes to request when obtaining an access token for MS Graph API. For more information, see:
