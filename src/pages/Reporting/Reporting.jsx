@@ -8,7 +8,6 @@ const Reporting = () => {
   const reportClass = 'report-container';
   var accessToken = localStorage.getItem('powerbi_access_token');
 
-  //https://app.powerbi.com/reportEmbed?reportId=47029d01-e6d0-4531-874a-5bc3a0ccb3cc&appId=72d682e3-2280-4b47-a554-d85c3065ebe0&autoAuth=true&ctid=cef04b19-7776-4a94-b89b-375c77a8f936
   const reportComponent = (
     <PowerBIEmbed
       embedConfig={{
