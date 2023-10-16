@@ -44,7 +44,6 @@ const GlobalPersonaTable = ({
   buValue,
   setBUValue,
 }) => {
-  const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
 
@@ -199,15 +198,11 @@ const GlobalPersonaTable = ({
   ];
 
   useEffect(() => {
-    setTableData(recipientHomePageData);
-  }, [getGlobalPersonaHomePageData?.data[0], recipientHomePageData]);
-
-  useEffect(() => {
-    if (!tableData?.length) return setTableDataArray([]);
+    if (!recipientHomePageData?.length) return setTableDataArray([]);
     if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
-      return setTableDataArray(tableData);
+      return setTableDataArray(recipientHomePageData);
     }
-    const updatedData = tableData?.filter((i) => {
+    const updatedData = recipientHomePageData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
@@ -215,7 +210,7 @@ const GlobalPersonaTable = ({
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, buValue, tableData]);
+  }, [assessmentCycleValue, zoneValue, buValue, recipientHomePageData]);
   return (
     <>
       <div className="container-fluid">
