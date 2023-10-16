@@ -39,7 +39,6 @@ const ControlOwnerTable = ({
 }) => {
   const { t } = useTranslation();
   const [tableColumns, setTableColumns] = useState([]);
-  const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
   const history = useHistory();
@@ -295,16 +294,7 @@ const ControlOwnerTable = ({
   }
 
   useEffect(() => {
-    setTableData(controlOwnerData);
-    // if (loginUserRole === 'Control owner') {
-    //   setTableData(getControlOwnerData.data[0]?.cOwnerData || []);
-    // } else {
-    //   setTableData(getControlOwnerData.data[1]?.cOverSightData || []);
-    // }
-  }, [getControlOwnerData.data, loginUserRole, controlOwnerData]);
-
-  useEffect(() => {
-    if (!tableData.length) return setTableDataArray([]);
+    if (!controlOwnerData.length) return setTableDataArray([]);
     if (
       !yearValue.length &&
       !assessmentCycleValue.length &&
@@ -313,9 +303,9 @@ const ControlOwnerTable = ({
       !receiverValue.length &&
       !providerValue.length
     ) {
-      return setTableDataArray(tableData);
+      return setTableDataArray(controlOwnerData);
     }
-    const updatedData = tableData.filter((i) => {
+    const updatedData = controlOwnerData.filter((i) => {
       return (
         (yearValue?.length ? yearValue.includes(i.Year) : true) &&
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
@@ -333,7 +323,7 @@ const ControlOwnerTable = ({
     buValue,
     receiverValue,
     providerValue,
-    tableData,
+    controlOwnerData,
     loginUserRole,
   ]);
   return (

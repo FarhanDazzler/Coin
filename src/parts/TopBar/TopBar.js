@@ -575,6 +575,7 @@ const TopBar = (props) => {
                         dispatch(setLoginRole(e.target.value));
                         localStorage.setItem('selected_Role', e.target.value);
                         history.push('/');
+                        // window.location.href = '/';
                       }}
                       value={
                         (loginRole || selected_Role) === 'control_oversight'
