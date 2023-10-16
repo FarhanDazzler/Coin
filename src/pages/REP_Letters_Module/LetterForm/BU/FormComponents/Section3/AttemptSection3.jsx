@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Form } from 'react-bootstrap';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import { useMsal } from '@azure/msal-react';
 import * as formik from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import CollapseFrame from '../../../../../../components/UI/CollapseFrame';
@@ -21,26 +22,35 @@ import {
   Loader,
 } from '@mantine/core';
 import ActionLogChatTimeline from './ActionLogChatTimeline';
-// import {
-//   getLatestBUDraftResponse,
-//   addOrUpdateBUDraftResponse,
-//   clearLatestBUDraftResponse,
-//   addBUSubmitResponse,
-//   clearBUSubmitResponse,
-// } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
-// import {
-//   addOrUpdateBUDraftResponseSelector,
-//   getLatestBUDraftResponseSelector,
-// } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import {
+  getBUSection3Response,
+  addBUSection3Response,
+} from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import {
+  getBUSection3ResponseSelector,
+  addBUSection3ResponseSelector,
+} from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
-const AttemptSection3 = ({ scopeData }) => {
+const AttemptSection3 = ({ scopeData, comments, existingValues }) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { instance, accounts, inProgress } = useMsal();
   const { Formik } = formik;
   const [chatMessage, setChatMessage] = useState();
   const [chatMessageSaved, setChatMessageSaved] = useState(false);
   const [isNotificationChecked, setIsNotificationChecked] = useState(false);
 
+  const section3Response = useSelector(getBUSection3ResponseSelector);
+  const addBUSection3ResponseState = useSelector(addBUSection3ResponseSelector);
+
+  // useEffect(() => {
+  //   const payload = {
+  //     assessment_id: scopeData?.id,
+  //   };
+  //   dispatch(getBUSection3Response(payload));
+  // }, []);
+
+  //console.log(section3Response?.data, '@@@@');
   const addChatMessageApi = () => {
     const payload = {
       id: scopeData?.id,
@@ -54,18 +64,19 @@ const AttemptSection3 = ({ scopeData }) => {
   var formdata = new FormData();
 
   const handleSave = (value, resetForm) => {
-    formdata.append('id', scopeData?.id);
-    formdata.append('RBA_File', value.RBA_File);
+    formdata.append('assessment_id', scopeData?.id);
+    if (value.is_rba_applicable === 'Yes') {
+      formdata.append('is_rba_applicable', true);
+      formdata.append('rba_attachment', value.RBA_File);
+    } else {
+      formdata.append('is_rba_applicable', false);
+    }
+    formdata.append('comment', value.Comment);
+    formdata.append('created_by', accounts[0]?.username);
 
-    dispatch();
-    //   modifyInstructions({
-    //     formdata,
-    //     event: {
-    //       onSuccess: () => {
-    //         resetForm();
-    //       },
-    //     },
-    //   }),
+    //console.log(formdata, '@@@@');
+    dispatch(addBUSection3Response(formdata));
+    history.push('/');
   };
 
   return (
@@ -74,12 +85,12 @@ const AttemptSection3 = ({ scopeData }) => {
         enableReinitialize
         initialValues={{
           RBA_File: null,
-          isRBA_applicable: 'Yes',
-          isNotificationChecked: false,
+          is_rba_applicable: 'Yes',
+          Comment: '',
         }}
         validationSchema={Yup.object().shape({
-          isRBA_applicable: Yup.string().required('Please select an option'),
-          RBA_File: Yup.mixed().when('isRBA_applicable', {
+          is_rba_applicable: Yup.string().required('Please select an option'),
+          RBA_File: Yup.mixed().when('is_rba_applicable', {
             is: (value) => ['Yes'].includes(value),
             then: Yup.mixed().required('RBA file is required'),
           }),
@@ -118,10 +129,10 @@ const AttemptSection3 = ({ scopeData }) => {
                       <Form.Group className="input-group mb-3">
                         <Form.Control
                           as="select"
-                          name="isRBA_applicable"
+                          name="is_rba_applicable"
                           placeholder=""
-                          value={values.isRBA_applicable}
-                          isInvalid={!!errors.isRBA_applicable}
+                          value={values.is_rba_applicable}
+                          isInvalid={!!errors.is_rba_applicable}
                           onBlur={handleBlur}
                           onChange={handleChange}
                           readOnly={false}
@@ -132,12 +143,12 @@ const AttemptSection3 = ({ scopeData }) => {
                         </Form.Control>
 
                         <Form.Control.Feedback type="invalid">
-                          {errors.isRBA_applicable}
+                          {errors.is_rba_applicable}
                         </Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                   </Row>
-                  {values.isRBA_applicable === 'Yes' && (
+                  {values.is_rba_applicable === 'Yes' && (
                     <>
                       <h5>
                         Kindly consolidate all relevant RBA proof documents into a single, polished
@@ -162,22 +173,24 @@ const AttemptSection3 = ({ scopeData }) => {
                           </Form.Control.Feedback>
                         </Form.Group>
                       </Row>
-                      <Row>
-                        <Col>
-                          <h5>RBA file attached by Disclosure Processor</h5>
-                        </Col>
-                        <Col>
-                          <Button
-                            startIcon={<PictureAsPdfIcon />}
-                            onClick={() => {
-                              const pdfUrl = '';
-                              window.open(pdfUrl, '_blank');
-                            }}
-                          >
-                            RBA Attachment
-                          </Button>
-                        </Col>
-                      </Row>
+                      {/* {existingValues?.is_rba_applicable === 'true' && (
+                        <Row>
+                          <Col>
+                            <h5>RBA file attached by Disclosure Processor</h5>
+                          </Col>
+                          <Col>
+                            <Button
+                              startIcon={<PictureAsPdfIcon />}
+                              onClick={() => {
+                                const pdfUrl = existingValues?.rba_attachment_url;
+                                window.open(pdfUrl, '_blank');
+                              }}
+                            >
+                              RBA Attachment
+                            </Button>
+                          </Col>
+                        </Row>
+                      )} */}
                       <Row>
                         <Group position="apart">
                           <SimpleGrid cols={1}>
@@ -191,6 +204,7 @@ const AttemptSection3 = ({ scopeData }) => {
                         </Group>
                         <Divider color="gray" className="section3-divider" size="xs" />
                         <ActionLogChatTimeline
+                          comments={comments}
                           action_log_id={scopeData?.id}
                           chatMessageSaved={chatMessageSaved}
                           setChatMessageSaved={setChatMessageSaved}

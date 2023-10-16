@@ -60,6 +60,15 @@ import {
   ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR,
   ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
   ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS,
+  GET_BU_SECTION_3_RESPONSE_REQUEST,
+  GET_BU_SECTION_3_RESPONSE_SUCCESS,
+  GET_BU_SECTION_3_RESPONSE_ERROR,
+  ADD_BU_SECTION_3_RESPONSE_REQUEST,
+  ADD_BU_SECTION_3_RESPONSE_SUCCESS,
+  ADD_BU_SECTION_3_RESPONSE_ERROR,
+  APPROVE_BU_SECTION_3_RESPONSE_REQUEST,
+  APPROVE_BU_SECTION_3_RESPONSE_SUCCESS,
+  APPROVE_BU_SECTION_3_RESPONSE_ERROR,
 } from './RL_HomePageReducer';
 import Swal from 'sweetalert2';
 
@@ -485,6 +494,86 @@ function* handle_AddBUSection2CheckboxData({ payload }) {
   }
 }
 
+// get BU Section 3 Response
+async function getBUSection3ResponseApi(params) {
+  return await Axios.get('/get_bu_section3_rba', { params });
+}
+function* handle_GetBUSection3Response({ payload }) {
+  try {
+    const response = yield call(getBUSection3ResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BU_SECTION_3_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BU_SECTION_3_RESPONSE_ERROR,
+    });
+  }
+}
+
+// add BU Section 3 Response
+async function addBUSection3ResponseApi(payload) {
+  return await Axios.post('/add_bu_section3_rba', payload);
+}
+function* updateAddBUSection3Response({ payload }) {
+  try {
+    const response = yield call(addBUSection3ResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_BU_SECTION_3_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Response Submitted Successfully!', 'success');
+
+      // Clear the get BU Section 3 Response state
+      yield put({ type: GET_BU_SECTION_3_RESPONSE_SUCCESS, payload: null });
+      // Redirect the user to '/'
+      yield put(push('/'));
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_BU_SECTION_3_RESPONSE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+// Approve BU Section 3 Response
+async function approveBUSection3ResponseApi(payload) {
+  return await Axios.post('/', payload);
+}
+function* updateApproveBUSection3Response({ payload }) {
+  try {
+    const response = yield call(approveBUSection3ResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: APPROVE_BU_SECTION_3_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Response Submitted Successfully!', 'success');
+
+      // Clear the get BU Section 3 Response state
+      yield put({ type: GET_BU_SECTION_3_RESPONSE_SUCCESS, payload: null });
+      // Redirect the user to '/'
+      yield put(push('/'));
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: APPROVE_BU_SECTION_3_RESPONSE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
 export default all([
   takeLatest(
     GET_FUNCTION_RECIPIENT_HOME_PAGE_TABLE_DATA_REQUEST,
@@ -526,4 +615,7 @@ export default all([
     ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
     handle_AddBUSection2UploadMailApprovalData,
   ),
+  takeLatest(GET_BU_SECTION_3_RESPONSE_REQUEST, handle_GetBUSection3Response),
+  takeLatest(ADD_BU_SECTION_3_RESPONSE_REQUEST, updateAddBUSection3Response),
+  takeLatest(APPROVE_BU_SECTION_3_RESPONSE_REQUEST, updateApproveBUSection3Response),
 ]);

@@ -106,13 +106,27 @@ const DisclosureProcessorTable = ({
                 onClick={() => {
                   const data = {
                     scopeData: row.row.original,
-                    modalType: 'attempt',
+                    modalType: 'attemptSection1',
                     letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
                   };
                   history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
               >
                 Letter
+              </Button>
+            )}
+            {['Not started', 'Drafted'].includes(row.row.original.Status) && (
+              <Button
+                onClick={() => {
+                  const data = {
+                    scopeData: row.row.original,
+                    modalType: 'attemptSection3',
+                    letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
+                  };
+                  history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
+                }}
+              >
+                RBA Proof
               </Button>
             )}
           </div>

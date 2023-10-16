@@ -18,11 +18,13 @@ import {
 import {
   getLatestBUDraftResponse,
   getBUSubmitResponse,
+  getBUSection3Response,
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import {
   addOrUpdateBUDraftResponseSelector,
   getLatestBUDraftResponseSelector,
   getBUSubmitResponseSelector,
+  getBUSection3ResponseSelector,
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../LetterFormStyle.scss';
 import AttemptSection3 from './FormComponents/Section3/AttemptSection3';
@@ -38,6 +40,7 @@ const BULetterForm = (props) => {
   const instructionState = useSelector(getInstructionsSelector);
   const getLatestBUDraftResponseState = useSelector(getLatestBUDraftResponseSelector);
   const getBUSubmitResponseState = useSelector(getBUSubmitResponseSelector);
+  const getBUSection3ResponseState = useSelector(getBUSection3ResponseSelector);
 
   useEffect(() => {
     const payload = {
@@ -46,7 +49,7 @@ const BULetterForm = (props) => {
 
     dispatch(getInstructions(payload));
 
-    if (modalType === 'attempt') {
+    if (modalType === 'attemptSection1') {
       let payload = {
         type: letterType,
       };
@@ -56,11 +59,17 @@ const BULetterForm = (props) => {
         assessment_id: scopeData?.id,
       };
       dispatch(getLatestBUDraftResponse(payloadForGettingDraftResp));
-    } else {
+    } else if (modalType === 'attemptSection3') {
       let payloadForGettingSubmittedResp = {
         assessment_id: scopeData?.id,
       };
+
       dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+      const payloadForGettingSection3Response = {
+        assessment_id: scopeData?.id,
+      };
+
+      dispatch(getBUSection3Response(payloadForGettingSection3Response));
     }
   }, []);
 
@@ -104,6 +113,47 @@ const BULetterForm = (props) => {
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
 
+  //console.log('@@@@@@', getBUSection3ResponseState?.data?.rbaResponse[0]);
+  // variables for Section 3
+  const comments = [
+    {
+      assessment_id: 'BB38B288-765D-4D42-B4E2-1F181F1C840A',
+      comment: 'test from postman',
+      created_at: '2023-10-16T20:05:17.220000',
+      created_by: 'vikash.jha@ab-inbev.com',
+      id: '555ED5D4-8C3E-45F7-84E2-687779BB838D',
+    },
+    {
+      assessment_id: 'BB38B288-765D-4D42-B4E2-1F181F1C840A',
+      comment: 'test from postman',
+      created_at: '2023-10-16T20:04:14.587000',
+      created_by: 'vikash.jha@ab-inbev.com',
+      id: '623BA0C1-70F1-4212-B966-9EFEB2612435',
+    },
+    {
+      assessment_id: 'BB38B288-765D-4D42-B4E2-1F181F1C840A',
+      comment: 'test from postman',
+      created_at: '2023-10-16T20:03:36.890000',
+      created_by: 'vikash.jha@ab-inbev.com',
+      id: '2EB6880E-0413-456C-9BCE-8D4F4EE216DE',
+    },
+    {
+      assessment_id: 'BB38B288-765D-4D42-B4E2-1F181F1C840A',
+      comment: 'test from postman',
+      created_at: '2023-10-16T20:02:08.427000',
+      created_by: 'vikash.jha@ab-inbev.com',
+      id: '5407C37C-DD76-4DB4-89FA-7B33557ED208',
+    },
+    {
+      assessment_id: 'BB38B288-765D-4D42-B4E2-1F181F1C840A',
+      comment: 'test from postman',
+      created_at: '2023-10-16T20:01:03.147000',
+      created_by: 'vikash.jha@ab-inbev.com',
+      id: '442452AA-3FF4-4585-9166-602E398D7227',
+    },
+  ];
+
+  //const existingValues = getBUSection3ResponseState?.data?.rbaResponse[0];
   return (
     <div>
       <PageWrapper>
@@ -118,15 +168,16 @@ const BULetterForm = (props) => {
               </div>
             ) : (
               <div className="col-lg-12">
-                {/* <Section0 scopeData={scopeData} letterType={letterType} />
-                <Section1 questions={questionState.data} scopeData={scopeData} /> */}
-                <ApprovalPageSection3 scopeData={scopeData} />
+                <Section0 scopeData={scopeData} letterType={letterType} />
+                <Section1 questions={questionState.data} scopeData={scopeData} />
               </div>
             )}
           </div>
         ) : (
           <div className="container-fluid">
-            {instructionState.loading || getBUSubmitResponseState.loading ? (
+            {instructionState.loading ||
+            getBUSubmitResponseState.loading ||
+            getBUSection3ResponseState.loading ? (
               <div className="loader-animation">
                 <DotSpinner size={100} speed={0.9} color="#e3af32" />
                 <p className="loader-Desc ml-3">
@@ -167,8 +218,13 @@ const BULetterForm = (props) => {
                   </div>
                 </div>
                 <Section0 scopeData={scopeData} letterType={letterType} />
-                <ReviewSection1
+                {/* <ReviewSection1
                   submittedResponses={getBUSubmitResponseState?.data?.Latest_Response}
+                /> */}
+                <AttemptSection3
+                  scopeData={scopeData}
+                  comments={comments}
+                  //existingValues={existingValues}
                 />
               </div>
             )}

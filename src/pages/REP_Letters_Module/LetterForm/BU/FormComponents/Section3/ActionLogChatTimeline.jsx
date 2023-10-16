@@ -28,13 +28,14 @@ const CustomCardLoader = () => {
 };
 
 const ActionLogChatTimeline = ({
+  comments,
   action_log_id,
   chatMessageSaved,
   setChatMessageSaved,
   actionLogData,
 }) => {
   const dispatch = useDispatch();
-  const [chats, setChats] = useState();
+  const [chats, setChats] = useState(comments);
 
   const getActionLogChatDetailsApi = (action_log_id) => {
     // dataService.getActionLogChatDetails(action_log_id).then((res) => {
@@ -70,12 +71,29 @@ const ActionLogChatTimeline = ({
                 bulletSize={30}
                 reverseActive
                 lineWidth={7}
+                styles={{
+                  //item: { color: 'red' },
+                  //itemBody: { color: 'red' },
+                  itemTitle: { color: '#e3af32' },
+                  //itemContent: { color: 'red' },
+                  //itemLineActive: { color: 'red' },
+                  //itemActive: { color: 'red' },
+                  //itemBullet: { color: '#e3af32' },
+                  //itemBulletWithChild: { color: 'red' },
+                }}
               >
                 {chats &&
                   chats?.map((message) => (
-                    <Timeline.Item bullet={nameInitials(message?.name)} title={`${message.name}`}>
-                      <Text>{`${message.message}`}</Text>
-                      <Text size="xs" mt={4} color="dimmed">{`${message.created_at}`}</Text>
+                    <Timeline.Item
+                      bullet={nameInitials(message?.created_by)}
+                      title={`${message.created_by}`}
+                    >
+                      <Text color="white">{`${message.comment}`}</Text>
+                      {/* <Text size="xs" mt={4} color="dimmed">{`${message.created_at}`}</Text> */}
+
+                      <Text size="xs" mt={4} color="dimmed">{`${dayjs(message.created_at).format(
+                        `ddd, DD MMM YYYY HH:mm:ss`,
+                      )}`}</Text>
                     </Timeline.Item>
                   ))}
 
