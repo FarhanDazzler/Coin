@@ -341,6 +341,22 @@ const TopBar = (props) => {
               </li>
             }
 
+            {
+              <li className="nav-item">
+                <a
+                  className={`navbar-link ${
+                    ['/reporting'].includes(location?.pathname) ? ' active' : ''
+                  }`}
+                  onClick={() => {
+                    history.push('/reporting');
+                  }}
+                >
+                  <FeatherIcon icon="flag" size={14} />
+                  &nbsp;{'Reporting'}
+                </a>
+              </li>
+            }
+
             {localStorage.getItem('selected_Role') == 'Global internal control' && (
               <li className="nav-item">
                 <a
@@ -559,6 +575,7 @@ const TopBar = (props) => {
                         dispatch(setLoginRole(e.target.value));
                         localStorage.setItem('selected_Role', e.target.value);
                         history.push('/');
+                        // window.location.href = '/';
                       }}
                       value={
                         (loginRole || selected_Role) === 'control_oversight'

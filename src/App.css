@@ -45,3 +45,7 @@ div#google_translate_element select:focus-visible {
   box-shadow: none !important;
   outline: none !important;
 }
+
+.report-container {
+  height: 110vh;
+}

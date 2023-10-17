@@ -1,0 +1,331 @@
+Subject: [PATCH] new fast data get
+---
+Index: src/pages/REP_Letters_Module/Home/BU/ZoneVP/ZoneVPTable.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/REP_Letters_Module/Home/BU/ZoneVP/ZoneVPTable.jsx b/src/pages/REP_Letters_Module/Home/BU/ZoneVP/ZoneVPTable.jsx
+--- a/src/pages/REP_Letters_Module/Home/BU/ZoneVP/ZoneVPTable.jsx	(revision e4491dc596669ecb7ceddabaea7c6846fdb6cf83)
++++ b/src/pages/REP_Letters_Module/Home/BU/ZoneVP/ZoneVPTable.jsx	(date 1697146763581)
+@@ -43,7 +43,6 @@
+   buValue,
+   setBUValue,
+ }) => {
+-  const [tableData, setTableData] = useState([]);
+   const [tableDataArray, setTableDataArray] = useState([]);
+   const token = Cookies.get('token');
+ 
+@@ -205,15 +204,11 @@
+   ];
+ 
+   useEffect(() => {
+-    setTableData(HomePageData);
+-  }, [getHomePageData?.data[0], HomePageData]);
+-
+-  useEffect(() => {
+-    if (!tableData?.length) return setTableDataArray([]);
++    if (!HomePageData?.length) return setTableDataArray([]);
+     if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
+-      return setTableDataArray(tableData);
++      return setTableDataArray(HomePageData);
+     }
+-    const updatedData = tableData?.filter((i) => {
++    const updatedData = HomePageData?.filter((i) => {
+       return (
+         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
+         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+@@ -221,7 +216,7 @@
+       );
+     });
+     setTableDataArray(updatedData);
+-  }, [assessmentCycleValue, zoneValue, buValue, tableData]);
++  }, [assessmentCycleValue, zoneValue, buValue, HomePageData]);
+   return (
+     <>
+       <div className="container-fluid">
+Index: src/pages/REP_Letters_Module/Home/BU/FinanceDirectorHomePage/FinanceDirectorTable.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/REP_Letters_Module/Home/BU/FinanceDirectorHomePage/FinanceDirectorTable.jsx b/src/pages/REP_Letters_Module/Home/BU/FinanceDirectorHomePage/FinanceDirectorTable.jsx
+--- a/src/pages/REP_Letters_Module/Home/BU/FinanceDirectorHomePage/FinanceDirectorTable.jsx	(revision e4491dc596669ecb7ceddabaea7c6846fdb6cf83)
++++ b/src/pages/REP_Letters_Module/Home/BU/FinanceDirectorHomePage/FinanceDirectorTable.jsx	(date 1697147758617)
+@@ -43,7 +43,6 @@
+   buValue,
+   setBUValue,
+ }) => {
+-  const [tableData, setTableData] = useState([]);
+   const [tableDataArray, setTableDataArray] = useState([]);
+   const token = Cookies.get('token');
+ 
+@@ -205,15 +204,11 @@
+   ];
+ 
+   useEffect(() => {
+-    setTableData(HomePageData);
+-  }, [getHomePageData?.data[0], HomePageData]);
+-
+-  useEffect(() => {
+-    if (!tableData?.length) return setTableDataArray([]);
++    if (!HomePageData?.length) return setTableDataArray([]);
+     if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
+-      return setTableDataArray(tableData);
++      return setTableDataArray(HomePageData);
+     }
+-    const updatedData = tableData?.filter((i) => {
++    const updatedData = HomePageData?.filter((i) => {
+       return (
+         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
+         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+@@ -221,7 +216,7 @@
+       );
+     });
+     setTableDataArray(updatedData);
+-  }, [assessmentCycleValue, zoneValue, buValue, tableData]);
++  }, [assessmentCycleValue, zoneValue, buValue, HomePageData, getHomePageData?.data[0]]);
+   return (
+     <>
+       <div className="container-fluid">
+Index: src/pages/REP_Letters_Module/Home/BU/DisclosureProcessorHomePage/DisclosureProcessorTable.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/REP_Letters_Module/Home/BU/DisclosureProcessorHomePage/DisclosureProcessorTable.jsx b/src/pages/REP_Letters_Module/Home/BU/DisclosureProcessorHomePage/DisclosureProcessorTable.jsx
+--- a/src/pages/REP_Letters_Module/Home/BU/DisclosureProcessorHomePage/DisclosureProcessorTable.jsx	(revision e4491dc596669ecb7ceddabaea7c6846fdb6cf83)
++++ b/src/pages/REP_Letters_Module/Home/BU/DisclosureProcessorHomePage/DisclosureProcessorTable.jsx	(date 1697146372250)
+@@ -47,7 +47,6 @@
+   buValue,
+   setBUValue,
+ }) => {
+-  const [tableData, setTableData] = useState([]);
+   const [tableDataArray, setTableDataArray] = useState([]);
+   const token = Cookies.get('token');
+ 
+@@ -225,15 +224,11 @@
+   ];
+ 
+   useEffect(() => {
+-    setTableData(disclosureProcessorHomePageData);
+-  }, [getDisclosureProcessorHomePageData?.data[0], disclosureProcessorHomePageData]);
+-
+-  useEffect(() => {
+-    if (!tableData?.length) return setTableDataArray([]);
++    if (!disclosureProcessorHomePageData?.length) return setTableDataArray([]);
+     if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
+-      return setTableDataArray(tableData);
++      return setTableDataArray(disclosureProcessorHomePageData);
+     }
+-    const updatedData = tableData?.filter((i) => {
++    const updatedData = disclosureProcessorHomePageData?.filter((i) => {
+       return (
+         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
+         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+@@ -241,7 +236,7 @@
+       );
+     });
+     setTableDataArray(updatedData);
+-  }, [assessmentCycleValue, zoneValue, buValue, tableData]);
++  }, [assessmentCycleValue, zoneValue, buValue, disclosureProcessorHomePageData]);
+   return (
+     <>
+       <div className="container-fluid">
+Index: src/parts/TopBar/TopBar.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/parts/TopBar/TopBar.js b/src/parts/TopBar/TopBar.js
+--- a/src/parts/TopBar/TopBar.js	(revision e4491dc596669ecb7ceddabaea7c6846fdb6cf83)
++++ b/src/parts/TopBar/TopBar.js	(date 1697147124818)
+@@ -559,6 +559,7 @@
+                         dispatch(setLoginRole(e.target.value));
+                         localStorage.setItem('selected_Role', e.target.value);
+                         history.push('/');
++                        // window.location.href = '/';
+                       }}
+                       value={
+                         (loginRole || selected_Role) === 'control_oversight'
+Index: src/pages/REP_Letters_Module/Home/BU/ZoneControlHomePage/ZoneControlTable.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/REP_Letters_Module/Home/BU/ZoneControlHomePage/ZoneControlTable.jsx b/src/pages/REP_Letters_Module/Home/BU/ZoneControlHomePage/ZoneControlTable.jsx
+--- a/src/pages/REP_Letters_Module/Home/BU/ZoneControlHomePage/ZoneControlTable.jsx	(revision e4491dc596669ecb7ceddabaea7c6846fdb6cf83)
++++ b/src/pages/REP_Letters_Module/Home/BU/ZoneControlHomePage/ZoneControlTable.jsx	(date 1697146691479)
+@@ -43,7 +43,6 @@
+   buValue,
+   setBUValue,
+ }) => {
+-  const [tableData, setTableData] = useState([]);
+   const [tableDataArray, setTableDataArray] = useState([]);
+   const token = Cookies.get('token');
+ 
+@@ -205,15 +204,11 @@
+   ];
+ 
+   useEffect(() => {
+-    setTableData(HomePageData);
+-  }, [getHomePageData?.data[0], HomePageData]);
+-
+-  useEffect(() => {
+-    if (!tableData?.length) return setTableDataArray([]);
++    if (!HomePageData?.length) return setTableDataArray([]);
+     if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
+-      return setTableDataArray(tableData);
++      return setTableDataArray(HomePageData);
+     }
+-    const updatedData = tableData?.filter((i) => {
++    const updatedData = HomePageData?.filter((i) => {
+       return (
+         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
+         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+@@ -221,7 +216,7 @@
+       );
+     });
+     setTableDataArray(updatedData);
+-  }, [assessmentCycleValue, zoneValue, buValue, tableData]);
++  }, [assessmentCycleValue, zoneValue, buValue, HomePageData]);
+   return (
+     <>
+       <div className="container-fluid">
+Index: src/pages/Home/ControlHomePage/ControlOwnerTable/ControlOwnerTable.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/Home/ControlHomePage/ControlOwnerTable/ControlOwnerTable.jsx b/src/pages/Home/ControlHomePage/ControlOwnerTable/ControlOwnerTable.jsx
+--- a/src/pages/Home/ControlHomePage/ControlOwnerTable/ControlOwnerTable.jsx	(revision e4491dc596669ecb7ceddabaea7c6846fdb6cf83)
++++ b/src/pages/Home/ControlHomePage/ControlOwnerTable/ControlOwnerTable.jsx	(date 1697145996516)
+@@ -39,7 +39,6 @@
+ }) => {
+   const { t } = useTranslation();
+   const [tableColumns, setTableColumns] = useState([]);
+-  const [tableData, setTableData] = useState([]);
+   const [tableDataArray, setTableDataArray] = useState([]);
+   const token = Cookies.get('token');
+   const history = useHistory();
+@@ -295,16 +294,7 @@
+   }
+ 
+   useEffect(() => {
+-    setTableData(controlOwnerData);
+-    // if (loginUserRole === 'Control owner') {
+-    //   setTableData(getControlOwnerData.data[0]?.cOwnerData || []);
+-    // } else {
+-    //   setTableData(getControlOwnerData.data[1]?.cOverSightData || []);
+-    // }
+-  }, [getControlOwnerData.data, loginUserRole, controlOwnerData]);
+-
+-  useEffect(() => {
+-    if (!tableData.length) return setTableDataArray([]);
++    if (!controlOwnerData.length) return setTableDataArray([]);
+     if (
+       !yearValue.length &&
+       !assessmentCycleValue.length &&
+@@ -313,9 +303,9 @@
+       !receiverValue.length &&
+       !providerValue.length
+     ) {
+-      return setTableDataArray(tableData);
++      return setTableDataArray(controlOwnerData);
+     }
+-    const updatedData = tableData.filter((i) => {
++    const updatedData = controlOwnerData.filter((i) => {
+       return (
+         (yearValue?.length ? yearValue.includes(i.Year) : true) &&
+         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
+@@ -333,7 +323,7 @@
+     buValue,
+     receiverValue,
+     providerValue,
+-    tableData,
++    controlOwnerData,
+     loginUserRole,
+   ]);
+   return (
+Index: src/pages/REP_Letters_Module/Home/BU/BU_HomePage.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/REP_Letters_Module/Home/BU/BU_HomePage.jsx b/src/pages/REP_Letters_Module/Home/BU/BU_HomePage.jsx
+--- a/src/pages/REP_Letters_Module/Home/BU/BU_HomePage.jsx	(revision e4491dc596669ecb7ceddabaea7c6846fdb6cf83)
++++ b/src/pages/REP_Letters_Module/Home/BU/BU_HomePage.jsx	(date 1697147738467)
+@@ -6,19 +6,24 @@
+ import ZoneControlHomePage from './ZoneControlHomePage/ZoneControlHomePage';
+ import ZoneVPHomePage from './ZoneVP/ZoneVPHomePage';
+ import '../styles.scss';
++import { useSelector } from 'react-redux';
+ 
+ const BU_HomePage = () => {
++  const selected_Role = localStorage.getItem('selected_Role');
++  const loginRole = useSelector((state) => state?.auth?.loginRole);
++
++  console.log('@@@@@@@', localStorage.getItem('selected_Role'));
+   return (
+     <div>
+-      {localStorage.getItem('selected_Role') === 'Disclosure Processor' ? (
++      {(loginRole || selected_Role) === 'Disclosure Processor' ? (
+         <DisclosureProcessorHomePage />
+-      ) : localStorage.getItem('selected_Role') === 'BU Head' ? (
++      ) : (loginRole || selected_Role) === 'BU Head' ? (
+         <BUHeadHomePage />
+-      ) : localStorage.getItem('selected_Role') === 'Finance Director' ? (
++      ) : (loginRole || selected_Role) === 'Finance Director' ? (
+         <FinanceDirectorHomePage />
+-      ) : localStorage.getItem('selected_Role') === 'Zone Control' ? (
++      ) : (loginRole || selected_Role) === 'Zone Control' ? (
+         <ZoneControlHomePage />
+-      ) : localStorage.getItem('selected_Role') === 'Zone VP' ? (
++      ) : (loginRole || selected_Role) === 'Zone VP' ? (
+         <ZoneVPHomePage />
+       ) : (
+         <GlobalPersonaHomePage />
+Index: src/pages/REP_Letters_Module/Home/BU/GlobalPersonaHomePage/GlobalPersonaTable.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/REP_Letters_Module/Home/BU/GlobalPersonaHomePage/GlobalPersonaTable.jsx b/src/pages/REP_Letters_Module/Home/BU/GlobalPersonaHomePage/GlobalPersonaTable.jsx
+--- a/src/pages/REP_Letters_Module/Home/BU/GlobalPersonaHomePage/GlobalPersonaTable.jsx	(revision e4491dc596669ecb7ceddabaea7c6846fdb6cf83)
++++ b/src/pages/REP_Letters_Module/Home/BU/GlobalPersonaHomePage/GlobalPersonaTable.jsx	(date 1697146194172)
+@@ -44,7 +44,6 @@
+   buValue,
+   setBUValue,
+ }) => {
+-  const [tableData, setTableData] = useState([]);
+   const [tableDataArray, setTableDataArray] = useState([]);
+   const token = Cookies.get('token');
+ 
+@@ -199,15 +198,11 @@
+   ];
+ 
+   useEffect(() => {
+-    setTableData(recipientHomePageData);
+-  }, [getGlobalPersonaHomePageData?.data[0], recipientHomePageData]);
+-
+-  useEffect(() => {
+-    if (!tableData?.length) return setTableDataArray([]);
++    if (!recipientHomePageData?.length) return setTableDataArray([]);
+     if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
+-      return setTableDataArray(tableData);
++      return setTableDataArray(recipientHomePageData);
+     }
+-    const updatedData = tableData?.filter((i) => {
++    const updatedData = recipientHomePageData?.filter((i) => {
+       return (
+         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
+         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+@@ -215,7 +210,7 @@
+       );
+     });
+     setTableDataArray(updatedData);
+-  }, [assessmentCycleValue, zoneValue, buValue, tableData]);
++  }, [assessmentCycleValue, zoneValue, buValue, recipientHomePageData]);
+   return (
+     <>
+       <div className="container-fluid">

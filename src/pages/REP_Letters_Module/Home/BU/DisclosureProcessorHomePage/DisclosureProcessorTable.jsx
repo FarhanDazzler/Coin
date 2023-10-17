@@ -47,7 +47,6 @@ const DisclosureProcessorTable = ({
   buValue,
   setBUValue,
 }) => {
-  const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
 
@@ -107,13 +106,27 @@ const DisclosureProcessorTable = ({
                 onClick={() => {
                   const data = {
                     scopeData: row.row.original,
-                    modalType: 'attempt',
+                    modalType: 'attemptSection1',
                     letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
                   };
                   history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
               >
                 Letter
+              </Button>
+            )}
+            {['Not started', 'Drafted'].includes(row.row.original.Status) && (
+              <Button
+                onClick={() => {
+                  const data = {
+                    scopeData: row.row.original,
+                    modalType: 'attemptSection3',
+                    letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
+                  };
+                  history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
+                }}
+              >
+                RBA Proof
               </Button>
             )}
           </div>
@@ -225,15 +238,11 @@ const DisclosureProcessorTable = ({
   ];
 
   useEffect(() => {
-    setTableData(disclosureProcessorHomePageData);
-  }, [getDisclosureProcessorHomePageData?.data[0], disclosureProcessorHomePageData]);
-
-  useEffect(() => {
-    if (!tableData?.length) return setTableDataArray([]);
+    if (!disclosureProcessorHomePageData?.length) return setTableDataArray([]);
     if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
-      return setTableDataArray(tableData);
+      return setTableDataArray(disclosureProcessorHomePageData);
     }
-    const updatedData = tableData?.filter((i) => {
+    const updatedData = disclosureProcessorHomePageData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
@@ -241,7 +250,7 @@ const DisclosureProcessorTable = ({
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, buValue, tableData]);
+  }, [assessmentCycleValue, zoneValue, buValue, disclosureProcessorHomePageData]);
   return (
     <>
       <div className="container-fluid">

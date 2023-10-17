@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { InteractionStatus, PublicClientApplication } from '@azure/msal-browser';
-import { loginRequest, msalConfig, snowBackendRequest } from './utils/authConfig';
+import { loginRequest, msalConfig, snowBackendRequest, powerbiRequest } from './utils/authConfig';
 import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -162,6 +162,15 @@ const Pages = () => {
         })
         .catch((err) => {
           console.log(`Error occurred while acquiring token: ${err}`);
+        });
+      // for creating PowerBI API token for PowerBI
+      instance
+        .acquireTokenSilent({
+          ...powerbiRequest,
+          account: accounts[0],
+        })
+        .then((response) => {
+          localStorage.setItem('powerbi_access_token', response?.accessToken);
         });
     }
     // logic for getting NPS api auth token

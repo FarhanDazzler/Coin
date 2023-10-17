@@ -21,7 +21,11 @@ import {
   CLEAR_BU_SUBMIT_RESPONSE_REQUEST,
   GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST,
   ADD_BU_SECTION2_CHECKBOX_REQUEST,
-  ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST
+  ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
+  GET_BU_SECTION_3_RESPONSE_REQUEST,
+  CLEAR_GET_BU_SECTION_3_RESPONSE_REQUEST,
+  ADD_BU_SECTION_3_RESPONSE_REQUEST,
+  APPROVE_BU_SECTION_3_RESPONSE_REQUEST,
 } from './RL_HomePageReducer';
 
 export const getFunctionRecipientHomePageData = (payload) => ({
@@ -126,4 +130,23 @@ export const addBUSection2CheckboxAction = (payload) => ({
 export const addBUSection2UploadMailApprovalAction = (payload) => ({
   type: ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
   payload,
+});
+
+export const getBUSection3Response = (payload) => ({
+  type: GET_BU_SECTION_3_RESPONSE_REQUEST,
+  payload,
+});
+
+export const addBUSection3Response = (payload) => ({
+  type: ADD_BU_SECTION_3_RESPONSE_REQUEST,
+  payload,
+});
+
+export const approveBUSection3Response = (payload) => ({
+  type: APPROVE_BU_SECTION_3_RESPONSE_REQUEST,
+  payload,
+});
+
+export const clearGetBUSection3Response = () => ({
+  type: CLEAR_GET_BU_SECTION_3_RESPONSE_REQUEST,
 });
