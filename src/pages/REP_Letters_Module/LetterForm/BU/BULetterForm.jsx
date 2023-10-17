@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { DotSpinner } from '@uiball/loaders';
 import * as XLSX from 'xlsx';
 import { compile, convert } from 'html-to-text';
+import Button from '../../../../components/UI/Button';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import Section0 from './FormComponents/Section0';
 import Section1 from './FormComponents/Section1';
 import Section2 from './FormComponents/Section2';
 import ReviewSection1 from './FormComponents/ReviewResponseComponents/ReviewSection1';
+import ReviewSection3 from './FormComponents/ReviewResponseComponents/ReviewSection3';
 // import ReviewResponsePage from './FormComponents/ReviewResponsePage';
 import { getInstructions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import { get_BU_Questions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
@@ -30,50 +33,8 @@ import '../LetterFormStyle.scss';
 import AttemptSection3 from './FormComponents/Section3/AttemptSection3';
 import ApprovalPageSection3 from './FormComponents/Section3/ApprovalPageSection3';
 
-const BULetterForm = (props) => {
-  const dispatch = useDispatch();
-  const scopeData = props.location.state?.data?.scopeData;
-  const modalType = props.location.state?.data?.modalType;
-  const letterType = props.location.state?.data?.letterType;
-
-  const questionState = useSelector(get_BU_QuestionsSelector);
-  const instructionState = useSelector(getInstructionsSelector);
-  const getLatestBUDraftResponseState = useSelector(getLatestBUDraftResponseSelector);
-  const getBUSubmitResponseState = useSelector(getBUSubmitResponseSelector);
-  const getBUSection3ResponseState = useSelector(getBUSection3ResponseSelector);
-
-  useEffect(() => {
-    const payload = {
-      module: letterType,
-    };
-
-    dispatch(getInstructions(payload));
-
-    if (modalType === 'attemptSection1') {
-      let payload = {
-        type: letterType,
-      };
-      dispatch(get_BU_Questions(payload));
-
-      let payloadForGettingDraftResp = {
-        assessment_id: scopeData?.id,
-      };
-      dispatch(getLatestBUDraftResponse(payloadForGettingDraftResp));
-    } else if (modalType === 'attemptSection3') {
-      let payloadForGettingSubmittedResp = {
-        assessment_id: scopeData?.id,
-      };
-
-      dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
-      const payloadForGettingSection3Response = {
-        assessment_id: scopeData?.id,
-        //assessment_id: 'BB38B288-765D-4D42-B4E2-1F181F1C840A',
-      };
-
-      dispatch(getBUSection3Response(payloadForGettingSection3Response));
-    }
-  }, []);
-
+const ReviewSubmittedResponses = ({ scopeData, letterType, getBUSubmitResponseState }) => {
+  const history = useHistory();
   const exportResponseToExcel = (info, responses, Last_Saved_At) => {
     // Create a new workbook
     const wb = XLSX.utils.book_new();
@@ -115,6 +76,110 @@ const BULetterForm = (props) => {
   };
 
   return (
+    <div className="col-lg-12">
+      <div>
+        <div className="d-flex align-items-center" style={{ paddingTop: '14px' }}>
+          <span className="review-response-page-title">Review Responses</span>
+          <button
+            className="export_excel_button"
+            onClick={() => {
+              const info = {
+                Title: scopeData?.Title,
+                Letter_Type: scopeData?.Letter_Type,
+                Assessment_Cycle: scopeData?.Assessment_Cycle,
+                Year: scopeData?.Year,
+                Zone: scopeData?.Zone,
+                BU: scopeData?.BU,
+                Entity: scopeData?.Entity,
+                Disclosure_Processor: scopeData?.Disclosure_Processor,
+                Finance_Director: scopeData?.Finance_Director,
+                BU_Head: scopeData?.BU_Head,
+                Zone_Control: scopeData?.Zone_Control,
+                Zone_VP: scopeData?.Zone_VP,
+              };
+              exportResponseToExcel(
+                info,
+                getBUSubmitResponseState?.data?.Latest_Response,
+                getBUSubmitResponseState?.data?.Last_Saved_At,
+              );
+            }}
+          >
+            <strong>Export</strong>
+          </button>
+        </div>
+      </div>
+      <Section0 scopeData={scopeData} letterType={letterType} />
+      <ReviewSection1 submittedResponses={getBUSubmitResponseState?.data?.Latest_Response} />
+      <ReviewSection3 />
+      <div className="d-flex align-items-center justify-content-end">
+        <Button
+          //color="secondary"
+          color="neutral"
+          className="w-100"
+          onClick={() => history.push('/')}
+        >
+          Go Back
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+const BULetterForm = (props) => {
+  const dispatch = useDispatch();
+  const scopeData = props.location.state?.data?.scopeData;
+  const modalType = props.location.state?.data?.modalType;
+  const letterType = props.location.state?.data?.letterType;
+
+  const questionState = useSelector(get_BU_QuestionsSelector);
+  const instructionState = useSelector(getInstructionsSelector);
+  const getLatestBUDraftResponseState = useSelector(getLatestBUDraftResponseSelector);
+  const getBUSubmitResponseState = useSelector(getBUSubmitResponseSelector);
+  const getBUSection3ResponseState = useSelector(getBUSection3ResponseSelector);
+
+  useEffect(() => {
+    const payload = {
+      module: letterType,
+    };
+
+    dispatch(getInstructions(payload));
+
+    if (modalType === 'attemptSection1') {
+      let payload = {
+        type: letterType,
+      };
+      dispatch(get_BU_Questions(payload));
+
+      let payloadForGettingDraftResp = {
+        assessment_id: scopeData?.id,
+      };
+      dispatch(getLatestBUDraftResponse(payloadForGettingDraftResp));
+    } else if (modalType === 'attemptSection3') {
+      let payloadForGettingSubmittedResp = {
+        assessment_id: scopeData?.id,
+      };
+
+      dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+      const payloadForGettingSection3Response = {
+        assessment_id: scopeData?.id,
+      };
+
+      dispatch(getBUSection3Response(payloadForGettingSection3Response));
+    } else {
+      let payloadForGettingSubmittedResp = {
+        assessment_id: scopeData?.id,
+      };
+
+      dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+      const payloadForGettingSection3Response = {
+        assessment_id: scopeData?.id,
+      };
+
+      dispatch(getBUSection3Response(payloadForGettingSection3Response));
+    }
+  }, []);
+
+  return (
     <div>
       <PageWrapper>
         {modalType === 'attempt' ? (
@@ -145,44 +210,11 @@ const BULetterForm = (props) => {
                 </p>
               </div>
             ) : (
-              <div className="col-lg-12">
-                <div>
-                  <div className="d-flex align-items-center" style={{ paddingTop: '14px' }}>
-                    <span className="review-response-page-title">Review Responses</span>
-                    <button
-                      className="export_excel_button"
-                      onClick={() => {
-                        const info = {
-                          Title: scopeData?.Title,
-                          Letter_Type: scopeData?.Letter_Type,
-                          Assessment_Cycle: scopeData?.Assessment_Cycle,
-                          Year: scopeData?.Year,
-                          Zone: scopeData?.Zone,
-                          BU: scopeData?.BU,
-                          Entity: scopeData?.Entity,
-                          Disclosure_Processor: scopeData?.Disclosure_Processor,
-                          Finance_Director: scopeData?.Finance_Director,
-                          BU_Head: scopeData?.BU_Head,
-                          Zone_Control: scopeData?.Zone_Control,
-                          Zone_VP: scopeData?.Zone_VP,
-                        };
-                        exportResponseToExcel(
-                          info,
-                          getBUSubmitResponseState?.data?.Latest_Response,
-                          getBUSubmitResponseState?.data?.Last_Saved_At,
-                        );
-                      }}
-                    >
-                      <strong>Export</strong>
-                    </button>
-                  </div>
-                </div>
-                <Section0 scopeData={scopeData} letterType={letterType} />
-                {/* <ReviewSection1
-                  submittedResponses={getBUSubmitResponseState?.data?.Latest_Response}
-                /> */}
-                <ApprovalPageSection3 scopeData={scopeData} />
-              </div>
+              <ReviewSubmittedResponses
+                scopeData={scopeData}
+                letterType={letterType}
+                getBUSubmitResponseState={getBUSubmitResponseState}
+              />
             )}
           </div>
         )}

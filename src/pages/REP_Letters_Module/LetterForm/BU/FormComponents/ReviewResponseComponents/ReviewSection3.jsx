@@ -25,7 +25,7 @@ const ReviewSection3 = () => {
 
   return (
     <CollapseFrame title="Section 3 : RBA" active>
-      <Col xs={12} md={12}>
+      <Col xs={12} md={12} style={{ padding: '0px' }}>
         <Card className="bu-letter-section3 mt-5">
           <Card.Body>
             <Row style={{ display: 'flex', justifyContent: 'space-between' }}>
