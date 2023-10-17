@@ -33,7 +33,7 @@ import { RepLettersRoutes } from './routes/RepLettersRoutes/RepLetterRoutes';
 import { AssessmentModuleRoutes } from './routes/AssessmentModuleRoutes/AssessmentModuleRoutes';
 import { AdminRoutes } from './routes/AdminRoutes/AdminRoutes';
 import ContactUs from './pages/ContactUS/contactus';
-
+import { NoMatch } from './pages/NoMatch/NoMatch';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/i18n';
 
@@ -240,18 +240,7 @@ const Pages = () => {
           <Route exact path="/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
           <Route exact path="/POC" component={POC} />
-          <Route
-            path="*"
-            render={(props) => {
-              return (
-                <h1>
-                  Error 404
-                  <br />
-                  Page Not Found
-                </h1>
-              );
-            }}
-          />
+          <Route path="*" component={NoMatch} />
         </Switch>
       </div>
     </div>
