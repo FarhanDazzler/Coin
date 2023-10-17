@@ -143,8 +143,13 @@
   }
 }
 .section2-form{
-  input[type='file']{
+  input[type='file'], input[type='text']{
     background-color: #1a1a1a !important;
     color: #fff;
   }
+}
+.custom-scroll-page{
+  max-height: 80vh;
+  overflow: hidden;
+  overflow-y: auto;
 }

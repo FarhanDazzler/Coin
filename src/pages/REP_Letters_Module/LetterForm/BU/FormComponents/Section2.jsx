@@ -19,7 +19,7 @@ const Section2 = ({ scopeData, letterType }) => {
   const dispatch = useDispatch();
   const [ShowVideoModal, setShowVideoModal] = useState(false);
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
-  const [activeTab, setActiveTab] = useState('test');
+  const [activeTab, setActiveTab] = useState('testt');
   const SignatoryList = [
     { label: 'BU Head', value: 'BU Head' },
     { label: 'Zone Control', value: 'Zone Control' },
@@ -66,10 +66,10 @@ const Section2 = ({ scopeData, letterType }) => {
             ZoneVPSignature: '',
           }}
           validationSchema={Yup.object().shape({
-            FinanceDirectorSignature: Yup.string().required('Attachment required'),
-            BUHeadSignature: Yup.string().required('Attachment required'),
-            ZoneControlSignature: Yup.string().required('Attachment required'),
-            ZoneVPSignature: Yup.string().required('Attachment required'),
+            // FinanceDirectorSignature: Yup.string().required('Attachment required'),
+            // BUHeadSignature: Yup.string().required('Attachment required'),
+            // ZoneControlSignature: Yup.string().required('Attachment required'),
+            // ZoneVPSignature: Yup.string().required('Attachment required'),
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {
@@ -214,7 +214,7 @@ const Section2 = ({ scopeData, letterType }) => {
             toggle: false,
           }}
           validationSchema={Yup.object().shape({
-            //toggle: Yup.string().required('Agree is required'),
+            toggle: Yup.string().required('Agree is required'),
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {

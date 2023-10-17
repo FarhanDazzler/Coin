@@ -106,7 +106,7 @@ const BULetterForm = (props) => {
     <div>
       <PageWrapper>
         {modalType === 'attempt' ? (
-          <div className="container-fluid">
+          <div className="container-fluid custom-scroll-page">
             {instructionState.loading ||
             questionState.loading ||
             getLatestBUDraftResponseState.loading ? (
@@ -123,7 +123,7 @@ const BULetterForm = (props) => {
             )}
           </div>
         ) : (
-          <div className="container-fluid">
+          <div className="container-fluid custom-scroll-page">
             {instructionState.loading || getBUSubmitResponseState.loading ? (
               <div className="loader-animation">
                 <DotSpinner size={100} speed={0.9} color="#e3af32" />
