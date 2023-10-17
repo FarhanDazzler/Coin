@@ -31,7 +31,7 @@ import {
   addBUSection3ResponseSelector,
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
-const AttemptSection3 = ({ scopeData, comments, existingValues }) => {
+const AttemptSection3 = ({ scopeData }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { instance, accounts, inProgress } = useMsal();
@@ -40,7 +40,7 @@ const AttemptSection3 = ({ scopeData, comments, existingValues }) => {
   const [chatMessageSaved, setChatMessageSaved] = useState(false);
   const [isNotificationChecked, setIsNotificationChecked] = useState(false);
 
-  const section3Response = useSelector(getBUSection3ResponseSelector);
+  const getBUSection3ResponseState = useSelector(getBUSection3ResponseSelector);
   const addBUSection3ResponseState = useSelector(addBUSection3ResponseSelector);
 
   // useEffect(() => {
@@ -173,7 +173,7 @@ const AttemptSection3 = ({ scopeData, comments, existingValues }) => {
                           </Form.Control.Feedback>
                         </Form.Group>
                       </Row>
-                      {/* {existingValues?.is_rba_applicable === 'true' && (
+                      {getBUSection3ResponseState?.data?.is_rba_applicable === 'true' && (
                         <Row>
                           <Col>
                             <h5>RBA file attached by Disclosure Processor</h5>
@@ -182,7 +182,7 @@ const AttemptSection3 = ({ scopeData, comments, existingValues }) => {
                             <Button
                               startIcon={<PictureAsPdfIcon />}
                               onClick={() => {
-                                const pdfUrl = existingValues?.rba_attachment_url;
+                                const pdfUrl = getBUSection3ResponseState?.data?.rba_attachment_url;
                                 window.open(pdfUrl, '_blank');
                               }}
                             >
@@ -190,27 +190,25 @@ const AttemptSection3 = ({ scopeData, comments, existingValues }) => {
                             </Button>
                           </Col>
                         </Row>
-                      )} */}
-                      <Row>
-                        <Group position="apart">
-                          <SimpleGrid cols={1}>
-                            <Text
-                              size="lg"
-                              weight={700}
-                              color="#ffffff"
-                              align="left"
-                            >{`Chat Logs`}</Text>
-                          </SimpleGrid>
-                        </Group>
-                        <Divider color="gray" className="section3-divider" size="xs" />
-                        <ActionLogChatTimeline
-                          comments={comments}
-                          action_log_id={scopeData?.id}
-                          chatMessageSaved={chatMessageSaved}
-                          setChatMessageSaved={setChatMessageSaved}
-                          //actionLogData={actionLogData}
-                        />
-                      </Row>
+                      )}
+                      {getBUSection3ResponseState?.data?.comment_response && (
+                        <Row>
+                          <Group position="apart">
+                            <SimpleGrid cols={1}>
+                              <Text
+                                size="lg"
+                                weight={700}
+                                color="#ffffff"
+                                align="left"
+                              >{`Chat Logs`}</Text>
+                            </SimpleGrid>
+                          </Group>
+                          <Divider color="gray" className="section3-divider" size="xs" />
+                          <ActionLogChatTimeline
+                            comments={getBUSection3ResponseState?.data?.comment_response}
+                          />
+                        </Row>
+                      )}
                       <Row>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                           <Form.Label className="mt-5">Comment :</Form.Label>
