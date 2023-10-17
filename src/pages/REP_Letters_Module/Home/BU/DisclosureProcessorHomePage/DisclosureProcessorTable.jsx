@@ -11,6 +11,8 @@ import {
   get_BU_Disclosure_ProcessorHomePageDataSelector,
   addBUSubmitResponseSelector,
   addOrUpdateBUDraftResponseSelector,
+  addBUSection3ResponseSelector,
+  approveBUSection3ResponseSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BU_Disclosure_ProcessorHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 
@@ -60,6 +62,8 @@ const DisclosureProcessorTable = ({
   );
   const addOrUpdateDraftResponseState = useSelector(addOrUpdateBUDraftResponseSelector);
   const addBUSubmitResponseState = useSelector(addBUSubmitResponseSelector);
+  const addBUSection3ResponseState = useSelector(addBUSection3ResponseSelector);
+  const approveBUSection3ResponseState = useSelector(approveBUSection3ResponseSelector);
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const disclosureProcessorHomePageData = useMemo(() => {
@@ -72,7 +76,14 @@ const DisclosureProcessorTable = ({
 
   useEffect(() => {
     dispatch(get_BU_Disclosure_ProcessorHomePageData());
-  }, [token, dispatch, addOrUpdateDraftResponseState?.data, addBUSubmitResponseState?.data]);
+  }, [
+    token,
+    dispatch,
+    addOrUpdateDraftResponseState?.data,
+    addBUSubmitResponseState?.data,
+    addBUSection3ResponseState?.data,
+    approveBUSection3ResponseState?.data,
+  ]);
 
   const TABLE_COLUMNS = [
     {

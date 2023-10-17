@@ -546,7 +546,7 @@ function* updateAddBUSection3Response({ payload }) {
 
 // Approve BU Section 3 Response
 async function approveBUSection3ResponseApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/approve_bu_section3_rba', payload);
 }
 function* updateApproveBUSection3Response({ payload }) {
   try {

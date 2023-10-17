@@ -181,7 +181,7 @@ const BULetterForm = (props) => {
                 {/* <ReviewSection1
                   submittedResponses={getBUSubmitResponseState?.data?.Latest_Response}
                 /> */}
-                <AttemptSection3 scopeData={scopeData} />
+                <ApprovalPageSection3 scopeData={scopeData} />
               </div>
             )}
           </div>

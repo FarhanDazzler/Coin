@@ -1,29 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Form } from 'react-bootstrap';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import { useMsal } from '@azure/msal-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Divider, Group, SimpleGrid, Text } from '@mantine/core';
 import CollapseFrame from '../../../../../../components/UI/CollapseFrame';
 import Button from '../../../../../../components/UI/Button';
-import ActionLogChatTimeline from './ActionLogChatTimeline';
+import ActionLogChatTimeline from '../Section3/ActionLogChatTimeline';
 import '../../../LetterFormStyle.scss';
-import {
-  approveBUSection3Response,
-  clearGetBUSection3Response,
-} from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import { clearGetBUSection3Response } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import { getBUSection3ResponseSelector } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
-const ApprovalPageSection3 = ({ scopeData }) => {
-  const history = useHistory();
+const ReviewSection3 = () => {
   const dispatch = useDispatch();
-  const { accounts } = useMsal();
 
   const getBUSection3ResponseState = useSelector(getBUSection3ResponseSelector);
-  const [comment, setComment] = useState('');
 
   // clear all the states on page leave or refresh page or change url path or change module or change role
   useEffect(() => {
@@ -32,37 +22,6 @@ const ApprovalPageSection3 = ({ scopeData }) => {
       console.log('clearing section 3 response');
     };
   }, []);
-
-  const handleApprove = () => {
-    const payload = {
-      assessment_id: scopeData?.id,
-      comment: comment,
-      created_by: accounts[0]?.username,
-      is_approved: true,
-    };
-
-    dispatch(approveBUSection3Response(payload));
-    dispatch(clearGetBUSection3Response());
-    history.push('/');
-  };
-
-  const handleReject = () => {
-    if (!comment) {
-      toast.error('Please provide comment for Rejection.');
-      return;
-    } else {
-      const payload = {
-        assessment_id: scopeData?.id,
-        comment: comment,
-        created_by: accounts[0]?.username,
-        is_approved: false,
-      };
-
-      dispatch(approveBUSection3Response(payload));
-      dispatch(clearGetBUSection3Response());
-      history.push('/');
-    }
-  };
 
   return (
     <CollapseFrame title="Section 3 : RBA" active>
@@ -124,39 +83,6 @@ const ApprovalPageSection3 = ({ scopeData }) => {
                 />
               </Row>
             )}
-            <Row>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                <Form.Label className="mt-5">Comment :</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  placeholder="Please provide your comment..."
-                  required
-                  onChange={(e) => setComment(e.target.value)}
-                  name="Comment"
-                  maxLength={5000}
-                  rows={3}
-                />
-              </Form.Group>
-              {/* form error message */}
-            </Row>
-
-            <div className="d-flex align-items-center justify-content-end">
-              <div>
-                <Button
-                  //variant="outlined"
-                  color="secondary"
-                  onClick={() => history.push('/')}
-                >
-                  Cancel
-                </Button>
-                <Button className="ml-4" color="secondary" onClick={handleReject}>
-                  Reject
-                </Button>
-                <Button color="neutral" className="ml-4" onClick={handleApprove} id="submit-button">
-                  Approve
-                </Button>
-              </div>
-            </div>
           </Card.Body>
         </Card>
       </Col>
@@ -164,4 +90,4 @@ const ApprovalPageSection3 = ({ scopeData }) => {
   );
 };
 
-export default ApprovalPageSection3;
+export default ReviewSection3;
