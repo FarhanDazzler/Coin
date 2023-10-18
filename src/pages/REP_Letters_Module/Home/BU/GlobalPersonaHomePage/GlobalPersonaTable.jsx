@@ -67,6 +67,21 @@ const ShowSignatures = ({ signatures = {} }) => {
     setActive(val);
   }, [signatures]);
 
+  const getSignaturesName = (val) => {
+    switch (val) {
+      case 'buh_signed':
+        return 'BU Head';
+      case 'fd_signed':
+        return 'Finance Director';
+      case 'zc_signed':
+        return 'Zone Control';
+      case 'zv_signed':
+        return 'Zone VP';
+      default:
+        return val.split('_').join(' ');
+    }
+  };
+
   return (
     <>
       <div
@@ -102,8 +117,8 @@ const ShowSignatures = ({ signatures = {} }) => {
         <Typography sx={{ p: 1 }}>
           {Object.keys(signatures).map((s) => {
             return (
-              <div className="d-flex align-items-center w-full">
-                <span>{s.split('_').join(' ')}</span>
+              <div className="d-flex align-items-center justify-content-between w-full">
+                <span>{getSignaturesName(s)}</span>
                 <Radio size="small" checked={signatures[s]} />
               </div>
             );
