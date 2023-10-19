@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { DotSpinner } from '@uiball/loaders';
 import * as XLSX from 'xlsx';
 import { compile, convert } from 'html-to-text';
+import Button from '../../../../components/UI/Button';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import Section0 from './FormComponents/Section0';
 import Section1 from './FormComponents/Section1';
 import Section2 from './FormComponents/Section2';
 import ReviewSection1 from './FormComponents/ReviewResponseComponents/ReviewSection1';
+import ReviewSection3 from './FormComponents/ReviewResponseComponents/ReviewSection3';
 // import ReviewResponsePage from './FormComponents/ReviewResponsePage';
 import { getInstructions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import { get_BU_Questions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
@@ -29,6 +32,99 @@ import {
 import '../LetterFormStyle.scss';
 import AttemptSection3 from './FormComponents/Section3/AttemptSection3';
 import ApprovalPageSection3 from './FormComponents/Section3/ApprovalPageSection3';
+
+const ReviewSubmittedResponses = ({ scopeData, letterType, getBUSubmitResponseState }) => {
+  const history = useHistory();
+  const exportResponseToExcel = (info, responses, Last_Saved_At) => {
+    // Create a new workbook
+    const wb = XLSX.utils.book_new();
+
+    // Create a worksheet for the info data
+    const infoSheet = XLSX.utils.json_to_sheet([
+      { Key: 'Title', Value: info.Title },
+      { Key: 'Letter Type', Value: info.Letter_Type },
+      { Key: 'Assessment Cycle', Value: info.Assessment_Cycle },
+      { Key: 'Year', Value: info.Year },
+      { Key: 'Zone', Value: info.Zone },
+      { Key: 'BU', Value: info.BU },
+      { Key: 'Entity', Value: info.Entity },
+      { Key: 'Disclosure Processor', Value: info.Disclosure_Processor },
+      { Key: 'Finance Director', Value: info.Finance_Director },
+      { Key: 'BU Head', Value: info.BU_Head },
+      { Key: 'Zone Control', Value: info.Zone_Control },
+      { Key: 'Zone VP', Value: info.Zone_VP },
+      { Key: 'Submitted on', Value: Last_Saved_At },
+    ]);
+    XLSX.utils.book_append_sheet(wb, infoSheet, 'Information');
+
+    // Create a worksheet for the responses data with questionText converted to plain text
+    const responsesSheet = XLSX.utils.json_to_sheet(
+      responses.map((response) => ({
+        questionNumber: response.questionNumber,
+        questionText: convert(response.questionText),
+        response: response.response,
+        comment: response.comment,
+        month: response.month,
+        year: response.year,
+      })),
+    );
+    XLSX.utils.book_append_sheet(wb, responsesSheet, 'Responses');
+
+    // Save the workbook to an Excel file
+    const fileName = `${scopeData?.Letter_Type} - ${scopeData?.Disclosure_Processor} - Submitted-Responses - ${scopeData?.Title} - ${scopeData?.Assessment_Cycle} - ${scopeData?.Year}`;
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
+  };
+
+  return (
+    <div className="col-lg-12">
+      <div>
+        <div className="d-flex align-items-center" style={{ paddingTop: '14px' }}>
+          <span className="review-response-page-title">Review Responses</span>
+          <button
+            className="export_excel_button"
+            onClick={() => {
+              const info = {
+                Title: scopeData?.Title,
+                Letter_Type: scopeData?.Letter_Type,
+                Assessment_Cycle: scopeData?.Assessment_Cycle,
+                Year: scopeData?.Year,
+                Zone: scopeData?.Zone,
+                BU: scopeData?.BU,
+                Entity: scopeData?.Entity,
+                Disclosure_Processor: scopeData?.Disclosure_Processor,
+                Finance_Director: scopeData?.Finance_Director,
+                BU_Head: scopeData?.BU_Head,
+                Zone_Control: scopeData?.Zone_Control,
+                Zone_VP: scopeData?.Zone_VP,
+              };
+              exportResponseToExcel(
+                info,
+                getBUSubmitResponseState?.data?.Latest_Response,
+                getBUSubmitResponseState?.data?.Last_Saved_At,
+              );
+            }}
+          >
+            <strong>Export</strong>
+          </button>
+        </div>
+      </div>
+      <Section0 scopeData={scopeData} letterType={letterType} />
+      <ReviewSection1 submittedResponses={getBUSubmitResponseState?.data?.Latest_Response} />
+      <Section2 scopeData={scopeData} />
+      <ReviewSection3 />
+      <div className="d-flex align-items-center justify-content-end">
+        <Button
+          //color="secondary"
+          color="neutral"
+          className="w-100"
+          onClick={() => history.push('/')}
+        >
+          Go Back
+        </Button>
+      </div>
+    </div>
+  );
+};
 
 const BULetterForm = (props) => {
   const dispatch = useDispatch();
@@ -70,90 +166,20 @@ const BULetterForm = (props) => {
       };
 
       dispatch(getBUSection3Response(payloadForGettingSection3Response));
+    } else {
+      let payloadForGettingSubmittedResp = {
+        assessment_id: scopeData?.id,
+      };
+
+      dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+      const payloadForGettingSection3Response = {
+        assessment_id: scopeData?.id,
+      };
+
+      dispatch(getBUSection3Response(payloadForGettingSection3Response));
     }
   }, []);
 
-  const exportResponseToExcel = (info, responses, Last_Saved_At) => {
-    // Create a new workbook
-    const wb = XLSX.utils.book_new();
-
-    // Create a worksheet for the info data
-    const infoSheet = XLSX.utils.json_to_sheet([
-      { Key: 'Title', Value: info.Title },
-      { Key: 'Letter Type', Value: info.Letter_Type },
-      { Key: 'Assessment Cycle', Value: info.Assessment_Cycle },
-      { Key: 'Year', Value: info.Year },
-      { Key: 'Zone', Value: info.Zone },
-      { Key: 'BU', Value: info.BU },
-      { Key: 'Entity', Value: info.Entity },
-      { Key: 'Disclosure Processor', Value: info.Disclosure_Processor },
-      { Key: 'Finance Director', Value: info.Finance_Director },
-      { Key: 'BU Head', Value: info.BU_Head },
-      { Key: 'Zone Control', Value: info.Zone_Control },
-      { Key: 'Zone VP', Value: info.Zone_VP },
-      { Key: 'Submitted on', Value: Last_Saved_At },
-    ]);
-    XLSX.utils.book_append_sheet(wb, infoSheet, 'Information');
-
-    // Create a worksheet for the responses data with questionText converted to plain text
-    const responsesSheet = XLSX.utils.json_to_sheet(
-      responses.map((response) => ({
-        questionNumber: response.questionNumber,
-        questionText: convert(response.questionText),
-        response: response.response,
-        comment: response.comment,
-        month: response.month,
-        year: response.year,
-      })),
-    );
-    XLSX.utils.book_append_sheet(wb, responsesSheet, 'Responses');
-
-    // Save the workbook to an Excel file
-    const fileName = `${scopeData?.Letter_Type} - ${scopeData?.Disclosure_Processor} - Submitted-Responses - ${scopeData?.Title} - ${scopeData?.Assessment_Cycle} - ${scopeData?.Year}`;
-    XLSX.writeFile(wb, `${fileName}.xlsx`);
-  };
-
-  //console.log('@@@@@@', getBUSection3ResponseState?.data?.rbaResponse[0]);
-  // variables for Section 3
-  const comments = [
-    {
-      assessment_id: 'BB38B288-765D-4D42-B4E2-1F181F1C840A',
-      comment: 'test from postman',
-      created_at: '2023-10-16T20:05:17.220000',
-      created_by: 'vikash.jha@ab-inbev.com',
-      id: '555ED5D4-8C3E-45F7-84E2-687779BB838D',
-    },
-    {
-      assessment_id: 'BB38B288-765D-4D42-B4E2-1F181F1C840A',
-      comment: 'test from postman',
-      created_at: '2023-10-16T20:04:14.587000',
-      created_by: 'vikash.jha@ab-inbev.com',
-      id: '623BA0C1-70F1-4212-B966-9EFEB2612435',
-    },
-    {
-      assessment_id: 'BB38B288-765D-4D42-B4E2-1F181F1C840A',
-      comment: 'test from postman',
-      created_at: '2023-10-16T20:03:36.890000',
-      created_by: 'vikash.jha@ab-inbev.com',
-      id: '2EB6880E-0413-456C-9BCE-8D4F4EE216DE',
-    },
-    {
-      assessment_id: 'BB38B288-765D-4D42-B4E2-1F181F1C840A',
-      comment: 'test from postman',
-      created_at: '2023-10-16T20:02:08.427000',
-      created_by: 'vikash.jha@ab-inbev.com',
-      id: '5407C37C-DD76-4DB4-89FA-7B33557ED208',
-    },
-    {
-      assessment_id: 'BB38B288-765D-4D42-B4E2-1F181F1C840A',
-      comment: 'test from postman',
-      created_at: '2023-10-16T20:01:03.147000',
-      created_by: 'vikash.jha@ab-inbev.com',
-      id: '442452AA-3FF4-4585-9166-602E398D7227',
-    },
-  ];
-
-  //const existingValues = getBUSection3ResponseState?.data?.rbaResponse[0];
   return (
     <div>
       <PageWrapper>
@@ -185,49 +211,11 @@ const BULetterForm = (props) => {
                 </p>
               </div>
             ) : (
-              <div className="col-lg-12">
-                <div>
-                  <div className="d-flex align-items-center" style={{ paddingTop: '14px' }}>
-                    <span className="review-response-page-title">Review Responses</span>
-                    <button
-                      className="export_excel_button"
-                      onClick={() => {
-                        const info = {
-                          Title: scopeData?.Title,
-                          Letter_Type: scopeData?.Letter_Type,
-                          Assessment_Cycle: scopeData?.Assessment_Cycle,
-                          Year: scopeData?.Year,
-                          Zone: scopeData?.Zone,
-                          BU: scopeData?.BU,
-                          Entity: scopeData?.Entity,
-                          Disclosure_Processor: scopeData?.Disclosure_Processor,
-                          Finance_Director: scopeData?.Finance_Director,
-                          BU_Head: scopeData?.BU_Head,
-                          Zone_Control: scopeData?.Zone_Control,
-                          Zone_VP: scopeData?.Zone_VP,
-                        };
-                        exportResponseToExcel(
-                          info,
-                          getBUSubmitResponseState?.data?.Latest_Response,
-                          getBUSubmitResponseState?.data?.Last_Saved_At,
-                        );
-                      }}
-                    >
-                      <strong>Export</strong>
-                    </button>
-                  </div>
-                </div>
-                <Section0 scopeData={scopeData} letterType={letterType} />
-                {/* <ReviewSection1
-                  submittedResponses={getBUSubmitResponseState?.data?.Latest_Response}
-                /> */}
-                <Section2 scopeData={scopeData} />
-                <AttemptSection3
-                  scopeData={scopeData}
-                  comments={comments}
-                  //existingValues={existingValues}
-                />
-              </div>
+              <ReviewSubmittedResponses
+                scopeData={scopeData}
+                letterType={letterType}
+                getBUSubmitResponseState={getBUSubmitResponseState}
+              />
             )}
           </div>
         )}

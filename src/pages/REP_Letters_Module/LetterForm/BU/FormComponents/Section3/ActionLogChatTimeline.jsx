@@ -4,11 +4,27 @@ import { Group, Loader, Text, Timeline } from '@mantine/core';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 
-const nameInitials = (string) =>
-  string
-    .split(' ')
-    .map((n) => n[0])
-    .join('');
+function getUserInitials(email) {
+  try {
+    if (typeof email !== 'string') {
+      return '';
+    }
+    email = email.trim();
+    if (email === '') {
+      return '';
+    }
+    const name = email.includes('@') ? email.split('@')[0] : email;
+    const initials = name
+      .split(/[._\s]/)
+      .map((part) => (part ? part[0].toUpperCase() : ''))
+      .join('');
+
+    return initials;
+  } catch (e) {
+    //console.log(e);
+    return '';
+  }
+}
 
 const CustomCardLoader = () => {
   return (
@@ -85,7 +101,7 @@ const ActionLogChatTimeline = ({
                 {chats &&
                   chats?.map((message) => (
                     <Timeline.Item
-                      bullet={nameInitials(message?.created_by)}
+                      bullet={getUserInitials(message?.created_by)}
                       title={`${message.created_by}`}
                     >
                       <Text color="white">{`${message.comment}`}</Text>
@@ -97,11 +113,11 @@ const ActionLogChatTimeline = ({
                     </Timeline.Item>
                   ))}
 
-                <Timeline.Item title="Action Log Created">
+                {/* <Timeline.Item title="Action Log Created">
                   <Text size="xs" mt={4} color="dimmed">{`${dayjs(
                     actionLogData?.action_log_created_at,
                   ).format(`ddd, DD MMM YYYY HH:mm:ss`)}`}</Text>
-                </Timeline.Item>
+                </Timeline.Item> */}
               </Timeline>
             </Col>
           </Row>

@@ -6,62 +6,35 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { useMsal } from '@azure/msal-react';
 import * as formik from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
+import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Divider, Group, SimpleGrid, Text } from '@mantine/core';
 import CollapseFrame from '../../../../../../components/UI/CollapseFrame';
 import Button from '../../../../../../components/UI/Button';
-import SendIcon from '@mui/icons-material/Send';
-import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import {
-  Switch,
-  Divider,
-  Group,
-  SimpleGrid,
-  Text,
-  TextInput,
-  ActionIcon,
-  Loader,
-} from '@mantine/core';
 import ActionLogChatTimeline from './ActionLogChatTimeline';
+import '../../../LetterFormStyle.scss';
 import {
-  getBUSection3Response,
   addBUSection3Response,
+  clearGetBUSection3Response,
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
-import {
-  getBUSection3ResponseSelector,
-  addBUSection3ResponseSelector,
-} from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { getBUSection3ResponseSelector } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
-const AttemptSection3 = ({ scopeData, comments, existingValues }) => {
+const AttemptSection3 = ({ scopeData }) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { instance, accounts, inProgress } = useMsal();
+  const { accounts } = useMsal();
   const { Formik } = formik;
-  const [chatMessage, setChatMessage] = useState();
-  const [chatMessageSaved, setChatMessageSaved] = useState(false);
-  const [isNotificationChecked, setIsNotificationChecked] = useState(false);
 
-  const section3Response = useSelector(getBUSection3ResponseSelector);
-  const addBUSection3ResponseState = useSelector(addBUSection3ResponseSelector);
-
-  // useEffect(() => {
-  //   const payload = {
-  //     assessment_id: scopeData?.id,
-  //   };
-  //   dispatch(getBUSection3Response(payload));
-  // }, []);
-
-  //console.log(section3Response?.data, '@@@@');
-  const addChatMessageApi = () => {
-    const payload = {
-      id: scopeData?.id,
-      chat: chatMessage,
-    };
-    //dispatch(addSection3Chat(payload))
-    setChatMessageSaved(true);
-    setChatMessage('');
-  };
+  const getBUSection3ResponseState = useSelector(getBUSection3ResponseSelector);
 
   var formdata = new FormData();
+
+  // clear all the states on page leave or refresh page or change url path or change module or change role
+  useEffect(() => {
+    return () => {
+      dispatch(clearGetBUSection3Response());
+      console.log('clearing section 3 response');
+    };
+  }, []);
 
   const handleSave = (value, resetForm) => {
     formdata.append('assessment_id', scopeData?.id);
@@ -74,8 +47,8 @@ const AttemptSection3 = ({ scopeData, comments, existingValues }) => {
     formdata.append('comment', value.Comment);
     formdata.append('created_by', accounts[0]?.username);
 
-    //console.log(formdata, '@@@@');
     dispatch(addBUSection3Response(formdata));
+    dispatch(clearGetBUSection3Response());
     history.push('/');
   };
 
@@ -85,7 +58,11 @@ const AttemptSection3 = ({ scopeData, comments, existingValues }) => {
         enableReinitialize
         initialValues={{
           RBA_File: null,
-          is_rba_applicable: 'Yes',
+          is_rba_applicable: getBUSection3ResponseState?.data?.is_rba_applicable
+            ? getBUSection3ResponseState?.data?.is_rba_applicable === 'true'
+              ? 'Yes'
+              : 'No'
+            : 'Yes',
           Comment: '',
         }}
         validationSchema={Yup.object().shape({
@@ -173,134 +150,81 @@ const AttemptSection3 = ({ scopeData, comments, existingValues }) => {
                           </Form.Control.Feedback>
                         </Form.Group>
                       </Row>
-                      {/* {existingValues?.is_rba_applicable === 'true' && (
-                        <Row>
-                          <Col>
-                            <h5>RBA file attached by Disclosure Processor</h5>
-                          </Col>
-                          <Col>
-                            <Button
-                              startIcon={<PictureAsPdfIcon />}
-                              onClick={() => {
-                                const pdfUrl = existingValues?.rba_attachment_url;
-                                window.open(pdfUrl, '_blank');
-                              }}
-                            >
-                              RBA Attachment
-                            </Button>
-                          </Col>
-                        </Row>
-                      )} */}
-                      <Row>
-                        <Group position="apart">
-                          <SimpleGrid cols={1}>
-                            <Text
-                              size="lg"
-                              weight={700}
-                              color="#ffffff"
-                              align="left"
-                            >{`Chat Logs`}</Text>
-                          </SimpleGrid>
-                        </Group>
-                        <Divider color="gray" className="section3-divider" size="xs" />
-                        <ActionLogChatTimeline
-                          comments={comments}
-                          action_log_id={scopeData?.id}
-                          chatMessageSaved={chatMessageSaved}
-                          setChatMessageSaved={setChatMessageSaved}
-                          //actionLogData={actionLogData}
-                        />
-                      </Row>
-                      <Row>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                          <Form.Label className="mt-5">Comment :</Form.Label>
-                          <Form.Control
-                            as="textarea"
-                            placeholder="Please provide your comment..."
-                            required
-                            onChange={handleChange}
-                            isInvalid={!!errors.Comment}
-                            name="Comment"
-                            maxLength={5000}
-                            value={values.Comment}
-                            rows={3}
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            {errors.Comment}
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                      </Row>
-                      {/* <Row>
-                        <Col xl="9">
-                          <TextInput
-                            className="chat-input-section"
-                            radius={'md'}
-                            placeholder={`Enter a message`}
-                            value={chatMessage}
-                            onChange={(e) => {
-                              setChatMessage(e.target.value);
-                            }}
-                            icon={<MessageOutlinedIcon size={14} />}
-                            disabled={chatMessageSaved}
-                            rightSection={
-                              chatMessageSaved ? <Loader color={'yellow'} size="xs" /> : null
-                            }
-                            styles={{
-                              //wrapper: { color: '#ffffff', background: 'rgba(140, 140, 140, 0.14)' },
-                              defaultVariant: {
-                                color: '#ffffff',
-                                background: 'rgba(140, 140, 140, 0.14)',
-                              },
-                              invalid: { color: 'red' },
-                              disabled: { color: 'red' },
-                              //icon: { color: 'red' },
-                              withIcon: { color: 'red' },
-                              input: { color: 'red' },
-                              rightSection: { color: 'red' },
-                              root: { color: 'red' },
-                              label: { color: 'red' },
-                              error: { color: 'red' },
-                              description: { color: 'red' },
-                              required: { color: 'red' },
-                            }}
-                          />
-                        </Col>
-
-                        <Col xs="3" style={{ padding: '2 !important' }}>
-                          <Group position="center">
-                            <ActionIcon
-                              variant="filled"
-                              color={'yellow'}
-                              radius="xl"
-                              size="lg"
-                              // disabled={!searchName}
-                              onClick={() => {
-                                addChatMessageApi();
-                              }}
-                              disabled={!chatMessage}
-                            >
-                              <SendIcon size={16} color="black" />
-                            </ActionIcon>
-                          </Group>
-                        </Col>
-                      </Row> */}
                     </>
                   )}
-                  <Row className="section3-footer-action">
-                    <div className="d-flex align-items-center justify-content-end">
-                      <Button className="w-30" onClick={() => history.push('/')}>
+                  {getBUSection3ResponseState?.data?.is_rba_applicable === 'true' && (
+                    <Row>
+                      <Col>
+                        <h5>RBA file attached by Disclosure Processor</h5>
+                      </Col>
+                      <Col>
+                        <Button
+                          startIcon={<PictureAsPdfIcon />}
+                          onClick={() => {
+                            const pdfUrl = getBUSection3ResponseState?.data?.rba_attachment_url;
+                            window.open(pdfUrl, '_blank');
+                          }}
+                        >
+                          RBA Attachment
+                        </Button>
+                      </Col>
+                    </Row>
+                  )}
+                  {getBUSection3ResponseState?.data?.comment_response && (
+                    <Row>
+                      <Group position="apart">
+                        <SimpleGrid cols={1}>
+                          <Text
+                            size="lg"
+                            weight={700}
+                            color="#ffffff"
+                            align="left"
+                          >{`Chat Logs`}</Text>
+                        </SimpleGrid>
+                      </Group>
+                      <Divider color="gray" className="section3-divider" size="xs" />
+                      <ActionLogChatTimeline
+                        comments={getBUSection3ResponseState?.data?.comment_response}
+                      />
+                    </Row>
+                  )}
+                  <Row>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                      <Form.Label className="mt-5">Comment :</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        placeholder="Please provide your comment..."
+                        required
+                        onChange={handleChange}
+                        isInvalid={!!errors.Comment}
+                        name="Comment"
+                        maxLength={5000}
+                        value={values.Comment}
+                        rows={3}
+                      />
+                      <Form.Control.Feedback type="invalid">{errors.Comment}</Form.Control.Feedback>
+                    </Form.Group>
+                  </Row>
+
+                  <div className="d-flex align-items-center justify-content-end">
+                    <div>
+                      <Button
+                        //variant="outlined"
+                        color="secondary"
+                        onClick={() => history.push('/')}
+                      >
                         Cancel
                       </Button>
                       <Button
                         color="neutral"
-                        className="w-30"
-                        id="submit-button"
+                        className="ml-4"
                         onClick={handleSubmit}
+                        id="submit-button"
                       >
                         Confirm
                       </Button>
                     </div>
-                  </Row>
+                  </div>
                 </Card.Body>
               </Card>
             </Col>

@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Divider, Box } from '@mantine/core';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
-import { Form } from 'react-bootstrap';
+import { Form, Container, Row, Col, Card } from 'react-bootstrap';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import * as Yup from 'yup';
 import { useFormikContext, Field, Formik } from 'formik';
 import {
@@ -11,49 +12,91 @@ import {
   addBUSection2CheckboxAction,
   addBUSection2UploadMailApprovalAction,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
-import {
-  getBUSection2SignatureResponseSelector
-} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { getBUSection2SignatureResponseSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
 const Section2 = ({ scopeData, letterType }) => {
-  console.log("scop", scopeData);
+  console.log('scop', scopeData);
   const dispatch = useDispatch();
   const [ShowVideoModal, setShowVideoModal] = useState(false);
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
-  console.log("getBUSection2SignatureResponseState", getBUSection2SignatureResponseState)
+  console.log('getBUSection2SignatureResponseState', getBUSection2SignatureResponseState);
 
   useEffect(() => {
     let payload = {
-      id : scopeData.id
-    }
+      id: scopeData.id,
+    };
     dispatch(getBUSection2SignatureResponseAction(payload));
-  }, [])
+  }, []);
 
   const handleAutoAuth = (value) => {
     dispatch(addBUSection2CheckboxAction(value.toggle));
-  }
+  };
 
   const handleSave = (values, resetForm) => {
     console.log('values', values);
     const formData = new FormData();
+    const data = JSON.stringify({
+      assessment_id: scopeData.id,
+      signatures: [
+        {
+          role: 'BUH',
+          type: 'checkbox',
+        },
+        {
+          role: 'ZC',
+          type: 'support doc',
+        },
+        {
+          role: 'ZV',
+          type: 'support doc',
+        },
+        {
+          role: 'FD',
+          type: 'checkbox',
+        },
+      ],
+    });
 
-    if (!getBUSection2SignatureResponseState && values.FinanceDirectorSignature) {
-      formData.append('FinanceDirectorSignature', values.FinanceDirectorSignature);
+    formData.append('data', data);
+    if (
+      !getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted &&
+      values.FinanceDirectorSignature
+    ) {
+      formData.append('fd_support_doc', values.FinanceDirectorSignature);
     }
 
-    if (!getBUSection2SignatureResponseState && values.BUHeadSignature) {
-      formData.append('BUHeadSignature', values.BUHeadSignature);
+    if (
+      !getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted &&
+      values.BUHeadSignature
+    ) {
+      formData.append('buh_support_doc', values.BUHeadSignature);
     }
 
-    if (!getBUSection2SignatureResponseState && values.ZoneControlSignature) {
-      formData.append('ZoneControlSignature', values.ZoneControlSignature);
+    if (
+      !getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted &&
+      values.ZoneControlSignature
+    ) {
+      formData.append('zc_support_doc', values.ZoneControlSignature);
     }
 
-    if (!getBUSection2SignatureResponseState && values.ZoneVPSignature) {
-      formData.append('ZoneVPSignature', values.ZoneVPSignature);
+    if (
+      !getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted &&
+      values.ZoneVPSignature
+    ) {
+      formData.append('zv_support_doc', values.ZoneVPSignature);
     }
-
-    dispatch(addBUSection2UploadMailApprovalAction(formData));
+    console.log('hi', formData);
+    //dispatch(addBUSection2UploadMailApprovalAction(formData));
+    dispatch(
+      addBUSection2UploadMailApprovalAction({
+        formData,
+        event: {
+          onSuccess: () => {
+            resetForm();
+          },
+        },
+      }),
+    );
   };
 
   const EmailAttachmentDiv = () => {
@@ -110,6 +153,11 @@ const Section2 = ({ scopeData, letterType }) => {
                           onChange={(event) => {
                             setFieldValue('FinanceDirectorSignature', event.currentTarget.files[0]);
                           }}
+                          disabled={
+                            getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted
+                              ? true
+                              : false
+                          }
                           isInvalid={!!errors.FinanceDirectorSignature}
                         />
                         <Form.Control.Feedback type="invalid">
@@ -129,6 +177,11 @@ const Section2 = ({ scopeData, letterType }) => {
                           onChange={(event) => {
                             setFieldValue('BUHeadSignature', event.currentTarget.files[0]);
                           }}
+                          disabled={
+                            getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted
+                              ? true
+                              : false
+                          }
                           isInvalid={!!errors.BUHeadSignature}
                         />
                         <Form.Control.Feedback type="invalid">
@@ -148,6 +201,11 @@ const Section2 = ({ scopeData, letterType }) => {
                           onChange={(event) => {
                             setFieldValue('ZoneControlSignature', event.currentTarget.files[0]);
                           }}
+                          disabled={
+                            getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted
+                              ? true
+                              : false
+                          }
                           isInvalid={!!errors.ZoneControlSignature}
                         />
                         <Form.Control.Feedback type="invalid">
@@ -167,6 +225,11 @@ const Section2 = ({ scopeData, letterType }) => {
                           onChange={(event) => {
                             setFieldValue('ZoneVPSignature', event.currentTarget.files[0]);
                           }}
+                          disabled={
+                            getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted
+                              ? true
+                              : false
+                          }
                           isInvalid={!!errors.ZoneVPSignature}
                         />
                         <Form.Control.Feedback type="invalid">
@@ -220,7 +283,7 @@ const Section2 = ({ scopeData, letterType }) => {
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {
-                handleAutoAuth(values);
+              handleAutoAuth(values);
               //history.push('/master-data-management/mics-framework');
             } catch (error) {
               const message = error.message || 'Something went wrong';
@@ -295,14 +358,14 @@ const Section2 = ({ scopeData, letterType }) => {
                 <p>
                   <b>
                     As a{' '}
-                    {localStorage.getItem('selected_Role') === "Disclosure Processor"
+                    {localStorage.getItem('selected_Role') === 'Disclosure Processor'
                       ? 'Disclosure Processor'
                       : `${localStorage.getItem('selected_Role')} - Signatory`}
                   </b>
                 </p>
               </div>
               <div className="renderBlockWrapper_content">
-                {localStorage.getItem('selected_Role') === "Disclosure Processor" ? (
+                {localStorage.getItem('selected_Role') === 'Disclosure Processor' ? (
                   <>
                     <p>Upload the approval email from the respective signatories/authenticators</p>
                   </>
@@ -318,6 +381,83 @@ const Section2 = ({ scopeData, letterType }) => {
                   </>
                 )}
               </div>
+              {getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted ||
+              getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted ||
+              getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted ||
+              getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted ? (
+                <>
+                  <Divider
+                    className="renderBlockWrapper_divider"
+                    size="md"
+                    my="xs"
+                    labelPosition="center"
+                  />
+                  <div className="existing-attachment-review">
+                    <p>
+                      <b>Review</b>
+                    </p>
+                    <div className="row">
+                      <div className="col-lg-6">
+                        <h5>
+                          Approval Email attached by Disclosure Processor For Finance Director
+                        </h5>
+
+                        <Button
+                          startIcon={<PictureAsPdfIcon />}
+                          onClick={() => {
+                            const pdfUrl = '';
+                            window.open(pdfUrl, '_blank');
+                          }}
+                        >
+                          Email Attachment
+                        </Button>
+                      </div>
+                      <div className="col-lg-6">
+                        <h5>Approval Email attached by Disclosure Processor For Zone VP</h5>
+
+                        <Button
+                          startIcon={<PictureAsPdfIcon />}
+                          onClick={() => {
+                            const pdfUrl = '';
+                            window.open(pdfUrl, '_blank');
+                          }}
+                        >
+                          Email Attachment
+                        </Button>
+                      </div>
+                      <div className="col-lg-6">
+                        <h5>Approval Email attached by Disclosure Processor For BU Head</h5>
+
+                        <Button
+                          startIcon={<PictureAsPdfIcon />}
+                          onClick={() => {
+                            const pdfUrl = '';
+                            window.open(pdfUrl, '_blank');
+                          }}
+                        >
+                          Email Attachment
+                        </Button>
+                      </div>
+                      <div className="col-lg-6">
+                        <h5>Approval Email attached by Disclosure Processor For Zone Control</h5>
+
+                        <Button
+                          startIcon={<PictureAsPdfIcon />}
+                          onClick={() => {
+                            const pdfUrl = '';
+                            window.open(pdfUrl, '_blank');
+                          }}
+                        >
+                          Email Attachment
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                ''
+              )}
+
               <Divider
                 className="renderBlockWrapper_divider"
                 size="md"
@@ -325,8 +465,13 @@ const Section2 = ({ scopeData, letterType }) => {
                 labelPosition="center"
               />
               <div className="renderBlockWrapper_file">
-                
-                <div>{localStorage.getItem('selected_Role') === "Disclosure Processor" ? <EmailAttachmentDiv /> : <AutoAuth />}</div>
+                <div>
+                  {localStorage.getItem('selected_Role') === 'Disclosure Processor' ? (
+                    <EmailAttachmentDiv />
+                  ) : (
+                    <AutoAuth />
+                  )}
+                </div>
               </div>
             </div>
           </div>
