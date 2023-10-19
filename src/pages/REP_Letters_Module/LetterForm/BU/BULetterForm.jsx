@@ -114,7 +114,7 @@ const ReviewSubmittedResponses = ({ scopeData, letterType, getBUSubmitResponseSt
       {scopeData?.s1_submitted && (
         <ReviewSection1 submittedResponses={getBUSubmitResponseState?.data?.Latest_Response} />
       )}
-      {scopeData?.s3_submitted && <ReviewSection3 />}
+      {scopeData?.s3_submitted && scopeData?.RBA_Status === 'RBA Approved' && <ReviewSection3 />}
 
       {scopeData?.s1_submitted && scopeData?.s2_submitted && scopeData?.s3_submitted && (
         <div className="d-flex align-items-center justify-content-end">
@@ -281,6 +281,29 @@ const BULetterForm = (props) => {
                 ) : (
                   <AttemptSection3 scopeData={scopeData} />
                 )}
+              </div>
+            )}
+          </div>
+        )}{' '}
+        {modalType === 'Review' && (
+          <div className="container-fluid custom-scroll-page">
+            {instructionState.loading ||
+            getBUSubmitResponseState.loading ||
+            getBUSection3ResponseState.loading ||
+            getBUSection2SignatureResponseState.loading ? (
+              <div className="loader-animation">
+                <DotSpinner size={100} speed={0.9} color="#e3af32" />
+                <p className="loader-Desc ml-3">
+                  Please wait while we are Loading responses for you
+                </p>
+              </div>
+            ) : (
+              <div className="col-lg-12">
+                <ReviewSubmittedResponses
+                  scopeData={scopeData}
+                  letterType={letterType}
+                  getBUSubmitResponseState={getBUSubmitResponseState}
+                />
               </div>
             )}
           </div>
