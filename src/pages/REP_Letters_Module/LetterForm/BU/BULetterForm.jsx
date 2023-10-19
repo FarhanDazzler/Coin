@@ -76,7 +76,7 @@ const ReviewSubmittedResponses = ({ scopeData, letterType, getBUSubmitResponseSt
   };
 
   return (
-    <div className="col-lg-12">
+    <>
       <div>
         <div className="d-flex align-items-center" style={{ paddingTop: '14px' }}>
           <span className="review-response-page-title">Review Responses</span>
@@ -109,28 +109,37 @@ const ReviewSubmittedResponses = ({ scopeData, letterType, getBUSubmitResponseSt
         </div>
       </div>
       <Section0 scopeData={scopeData} letterType={letterType} />
-      <ReviewSection1 submittedResponses={getBUSubmitResponseState?.data?.Latest_Response} />
-      <ReviewSection3 />
-      <div className="d-flex align-items-center justify-content-end">
-        <Button
-          //color="secondary"
-          color="neutral"
-          className="w-100"
-          onClick={() => history.push('/')}
-        >
-          Go Back
-        </Button>
-      </div>
-    </div>
+      {scopeData?.s1_submitted && (
+        <ReviewSection1 submittedResponses={getBUSubmitResponseState?.data?.Latest_Response} />
+      )}
+      {scopeData?.s3_submitted && <ReviewSection3 />}
+
+      {scopeData?.s1_submitted && scopeData?.s2_submitted && scopeData?.s3_submitted && (
+        <div className="d-flex align-items-center justify-content-end">
+          <Button
+            //color="secondary"
+            color="neutral"
+            className="w-100"
+            onClick={() => history.push('/')}
+          >
+            Go Back
+          </Button>
+        </div>
+      )}
+    </>
   );
 };
 
 const BULetterForm = (props) => {
   const dispatch = useDispatch();
+
   const scopeData = props.location.state?.data?.scopeData;
   const modalType = props.location.state?.data?.modalType;
   const letterType = props.location.state?.data?.letterType;
-  console.log("modalType", modalType);
+  const isSection2AutoSigned = props.location.state?.data?.isSection2AutoSigned;
+  const isSection3ApproveState = props.location.state?.data?.isSection3ApproveState;
+
+  console.log('modalType', modalType);
   const questionState = useSelector(get_BU_QuestionsSelector);
   const instructionState = useSelector(getInstructionsSelector);
   const getLatestBUDraftResponseState = useSelector(getLatestBUDraftResponseSelector);
@@ -154,18 +163,19 @@ const BULetterForm = (props) => {
         assessment_id: scopeData?.id,
       };
       dispatch(getLatestBUDraftResponse(payloadForGettingDraftResp));
-    } else if (modalType === 'attemptSection3') {
+    } else if (modalType === 'attemptSection2') {
       let payloadForGettingSubmittedResp = {
         assessment_id: scopeData?.id,
       };
 
       dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+
       const payloadForGettingSection3Response = {
         assessment_id: scopeData?.id,
       };
 
       dispatch(getBUSection3Response(payloadForGettingSection3Response));
-    } else {
+    } else if (modalType === 'attemptSection3') {
       let payloadForGettingSubmittedResp = {
         assessment_id: scopeData?.id,
       };
@@ -182,7 +192,7 @@ const BULetterForm = (props) => {
   return (
     <div>
       <PageWrapper>
-        {modalType === 'attemptSection1' ? (
+        {modalType === 'attemptSection1' && (
           <div className="container-fluid custom-scroll-page">
             {instructionState.loading ||
             questionState.loading ||
@@ -195,11 +205,32 @@ const BULetterForm = (props) => {
               <div className="col-lg-12">
                 <Section0 scopeData={scopeData} letterType={letterType} />
                 <Section1 questions={questionState.data} scopeData={scopeData} />
-                <Section2 scopeData={scopeData} />
               </div>
             )}
           </div>
-        ) : (
+        )}
+        {modalType === 'attemptSection2' && (
+          <div className="container-fluid custom-scroll-page">
+            {instructionState.loading || getBUSubmitResponseState.loading ? (
+              <div className="loader-animation">
+                <DotSpinner size={100} speed={0.9} color="#e3af32" />
+                <p className="loader-Desc ml-3">
+                  Please wait while we are Loading responses for you
+                </p>
+              </div>
+            ) : (
+              <div className="col-lg-12">
+                <ReviewSubmittedResponses
+                  scopeData={scopeData}
+                  letterType={letterType}
+                  getBUSubmitResponseState={getBUSubmitResponseState}
+                />
+                <Section2 scopeData={scopeData} isSection2AutoSigned={isSection2AutoSigned} />
+              </div>
+            )}
+          </div>
+        )}
+        {modalType === 'attemptSection3' && (
           <div className="container-fluid custom-scroll-page">
             {instructionState.loading ||
             getBUSubmitResponseState.loading ||
@@ -211,11 +242,18 @@ const BULetterForm = (props) => {
                 </p>
               </div>
             ) : (
-              <ReviewSubmittedResponses
-                scopeData={scopeData}
-                letterType={letterType}
-                getBUSubmitResponseState={getBUSubmitResponseState}
-              />
+              <div className="col-lg-12">
+                <ReviewSubmittedResponses
+                  scopeData={scopeData}
+                  letterType={letterType}
+                  getBUSubmitResponseState={getBUSubmitResponseState}
+                />
+                {isSection3ApproveState ? (
+                  <ApprovalPageSection3 scopeData={scopeData} />
+                ) : (
+                  <AttemptSection3 scopeData={scopeData} />
+                )}
+              </div>
             )}
           </div>
         )}
