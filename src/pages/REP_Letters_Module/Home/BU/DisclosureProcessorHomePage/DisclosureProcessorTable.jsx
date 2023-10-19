@@ -15,6 +15,7 @@ import {
   approveBUSection3ResponseSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BU_Disclosure_ProcessorHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import ShowSignatures from '../../../../../components/ShowSignatures';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -172,6 +173,17 @@ const DisclosureProcessorTable = ({
       size: 170,
       Cell: (row) => {
         return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
+      },
+    },
+    {
+      accessorKey: 'signatures',
+      id: 'signatures',
+      header: 'Signatures',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      size: 170,
+      Cell: (row) => {
+        return <ShowSignatures signatures={row.row.original?.signatures} />;
       },
     },
     {
