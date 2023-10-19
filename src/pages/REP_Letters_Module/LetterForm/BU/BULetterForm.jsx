@@ -22,12 +22,14 @@ import {
   getLatestBUDraftResponse,
   getBUSubmitResponse,
   getBUSection3Response,
+  getBUSection2SignatureResponseAction
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import {
   addOrUpdateBUDraftResponseSelector,
   getLatestBUDraftResponseSelector,
   getBUSubmitResponseSelector,
   getBUSection3ResponseSelector,
+  getBUSection2SignatureResponseSelector
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../LetterFormStyle.scss';
 import AttemptSection3 from './FormComponents/Section3/AttemptSection3';
@@ -145,6 +147,7 @@ const BULetterForm = (props) => {
   const getLatestBUDraftResponseState = useSelector(getLatestBUDraftResponseSelector);
   const getBUSubmitResponseState = useSelector(getBUSubmitResponseSelector);
   const getBUSection3ResponseState = useSelector(getBUSection3ResponseSelector);
+  const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
 
   useEffect(() => {
     const payload = {
@@ -169,7 +172,10 @@ const BULetterForm = (props) => {
       };
 
       dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
-
+      let payloadForBuSection2Response = {
+        id: scopeData.id,
+      };
+      dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
       const payloadForGettingSection3Response = {
         assessment_id: scopeData?.id,
       };
@@ -181,6 +187,10 @@ const BULetterForm = (props) => {
       };
 
       dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+      let payloadForBuSection2Response = {
+        id: scopeData.id,
+      };
+      dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
       const payloadForGettingSection3Response = {
         assessment_id: scopeData?.id,
       };
@@ -211,7 +221,7 @@ const BULetterForm = (props) => {
         )}
         {modalType === 'attemptSection2' && (
           <div className="container-fluid custom-scroll-page">
-            {instructionState.loading || getBUSubmitResponseState.loading ? (
+            {instructionState.loading || getBUSubmitResponseState.loading || getBUSection2SignatureResponseState?.loading || getBUSection3ResponseState.loading ? (
               <div className="loader-animation">
                 <DotSpinner size={100} speed={0.9} color="#e3af32" />
                 <p className="loader-Desc ml-3">
@@ -225,7 +235,7 @@ const BULetterForm = (props) => {
                   letterType={letterType}
                   getBUSubmitResponseState={getBUSubmitResponseState}
                 />
-                <Section2 scopeData={scopeData} isSection2AutoSigned={isSection2AutoSigned} />
+                <Section2 scopeData={scopeData} />
               </div>
             )}
           </div>
@@ -234,7 +244,8 @@ const BULetterForm = (props) => {
           <div className="container-fluid custom-scroll-page">
             {instructionState.loading ||
             getBUSubmitResponseState.loading ||
-            getBUSection3ResponseState.loading ? (
+            getBUSection3ResponseState.loading ||
+            getBUSection2SignatureResponseState.loading ? (
               <div className="loader-animation">
                 <DotSpinner size={100} speed={0.9} color="#e3af32" />
                 <p className="loader-Desc ml-3">

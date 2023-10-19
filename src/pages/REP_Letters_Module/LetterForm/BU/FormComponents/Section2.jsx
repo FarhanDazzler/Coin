@@ -13,7 +13,11 @@ import {
   addBUSection2CheckboxAction,
   addBUSection2UploadMailApprovalAction,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
-import { getBUSection2SignatureResponseSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import {
+  getBUSection2SignatureResponseSelector,
+  addBUSection2CheckboxSelector,
+  addBUSection2UploadMailApprovalSelector,
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
 const Section2 = ({ scopeData }) => {
   const history = useHistory();
@@ -21,15 +25,93 @@ const Section2 = ({ scopeData }) => {
 
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
 
-  useEffect(() => {
-    let payload = {
-      id: scopeData.id,
-    };
-    dispatch(getBUSection2SignatureResponseAction(payload));
-  }, []);
+  const [toggleData, setToggleData] = useState(false);
 
-  const handleAutoAuth = (value) => {
-    dispatch(addBUSection2CheckboxAction(value.toggle));
+  // useEffect(() => {
+  //   let payload = {
+  //     id: scopeData.id,
+  //   };
+  //   dispatch(getBUSection2SignatureResponseAction(payload));
+  // }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem('selected_Role') === 'Zone Control') {
+      if(getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted === true && getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame === ''){
+        setToggleData(true);
+      }else{
+        setToggleData(false);
+      }
+    }
+    if (localStorage.getItem('selected_Role') === 'BU Head') {
+      if(getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted === true && getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame === ''){
+        setToggleData(true);
+      }else{
+        setToggleData(false);
+      }
+    }
+    if (localStorage.getItem('selected_Role') === 'Zone VP') {
+      if(getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted === true && getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame === ''){
+        setToggleData(true);
+      }else{
+        setToggleData(false);
+      }
+    }
+    if (localStorage.getItem('selected_Role') === 'Finance Director') {
+      if(getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted === true && getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame === ''){
+        setToggleData(true);
+      }else{
+        setToggleData(false);
+      }
+    }
+
+  }, [getBUSection2SignatureResponseState?.data?.signatures?.fd ||
+    getBUSection2SignatureResponseState?.data?.signatures?.buh ||
+    getBUSection2SignatureResponseState?.data?.signatures?.zc ||
+    getBUSection2SignatureResponseState?.data?.signatures?.zv])
+
+  const handleAutoAuth = (value, resetForm) => {
+    const formData = new FormData();
+    let signatures = [];
+    if (localStorage.getItem('selected_Role') === 'Zone Control') {
+      signatures.push({
+        role: 'ZC',
+        type: 'checkbox',
+      });
+    }
+    if (localStorage.getItem('selected_Role') === 'BU Head') {
+      signatures.push({
+        role: 'BUH',
+        type: 'checkbox',
+      });
+    }
+    if (localStorage.getItem('selected_Role') === 'Zone VP') {
+      signatures.push({
+        role: 'ZV',
+        type: 'checkbox',
+      });
+    }
+    if (localStorage.getItem('selected_Role') === 'Finance Director') {
+      signatures.push({
+        role: 'FD',
+        type: 'checkbox',
+      });
+    }
+    const data = JSON.stringify({
+      assessment_id: scopeData.id,
+      signatures: signatures,
+    });
+    formData.append('data', data);
+    dispatch(
+      addBUSection2CheckboxAction({
+        formData,
+        event: {
+          onSuccess: () => {
+            resetForm();
+          },
+        },
+      }),
+    );
+    history.push('/');
   };
 
   const handleSave = (values, resetForm) => {
@@ -94,6 +176,7 @@ const Section2 = ({ scopeData }) => {
         },
       }),
     );
+    history.push('/');
   };
 
   const EmailAttachmentDiv = () => {
@@ -267,7 +350,7 @@ const Section2 = ({ scopeData }) => {
         <Formik
           enableReinitialize
           initialValues={{
-            toggle: false,
+            toggle: toggleData,
           }}
           validationSchema={Yup.object().shape({
             toggle: Yup.string().required('Agree is required'),
@@ -311,13 +394,7 @@ const Section2 = ({ scopeData }) => {
               <div className="footer-action">
                 <div className="d-flex align-items-center justify-content-end">
                   <div>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      onClick={() => {
-                        //setShowModal(false);
-                      }}
-                    >
+                    <Button variant="outlined" color="secondary" onClick={() => history.push('/')}>
                       Cancel
                     </Button>
                     <Button
@@ -384,12 +461,16 @@ const Section2 = ({ scopeData }) => {
                   />
                   <div className="existing-attachment-review">
                     <p>
-                      <b>Review</b>
+                      <b>Review Signed Responses</b>
                     </p>
+                    <br />
                     <div className="row">
                       {getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted &&
                       getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame ? (
-                        <div className="col-lg-6">
+                        <div className="col-lg-12">
+                          <p>
+                            <b>Finance Director</b>
+                          </p>
                           <h5>
                             Approval Email attached by Disclosure Processor For Finance Director
                           </h5>
@@ -411,15 +492,21 @@ const Section2 = ({ scopeData }) => {
                             true &&
                             getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame ===
                               '' && (
-                              <div className="col-lg-6">
-                                <h5>Finance Director is Approved by Auto Authenticator</h5>
+                              <div className="col-lg-12">
+                                <p>
+                                  <b>Finance Director</b>
+                                </p>
+                                <h5>Finance Director has Approved by Auto Authentication</h5>
                               </div>
                             )}
                         </>
                       )}
                       {getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted &&
                       getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ? (
-                        <div className="col-lg-6">
+                        <div className="col-lg-12">
+                          <p>
+                            <b>Zone VP</b>
+                          </p>
                           <h5>Approval Email attached by Disclosure Processor For Zone VP</h5>
 
                           <Button
@@ -439,7 +526,10 @@ const Section2 = ({ scopeData }) => {
                             true &&
                             getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ===
                               '' && (
-                              <div className="col-lg-6">
+                              <div className="col-lg-12">
+                                <p>
+                                  <b>Zone VP</b>
+                                </p>
                                 <h5>Zone VP is Approved by Auto Authenticator</h5>
                               </div>
                             )}
@@ -447,7 +537,10 @@ const Section2 = ({ scopeData }) => {
                       )}
                       {getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted &&
                       getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ? (
-                        <div className="col-lg-6">
+                        <div className="col-lg-12">
+                          <p>
+                            <b>BU Head</b>
+                          </p>
                           <h5>Approval Email attached by Disclosure Processor For BU Head</h5>
 
                           <Button
@@ -467,7 +560,10 @@ const Section2 = ({ scopeData }) => {
                             true &&
                             getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ===
                               '' && (
-                              <div className="col-lg-6">
+                              <div className="col-lg-12">
+                                <p>
+                                  <b>BU Head</b>
+                                </p>
                                 <h5>BU Head is Approved by Auto Authenticator</h5>
                               </div>
                             )}
@@ -475,7 +571,10 @@ const Section2 = ({ scopeData }) => {
                       )}
                       {getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted &&
                       getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ? (
-                        <div className="col-lg-6">
+                        <div className="col-lg-12">
+                          <p>
+                            <b>Zone Control</b>
+                          </p>
                           <h5>Approval Email attached by Disclosure Processor For Zone Control</h5>
 
                           <Button
@@ -495,7 +594,10 @@ const Section2 = ({ scopeData }) => {
                             true &&
                             getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ===
                               '' && (
-                              <div className="col-lg-6">
+                              <div className="col-lg-12">
+                                <p>
+                                  <b>Zone Control</b>
+                                </p>
                                 <h5>Zone Control is Approved by Auto Authenticator</h5>
                               </div>
                             )}
@@ -516,7 +618,7 @@ const Section2 = ({ scopeData }) => {
               />
               <div className="renderBlockWrapper_file">
                 <div>
-                  {localStorage.getItem('selected_Role') === 'Disclosure Processor' ? (
+                  {localStorage.getItem('selected_Role') !== 'Disclosure Processor' ? (
                     <EmailAttachmentDiv />
                   ) : (
                     <AutoAuth />
