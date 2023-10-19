@@ -22,14 +22,14 @@ import {
   getLatestBUDraftResponse,
   getBUSubmitResponse,
   getBUSection3Response,
-  getBUSection2SignatureResponseAction
+  getBUSection2SignatureResponseAction,
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import {
   addOrUpdateBUDraftResponseSelector,
   getLatestBUDraftResponseSelector,
   getBUSubmitResponseSelector,
   getBUSection3ResponseSelector,
-  getBUSection2SignatureResponseSelector
+  getBUSection2SignatureResponseSelector,
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../LetterFormStyle.scss';
 import AttemptSection3 from './FormComponents/Section3/AttemptSection3';
@@ -138,7 +138,6 @@ const BULetterForm = (props) => {
   const scopeData = props.location.state?.data?.scopeData;
   const modalType = props.location.state?.data?.modalType;
   const letterType = props.location.state?.data?.letterType;
-  const isSection2AutoSigned = props.location.state?.data?.isSection2AutoSigned;
   const isSection3ApproveState = props.location.state?.data?.isSection3ApproveState;
 
   console.log('modalType', modalType);
@@ -221,7 +220,10 @@ const BULetterForm = (props) => {
         )}
         {modalType === 'attemptSection2' && (
           <div className="container-fluid custom-scroll-page">
-            {instructionState.loading || getBUSubmitResponseState.loading || getBUSection2SignatureResponseState?.loading || getBUSection3ResponseState.loading ? (
+            {instructionState.loading ||
+            getBUSubmitResponseState.loading ||
+            getBUSection2SignatureResponseState?.loading ||
+            getBUSection3ResponseState.loading ? (
               <div className="loader-animation">
                 <DotSpinner size={100} speed={0.9} color="#e3af32" />
                 <p className="loader-Desc ml-3">
