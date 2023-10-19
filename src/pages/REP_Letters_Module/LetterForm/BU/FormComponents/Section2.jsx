@@ -24,17 +24,15 @@ const Section2 = ({ scopeData }) => {
   const dispatch = useDispatch();
 
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
-  const addBUSection2UploadMailApprovalState = useSelector(addBUSection2UploadMailApprovalSelector);
-  const addBUSection2CheckboxState = useSelector(addBUSection2CheckboxSelector);
 
   const [toggleData, setToggleData] = useState(false);
 
-  useEffect(() => {
-    let payload = {
-      id: scopeData.id,
-    };
-    dispatch(getBUSection2SignatureResponseAction(payload));
-  }, []);
+  // useEffect(() => {
+  //   let payload = {
+  //     id: scopeData.id,
+  //   };
+  //   dispatch(getBUSection2SignatureResponseAction(payload));
+  // }, []);
 
   useEffect(() => {
     if (localStorage.getItem('selected_Role') === 'Zone Control') {
