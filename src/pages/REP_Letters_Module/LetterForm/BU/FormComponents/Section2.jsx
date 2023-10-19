@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Divider, Box } from '@mantine/core';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
@@ -14,9 +15,10 @@ import {
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import { getBUSection2SignatureResponseSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
-const Section2 = ({ scopeData, letterType }) => {
+const Section2 = ({ scopeData }) => {
+  const history = useHistory();
   const dispatch = useDispatch();
-  const [ShowVideoModal, setShowVideoModal] = useState(false);
+
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
 
   useEffect(() => {
@@ -238,13 +240,7 @@ const Section2 = ({ scopeData, letterType }) => {
               <div className="footer-action">
                 <div className="d-flex align-items-center justify-content-end">
                   <div>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      onClick={() => {
-                        //setShowModal(false);
-                      }}
-                    >
+                    <Button variant="outlined" color="secondary" onClick={() => history.push('/')}>
                       Cancel
                     </Button>
                     <Button
@@ -279,7 +275,6 @@ const Section2 = ({ scopeData, letterType }) => {
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {
               handleAutoAuth(values);
-              //history.push('/master-data-management/mics-framework');
             } catch (error) {
               const message = error.message || 'Something went wrong';
               setStatus({ success: false });
@@ -412,7 +407,8 @@ const Section2 = ({ scopeData, letterType }) => {
                         </div>
                       ) : (
                         <>
-                          {getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted === true &&
+                          {getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted ===
+                            true &&
                             getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame ===
                               '' && (
                               <div className="col-lg-6">
@@ -439,7 +435,8 @@ const Section2 = ({ scopeData, letterType }) => {
                         </div>
                       ) : (
                         <>
-                          {getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted === true &&
+                          {getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted ===
+                            true &&
                             getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ===
                               '' && (
                               <div className="col-lg-6">
@@ -466,7 +463,8 @@ const Section2 = ({ scopeData, letterType }) => {
                         </div>
                       ) : (
                         <>
-                          {getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted === true &&
+                          {getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted ===
+                            true &&
                             getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ===
                               '' && (
                               <div className="col-lg-6">
@@ -493,7 +491,8 @@ const Section2 = ({ scopeData, letterType }) => {
                         </div>
                       ) : (
                         <>
-                          {getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted === true &&
+                          {getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted ===
+                            true &&
                             getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ===
                               '' && (
                               <div className="col-lg-6">
