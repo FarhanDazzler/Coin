@@ -436,7 +436,7 @@ function* updateAddBUSubmitResponse({ payload }) {
 
 // GET BU Section2 Signature Response data
 async function getBUSection2SignatureResponseApi(params) {
-  return await Axios.get('/', { params });
+  return await Axios.get('/get_bu_section2', { params });
 }
 function* handle_GetBUSection2SignatureResponseData({ payload }) {
   try {
@@ -456,21 +456,33 @@ function* handle_GetBUSection2SignatureResponseData({ payload }) {
 
 // ADD BU Section2 Upload Mail Approval
 async function addBUSection2UploadMailApprovalApi(payload) {
-  return await Axios.get('/', payload);
+  return await Axios.post('/submit_bu_section2', payload);
 }
 function* handle_AddBUSection2UploadMailApprovalData({ payload }) {
   try {
-    const response = yield call(addBUSection2UploadMailApprovalApi, payload);
+    const { formData, event } = payload;
+    const response = yield call(addBUSection2UploadMailApprovalApi, formData);
     if (response.success) {
       yield put({
         type: ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS,
         payload: response.data,
       });
+      if (event && event.onSuccess) {
+        event.onSuccess(response.data);
+      }
+      Swal.fire('Done!', 'Email Attachment Uploded Successfully!', 'success');
     }
   } catch (error) {
+    console.log(error.response);
     yield put({
       type: ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR,
     });
+    if(error.response.status === 400){
+      Swal.fire('Oops...', error?.response?.data?.data, 'error');
+    }else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+    
   }
 }
 
