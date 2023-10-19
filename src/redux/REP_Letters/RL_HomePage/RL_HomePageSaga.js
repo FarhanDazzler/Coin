@@ -473,13 +473,12 @@ function* handle_AddBUSection2UploadMailApprovalData({ payload }) {
       Swal.fire('Done!', 'Email Attachment Uploded Successfully!', 'success');
     }
   } catch (error) {
-    console.log(error.response);
     yield put({
       type: ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR,
     });
-    if(error.response.status === 400){
+    if(error?.response?.status === 400){
       Swal.fire('Oops...', error?.response?.data?.data, 'error');
-    }else {
+    }else if(error?.response?.status === 500) {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
     
@@ -488,21 +487,30 @@ function* handle_AddBUSection2UploadMailApprovalData({ payload }) {
 
 // ADD BU Section2 Checkbox
 async function addBUSection2CheckboxApi(payload) {
-  return await Axios.get('/', payload);
+  return await Axios.post('/submit_bu_section2', payload);
 }
 function* handle_AddBUSection2CheckboxData({ payload }) {
+  const { formData, event } = payload;
   try {
-    const response = yield call(addBUSection2CheckboxApi, payload);
+    const response = yield call(addBUSection2CheckboxApi, formData);
+    console.log("there", response);
     if (response.success) {
       yield put({
         type: ADD_BU_SECTION2_CHECKBOX_SUCCESS,
         payload: response.data,
       });
+     
+      Swal.fire('Done!', 'Auto Authentication Successfully!', 'success');
     }
   } catch (error) {
     yield put({
       type: ADD_BU_SECTION2_CHECKBOX_ERROR,
     });
+    if(error?.response?.status === 400){
+      Swal.fire('Oops...', error?.response?.data?.data, 'error');
+    }else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
   }
 }
 
@@ -523,6 +531,7 @@ function* handle_GetBUSection3Response({ payload }) {
     yield put({
       type: GET_BU_SECTION_3_RESPONSE_ERROR,
     });
+    
   }
 }
 
@@ -622,7 +631,7 @@ export default all([
   takeLatest(ADD_OR_UPDATE_BU_DRAFT_RESPONSE_REQUEST, updateAddOrUpdateBUDraftResponse),
   takeLatest(GET_LATEST_BU_DRAFT_RESPONSE_REQUEST, handle_GetLatestBUDraftResponse),
   takeLatest(GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST, handle_GetBUSection2SignatureResponseData),
-  takeLatest(ADD_BU_SECTION2_CHECKBOX_ERROR, handle_AddBUSection2CheckboxData),
+  takeLatest(ADD_BU_SECTION2_CHECKBOX_REQUEST, handle_AddBUSection2CheckboxData),
   takeLatest(
     ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
     handle_AddBUSection2UploadMailApprovalData,
