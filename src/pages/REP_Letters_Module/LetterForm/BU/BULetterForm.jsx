@@ -221,6 +221,7 @@ const BULetterForm = (props) => {
                 {/* <ReviewSection1
                   submittedResponses={getBUSubmitResponseState?.data?.Latest_Response}
                 /> */}
+                <Section2 scopeData={scopeData} />
                 <AttemptSection3
                   scopeData={scopeData}
                   comments={comments}

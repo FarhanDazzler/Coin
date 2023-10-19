@@ -16,16 +16,18 @@ import {
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
 const Section2 = ({ scopeData, letterType }) => {
+  console.log("scop", scopeData);
   const dispatch = useDispatch();
   const [ShowVideoModal, setShowVideoModal] = useState(false);
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
-  const [activeTab, setActiveTab] = useState('testt');
-  const SignatoryList = [
-    { label: 'BU Head', value: 'BU Head' },
-    { label: 'Zone Control', value: 'Zone Control' },
-    { label: 'Zone VP', value: 'Zone VP' },
-    { label: 'Finance Director', value: 'Finance Director' },
-  ];
+  console.log("getBUSection2SignatureResponseState", getBUSection2SignatureResponseState)
+
+  useEffect(() => {
+    let payload = {
+      id : scopeData.id
+    }
+    dispatch(getBUSection2SignatureResponseAction(payload));
+  }, [])
 
   const handleAutoAuth = (value) => {
     dispatch(addBUSection2CheckboxAction(value.toggle));
@@ -293,14 +295,14 @@ const Section2 = ({ scopeData, letterType }) => {
                 <p>
                   <b>
                     As a{' '}
-                    {activeTab === 'test'
+                    {localStorage.getItem('selected_Role') === "Disclosure Processor"
                       ? 'Disclosure Processor'
                       : `${localStorage.getItem('selected_Role')} - Signatory`}
                   </b>
                 </p>
               </div>
               <div className="renderBlockWrapper_content">
-                {activeTab === 'test' ? (
+                {localStorage.getItem('selected_Role') === "Disclosure Processor" ? (
                   <>
                     <p>Upload the approval email from the respective signatories/authenticators</p>
                   </>
@@ -323,7 +325,8 @@ const Section2 = ({ scopeData, letterType }) => {
                 labelPosition="center"
               />
               <div className="renderBlockWrapper_file">
-                <div>{activeTab === 'test' ? <EmailAttachmentDiv /> : <AutoAuth />}</div>
+                
+                <div>{localStorage.getItem('selected_Role') === "Disclosure Processor" ? <EmailAttachmentDiv /> : <AutoAuth />}</div>
               </div>
             </div>
           </div>

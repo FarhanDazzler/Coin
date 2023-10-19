@@ -436,7 +436,7 @@ function* updateAddBUSubmitResponse({ payload }) {
 
 // GET BU Section2 Signature Response data
 async function getBUSection2SignatureResponseApi(params) {
-  return await Axios.get('/', { params });
+  return await Axios.get('/get_bu_section2', { params });
 }
 function* handle_GetBUSection2SignatureResponseData({ payload }) {
   try {
@@ -456,7 +456,7 @@ function* handle_GetBUSection2SignatureResponseData({ payload }) {
 
 // ADD BU Section2 Upload Mail Approval
 async function addBUSection2UploadMailApprovalApi(payload) {
-  return await Axios.get('/', payload);
+  return await Axios.get('/submit_bu_section2', payload);
 }
 function* handle_AddBUSection2UploadMailApprovalData({ payload }) {
   try {
