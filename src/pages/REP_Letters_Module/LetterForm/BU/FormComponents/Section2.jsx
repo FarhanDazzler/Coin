@@ -15,11 +15,9 @@ import {
 import { getBUSection2SignatureResponseSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
 const Section2 = ({ scopeData, letterType }) => {
-  console.log('scop', scopeData);
   const dispatch = useDispatch();
   const [ShowVideoModal, setShowVideoModal] = useState(false);
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
-  console.log('getBUSection2SignatureResponseState', getBUSection2SignatureResponseState);
 
   useEffect(() => {
     let payload = {
@@ -33,36 +31,18 @@ const Section2 = ({ scopeData, letterType }) => {
   };
 
   const handleSave = (values, resetForm) => {
-    console.log('values', values);
     const formData = new FormData();
-    const data = JSON.stringify({
-      assessment_id: scopeData.id,
-      signatures: [
-        {
-          role: 'BUH',
-          type: 'checkbox',
-        },
-        {
-          role: 'ZC',
-          type: 'support doc',
-        },
-        {
-          role: 'ZV',
-          type: 'support doc',
-        },
-        {
-          role: 'FD',
-          type: 'checkbox',
-        },
-      ],
-    });
+    let signatures = [];
 
-    formData.append('data', data);
     if (
       !getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted &&
       values.FinanceDirectorSignature
     ) {
       formData.append('fd_support_doc', values.FinanceDirectorSignature);
+      signatures.push({
+        role: 'FD',
+        type: 'support doc',
+      });
     }
 
     if (
@@ -70,6 +50,10 @@ const Section2 = ({ scopeData, letterType }) => {
       values.BUHeadSignature
     ) {
       formData.append('buh_support_doc', values.BUHeadSignature);
+      signatures.push({
+        role: 'BUH',
+        type: 'support doc',
+      });
     }
 
     if (
@@ -77,6 +61,10 @@ const Section2 = ({ scopeData, letterType }) => {
       values.ZoneControlSignature
     ) {
       formData.append('zc_support_doc', values.ZoneControlSignature);
+      signatures.push({
+        role: 'ZC',
+        type: 'support doc',
+      });
     }
 
     if (
@@ -84,9 +72,16 @@ const Section2 = ({ scopeData, letterType }) => {
       values.ZoneVPSignature
     ) {
       formData.append('zv_support_doc', values.ZoneVPSignature);
+      signatures.push({
+        role: 'ZV',
+        type: 'support doc',
+      });
     }
-    console.log('hi', formData);
-    //dispatch(addBUSection2UploadMailApprovalAction(formData));
+    const data = JSON.stringify({
+      assessment_id: scopeData.id,
+      signatures: signatures,
+    });
+    formData.append('data', data);
     dispatch(
       addBUSection2UploadMailApprovalAction({
         formData,
@@ -397,60 +392,116 @@ const Section2 = ({ scopeData, letterType }) => {
                       <b>Review</b>
                     </p>
                     <div className="row">
-                      <div className="col-lg-6">
-                        <h5>
-                          Approval Email attached by Disclosure Processor For Finance Director
-                        </h5>
+                      {getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted &&
+                      getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame ? (
+                        <div className="col-lg-6">
+                          <h5>
+                            Approval Email attached by Disclosure Processor For Finance Director
+                          </h5>
 
-                        <Button
-                          startIcon={<PictureAsPdfIcon />}
-                          onClick={() => {
-                            const pdfUrl = '';
-                            window.open(pdfUrl, '_blank');
-                          }}
-                        >
-                          Email Attachment
-                        </Button>
-                      </div>
-                      <div className="col-lg-6">
-                        <h5>Approval Email attached by Disclosure Processor For Zone VP</h5>
+                          <Button
+                            startIcon={<PictureAsPdfIcon />}
+                            onClick={() => {
+                              const pdfUrl =
+                                getBUSection2SignatureResponseState?.data?.signatures?.fd?.sas_url;
+                              window.open(pdfUrl, '_blank');
+                            }}
+                          >
+                            Email Attachment
+                          </Button>
+                        </div>
+                      ) : (
+                        <>
+                          {getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted === true &&
+                            getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame ===
+                              '' && (
+                              <div className="col-lg-6">
+                                <h5>Finance Director is Approved by Auto Authenticator</h5>
+                              </div>
+                            )}
+                        </>
+                      )}
+                      {getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted &&
+                      getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ? (
+                        <div className="col-lg-6">
+                          <h5>Approval Email attached by Disclosure Processor For Zone VP</h5>
 
-                        <Button
-                          startIcon={<PictureAsPdfIcon />}
-                          onClick={() => {
-                            const pdfUrl = '';
-                            window.open(pdfUrl, '_blank');
-                          }}
-                        >
-                          Email Attachment
-                        </Button>
-                      </div>
-                      <div className="col-lg-6">
-                        <h5>Approval Email attached by Disclosure Processor For BU Head</h5>
+                          <Button
+                            startIcon={<PictureAsPdfIcon />}
+                            onClick={() => {
+                              const pdfUrl =
+                                getBUSection2SignatureResponseState?.data?.signatures?.zv?.sas_url;
+                              window.open(pdfUrl, '_blank');
+                            }}
+                          >
+                            Email Attachment
+                          </Button>
+                        </div>
+                      ) : (
+                        <>
+                          {getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted === true &&
+                            getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ===
+                              '' && (
+                              <div className="col-lg-6">
+                                <h5>Zone VP is Approved by Auto Authenticator</h5>
+                              </div>
+                            )}
+                        </>
+                      )}
+                      {getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted &&
+                      getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ? (
+                        <div className="col-lg-6">
+                          <h5>Approval Email attached by Disclosure Processor For BU Head</h5>
 
-                        <Button
-                          startIcon={<PictureAsPdfIcon />}
-                          onClick={() => {
-                            const pdfUrl = '';
-                            window.open(pdfUrl, '_blank');
-                          }}
-                        >
-                          Email Attachment
-                        </Button>
-                      </div>
-                      <div className="col-lg-6">
-                        <h5>Approval Email attached by Disclosure Processor For Zone Control</h5>
+                          <Button
+                            startIcon={<PictureAsPdfIcon />}
+                            onClick={() => {
+                              const pdfUrl =
+                                getBUSection2SignatureResponseState?.data?.signatures?.buh?.sas_url;
+                              window.open(pdfUrl, '_blank');
+                            }}
+                          >
+                            Email Attachment
+                          </Button>
+                        </div>
+                      ) : (
+                        <>
+                          {getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted === true &&
+                            getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ===
+                              '' && (
+                              <div className="col-lg-6">
+                                <h5>BU Head is Approved by Auto Authenticator</h5>
+                              </div>
+                            )}
+                        </>
+                      )}
+                      {getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted &&
+                      getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ? (
+                        <div className="col-lg-6">
+                          <h5>Approval Email attached by Disclosure Processor For Zone Control</h5>
 
-                        <Button
-                          startIcon={<PictureAsPdfIcon />}
-                          onClick={() => {
-                            const pdfUrl = '';
-                            window.open(pdfUrl, '_blank');
-                          }}
-                        >
-                          Email Attachment
-                        </Button>
-                      </div>
+                          <Button
+                            startIcon={<PictureAsPdfIcon />}
+                            onClick={() => {
+                              const pdfUrl =
+                                getBUSection2SignatureResponseState?.data?.signatures?.zc?.sas_url;
+                              window.open(pdfUrl, '_blank');
+                            }}
+                          >
+                            Email Attachment
+                          </Button>
+                        </div>
+                      ) : (
+                        <>
+                          {getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted === true &&
+                            getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ===
+                              '' && (
+                              <div className="col-lg-6">
+                                <h5>Zone Control is Approved by Auto Authenticator</h5>
+                              </div>
+                            )}
+                        </>
+                      )}
                     </div>
                   </div>
                 </>
