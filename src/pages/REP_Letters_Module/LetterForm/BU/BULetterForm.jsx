@@ -195,6 +195,21 @@ const BULetterForm = (props) => {
       };
 
       dispatch(getBUSection3Response(payloadForGettingSection3Response));
+    } else {
+      let payloadForGettingSubmittedResp = {
+        assessment_id: scopeData?.id,
+      };
+
+      dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+      let payloadForBuSection2Response = {
+        id: scopeData.id,
+      };
+      dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
+      const payloadForGettingSection3Response = {
+        assessment_id: scopeData?.id,
+      };
+
+      dispatch(getBUSection3Response(payloadForGettingSection3Response));
     }
   }, []);
 
