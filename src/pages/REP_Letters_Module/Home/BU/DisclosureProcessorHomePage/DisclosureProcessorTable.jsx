@@ -77,13 +77,11 @@ const DisclosureProcessorTable = ({
 
   useEffect(() => {
     dispatch(get_BU_Disclosure_ProcessorHomePageData());
-  }, [token, dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(get_BU_Disclosure_ProcessorHomePageData());
   }, [
-    token,
-    dispatch,
     addOrUpdateDraftResponseState?.data,
     addBUSubmitResponseState?.data,
     addBUSection3ResponseState?.data,

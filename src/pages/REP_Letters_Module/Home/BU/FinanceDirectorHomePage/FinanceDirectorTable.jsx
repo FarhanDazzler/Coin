@@ -69,13 +69,11 @@ const FinanceDirectorTable = ({
 
   useEffect(() => {
     dispatch(get_BU_Finance_DirectorHomePageData());
-  }, [token, dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(get_BU_Finance_DirectorHomePageData());
   }, [
-    token,
-    dispatch,
     approveBUSection3ResponseState?.data,
     addBUSection2UploadMailApprovalState?.data,
     addBUSection2CheckboxState?.data,

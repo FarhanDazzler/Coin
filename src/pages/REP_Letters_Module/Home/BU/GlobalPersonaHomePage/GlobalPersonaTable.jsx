@@ -61,7 +61,7 @@ const GlobalPersonaTable = ({
 
   useEffect(() => {
     dispatch(get_BU_GlobalPersonaHomePageData());
-  }, [token, dispatch]);
+  }, []);
 
   const TABLE_COLUMNS = [
     {

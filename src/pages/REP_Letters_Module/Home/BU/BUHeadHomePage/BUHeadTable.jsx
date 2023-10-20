@@ -68,17 +68,12 @@ const DisclosureProcessorTable = ({
 
   useEffect(() => {
     dispatch(get_BU_BU_HeadHomePageData());
-  }, [token, dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(get_BU_BU_HeadHomePageData());
-  }, [
-    token,
-    dispatch,
-    addBUSection2UploadMailApprovalState?.data,
-    addBUSection2CheckboxState?.data,
-  ]);
-  
+  }, [addBUSection2UploadMailApprovalState?.data, addBUSection2CheckboxState?.data]);
+
   const TABLE_COLUMNS = [
     {
       accessorKey: 'Action',

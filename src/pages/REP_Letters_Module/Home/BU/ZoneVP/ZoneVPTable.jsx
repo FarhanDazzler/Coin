@@ -67,17 +67,12 @@ const ZoneVPTable = ({
 
   useEffect(() => {
     dispatch(get_BU_Zone_VPHomePageData());
-  }, [token, dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(get_BU_Zone_VPHomePageData());
-  }, [
-    token,
-    dispatch,
-    addBUSection2UploadMailApprovalState?.data,
-    addBUSection2CheckboxState?.data,
-  ]);
-  
+  }, [addBUSection2UploadMailApprovalState?.data, addBUSection2CheckboxState?.data]);
+
   const TABLE_COLUMNS = [
     {
       accessorKey: 'Action',
