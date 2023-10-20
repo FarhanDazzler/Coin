@@ -13,6 +13,8 @@ import {
   addOrUpdateBUDraftResponseSelector,
   addBUSection3ResponseSelector,
   approveBUSection3ResponseSelector,
+  addBUSection2CheckboxSelector,
+  addBUSection2UploadMailApprovalSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BU_Disclosure_ProcessorHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignatures from '../../../../../components/ShowSignatures';
@@ -65,6 +67,8 @@ const DisclosureProcessorTable = ({
   const addBUSubmitResponseState = useSelector(addBUSubmitResponseSelector);
   const addBUSection3ResponseState = useSelector(addBUSection3ResponseSelector);
   const approveBUSection3ResponseState = useSelector(approveBUSection3ResponseSelector);
+  const addBUSection2UploadMailApprovalState = useSelector(addBUSection2UploadMailApprovalSelector);
+  const addBUSection2CheckboxState = useSelector(addBUSection2CheckboxSelector);
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const disclosureProcessorHomePageData = useMemo(() => {
@@ -84,6 +88,8 @@ const DisclosureProcessorTable = ({
     addBUSubmitResponseState?.data,
     addBUSection3ResponseState?.data,
     approveBUSection3ResponseState?.data,
+    addBUSection2UploadMailApprovalState?.data,
+    addBUSection2CheckboxState?.data,
   ]);
 
   const TABLE_COLUMNS = [
@@ -114,7 +120,7 @@ const DisclosureProcessorTable = ({
                 Review
               </Button>
             )}
-            {['Not started', 'Drafted'].includes(row.row.original.Status) && (
+            {['Not Started', 'Drafted'].includes(row.row.original.Status) && (
               <Button
                 className="mr-2"
                 onClick={() => {
@@ -147,7 +153,7 @@ const DisclosureProcessorTable = ({
               </Button>
             )}
             {['Responded', 'Signed', 'Approval Pending'].includes(row.row.original.Status) &&
-              ['RBA Rejected', 'Not started'].includes(row.row.original.RBA_Status) && (
+              ['RBA Rejected', 'Not Started'].includes(row.row.original.RBA_Status) && (
                 <Button
                   className="mr-2"
                   onClick={() => {

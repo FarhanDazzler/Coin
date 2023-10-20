@@ -7,7 +7,11 @@ import { Group, MultiSelect } from '@mantine/core';
 import Table2 from '../../../../../components/UI/Table/Table2';
 import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
-import { get_BU_Zone_ControlHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import {
+  get_BU_Zone_ControlHomePageDataSelector,
+  addBUSection2CheckboxSelector,
+  addBUSection2UploadMailApprovalSelector,
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BU_Zone_ControlHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignatures from '../../../../../components/ShowSignatures';
 
@@ -53,8 +57,8 @@ const ZoneControlTable = ({
   const dispatch = useDispatch();
 
   const getHomePageData = useSelector(get_BU_Zone_ControlHomePageDataSelector);
-  //   const addOrUpdateDraftResponseState = useSelector(addOrUpdateFunctionDraftResponseSelector);
-  //   const addFunctionSubmitResponseState = useSelector(addFunctionSubmitResponseSelector);
+  const addBUSection2UploadMailApprovalState = useSelector(addBUSection2UploadMailApprovalSelector);
+  const addBUSection2CheckboxState = useSelector(addBUSection2CheckboxSelector);
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const HomePageData = useMemo(() => {
@@ -65,10 +69,14 @@ const ZoneControlTable = ({
     dispatch(get_BU_Zone_ControlHomePageData());
   }, [token, dispatch]);
 
-  //   useEffect(() => {
-  //     dispatch(get_BU_Zone_ControlHomePageData());
-  //   }, [token, dispatch, addOrUpdateDraftResponseState?.data, addFunctionSubmitResponseState?.data]);
-
+  useEffect(() => {
+    dispatch(get_BU_Zone_ControlHomePageData());
+  }, [
+    token,
+    dispatch,
+    addBUSection2UploadMailApprovalState?.data,
+    addBUSection2CheckboxState?.data,
+  ]);
   const TABLE_COLUMNS = [
     {
       accessorKey: 'Action',

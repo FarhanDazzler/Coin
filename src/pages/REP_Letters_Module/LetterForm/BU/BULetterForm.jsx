@@ -36,7 +36,12 @@ import '../LetterFormStyle.scss';
 import AttemptSection3 from './FormComponents/Section3/AttemptSection3';
 import ApprovalPageSection3 from './FormComponents/Section3/ApprovalPageSection3';
 
-const ReviewSubmittedResponses = ({ scopeData, letterType, getBUSubmitResponseState, getBUSection2SignatureResponseState }) => {
+const ReviewSubmittedResponses = ({
+  scopeData,
+  letterType,
+  getBUSubmitResponseState,
+  getBUSection2SignatureResponseState,
+}) => {
   const history = useHistory();
   const exportResponseToExcel = (info, responses, Last_Saved_At) => {
     // Create a new workbook
@@ -115,12 +120,12 @@ const ReviewSubmittedResponses = ({ scopeData, letterType, getBUSubmitResponseSt
       {scopeData?.s1_submitted && (
         <ReviewSection1 submittedResponses={getBUSubmitResponseState?.data?.Latest_Response} />
       )}
-      {
-        scopeData?.s2_submitted && (<ReviewSection2 getBUSection2SignatureResponseState={getBUSection2SignatureResponseState}/>)
-      }
+      {scopeData?.s2_submitted && (
+        <ReviewSection2 getBUSection2SignatureResponseState={getBUSection2SignatureResponseState} />
+      )}
       {scopeData?.s3_submitted && scopeData?.RBA_Status === 'RBA Approved' && <ReviewSection3 />}
 
-      {scopeData?.s1_submitted && scopeData?.s2_submitted && scopeData?.s3_submitted && (
+      {scopeData?.Status === 'Completed' && (
         <div className="d-flex align-items-center justify-content-end">
           <Button
             //color="secondary"
