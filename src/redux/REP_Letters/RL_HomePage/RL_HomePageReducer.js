@@ -156,6 +156,25 @@ export const ADD_BU_SECTION2_CHECKBOX_SUCCESS = 'ADD_BU_SECTION2_CHECKBOX_SUCCES
 export const ADD_BU_SECTION2_CHECKBOX_ERROR = 'ADD_BU_SECTION2_CHECKBOX_ERROR';
 // ============= ADD BU SECTION2 CHECKBOX data ===============//
 
+// ============== Get BU section 3 Response ==================//
+export const GET_BU_SECTION_3_RESPONSE_REQUEST = 'GET_BU_SECTION_3_RESPONSE_REQUEST';
+export const GET_BU_SECTION_3_RESPONSE_SUCCESS = 'GET_BU_SECTION_3_RESPONSE_SUCCESS';
+export const GET_BU_SECTION_3_RESPONSE_ERROR = 'GET_BU_SECTION_3_RESPONSE_ERROR';
+export const CLEAR_GET_BU_SECTION_3_RESPONSE_REQUEST = 'CLEAR_GET_BU_SECTION_3_RESPONSE_REQUEST';
+// ============== Get BU section 3 Response ==================//
+
+// ============== Add BU section 3 Response ==================//
+export const ADD_BU_SECTION_3_RESPONSE_REQUEST = 'ADD_BU_SECTION_3_RESPONSE_REQUEST';
+export const ADD_BU_SECTION_3_RESPONSE_SUCCESS = 'ADD_BU_SECTION_3_RESPONSE_SUCCESS';
+export const ADD_BU_SECTION_3_RESPONSE_ERROR = 'ADD_BU_SECTION_3_RESPONSE_ERROR';
+// ============== Add BU section 3 Response ==================//
+
+// ============== Approve BU section 3 Response ==================//
+export const APPROVE_BU_SECTION_3_RESPONSE_REQUEST = 'APPROVE_BU_SECTION_3_RESPONSE_REQUEST';
+export const APPROVE_BU_SECTION_3_RESPONSE_SUCCESS = 'APPROVE_BU_SECTION_3_RESPONSE_SUCCESS';
+export const APPROVE_BU_SECTION_3_RESPONSE_ERROR = 'APPROVE_BU_SECTION_3_RESPONSE_ERROR';
+// ============== Approve BU section 3 Response ==================//
+
 const block = {
   loading: false,
   error: '',
@@ -182,6 +201,9 @@ const initialState = {
   getBUSection2SignatureResponse: { ...block, data: [] },
   addBUSection2UploadMailApproval: { ...block, data: [] },
   addBUSection2Checkbox: { ...block, data: [] },
+  getBUSection3Response: { ...block, data: [] },
+  addBUSection3Response: { ...block, data: [] },
+  approveBUSection3Response: { ...block, data: [] },
 };
 
 export const RL_HomePageReducer = (state = initialState, { type, payload = {} }) => {
@@ -728,6 +750,96 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         ...state,
         getBUSection2SignatureResponse: {
           ...state.getBUSection2SignatureResponse,
+          loading: false,
+        },
+      };
+
+    // GET BU SECTION 3 RESPONSE DATA
+    case GET_BU_SECTION_3_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getBUSection3Response: {
+          ...state.getBUSection3Response,
+          loading: true,
+        },
+      };
+    case GET_BU_SECTION_3_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        getBUSection3Response: {
+          ...state.getBUSection3Response,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BU_SECTION_3_RESPONSE_ERROR:
+      return {
+        ...state,
+        getBUSection3Response: {
+          ...state.getBUSection3Response,
+          loading: false,
+        },
+      };
+    case CLEAR_GET_BU_SECTION_3_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getBUSection3Response: {
+          ...state.getBUSection3Response,
+          data: [],
+          loading: false,
+        },
+      };
+
+    // ADD BU SECTION 3 RESPONSE DATA
+    case ADD_BU_SECTION_3_RESPONSE_REQUEST:
+      return {
+        ...state,
+        addBUSection3Response: {
+          ...state.addBUSection3Response,
+          loading: true,
+        },
+      };
+    case ADD_BU_SECTION_3_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        addBUSection3Response: {
+          ...state.addBUSection3Response,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ADD_BU_SECTION_3_RESPONSE_ERROR:
+      return {
+        ...state,
+        addBUSection3Response: {
+          ...state.addBUSection3Response,
+          loading: false,
+        },
+      };
+
+    // APPROVE BU SECTION 3 RESPONSE DATA
+    case APPROVE_BU_SECTION_3_RESPONSE_REQUEST:
+      return {
+        ...state,
+        approveBUSection3Response: {
+          ...state.approveBUSection3Response,
+          loading: true,
+        },
+      };
+    case APPROVE_BU_SECTION_3_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        approveBUSection3Response: {
+          ...state.approveBUSection3Response,
+          data: payload,
+          loading: false,
+        },
+      };
+    case APPROVE_BU_SECTION_3_RESPONSE_ERROR:
+      return {
+        ...state,
+        approveBUSection3Response: {
+          ...state.approveBUSection3Response,
           loading: false,
         },
       };

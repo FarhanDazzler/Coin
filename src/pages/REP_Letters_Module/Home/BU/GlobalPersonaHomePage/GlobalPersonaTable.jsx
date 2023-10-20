@@ -10,6 +10,7 @@ import Button from '../../../../../components/UI/Button';
 import NoDataPlaceholder from '../../../../../components/NoDataPlaceholder/NoDataPlaceholderForRepLetter';
 import { get_BU_GlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BU_GlobalPersonaHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import ShowSignatures from '../../../../../components/ShowSignatures';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -44,7 +45,6 @@ const GlobalPersonaTable = ({
   buValue,
   setBUValue,
 }) => {
-  const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
 
@@ -81,8 +81,9 @@ const GlobalPersonaTable = ({
                 onClick={() => {
                   const data = {
                     scopeData: row.row.original,
-                    modalType: 'review',
+                    modalType: 'Review',
                     letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
+                    isSection3ApproveState: false,
                   };
                   history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
@@ -122,6 +123,29 @@ const GlobalPersonaTable = ({
       size: 170,
       Cell: (row) => {
         return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
+      },
+    },
+    {
+      accessorKey: 'RBA_Status',
+      id: 'RBA_Status',
+      header: 'RBA Status',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 170,
+      Cell: (row) => {
+        return <span className={'text-yellow-dark'}>{row.row.original.RBA_Status}</span>;
+      },
+    },
+    {
+      accessorKey: 'signatures',
+      id: 'signatures',
+      header: 'Signatures',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      size: 170,
+      Cell: (row) => {
+        return <ShowSignatures signatures={row.row.original?.signatures} />;
       },
     },
     {
@@ -199,15 +223,11 @@ const GlobalPersonaTable = ({
   ];
 
   useEffect(() => {
-    setTableData(recipientHomePageData);
-  }, [getGlobalPersonaHomePageData?.data[0], recipientHomePageData]);
-
-  useEffect(() => {
-    if (!tableData?.length) return setTableDataArray([]);
+    if (!recipientHomePageData?.length) return setTableDataArray([]);
     if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
-      return setTableDataArray(tableData);
+      return setTableDataArray(recipientHomePageData);
     }
-    const updatedData = tableData?.filter((i) => {
+    const updatedData = recipientHomePageData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
@@ -215,7 +235,7 @@ const GlobalPersonaTable = ({
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, buValue, tableData]);
+  }, [assessmentCycleValue, zoneValue, buValue, recipientHomePageData]);
   return (
     <>
       <div className="container-fluid">

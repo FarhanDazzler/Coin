@@ -131,20 +131,62 @@
 
 // section2-form
 
-.section2-form{
-  .form-select{
+.section2-form {
+  .form-select {
     background-color: #1a1a1a !important;
     color: #ffffff !important;
     border-radius: 8px !important;
   }
-  .footer-action{
+  .footer-action {
     background: transparent;
-    border-top: none
+    border-top: none;
   }
 }
 .section2-form{
-  input[type='file']{
+  input[type='file'], input[type='text']{
     background-color: #1a1a1a !important;
     color: #fff;
   }
+  input[type='file']:disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+.custom-scroll-page{
+  max-height: 80vh;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.bu-letter-section3 {
+  padding: 0px;
+  color: #ffffff;
+  background: rgba(140, 140, 140, 0.14);
+
+  .section3-divider {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
+.existing-attachment-review{
+  h5{
+    color: #e3af32;
+    margin-bottom: 0.375rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 0px;
+    padding-right: 50px;
+  }
+  .auto-auth{
+    p{
+      margin-bottom: 10px !important;
+    }
+    h5{
+      margin-bottom: 15px;
+    }
+  }
+  p{
+    margin-bottom: 0 !important;
+  }
+
 }

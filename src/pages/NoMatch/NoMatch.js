@@ -1,49 +1,50 @@
-import React from 'react';
-import { Card, Col, Container, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-// import TopBar from '../../parts/TopBar/TopBar';
+import { Container, Title, Text, Button, Group, Stack } from '@mantine/core';
+import { useHistory } from 'react-router-dom';
+import { Illustration } from './Illustration';
+import classes from './NothingFoundBackground.module.css';
 
-const NoMatch = (props) => {
+export function NoMatch() {
+  const history = useHistory();
   return (
-    <div className="page">
-      <div className="flex-fill">
-        <div className="my-3 my-md-5">
-          <Container>
-            <Row>
-              <Col xs={12}>
-                <Card>
-                  <Card.Header>
-                    <h3
-                      className="card-title text-left golden-text"
-                      style={{
-                        marginTop: 'auto',
-                        marginBottom: 'auto',
-                      }}
-                    >
-                      <strong>{`404 Not Found`}</strong>
-                    </h3>
-                  </Card.Header>
-                  <Card.Body>
-                    <Row>
-                      <Col xs={12} className="text-left">
-                        <h4>
-                          Sorry but we could not find the page you were looking for. Please make
-                          sure the address is correct.
-                        </h4>
-                        <p>
-                          Click <Link to="/">here</Link> to go to the homepage.
-                        </p>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </Container>
+    <Container className={classes.root} style={{ marginTop: '80px' }}>
+      <div className={classes.inner}>
+        <Illustration className={classes.image} />
+        <div className={classes.content}>
+          <Stack
+            align="center"
+            justify="center"
+            spacing="sm"
+            sx={(theme) => ({
+              height: 300,
+            })}
+          >
+            <Title className={classes.title}>Nothing to see here</Title>
+            <Text
+              c="dimmed"
+              size="lg"
+              ta="center"
+              className={classes.description}
+              style={{ fontSize: '26px', fontWeight: '600' }}
+            >
+              Page you are trying to open does not exist. You may have mistyped the address, or the
+              page has been moved to another URL. If you think this is an error contact support.
+            </Text>
+            <Group justify="center">
+              <Button
+                variant="grey"
+                //variant="outline"
+                color="dark"
+                radius="lg"
+                uppercase
+                size="md"
+                onClick={() => history.push('/')}
+              >
+                Take me back to home page
+              </Button>
+            </Group>
+          </Stack>
         </div>
       </div>
-    </div>
+    </Container>
   );
-};
-
-export default NoMatch;
+}
