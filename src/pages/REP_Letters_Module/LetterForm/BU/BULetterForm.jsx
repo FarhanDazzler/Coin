@@ -10,6 +10,7 @@ import Section0 from './FormComponents/Section0';
 import Section1 from './FormComponents/Section1';
 import Section2 from './FormComponents/Section2';
 import ReviewSection1 from './FormComponents/ReviewResponseComponents/ReviewSection1';
+import ReviewSection2 from './FormComponents/ReviewResponseComponents/ReviewSection2';
 import ReviewSection3 from './FormComponents/ReviewResponseComponents/ReviewSection3';
 // import ReviewResponsePage from './FormComponents/ReviewResponsePage';
 import { getInstructions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
@@ -35,7 +36,7 @@ import '../LetterFormStyle.scss';
 import AttemptSection3 from './FormComponents/Section3/AttemptSection3';
 import ApprovalPageSection3 from './FormComponents/Section3/ApprovalPageSection3';
 
-const ReviewSubmittedResponses = ({ scopeData, letterType, getBUSubmitResponseState }) => {
+const ReviewSubmittedResponses = ({ scopeData, letterType, getBUSubmitResponseState, getBUSection2SignatureResponseState }) => {
   const history = useHistory();
   const exportResponseToExcel = (info, responses, Last_Saved_At) => {
     // Create a new workbook
@@ -114,6 +115,9 @@ const ReviewSubmittedResponses = ({ scopeData, letterType, getBUSubmitResponseSt
       {scopeData?.s1_submitted && (
         <ReviewSection1 submittedResponses={getBUSubmitResponseState?.data?.Latest_Response} />
       )}
+      {
+        scopeData?.s2_submitted && (<ReviewSection2 getBUSection2SignatureResponseState={getBUSection2SignatureResponseState}/>)
+      }
       {scopeData?.s3_submitted && <ReviewSection3 />}
 
       {scopeData?.s1_submitted && scopeData?.s2_submitted && scopeData?.s3_submitted && (
@@ -234,6 +238,7 @@ const BULetterForm = (props) => {
                   scopeData={scopeData}
                   letterType={letterType}
                   getBUSubmitResponseState={getBUSubmitResponseState}
+                  getBUSection2SignatureResponseState={getBUSection2SignatureResponseState}
                 />
                 <Section2 scopeData={scopeData} />
               </div>
@@ -258,6 +263,7 @@ const BULetterForm = (props) => {
                   scopeData={scopeData}
                   letterType={letterType}
                   getBUSubmitResponseState={getBUSubmitResponseState}
+                  getBUSection2SignatureResponseState={getBUSection2SignatureResponseState}
                 />
                 {isSection3ApproveState ? (
                   <ApprovalPageSection3 scopeData={scopeData} />
