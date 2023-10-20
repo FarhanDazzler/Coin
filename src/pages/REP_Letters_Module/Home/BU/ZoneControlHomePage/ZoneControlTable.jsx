@@ -9,6 +9,7 @@ import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
 import { get_BU_Zone_ControlHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BU_Zone_ControlHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import ShowSignatures from '../../../../../components/ShowSignatures';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -86,8 +87,9 @@ const ZoneControlTable = ({
                 onClick={() => {
                   const data = {
                     scopeData: row.row.original,
-                    modalType: 'review',
+                    modalType: 'Review',
                     letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
+                    isSection3ApproveState: false,
                   };
                   history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
@@ -95,6 +97,23 @@ const ZoneControlTable = ({
                 Review
               </Button>
             )}
+            {['Responded', 'Approval Pending'].includes(row.row.original.Status) &&
+              row.row.original?.signatures?.zc_signed === false && (
+                <Button
+                  className="mr-2"
+                  onClick={() => {
+                    const data = {
+                      scopeData: row.row.original,
+                      modalType: 'attemptSection2',
+                      letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
+                      isSection3ApproveState: false,
+                    };
+                    history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
+                  }}
+                >
+                  Signature
+                </Button>
+              )}
           </div>
         );
       },
@@ -127,6 +146,29 @@ const ZoneControlTable = ({
       size: 170,
       Cell: (row) => {
         return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
+      },
+    },
+    {
+      accessorKey: 'RBA_Status',
+      id: 'RBA_Status',
+      header: 'RBA Status',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 170,
+      Cell: (row) => {
+        return <span className={'text-yellow-dark'}>{row.row.original.RBA_Status}</span>;
+      },
+    },
+    {
+      accessorKey: 'signatures',
+      id: 'signatures',
+      header: 'Signatures',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      size: 170,
+      Cell: (row) => {
+        return <ShowSignatures signatures={row.row.original?.signatures} />;
       },
     },
     {

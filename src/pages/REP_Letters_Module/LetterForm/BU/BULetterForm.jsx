@@ -23,14 +23,14 @@ import {
   getLatestBUDraftResponse,
   getBUSubmitResponse,
   getBUSection3Response,
-  getBUSection2SignatureResponseAction
+  getBUSection2SignatureResponseAction,
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import {
   addOrUpdateBUDraftResponseSelector,
   getLatestBUDraftResponseSelector,
   getBUSubmitResponseSelector,
   getBUSection3ResponseSelector,
-  getBUSection2SignatureResponseSelector
+  getBUSection2SignatureResponseSelector,
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../LetterFormStyle.scss';
 import AttemptSection3 from './FormComponents/Section3/AttemptSection3';
@@ -118,7 +118,7 @@ const ReviewSubmittedResponses = ({ scopeData, letterType, getBUSubmitResponseSt
       {
         scopeData?.s2_submitted && (<ReviewSection2 getBUSection2SignatureResponseState={getBUSection2SignatureResponseState}/>)
       }
-      {scopeData?.s3_submitted && <ReviewSection3 />}
+      {scopeData?.s3_submitted && scopeData?.RBA_Status === 'RBA Approved' && <ReviewSection3 />}
 
       {scopeData?.s1_submitted && scopeData?.s2_submitted && scopeData?.s3_submitted && (
         <div className="d-flex align-items-center justify-content-end">
@@ -142,7 +142,6 @@ const BULetterForm = (props) => {
   const scopeData = props.location.state?.data?.scopeData;
   const modalType = props.location.state?.data?.modalType;
   const letterType = props.location.state?.data?.letterType;
-  const isSection2AutoSigned = props.location.state?.data?.isSection2AutoSigned;
   const isSection3ApproveState = props.location.state?.data?.isSection3ApproveState;
 
   console.log('modalType', modalType);
@@ -200,6 +199,21 @@ const BULetterForm = (props) => {
       };
 
       dispatch(getBUSection3Response(payloadForGettingSection3Response));
+    } else {
+      let payloadForGettingSubmittedResp = {
+        assessment_id: scopeData?.id,
+      };
+
+      dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+      let payloadForBuSection2Response = {
+        id: scopeData.id,
+      };
+      dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
+      const payloadForGettingSection3Response = {
+        assessment_id: scopeData?.id,
+      };
+
+      dispatch(getBUSection3Response(payloadForGettingSection3Response));
     }
   }, []);
 
@@ -225,7 +239,10 @@ const BULetterForm = (props) => {
         )}
         {modalType === 'attemptSection2' && (
           <div className="container-fluid custom-scroll-page">
-            {instructionState.loading || getBUSubmitResponseState.loading || getBUSection2SignatureResponseState?.loading || getBUSection3ResponseState.loading ? (
+            {instructionState.loading ||
+            getBUSubmitResponseState.loading ||
+            getBUSection2SignatureResponseState?.loading ||
+            getBUSection3ResponseState.loading ? (
               <div className="loader-animation">
                 <DotSpinner size={100} speed={0.9} color="#e3af32" />
                 <p className="loader-Desc ml-3">
@@ -270,6 +287,29 @@ const BULetterForm = (props) => {
                 ) : (
                   <AttemptSection3 scopeData={scopeData} />
                 )}
+              </div>
+            )}
+          </div>
+        )}{' '}
+        {modalType === 'Review' && (
+          <div className="container-fluid custom-scroll-page">
+            {instructionState.loading ||
+            getBUSubmitResponseState.loading ||
+            getBUSection3ResponseState.loading ||
+            getBUSection2SignatureResponseState.loading ? (
+              <div className="loader-animation">
+                <DotSpinner size={100} speed={0.9} color="#e3af32" />
+                <p className="loader-Desc ml-3">
+                  Please wait while we are Loading responses for you
+                </p>
+              </div>
+            ) : (
+              <div className="col-lg-12">
+                <ReviewSubmittedResponses
+                  scopeData={scopeData}
+                  letterType={letterType}
+                  getBUSubmitResponseState={getBUSubmitResponseState}
+                />
               </div>
             )}
           </div>
