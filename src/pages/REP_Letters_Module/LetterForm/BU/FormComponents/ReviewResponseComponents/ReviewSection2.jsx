@@ -10,9 +10,9 @@ import '../../../LetterFormStyle.scss';
 import { clearGetBUSection3Response } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import { getBUSection3ResponseSelector } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
-const ReviewSection2 = (getBUSection2SignatureResponseState) => {
+const ReviewSection2 = (props) => {
   const dispatch = useDispatch();
-
+  const getBUSection2SignatureResponseState = props?.getBUSection2SignatureResponseState;
   return (
     <CollapseFrame title="Section 2 : Signatures" active>
       <div className="renderBlockWrapper mt-5">
@@ -56,20 +56,22 @@ const ReviewSection2 = (getBUSection2SignatureResponseState) => {
                         <p>
                           <b>Finance Director</b>
                         </p>
-                        <h5>
-                          Approval Email attached by Disclosure Processor For Finance Director
-                        </h5>
+                        <div className="d-flex align-items-center">
+                          <h5>
+                            Approval Email attached by Disclosure Processor For Finance Director
+                          </h5>
 
-                        <Button
-                          startIcon={<PictureAsPdfIcon />}
-                          onClick={() => {
-                            const pdfUrl =
-                              getBUSection2SignatureResponseState?.data?.signatures?.fd?.sas_url;
-                            window.open(pdfUrl, '_blank');
-                          }}
-                        >
-                          Email Attachment
-                        </Button>
+                          <Button
+                            startIcon={<PictureAsPdfIcon />}
+                            onClick={() => {
+                              const pdfUrl =
+                                getBUSection2SignatureResponseState?.data?.signatures?.fd?.sas_url;
+                              window.open(pdfUrl, '_blank');
+                            }}
+                          >
+                            Email Attachment
+                          </Button>
+                        </div>
                       </div>
                     ) : (
                       <>
@@ -77,7 +79,7 @@ const ReviewSection2 = (getBUSection2SignatureResponseState) => {
                           true &&
                           getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame ===
                             '' && (
-                            <div className="col-lg-12">
+                            <div className="col-lg-12 auto-auth">
                               <p>
                                 <b>Finance Director</b>
                               </p>
@@ -92,18 +94,20 @@ const ReviewSection2 = (getBUSection2SignatureResponseState) => {
                         <p>
                           <b>Zone VP</b>
                         </p>
-                        <h5>Approval Email attached by Disclosure Processor For Zone VP</h5>
+                        <div className="d-flex align-items-center">
+                          <h5>Approval Email attached by Disclosure Processor For Zone VP</h5>
 
-                        <Button
-                          startIcon={<PictureAsPdfIcon />}
-                          onClick={() => {
-                            const pdfUrl =
-                              getBUSection2SignatureResponseState?.data?.signatures?.zv?.sas_url;
-                            window.open(pdfUrl, '_blank');
-                          }}
-                        >
-                          Email Attachment
-                        </Button>
+                          <Button
+                            startIcon={<PictureAsPdfIcon />}
+                            onClick={() => {
+                              const pdfUrl =
+                                getBUSection2SignatureResponseState?.data?.signatures?.zv?.sas_url;
+                              window.open(pdfUrl, '_blank');
+                            }}
+                          >
+                            Email Attachment
+                          </Button>
+                        </div>
                       </div>
                     ) : (
                       <>
@@ -111,11 +115,11 @@ const ReviewSection2 = (getBUSection2SignatureResponseState) => {
                           true &&
                           getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ===
                             '' && (
-                            <div className="col-lg-12">
+                            <div className="col-lg-12 auto-auth">
                               <p>
                                 <b>Zone VP</b>
                               </p>
-                              <h5>Zone VP is Approved by Auto Authenticator</h5>
+                              <h5>Zone VP has Approved by Auto Authenticator</h5>
                             </div>
                           )}
                       </>
@@ -126,18 +130,20 @@ const ReviewSection2 = (getBUSection2SignatureResponseState) => {
                         <p>
                           <b>BU Head</b>
                         </p>
-                        <h5>Approval Email attached by Disclosure Processor For BU Head</h5>
+                        <div className="d-flex align-items-center">
+                          <h5>Approval Email attached by Disclosure Processor For BU Head</h5>
 
-                        <Button
-                          startIcon={<PictureAsPdfIcon />}
-                          onClick={() => {
-                            const pdfUrl =
-                              getBUSection2SignatureResponseState?.data?.signatures?.buh?.sas_url;
-                            window.open(pdfUrl, '_blank');
-                          }}
-                        >
-                          Email Attachment
-                        </Button>
+                          <Button
+                            startIcon={<PictureAsPdfIcon />}
+                            onClick={() => {
+                              const pdfUrl =
+                                getBUSection2SignatureResponseState?.data?.signatures?.buh?.sas_url;
+                              window.open(pdfUrl, '_blank');
+                            }}
+                          >
+                            Email Attachment
+                          </Button>
+                        </div>
                       </div>
                     ) : (
                       <>
@@ -145,11 +151,11 @@ const ReviewSection2 = (getBUSection2SignatureResponseState) => {
                           true &&
                           getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ===
                             '' && (
-                            <div className="col-lg-12">
+                            <div className="col-lg-12 auto-auth">
                               <p>
                                 <b>BU Head</b>
                               </p>
-                              <h5>BU Head is Approved by Auto Authenticator</h5>
+                              <h5>BU Head has Approved by Auto Authenticator</h5>
                             </div>
                           )}
                       </>
@@ -160,18 +166,20 @@ const ReviewSection2 = (getBUSection2SignatureResponseState) => {
                         <p>
                           <b>Zone Control</b>
                         </p>
-                        <h5>Approval Email attached by Disclosure Processor For Zone Control</h5>
+                        <div className="d-flex align-items-center">
+                          <h5>Approval Email attached by Disclosure Processor For Zone Control</h5>
 
-                        <Button
-                          startIcon={<PictureAsPdfIcon />}
-                          onClick={() => {
-                            const pdfUrl =
-                              getBUSection2SignatureResponseState?.data?.signatures?.zc?.sas_url;
-                            window.open(pdfUrl, '_blank');
-                          }}
-                        >
-                          Email Attachment
-                        </Button>
+                          <Button
+                            startIcon={<PictureAsPdfIcon />}
+                            onClick={() => {
+                              const pdfUrl =
+                                getBUSection2SignatureResponseState?.data?.signatures?.zc?.sas_url;
+                              window.open(pdfUrl, '_blank');
+                            }}
+                          >
+                            Email Attachment
+                          </Button>
+                        </div>
                       </div>
                     ) : (
                       <>
@@ -179,11 +187,11 @@ const ReviewSection2 = (getBUSection2SignatureResponseState) => {
                           true &&
                           getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ===
                             '' && (
-                            <div className="col-lg-12">
+                            <div className="col-lg-12 auto-auth">
                               <p>
                                 <b>Zone Control</b>
                               </p>
-                              <h5>Zone Control is Approved by Auto Authenticator</h5>
+                              <h5>Zone Control has Approved by Auto Authenticator</h5>
                             </div>
                           )}
                       </>
