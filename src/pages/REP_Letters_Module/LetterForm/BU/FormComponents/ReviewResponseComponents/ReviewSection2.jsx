@@ -57,7 +57,7 @@ const ReviewSection2 = (props) => {
                         <p>
                           <b>Finance Director</b>
                         </p>
-                        <div className="d-flex align-items-center">
+                        <div className="rep-letter-form-bottom-btn">
                           <h5>
                             Approval Email attached by Disclosure Processor For Finance Director
                           </h5>
@@ -95,7 +95,7 @@ const ReviewSection2 = (props) => {
                         <p>
                           <b>Zone VP</b>
                         </p>
-                        <div className="d-flex align-items-center">
+                        <div className="rep-letter-form-bottom-btn">
                           <h5>Approval Email attached by Disclosure Processor For Zone VP</h5>
 
                           <Button
@@ -131,7 +131,7 @@ const ReviewSection2 = (props) => {
                         <p>
                           <b>BU Head</b>
                         </p>
-                        <div className="d-flex align-items-center">
+                        <div className="rep-letter-form-bottom-btn">
                           <h5>Approval Email attached by Disclosure Processor For BU Head</h5>
 
                           <Button
@@ -167,7 +167,7 @@ const ReviewSection2 = (props) => {
                         <p>
                           <b>Zone Control</b>
                         </p>
-                        <div className="d-flex align-items-center">
+                        <div className="rep-letter-form-bottom-btn">
                           <h5>Approval Email attached by Disclosure Processor For Zone Control</h5>
 
                           <Button
