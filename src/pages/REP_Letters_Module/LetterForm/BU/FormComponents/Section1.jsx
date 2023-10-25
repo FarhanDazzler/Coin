@@ -329,7 +329,7 @@ const Section1 = ({ questions, scopeData }) => {
                       rows={4}
                     />
                   </Form.Group>
-                  <Form.Label className="mb-3">Please select month: </Form.Label>
+                  <Form.Label className="mb-3">Please select action plan date: </Form.Label>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Form.Group>
                       <Form.Control

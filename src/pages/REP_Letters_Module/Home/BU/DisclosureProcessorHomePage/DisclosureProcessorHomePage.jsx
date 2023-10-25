@@ -37,10 +37,10 @@ const DisclosureProcessorHomePage = () => {
     const tableData = getDisclosureProcessorHomePageData?.data[0]?.dpData || [];
     if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length && !buValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
-      const RBAStatus = tableData.map((d) => d?.RBA_status);
+      const RBAStatus = tableData.map((d) => d?.RBA_Status);
       return {
-        RBA_completed: getNumberOfItem(RBAStatus, 'Attached'),
-        notStarted: getNumberOfItem(allstatus, 'Not started'),
+        RBA_completed: getNumberOfItem(RBAStatus, 'RBA Approved'),
+        notStarted: getNumberOfItem(allstatus, 'Not Started'),
         completed: getNumberOfItem(allstatus, 'Completed'),
         draft: getNumberOfItem(allstatus, 'Drafted'),
       };
@@ -56,10 +56,10 @@ const DisclosureProcessorHomePage = () => {
     });
 
     const allUpdatestatus = updatedData?.map((d) => d?.Status);
-    const RBAStatus = updatedData.map((d) => d?.RBA_status);
+    const RBAStatus = updatedData.map((d) => d?.RBA_Status);
     return {
-      RBA_completed: getNumberOfItem(RBAStatus, 'Attached'),
-      notStarted: getNumberOfItem(allUpdatestatus, 'Not started'),
+      RBA_completed: getNumberOfItem(RBAStatus, 'RBA Approved'),
+      notStarted: getNumberOfItem(allUpdatestatus, 'Not Started'),
       completed: getNumberOfItem(allUpdatestatus, 'Completed'),
       draft: getNumberOfItem(allUpdatestatus, 'Drafted'),
     };
@@ -88,7 +88,7 @@ const DisclosureProcessorHomePage = () => {
               <AmountInfo amount={statusInfo.notStarted} infoText="NOT STARTED" />
               <AmountInfo amount={statusInfo.completed} infoText="COMPLETED" />
               <AmountInfo amount={statusInfo.draft} infoText="DRAFTED" />
-              <AmountInfo amount={statusInfo.RBA_completed} infoText="RBA ATTACHED" />
+              <AmountInfo amount={statusInfo.RBA_completed} infoText="RBA APPROVED" />
             </div>
           </div>
         </div>

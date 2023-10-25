@@ -47,12 +47,12 @@ const GlobalPersonaHomePage = () => {
     });
 
     const allUpdatestatus = updatedData.map((d) => d?.Status);
-    const RBAStatus = updatedData.map((d) => d?.RBA_status);
+    const RBAStatus = updatedData.map((d) => d?.RBA_Status);
     const completedAssessment = getNumberOfItem(allUpdatestatus, 'Completed'); // Signature_status
 
     return {
-      RBA_completed: getNumberOfItem(RBAStatus, 'Attached'),
-      notStarted: getNumberOfItem(allUpdatestatus, 'Not started'),
+      RBA_completed: getNumberOfItem(RBAStatus, 'RBA Approved'),
+      notStarted: getNumberOfItem(allUpdatestatus, 'Not Started'),
       completed: completedAssessment,
       draft: getNumberOfItem(allUpdatestatus, 'Drafted'),
       completedRatio: ((completedAssessment / allUpdatestatus?.length) * 100)?.toFixed(0),
@@ -137,10 +137,10 @@ const GlobalPersonaHomePage = () => {
                   tooltip={
                     <div>
                       <span className="yellow-text"> Total : </span>
-                      <span>Total number of RBA files attached.</span>
+                      <span>Total number of RBA files approved.</span>
                     </div>
                   }
-                  subTitle="RBA Attached"
+                  subTitle="RBA APPROVED"
                 />
               </div>
             </div>
