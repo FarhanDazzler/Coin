@@ -35,7 +35,7 @@ const months = [
 ];
 
 const currentYear = new Date().getFullYear();
-const years = Array.from({ length: 5 }, (_, index) => currentYear - 2 + index);
+const years = Array.from({ length: 3 }, (_, index) => currentYear + index);
 
 const Section1 = ({ questions, scopeData }) => {
   const history = useHistory();
@@ -139,22 +139,22 @@ const Section1 = ({ questions, scopeData }) => {
   }, [DraftResponseState?.data]);
 
   const handleSaveDraft = () => {
-    //console.log('Submitted responses:', responses);
-    if (DraftResponseState?.data?.Attempt_no >= 5) {
-      Swal.fire(`You don't have a limited`, '', 'error');
-      return;
-    }
+    // //console.log('Submitted responses:', responses);
+    // if (DraftResponseState?.data?.Attempt_no >= 5) {
+    //   Swal.fire(`You don't have a limited`, '', 'error');
+    //   return;
+    // }
     Swal.fire({
       title: `Do you want save as draft!`,
-      text: `${
-        DraftResponseState?.data?.Attempt_no
-          ? DraftResponseState?.data?.Attempt_no < 5
-            ? 4 - DraftResponseState?.data?.Attempt_no
-            : 0
-          : DraftResponseState?.data?.Attempt_no === 0
-          ? '4'
-          : '5'
-      } save draft letter remaining`,
+      // text: `${
+      //   DraftResponseState?.data?.Attempt_no
+      //     ? DraftResponseState?.data?.Attempt_no < 5
+      //       ? 4 - DraftResponseState?.data?.Attempt_no
+      //       : 0
+      //     : DraftResponseState?.data?.Attempt_no === 0
+      //     ? '4'
+      //     : '5'
+      // } save draft letter remaining`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
@@ -198,23 +198,24 @@ const Section1 = ({ questions, scopeData }) => {
     } else {
       Swal.fire({
         title: 'You are about to submit the Representation letter.',
-        text: `${
-          DraftResponseState?.data?.Attempt_no
-            ? DraftResponseState?.data?.Attempt_no < 5
-              ? 4 - DraftResponseState?.data?.Attempt_no
-              : 0
-            : DraftResponseState?.data?.Attempt_no === 0
-            ? '4'
-            : '5'
-        } save draft letter remaining`,
+        // text: `${
+        //   DraftResponseState?.data?.Attempt_no
+        //     ? DraftResponseState?.data?.Attempt_no < 5
+        //       ? 4 - DraftResponseState?.data?.Attempt_no
+        //       : 0
+        //     : DraftResponseState?.data?.Attempt_no === 0
+        //     ? '4'
+        //     : '5'
+        // } save draft letter remaining`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'golden',
         cancelButtonColor: 'black',
         confirmButtonText: 'Yes, submit it!',
-        showDenyButton: !(DraftResponseState?.data?.Attempt_no >= 5),
+        showDenyButton: true,
+        // showDenyButton: !(DraftResponseState?.data?.Attempt_no >= 5),
         denyButtonText: 'Save draft!',
-        denyButtonColor: 'silver',
+        denyButtonColor: 'black',
       }).then((result) => {
         if (result.isConfirmed) {
           for (const key in responses) {
@@ -247,10 +248,10 @@ const Section1 = ({ questions, scopeData }) => {
           //localStorage.setItem('storedResponses', JSON.stringify(responses));
         }
         if (result.isDenied) {
-          if (DraftResponseState?.data?.Attempt_no >= 5) {
-            Swal.fire(`You don't have a limit`, '', 'error');
-            return;
-          }
+          // if (DraftResponseState?.data?.Attempt_no >= 5) {
+          //   Swal.fire(`You don't have a limit`, '', 'error');
+          //   return;
+          // }
           const payload = {
             Assessment_ID: scopeData?.id,
             Latest_response: responses,
@@ -266,7 +267,7 @@ const Section1 = ({ questions, scopeData }) => {
   };
 
   return (
-    <CollapseFrame title="Section 1 : Please give your responses" active>
+    <CollapseFrame title="Section 1 : BU Representation Letter" active>
       {questions?.map((question, index) => {
         const response = responses[question.id] || { response: '' };
 
@@ -329,7 +330,9 @@ const Section1 = ({ questions, scopeData }) => {
                       rows={4}
                     />
                   </Form.Group>
-                  <Form.Label className="mb-3">Please select month: </Form.Label>
+                  <Form.Label className="mb-3">
+                    Please select action plan month and year:{' '}
+                  </Form.Label>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Form.Group>
                       <Form.Control
@@ -342,7 +345,7 @@ const Section1 = ({ questions, scopeData }) => {
                         className="form-select"
                         style={{ width: '150px', marginRight: '10px' }}
                       >
-                        <option value="">Select</option>
+                        <option value="">Select Month</option>
                         {months.map((month) => (
                           <option key={month.value} value={month.value}>
                             {month.label}

@@ -68,17 +68,12 @@ const DisclosureProcessorTable = ({
 
   useEffect(() => {
     dispatch(get_BU_BU_HeadHomePageData());
-  }, [token, dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(get_BU_BU_HeadHomePageData());
-  }, [
-    token,
-    dispatch,
-    addBUSection2UploadMailApprovalState?.data,
-    addBUSection2CheckboxState?.data,
-  ]);
-  
+  }, [addBUSection2UploadMailApprovalState?.data, addBUSection2CheckboxState?.data]);
+
   const TABLE_COLUMNS = [
     {
       accessorKey: 'Action',
@@ -127,6 +122,15 @@ const DisclosureProcessorTable = ({
           </div>
         );
       },
+    },
+    {
+      accessorKey: 'Letter_Type',
+      id: 'Letter_Type',
+      header: 'Letter Type',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
     },
     {
       accessorKey: 'Zone',
@@ -225,15 +229,6 @@ const DisclosureProcessorTable = ({
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 200,
-    },
-    {
-      accessorKey: 'Letter_Type',
-      id: 'Letter_Type',
-      header: 'Letter Type',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
     },
     {
       accessorKey: 'Assessment_Cycle',

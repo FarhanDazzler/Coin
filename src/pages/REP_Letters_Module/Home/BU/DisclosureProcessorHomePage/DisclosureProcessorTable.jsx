@@ -77,13 +77,11 @@ const DisclosureProcessorTable = ({
 
   useEffect(() => {
     dispatch(get_BU_Disclosure_ProcessorHomePageData());
-  }, [token, dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(get_BU_Disclosure_ProcessorHomePageData());
   }, [
-    token,
-    dispatch,
     addOrUpdateDraftResponseState?.data,
     addBUSubmitResponseState?.data,
     addBUSection3ResponseState?.data,
@@ -172,6 +170,15 @@ const DisclosureProcessorTable = ({
           </div>
         );
       },
+    },
+    {
+      accessorKey: 'Letter_Type',
+      id: 'Letter_Type',
+      header: 'Letter Type',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
     },
     {
       accessorKey: 'Zone',
@@ -270,15 +277,6 @@ const DisclosureProcessorTable = ({
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 200,
-    },
-    {
-      accessorKey: 'Letter_Type',
-      id: 'Letter_Type',
-      header: 'Letter Type',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
     },
     {
       accessorKey: 'Assessment_Cycle',

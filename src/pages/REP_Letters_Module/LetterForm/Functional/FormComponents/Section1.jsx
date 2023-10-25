@@ -159,7 +159,7 @@ const Section1 = ({ questions, scopeData }) => {
         confirmButtonText: 'Yes, submit it!',
         showDenyButton: !(DraftResponseState?.data?.Attempt_no >= 5),
         denyButtonText: 'Save draft!',
-        denyButtonColor: 'silver',
+        denyButtonColor: 'black',
       }).then((result) => {
         if (result.isConfirmed) {
           for (const key in responses) {

@@ -67,16 +67,11 @@ const ZoneControlTable = ({
 
   useEffect(() => {
     dispatch(get_BU_Zone_ControlHomePageData());
-  }, [token, dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatch(get_BU_Zone_ControlHomePageData());
-  }, [
-    token,
-    dispatch,
-    addBUSection2UploadMailApprovalState?.data,
-    addBUSection2CheckboxState?.data,
-  ]);
+  }, [addBUSection2UploadMailApprovalState?.data, addBUSection2CheckboxState?.data]);
   const TABLE_COLUMNS = [
     {
       accessorKey: 'Action',
@@ -125,6 +120,15 @@ const ZoneControlTable = ({
           </div>
         );
       },
+    },
+    {
+      accessorKey: 'Letter_Type',
+      id: 'Letter_Type',
+      header: 'Letter Type',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
     },
     {
       accessorKey: 'Zone',
@@ -223,15 +227,6 @@ const ZoneControlTable = ({
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 200,
-    },
-    {
-      accessorKey: 'Letter_Type',
-      id: 'Letter_Type',
-      header: 'Letter Type',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
     },
     {
       accessorKey: 'Assessment_Cycle',
