@@ -47,6 +47,23 @@ function NavTabsMDM() {
                   <Button
                     variant="outlined"
                     size="small"
+                    startIcon={<ActiveTool number={4} text="Free Text" />}
+                    className={
+                      location.pathname ===
+                      '/REP-Letters/master-data-management/bu-zone-masterdata-management'
+                        ? 'active-tab-button'
+                        : 'mr-4 tabButton'
+                    }
+                    onClick={handleClick(
+                      '/REP-Letters/master-data-management/bu-zone-masterdata-management',
+                      2,
+                    )}
+                  >
+                    BU Zone Masterdata Management
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="small"
                     startIcon={<ActiveTool number={2} text="Free Text" />}
                     className={
                       location.pathname ===

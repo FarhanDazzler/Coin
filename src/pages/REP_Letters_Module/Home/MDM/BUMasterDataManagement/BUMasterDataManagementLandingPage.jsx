@@ -9,9 +9,9 @@ import { getRlBuMasterdata } from '../../../../../redux/REP_Letters/RLMDM/RLMDMA
 const RL_MDM_BUMasterdataManagementLandingPage = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getRlBuMasterdata());
-  }, [])
+  // useEffect(() => {
+  //   dispatch(getRlBuMasterdata());
+  // }, [])
 
   return (
     <PageWrapper>

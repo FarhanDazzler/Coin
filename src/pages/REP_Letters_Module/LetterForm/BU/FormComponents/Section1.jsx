@@ -159,7 +159,7 @@ const Section1 = ({ questions, scopeData }) => {
       showCancelButton: true,
       confirmButtonColor: 'golden',
       cancelButtonColor: 'black',
-      confirmButtonText: `Save draft!`,
+      confirmButtonText: `Save draft`,
     }).then((result) => {
       if (result.isConfirmed) {
         const payload = {
@@ -211,10 +211,10 @@ const Section1 = ({ questions, scopeData }) => {
         showCancelButton: true,
         confirmButtonColor: 'golden',
         cancelButtonColor: 'black',
-        confirmButtonText: 'Yes, submit it!',
+        confirmButtonText: 'Yes, submit it',
         showDenyButton: true,
         // showDenyButton: !(DraftResponseState?.data?.Attempt_no >= 5),
-        denyButtonText: 'Save draft!',
+        denyButtonText: 'Save draft',
         denyButtonColor: 'black',
       }).then((result) => {
         if (result.isConfirmed) {

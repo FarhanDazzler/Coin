@@ -67,10 +67,6 @@ const ZoneControlTable = ({
 
   useEffect(() => {
     dispatch(get_BU_Zone_ControlHomePageData());
-  }, []);
-
-  useEffect(() => {
-    dispatch(get_BU_Zone_ControlHomePageData());
   }, [addBUSection2UploadMailApprovalState?.data, addBUSection2CheckboxState?.data]);
   const TABLE_COLUMNS = [
     {
