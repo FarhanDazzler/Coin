@@ -67,10 +67,6 @@ const ZoneVPTable = ({
 
   useEffect(() => {
     dispatch(get_BU_Zone_VPHomePageData());
-  }, []);
-
-  useEffect(() => {
-    dispatch(get_BU_Zone_VPHomePageData());
   }, [addBUSection2UploadMailApprovalState?.data, addBUSection2CheckboxState?.data]);
 
   const TABLE_COLUMNS = [
