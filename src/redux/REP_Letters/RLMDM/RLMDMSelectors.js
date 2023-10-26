@@ -2,6 +2,8 @@ export const getRlOrgHierarchySelector = (state) => state?.rlMdm?.rlOrgHierarchy
 export const getRlOrgMDSelector = (state) => state?.rlMdm?.rlOrgMd;
 export const getRlBuMasterdataSelector = (state) => state?.rlMdm?.rlBuMasterdata;
 export const assignRlBuMasterdataSelector = (state) => state?.rlMdm?.rlAssignBuMasterdata;
+export const getRlBuZoneMasterdataSelector = (state) => state?.rlMdm?.rlBuZoneMasterdata;
+export const assignRlBuZoneMasterdataSelector = (state) => state?.rlMdm?.rlAssignBuZoneMasterdata;
 export const getRlFunctionalMasterdataSelector = (state) => state?.rlMdm?.rlFunctionalMasterdata;
 export const getRlParentEntityDataSelector = (state) => state?.rlMdm?.getRlParentEntityData;
 export const addOrganizationalMdDataSelector = (state) => state?.rlMdm?.addOrganizationalMd;

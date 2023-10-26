@@ -1,6 +1,7 @@
 import RLMDM from '../../pages/REP_Letters_Module/Home/MDM';
 import RL_MDM_OrganizationHierarchyLandingPage from '../../pages/REP_Letters_Module/Home/MDM/OrganizationHierarchy/MDMOrganizationHierarchyLandingPage';
 import RL_MDM_BUMasterdataManagementLandingPage from '../../pages/REP_Letters_Module/Home/MDM/BUMasterDataManagement/BUMasterDataManagementLandingPage';
+import BUZoneMasterDataManagementLandingPage from '../../pages/REP_Letters_Module/Home/MDM/BUZoneMasterDataManagement/BUZoneMasterDataManagementLandingPage';
 import RL_MDM_FunctionalMasterdataManagementLandingPage from '../../pages/REP_Letters_Module/Home/MDM/FunctionalMasterdataManagement/FunctionalMasterdataManagementLandingPage';
 import RLQuestionBank from '../../pages/REP_Letters_Module/Home/QuestionBank/RepLetterQuestionBankLandingPage';
 import BUModifyQuestions from '../../pages/REP_Letters_Module/Home/QuestionBank/BU/BUModifyQuestions';
@@ -29,6 +30,11 @@ export const RepLettersRoutes = [
     path: '/REP-Letters/master-data-management/bu-masterdata-management',
     exact: true,
     component: RL_MDM_BUMasterdataManagementLandingPage,
+  },
+  {
+    path: '/REP-Letters/master-data-management/bu-zone-masterdata-management',
+    exact: true,
+    component: BUZoneMasterDataManagementLandingPage,
   },
   {
     path: '/REP-Letters/master-data-management/functional-masterdata-management',

@@ -3,24 +3,17 @@ import PageWrapper from '../../../../../components/wrappers/PageWrapper';
 import '../../../../MDM/MDMStyle.scss';
 import NavTabsMDM from '../MDM_Tab_Buttons/TabButtons';
 import { useDispatch, useSelector } from 'react-redux';
-import BuMasterdataTable from './Tables/BuMasterdataTables';
-import { getRlBuMasterdata } from '../../../../../redux/REP_Letters/RLMDM/RLMDMAction';
+import BuZoneMasterdataTable from './Tables/BuZoneMasterdataTable';
 
-const RL_MDM_BUMasterdataManagementLandingPage = () => {
-  const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(getRlBuMasterdata());
-  // }, [])
-
+const BUZoneMasterDataManagementLandingPage = () => {
   return (
     <PageWrapper>
       <div className="col-12 col-lg-12">
         <NavTabsMDM />
-       <BuMasterdataTable />
+        <BuZoneMasterdataTable />
       </div>
     </PageWrapper>
   );
 };
 
-export default RL_MDM_BUMasterdataManagementLandingPage;
+export default BUZoneMasterDataManagementLandingPage;
