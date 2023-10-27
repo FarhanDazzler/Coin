@@ -19,8 +19,8 @@ const RLMDM = () => {
           <>
             <div className="col-lg-6 py-4 MDMBoxWrapper" style={{ marginRight: '16px' }}>
               <MDMBox
-                title="BU Zone Masterdata Management"
-                description="Assign BU Zone Master Data within the Organization Hierarchy."
+                title="Zone Masterdata Management"
+                description="Assign Zone Master Data within the Organization Hierarchy."
                 url="/REP-Letters/master-data-management/bu-zone-masterdata-management"
               />
               <MDMBox
