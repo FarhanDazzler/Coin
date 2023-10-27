@@ -128,7 +128,7 @@ const BuZoneMasterdataTable = () => {
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>
                   <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                  <span style={{ paddingLeft: '16px' }}>BU Zone Masterdata Management</span>
+                  <span style={{ paddingLeft: '16px' }}>Zone Masterdata Management</span>
                 </div>
                 <div>
                   <Button
@@ -157,7 +157,7 @@ const BuZoneMasterdataTable = () => {
         open={showModal}
         onClose={() => setShowModal(false)}
         width={900}
-        title="Assign BU Master Data"
+        title="Assign Zone Master Data"
         bodyClassName="p-0"
       >
         <AssignModal setShowModal={setShowModal} assignTableData={assignTableData} />
