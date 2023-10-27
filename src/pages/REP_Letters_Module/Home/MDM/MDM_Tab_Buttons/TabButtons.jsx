@@ -59,7 +59,7 @@ function NavTabsMDM() {
                       2,
                     )}
                   >
-                    BU Zone Masterdata Management
+                    Zone Masterdata Management
                   </Button>
                   <Button
                     variant="outlined"
