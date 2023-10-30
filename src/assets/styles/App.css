@@ -347,9 +347,9 @@ a:not([href]):not([tabindex]):focus {
   outline: 0;
 }
 
-iframe {
+/* iframe {
   display: none;
-}
+} */
 
 pre,
 code,
@@ -19450,4 +19450,19 @@ a.btn.btn-primary {
   border-radius: 25px;
   /* margin-top: 3px;
   margin-bottom: 3px; */
+}
+
+.report-container {
+  height: calc(100vh - 180px);
+}
+
+.report-container iframe {
+  border: 0px;
+  border-radius: 10px;
+  pointer-events: unset !important;
+  padding-bottom: 20px;
+}
+
+.dashboard-width {
+  margin: 20px;
 }

@@ -9,6 +9,7 @@ import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
 import { get_BU_Zone_VPHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BU_Zone_VPHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import ShowSignatures from '../../../../../components/ShowSignatures';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -43,7 +44,6 @@ const ZoneVPTable = ({
   buValue,
   setBUValue,
 }) => {
-  const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
 
@@ -131,6 +131,17 @@ const ZoneVPTable = ({
       },
     },
     {
+      accessorKey: 'signatures',
+      id: 'signatures',
+      header: 'Signatures',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      size: 170,
+      Cell: (row) => {
+        return <ShowSignatures signatures={row.row.original?.signatures} />;
+      },
+    },
+    {
       accessorKey: 'Disclosure_Processor',
       id: 'Disclosure_Processor',
       header: 'Disclosure Processor',
@@ -205,15 +216,11 @@ const ZoneVPTable = ({
   ];
 
   useEffect(() => {
-    setTableData(HomePageData);
-  }, [getHomePageData?.data[0], HomePageData]);
-
-  useEffect(() => {
-    if (!tableData?.length) return setTableDataArray([]);
+    if (!HomePageData?.length) return setTableDataArray([]);
     if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
-      return setTableDataArray(tableData);
+      return setTableDataArray(HomePageData);
     }
-    const updatedData = tableData?.filter((i) => {
+    const updatedData = HomePageData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
@@ -221,7 +228,7 @@ const ZoneVPTable = ({
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, buValue, tableData]);
+  }, [assessmentCycleValue, zoneValue, buValue, HomePageData]);
   return (
     <>
       <div className="container-fluid">

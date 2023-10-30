@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { InteractionStatus, PublicClientApplication } from '@azure/msal-browser';
-import { loginRequest, msalConfig, snowBackendRequest } from './utils/authConfig';
+import { loginRequest, msalConfig, snowBackendRequest, powerbiRequest } from './utils/authConfig';
 import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -33,7 +33,7 @@ import { RepLettersRoutes } from './routes/RepLettersRoutes/RepLetterRoutes';
 import { AssessmentModuleRoutes } from './routes/AssessmentModuleRoutes/AssessmentModuleRoutes';
 import { AdminRoutes } from './routes/AdminRoutes/AdminRoutes';
 import ContactUs from './pages/ContactUS/contactus';
-
+import { NoMatch } from './pages/NoMatch/NoMatch';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/i18n';
 
@@ -163,6 +163,15 @@ const Pages = () => {
         .catch((err) => {
           console.log(`Error occurred while acquiring token: ${err}`);
         });
+      // for creating PowerBI API token for PowerBI
+      instance
+        .acquireTokenSilent({
+          ...powerbiRequest,
+          account: accounts[0],
+        })
+        .then((response) => {
+          localStorage.setItem('powerbi_access_token', response?.accessToken);
+        });
     }
     // logic for getting NPS api auth token
     if (accounts) {
@@ -231,18 +240,7 @@ const Pages = () => {
           <Route exact path="/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
           <Route exact path="/POC" component={POC} />
-          <Route
-            path="*"
-            render={(props) => {
-              return (
-                <h1>
-                  Error 404
-                  <br />
-                  Page Not Found
-                </h1>
-              );
-            }}
-          />
+          <Route path="*" component={NoMatch} />
         </Switch>
       </div>
     </div>

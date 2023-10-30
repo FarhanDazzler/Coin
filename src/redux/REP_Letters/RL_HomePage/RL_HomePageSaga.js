@@ -60,6 +60,15 @@ import {
   ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR,
   ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
   ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS,
+  GET_BU_SECTION_3_RESPONSE_REQUEST,
+  GET_BU_SECTION_3_RESPONSE_SUCCESS,
+  GET_BU_SECTION_3_RESPONSE_ERROR,
+  ADD_BU_SECTION_3_RESPONSE_REQUEST,
+  ADD_BU_SECTION_3_RESPONSE_SUCCESS,
+  ADD_BU_SECTION_3_RESPONSE_ERROR,
+  APPROVE_BU_SECTION_3_RESPONSE_REQUEST,
+  APPROVE_BU_SECTION_3_RESPONSE_SUCCESS,
+  APPROVE_BU_SECTION_3_RESPONSE_ERROR,
 } from './RL_HomePageReducer';
 import Swal from 'sweetalert2';
 
@@ -427,7 +436,7 @@ function* updateAddBUSubmitResponse({ payload }) {
 
 // GET BU Section2 Signature Response data
 async function getBUSection2SignatureResponseApi(params) {
-  return await Axios.get('/', { params });
+  return await Axios.get('/get_bu_section2', { params });
 }
 function* handle_GetBUSection2SignatureResponseData({ payload }) {
   try {
@@ -447,41 +456,142 @@ function* handle_GetBUSection2SignatureResponseData({ payload }) {
 
 // ADD BU Section2 Upload Mail Approval
 async function addBUSection2UploadMailApprovalApi(payload) {
-  return await Axios.get('/', payload);
+  return await Axios.post('/submit_bu_section2', payload);
 }
 function* handle_AddBUSection2UploadMailApprovalData({ payload }) {
   try {
-    const response = yield call(addBUSection2UploadMailApprovalApi, payload);
+    const { formData, event } = payload;
+    const response = yield call(addBUSection2UploadMailApprovalApi, formData);
     if (response.success) {
       yield put({
         type: ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS,
         payload: response.data,
       });
+      if (event && event.onSuccess) {
+        event.onSuccess(response.data);
+      }
+      Swal.fire('Done!', 'Email Attachment Uploded Successfully!', 'success');
     }
   } catch (error) {
     yield put({
       type: ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR,
     });
+    if(error?.response?.status === 400){
+      Swal.fire('Oops...', error?.response?.data?.data, 'error');
+    }else if(error?.response?.status === 500) {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+    
   }
 }
 
 // ADD BU Section2 Checkbox
 async function addBUSection2CheckboxApi(payload) {
-  return await Axios.get('/', payload);
+  return await Axios.post('/submit_bu_section2', payload);
 }
 function* handle_AddBUSection2CheckboxData({ payload }) {
+  const { formData, event } = payload;
   try {
-    const response = yield call(addBUSection2CheckboxApi, payload);
+    const response = yield call(addBUSection2CheckboxApi, formData);
+    console.log("there", response);
     if (response.success) {
       yield put({
         type: ADD_BU_SECTION2_CHECKBOX_SUCCESS,
         payload: response.data,
       });
+     
+      Swal.fire('Done!', 'Auto Authentication Successfully!', 'success');
     }
   } catch (error) {
     yield put({
       type: ADD_BU_SECTION2_CHECKBOX_ERROR,
     });
+    if(error?.response?.status === 400){
+      Swal.fire('Oops...', error?.response?.data?.data, 'error');
+    }else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  }
+}
+
+// get BU Section 3 Response
+async function getBUSection3ResponseApi(params) {
+  return await Axios.get('/get_bu_section3_rba', { params });
+}
+function* handle_GetBUSection3Response({ payload }) {
+  try {
+    const response = yield call(getBUSection3ResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BU_SECTION_3_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BU_SECTION_3_RESPONSE_ERROR,
+    });
+    
+  }
+}
+
+// add BU Section 3 Response
+async function addBUSection3ResponseApi(payload) {
+  return await Axios.post('/add_bu_section3_rba', payload);
+}
+function* updateAddBUSection3Response({ payload }) {
+  try {
+    const response = yield call(addBUSection3ResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_BU_SECTION_3_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Response Submitted Successfully!', 'success');
+
+      // Clear the get BU Section 3 Response state
+      yield put({ type: GET_BU_SECTION_3_RESPONSE_SUCCESS, payload: null });
+      // Redirect the user to '/'
+      yield put(push('/'));
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_BU_SECTION_3_RESPONSE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+// Approve BU Section 3 Response
+async function approveBUSection3ResponseApi(payload) {
+  return await Axios.post('/approve_bu_section3_rba', payload);
+}
+function* updateApproveBUSection3Response({ payload }) {
+  try {
+    const response = yield call(approveBUSection3ResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: APPROVE_BU_SECTION_3_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Response Submitted Successfully!', 'success');
+
+      // Clear the get BU Section 3 Response state
+      yield put({ type: GET_BU_SECTION_3_RESPONSE_SUCCESS, payload: null });
+      // Redirect the user to '/'
+      yield put(push('/'));
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: APPROVE_BU_SECTION_3_RESPONSE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
   }
 }
 
@@ -521,9 +631,12 @@ export default all([
   takeLatest(ADD_OR_UPDATE_BU_DRAFT_RESPONSE_REQUEST, updateAddOrUpdateBUDraftResponse),
   takeLatest(GET_LATEST_BU_DRAFT_RESPONSE_REQUEST, handle_GetLatestBUDraftResponse),
   takeLatest(GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST, handle_GetBUSection2SignatureResponseData),
-  takeLatest(ADD_BU_SECTION2_CHECKBOX_ERROR, handle_AddBUSection2CheckboxData),
+  takeLatest(ADD_BU_SECTION2_CHECKBOX_REQUEST, handle_AddBUSection2CheckboxData),
   takeLatest(
     ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
     handle_AddBUSection2UploadMailApprovalData,
   ),
+  takeLatest(GET_BU_SECTION_3_RESPONSE_REQUEST, handle_GetBUSection3Response),
+  takeLatest(ADD_BU_SECTION_3_RESPONSE_REQUEST, updateAddBUSection3Response),
+  takeLatest(APPROVE_BU_SECTION_3_RESPONSE_REQUEST, updateApproveBUSection3Response),
 ]);

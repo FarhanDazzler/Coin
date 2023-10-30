@@ -168,6 +168,7 @@ export const RLSchedulingAndTriggeringReducer = (state = initialState, { type, p
           ...state.rlAddFunctionalAssessmentData,
           data: payload,
           loading: false,
+          success: true,
         },
       };
     case ACTION_ADD_RL_FUNCTIONAL_ASSESSMENT_DATA_FAILED:
@@ -375,6 +376,7 @@ export const RLSchedulingAndTriggeringReducer = (state = initialState, { type, p
           ...state.rlAddBuLetterData,
           data: payload,
           loading: false,
+          success: true,
         },
       };
     case ACTION_ADD_RL_BU_LETTER_DATA_FAILED:
@@ -386,7 +388,6 @@ export const RLSchedulingAndTriggeringReducer = (state = initialState, { type, p
         },
       };
 
-      
     // Get All BU MDM Data
     case GET_RL_ALL_BU_MDM_DATA:
       return {

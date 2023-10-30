@@ -10,6 +10,7 @@ import AssessmentBankLandingPage from '../../pages/AssessmentBank/AssessmentBank
 import ScheduleSurveyPage from '../../pages/AssessmentBank/ScheduleSurvey/ScheduleSurveyPage';
 import AssessmentDetailsTableData from '../../pages/AssessmentBank/Table/AssessmentDetailsTableData.jsx';
 import QuestionBankChangeLanguage from '../../pages/QuestionBankChangeLanguage';
+import Reporting from '../../pages/Reporting/Reporting';
 
 export const AssessmentModuleRoutes = [
   {
@@ -71,5 +72,10 @@ export const AssessmentModuleRoutes = [
     path: '/assessmentbank/assessment-details',
     exact: true,
     component: AssessmentDetailsTableData,
+  },
+  {
+    path: '/reporting',
+    exact: true,
+    component: Reporting,
   },
 ];

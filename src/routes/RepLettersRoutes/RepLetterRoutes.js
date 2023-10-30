@@ -12,6 +12,7 @@ import FunctionalDetailsTableData from '../../pages/REP_Letters_Module/Schedulin
 import BUDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Table/BUDetailsTableData';
 import FunctionalLetterForm from '../../pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm';
 import BULetterForm from '../../pages/REP_Letters_Module/LetterForm/BU/BULetterForm';
+import RepLetterReporting from '../../pages/REP_Letters_Module/Reporting/RepLetterReporting';
 
 export const RepLettersRoutes = [
   {
@@ -83,5 +84,10 @@ export const RepLettersRoutes = [
     path: '/REP-Letters/attempt-letter/BU-letter-form',
     exact: true,
     component: BULetterForm,
+  },
+  {
+    path: '/REP-Letters/reporting',
+    exact: true,
+    component: RepLetterReporting,
   },
 ];

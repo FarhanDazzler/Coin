@@ -6,19 +6,24 @@ import FinanceDirectorHomePage from './FinanceDirectorHomePage/FinanceDirectorHo
 import ZoneControlHomePage from './ZoneControlHomePage/ZoneControlHomePage';
 import ZoneVPHomePage from './ZoneVP/ZoneVPHomePage';
 import '../styles.scss';
+import { useSelector } from 'react-redux';
 
 const BU_HomePage = () => {
+  const selected_Role = localStorage.getItem('selected_Role');
+  const loginRole = useSelector((state) => state?.auth?.loginRole);
+
+  console.log('@@@@@@@', localStorage.getItem('selected_Role'));
   return (
     <div>
-      {localStorage.getItem('selected_Role') === 'Disclosure Processor' ? (
+      {(loginRole || selected_Role) === 'Disclosure Processor' ? (
         <DisclosureProcessorHomePage />
-      ) : localStorage.getItem('selected_Role') === 'BU Head' ? (
+      ) : (loginRole || selected_Role) === 'BU Head' ? (
         <BUHeadHomePage />
-      ) : localStorage.getItem('selected_Role') === 'Finance Director' ? (
+      ) : (loginRole || selected_Role) === 'Finance Director' ? (
         <FinanceDirectorHomePage />
-      ) : localStorage.getItem('selected_Role') === 'Zone Control' ? (
+      ) : (loginRole || selected_Role) === 'Zone Control' ? (
         <ZoneControlHomePage />
-      ) : localStorage.getItem('selected_Role') === 'Zone VP' ? (
+      ) : (loginRole || selected_Role) === 'Zone VP' ? (
         <ZoneVPHomePage />
       ) : (
         <GlobalPersonaHomePage />
