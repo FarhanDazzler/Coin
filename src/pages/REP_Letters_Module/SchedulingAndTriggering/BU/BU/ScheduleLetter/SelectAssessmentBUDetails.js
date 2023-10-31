@@ -5,32 +5,32 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useFormikContext, Formik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
+import Button from '../../../../../MDM/MDM_Tab_Buttons/Button';
 import { useHistory } from 'react-router-dom';
 import { Divider, Box } from '@mantine/core';
-import Table2 from '../../../../../components/UI/Table/Table2';
+import Table2 from '../../../../../../components/UI/Table/Table2';
 import { FloatRight } from 'tabler-icons-react';
 import moment from 'moment';
-import CustomModal from '../../../../../components/UI/CustomModal';
+import CustomModal from '../../../../../../components/UI/CustomModal';
 import Swal from 'sweetalert2';
 // import for multi select filter
 import { Group } from '@mantine/core';
 import { MultiSelect } from '@mantine/core';
-import '../../../../MDM/Control_Owner_Oversight/MultiSelectButtonStyles.scss';
-import { months } from '../../../../QuestionBank/CreateQuestions/constant';
+import '../../../../../MDM/Control_Owner_Oversight/MultiSelectButtonStyles.scss';
+import { months } from '../../../../../QuestionBank/CreateQuestions/constant';
 import {
   getRlBUPage1Data,
   getRlBUZoneData,
   getRlBUBUData,
   getRlAllBuMdmData,
-} from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
+} from '../../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
 import {
   getBUPage1dataSelector,
   getBUZonedataSelector,
   getBUBUdataSelector,
   getAllBuMdmdataSelector,
   rlAddBuLetterDataSelector,
-} from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
+} from '../../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
 import { DotSpinner } from '@uiball/loaders';
 import NoRecordPlaceholder from './NoDataPlaceHolder';
 import ReviewLetterDetails from './ReviewLetterDetails';
@@ -306,7 +306,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
         <Formik
           enableReinitialize
           initialValues={{
-            Template: '',
+            Template: 'BU Letter',
             Title: page1Data?.title || '',
             Assessment_Cycle: page1Data?.assessmentCylce || '',
             Year: page1Data?.year || currentYear || '',
@@ -398,7 +398,6 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                         >
                           <option value="">Select</option>
                           <option value="BU Letter">BU Letter</option>
-                          <option value="ZONE Letter">Zone Letter</option>
                         </Form.Control>
 
                         {!!touched.Template && (

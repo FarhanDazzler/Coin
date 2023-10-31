@@ -93,6 +93,38 @@ export const RE_TRIGGER_BU_LETTER_ERROR = 'RE_TRIGGER_BU_LETTER_ERROR';
 
 // =================== BU ========================//
 
+// =================== Zone ========================//
+export const GET_RL_ZONE_PAGE1_DATA_REQUEST = 'GET_RL_ZONE_PAGE1_DATA_REQUEST';
+export const GET_RL_ZONE_PAGE1_DATA_SUCCESS = 'GET_RL_ZONE_PAGE1_DATA_SUCCESS';
+export const GET_RL_ZONE_PAGE1_DATA_ERROR = 'GET_RL_ZONE_PAGE1_DATA_ERROR';
+
+export const ACTION_ADD_RL_ZONE_LETTER_DATA = 'ACTION_ADD_RL_ZONE_LETTER_DATA';
+export const ACTION_ADD_RL_ZONE_LETTER_DATA_SUCCESS = 'ACTION_ADD_RL_ZONE_LETTER_DATA_SUCCESS';
+export const ACTION_ADD_RL_ZONE_LETTER_DATA_FAILED = 'ACTION_ADD_RL_ZONE_LETTER_DATA_FAILED';
+
+export const GET_RL_ALL_ZONE_LETTER_DATA = 'GET_RL_ALL_ZONE_LETTER_DATA';
+export const GET_RL_ALL_ZONE_LETTER_DATA_SUCCESS = 'GET_RL_ALL_ZONE_LETTER_DATA_SUCCESS';
+export const GET_RL_ALL_ZONE_LETTER_DATA_FAILED = 'GET_RL_ALL_ZONE_LETTER_DATA_FAILED';
+
+export const GET_RL_ZONE_LETTER_DATA_REQUEST = 'GET_RL_ZONE_LETTER_DATA_REQUEST';
+export const GET_RL_ZONE_LETTER_DATA_SUCCESS = 'GET_RL_ZONE_LETTER_DATA_SUCCESS';
+export const GET_RL_ZONE_LETTER_DATA_ERROR = 'GET_RL_ZONE_LETTER_DATA_ERROR';
+
+export const RECALL_ZONE_LETTER_REQUEST = 'RECALL_ZONE_LETTER_REQUEST';
+export const RECALL_ZONE_LETTER_SUCCESS = 'RECALL_ZONE_LETTER_SUCCESS';
+export const RECALL_ZONE_LETTER_ERROR = 'RECALL_ZONE_LETTER_ERROR';
+
+export const RE_TRIGGER_ZONE_LETTER_REQUEST = 'RE_TRIGGER_ZONE_LETTER_REQUEST';
+export const RE_TRIGGER_ZONE_LETTER_SUCCESS = 'RE_TRIGGER_ZONE_LETTER_SUCCESS';
+export const RE_TRIGGER_ZONE_LETTER_ERROR = 'RE_TRIGGER_ZONE_LETTER_ERROR';
+
+export const GET_RL_ALL_ZONE_MDM_DATA = 'GET_RL_ALL_ZONE_MDM_DATA';
+export const GET_RL_ALL_ZONE_MDM_DATA_SUCCESS = 'GET_RL_ALL_ZONE_MDM_DATA_SUCCESS';
+export const GET_RL_ALL_ZONE_MDM_DATA_FAILED = 'GET_RL_ALL_ZONE_MDM_DATA_FAILED';
+
+// =================== Zone ========================//
+
+
 const block = {
   loading: false,
   error: '',
@@ -116,6 +148,13 @@ const initialState = {
   rlGetBuLetterData: { ...block, data: [] },
   recallBuLetter: { ...block, data: [] },
   reTriggerBuLetter: { ...block, data: [] },
+  rlZonePage1Data: { ...block, data: [] },
+  rlAddZoneLetterData: { ...block, data: [] },
+  rlGetAllZoneLetterData: { ...block, data: [] },
+  rlGetZoneLetterData: { ...block, data: [] },
+  recallZoneLetter: { ...block, data: [] },
+  reTriggerZoneLetter: { ...block, data: [] },
+  rlGetAllZoneMDMData: { ...block, data: [] },
 };
 export const RLSchedulingAndTriggeringReducer = (state = initialState, { type, payload = {} }) => {
   switch (type) {
@@ -522,6 +561,190 @@ export const RLSchedulingAndTriggeringReducer = (state = initialState, { type, p
           loading: false,
         },
       };
+      // Bu //
+
+        //Zone ************* //
+
+    // Zone Page1 data
+    case GET_RL_ZONE_PAGE1_DATA_REQUEST:
+      return {
+        ...state,
+        rlZonePage1Data: { ...state.rlZonePage1Data, loading: true },
+      };
+    case GET_RL_ZONE_PAGE1_DATA_SUCCESS:
+      return {
+        ...state,
+        rlZonePage1Data: { ...state.rlZonePage1Data, data: payload, loading: false },
+      };
+    case GET_RL_ZONE_PAGE1_DATA_ERROR:
+      return {
+        ...state,
+        rlZonePage1Data: { ...state.rlZonePage1Data, loading: false },
+      };
+
+    // Add Functional Assessment Data
+    case ACTION_ADD_RL_ZONE_LETTER_DATA:
+      return {
+        ...state,
+        rlAddBuLetterData: {
+          ...state.rlAddBuLetterData,
+          loading: true,
+        },
+      };
+    case ACTION_ADD_RL_ZONE_LETTER_DATA_SUCCESS:
+      return {
+        ...state,
+        rlAddBuLetterData: {
+          ...state.rlAddBuLetterData,
+          data: payload,
+          loading: false,
+          success: true,
+        },
+      };
+    case ACTION_ADD_RL_ZONE_LETTER_DATA_FAILED:
+      return {
+        ...state,
+        rlAddBuLetterData: {
+          ...state.rlAddBuLetterData,
+          loading: false,
+        },
+      };
+
+    // Get All Zone Letter Data
+    case GET_RL_ALL_ZONE_LETTER_DATA:
+      return {
+        ...state,
+        rlGetAllZoneLetterData: {
+          ...state.rlGetAllZoneLetterData,
+          loading: true,
+        },
+      };
+    case GET_RL_ALL_ZONE_LETTER_DATA_SUCCESS:
+      return {
+        ...state,
+        rlGetAllZoneLetterData: {
+          ...state.rlGetAllZoneLetterData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_RL_ALL_ZONE_LETTER_DATA_FAILED:
+      return {
+        ...state,
+        rlGetAllZoneLetterData: {
+          ...state.rlGetAllZoneLetterData,
+          loading: false,
+        },
+      };
+
+    // Get Functional Assessment Data
+    case GET_RL_ZONE_LETTER_DATA_REQUEST:
+      return {
+        ...state,
+        rlGetZoneLetterData: {
+          ...state.rlGetZoneLetterData,
+          loading: true,
+        },
+      };
+    case GET_RL_ZONE_LETTER_DATA_SUCCESS:
+      return {
+        ...state,
+        rlGetZoneLetterData: {
+          ...state.rlGetZoneLetterData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_RL_ZONE_LETTER_DATA_ERROR:
+      return {
+        ...state,
+        rlGetZoneLetterData: {
+          ...state.rlGetZoneLetterData,
+          loading: false,
+        },
+      };
+
+    //RECALL_FUNCTION Assessment
+    case RECALL_ZONE_LETTER_REQUEST:
+      return {
+        ...state,
+        recallZoneLetter: {
+          ...state.recallZoneLetter,
+          loading: true,
+        },
+      };
+    case RECALL_ZONE_LETTER_SUCCESS:
+      return {
+        ...state,
+        recallZoneLetter: {
+          ...state.recallZoneLetter,
+          data: payload,
+          loading: false,
+        },
+      };
+    case RECALL_ZONE_LETTER_ERROR:
+      return {
+        ...state,
+        recallZoneLetter: {
+          ...state.recallZoneLetter,
+          loading: false,
+        },
+      };
+
+    //Re-Trigger Assessment
+    case RE_TRIGGER_ZONE_LETTER_REQUEST:
+      return {
+        ...state,
+        reTriggerZoneLetter: {
+          ...state.reTriggerZoneLetter,
+          loading: true,
+        },
+      };
+    case RE_TRIGGER_ZONE_LETTER_SUCCESS:
+      return {
+        ...state,
+        reTriggerZoneLetter: {
+          ...state.reTriggerZoneLetter,
+          data: payload,
+          loading: false,
+        },
+      };
+    case RE_TRIGGER_ZONE_LETTER_ERROR:
+      return {
+        ...state,
+        reTriggerZoneLetter: {
+          ...state.reTriggerZoneLetter,
+          loading: false,
+        },
+      };
+
+        // Get All ZONE MDM Data
+    case GET_RL_ALL_ZONE_MDM_DATA:
+      return {
+        ...state,
+        rlGetAllZoneMDMData: {
+          ...state.rlGetAllZoneMDMData,
+          loading: true,
+        },
+      };
+    case GET_RL_ALL_ZONE_MDM_DATA_SUCCESS:
+      return {
+        ...state,
+        rlGetAllZoneMDMData: {
+          ...state.rlGetAllZoneMDMData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_RL_ALL_ZONE_MDM_DATA_FAILED:
+      return {
+        ...state,
+        rlGetAllZoneMDMData: {
+          ...state.rlGetAllZoneMDMData,
+          loading: false,
+        },
+      };
+// Zone //
     default:
       return state;
   }
