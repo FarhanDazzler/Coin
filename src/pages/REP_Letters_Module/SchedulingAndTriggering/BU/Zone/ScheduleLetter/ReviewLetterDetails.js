@@ -4,11 +4,11 @@ import { useHistory } from 'react-router-dom';
 import { TableExport } from 'tabler-icons-react';
 import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
+import Button from '../../../../../MDM/MDM_Tab_Buttons/Button';
 import { Divider, Box } from '@mantine/core';
 import Workbook from 'react-excel-workbook';
-import { months } from '../../../../QuestionBank/CreateQuestions/constant';
-import { addRlFunctionalAssessmentData, addRlBuLetterData } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
+import { months } from '../../../../../QuestionBank/CreateQuestions/constant';
+import { addRlZoneLetterData } from '../../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
 
 const ReviewLetterDetails = ({ finalPayload, onClose }) => {
   const history = useHistory();
@@ -16,7 +16,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
   const dispatch = useDispatch();
   const handleSubmit = () => {
 
-    dispatch(addRlBuLetterData(finalPayload));
+    dispatch(addRlZoneLetterData(finalPayload));
     history.push('/REP-Letters/scheduling-and-triggering');
   };
 
@@ -84,7 +84,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               <div className="col-lg-6">
                 <span className="black-text font-weight-bold">Reminder - 1:</span>
               </div>
-              <div className="col-lg-6">{finalPayload?.Disclosure_Processor_Reminder_1}</div>
+              <div className="col-lg-6">{finalPayload?.Zone_VP_Reminder_1}</div>
             </div>
           </div>
 
@@ -93,7 +93,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               <div className="col-lg-6">
                 <span className="black-text font-weight-bold">Reminder - 2:</span>
               </div>
-              <div className="col-lg-6">{finalPayload?.Disclosure_Processor_Reminder_2}</div>
+              <div className="col-lg-6">{finalPayload?.Zone_VP_Reminder_2}</div>
             </div>
           </div>
         </div>
@@ -108,7 +108,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               <>
                 <TableExport size={16} />
                 <Box ml={5}>
-                  <Form.Label>View All Selected Disclosure Processor:</Form.Label>
+                  <Form.Label>View All Selected Zone VP Processor:</Form.Label>
                 </Box>
               </>
             }
@@ -129,13 +129,11 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
           >
             <Workbook.Sheet data={finalPayload?.SelectedDataFromTable} name="Disclosure-Processor-List">
               <Workbook.Column label="Zone" value="Zone" />
-              <Workbook.Column label="BU" value="BU" />
-              <Workbook.Column label="BU Head" value="BU_Head" />
-              <Workbook.Column label="Applicability" value="Applicability" />
-              <Workbook.Column label="Disclosure Processor" value="Disclosure_Processor" />
-              <Workbook.Column label="Finance Director" value="Finance_Director" />
-              <Workbook.Column label="Zone VP" value="Zone_VP" />
               <Workbook.Column label="Zone Control" value="Zone_Control" />
+              <Workbook.Column label="Zone VP" value="Zone_VP" />
+              <Workbook.Column label="Excom Member" value="Excom_Member" />
+              <Workbook.Column label="Zone Legal Representative" value="Zone_Legal_Representative" />
+            
             </Workbook.Sheet>
           </Workbook>
         </div>

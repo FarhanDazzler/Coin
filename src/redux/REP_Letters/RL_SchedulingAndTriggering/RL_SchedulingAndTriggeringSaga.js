@@ -49,7 +49,29 @@ import {
   RE_TRIGGER_BU_LETTER_SUCCESS,
   GET_RL_ALL_BU_MDM_DATA,
   GET_RL_ALL_BU_MDM_DATA_FAILED,
-  GET_RL_ALL_BU_MDM_DATA_SUCCESS
+  GET_RL_ALL_BU_MDM_DATA_SUCCESS,
+
+  GET_RL_ZONE_PAGE1_DATA_ERROR,
+  GET_RL_ZONE_PAGE1_DATA_REQUEST,
+  GET_RL_ZONE_PAGE1_DATA_SUCCESS,
+  ACTION_ADD_RL_ZONE_LETTER_DATA,
+  ACTION_ADD_RL_ZONE_LETTER_DATA_FAILED,
+  ACTION_ADD_RL_ZONE_LETTER_DATA_SUCCESS,
+  GET_RL_ALL_ZONE_LETTER_DATA,
+  GET_RL_ALL_ZONE_LETTER_DATA_FAILED,
+  GET_RL_ALL_ZONE_LETTER_DATA_SUCCESS,
+  GET_RL_ZONE_LETTER_DATA_ERROR,
+  GET_RL_ZONE_LETTER_DATA_REQUEST,
+  GET_RL_ZONE_LETTER_DATA_SUCCESS,
+  RECALL_ZONE_LETTER_ERROR,
+  RECALL_ZONE_LETTER_REQUEST,
+  RECALL_ZONE_LETTER_SUCCESS,
+  RE_TRIGGER_ZONE_LETTER_ERROR,
+  RE_TRIGGER_ZONE_LETTER_REQUEST,
+  RE_TRIGGER_ZONE_LETTER_SUCCESS,
+  GET_RL_ALL_ZONE_MDM_DATA,
+  GET_RL_ALL_ZONE_MDM_DATA_FAILED,
+  GET_RL_ALL_ZONE_MDM_DATA_SUCCESS,
 } from './RL_SchedulingAndTriggeringReducer';
 
 import Swal from 'sweetalert2';
@@ -445,6 +467,185 @@ function* reTriggerBuLetterData({ payload }) {
     Swal.fire('Oops...', 'Something Went Wrong', 'error');
   }
 }
+
+
+
+// *********** Zone ************//
+
+async function getRlZonePage1DataApi(params) {
+  return await Axios.get('/get_zone_page1_data', { params });
+}
+function* handleGet_Rl_Zone_page1_data({ payload }) {
+  try {
+    const response = yield call(getRlZonePage1DataApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_RL_ZONE_PAGE1_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_RL_ZONE_PAGE1_DATA_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+//Add ZONE Letter Data
+async function addRlZoneLetterdataApi(payload) {
+  return await Axios.post('/add_zone_assessment_data', payload);
+}
+function* handle_addRlZoneLetter_data({ payload }) {
+  try {
+    const response = yield call(addRlZoneLetterdataApi, payload);
+
+    if (response.success) {
+      yield put({
+        type: ACTION_ADD_RL_ZONE_LETTER_DATA_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Zone Letter Scheduled Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ACTION_ADD_RL_ZONE_LETTER_DATA_FAILED,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+//get All Functional Assessment Data
+async function getRlAllZoneLetterdataApi(params) {
+  return await Axios.get('/get_all_zone_assessment_data', { params });
+}
+function* handle_getRlAllZoneLetter_data({ payload }) {
+  try {
+    const response = yield call(getRlAllZoneLetterdataApi, payload);
+
+    if (response.success) {
+      yield put({
+        type: GET_RL_ALL_ZONE_LETTER_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_RL_ALL_ZONE_LETTER_DATA_FAILED,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+//get Functional Assessment Data
+async function getRlZoneLetterdataApi(payload) {
+  return await Axios.post('/get_zone_assessment_data', payload);
+}
+function* handle_getRlZoneLetter_data({ payload }) {
+  try {
+    const response = yield call(getRlZoneLetterdataApi, payload);
+
+    if (response.success) {
+      yield put({
+        type: GET_RL_ZONE_LETTER_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_RL_ZONE_LETTER_DATA_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+//get All Zone MDM Data
+async function getRlAllZoneMdmdataApi(params) {
+  return await Axios.get('/get_all_zone_master_data', {params});
+}
+function* handle_getRlAllZoneMdm_data({ payload }) {
+  try {
+    const response = yield call(getRlAllZoneMdmdataApi, payload);
+
+    if (response.success) {
+      yield put({
+        type: GET_RL_ALL_ZONE_MDM_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_RL_ALL_ZONE_MDM_DATA_FAILED,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+// Recall Function Assessment
+async function recallZoneLetterApi(payload) {
+  return await Axios.post('/recall_zone_assessment', payload);
+}
+function* recallZoneLetterData({ payload }) {
+  try {
+    const params = payload.body;
+    const response = yield call(recallZoneLetterApi, payload.params);
+    if (response.success) {
+      yield put({
+        type: RECALL_ZONE_LETTER_SUCCESS,
+        payload: response.data,
+      });
+      yield put({
+        type: GET_RL_ZONE_LETTER_DATA_REQUEST,
+        payload: params,
+      });
+      Swal.fire('Done!', 'Zone Letter Recalled Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: RECALL_ZONE_LETTER_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+// Re-Trigger Assessment
+async function reTriggerZoneLetterApi(payload) {
+  return await Axios.post('/retrigger_zone_assessment', payload);
+}
+function* reTriggerZoneLetterData({ payload }) {
+  try {
+    const params = payload.body;
+    const response = yield call(reTriggerZoneLetterApi, payload.params);
+    if (response.success) {
+      yield put({
+        type: RE_TRIGGER_ZONE_LETTER_SUCCESS,
+        payload: response.data,
+      });
+      yield put({
+        type: GET_RL_ZONE_LETTER_DATA_REQUEST,
+        payload: params,
+      });
+      Swal.fire('Done!', 'Zone Letter Re-Triggered Successfully!', 'success');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: RE_TRIGGER_ZONE_LETTER_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
   export default all([
     takeLatest(GET_RL_FUNCTION_DATA_REQUEST, handleGet_Rl_functiona_data),
     takeLatest(GET_RL_FUNCTIONAL_PAGE1_DATA_REQUEST, handleGet_Rl_functional_page1_data),
@@ -461,6 +662,12 @@ function* reTriggerBuLetterData({ payload }) {
     takeLatest(ACTION_ADD_RL_BU_LETTER_DATA, handle_addRlBuLetter_data),
     takeLatest(RECALL_BU_LETTER_REQUEST, recallBuLetterData),
     takeLatest(RE_TRIGGER_BU_LETTER_REQUEST, reTriggerBuLetterData),
-    takeLatest(GET_RL_BU_LETTER_DATA_REQUEST, handle_getRlBuLetter_data)
-  
+    takeLatest(GET_RL_BU_LETTER_DATA_REQUEST, handle_getRlBuLetter_data),
+    takeLatest(GET_RL_ZONE_PAGE1_DATA_REQUEST, handleGet_Rl_Zone_page1_data),
+    takeLatest(GET_RL_ALL_ZONE_LETTER_DATA, handle_getRlAllZoneLetter_data),
+    takeLatest(ACTION_ADD_RL_ZONE_LETTER_DATA, handle_addRlZoneLetter_data),
+    takeLatest(RECALL_ZONE_LETTER_REQUEST, recallZoneLetterData),
+    takeLatest(RE_TRIGGER_ZONE_LETTER_REQUEST, reTriggerZoneLetterData),
+    takeLatest(GET_RL_ZONE_LETTER_DATA_REQUEST, handle_getRlZoneLetter_data),
+    takeLatest(GET_RL_ALL_ZONE_MDM_DATA , handle_getRlAllZoneMdm_data),
   ]);

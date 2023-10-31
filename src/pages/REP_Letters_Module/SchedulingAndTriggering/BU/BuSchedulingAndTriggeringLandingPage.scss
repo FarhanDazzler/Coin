@@ -1,0 +1,180 @@
+.RlQuestionBankHeader {
+    text-align: center;
+    h3 {
+      font-size: 24px;
+      align-items: center;
+      padding-bottom: 24px;
+      gap: 16px;
+      width: auto;
+      height: 28px;
+      color: #f1c40f !important;
+    }
+  }
+  
+  .RlQuestionBankBoxWrapper {
+    background: rgba(18, 18, 18, 0.87);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 24px;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 30px;
+    button {
+      padding: 16px 30px;
+      border-radius: 12px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+  
+      .MuiSvgIcon-root {
+        font-size: 30px;
+      }
+    }
+    .QuestionBankInnerBoxWrapper {
+      background: rgba(53, 53, 53, 0.75);
+      backdrop-filter: blur(20px);
+      padding: 15px 30px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      color: #d3d3d3;
+      margin-top: 15px;
+      border: 1px solid rgba(211, 163, 6, 0.5);
+      cursor: pointer;
+      &:hover {
+        background-color: rgba(211, 163, 6, 0.04);
+        border: 1px solid #d3a306;
+      }
+      .buttonTitle {
+        font-weight: 600;
+        //font-size: 28px;
+        line-height: 1;
+        font-size: 16px;
+        margin-bottom: 0px;
+      }
+    }
+    .css-1k79s16-control {
+      height: 60px !important;
+    }
+  }
+  .functional-select {
+    .css-13cymwt-control,
+    .css-t3ipsp-control {
+      background: #000000;
+      color: #fff;
+      padding: 7px 15px;
+      border-radius: 12px;
+      border: none;
+    }
+  }
+  
+  .rl-question-bank-TitleSectionTab {
+    background: rgba(92, 92, 92, 0.2);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 16px;
+  
+    .section-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      //padding-bottom: 24px;
+      gap: 16px;
+      width: auto;
+      height: 28px;
+      //color: #FFFFFF;
+      //font-size: large;
+      //font-weight: 600;
+      font-size: 18px;
+    }
+  
+    .add-button {
+      font-size: 16px;
+      background-color: #000000 !important;
+      color: #e3af32 !important;
+      border: none !important;
+      border-radius: 8px !important;
+      margin-right: 1rem !important;
+      text-transform: capitalize !important;
+    }
+  }
+  .rl-question-bank-view-questions-wrapper {
+    display: grid;
+    // grid-template-columns: 48% 48%;
+    // gap: 2%;
+  }
+  .rl-question-bank-view-questions {
+    background: rgba(92, 92, 92, 0.2);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 16px;
+  
+    .question-text-section {
+      display: flex;
+      align-items: center; /* Optional, to vertically center the content */
+      width: 100%;
+    }
+  
+    .question-number {
+      font-size: 18px;
+      font-weight: 600;
+      color: #ffffff;
+      background: rgba(92, 92, 92, 0.2);
+      padding: 2px 5px;
+    }
+  
+    .question-text {
+      //word-break: break-all;
+      // font-size: 18px;
+      // font-weight: 600;
+      color: #ffffff;
+      margin-left: 10px; /* Optional, adjust the spacing between the two elements */
+      flex-grow: 1;
+    }
+    p {
+      margin-bottom: 0;
+    }
+  
+    .option-divider {
+      border-top-width: 1px;
+    }
+    .mantine-Group-root {
+      label {
+        margin-bottom: 0;
+        font-size: 14px;
+      }
+    }
+    .question-options-section {
+      .options {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+        width: auto;
+        height: 28px;
+        font-size: 18px;
+  
+        .mantine-Radio-radio {
+          width: 15px;
+          height: 15px;
+        }
+        button {
+          padding: 5px 13px;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+  
+  #repp-letter-questionBank-inputPage {
+    input,
+    select {
+      color: #fff;
+      background-color: #1b1b1b;
+      border-radius: 4px !important;
+      color-scheme: dark;
+    }
+  }
+  
