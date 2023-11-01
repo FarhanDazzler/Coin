@@ -7,11 +7,10 @@ import { Group } from '@mantine/core';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import Button from '../../../components/UI/Button';
 import FunctionalLetterSummaryTable from './Functional/Table/FunctionalLetterSummaryTable';
-import BULetterSummaryTable from './BU/Table/BULetterSummaryTable';
 import { DotSpinner } from '@uiball/loaders';
 import './SchedulingAndTriggeringLandingPage.scss';
 import ProductFeedback from '../../../components/NPSFeedbackModule/ProductFeedback/ProductFeedback';
-
+import BuSchedulingAndTriggeringLandingPage from './BU/BuSchedulingAndTriggeringLandingPage';
 import {
   rlAddFunctionalAssessmentDataSelector,
   rlAddBuLetterDataSelector,
@@ -77,26 +76,28 @@ const SchedulingAndTriggering = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              <div className="mt-5">
-                <div className="row">
-                  <div className="col-12 col-lg-12">
-                    <Group spacing="xs" className="actions-button-wrapper">
-                      <Button
-                        color="silver"
-                        size="large"
-                        startIcon={<MoreTimeIcon />}
-                        onClick={handleSheduleSurvey}
-                      >
-                        Schedule Letter
-                      </Button>
-                    </Group>
-                  </div>
-                </div>
-              </div>
               {localStorage.getItem('selected_module_Role') == 'BU' ? (
-                <BULetterSummaryTable />
+                <BuSchedulingAndTriggeringLandingPage />
               ) : (
-                <FunctionalLetterSummaryTable />
+                <>
+                  <div className="mt-5">
+                    <div className="row">
+                      <div className="col-12 col-lg-12">
+                        <Group spacing="xs" className="actions-button-wrapper">
+                          <Button
+                            color="silver"
+                            size="large"
+                            startIcon={<MoreTimeIcon />}
+                            onClick={handleSheduleSurvey}
+                          >
+                            Schedule Letter
+                          </Button>
+                        </Group>
+                      </div>
+                    </div>
+                  </div>
+                  <FunctionalLetterSummaryTable />
+                </>
               )}
             </div>
           </div>

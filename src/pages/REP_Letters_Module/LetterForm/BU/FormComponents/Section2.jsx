@@ -243,6 +243,7 @@ const Section2 = ({ scopeData }) => {
                           required
                           name="FinanceDirectorSignature"
                           //onChange={handleChange}
+                          accept="application/vnd.ms-outlook, .eml, .msg"
                           onChange={(event) => {
                             setFieldValue('FinanceDirectorSignature', event.currentTarget.files[0]);
                           }}
@@ -267,6 +268,7 @@ const Section2 = ({ scopeData }) => {
                           required
                           name="BUHeadSignature"
                           //onChange={handleChange}
+                          accept="application/vnd.ms-outlook, .eml, .msg"
                           onChange={(event) => {
                             setFieldValue('BUHeadSignature', event.currentTarget.files[0]);
                           }}
@@ -291,6 +293,7 @@ const Section2 = ({ scopeData }) => {
                           required
                           name="ZoneControlSignature"
                           //onChange={handleChange}
+                          accept="application/vnd.ms-outlook, .eml, .msg"
                           onChange={(event) => {
                             setFieldValue('ZoneControlSignature', event.currentTarget.files[0]);
                           }}
@@ -315,6 +318,7 @@ const Section2 = ({ scopeData }) => {
                           required
                           name="ZoneVPSignature"
                           //onChange={handleChange}
+                          accept="application/vnd.ms-outlook, .eml, .msg"
                           onChange={(event) => {
                             setFieldValue('ZoneVPSignature', event.currentTarget.files[0]);
                           }}

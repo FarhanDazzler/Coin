@@ -14,7 +14,14 @@ import {
   GET_RL_BU_LETTER_DATA_REQUEST,
   RECALL_BU_LETTER_REQUEST,
   RE_TRIGGER_BU_LETTER_REQUEST,
-  GET_RL_ALL_BU_MDM_DATA
+  GET_RL_ALL_BU_MDM_DATA,
+   GET_RL_ZONE_PAGE1_DATA_REQUEST,
+  ACTION_ADD_RL_ZONE_LETTER_DATA,
+  GET_RL_ALL_ZONE_LETTER_DATA,
+  GET_RL_ZONE_LETTER_DATA_REQUEST,
+  RECALL_ZONE_LETTER_REQUEST,
+  RE_TRIGGER_ZONE_LETTER_REQUEST,
+  GET_RL_ALL_ZONE_MDM_DATA,
 } from './RL_SchedulingAndTriggeringReducer';
 
 export const getRlFunctionData = (payload) => ({ type: GET_RL_FUNCTION_DATA_REQUEST, payload });
@@ -81,5 +88,38 @@ export const recallBuLetter = (payload) => ({
 
 export const reTriggerBuLetter = (payload) => ({
   type: RE_TRIGGER_BU_LETTER_REQUEST,
+  payload,
+});
+
+
+// ***** Zone *********** //
+export const getRlZonePage1Data = (payload) => ({
+  type: GET_RL_ZONE_PAGE1_DATA_REQUEST,
+  payload,
+});
+export const addRlZoneLetterData = (payload) => ({
+  type: ACTION_ADD_RL_ZONE_LETTER_DATA,
+  payload,
+});
+
+export const getRlAllZoneLetterData = (payload) => ({
+  type: GET_RL_ALL_ZONE_LETTER_DATA,
+  payload,
+});
+export const getRlZoneLetterData = (payload) => ({
+  type: GET_RL_ZONE_LETTER_DATA_REQUEST,
+  payload,
+});
+export const recallZoneLetter = (payload) => ({
+  type: RECALL_ZONE_LETTER_REQUEST,
+  payload,
+});
+
+export const reTriggerZoneLetter = (payload) => ({
+  type: RE_TRIGGER_ZONE_LETTER_REQUEST,
+  payload,
+});
+export const getRlAllZoneMdmData = (payload) => ({
+  type: GET_RL_ALL_ZONE_MDM_DATA,
   payload,
 });

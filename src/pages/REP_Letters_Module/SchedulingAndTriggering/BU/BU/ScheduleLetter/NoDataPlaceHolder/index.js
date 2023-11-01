@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.scss';
-import image from '../../../../../../assets/images/page-not-found-table.svg';
+import image from '../../../../../../../assets/images/page-not-found-table.svg';
 const NoRecordPlaceholder = () => {
   return (
     <div className="noDataPlaceholderWrapper">

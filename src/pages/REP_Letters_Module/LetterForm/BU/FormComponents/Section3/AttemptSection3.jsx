@@ -138,7 +138,7 @@ const AttemptSection3 = ({ scopeData }) => {
                           <Form.Control
                             type="file"
                             required
-                            accept=".pdf"
+                            accept=".pdf, .zip, .rar, .7z, .gz"
                             name="RBA_File"
                             onChange={(event) => {
                               setFieldValue('RBA_File', event.currentTarget.files[0]);
