@@ -108,7 +108,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               <>
                 <TableExport size={16} />
                 <Box ml={5}>
-                  <Form.Label>View All Selected Zone VP Processor:</Form.Label>
+                  <Form.Label>View All Selected Signatories:</Form.Label>
                 </Box>
               </>
             }
