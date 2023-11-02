@@ -175,7 +175,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
     if (editTableIndex.length === 0) {
       Swal.fire({
         title: 'Are you sure?',
-        text: 'All Zone VP Processor Selected.',
+        text: 'All Signatories Selected.',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'gold',
@@ -250,7 +250,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
     years.push(year);
   }
   return (
-    <div className="holder">
+    <div className="holder shedule-letter">
       <div className="p-5">
         <h4 className="AssessmentBank-inputPage-sub-title">Select Letter Details</h4>
         <Formik
@@ -343,6 +343,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
                           onChange={handleChange}
                           readOnly={false}
                           className="form-select"
+                          disabled={true}
                         >
                           <option value="">Select</option>
                           <option value="Zone Letter">Zone Letter</option>

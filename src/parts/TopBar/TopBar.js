@@ -171,63 +171,26 @@ const TopBar = (props) => {
     ? JSON.parse(localStorage.getItem('rl_roles'))
     : {};
 
-  useEffect(() => {
-    if (Object.keys(apiRoles).length > 0) {
-      let isSetVal = !!selected_module_role && selected_module_role !== 'null';
-      const newArray = initModule.map((val) => {
-        if (val.value === 'Representation Letter' && apiRoles.rl_roles) {
-          const newObj = Object.keys(apiRoles.rl_roles).map((r) => {
-            return { value: r, label: r };
-          });
-          val.subVal = newObj.filter((d) => {
-            let isValid = false;
-            switch (true) {
-              case d.value === 'BU':
-                if (rl_roles.BU) {
-                  if (rl_roles.BU.length > 0) {
-                    isValid = true;
-                  }
-                }
-                break;
-              case d.value === 'Functional':
-                if (rl_roles.Functional) {
-                  if (rl_roles.Functional.length > 0) {
-                    isValid = true;
-                  }
-                }
-                break;
-              default:
-                break;
-            }
-            return d.value !== 'is_admin' && isValid;
-          });
-        }
-        return val;
-      });
-
-      const newDataArray = newArray.filter((d) => {
-        let isValid = false;
-        const rl_roles = apiRoles?.rl_roles;
-        switch (true) {
-          case d.value === 'Assessment Module':
-            const sa_roles_data = apiRoles?.sa_roles || [];
-            const data = sa_roles_data.filter((d) => d);
-            if (data.length > 0) {
-              isValid = true;
-            }
-            return isValid;
-
-          case d.value === 'Representation Letter':
-            d.subVal.forEach((vl) => {
+  useEffect(
+    (callbackfn, thisArg) => {
+      if (Object.keys(apiRoles).length > 0) {
+        let isSetVal = !!selected_module_role && selected_module_role !== 'null';
+        const newArray = initModule.map((val) => {
+          if (val.value === 'Representation Letter' && apiRoles.rl_roles) {
+            const newObj = Object.keys(apiRoles.rl_roles).map((r) => {
+              return { value: r, label: r };
+            });
+            val.subVal = newObj.filter((d) => {
+              let isValid = false;
               switch (true) {
-                case vl.value === 'BU':
+                case d.value === 'BU':
                   if (rl_roles.BU) {
                     if (rl_roles.BU.length > 0) {
                       isValid = true;
                     }
                   }
                   break;
-                case vl.value === 'Functional':
+                case d.value === 'Functional':
                   if (rl_roles.Functional) {
                     if (rl_roles.Functional.length > 0) {
                       isValid = true;
@@ -237,40 +200,90 @@ const TopBar = (props) => {
                 default:
                   break;
               }
+              return d.value !== 'is_admin' && isValid;
             });
-            isValid = true;
-            break;
+          }
+          return val;
+        });
 
-          default:
-            break;
-        }
+        const newDataArray = newArray.filter((d) => {
+          let isValid = false;
+          const rl_roles = apiRoles?.rl_roles;
+          switch (true) {
+            case d.value === 'Assessment Module':
+              const sa_roles_data = apiRoles?.sa_roles || [];
+              const data = sa_roles_data.filter((d) => d);
+              if (data.length > 0) {
+                isValid = true;
+              }
+              return isValid;
 
-        return isValid;
-      });
+            case d.value === 'Representation Letter':
+              d.subVal.forEach((vl) => {
+                switch (true) {
+                  case vl.value === 'BU':
+                    if (rl_roles.BU) {
+                      if (rl_roles.BU.length > 0) {
+                        isValid = true;
+                      }
+                    }
+                    break;
+                  case vl.value === 'Functional':
+                    if (rl_roles.Functional) {
+                      if (rl_roles.Functional.length > 0) {
+                        isValid = true;
+                      }
+                    }
+                    break;
+                  default:
+                    break;
+                }
+              });
+              isValid = true;
+              break;
 
-      if (!isSetVal) {
-        let isSet = false;
-        newDataArray.forEach((arrVal, i) => {
-          if (isSet) return;
-          if (!arrVal?.subVal && !arrVal?.subVal?.length) {
-            localStorage.setItem('selected_module_Role', arrVal?.value);
-            setActiveModule(arrVal?.value);
-            isSet = true;
-            // window.location.href = '/';
-          } else {
-            if (arrVal?.subVal?.length > 0) {
-              localStorage.setItem('selected_module_Role', arrVal?.subVal[0].value);
-              setActiveModule(arrVal?.subVal[0].value);
+            default:
+              break;
+          }
+
+          return isValid;
+        });
+
+        if (!isSetVal) {
+          let isSet = false;
+          newDataArray.forEach((arrVal, i) => {
+            if (isSet) return;
+            if (!arrVal?.subVal && !arrVal?.subVal?.length) {
+              localStorage.setItem('selected_module_Role', arrVal?.value);
+              setActiveModule(arrVal?.value);
               isSet = true;
               // window.location.href = '/';
+            } else {
+              if (arrVal?.subVal?.length > 0) {
+                localStorage.setItem('selected_module_Role', arrVal?.subVal[0].value);
+                setActiveModule(arrVal?.subVal[0].value);
+                isSet = true;
+                // window.location.href = '/';
+              }
             }
-          }
-        });
-      }
+          });
+        }
 
-      setModule(newDataArray);
-    }
-  }, [apiRoles]);
+        const newOptions = [];
+        newDataArray.forEach((val) => {
+          if (val.subVal) {
+            val.subVal.forEach((subVal) => {
+              newOptions.push({ ...subVal, label: subVal.label + ' ' + val.label });
+            });
+            return;
+          }
+          newOptions.push(val);
+        });
+        setModule(newOptions);
+      }
+    },
+    [apiRoles],
+  );
   const TopBar_SA = () => {
     // TOP BAR Buttons/ Tabs for Seld Assessment Module
     return (
@@ -527,35 +540,54 @@ const TopBar = (props) => {
                   style={{ paddingLeft: '0.5rem', height: '2rem' }}
                 />
               </a>
-              {props.isControlPage && (
-                <div className="mr-4 wrapperLanguage">
-                  <div>
-                    <span className={'text-yellow ml-2'}>
-                      {t('selfAssessment.homePage.controleOwner.select_language')}
-                    </span>
-                  </div>
-                  <FormControl sx={{ width: 200 }}>
-                    <Select
-                      size="small"
-                      inputLook
-                      classes={{ root: `select-options inputLook-text user-role-input` }}
-                      inputProps={{ 'aria-label': 'Without label' }}
-                      options={languages}
-                      onChange={(e) => {
-                        changeLanguage(e.target.value);
-                        setLan(e.target.value);
-                      }}
-                      value={lan || languages.find((item) => item.value == i18n.language).value}
-                    />
-                  </FormControl>
-                </div>
-              )}
+
+              <div className="mr-4 wrapperLanguage d-flex align-items-center">
+                {props.isControlPage && (
+                  <>
+                    <div>
+                      <div>
+                        <span className={'text-yellow ml-2'}>
+                          {t('selfAssessment.homePage.controleOwner.select_language')}
+                        </span>
+                      </div>
+                      <FormControl sx={{ width: 140 }}>
+                        <Select
+                          size="small"
+                          inputLook
+                          classes={{ root: `select-options inputLook-text user-role-input` }}
+                          inputProps={{ 'aria-label': 'Without label' }}
+                          options={languages}
+                          onChange={(e) => {
+                            changeLanguage(e.target.value);
+                            setLan(e.target.value);
+                          }}
+                          value={lan || languages.find((item) => item.value == i18n.language).value}
+                        />
+                      </FormControl>
+                    </div>
+                  </>
+                )}
+                <FormControl sx={{ width: 160, marginLeft: '15px' }}>
+                  <Select
+                    defaultValue="Assessment Module"
+                    size="small"
+                    inputLook
+                    classes={{ root: `select-options inputLook-text user-role-input` }}
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    options={module}
+                    onChange={(e) => {
+                      setActiveModule(e.target.value);
+                      window.location.href = '/';
+                    }}
+                    value={activeModule}
+                  />
+                </FormControl>
+              </div>
             </div>
             <div
               className="d-flex order-lg-2 ml-auto text-left user-info-wrapper"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
             >
-              {console.log('roleValue', roleValue, loginRole, selected_Role)}
               {roleValue.length > 0 && (
                 <div className="mr-4">
                   <div>
@@ -563,7 +595,7 @@ const TopBar = (props) => {
                       {t('selfAssessment.homePage.controleOwner.select_role')}
                     </span>
                   </div>
-                  <FormControl sx={{ width: 200 }}>
+                  <FormControl sx={{ width: 160 }}>
                     <Select
                       defaultValue="Assessment Module"
                       size="small"
@@ -663,51 +695,6 @@ const TopBar = (props) => {
                 </div>
               </div>
               <div className="select-light mt-0">
-                <FormControl sx={{ maxWidth: 270 }}>
-                  <MultiDropdown
-                    className="w-full"
-                    trigger={
-                      <Button variant="warning" className="btn-border">
-                        {activeModule}
-                      </Button>
-                    }
-                    menu={module.map((val, i) => {
-                      return (
-                        <NestedMenuItem
-                          key={i}
-                          className="DropdownNestedMenuItem"
-                          label={val.label}
-                          rightAnchored
-                          onClick={() => {
-                            if (val.isDisabled) return;
-                            setActiveModule(val.label);
-                            window.location.href = '/';
-                          }}
-                          menu={
-                            val.subVal?.length > 0
-                              ? val.subVal.map((sVal, subi) => {
-                                  return (
-                                    <MenuItem
-                                      key={`${i}--${subi}`}
-                                      className="DropdownMenuItem"
-                                      onClick={() => {
-                                        if (sVal.isDisabled) return;
-                                        setActiveModule(sVal.label);
-                                        window.location.href = '/';
-                                      }}
-                                    >
-                                      {sVal.label}
-                                    </MenuItem>
-                                  );
-                                })
-                              : null
-                          }
-                        />
-                      );
-                    })}
-                  />
-                </FormControl>
-
                 <FormControl sx={{ maxWidth: 270 }}>
                   {/*<Select*/}
                   {/*  defaultValue="Assessment Module"*/}
