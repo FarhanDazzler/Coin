@@ -567,21 +567,26 @@ const TopBar = (props) => {
                     </div>
                   </>
                 )}
-                <FormControl sx={{ width: 160, marginLeft: '15px' }}>
-                  <Select
-                    defaultValue="Assessment Module"
-                    size="small"
-                    inputLook
-                    classes={{ root: `select-options inputLook-text user-role-input` }}
-                    inputProps={{ 'aria-label': 'Without label' }}
-                    options={module}
-                    onChange={(e) => {
-                      setActiveModule(e.target.value);
-                      window.location.href = '/';
-                    }}
-                    value={activeModule}
-                  />
-                </FormControl>
+                <div>
+                  <div>
+                    <span className={'text-yellow ml-2'}>Select Module :</span>
+                  </div>
+                  <FormControl sx={{ width: 160, marginLeft: '15px' }}>
+                    <Select
+                      defaultValue="Assessment Module"
+                      size="small"
+                      inputLook
+                      classes={{ root: `select-options inputLook-text user-role-input` }}
+                      inputProps={{ 'aria-label': 'Without label' }}
+                      options={module}
+                      onChange={(e) => {
+                        setActiveModule(e.target.value);
+                        window.location.href = '/';
+                      }}
+                      value={activeModule}
+                    />
+                  </FormControl>
+                </div>
               </div>
             </div>
             <div
