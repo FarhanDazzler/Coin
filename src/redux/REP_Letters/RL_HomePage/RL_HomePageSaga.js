@@ -27,6 +27,12 @@ import {
   GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_SUCCESS,
   GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_ERROR,
+  GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_REQUEST,
+  GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_SUCCESS,
+  GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_ERROR,
+  GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_REQUEST,
+  GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_SUCCESS,
+  GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_ERROR,
   ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST,
   ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_SUCCESS,
   ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_ERROR,
@@ -228,6 +234,46 @@ function* handle_Get_BU_Zone_VPHomePageData({ payload }) {
   } catch (error) {
     yield put({
       type: GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_ERROR,
+    });
+  }
+}
+
+// Get BU-Zone Excom Member Home Page Data
+async function get_BUZone_ExcomMemberHomePageDataApi(params) {
+  return await Axios.get('/get_bu_home_page_data_for_excom_member', { params });
+}
+function* handle_Get_BUZone_ExcomMemberHomePageData({ payload }) {
+  try {
+    const response = yield call(get_BUZone_ExcomMemberHomePageDataApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_ERROR,
+    });
+  }
+}
+
+//  GET BU-Zone Zone Legal Representative Home Page Data
+async function get_BUZone_ZoneLegalRepresentativeHomePageDataApi(params) {
+  return await Axios.get('/get_bu_home_page_data_for_zone_legal_rep', { params });
+}
+function* handle_Get_BUZone_ZoneLegalRepresentativeHomePageData({ payload }) {
+  try {
+    const response = yield call(get_BUZone_ZoneLegalRepresentativeHomePageDataApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_ERROR,
     });
   }
 }
@@ -476,12 +522,11 @@ function* handle_AddBUSection2UploadMailApprovalData({ payload }) {
     yield put({
       type: ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR,
     });
-    if(error?.response?.status === 400){
+    if (error?.response?.status === 400) {
       Swal.fire('Oops...', error?.response?.data?.data, 'error');
-    }else if(error?.response?.status === 500) {
+    } else if (error?.response?.status === 500) {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
-    
   }
 }
 
@@ -493,22 +538,22 @@ function* handle_AddBUSection2CheckboxData({ payload }) {
   const { formData, event } = payload;
   try {
     const response = yield call(addBUSection2CheckboxApi, formData);
-    console.log("there", response);
+    console.log('there', response);
     if (response.success) {
       yield put({
         type: ADD_BU_SECTION2_CHECKBOX_SUCCESS,
         payload: response.data,
       });
-     
+
       Swal.fire('Done!', 'Auto Authentication Successfully!', 'success');
     }
   } catch (error) {
     yield put({
       type: ADD_BU_SECTION2_CHECKBOX_ERROR,
     });
-    if(error?.response?.status === 400){
+    if (error?.response?.status === 400) {
       Swal.fire('Oops...', error?.response?.data?.data, 'error');
-    }else {
+    } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
     }
   }
@@ -531,7 +576,6 @@ function* handle_GetBUSection3Response({ payload }) {
     yield put({
       type: GET_BU_SECTION_3_RESPONSE_ERROR,
     });
-    
   }
 }
 
@@ -622,6 +666,14 @@ export default all([
     handle_Get_BU_Zone_ControlHomePageData,
   ),
   takeLatest(GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST, handle_Get_BU_Zone_VPHomePageData),
+  takeLatest(
+    GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_REQUEST,
+    handle_Get_BUZone_ZoneLegalRepresentativeHomePageData,
+  ),
+  takeLatest(
+    GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_REQUEST,
+    handle_Get_BUZone_ExcomMemberHomePageData,
+  ),
   takeLatest(ADD_FUNCTION_SUBMIT_RESPONSE_REQUEST, updateAddFunctionSubmitResponse),
   takeLatest(GET_FUNCTION_SUBMIT_RESPONSE_REQUEST, handle_GetFunctionSubmitResponse),
   takeLatest(ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST, updateAddOrUpdateFunctionDraftResponse),

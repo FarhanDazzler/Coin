@@ -2,9 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import { useSelector } from 'react-redux';
-import ZoneControlTable from './ZoneControlTable';
+import ExcomMemberTable from './ExcomMemberTable';
 import '../../styles.scss';
-import { get_BU_Zone_ControlHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { get_BUZone_ExcomMemberHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
 const AmountInfo = React.memo(({ amount, infoText }) => {
   return (
@@ -15,12 +15,12 @@ const AmountInfo = React.memo(({ amount, infoText }) => {
   );
 });
 
-const ZoneControlHomePage = () => {
+const ExcomMemberHomePage = () => {
   const history = useHistory();
   const { state } = useLocation();
   const { accounts } = useMsal();
   const selectedUserRole = localStorage.getItem('selected_Role');
-  const getHomePageData = useSelector(get_BU_Zone_ControlHomePageDataSelector);
+  const getHomePageData = useSelector(get_BUZone_ExcomMemberHomePageDataSelector);
 
   const [yearValue, setYearValue] = useState([]);
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
@@ -32,7 +32,7 @@ const ZoneControlHomePage = () => {
   }, []);
 
   const statusInfo = useMemo(() => {
-    const tableData = getHomePageData?.data[0]?.zoneControlData || [];
+    const tableData = getHomePageData?.data[0]?.buHeadData || [];
     if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length && !buValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);
@@ -98,7 +98,7 @@ const ZoneControlHomePage = () => {
         </div>
       </div>
 
-      <ZoneControlTable
+      <ExcomMemberTable
         yearValue={yearValue}
         setYearValue={setYearValue}
         assessmentCycleValue={assessmentCycleValue}
@@ -112,4 +112,4 @@ const ZoneControlHomePage = () => {
   );
 };
 
-export default ZoneControlHomePage;
+export default ExcomMemberHomePage;

@@ -70,6 +70,24 @@ export const GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR';
 // ============= GET BU Zone Control home page table data ===============//
 
+// ============= Get BU-Zone Excom Member Home Page Data ===============//
+export const GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_REQUEST =
+  'GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_REQUEST';
+export const GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_SUCCESS =
+  'GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_SUCCESS';
+export const GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_ERROR =
+  'GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_ERROR';
+// ============= Get BU-Zone Excom Member Home Page Data ===============//
+
+// ============= GET BU-Zone Zone Legal Representative Home Page Data ===============//
+export const GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_REQUEST =
+  'GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_REQUEST';
+export const GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_SUCCESS =
+  'GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_SUCCESS';
+export const GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_ERROR =
+  'GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_ERROR';
+// ============= GET BU-Zone Zone Legal Representative Home Page Data ===============//
+
 // ============= ADD OR UPDATE FUNCTION DRAFT RESPONSE data ===============//
 export const ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST =
   'ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST';
@@ -190,6 +208,8 @@ const initialState = {
   get_BU_Finance_DirectorHomePageData: { ...block, data: [] },
   get_BU_Zone_ControlHomePageData: { ...block, data: [] },
   get_BU_Zone_VPHomePageData: { ...block, data: [] },
+  get_BUZone_ExcomMemberHomePageData: { ...block, data: [] },
+  get_BUZone_ZoneLegalRepresentativeHomePageData: { ...block, data: [] },
   addOrUpdateFunctionDraftResponse: { ...block, data: [] },
   getLatestFunctionDraftResponse: { ...block, data: [] },
   getFunctionSubmitResponse: { ...block, data: [] },
@@ -419,6 +439,60 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         ...state,
         get_BU_Zone_ControlHomePageData: {
           ...state.get_BU_Zone_ControlHomePageData,
+          loading: false,
+        },
+      };
+
+    // Get BU-Zone Excom Member Home Page Data
+    case GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_REQUEST:
+      return {
+        ...state,
+        get_BUZone_ExcomMemberHomePageData: {
+          ...state.get_BUZone_ExcomMemberHomePageData,
+          loading: true,
+        },
+      };
+    case GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_SUCCESS:
+      return {
+        ...state,
+        get_BUZone_ExcomMemberHomePageData: {
+          ...state.get_BUZone_ExcomMemberHomePageData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_ERROR:
+      return {
+        ...state,
+        get_BUZone_ExcomMemberHomePageData: {
+          ...state.get_BUZone_ExcomMemberHomePageData,
+          loading: false,
+        },
+      };
+
+    // GET BU-Zone Zone Legal Representative Home Page Data
+    case GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_REQUEST:
+      return {
+        ...state,
+        get_BUZone_ZoneLegalRepresentativeHomePageData: {
+          ...state.get_BUZone_ZoneLegalRepresentativeHomePageData,
+          loading: true,
+        },
+      };
+    case GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_SUCCESS:
+      return {
+        ...state,
+        get_BUZone_ZoneLegalRepresentativeHomePageData: {
+          ...state.get_BUZone_ZoneLegalRepresentativeHomePageData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_ERROR:
+      return {
+        ...state,
+        get_BUZone_ZoneLegalRepresentativeHomePageData: {
+          ...state.get_BUZone_ZoneLegalRepresentativeHomePageData,
           loading: false,
         },
       };
