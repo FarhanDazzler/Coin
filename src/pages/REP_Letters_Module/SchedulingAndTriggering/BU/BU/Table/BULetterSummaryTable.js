@@ -10,6 +10,8 @@ import { Group } from '@mantine/core';
 import PageWrapper from '../../../../../../components/wrappers/PageWrapper';
 import { getRlAllBuLetterData } from '../../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
 import { getAllBuLetterdataSelector } from '../../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import Button from '../../../../../../components/UI/Button';
 
 // Filter buttons
 const FilterButtons = ({
@@ -233,6 +235,23 @@ const BULetterSummaryTable = () => {
                     <NoDataLetterPlaceholder />
                   )}
                 </>
+              </div>
+            </div>
+            <div className="container-fluid mt-5">
+              <div className="row">
+                <div className="d-flex align-items-center justify-content-end">
+                  <div>
+                    <Button
+                      size="large"
+                      startIcon={<ArrowBackIosIcon />}
+                      onClick={() => {
+                        history.push('/REP-Letters/scheduling-and-triggering');
+                      }}
+                    >
+                      Go Back
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
