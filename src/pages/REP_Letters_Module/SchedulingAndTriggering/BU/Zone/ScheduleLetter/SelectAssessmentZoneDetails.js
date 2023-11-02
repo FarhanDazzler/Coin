@@ -175,7 +175,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
     if (editTableIndex.length === 0) {
       Swal.fire({
         title: 'Are you sure?',
-        text: 'All Zone VP Processor Selected.',
+        text: 'All Signatories Selected.',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'gold',
