@@ -300,7 +300,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
     years.push(year);
   }
   return (
-    <div className="holder">
+    <div className="holder shedule-letter">
       <div className="p-5">
         <h4 className="AssessmentBank-inputPage-sub-title">Select Letter Details</h4>
         <Formik
@@ -395,6 +395,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                           onChange={handleChange}
                           readOnly={false}
                           className="form-select"
+                          disabled={true}
                         >
                           <option value="">Select</option>
                           <option value="BU Letter">BU Letter</option>
