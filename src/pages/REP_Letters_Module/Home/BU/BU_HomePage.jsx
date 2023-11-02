@@ -5,6 +5,8 @@ import BUHeadHomePage from './BUHeadHomePage/BUHeadHomePage';
 import FinanceDirectorHomePage from './FinanceDirectorHomePage/FinanceDirectorHomePage';
 import ZoneControlHomePage from './ZoneControlHomePage/ZoneControlHomePage';
 import ZoneVPHomePage from './ZoneVP/ZoneVPHomePage';
+import ExcomMemberHomePage from './ExcomMemberHomePage/ExcomMemberHomePage';
+import ZoneLegalRepresentativeHomePage from './ZoneLegalRepresentativeHomePage/ZoneLegalRepresentativeHomePage';
 import '../styles.scss';
 import { useSelector } from 'react-redux';
 
@@ -25,6 +27,10 @@ const BU_HomePage = () => {
         <ZoneControlHomePage />
       ) : (loginRole || selected_Role) === 'Zone VP' ? (
         <ZoneVPHomePage />
+      ) : (loginRole || selected_Role) === 'Excom Member' ? (
+        <ExcomMemberHomePage />
+      ) : (loginRole || selected_Role) === 'Zone Legal Representative' ? (
+        <ZoneLegalRepresentativeHomePage />
       ) : (
         <GlobalPersonaHomePage />
       )}
