@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import GlobalPersonaHomePage from './GlobalPersonaHomePage/GlobalPersonaHomePage';
+import GlobalPersonaHomePageContainer from './GlobalPersonaHomePage';
 import DisclosureProcessorHomePage from './DisclosureProcessorHomePage/DisclosureProcessorHomePage';
 import BUHeadHomePage from './BUHeadHomePage/BUHeadHomePage';
 import FinanceDirectorHomePage from './FinanceDirectorHomePage/FinanceDirectorHomePage';
@@ -32,7 +33,7 @@ const BU_HomePage = () => {
       ) : (loginRole || selected_Role) === 'Zone Legal Representative' ? (
         <ZoneLegalRepresentativeHomePage />
       ) : (
-        <GlobalPersonaHomePage />
+        <GlobalPersonaHomePageContainer />
       )}
     </div>
   );

@@ -33,6 +33,15 @@ import {
   GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_SUCCESS,
   GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_ERROR,
+  GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_REQUEST,
+  GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_SUCCESS,
+  GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR,
+  GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST,
+  GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_SUCCESS,
+  GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_ERROR,
+  GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
+  GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS,
+  GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_ERROR,
   ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST,
   ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_SUCCESS,
   ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_ERROR,
@@ -274,6 +283,66 @@ function* handle_Get_BUZone_ZoneLegalRepresentativeHomePageData({ payload }) {
   } catch (error) {
     yield put({
       type: GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_ERROR,
+    });
+  }
+}
+
+//  GET BU-Zone Zone VP Home Page Data
+async function get_BUZone_Zone_VPHomePageDataApi(params) {
+  return await Axios.get('/get_bu_home_page_data_for_zone_vp', { params });
+}
+function* handle_Get_BUZone_Zone_VPHomePageData({ payload }) {
+  try {
+    const response = yield call(get_BUZone_Zone_VPHomePageDataApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_ERROR,
+    });
+  }
+}
+
+//  GET BU-Zone Zone Control Home Page Data
+async function get_BUZone_Zone_ControlHomePageDataApi(params) {
+  return await Axios.get('/get_zone_home_page_data_for_zone_control', { params });
+}
+function* handle_Get_BUZone_Zone_ControlHomePageData({ payload }) {
+  try {
+    const response = yield call(get_BUZone_Zone_ControlHomePageDataApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR,
+    });
+  }
+}
+
+//  GET BU-Zone Global Persona Home Page Data
+async function get_BUZone_GlobalPersonaHomePageDataApi(params) {
+  return await Axios.get('/get_zone_home_page_data_for_global', { params });
+}
+function* handle_Get_BUZone_GlobalPersonaHomePageData({ payload }) {
+  try {
+    const response = yield call(get_BUZone_GlobalPersonaHomePageDataApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_ERROR,
     });
   }
 }
@@ -673,6 +742,18 @@ export default all([
   takeLatest(
     GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_REQUEST,
     handle_Get_BUZone_ExcomMemberHomePageData,
+  ),
+  takeLatest(
+    GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_REQUEST,
+    handle_Get_BUZone_Zone_ControlHomePageData,
+  ),
+  takeLatest(
+    GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST,
+    handle_Get_BUZone_Zone_VPHomePageData,
+  ),
+  takeLatest(
+    GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
+    handle_Get_BUZone_GlobalPersonaHomePageData,
   ),
   takeLatest(ADD_FUNCTION_SUBMIT_RESPONSE_REQUEST, updateAddFunctionSubmitResponse),
   takeLatest(GET_FUNCTION_SUBMIT_RESPONSE_REQUEST, handle_GetFunctionSubmitResponse),

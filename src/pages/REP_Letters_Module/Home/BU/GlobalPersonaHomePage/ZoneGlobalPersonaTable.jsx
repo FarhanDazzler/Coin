@@ -8,8 +8,8 @@ import Table2 from '../../../../../components/UI/Table/Table2';
 import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
 import NoDataPlaceholder from '../../../../../components/NoDataPlaceholder/NoDataPlaceholderForRepLetter';
-import { get_BU_GlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
-import { get_BU_GlobalPersonaHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import { get_BUZone_GlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { get_BUZone_GlobalPersonaHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignatures from '../../../../../components/ShowSignatures';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
@@ -37,7 +37,7 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const GlobalPersonaTable = ({
+const ZoneGlobalPersonaTable = ({
   assessmentCycleValue,
   setAssessmentCycleValue,
   zoneValue,
@@ -52,7 +52,7 @@ const GlobalPersonaTable = ({
 
   const { accounts } = useMsal();
   const dispatch = useDispatch();
-  const getGlobalPersonaHomePageData = useSelector(get_BU_GlobalPersonaHomePageDataSelector);
+  const getGlobalPersonaHomePageData = useSelector(get_BUZone_GlobalPersonaHomePageDataSelector);
 
   //getGlobalPersonaHomePageData?.data[0]?.recipientData
   const HomePageData = useMemo(() => {
@@ -60,7 +60,7 @@ const GlobalPersonaTable = ({
   }, [getGlobalPersonaHomePageData?.data[0]]);
 
   useEffect(() => {
-    dispatch(get_BU_GlobalPersonaHomePageData());
+    dispatch(get_BUZone_GlobalPersonaHomePageData());
   }, []);
 
   const TABLE_COLUMNS = [
@@ -284,4 +284,4 @@ const GlobalPersonaTable = ({
   );
 };
 
-export default GlobalPersonaTable;
+export default ZoneGlobalPersonaTable;

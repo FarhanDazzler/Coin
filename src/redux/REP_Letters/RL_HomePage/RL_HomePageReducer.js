@@ -88,6 +88,33 @@ export const GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_ERROR';
 // ============= GET BU-Zone Zone Legal Representative Home Page Data ===============//
 
+// ============= GET BU-Zone Zone VP home page table data ===============//
+export const GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST =
+  'GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST';
+export const GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_SUCCESS =
+  'GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_SUCCESS';
+export const GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_ERROR =
+  'GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_ERROR';
+// ============= GET BU-Zone Zone VP home page table data ===============//
+
+// ============= GET BU-Zone Zone Control home page table data ===============//
+export const GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_REQUEST =
+  'GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_REQUEST';
+export const GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_SUCCESS =
+  'GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_SUCCESS';
+export const GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR =
+  'GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR';
+// ============= GET BU-Zone Zone Control home page table data ===============//
+
+// ============= GET BU-Zone Global Persona home page table data ===============//
+export const GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST =
+  'GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST';
+export const GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS =
+  'GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS';
+export const GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_ERROR =
+  'GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_ERROR';
+// ============= GET BU-Zone Global PErsona home page table data ===============//
+
 // ============= ADD OR UPDATE FUNCTION DRAFT RESPONSE data ===============//
 export const ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST =
   'ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST';
@@ -210,6 +237,9 @@ const initialState = {
   get_BU_Zone_VPHomePageData: { ...block, data: [] },
   get_BUZone_ExcomMemberHomePageData: { ...block, data: [] },
   get_BUZone_ZoneLegalRepresentativeHomePageData: { ...block, data: [] },
+  get_BUZone_Zone_ControlHomePageData: { ...block, data: [] },
+  get_BUZone_Zone_VPHomePageData: { ...block, data: [] },
+  get_BUZone_GlobalPersonaHomePageData: { ...block, data: [] },
   addOrUpdateFunctionDraftResponse: { ...block, data: [] },
   getLatestFunctionDraftResponse: { ...block, data: [] },
   getFunctionSubmitResponse: { ...block, data: [] },
@@ -493,6 +523,87 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         ...state,
         get_BUZone_ZoneLegalRepresentativeHomePageData: {
           ...state.get_BUZone_ZoneLegalRepresentativeHomePageData,
+          loading: false,
+        },
+      };
+
+    // GET BU-Zone Zone VP home page table data
+    case GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST:
+      return {
+        ...state,
+        get_BUZone_Zone_VPHomePageData: {
+          ...state.get_BUZone_Zone_VPHomePageData,
+          loading: true,
+        },
+      };
+    case GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_SUCCESS:
+      return {
+        ...state,
+        get_BUZone_Zone_VPHomePageData: {
+          ...state.get_BUZone_Zone_VPHomePageData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_ERROR:
+      return {
+        ...state,
+        get_BUZone_Zone_VPHomePageData: {
+          ...state.get_BUZone_Zone_VPHomePageData,
+          loading: false,
+        },
+      };
+
+    // GET BU-Zone Zone Control home page table data
+    case GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_REQUEST:
+      return {
+        ...state,
+        get_BUZone_Zone_ControlHomePageData: {
+          ...state.get_BUZone_Zone_ControlHomePageData,
+          loading: true,
+        },
+      };
+    case GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_SUCCESS:
+      return {
+        ...state,
+        get_BUZone_Zone_ControlHomePageData: {
+          ...state.get_BUZone_Zone_ControlHomePageData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR:
+      return {
+        ...state,
+        get_BUZone_Zone_ControlHomePageData: {
+          ...state.get_BUZone_Zone_ControlHomePageData,
+          loading: false,
+        },
+      };
+
+    // GET BU-Zone Global Persona home page table data
+    case GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST:
+      return {
+        ...state,
+        get_BUZone_GlobalPersonaHomePageData: {
+          ...state.get_BUZone_GlobalPersonaHomePageData,
+          loading: true,
+        },
+      };
+    case GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS:
+      return {
+        ...state,
+        get_BUZone_GlobalPersonaHomePageData: {
+          ...state.get_BUZone_GlobalPersonaHomePageData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_ERROR:
+      return {
+        ...state,
+        get_BUZone_GlobalPersonaHomePageData: {
+          ...state.get_BUZone_GlobalPersonaHomePageData,
           loading: false,
         },
       };
