@@ -542,7 +542,7 @@ const TopBar = (props) => {
               </a>
 
               <div className="mr-4 wrapperLanguage d-flex align-items-center">
-                {!props.isControlPage && (
+                {props.isControlPage && (
                   <>
                     <div>
                       <div>
@@ -550,7 +550,7 @@ const TopBar = (props) => {
                           {t('selfAssessment.homePage.controleOwner.select_language')}
                         </span>
                       </div>
-                      <FormControl sx={{ width: 240 }}>
+                      <FormControl sx={{ width: 140 }}>
                         <Select
                           size="small"
                           inputLook
