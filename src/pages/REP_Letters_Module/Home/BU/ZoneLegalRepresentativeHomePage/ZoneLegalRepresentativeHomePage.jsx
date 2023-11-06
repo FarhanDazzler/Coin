@@ -31,7 +31,7 @@ const ZoneLegalRepresentativeHomePage = () => {
   }, []);
 
   const statusInfo = useMemo(() => {
-    const tableData = getHomePageData?.data[0]?.buHeadData || [];
+    const tableData = getHomePageData?.data[0]?.zonelegaRepData || [];
     if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);

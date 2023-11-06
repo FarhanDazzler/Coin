@@ -61,7 +61,7 @@ const ZoneLegalRepresentativeTable = ({
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const HomePageData = useMemo(() => {
-    return getHomePageData?.data[0]?.buHeadData || [];
+    return getHomePageData?.data[0]?.zonelegaRepData || [];
   }, [getHomePageData?.data[0]]);
 
   useEffect(() => {
