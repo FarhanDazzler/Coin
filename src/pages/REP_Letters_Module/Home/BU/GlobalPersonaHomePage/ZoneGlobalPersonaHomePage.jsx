@@ -31,7 +31,6 @@ const ZoneGlobalPersonaHomePage = () => {
   const [yearValue, setYearValue] = useState([]);
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
-  const [buValue, setBUValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
@@ -43,8 +42,7 @@ const ZoneGlobalPersonaHomePage = () => {
       return (
         (!yearValue.length || yearValue.includes(i.Year)) &&
         (!assessmentCycleValue.length || assessmentCycleValue.includes(i.Assessment_Cycle)) &&
-        (!zoneValue.length || zoneValue.includes(i.Zone)) &&
-        (!buValue.length || buValue.includes(i.BU))
+        (!zoneValue.length || zoneValue.includes(i.Zone))
       );
     });
 
@@ -66,7 +64,6 @@ const ZoneGlobalPersonaHomePage = () => {
     yearValue,
     assessmentCycleValue,
     zoneValue,
-    buValue,
     getNumberOfItem,
   ]);
 
@@ -168,8 +165,6 @@ const ZoneGlobalPersonaHomePage = () => {
         setAssessmentCycleValue={setAssessmentCycleValue}
         zoneValue={zoneValue}
         setZoneValue={setZoneValue}
-        buValue={buValue}
-        setBUValue={setBUValue}
       />
     </div>
   );
