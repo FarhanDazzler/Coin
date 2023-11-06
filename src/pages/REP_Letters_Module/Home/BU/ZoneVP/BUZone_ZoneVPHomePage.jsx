@@ -2,9 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import { useSelector } from 'react-redux';
-import ZoneLegalRepresentativeTable from './ZoneLegalRepresentativeTable';
+import BUZone_ZoneVPTable from './BUZone_ZoneVPTable';
 import '../../styles.scss';
-import { get_BUZone_ZoneLegalRepresentativeHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { get_BUZone_Zone_VPHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
 const AmountInfo = React.memo(({ amount, infoText }) => {
   return (
@@ -15,12 +15,12 @@ const AmountInfo = React.memo(({ amount, infoText }) => {
   );
 });
 
-const ZoneLegalRepresentativeHomePage = () => {
+const BUZone_ZoneVPHomePage = () => {
   const history = useHistory();
   const { state } = useLocation();
   const { accounts } = useMsal();
   const selectedUserRole = localStorage.getItem('selected_Role');
-  const getHomePageData = useSelector(get_BUZone_ZoneLegalRepresentativeHomePageDataSelector);
+  const getHomePageData = useSelector(get_BUZone_Zone_VPHomePageDataSelector);
 
   const [yearValue, setYearValue] = useState([]);
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
@@ -31,7 +31,7 @@ const ZoneLegalRepresentativeHomePage = () => {
   }, []);
 
   const statusInfo = useMemo(() => {
-    const tableData = getHomePageData?.data[0]?.zonelegaRepData || [];
+    const tableData = getHomePageData?.data[0]?.zoneVPHeadData || [];
     if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);
@@ -89,7 +89,7 @@ const ZoneLegalRepresentativeHomePage = () => {
         </div>
       </div>
 
-      <ZoneLegalRepresentativeTable
+      <BUZone_ZoneVPTable
         yearValue={yearValue}
         setYearValue={setYearValue}
         assessmentCycleValue={assessmentCycleValue}
@@ -101,4 +101,4 @@ const ZoneLegalRepresentativeHomePage = () => {
   );
 };
 
-export default ZoneLegalRepresentativeHomePage;
+export default BUZone_ZoneVPHomePage;

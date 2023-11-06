@@ -8,11 +8,11 @@ import Table2 from '../../../../../components/UI/Table/Table2';
 import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
 import {
-  get_BUZone_ExcomMemberHomePageDataSelector,
+  get_BUZone_Zone_ControlHomePageDataSelector,
   addBUSection2CheckboxSelector,
   addBUSection2UploadMailApprovalSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
-import { get_BUZone_ExcomMemberHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import { get_BUZone_Zone_ControlHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignatures from '../../../../../components/ShowSignatures';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
@@ -40,7 +40,7 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const ExcomMemberTable = ({
+const BUZone_ExcomMemberTable = ({
   assessmentCycleValue,
   setAssessmentCycleValue,
   zoneValue,
@@ -55,17 +55,17 @@ const ExcomMemberTable = ({
   const { accounts } = useMsal();
   const dispatch = useDispatch();
 
-  const getHomePageData = useSelector(get_BUZone_ExcomMemberHomePageDataSelector);
+  const getHomePageData = useSelector(get_BUZone_Zone_ControlHomePageDataSelector);
   const addBUSection2UploadMailApprovalState = useSelector(addBUSection2UploadMailApprovalSelector);
   const addBUSection2CheckboxState = useSelector(addBUSection2CheckboxSelector);
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const HomePageData = useMemo(() => {
-    return getHomePageData?.data[0]?.excomMemberData || [];
+    return getHomePageData?.data[0]?.zoneControlData || [];
   }, [getHomePageData?.data[0]]);
 
   useEffect(() => {
-    dispatch(get_BUZone_ExcomMemberHomePageData());
+    dispatch(get_BUZone_Zone_ControlHomePageData());
   }, [addBUSection2UploadMailApprovalState?.data, addBUSection2CheckboxState?.data]);
 
   const TABLE_COLUMNS = [
@@ -260,4 +260,4 @@ const ExcomMemberTable = ({
   );
 };
 
-export default ExcomMemberTable;
+export default BUZone_ExcomMemberTable;

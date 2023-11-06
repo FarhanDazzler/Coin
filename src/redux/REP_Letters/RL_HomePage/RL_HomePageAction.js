@@ -9,6 +9,9 @@ import {
   GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_REQUEST,
+  GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST,
+  GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_REQUEST,
+  GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
   ADD_OR_UPDATE_FUNCTION_DRAFT_RESPONSE_REQUEST,
   GET_LATEST_FUNCTION_DRAFT_RESPONSE_REQUEST,
   CLEAR_LATEST_FUNCTION_DRAFT_RESPONSE,
@@ -70,6 +73,18 @@ export const get_BUZone_ExcomMemberHomePageData = (payload) => ({
 });
 export const get_BUZone_ZoneLegalRepresentativeHomePageData = (payload) => ({
   type: GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_REQUEST,
+  payload,
+});
+export const get_BUZone_Zone_VPHomePageData = (payload) => ({
+  type: GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST,
+  payload,
+});
+export const get_BUZone_Zone_ControlHomePageData = (payload) => ({
+  type: GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_REQUEST,
+  payload,
+});
+export const get_BUZone_GlobalPersonaHomePageData = (payload) => ({
+  type: GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
   payload,
 });
 export const addOrUpdateFunctionDraftResponse = (payload) => ({

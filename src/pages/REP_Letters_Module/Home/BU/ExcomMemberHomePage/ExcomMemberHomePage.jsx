@@ -25,15 +25,14 @@ const ExcomMemberHomePage = () => {
   const [yearValue, setYearValue] = useState([]);
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
-  const [buValue, setBUValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
   }, []);
 
   const statusInfo = useMemo(() => {
-    const tableData = getHomePageData?.data[0]?.buHeadData || [];
-    if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length && !buValue.length) {
+    const tableData = getHomePageData?.data[0]?.excomMemberData || [];
+    if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);
       return {
@@ -50,8 +49,7 @@ const ExcomMemberHomePage = () => {
       return (
         (yearValue?.length ? yearValue.includes(i.Year) : true) &&
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
-        (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-        (buValue?.length ? buValue.includes(i.BU) : true)
+        (zoneValue?.length ? zoneValue.includes(i.Zone) : true)
       );
     });
 
@@ -65,14 +63,7 @@ const ExcomMemberHomePage = () => {
       completed: getNumberOfItem(allUpdatestatus, 'Completed'),
       total: allUpdatestatus?.length,
     };
-  }, [
-    getHomePageData?.data[0],
-    yearValue,
-    assessmentCycleValue,
-    zoneValue,
-    buValue,
-    getNumberOfItem,
-  ]);
+  }, [getHomePageData?.data[0], yearValue, assessmentCycleValue, zoneValue, getNumberOfItem]);
 
   return (
     <div>
@@ -105,8 +96,6 @@ const ExcomMemberHomePage = () => {
         setAssessmentCycleValue={setAssessmentCycleValue}
         zoneValue={zoneValue}
         setZoneValue={setZoneValue}
-        buValue={buValue}
-        setBUValue={setBUValue}
       />
     </div>
   );

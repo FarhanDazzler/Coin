@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import GlobalPersonaHomePage from './GlobalPersonaHomePage/GlobalPersonaHomePage';
+import GlobalPersonaHomePageContainer from './GlobalPersonaHomePage';
 import DisclosureProcessorHomePage from './DisclosureProcessorHomePage/DisclosureProcessorHomePage';
 import BUHeadHomePage from './BUHeadHomePage/BUHeadHomePage';
 import FinanceDirectorHomePage from './FinanceDirectorHomePage/FinanceDirectorHomePage';
@@ -7,6 +8,8 @@ import ZoneControlHomePage from './ZoneControlHomePage/ZoneControlHomePage';
 import ZoneVPHomePage from './ZoneVP/ZoneVPHomePage';
 import ExcomMemberHomePage from './ExcomMemberHomePage/ExcomMemberHomePage';
 import ZoneLegalRepresentativeHomePage from './ZoneLegalRepresentativeHomePage/ZoneLegalRepresentativeHomePage';
+import ZoneControlHomePageContainer from './ZoneControlHomePage';
+import ZoneVPHomePageContainer from './ZoneVP';
 import '../styles.scss';
 import { useSelector } from 'react-redux';
 
@@ -24,15 +27,15 @@ const BU_HomePage = () => {
       ) : (loginRole || selected_Role) === 'Finance Director' ? (
         <FinanceDirectorHomePage />
       ) : (loginRole || selected_Role) === 'Zone Control' ? (
-        <ZoneControlHomePage />
+        <ZoneControlHomePageContainer />
       ) : (loginRole || selected_Role) === 'Zone VP' ? (
-        <ZoneVPHomePage />
+        <ZoneVPHomePageContainer />
       ) : (loginRole || selected_Role) === 'Excom Member' ? (
         <ExcomMemberHomePage />
       ) : (loginRole || selected_Role) === 'Zone Legal Representative' ? (
         <ZoneLegalRepresentativeHomePage />
       ) : (
-        <GlobalPersonaHomePage />
+        <GlobalPersonaHomePageContainer />
       )}
     </div>
   );

@@ -571,7 +571,7 @@ const TopBar = (props) => {
                   <div>
                     <span className={'text-yellow ml-2'}>Select Module :</span>
                   </div>
-                  <FormControl sx={{ width: 160, marginLeft: '15px' }}>
+                  <FormControl sx={{ width: 300, marginLeft: '15px' }}>
                     <Select
                       defaultValue="Assessment Module"
                       size="small"
@@ -600,7 +600,7 @@ const TopBar = (props) => {
                       {t('selfAssessment.homePage.controleOwner.select_role')}
                     </span>
                   </div>
-                  <FormControl sx={{ width: 160 }}>
+                  <FormControl sx={{ width: 250 }}>
                     <Select
                       defaultValue="Assessment Module"
                       size="small"

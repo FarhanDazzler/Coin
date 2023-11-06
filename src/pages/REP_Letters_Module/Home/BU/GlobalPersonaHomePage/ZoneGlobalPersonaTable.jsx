@@ -7,12 +7,9 @@ import { Group, MultiSelect } from '@mantine/core';
 import Table2 from '../../../../../components/UI/Table/Table2';
 import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
-import {
-  get_BUZone_ExcomMemberHomePageDataSelector,
-  addBUSection2CheckboxSelector,
-  addBUSection2UploadMailApprovalSelector,
-} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
-import { get_BUZone_ExcomMemberHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import NoDataPlaceholder from '../../../../../components/NoDataPlaceholder/NoDataPlaceholderForRepLetter';
+import { get_BUZone_GlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { get_BUZone_GlobalPersonaHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignatures from '../../../../../components/ShowSignatures';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
@@ -40,13 +37,12 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const ExcomMemberTable = ({
+const ZoneGlobalPersonaTable = ({
   assessmentCycleValue,
   setAssessmentCycleValue,
   zoneValue,
   setZoneValue,
 }) => {
-  const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
 
@@ -54,19 +50,16 @@ const ExcomMemberTable = ({
 
   const { accounts } = useMsal();
   const dispatch = useDispatch();
+  const getGlobalPersonaHomePageData = useSelector(get_BUZone_GlobalPersonaHomePageDataSelector);
 
-  const getHomePageData = useSelector(get_BUZone_ExcomMemberHomePageDataSelector);
-  const addBUSection2UploadMailApprovalState = useSelector(addBUSection2UploadMailApprovalSelector);
-  const addBUSection2CheckboxState = useSelector(addBUSection2CheckboxSelector);
-
-  //getRecipientHomePageData?.data[0]?.recipientData
+  //getGlobalPersonaHomePageData?.data[0]?.recipientData
   const HomePageData = useMemo(() => {
-    return getHomePageData?.data[0]?.excomMemberData || [];
-  }, [getHomePageData?.data[0]]);
+    return getGlobalPersonaHomePageData?.data[0]?.home_page_table_global || [];
+  }, [getGlobalPersonaHomePageData?.data[0]]);
 
   useEffect(() => {
-    dispatch(get_BUZone_ExcomMemberHomePageData());
-  }, [addBUSection2UploadMailApprovalState?.data, addBUSection2CheckboxState?.data]);
+    dispatch(get_BUZone_GlobalPersonaHomePageData());
+  }, []);
 
   const TABLE_COLUMNS = [
     {
@@ -96,23 +89,6 @@ const ExcomMemberTable = ({
                 Review
               </Button>
             )}
-            {['Responded', 'Approval Pending'].includes(row.row.original.Status) &&
-              row.row.original?.signatures?.buh_signed === false && (
-                <Button
-                  className="mr-2"
-                  onClick={() => {
-                    const data = {
-                      scopeData: row.row.original,
-                      modalType: 'attemptSection2',
-                      letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                      isSection3ApproveState: false,
-                    };
-                    history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
-                  }}
-                >
-                  Signature
-                </Button>
-              )}
           </div>
         );
       },
@@ -206,39 +182,35 @@ const ExcomMemberTable = ({
   ];
 
   useEffect(() => {
-    setTableData(HomePageData);
-  }, [getHomePageData?.data[0], HomePageData]);
-
-  useEffect(() => {
-    if (!tableData?.length) return setTableDataArray([]);
+    if (!HomePageData?.length) return setTableDataArray([]);
     if (!assessmentCycleValue?.length && !zoneValue?.length) {
-      return setTableDataArray(tableData);
+      return setTableDataArray(HomePageData);
     }
-    const updatedData = tableData?.filter((i) => {
+    const updatedData = HomePageData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true)
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, tableData]);
+  }, [assessmentCycleValue, zoneValue, HomePageData]);
   return (
     <>
       <div className="container-fluid">
-        {getHomePageData?.loading ? (
+        {getGlobalPersonaHomePageData?.loading ? (
           <TableLoader className="mt-8" />
         ) : (
           <div className="row pt-5">
             <div className="col-12 col-lg-12">
               <Group spacing="xs" className="actions-button-wrapper">
                 <FilterMultiSelect
-                  data={getHomePageData?.data[0]?.distinct_zone || []}
+                  data={getGlobalPersonaHomePageData?.data[0]?.distinct_zone || []}
                   label="Zone"
                   value={zoneValue}
                   onChange={setZoneValue}
                 />
                 <FilterMultiSelect
-                  data={getHomePageData?.data[0]?.distinct_assesment_cycle || []}
+                  data={getGlobalPersonaHomePageData?.data[0]?.distinct_assesment_cycle || []}
                   label="Assessment Cycle"
                   value={assessmentCycleValue}
                   onChange={setAssessmentCycleValue}
@@ -247,11 +219,15 @@ const ExcomMemberTable = ({
             </div>
 
             <div className="col-12 col-lg-12 mt-5">
-              <Table2
-                tableData={tableDataArray}
-                loading={getHomePageData.loading}
-                tableColumns={TABLE_COLUMNS}
-              />
+              {tableDataArray?.length > 0 ? (
+                <Table2
+                  tableData={tableDataArray}
+                  loading={getGlobalPersonaHomePageData.loading}
+                  tableColumns={TABLE_COLUMNS}
+                />
+              ) : (
+                <NoDataPlaceholder />
+              )}
             </div>
           </div>
         )}
@@ -260,4 +236,4 @@ const ExcomMemberTable = ({
   );
 };
 
-export default ExcomMemberTable;
+export default ZoneGlobalPersonaTable;

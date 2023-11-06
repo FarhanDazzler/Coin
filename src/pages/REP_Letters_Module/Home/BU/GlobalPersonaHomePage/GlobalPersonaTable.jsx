@@ -55,7 +55,7 @@ const GlobalPersonaTable = ({
   const getGlobalPersonaHomePageData = useSelector(get_BU_GlobalPersonaHomePageDataSelector);
 
   //getGlobalPersonaHomePageData?.data[0]?.recipientData
-  const recipientHomePageData = useMemo(() => {
+  const HomePageData = useMemo(() => {
     return getGlobalPersonaHomePageData?.data[0]?.home_page_table_global || [];
   }, [getGlobalPersonaHomePageData?.data[0]]);
 
@@ -223,11 +223,11 @@ const GlobalPersonaTable = ({
   ];
 
   useEffect(() => {
-    if (!recipientHomePageData?.length) return setTableDataArray([]);
+    if (!HomePageData?.length) return setTableDataArray([]);
     if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
-      return setTableDataArray(recipientHomePageData);
+      return setTableDataArray(HomePageData);
     }
-    const updatedData = recipientHomePageData?.filter((i) => {
+    const updatedData = HomePageData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
@@ -235,7 +235,7 @@ const GlobalPersonaTable = ({
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, buValue, recipientHomePageData]);
+  }, [assessmentCycleValue, zoneValue, buValue, HomePageData]);
   return (
     <>
       <div className="container-fluid">
