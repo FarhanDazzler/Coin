@@ -249,7 +249,7 @@ function* handle_Get_BU_Zone_VPHomePageData({ payload }) {
 
 // Get BU-Zone Excom Member Home Page Data
 async function get_BUZone_ExcomMemberHomePageDataApi(params) {
-  return await Axios.get('/get_bu_home_page_data_for_excom_member', { params });
+  return await Axios.get('/get_zone_home_page_data_for_excom_member', { params });
 }
 function* handle_Get_BUZone_ExcomMemberHomePageData({ payload }) {
   try {
@@ -269,7 +269,7 @@ function* handle_Get_BUZone_ExcomMemberHomePageData({ payload }) {
 
 //  GET BU-Zone Zone Legal Representative Home Page Data
 async function get_BUZone_ZoneLegalRepresentativeHomePageDataApi(params) {
-  return await Axios.get('/get_bu_home_page_data_for_zone_legal_rep', { params });
+  return await Axios.get('/get_zone_home_page_data_for_zone_legal_rep', { params });
 }
 function* handle_Get_BUZone_ZoneLegalRepresentativeHomePageData({ payload }) {
   try {
@@ -289,7 +289,7 @@ function* handle_Get_BUZone_ZoneLegalRepresentativeHomePageData({ payload }) {
 
 //  GET BU-Zone Zone VP Home Page Data
 async function get_BUZone_Zone_VPHomePageDataApi(params) {
-  return await Axios.get('/get_bu_home_page_data_for_zone_vp', { params });
+  return await Axios.get('/get_zone_home_page_data_for_zone_vp', { params });
 }
 function* handle_Get_BUZone_Zone_VPHomePageData({ payload }) {
   try {
