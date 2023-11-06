@@ -1,37 +1,46 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Tabs } from '@mantine/core';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import Tooltip from '@mui/material/Tooltip';
+import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import GlobalPersonaHomePage from './GlobalPersonaHomePage';
 import ZoneGlobalPersonaHomePage from './ZoneGlobalPersonaHomePage';
 
 const GlobalPersonaHomePageContainer = () => {
+  const [activeTab, setActiveTab] = useState('BU');
+
+  const ActiveTool = ({ currentTab, text }) => (
+    <Tooltip title={text} placement="bottom-start">
+      <ErrorOutlineIcon color={activeTab === currentTab ? 'black' : '#ffc800'} />
+    </Tooltip>
+  );
+
   return (
     <>
-      <Tabs
-        grow
-        position="center"
-        color="yellow"
-        styles={{
-          tabActive: { color: '#e3af32' },
-          tabLabel: {
-            color: 'white',
-            '&:active': {
-              color: '#e3af32 !important',
-            },
-          },
-          // tabsListWrapper: { borderRadius: '10px' },
-        }}
-      >
-        <Tabs.Tab label="BU">
-          <div className="dashboard-width">
-            <GlobalPersonaHomePage />
-          </div>
-        </Tabs.Tab>
-        <Tabs.Tab label="Zone">
-          <div className="dashboard-width">
-            <ZoneGlobalPersonaHomePage />
-          </div>
-        </Tabs.Tab>
-      </Tabs>
+      <div className="text-center pt-3">
+        <Button
+          variant="outlined"
+          size="small"
+          startIcon={<ActiveTool currentTab="BU" text="Home page for BU Rep Letter" />}
+          className={activeTab === 'BU' ? 'active-tab-button' : 'mr-4 tabButton'}
+          onClick={() => {
+            setActiveTab('BU');
+          }}
+        >
+          BU
+        </Button>
+        <Button
+          variant="outlined"
+          size="small"
+          startIcon={<ActiveTool currentTab="Zone" text="Home page for Zone Rep Letter" />}
+          className={activeTab === 'Zone' ? 'active-tab-button' : 'mr-4 tabButton'}
+          onClick={() => {
+            setActiveTab('Zone');
+          }}
+        >
+          Zone
+        </Button>
+      </div>
+      {activeTab === 'BU' ? <GlobalPersonaHomePage /> : <ZoneGlobalPersonaHomePage />}
     </>
   );
 };
