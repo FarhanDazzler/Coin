@@ -3,9 +3,10 @@ import ReactApexChart from 'react-apexcharts';
 
 const ControlSection2Chart = () => {
   const [series, setSeries] = useState([]);
+  const [xAxis, setXAxis] = useState([]);
   const data = {
     kips: ['KIP_xyz', 'KIP_abc', 'KIP_def'],
-    receivers: ['india', 'china', 'nepal'],
+    receivers: ['india', 'nepal', 'china'],
     data: {
       KIP_xyz: {
         MICS_L1_Threshold: '-',
@@ -77,17 +78,47 @@ const ControlSection2Chart = () => {
   };
 
   useEffect(() => {
-    const activeKey = data.kips[0];
-    const oneUser = data.data[activeKey];
-    const series = {};
-    Object.keys(oneUser.receivers).map((d, i) => {
-      console.log('@@@@@@', oneUser.receivers[d], d);
+    const kpiData = data.data;
+    const series = [];
+    const xCategories = [];
+    Object.keys(kpiData).map((kpiId, kpiIndex) => {
+      const receivers = kpiData[kpiId].receivers;
+      Object.keys(receivers).map((recKey, i) => {
+        const country = receivers[recKey];
+        if (i === 0) {
+          Object.keys(country).map((name) => {
+            xCategories.push(`${name} (${kpiId})`);
+          });
+        }
+      });
     });
-    return {
-      name: 'Net Profit',
-      data: [44, 55, 57, 56],
-    };
-  }, [data]);
+    setXAxis(xCategories);
+
+    Object.keys(kpiData).map((kpiId, kpiIndex) => {
+      const receivers = kpiData[kpiId].receivers;
+      Object.keys(receivers).map((recKey, i) => {
+        const country = receivers[recKey];
+        const values = [];
+        if (kpiIndex) {
+          const indexVal = kpiIndex * Object.keys(country).length - 1;
+          for (let i = 0; i <= indexVal; i++) {
+            values.push(0);
+          }
+        }
+        Object.keys(country).map((name, i) => {
+          values.push(+country[name]);
+        });
+        const data = xCategories.map((d, catIndex) => {
+          return values[catIndex] || 0;
+        });
+        series.push({
+          name: recKey,
+          data,
+        });
+      });
+    });
+    setSeries(series);
+  }, []);
 
   return (
     <div className="controlSection2ChartWrapper w-full">
@@ -114,38 +145,25 @@ const ControlSection2Chart = () => {
             colors: ['transparent'],
           },
           xaxis: {
-            categories: ['Jan', 'Feb', 'March'],
+            categories: xAxis,
           },
-          yaxis: {
-            title: {
-              text: '$ (thousands)',
-            },
-          },
+          // yaxis: {
+          //   title: {
+          //     text: '$ (thousands)',
+          //   },
+          // },
           fill: {
             opacity: 1,
           },
           tooltip: {
             y: {
               formatter: function (val) {
-                return '$ ' + val + ' thousands';
+                if (val) return val;
               },
             },
           },
         }}
-        series={[
-          {
-            name: 'india',
-            data: [0.7, 0.2, 0.4],
-          },
-          {
-            name: 'nepal',
-            data: [0.9, 0.3, 0.8],
-          },
-          {
-            name: 'china',
-            data: [0.5, 0.5, 0.7],
-          },
-        ]}
+        series={series}
         height={350}
       />
     </div>
