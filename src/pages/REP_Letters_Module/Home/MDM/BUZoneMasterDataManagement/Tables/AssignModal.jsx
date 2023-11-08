@@ -33,10 +33,10 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
 
   const [disclosureProcessorValue, setDisclosureProcessorValue] = useState('');
   const disclosureProcessor_debounce = useDebounce(disclosureProcessorValue, 500);
-  const [financeDirectorValue, setFinanceDirectorValue] = useState('');
-  const financeDirector_debounce = useDebounce(financeDirectorValue, 500);
-  const [bu_HeadValue, setBU_HeadValue] = useState('');
-  const bu_Head_debounce = useDebounce(bu_HeadValue, 500);
+  const [zone_Legal_RepresentativeValue, setZone_Legal_RepresentativeValue] = useState('');
+  const zone_Legal_Representative_debounce = useDebounce(zone_Legal_RepresentativeValue, 500);
+  const [excom_MemberValue, setExcom_MemberValue] = useState('');
+  const excom_Member_debounce = useDebounce(excom_MemberValue, 500);
   const [zoneControlValue, setZoneControlValue] = useState('');
   const zoneControl_debounce = useDebounce(zoneControlValue, 500);
   const [zoneVPValue, setZoneVPValue] = useState('');
@@ -50,14 +50,14 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
   }, [disclosureProcessor_debounce]);
 
   useEffect(() => {
-    if (!financeDirectorValue) return;
-    dispatch(getUserFromAD({ username: financeDirectorValue }));
-  }, [financeDirector_debounce]);
+    if (!zone_Legal_RepresentativeValue) return;
+    dispatch(getUserFromAD({ username: zone_Legal_RepresentativeValue }));
+  }, [zone_Legal_Representative_debounce]);
 
   useEffect(() => {
-    if (!bu_HeadValue) return;
-    dispatch(getUserFromAD({ username: bu_HeadValue }));
-  }, [bu_Head_debounce]);
+    if (!excom_MemberValue) return;
+    dispatch(getUserFromAD({ username: excom_MemberValue }));
+  }, [excom_Member_debounce]);
 
   useEffect(() => {
     if (!zoneControlValue) return;
@@ -84,6 +84,9 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
       // if (value.Applicability !== '') {
       //   updateObj.Applicability = value.Applicability;
       // }
+      if (value.Disclosure_Processor !== '') {
+        updateObj.Disclosure_Processor = value.Disclosure_Processor;
+      }
       if (value.Zone_Legal_Representative !== '') {
         updateObj.Zone_Legal_Representative = value.Zone_Legal_Representative;
       }
@@ -107,7 +110,9 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
   };
 
   const handleChangeAd = (value, mode) => {
-    if (mode === 'Zone_Legal_Representative') {
+    if (mode === 'Disclosure_Processor') {
+      setAdMode('Disclosure_Processor');
+    } else if (mode === 'Zone_Legal_Representative') {
       setAdMode('Zone_Legal_Representative');
     } else if (mode === 'Excom_Member') {
       setAdMode('Excom_Member');
@@ -128,6 +133,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
             assignTableData.length > 1
               ? {
                   // Applicability: '',
+                  Disclosure_Processor: '',
                   Excom_Member: '',
                   Zone_Legal_Representative: '',
                   Zone_Control: '',
@@ -135,6 +141,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                 }
               : {
                   // Applicability: assignTableData[0]?.Applicability || '',
+                  Disclosure_Processor: assignTableData[0]?.Disclosure_Processor || '',
                   Excom_Member: assignTableData[0]?.Excom_Member || '',
                   Zone_Legal_Representative: assignTableData[0]?.Zone_Legal_Representative || '',
                   Zone_Control: assignTableData[0]?.Zone_Control || '',
@@ -143,6 +150,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
           }
           validationSchema={Yup.object().shape({
             // Applicability: Yup.string().required('Applicability is required'),
+            Disclosure_Processor: Yup.string().required('Disclosure Processor Email is required'),
             Excom_Member: Yup.string().required('Excom Member Email is required'),
             Zone_Legal_Representative: Yup.string().required(
               'Zone legal representative Email is required',
@@ -239,6 +247,54 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
 
                   {/* {values.Applicability === 'Yes' && (
                     <> */}
+
+                  <div className="col-lg-6">
+                    <div className="row mb-4">
+                      <div className="col-lg-4">
+                        <Form.Label>Disclosure Processor:</Form.Label>
+                      </div>
+                      <div className="col-lg-8">
+                        <Form.Group className="input-group mb-3">
+                          <Form.Control
+                            type="text"
+                            name="Disclosure_Processor"
+                            placeholder=""
+                            value={values.Disclosure_Processor}
+                            isInvalid={Boolean(
+                              touched.Disclosure_Processor && errors.Disclosure_Processor,
+                            )}
+                            onBlur={handleBlur}
+                            onChange={(e) => {
+                              setFieldValue('Disclosure_Processor', e.target.value);
+                              setDisclosureProcessorValue(e.target.value);
+                              handleChangeAd(e.target.value, 'Disclosure_Processor');
+                            }}
+                            readOnly={false}
+                            className="form-control"
+                          />
+
+                          {!!touched.Disclosure_Processor && (
+                            <Form.Control.Feedback type="invalid">
+                              {errors.Disclosure_Processor}
+                            </Form.Control.Feedback>
+                          )}
+                        </Form.Group>
+                        {adMode === 'Disclosure_Processor' && (
+                          <AdSearch
+                            block={block}
+                            userApiStart={isStart}
+                            values={values.Disclosure_Processor}
+                            setBlock={setBlock}
+                            setFieldValue={(val) => {
+                              if (!val) return;
+                              setFieldValue('Disclosure_Processor', val);
+                            }}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="col-lg-6">
                     <div className="row mb-4">
                       <div className="col-lg-4">
@@ -343,7 +399,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                             onBlur={handleBlur}
                             onChange={(e) => {
                               setFieldValue('Excom_Member', e.target.value);
-                              setDisclosureProcessorValue(e.target.value);
+                              setExcom_MemberValue(e.target.value);
                               handleChangeAd(e.target.value, 'Excom_Member');
                             }}
                             readOnly={false}
@@ -390,7 +446,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                             onBlur={handleBlur}
                             onChange={(e) => {
                               setFieldValue('Zone_Legal_Representative', e.target.value);
-                              setFinanceDirectorValue(e.target.value);
+                              setZone_Legal_RepresentativeValue(e.target.value);
                               handleChangeAd(e.target.value, 'Zone_Legal_Representative');
                             }}
                             readOnly={false}
