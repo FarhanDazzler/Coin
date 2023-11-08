@@ -138,17 +138,26 @@ const BUZone_ZoneVPTable = ({
         return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
       },
     },
-    // {
-    //   accessorKey: 'signatures',
-    //   id: 'signatures',
-    //   header: 'Signatures',
-    //   flex: 1,
-    //   cellClassName: 'dashboardCell',
-    //   size: 170,
-    //   Cell: (row) => {
-    //     return <ShowSignatures signatures={row.row.original?.signatures} />;
-    //   },
-    // },
+    {
+      accessorKey: 'signatures',
+      id: 'signatures',
+      header: 'Signatures',
+      flex: 1,
+      cellClassName: 'dashboardCell',
+      size: 170,
+      Cell: (row) => {
+        return <ShowSignatures signatures={row.row.original?.signatures} />;
+      },
+    },
+    {
+      accessorKey: 'Disclosure_Processor',
+      id: 'Disclosure_Processor',
+      header: 'Disclosure Processor',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 200,
+    },
     {
       accessorKey: 'Excom_Member',
       id: 'Excom_Member',
