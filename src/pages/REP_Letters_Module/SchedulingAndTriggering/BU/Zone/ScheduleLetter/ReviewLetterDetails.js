@@ -15,7 +15,6 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
   console.log('finalPayload', finalPayload);
   const dispatch = useDispatch();
   const handleSubmit = () => {
-
     dispatch(addRlZoneLetterData(finalPayload));
     history.push('/REP-Letters/scheduling-and-triggering');
   };
@@ -118,7 +117,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
         <div className="d-flex align-items-center">
           <span className="black-text font-weight-bold">Instances:</span>
           <Workbook
-            filename="Recipients-List.xlsx"
+            filename="Zone-Disclosure-Processor-List.xlsx"
             element={
               <>
                 <button className="export_excel_button">
@@ -127,13 +126,19 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               </>
             }
           >
-            <Workbook.Sheet data={finalPayload?.SelectedDataFromTable} name="Disclosure-Processor-List">
+            <Workbook.Sheet
+              data={finalPayload?.SelectedDataFromTable}
+              name="Disclosure-Processor-List"
+            >
               <Workbook.Column label="Zone" value="Zone" />
+              <Workbook.Column label="Disclosure Processor" value="Disclosure_Processor" />
+              <Workbook.Column label="Excom Member" value="Excom_Member" />
+              <Workbook.Column
+                label="Zone Legal Representative"
+                value="Zone_Legal_Representative"
+              />
               <Workbook.Column label="Zone Control" value="Zone_Control" />
               <Workbook.Column label="Zone VP" value="Zone_VP" />
-              <Workbook.Column label="Excom Member" value="Excom_Member" />
-              <Workbook.Column label="Zone Legal Representative" value="Zone_Legal_Representative" />
-            
             </Workbook.Sheet>
           </Workbook>
         </div>

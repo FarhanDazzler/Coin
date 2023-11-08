@@ -94,13 +94,22 @@ const ZoneDetailsTableData = (props) => {
       size: 100,
     },
     {
+      accessorKey: 'Disclosure_Processor',
+      id: 'Disclosure_Processor',
+      header: 'Disclosure Processor',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 250,
+    },
+    {
       accessorKey: 'Excom_Member',
       id: 'Excom_Member',
       header: 'Excom Member',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 150,
+      size: 250,
     },
     {
       accessorKey: 'Zone_Legal_Representative',
@@ -109,7 +118,7 @@ const ZoneDetailsTableData = (props) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 230,
+      size: 250,
     },
     {
       accessorKey: 'Zone_Control',
@@ -118,7 +127,7 @@ const ZoneDetailsTableData = (props) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 230,
+      size: 250,
     },
     {
       accessorKey: 'Zone_VP',
@@ -127,7 +136,7 @@ const ZoneDetailsTableData = (props) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 230,
+      size: 250,
     },
     {
       accessorKey: 'Letter_Type',
