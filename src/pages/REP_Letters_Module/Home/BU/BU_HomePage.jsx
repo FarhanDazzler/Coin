@@ -12,6 +12,7 @@ import ZoneControlHomePageContainer from './ZoneControlHomePage';
 import ZoneVPHomePageContainer from './ZoneVP';
 import '../styles.scss';
 import { useSelector } from 'react-redux';
+import DisclosureProcessorHomePageContainer from './DisclosureProcessorHomePage';
 
 const BU_HomePage = () => {
   const selected_Role = localStorage.getItem('selected_Role');
@@ -21,7 +22,7 @@ const BU_HomePage = () => {
   return (
     <div>
       {(loginRole || selected_Role) === 'Disclosure Processor' ? (
-        <DisclosureProcessorHomePage />
+        <DisclosureProcessorHomePageContainer />
       ) : (loginRole || selected_Role) === 'BU Head' ? (
         <BUHeadHomePage />
       ) : (loginRole || selected_Role) === 'Finance Director' ? (

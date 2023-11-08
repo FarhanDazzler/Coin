@@ -27,6 +27,9 @@ import {
   GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_SUCCESS,
   GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_ERROR,
+  GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST,
+  GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS,
+  GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR,
   GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_SUCCESS,
   GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_ERROR,
@@ -243,6 +246,26 @@ function* handle_Get_BU_Zone_VPHomePageData({ payload }) {
   } catch (error) {
     yield put({
       type: GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_ERROR,
+    });
+  }
+}
+
+// GET BU-Zone Disclosure Processor home page table data
+async function get_BUZone_Disclosure_ProcessorHomePageDataApi(params) {
+  return await Axios.get('/get_zone_home_page_data_for_disclosure_processor', { params });
+}
+function* handle_Get_BUZone_Disclosure_ProcessorHomePageData({ payload }) {
+  try {
+    const response = yield call(get_BUZone_Disclosure_ProcessorHomePageDataApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR,
     });
   }
 }
@@ -738,6 +761,10 @@ export default all([
   takeLatest(
     GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_REQUEST,
     handle_Get_BUZone_ZoneLegalRepresentativeHomePageData,
+  ),
+  takeLatest(
+    GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST,
+    handle_Get_BUZone_Disclosure_ProcessorHomePageData,
   ),
   takeLatest(
     GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_REQUEST,

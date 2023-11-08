@@ -14,6 +14,8 @@ export const get_BU_Zone_ControlHomePageDataSelector = (state) =>
   state?.RL_HomePage?.get_BU_Zone_ControlHomePageData;
 export const get_BU_Zone_VPHomePageDataSelector = (state) =>
   state?.RL_HomePage?.get_BU_Zone_VPHomePageData;
+export const get_BUZone_Disclosure_ProcessorHomePageDataSelector = (state) =>
+  state?.RL_HomePage?.get_BUZone_Disclosure_ProcessorHomePageData;
 export const get_BUZone_ExcomMemberHomePageDataSelector = (state) =>
   state?.RL_HomePage?.get_BUZone_ExcomMemberHomePageData;
 export const get_BUZone_ZoneLegalRepresentativeHomePageDataSelector = (state) =>

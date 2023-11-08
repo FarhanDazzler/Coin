@@ -70,6 +70,15 @@ export const GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR';
 // ============= GET BU Zone Control home page table data ===============//
 
+// ============= GET BU-Zone Disclosure Processor home page table data ===============//
+export const GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST =
+  'GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST';
+export const GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS =
+  'GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS';
+export const GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR =
+  'GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR';
+// ============= GET BU-Zone Disclosure Processor home page table data ===============//
+
 // ============= Get BU-Zone Excom Member Home Page Data ===============//
 export const GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_REQUEST';
@@ -235,6 +244,7 @@ const initialState = {
   get_BU_Finance_DirectorHomePageData: { ...block, data: [] },
   get_BU_Zone_ControlHomePageData: { ...block, data: [] },
   get_BU_Zone_VPHomePageData: { ...block, data: [] },
+  get_BUZone_Disclosure_ProcessorHomePageData: { ...block, data: [] },
   get_BUZone_ExcomMemberHomePageData: { ...block, data: [] },
   get_BUZone_ZoneLegalRepresentativeHomePageData: { ...block, data: [] },
   get_BUZone_Zone_ControlHomePageData: { ...block, data: [] },
@@ -469,6 +479,33 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         ...state,
         get_BU_Zone_ControlHomePageData: {
           ...state.get_BU_Zone_ControlHomePageData,
+          loading: false,
+        },
+      };
+
+    // GET BU-Zone Disclosure Processor home page table data
+    case GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST:
+      return {
+        ...state,
+        get_BUZone_Disclosure_ProcessorHomePageData: {
+          ...state.get_BUZone_Disclosure_ProcessorHomePageData,
+          loading: true,
+        },
+      };
+    case GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS:
+      return {
+        ...state,
+        get_BUZone_Disclosure_ProcessorHomePageData: {
+          ...state.get_BUZone_Disclosure_ProcessorHomePageData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR:
+      return {
+        ...state,
+        get_BUZone_Disclosure_ProcessorHomePageData: {
+          ...state.get_BUZone_Disclosure_ProcessorHomePageData,
           loading: false,
         },
       };

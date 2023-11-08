@@ -8,11 +8,15 @@ import Table2 from '../../../../../components/UI/Table/Table2';
 import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
 import {
-  get_BUZone_ZoneLegalRepresentativeHomePageDataSelector,
+  get_BUZone_Disclosure_ProcessorHomePageDataSelector,
+  addBUSubmitResponseSelector,
+  addOrUpdateBUDraftResponseSelector,
+  addBUSection3ResponseSelector,
+  approveBUSection3ResponseSelector,
   addBUSection2CheckboxSelector,
   addBUSection2UploadMailApprovalSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
-import { get_BUZone_ZoneLegalRepresentativeHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import { get_BUZone_Disclosure_ProcessorHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignatures from '../../../../../components/ShowSignatures';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
@@ -40,13 +44,12 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const ZoneLegalRepresentativeTable = ({
+const BUZone_DisclosureProcessorTable = ({
   assessmentCycleValue,
   setAssessmentCycleValue,
   zoneValue,
   setZoneValue,
 }) => {
-  const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
 
@@ -55,18 +58,31 @@ const ZoneLegalRepresentativeTable = ({
   const { accounts } = useMsal();
   const dispatch = useDispatch();
 
-  const getHomePageData = useSelector(get_BUZone_ZoneLegalRepresentativeHomePageDataSelector);
+  const getDisclosureProcessorHomePageData = useSelector(
+    get_BUZone_Disclosure_ProcessorHomePageDataSelector,
+  );
+  const addOrUpdateDraftResponseState = useSelector(addOrUpdateBUDraftResponseSelector);
+  const addBUSubmitResponseState = useSelector(addBUSubmitResponseSelector);
+  const addBUSection3ResponseState = useSelector(addBUSection3ResponseSelector);
+  const approveBUSection3ResponseState = useSelector(approveBUSection3ResponseSelector);
   const addBUSection2UploadMailApprovalState = useSelector(addBUSection2UploadMailApprovalSelector);
   const addBUSection2CheckboxState = useSelector(addBUSection2CheckboxSelector);
 
   //getRecipientHomePageData?.data[0]?.recipientData
-  const HomePageData = useMemo(() => {
-    return getHomePageData?.data[0]?.zonelegaRepData || [];
-  }, [getHomePageData?.data[0]]);
+  const disclosureProcessorHomePageData = useMemo(() => {
+    return getDisclosureProcessorHomePageData?.data[0]?.disclosureProcessorData || [];
+  }, [getDisclosureProcessorHomePageData?.data[0]]);
 
   useEffect(() => {
-    dispatch(get_BUZone_ZoneLegalRepresentativeHomePageData());
-  }, [addBUSection2UploadMailApprovalState?.data, addBUSection2CheckboxState?.data]);
+    dispatch(get_BUZone_Disclosure_ProcessorHomePageData());
+  }, [
+    addOrUpdateDraftResponseState?.data,
+    addBUSubmitResponseState?.data,
+    addBUSection3ResponseState?.data,
+    approveBUSection3ResponseState?.data,
+    addBUSection2UploadMailApprovalState?.data,
+    addBUSection2CheckboxState?.data,
+  ]);
 
   const TABLE_COLUMNS = [
     {
@@ -96,21 +112,53 @@ const ZoneLegalRepresentativeTable = ({
                 Review
               </Button>
             )}
-            {['Responded', 'Approval Pending'].includes(row.row.original.Status) &&
-              row.row.original?.signatures?.buh_signed === false && (
+            {['Not Started', 'Drafted'].includes(row.row.original.Status) && (
+              <Button
+                className="mr-2"
+                onClick={() => {
+                  const data = {
+                    scopeData: row.row.original,
+                    modalType: 'attemptSection1',
+                    letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
+                    isSection3ApproveState: false,
+                  };
+                  history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
+                }}
+              >
+                Letter
+              </Button>
+            )}
+            {['Responded', 'Approval Pending'].includes(row.row.original.Status) && (
+              <Button
+                className="mr-2"
+                onClick={() => {
+                  const data = {
+                    scopeData: row.row.original,
+                    modalType: 'attemptSection2',
+                    letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
+                    isSection3ApproveState: false,
+                  };
+                  history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
+                }}
+              >
+                Signature
+              </Button>
+            )}
+            {['Responded', 'Signed', 'Approval Pending'].includes(row.row.original.Status) &&
+              ['RBA Rejected', 'Not Started'].includes(row.row.original.RBA_Status) && (
                 <Button
                   className="mr-2"
                   onClick={() => {
                     const data = {
                       scopeData: row.row.original,
-                      modalType: 'attemptSection2',
+                      modalType: 'attemptSection3',
                       letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
                       isSection3ApproveState: false,
                     };
                     history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                   }}
                 >
-                  Signature
+                  RBA
                 </Button>
               )}
           </div>
@@ -215,39 +263,35 @@ const ZoneLegalRepresentativeTable = ({
   ];
 
   useEffect(() => {
-    setTableData(HomePageData);
-  }, [getHomePageData?.data[0], HomePageData]);
-
-  useEffect(() => {
-    if (!tableData?.length) return setTableDataArray([]);
+    if (!disclosureProcessorHomePageData?.length) return setTableDataArray([]);
     if (!assessmentCycleValue?.length && !zoneValue?.length) {
-      return setTableDataArray(tableData);
+      return setTableDataArray(disclosureProcessorHomePageData);
     }
-    const updatedData = tableData?.filter((i) => {
+    const updatedData = disclosureProcessorHomePageData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true)
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, tableData]);
+  }, [assessmentCycleValue, zoneValue, disclosureProcessorHomePageData]);
   return (
     <>
       <div className="container-fluid">
-        {getHomePageData?.loading ? (
+        {getDisclosureProcessorHomePageData?.loading ? (
           <TableLoader className="mt-8" />
         ) : (
           <div className="row pt-5">
             <div className="col-12 col-lg-12">
               <Group spacing="xs" className="actions-button-wrapper">
                 <FilterMultiSelect
-                  data={getHomePageData?.data[0]?.distinct_zone || []}
+                  data={getDisclosureProcessorHomePageData?.data[0]?.distinct_zone || []}
                   label="Zone"
                   value={zoneValue}
                   onChange={setZoneValue}
                 />
                 <FilterMultiSelect
-                  data={getHomePageData?.data[0]?.distinct_assesment_cycle || []}
+                  data={getDisclosureProcessorHomePageData?.data[0]?.distinct_assesment_cycle || []}
                   label="Assessment Cycle"
                   value={assessmentCycleValue}
                   onChange={setAssessmentCycleValue}
@@ -258,7 +302,7 @@ const ZoneLegalRepresentativeTable = ({
             <div className="col-12 col-lg-12 mt-5">
               <Table2
                 tableData={tableDataArray}
-                loading={getHomePageData.loading}
+                loading={getDisclosureProcessorHomePageData.loading}
                 tableColumns={TABLE_COLUMNS}
               />
             </div>
@@ -269,4 +313,4 @@ const ZoneLegalRepresentativeTable = ({
   );
 };
 
-export default ZoneLegalRepresentativeTable;
+export default BUZone_DisclosureProcessorTable;
