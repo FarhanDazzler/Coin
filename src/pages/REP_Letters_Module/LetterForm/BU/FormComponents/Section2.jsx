@@ -368,6 +368,7 @@ const Section2 = ({ scopeData }) => {
           enableReinitialize
           initialValues={{
             toggle: toggleData,
+            Comments: ''
           }}
           validationSchema={Yup.object().shape({
             toggle: Yup.string().required('Agree is required'),
@@ -407,6 +408,22 @@ const Section2 = ({ scopeData }) => {
                   </p>
                 </Form.Label>
               </Form.Group>
+
+              <Form.Group className="mb-3">
+                   
+                    <Form.Control
+                      as="textarea"
+                      placeholder="Comments"
+                      required
+                      onChange={handleChange}
+                      isInvalid={!!errors.Comments}
+                      maxLength={5001}
+                      name="Comments"
+                      value={values.Comments}
+                      rows={3}
+                    />
+                
+                  </Form.Group>
 
               <div className="footer-action">
                 <div className="d-flex align-items-center justify-content-end">
