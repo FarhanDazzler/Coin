@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
+import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { DotSpinner } from '@uiball/loaders';
 import * as XLSX from 'xlsx';
@@ -495,37 +496,42 @@ const ReviewSubmittedResponses = ({ scopeData, getBUSubmitResponseState }) => {
 };
 
 const BU_Letter_LazyApprovalSection2 = () => {
+  const { instance, accounts, inProgress } = useMsal();
   const dispatch = useDispatch();
   const scopeData = {};
   const { id } = useParams();
+  const token = Cookies.get('token');
 
   const instructionState = useSelector(getInstructionsSelector);
   const getBUSubmitResponseState = useSelector(getBUSubmitResponseSelector);
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
 
   useEffect(() => {
-    dispatch(
-      getInstructions({
-        module: 'BU',
-      }),
-    );
+    if (token) {
+      dispatch(
+        getInstructions({
+          module: 'BU',
+        }),
+      );
 
-    let payloadForGettingSubmittedResp = {
-      assessment_id: id,
-    };
+      let payloadForGettingSubmittedResp = {
+        assessment_id: id,
+      };
 
-    dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
-    let payloadForBuSection2Response = {
-      id: id,
-    };
-    dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
-  }, []);
+      dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+      let payloadForBuSection2Response = {
+        id: id,
+      };
+      dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
+    }
+  }, [token]);
 
   return (
     <div>
       <PageWrapper>
         <div className="container-fluid custom-scroll-page">
-          {instructionState.loading ||
+          {token?.length <= 0 ||
+          instructionState.loading ||
           getBUSubmitResponseState.loading ||
           getBUSection2SignatureResponseState?.loading ? (
             <div className="loader-animation">
