@@ -9,10 +9,22 @@ const ControlSection2Chart = () => {
     receivers: ['india', 'nepal', 'china'],
     data: {
       KIP_xyz: {
-        MICS_L1_Threshold: '-',
-        MICS_L2_Threshold: '0.05',
-        MICS_L3_Threshold: '0.01',
         receivers: {
+          MICS_L1_Threshold: {
+            jan: '-',
+            feb: '-',
+            march: '-',
+          },
+          MICS_L2_Threshold: {
+            jan: '0.05',
+            feb: '0.05',
+            march: '0.05',
+          },
+          MICS_L3_Threshold: {
+            jan: '0.01',
+            feb: '0.01',
+            march: '0.01',
+          },
           india: {
             jan: '0.7',
             feb: '0.9',
@@ -30,11 +42,24 @@ const ControlSection2Chart = () => {
           },
         },
       },
+
       KIP_abc: {
-        MICS_L1_Threshold: '-',
-        MICS_L2_Threshold: '0.05',
-        MICS_L3_Threshold: '0.01',
         receivers: {
+          MICS_L1_Threshold: {
+            jan: '-',
+            feb: '-',
+            march: '-',
+          },
+          MICS_L2_Threshold: {
+            jan: '0.05',
+            feb: '0.05',
+            march: '0.05',
+          },
+          MICS_L3_Threshold: {
+            jan: '0.01',
+            feb: '0.01',
+            march: '0.01',
+          },
           india: {
             jan: '0.7',
             feb: '0.9',
@@ -53,10 +78,22 @@ const ControlSection2Chart = () => {
         },
       },
       KIP_def: {
-        MICS_L1_Threshold: '-',
-        MICS_L2_Threshold: '0.05',
-        MICS_L3_Threshold: '0.01',
         receivers: {
+          MICS_L1_Threshold: {
+            jan: '-',
+            feb: '-',
+            march: '-',
+          },
+          MICS_L2_Threshold: {
+            jan: '0.05',
+            feb: '0.05',
+            march: '0.05',
+          },
+          MICS_L3_Threshold: {
+            jan: '0.01',
+            feb: '0.01',
+            march: '0.01',
+          },
           india: {
             jan: '0.7',
             feb: '0.9',
