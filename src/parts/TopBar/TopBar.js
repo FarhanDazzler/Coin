@@ -590,7 +590,7 @@ const TopBar = (props) => {
               </div>
             </div>
             <div
-              className="d-flex order-lg-2 ml-auto text-left user-info-wrapper"
+              className="d-flex order-lg-2 ml-auto  user-info-wrapper"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
             >
               {roleValue.length > 0 && (
