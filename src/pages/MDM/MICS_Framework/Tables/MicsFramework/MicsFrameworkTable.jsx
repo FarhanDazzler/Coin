@@ -356,6 +356,60 @@ const MicsFrameworkTable = () => {
       cellClassName: 'dashboardCell',
       size: 100,
     },
+    {
+      accessorKey: 'mics_L1desc',
+      id: 'mics_L1desc',
+      header: 'L1 Description ',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      minSize: 100, //min size enforced during resizing
+      maxSize: 500, //max size enforced during resizing
+      size: 300, //medium column
+      Cell: (row) => {
+        return (
+          <span>
+            <p dangerouslySetInnerHTML={{ __html: row.row.original.mics_L1desc }} />
+          </span>
+        );
+      },
+    },
+    {
+      accessorKey: 'mics_L2desc',
+      id: 'mics_L2desc',
+      header: 'L2 Description ',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      minSize: 100, //min size enforced during resizing
+      maxSize: 500, //max size enforced during resizing
+      size: 300, //medium column
+      Cell: (row) => {
+        return (
+          <span>
+            <p dangerouslySetInnerHTML={{ __html: row.row.original.mics_L2desc }} />
+          </span>
+        );
+      },
+    },
+    {
+      accessorKey: 'mics_L3desc',
+      id: 'mics_L3desc',
+      header: 'L3 Description ',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      minSize: 100, //min size enforced during resizing
+      maxSize: 500, //max size enforced during resizing
+      size: 300, //medium column
+      Cell: (row) => {
+        return (
+          <span>
+            <p dangerouslySetInnerHTML={{ __html: row.row.original.mics_L3desc }} />
+          </span>
+        );
+      },
+    },
   ];
 
   useEffect(() => {
@@ -495,7 +549,7 @@ const MicsFrameworkTable = () => {
               loading={micsFramework.loading}
               tableColumns={tableColumns}
               setEditTableIndex={setEditTableIndex}
-              Is_Expanding_Detail_Panel={Is_Expanding_Detail_Panel}
+              //Is_Expanding_Detail_Panel={Is_Expanding_Detail_Panel}
             />
           </div>
         </div>
