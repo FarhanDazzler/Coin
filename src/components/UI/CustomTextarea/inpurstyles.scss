@@ -1,0 +1,30 @@
+.input-wrapper-textarea {
+  width: 100%;
+  max-width: 100%;
+  &.full-input {
+    max-width: 100%;
+  }
+  .input-error-message {
+    bottom: -20px;
+  }
+  textarea {
+    padding: 5px 8px !important;
+    &:disabled {
+      background-color: #f8f9fa;
+    }
+  }
+  .MuiFormLabel-root {
+    font-weight: 700;
+    font-size: 14px;
+    color: #595959 !important;
+  }
+}
+
+.error-input {
+  input:focus {
+    box-shadow: 0 0 0 2px rgb(242 0 0 / 24%);
+  }
+  fieldset {
+    border-color: #f20000 !important;
+  }
+}

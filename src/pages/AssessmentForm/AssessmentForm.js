@@ -18,7 +18,6 @@ import { getControlOwnerDataSelector } from '../../redux/DashBoard/DashBoardSele
 const AssessmentForm = (props) => {
   const { Assessment_id } = useParams();
   const history = useHistory();
-  console.log(props.location.state.data?.row, '@@@');
   const state = props.location.state.data?.row;
   const query = new URLSearchParams(history.location.pathname);
   // const Assessment_id = 'ATR_MJE_01a-K';

@@ -15,6 +15,7 @@ import { getCsvTampredDataAction } from '../../../../../redux/CsvTampred/CsvTamp
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
+import ControlSection2Chart from './ControlSection2Chart';
 
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
 const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
@@ -25,6 +26,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   } else {
     headerStyles = { color: '#fff', fontWeight: '700', backgroundColor: '#000' };
   }
+  const [showGraph, setShowGraph] = useState(false);
   const getKPIResponse = useSelector(getResponseSelector);
   const kpiResultData = useSelector(kpiResultSelector);
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
@@ -32,6 +34,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   const [editProductIds, setEditProductIds] = useState([
     { idNumeratorList: [], idDenominatorList: [] },
   ]);
+
   const [excelFile, setExcelFile] = useState(null);
   const [csvUpdateData, setScvUpdateData] = useState(0);
   useEffect(() => {
@@ -489,6 +492,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       <CollapseFrame title={t('selfAssessment.assessmentForm.section2KPI')} active>
         {tableData?.length !== 0 ? (
           <div className="mt-5">
+            {showGraph && <ControlSection2Chart />}
+
             <div id="my_btns">
               <div className="d-flex align-items-center">
                 <div className="row " id="export_button_right">
@@ -517,9 +522,12 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
                     </Workbook.Sheet>
                   </Workbook>
                 </div>
-                <h1 className="table-modal-title">
-                  {t('selfAssessment.assessmentForm.excelFileUploadAndDownload')}
-                </h1>
+                {/*<h1 className="table-modal-title">fddkj*/}
+                {/*  {t('selfAssessment.assessmentForm.excelFileUploadAndDownload')}*/}
+                {/*</h1>*/}
+                <button className="export_button" onClick={() => setShowGraph(!showGraph)}>
+                  <strong> KPI Statistics</strong>
+                </button>
               </div>
               {!isModal && (
                 <form onSubmit={handleSubmit} id="combine_btn">
