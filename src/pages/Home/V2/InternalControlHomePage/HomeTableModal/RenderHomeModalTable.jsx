@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { resetSection3 } from '../../../../../redux/Questions/QuestionsAction';
 import { useTranslation } from 'react-i18next';
 import ControlSection from './ControlSection';
+import ControlSection2Chart from './ControlSection2Chart';
 
 const RenderHomeModalTable = ({
   questionsInfo,

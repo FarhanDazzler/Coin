@@ -34,6 +34,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   const [editProductIds, setEditProductIds] = useState([
     { idNumeratorList: [], idDenominatorList: [] },
   ]);
+
   const [excelFile, setExcelFile] = useState(null);
   const [csvUpdateData, setScvUpdateData] = useState(0);
   useEffect(() => {
@@ -491,36 +492,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       <CollapseFrame title={t('selfAssessment.assessmentForm.section2KPI')} active>
         {tableData?.length !== 0 ? (
           <div className="mt-5">
-            {showGraph && (
-              <div className="d-flex">
-                <ControlSection2Chart />
-                <div className="renderBlockWrapper" style={{ minWidth: 350 }}>
-                  <div className="d-flex chart-info-table">
-                    <table>
-                      <tr>
-                        <th>KPI ID </th>
-                        <th>KPI NAME</th>
-                      </tr>
-
-                      <tbody>
-                        <tr>
-                          <td>KPI_OTC_MD_01a</td>
-                          <td />
-                        </tr>
-                        <tr>
-                          <td>KPI_OTC_MD_01a</td>
-                          <td />
-                        </tr>
-                        <tr>
-                          <td>KPI_OTC_MD_01a</td>
-                          <td />
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            )}
+            {showGraph && <ControlSection2Chart />}
 
             <div id="my_btns">
               <div className="d-flex align-items-center">
