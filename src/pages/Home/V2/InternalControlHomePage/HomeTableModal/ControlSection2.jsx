@@ -256,8 +256,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   useEffect(() => {
     if (getKPIResponse?.data?.Latest_Response?.kpis) {
       setTableData(getKPIResponse?.data?.Latest_Response?.kpis);
-    } else if (kpiResultData?.data?.length > 0) {
-      const table_data = [...kpiResultData.data];
+    } else if (kpiResultData?.data?.kpis?.length > 0) {
+      const table_data = [...kpiResultData?.data?.kpis];
       table_data.forEach((tData, i) => {
         if (tData.KPI_Value === '' || tData.KPI_Value === 0) {
           // console.log('null');
