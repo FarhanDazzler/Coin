@@ -15,3 +15,12 @@ export const getAllBuMdmdataSelector = (state) => state?.RLSchedulingAndTriggeri
 export const rlAddBuLetterDataSelector = (state) => state?.RLSchedulingAndTriggering?.rlAddBuLetterData;
 export const getAllBuLetterdataSelector = (state) => state?.RLSchedulingAndTriggering?.rlGetAllBULetterData;
 export const getBudataSelector = (state) => state?.RLSchedulingAndTriggering?.rlGetBuLetterData;
+
+
+// *********** Zone ******** //
+
+export const getZonePage1dataSelector = (state) => state?.RLSchedulingAndTriggering?.rlZonePage1Data;
+export const rlAddZoneLetterDataSelector = (state) => state?.RLSchedulingAndTriggering?.rlAddZoneLetterData;
+export const getAllZoneLetterdataSelector = (state) => state?.RLSchedulingAndTriggering?.rlGetAllZoneLetterData;
+export const getZonedataSelector = (state) => state?.RLSchedulingAndTriggering?.rlGetZoneLetterData;
+export const getAllZoneMdmdataSelector = (state) => state?.RLSchedulingAndTriggering?.rlGetAllZoneMDMData;

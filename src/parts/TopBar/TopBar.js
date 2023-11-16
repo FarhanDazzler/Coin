@@ -542,7 +542,7 @@ const TopBar = (props) => {
               </a>
 
               <div className="mr-4 wrapperLanguage d-flex align-items-center">
-                {props.isControlPage && (
+                {!props.isControlPage && (
                   <>
                     <div>
                       <div>
@@ -550,7 +550,7 @@ const TopBar = (props) => {
                           {t('selfAssessment.homePage.controleOwner.select_language')}
                         </span>
                       </div>
-                      <FormControl sx={{ width: 140 }}>
+                      <FormControl sx={{ width: 240 }}>
                         <Select
                           size="small"
                           inputLook
@@ -567,25 +567,30 @@ const TopBar = (props) => {
                     </div>
                   </>
                 )}
-                <FormControl sx={{ width: 160, marginLeft: '15px' }}>
-                  <Select
-                    defaultValue="Assessment Module"
-                    size="small"
-                    inputLook
-                    classes={{ root: `select-options inputLook-text user-role-input` }}
-                    inputProps={{ 'aria-label': 'Without label' }}
-                    options={module}
-                    onChange={(e) => {
-                      setActiveModule(e.target.value);
-                      window.location.href = '/';
-                    }}
-                    value={activeModule}
-                  />
-                </FormControl>
+                <div>
+                  <div>
+                    <span className={'text-yellow ml-2'}>Select Module :</span>
+                  </div>
+                  <FormControl sx={{ width: 300, marginLeft: '15px' }}>
+                    <Select
+                      defaultValue="Assessment Module"
+                      size="small"
+                      inputLook
+                      classes={{ root: `select-options inputLook-text user-role-input` }}
+                      inputProps={{ 'aria-label': 'Without label' }}
+                      options={module}
+                      onChange={(e) => {
+                        setActiveModule(e.target.value);
+                        window.location.href = '/';
+                      }}
+                      value={activeModule}
+                    />
+                  </FormControl>
+                </div>
               </div>
             </div>
             <div
-              className="d-flex order-lg-2 ml-auto text-left user-info-wrapper"
+              className="d-flex order-lg-2 ml-auto  user-info-wrapper"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
             >
               {roleValue.length > 0 && (
@@ -595,7 +600,7 @@ const TopBar = (props) => {
                       {t('selfAssessment.homePage.controleOwner.select_role')}
                     </span>
                   </div>
-                  <FormControl sx={{ width: 160 }}>
+                  <FormControl sx={{ width: 250 }}>
                     <Select
                       defaultValue="Assessment Module"
                       size="small"

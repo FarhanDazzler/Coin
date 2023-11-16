@@ -1,19 +1,23 @@
 import RLMDM from '../../pages/REP_Letters_Module/Home/MDM';
 import RL_MDM_OrganizationHierarchyLandingPage from '../../pages/REP_Letters_Module/Home/MDM/OrganizationHierarchy/MDMOrganizationHierarchyLandingPage';
 import RL_MDM_BUMasterdataManagementLandingPage from '../../pages/REP_Letters_Module/Home/MDM/BUMasterDataManagement/BUMasterDataManagementLandingPage';
+import BUZoneMasterDataManagementLandingPage from '../../pages/REP_Letters_Module/Home/MDM/BUZoneMasterDataManagement/BUZoneMasterDataManagementLandingPage';
 import RL_MDM_FunctionalMasterdataManagementLandingPage from '../../pages/REP_Letters_Module/Home/MDM/FunctionalMasterdataManagement/FunctionalMasterdataManagementLandingPage';
 import RLQuestionBank from '../../pages/REP_Letters_Module/Home/QuestionBank/RepLetterQuestionBankLandingPage';
 import BUModifyQuestions from '../../pages/REP_Letters_Module/Home/QuestionBank/BU/BUModifyQuestions';
 import FunctionModifyQuestions from '../../pages/REP_Letters_Module/Home/QuestionBank/Functional/FunctionModifyQuestions';
 import SchedulingAndTriggering from '../../pages/REP_Letters_Module/SchedulingAndTriggering/SchedulingAndTriggeringLandingPage';
-import ScheduleSurveyBUPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/ScheduleLetter/ScheduleSurveyFunctionalLandingPage';
+import ScheduleSurveyBUPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/BU/ScheduleLetter/ScheduleSurveyBULandingPage';
 import ScheduleSurveyFunctionalPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/ScheduleLetter/ScheduleSurveyFunctionalLandingPage';
 import FunctionalDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/Table/FunctionalDetailsTableData';
-import BUDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Table/BUDetailsTableData';
+import BUDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/BU/Table/BUDetailsTableData';
 import FunctionalLetterForm from '../../pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm';
 import BULetterForm from '../../pages/REP_Letters_Module/LetterForm/BU/BULetterForm';
 import RepLetterReporting from '../../pages/REP_Letters_Module/Reporting/RepLetterReporting';
-
+import BULetterSummaryTable from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/BU/Table/BULetterSummaryTable';
+import ZoneLetterSummaryTable from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Zone/Table/ZoneLetterSummaryTable';
+import ZoneDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Zone/Table/ZoneDetailsTableData';
+import ScheduleSurveyZonePage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Zone/ScheduleLetter/ScheduleSurveyZoneLandingPage';
 export const RepLettersRoutes = [
   {
     path: '/REP-Letters/master-data-management',
@@ -29,6 +33,11 @@ export const RepLettersRoutes = [
     path: '/REP-Letters/master-data-management/bu-masterdata-management',
     exact: true,
     component: RL_MDM_BUMasterdataManagementLandingPage,
+  },
+  {
+    path: '/REP-Letters/master-data-management/bu-zone-masterdata-management',
+    exact: true,
+    component: BUZoneMasterDataManagementLandingPage,
   },
   {
     path: '/REP-Letters/master-data-management/functional-masterdata-management',
@@ -89,5 +98,25 @@ export const RepLettersRoutes = [
     path: '/REP-Letters/reporting',
     exact: true,
     component: RepLetterReporting,
+  },
+  {
+    path: '/REP-Letters/scheduling-and-triggering/bu-letter-summary-details',
+    exact: true,
+    component: BULetterSummaryTable,
+  },
+  {
+    path: '/REP-Letters/scheduling-and-triggering/zone-letter-summary-details',
+    exact: true,
+    component: ZoneLetterSummaryTable,
+  },
+  {
+    path: '/REP-Letters/scheduling-and-triggering/zone-letter-details',
+    exact: true,
+    component: ZoneDetailsTableData,
+  },
+  {
+    path: '/REP-Letters/scheduling-and-triggering/schedule-survey-zone',
+    exact: true,
+    component: ScheduleSurveyZonePage,
   },
 ];

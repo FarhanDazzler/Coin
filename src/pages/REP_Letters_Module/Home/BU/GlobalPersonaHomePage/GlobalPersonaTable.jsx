@@ -61,7 +61,7 @@ const GlobalPersonaTable = ({
 
   useEffect(() => {
     dispatch(get_BU_GlobalPersonaHomePageData());
-  }, [token, dispatch]);
+  }, []);
 
   const TABLE_COLUMNS = [
     {
@@ -81,8 +81,9 @@ const GlobalPersonaTable = ({
                 onClick={() => {
                   const data = {
                     scopeData: row.row.original,
-                    modalType: 'review',
+                    modalType: 'Review',
                     letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
+                    isSection3ApproveState: false,
                   };
                   history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
@@ -93,6 +94,15 @@ const GlobalPersonaTable = ({
           </div>
         );
       },
+    },
+    {
+      accessorKey: 'Letter_Type',
+      id: 'Letter_Type',
+      header: 'Letter Type',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
     },
     {
       accessorKey: 'Zone',
@@ -122,6 +132,18 @@ const GlobalPersonaTable = ({
       size: 170,
       Cell: (row) => {
         return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
+      },
+    },
+    {
+      accessorKey: 'RBA_Status',
+      id: 'RBA_Status',
+      header: 'RBA Status',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 170,
+      Cell: (row) => {
+        return <span className={'text-yellow-dark'}>{row.row.original.RBA_Status}</span>;
       },
     },
     {
@@ -179,15 +201,6 @@ const GlobalPersonaTable = ({
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 200,
-    },
-    {
-      accessorKey: 'Letter_Type',
-      id: 'Letter_Type',
-      header: 'Letter Type',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
     },
     {
       accessorKey: 'Assessment_Cycle',

@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import '../../../../../assets/styles/custom.css';
+import '../../../../../../assets/styles/custom.css';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Table2 from '../../../../../components/UI/Table/Table2';
+import Table2 from '../../../../../../components/UI/Table/Table2';
 import NoDataLetterPlaceholder from './NoDataPlaceHolder';
 import { MultiSelect } from '@mantine/core';
 import { Group } from '@mantine/core';
-import PageWrapper from '../../../../../components/wrappers/PageWrapper';
-import { getRlAllBuLetterData } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
-import { getAllBuLetterdataSelector } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
+import PageWrapper from '../../../../../../components/wrappers/PageWrapper';
+import { getRlAllBuLetterData } from '../../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
+import { getAllBuLetterdataSelector } from '../../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import Button from '../../../../../../components/UI/Button';
 
 // Filter buttons
 const FilterButtons = ({
@@ -84,10 +86,9 @@ const BULetterSummaryTable = () => {
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
 
   useEffect(() => {
-    console.log("Hi there");
-    dispatch(getRlAllBuLetterData())
+    console.log('Hi there');
+    dispatch(getRlAllBuLetterData());
   }, []);
-
 
   useEffect(() => {
     if (!yearValue.length && !assessmentCycleValue.length) {
@@ -105,7 +106,7 @@ const BULetterSummaryTable = () => {
   }, [yearValue, assessmentCycleValue]);
 
   const handleSurveyNameClick = (Title, Created_On, Created_By, Assessment_Cycle, Year) => {
-    console.log(Function, "Function")
+    console.log(Function, 'Function');
     //code for opening second table in pop up
     const data = {
       Tilte: Title,
@@ -202,39 +203,60 @@ const BULetterSummaryTable = () => {
   }
 
   // Arrays for showing data on filters
- // Arrays for showing data on filters
- const year = getAllBuLetterdataState?.data.map((i) => i.Year);
- const assessment_Cycle = getAllBuLetterdataState?.data.map((i) => i.Assessment_Cycle);
+  // Arrays for showing data on filters
+  const year = getAllBuLetterdataState?.data.map((i) => i.Year);
+  const assessment_Cycle = getAllBuLetterdataState?.data.map((i) => i.Assessment_Cycle);
 
   return (
     <>
-      <div className="mt-5">
-        <div className="row">
-          <div className="col-12 col-lg-12">
-            <div className="mdm-table-global-filters">
-              <FilterButtons
-                year={removeDuplicates(year)}
-                assessment_Cycle={removeDuplicates(assessment_Cycle)}
-                yearValue={yearValue}
-                assessmentCycleValue={assessmentCycleValue}
-                setYearValue={setYearValue}
-                setAssessmentCycleValue={setAssessmentCycleValue}
-              />
+      <PageWrapper>
+        <div className="container py-5">
+          <div>
+            <div className="row">
+              <div className="col-12 col-lg-12">
+                <div className="mdm-table-global-filters">
+                  <FilterButtons
+                    year={removeDuplicates(year)}
+                    assessment_Cycle={removeDuplicates(assessment_Cycle)}
+                    yearValue={yearValue}
+                    assessmentCycleValue={assessmentCycleValue}
+                    setYearValue={setYearValue}
+                    setAssessmentCycleValue={setAssessmentCycleValue}
+                  />
+                </div>
+                <>
+                  {tableData?.length > 0 ? (
+                    <Table2
+                      tableData={tableData}
+                      tableColumns={tableColumns}
+                      loading={getAllBuLetterdataState.loading}
+                    />
+                  ) : (
+                    <NoDataLetterPlaceholder />
+                  )}
+                </>
+              </div>
             </div>
-            <>
-              {tableData?.length > 0 ? (
-                <Table2
-                  tableData={tableData}
-                  tableColumns={tableColumns}
-                  loading={getAllBuLetterdataState.loading}
-                />
-              ) : (
-                <NoDataLetterPlaceholder />
-              )}
-            </>
+            <div className="container-fluid mt-5">
+              <div className="row">
+                <div className="d-flex align-items-center justify-content-end">
+                  <div>
+                    <Button
+                      size="large"
+                      startIcon={<ArrowBackIosIcon />}
+                      onClick={() => {
+                        history.push('/REP-Letters/scheduling-and-triggering');
+                      }}
+                    >
+                      Go Back
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </PageWrapper>
     </>
   );
 };

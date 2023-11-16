@@ -3,6 +3,8 @@ import {
   GET_RL_ORG_MD_REQUEST,
   GET_RL_BU_MASTERDATA_REQUEST,
   ASSIGN_RL_BU_MASTERDATA_REQUEST,
+  GET_RL_BU_ZONE_MASTERDATA_REQUEST,
+  ASSIGN_RL_BU_ZONE_MASTERDATA_REQUEST,
   GET_RL_FUNCTIONAL_MASTERDATA_REQUEST,
   ACTION_GET_RL_PARENT_ENTITY_DATA,
   ACTION_ADD_ORGANIZATIONAL_MD_DATA,
@@ -19,6 +21,14 @@ export const getRlOrgMd = (payload) => ({ type: GET_RL_ORG_MD_REQUEST, payload }
 export const getRlBuMasterdata = (payload) => ({ type: GET_RL_BU_MASTERDATA_REQUEST, payload });
 export const assignRlBuMasterdata = (payload) => ({
   type: ASSIGN_RL_BU_MASTERDATA_REQUEST,
+  payload,
+});
+export const getRlBuZoneMasterdata = (payload) => ({
+  type: GET_RL_BU_ZONE_MASTERDATA_REQUEST,
+  payload,
+});
+export const assignRlBuZoneMasterdata = (payload) => ({
+  type: ASSIGN_RL_BU_ZONE_MASTERDATA_REQUEST,
   payload,
 });
 export const getRlFunctionalMasterdata = (payload) => ({

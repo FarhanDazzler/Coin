@@ -13,6 +13,8 @@ import {
   addOrUpdateBUDraftResponseSelector,
   addBUSection3ResponseSelector,
   approveBUSection3ResponseSelector,
+  addBUSection2CheckboxSelector,
+  addBUSection2UploadMailApprovalSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BU_Disclosure_ProcessorHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignatures from '../../../../../components/ShowSignatures';
@@ -65,6 +67,8 @@ const DisclosureProcessorTable = ({
   const addBUSubmitResponseState = useSelector(addBUSubmitResponseSelector);
   const addBUSection3ResponseState = useSelector(addBUSection3ResponseSelector);
   const approveBUSection3ResponseState = useSelector(approveBUSection3ResponseSelector);
+  const addBUSection2UploadMailApprovalState = useSelector(addBUSection2UploadMailApprovalSelector);
+  const addBUSection2CheckboxState = useSelector(addBUSection2CheckboxSelector);
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const disclosureProcessorHomePageData = useMemo(() => {
@@ -73,17 +77,13 @@ const DisclosureProcessorTable = ({
 
   useEffect(() => {
     dispatch(get_BU_Disclosure_ProcessorHomePageData());
-  }, [token, dispatch]);
-
-  useEffect(() => {
-    dispatch(get_BU_Disclosure_ProcessorHomePageData());
   }, [
-    token,
-    dispatch,
     addOrUpdateDraftResponseState?.data,
     addBUSubmitResponseState?.data,
     addBUSection3ResponseState?.data,
     approveBUSection3ResponseState?.data,
+    addBUSection2UploadMailApprovalState?.data,
+    addBUSection2CheckboxState?.data,
   ]);
 
   const TABLE_COLUMNS = [
@@ -104,8 +104,9 @@ const DisclosureProcessorTable = ({
                 onClick={() => {
                   const data = {
                     scopeData: row.row.original,
-                    modalType: 'review',
+                    modalType: 'Review',
                     letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
+                    isSection3ApproveState: false,
                   };
                   history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
@@ -113,13 +114,15 @@ const DisclosureProcessorTable = ({
                 Review
               </Button>
             )}
-            {['Not started', 'Drafted'].includes(row.row.original.Status) && (
+            {['Not Started', 'Drafted'].includes(row.row.original.Status) && (
               <Button
+                className="mr-2"
                 onClick={() => {
                   const data = {
                     scopeData: row.row.original,
                     modalType: 'attemptSection1',
                     letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
+                    isSection3ApproveState: false,
                   };
                   history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
@@ -127,23 +130,51 @@ const DisclosureProcessorTable = ({
                 Letter
               </Button>
             )}
-            {['Not started', 'Drafted'].includes(row.row.original.Status) && (
+            {['Responded', 'Approval Pending'].includes(row.row.original.Status) && (
               <Button
+                className="mr-2"
                 onClick={() => {
                   const data = {
                     scopeData: row.row.original,
-                    modalType: 'attemptSection3',
+                    modalType: 'attemptSection2',
                     letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
+                    isSection3ApproveState: false,
                   };
                   history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
               >
-                RBA Proof
+                Signature
               </Button>
             )}
+            {['Responded', 'Signed', 'Approval Pending'].includes(row.row.original.Status) &&
+              ['RBA Rejected', 'Not Started'].includes(row.row.original.RBA_Status) && (
+                <Button
+                  className="mr-2"
+                  onClick={() => {
+                    const data = {
+                      scopeData: row.row.original,
+                      modalType: 'attemptSection3',
+                      letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
+                      isSection3ApproveState: false,
+                    };
+                    history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
+                  }}
+                >
+                  RBA
+                </Button>
+              )}
           </div>
         );
       },
+    },
+    {
+      accessorKey: 'Letter_Type',
+      id: 'Letter_Type',
+      header: 'Letter Type',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
     },
     {
       accessorKey: 'Zone',
@@ -173,6 +204,18 @@ const DisclosureProcessorTable = ({
       size: 170,
       Cell: (row) => {
         return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
+      },
+    },
+    {
+      accessorKey: 'RBA_Status',
+      id: 'RBA_Status',
+      header: 'RBA Status',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 170,
+      Cell: (row) => {
+        return <span className={'text-yellow-dark'}>{row.row.original.RBA_Status}</span>;
       },
     },
     {
@@ -230,15 +273,6 @@ const DisclosureProcessorTable = ({
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 200,
-    },
-    {
-      accessorKey: 'Letter_Type',
-      id: 'Letter_Type',
-      header: 'Letter Type',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
     },
     {
       accessorKey: 'Assessment_Cycle',

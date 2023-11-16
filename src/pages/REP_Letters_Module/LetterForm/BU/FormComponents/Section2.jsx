@@ -243,6 +243,7 @@ const Section2 = ({ scopeData }) => {
                           required
                           name="FinanceDirectorSignature"
                           //onChange={handleChange}
+                          accept="application/vnd.ms-outlook, .eml, .msg"
                           onChange={(event) => {
                             setFieldValue('FinanceDirectorSignature', event.currentTarget.files[0]);
                           }}
@@ -267,6 +268,7 @@ const Section2 = ({ scopeData }) => {
                           required
                           name="BUHeadSignature"
                           //onChange={handleChange}
+                          accept="application/vnd.ms-outlook, .eml, .msg"
                           onChange={(event) => {
                             setFieldValue('BUHeadSignature', event.currentTarget.files[0]);
                           }}
@@ -291,6 +293,7 @@ const Section2 = ({ scopeData }) => {
                           required
                           name="ZoneControlSignature"
                           //onChange={handleChange}
+                          accept="application/vnd.ms-outlook, .eml, .msg"
                           onChange={(event) => {
                             setFieldValue('ZoneControlSignature', event.currentTarget.files[0]);
                           }}
@@ -315,6 +318,7 @@ const Section2 = ({ scopeData }) => {
                           required
                           name="ZoneVPSignature"
                           //onChange={handleChange}
+                          accept="application/vnd.ms-outlook, .eml, .msg"
                           onChange={(event) => {
                             setFieldValue('ZoneVPSignature', event.currentTarget.files[0]);
                           }}
@@ -485,20 +489,23 @@ const Section2 = ({ scopeData }) => {
                           <p>
                             <b>Finance Director</b>
                           </p>
-                          <h5>
-                            Approval Email attached by Disclosure Processor For Finance Director
-                          </h5>
+                          <div className="rep-letter-form-bottom-btn">
+                            <h5>
+                              Approval Email attached by Disclosure Processor For Finance Director
+                            </h5>
 
-                          <Button
-                            startIcon={<PictureAsPdfIcon />}
-                            onClick={() => {
-                              const pdfUrl =
-                                getBUSection2SignatureResponseState?.data?.signatures?.fd?.sas_url;
-                              window.open(pdfUrl, '_blank');
-                            }}
-                          >
-                            Email Attachment
-                          </Button>
+                            <Button
+                              startIcon={<PictureAsPdfIcon />}
+                              onClick={() => {
+                                const pdfUrl =
+                                  getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                    ?.sas_url;
+                                window.open(pdfUrl, '_blank');
+                              }}
+                            >
+                              Email Attachment
+                            </Button>
+                          </div>
                         </div>
                       ) : (
                         <>
@@ -506,7 +513,7 @@ const Section2 = ({ scopeData }) => {
                             true &&
                             getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame ===
                               '' && (
-                              <div className="col-lg-12">
+                              <div className="col-lg-12 auto-auth">
                                 <p>
                                   <b>Finance Director</b>
                                 </p>
@@ -521,18 +528,21 @@ const Section2 = ({ scopeData }) => {
                           <p>
                             <b>Zone VP</b>
                           </p>
-                          <h5>Approval Email attached by Disclosure Processor For Zone VP</h5>
+                          <div className="rep-letter-form-bottom-btn">
+                            <h5>Approval Email attached by Disclosure Processor For Zone VP</h5>
 
-                          <Button
-                            startIcon={<PictureAsPdfIcon />}
-                            onClick={() => {
-                              const pdfUrl =
-                                getBUSection2SignatureResponseState?.data?.signatures?.zv?.sas_url;
-                              window.open(pdfUrl, '_blank');
-                            }}
-                          >
-                            Email Attachment
-                          </Button>
+                            <Button
+                              startIcon={<PictureAsPdfIcon />}
+                              onClick={() => {
+                                const pdfUrl =
+                                  getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                    ?.sas_url;
+                                window.open(pdfUrl, '_blank');
+                              }}
+                            >
+                              Email Attachment
+                            </Button>
+                          </div>
                         </div>
                       ) : (
                         <>
@@ -540,7 +550,7 @@ const Section2 = ({ scopeData }) => {
                             true &&
                             getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ===
                               '' && (
-                              <div className="col-lg-12">
+                              <div className="col-lg-12 auto-auth">
                                 <p>
                                   <b>Zone VP</b>
                                 </p>
@@ -555,18 +565,21 @@ const Section2 = ({ scopeData }) => {
                           <p>
                             <b>BU Head</b>
                           </p>
-                          <h5>Approval Email attached by Disclosure Processor For BU Head</h5>
+                          <div className="rep-letter-form-bottom-btn">
+                            <h5>Approval Email attached by Disclosure Processor For BU Head</h5>
 
-                          <Button
-                            startIcon={<PictureAsPdfIcon />}
-                            onClick={() => {
-                              const pdfUrl =
-                                getBUSection2SignatureResponseState?.data?.signatures?.buh?.sas_url;
-                              window.open(pdfUrl, '_blank');
-                            }}
-                          >
-                            Email Attachment
-                          </Button>
+                            <Button
+                              startIcon={<PictureAsPdfIcon />}
+                              onClick={() => {
+                                const pdfUrl =
+                                  getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                    ?.sas_url;
+                                window.open(pdfUrl, '_blank');
+                              }}
+                            >
+                              Email Attachment
+                            </Button>
+                          </div>
                         </div>
                       ) : (
                         <>
@@ -574,7 +587,7 @@ const Section2 = ({ scopeData }) => {
                             true &&
                             getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ===
                               '' && (
-                              <div className="col-lg-12">
+                              <div className="col-lg-12 auto-auth">
                                 <p>
                                   <b>BU Head</b>
                                 </p>
@@ -589,18 +602,23 @@ const Section2 = ({ scopeData }) => {
                           <p>
                             <b>Zone Control</b>
                           </p>
-                          <h5>Approval Email attached by Disclosure Processor For Zone Control</h5>
+                          <div className="rep-letter-form-bottom-btn">
+                            <h5>
+                              Approval Email attached by Disclosure Processor For Zone Control
+                            </h5>
 
-                          <Button
-                            startIcon={<PictureAsPdfIcon />}
-                            onClick={() => {
-                              const pdfUrl =
-                                getBUSection2SignatureResponseState?.data?.signatures?.zc?.sas_url;
-                              window.open(pdfUrl, '_blank');
-                            }}
-                          >
-                            Email Attachment
-                          </Button>
+                            <Button
+                              startIcon={<PictureAsPdfIcon />}
+                              onClick={() => {
+                                const pdfUrl =
+                                  getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                    ?.sas_url;
+                                window.open(pdfUrl, '_blank');
+                              }}
+                            >
+                              Email Attachment
+                            </Button>
+                          </div>
                         </div>
                       ) : (
                         <>
@@ -608,7 +626,7 @@ const Section2 = ({ scopeData }) => {
                             true &&
                             getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ===
                               '' && (
-                              <div className="col-lg-12">
+                              <div className="col-lg-12 auto-auth">
                                 <p>
                                   <b>Zone Control</b>
                                 </p>

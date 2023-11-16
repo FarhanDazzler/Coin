@@ -1,25 +1,25 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import '../../../../../assets/styles/custom.css';
+import '../../../../../../assets/styles/custom.css';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
-import Table2 from '../../../../../components/UI/Table/Table2';
+import Table2 from '../../../../../../components/UI/Table/Table2';
 import NoDataLetterPlaceholder from './NoDataPlaceHolder';
 import { MultiSelect } from '@mantine/core';
 import { Group } from '@mantine/core';
 import Swal from 'sweetalert2';
-import Button from '../../../../../components/UI/Button';
+import Button from '../../../../../../components/UI/Button';
 import SettingsBackupRestoreOutlinedIcon from '@mui/icons-material/SettingsBackupRestoreOutlined';
 import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import PageWrapper from '../../../../../components/wrappers/PageWrapper';
+import PageWrapper from '../../../../../../components/wrappers/PageWrapper';
 import {
   getRlBuLetterData,
   recallBuLetter,
   reTriggerBuLetter,
-} from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
-import { getBudataSelector } from '../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
+} from '../../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
+import { getBudataSelector } from '../../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
 
 const BUDetailsTableData = (props) => {
   console.log('props', props);

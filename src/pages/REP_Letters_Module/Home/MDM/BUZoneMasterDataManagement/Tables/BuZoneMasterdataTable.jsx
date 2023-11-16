@@ -5,16 +5,18 @@ import { FloatRight } from 'tabler-icons-react';
 import Table2 from '../../../../../../components/UI/Table/Table2';
 import Swal from 'sweetalert2';
 // geting data from redux
-import { getRlBuMasterdataSelector } from '../../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
 import Button from '../../MDM_Tab_Buttons/Button';
 import ControlPointRoundedIcon from '@mui/icons-material/ControlPointRounded';
 import Tooltip from '@mui/material/Tooltip';
 import AssignModal from './AssignModal';
 import CustomModal from '../../../../../../components/UI/CustomModal';
-import { assignRlBuMasterdataSelector } from '../../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
-import { getRlBuMasterdata } from '../../../../../../redux/REP_Letters/RLMDM/RLMDMAction';
+import {
+  assignRlBuZoneMasterdataSelector,
+  getRlBuZoneMasterdataSelector,
+} from '../../../../../../redux/REP_Letters/RLMDM/RLMDMSelectors';
+import { getRlBuZoneMasterdata } from '../../../../../../redux/REP_Letters/RLMDM/RLMDMAction';
 
-const BuMasterdataTable = () => {
+const BuZoneMasterdataTable = () => {
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [assignTableData, setAssignTableData] = useState();
@@ -23,18 +25,15 @@ const BuMasterdataTable = () => {
 
   const dispatch = useDispatch();
 
-  const buMasterdataState = useSelector(getRlBuMasterdataSelector);
-  const assignRlBuMasterdataState = useSelector(assignRlBuMasterdataSelector);
+  const buZoneMasterdataState = useSelector(getRlBuZoneMasterdataSelector);
+  const assignRlZoneBuMasterdataState = useSelector(assignRlBuZoneMasterdataSelector);
   //console.log('buMasterdataState', buMasterdataState);
 
-  // useEffect(() => {
-  //   dispatch(getRlBuMasterdata());
-  // }, []);
   // for closing POP after confirm
   useEffect(() => {
     setShowModal(false);
-    dispatch(getRlBuMasterdata());
-  }, [assignRlBuMasterdataState?.data]);
+    dispatch(getRlBuZoneMasterdata());
+  }, [assignRlZoneBuMasterdataState?.data]);
 
   const TABLE_COLUMNS = [
     {
@@ -46,51 +45,15 @@ const BuMasterdataTable = () => {
       cellClassName: 'dashboardCell',
       size: 100,
     },
-    {
-      accessorKey: 'BU',
-      id: 'BU',
-      header: 'Business Unit',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 200,
-    },
-    {
-      accessorKey: 'Applicability',
-      id: 'Applicability',
-      header: 'Applicability',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 100,
-    },
-    {
-      accessorKey: 'Disclosure_Processor',
-      id: 'Disclosure_Processor',
-      header: 'Disclosure Processor',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 250,
-    },
-    {
-      accessorKey: 'Finance_Director',
-      id: 'Finance_Director',
-      header: 'Finance Director',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 250,
-    },
-    {
-      accessorKey: 'BU_Head',
-      id: 'BU_Head',
-      header: 'BU Head',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 250,
-    },
+    // {
+    //   accessorKey: 'Applicability',
+    //   id: 'Applicability',
+    //   header: 'Applicability',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 100,
+    // },
     {
       accessorKey: 'Zone_Control',
       id: 'Zone_Control',
@@ -109,19 +72,37 @@ const BuMasterdataTable = () => {
       cellClassName: 'dashboardCell',
       size: 250,
     },
+    {
+      accessorKey: 'Excom_Member',
+      id: 'Excom_Member',
+      header: 'Excom Member',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 250,
+    },
+    {
+      accessorKey: 'Zone_Legal_Representative',
+      id: 'Zone_Legal_Representative',
+      header: 'Zone Legal Representative',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 250,
+    },
   ];
 
   useEffect(() => {
     setTableColumns(TABLE_COLUMNS);
     setTableData(
-      buMasterdataState.data.map((i, index) => {
+      buZoneMasterdataState.data.map((i, index) => {
         return {
           id: index,
           ...i,
         };
       }),
     );
-  }, [buMasterdataState.data]);
+  }, [buZoneMasterdataState.data]);
 
   const ActiveToolAssign = ({ number, text }) => (
     <Tooltip title={text} placement="bottom-start">
@@ -147,7 +128,7 @@ const BuMasterdataTable = () => {
               <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                 <div>
                   <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
-                  <span style={{ paddingLeft: '16px' }}>BU Masterdata Management</span>
+                  <span style={{ paddingLeft: '16px' }}>Zone Masterdata Management</span>
                 </div>
                 <div>
                   <Button
@@ -164,7 +145,7 @@ const BuMasterdataTable = () => {
             </div>
             <Table2
               tableData={tableData}
-              loading={buMasterdataState.loading}
+              loading={buZoneMasterdataState.loading}
               tableColumns={tableColumns}
               setEditTableIndex={setEditTableIndex}
             />
@@ -176,7 +157,7 @@ const BuMasterdataTable = () => {
         open={showModal}
         onClose={() => setShowModal(false)}
         width={900}
-        title="Assign BU Master Data"
+        title="Assign Zone Master Data"
         bodyClassName="p-0"
       >
         <AssignModal setShowModal={setShowModal} assignTableData={assignTableData} />
@@ -185,4 +166,4 @@ const BuMasterdataTable = () => {
   );
 };
 
-export default BuMasterdataTable;
+export default BuZoneMasterdataTable;

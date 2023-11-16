@@ -17,6 +17,12 @@ import {
   ASSIGN_RL_BU_MASTERDATA_REQUEST,
   ASSIGN_RL_BU_MASTERDATA_SUCCESS,
   ASSIGN_RL_BU_MASTERDATA_ERROR,
+  GET_RL_BU_ZONE_MASTERDATA_ERROR,
+  GET_RL_BU_ZONE_MASTERDATA_REQUEST,
+  GET_RL_BU_ZONE_MASTERDATA_SUCCESS,
+  ASSIGN_RL_BU_ZONE_MASTERDATA_REQUEST,
+  ASSIGN_RL_BU_ZONE_MASTERDATA_SUCCESS,
+  ASSIGN_RL_BU_ZONE_MASTERDATA_ERROR,
   ACTION_GET_RL_PARENT_ENTITY_DATA,
   ACTION_GET_RL_PARENT_ENTITY_DATA_FAILED,
   ACTION_GET_RL_PARENT_ENTITY_DATA_SUCCESS,
@@ -138,6 +144,54 @@ function* assignRlBuMaster_Data({ payload }) {
   }
 }
 
+// Get RL BU Zone Master Data
+async function getRlBuZoneMasterdataApi(params) {
+  return await Axios.get('/get_bu_zone_master_data', { params });
+}
+function* handleGet_Rl_Bu_Zone_masterdata({ payload }) {
+  try {
+    const response = yield call(getRlBuZoneMasterdataApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_RL_BU_ZONE_MASTERDATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_RL_BU_ZONE_MASTERDATA_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+//Assign BU Zone Master data
+async function assignRlBuZoneMasterdataApi(payload) {
+  return await Axios.post('/update_bu_zone_master_data', payload);
+}
+function* assignRlBuZoneMaster_Data({ payload }) {
+  try {
+    const response = yield call(assignRlBuZoneMasterdataApi, payload);
+
+    if (response.success) {
+      yield put({
+        type: ASSIGN_RL_BU_ZONE_MASTERDATA_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Assigned Successfully!', 'success');
+      yield call(getRlBuZoneMasterdataApi);
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ASSIGN_RL_BU_ZONE_MASTERDATA_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
 async function getRlFunctionalMasterdataApi(params) {
   //console.log('getRlFunctionalMasterdataApi=>>>>>>>>>>>>>>>>>>', params);
   return await Axios.get('/get_functional_master_data', { params });
@@ -198,12 +252,12 @@ function* addOrganizationalMDApiData({ payload }) {
       yield call(getRlOrgHierarchyApi);
       yield call(getRlOrgMdApi);
     } else {
-      console.log("Response", response);
+      console.log('Response', response);
       // Swal.fire('Oops!', 'Somthing Went Wrong', 'error');
       yield put({
         type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
         payload: {
-          data: { text: "testing error Data", type: 'danger' },
+          data: { text: 'testing error Data', type: 'danger' },
         },
       });
     }
@@ -376,6 +430,8 @@ export default all([
   takeLatest(GET_RL_ORG_MD_REQUEST, handleGet_Rl_org_md),
   takeLatest(GET_RL_BU_MASTERDATA_REQUEST, handleGet_Rl_Bu_masterdata),
   takeLatest(ASSIGN_RL_BU_MASTERDATA_REQUEST, assignRlBuMaster_Data),
+  takeLatest(GET_RL_BU_ZONE_MASTERDATA_REQUEST, handleGet_Rl_Bu_Zone_masterdata),
+  takeLatest(ASSIGN_RL_BU_ZONE_MASTERDATA_REQUEST, assignRlBuZoneMaster_Data),
   takeLatest(GET_RL_FUNCTIONAL_MASTERDATA_REQUEST, handleGet_Rl_Functional_masterdata),
   takeLatest(ACTION_GET_RL_PARENT_ENTITY_DATA, getRlParentEntityData),
   takeLatest(ACTION_ADD_ORGANIZATIONAL_MD_DATA, addOrganizationalMDApiData),
