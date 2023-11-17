@@ -154,3 +154,10 @@
     border-radius: 6px;
   }
 }
+
+.overflow-table {
+  position: sticky;
+  top: 0;
+  background: #1b1b1b;
+  z-index: 2;
+}

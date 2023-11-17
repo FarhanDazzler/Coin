@@ -118,7 +118,7 @@ const ControlSection2Chart = () => {
         />
       </div>
       <div className="renderBlockWrapper" style={{ minWidth: 350 }}>
-        <div className="d-flex chart-info-table">
+        <div className="d-flex chart-info-table overflow-table">
           <table>
             <tr>
               <th>KPI ID </th>
