@@ -18,6 +18,7 @@ import BULetterSummaryTable from '../../pages/REP_Letters_Module/SchedulingAndTr
 import ZoneLetterSummaryTable from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Zone/Table/ZoneLetterSummaryTable';
 import ZoneDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Zone/Table/ZoneDetailsTableData';
 import ScheduleSurveyZonePage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Zone/ScheduleLetter/ScheduleSurveyZoneLandingPage';
+import EditSection1 from '../../pages/REP_Letters_Module/LetterForm/BU/FormComponents/EditSection1';
 export const RepLettersRoutes = [
   {
     path: '/REP-Letters/master-data-management',
@@ -93,6 +94,11 @@ export const RepLettersRoutes = [
     path: '/REP-Letters/attempt-letter/BU-letter-form',
     exact: true,
     component: BULetterForm,
+  },
+  {
+    path: '/REP-Letters/re-attempt-letter/BU-letter-form',
+    exact: true,
+    component: EditSection1,
   },
   {
     path: '/REP-Letters/reporting',
