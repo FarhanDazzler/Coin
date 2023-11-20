@@ -52,16 +52,18 @@ const EditSection1 = (props) => {
   const scopeData = props.location.state?.data?.scopeData;
   const letterType = props.location.state?.data?.letterType;
 
-  const newFormat = [];
-  const [responses, setResponses] = useState({});
-  const [formErrors, setFormErrors] = useState({});
-  const [characterCount, setCharacterCount] = useState(0);
-  const maxCharacterLimit = 5000;
-
   const getBUSubmitResponseState = useSelector(getBUSubmitResponseSelector);
   const questionState = useSelector(get_BU_QuestionsSelector);
   const questions = questionState?.data;
   const instructionState = useSelector(getInstructionsSelector);
+
+  const newFormat = [];
+  const [responses, setResponses] = useState(
+    getBUSubmitResponseState?.data?.override_response || {},
+  );
+  const [formErrors, setFormErrors] = useState({});
+  const [characterCount, setCharacterCount] = useState(0);
+  const maxCharacterLimit = 5000;
 
   useEffect(() => {
     const payloadGetInstructions = {
