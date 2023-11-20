@@ -31,7 +31,7 @@ const ControlSection2Chart = () => {
         const country = receivers[recKey];
         if (i === 0) {
           Object.keys(country).map((name) => {
-            xCategories.push(`${name} (${kpiId})`);
+            xCategories.push(name);
           });
         }
       });
@@ -52,7 +52,7 @@ const ControlSection2Chart = () => {
             values.push(+country[name]);
           });
           const data = xCategories.map((d, catIndex) => {
-            return values[catIndex] || 0.1;
+            return values[catIndex] || 0;
           });
           series.push({
             name: recKey,
@@ -86,14 +86,22 @@ const ControlSection2Chart = () => {
     return {};
   }, [series]);
 
+  const thresholds = useMemo(() => {
+    if (activeKPIObj) {
+      return Object.keys(activeKPIObj.thresholds).map((key) => {
+        return { name: key, value: activeKPIObj.thresholds[key] };
+      });
+    }
+    return [];
+  }, [activeKPIObj]);
   return (
     <div className="d-flex">
       <div className="controlSection2ChartWrapper w-full">
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          {series.map((s) => {
+          {thresholds.map((s) => {
             return (
               <span className="mr-3">
-                {s.name.split('_')[0]} : {Math.max(...s.data)}
+                {s.name.split('_').join(' ')}: {s.value}
               </span>
             );
           })}

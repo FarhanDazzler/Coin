@@ -26,7 +26,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   } else {
     headerStyles = { color: '#fff', fontWeight: '700', backgroundColor: '#000' };
   }
-  const [showGraph, setShowGraph] = useState(false);
+  const [showGraph, setShowGraph] = useState(true);
   const getKPIResponse = useSelector(getResponseSelector);
   const kpiResultData = useSelector(kpiResultSelector);
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
