@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { useSelector } from 'react-redux';
 import { kpiResultSelector } from '../../../../../redux/Assessments/AssessmentSelectors';
@@ -52,7 +52,7 @@ const ControlSection2Chart = () => {
             values.push(+country[name]);
           });
           const data = xCategories.map((d, catIndex) => {
-            return values[catIndex] || 0;
+            return values[catIndex] || 0.1;
           });
           series.push({
             name: recKey,
@@ -69,9 +69,35 @@ const ControlSection2Chart = () => {
     setActiveKPIObj(kpiResultData?.data?.data[id]);
   };
 
+  const yaxis = useMemo(() => {
+    if (series.length > 0) {
+      const allValMax = series.map((s) => {
+        return Math.max(...s.data.map((d) => +d));
+      });
+      const allValMin = series.map((s) => {
+        return Math.min(...s.data.map((d) => +d));
+      });
+
+      return {
+        min: Math.min(...allValMin) - 20,
+        max: Math.max(...allValMax) + 2,
+      };
+    }
+    return {};
+  }, [series]);
+
   return (
     <div className="d-flex">
       <div className="controlSection2ChartWrapper w-full">
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          {series.map((s) => {
+            return (
+              <span className="mr-3">
+                {s.name.split('_')[0]} : {Math.max(...s.data)}
+              </span>
+            );
+          })}
+        </div>
         <ReactApexChart
           type="area"
           options={{
@@ -97,6 +123,7 @@ const ControlSection2Chart = () => {
             xaxis: {
               categories: xAxis,
             },
+            yaxis,
             // yaxis: {
             //   title: {
             //     text: '$ (thousands)',
@@ -108,7 +135,7 @@ const ControlSection2Chart = () => {
             tooltip: {
               y: {
                 formatter: function (val) {
-                  if (val) return val;
+                  return val || '0';
                 },
               },
             },
@@ -119,10 +146,10 @@ const ControlSection2Chart = () => {
       </div>
       <div className="renderBlockWrapper" style={{ minWidth: 350 }}>
         <div className="d-flex chart-info-table overflow-table">
-          <table>
+          <table className="w-full">
             <tr>
               <th>KPI ID </th>
-              <th>KPI NAME</th>
+              {/*<th>KPI NAME</th>*/}
             </tr>
 
             <tbody>
@@ -136,7 +163,6 @@ const ControlSection2Chart = () => {
                       {list}
                     </span>
                   </td>
-                  <td />
                 </tr>
               ))}
             </tbody>
