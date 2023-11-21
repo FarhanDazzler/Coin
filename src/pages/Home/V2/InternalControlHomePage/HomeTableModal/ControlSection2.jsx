@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import cellEditFactory from 'react-bootstrap-table2-editor';
+import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import Workbook from 'react-excel-workbook';
 import readXlsxFile from 'read-excel-file';
 import {
@@ -71,6 +71,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       // filter: textFilter(),
     },
     {
+      dataField: 'Applicability',
+      text: 'Applicability',
+      editable: false,
+      headerStyle: {
+        ...headerStyles,
+      },
+      // filter: textFilter(),
+    },
+    {
       dataField: 'MICS_Code',
       text: 'MICS_Code',
       editable: false,
@@ -119,6 +128,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
     {
       dataField: 'Entity_ID',
       text: 'Entity_ID',
+      editable: false,
+      headerStyle: {
+        ...headerStyles,
+      },
+    },
+    {
+      dataField: 'isManual',
+      formatter: (cellContent, row) => (row?.isManual ? 'Manual' : 'Automated'),
+      text: 'KPI Type',
       editable: false,
       headerStyle: {
         ...headerStyles,
@@ -211,6 +229,75 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       editable: false,
       headerStyle: {
         ...headerStyles,
+      },
+    },
+    {
+      dataField: 'Upload_Approach',
+      text: 'KPI Data source (Select from Excel/PBI/Celonis/Others)',
+      formatter: (cellContent, row) => '',
+      editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
+      headerStyle: {
+        ...headerStyles,
+      },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (row.isManual) {
+          return {
+            backgroundColor: 'white',
+            border: '2px solid gold',
+            color: 'black',
+          };
+        }
+      },
+    },
+    // {
+    //   dataField: 'Upload_Approach',
+    //   text: 'KPI Data source (Select from Excel/PBI/Celonis/Others)',
+    //   editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
+    //   headerStyle: {
+    //     ...headerStyles,
+    //   },
+    //   editor: {
+    //     type: Type.SELECT,
+    //     options: [{
+    //       value: 'Excel',
+    //       label: 'Excel'
+    //     }, {
+    //       value: 'PBI',
+    //       label: 'PBI'
+    //     }, {
+    //       value: 'Celonis',
+    //       label: 'Celonis'
+    //     }, {
+    //       value: 'Others',
+    //       label: 'Others'
+    //     }]
+    //   },
+    //   style: (cell, row, rowIndex, colIndex) => {
+    //     if (row.isManual) {
+    //       return {
+    //         backgroundColor: 'white',
+    //         border: '2px solid gold',
+    //         color: 'black',
+    //       };
+    //     }
+    //   },
+    // },
+    {
+      dataField: 'Source_System',
+      text: 'Link to data',
+      editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
+      formatter: (cellContent, row) => '',
+      headerStyle: {
+        ...headerStyles,
+      },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (row.isManual) {
+          return {
+            backgroundColor: 'white',
+            border: '2px solid gold',
+            color: 'black',
+          };
+        }
       },
     },
     {
@@ -508,7 +595,9 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
                     <Workbook.Sheet data={tableData} name="Sheet A">
                       {/* <Workbook.Column label="sep" value="sep" /> */}
                       <Workbook.Column label="Global_KPI_Code" value="Global_KPI_Code" />
+                      <Workbook.Column label="Applicability" value="Applicability" />
                       <Workbook.Column label="Entity_ID" value="Entity_ID" />
+                      {/* <Workbook.Column label="KPI Type" value="isManual" /> */}
                       <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />
                       <Workbook.Column label="Numerator" value="Numerator" />
                       <Workbook.Column label="Expected_Denominator" value="Expected_Denominator" />
@@ -516,6 +605,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
                       <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
                       {/* <Workbook.Column label="KPI_Value" value="KPI_Value" /> */}
                       <Workbook.Column label="Month" value="Month" />
+                      <Workbook.Column label="KPI Data source (Select from Excel/PBI/Celonis/Others)" value="Upload_Approach" />
+                      <Workbook.Column label="Link to data" value="Source_System" />
                       {/* <Workbook.Column label="L1_Result" value="L1_Result" />
                     <Workbook.Column label="L2_Result" value="L2_Result" />
                     <Workbook.Column label="L3_Result" value="L3_Result" /> */}
