@@ -236,7 +236,9 @@ const Section1 = ({ questions, scopeData }) => {
             }
           }
           const payload = {
+            is_override: false,
             Assessment_ID: scopeData?.id,
+            override_response: responses,
             Latest_response: newFormat?.sort((a, b) => a.questionNumber - b.questionNumber),
           };
           //localStorage.setItem('storedResponses', JSON.stringify(responses));

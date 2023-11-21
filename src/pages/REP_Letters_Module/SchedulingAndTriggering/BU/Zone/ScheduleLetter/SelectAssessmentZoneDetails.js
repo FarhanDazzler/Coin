@@ -95,23 +95,15 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
       size: 100,
     },
     {
-      accessorKey: 'Zone_Control',
-      id: 'Zone_Control',
-      header: 'Zone Control',
+      accessorKey: 'Disclosure_Processor',
+      id: 'Disclosure_Processor',
+      header: 'Disclosure Processor',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 200,
+      size: 250,
     },
-    {
-      accessorKey: 'Zone_VP',
-      id: 'Zone_VP',
-      header: 'Zone VP',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 200,
-    },
+
     {
       accessorKey: 'Excom_Member',
       id: 'Excom_Member',
@@ -119,7 +111,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 100,
+      size: 250,
     },
     {
       accessorKey: 'Zone_Legal_Representative',
@@ -128,9 +120,26 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 230,
+      size: 250,
     },
-    
+    {
+      accessorKey: 'Zone_Control',
+      id: 'Zone_Control',
+      header: 'Zone Control',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 250,
+    },
+    {
+      accessorKey: 'Zone_VP',
+      id: 'Zone_VP',
+      header: 'Zone VP',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 250,
+    },
   ];
 
   useEffect(() => {

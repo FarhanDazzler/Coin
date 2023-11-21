@@ -2,9 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import { useSelector } from 'react-redux';
-import ZoneControlTable from './ZoneControlTable';
+import BUZone_DisclosureProcessorTable from './BUZone_DisclosureProcessorTable';
 import '../../styles.scss';
-import { get_BU_Zone_ControlHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { get_BUZone_Disclosure_ProcessorHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
 const AmountInfo = React.memo(({ amount, infoText }) => {
   return (
@@ -15,25 +15,26 @@ const AmountInfo = React.memo(({ amount, infoText }) => {
   );
 });
 
-const ZoneControlHomePage = () => {
+const BUZone_DisclosureProcessorHomePage = () => {
   const history = useHistory();
   const { state } = useLocation();
   const { accounts } = useMsal();
   const selectedUserRole = localStorage.getItem('selected_Role');
-  const getHomePageData = useSelector(get_BU_Zone_ControlHomePageDataSelector);
+  const getDisclosureProcessorHomePageData = useSelector(
+    get_BUZone_Disclosure_ProcessorHomePageDataSelector,
+  );
 
   const [yearValue, setYearValue] = useState([]);
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
-  const [buValue, setBUValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
   }, []);
 
   const statusInfo = useMemo(() => {
-    const tableData = getHomePageData?.data[0]?.zoneControlData || [];
-    if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length && !buValue.length) {
+    const tableData = getDisclosureProcessorHomePageData?.data[0]?.disclosureProcessorData || [];
+    if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);
       return {
@@ -50,8 +51,7 @@ const ZoneControlHomePage = () => {
       return (
         (yearValue?.length ? yearValue.includes(i.Year) : true) &&
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
-        (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-        (buValue?.length ? buValue.includes(i.BU) : true)
+        (zoneValue?.length ? zoneValue.includes(i.Zone) : true)
       );
     });
 
@@ -66,11 +66,10 @@ const ZoneControlHomePage = () => {
       total: allUpdatestatus?.length,
     };
   }, [
-    getHomePageData?.data[0],
+    getDisclosureProcessorHomePageData?.data[0],
     yearValue,
     assessmentCycleValue,
     zoneValue,
-    buValue,
     getNumberOfItem,
   ]);
 
@@ -98,18 +97,16 @@ const ZoneControlHomePage = () => {
         </div>
       </div>
 
-      <ZoneControlTable
+      <BUZone_DisclosureProcessorTable
         yearValue={yearValue}
         setYearValue={setYearValue}
         assessmentCycleValue={assessmentCycleValue}
         setAssessmentCycleValue={setAssessmentCycleValue}
         zoneValue={zoneValue}
         setZoneValue={setZoneValue}
-        buValue={buValue}
-        setBUValue={setBUValue}
       />
     </div>
   );
 };
 
-export default ZoneControlHomePage;
+export default BUZone_DisclosureProcessorHomePage;

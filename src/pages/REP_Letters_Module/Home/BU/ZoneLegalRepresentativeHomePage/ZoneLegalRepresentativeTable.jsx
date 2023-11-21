@@ -7,9 +7,12 @@ import { Group, MultiSelect } from '@mantine/core';
 import Table2 from '../../../../../components/UI/Table/Table2';
 import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
-import NoDataPlaceholder from '../../../../../components/NoDataPlaceholder/NoDataPlaceholderForRepLetter';
-import { get_BU_GlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
-import { get_BU_GlobalPersonaHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import {
+  get_BUZone_ZoneLegalRepresentativeHomePageDataSelector,
+  addBUSection2CheckboxSelector,
+  addBUSection2UploadMailApprovalSelector,
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { get_BUZone_ZoneLegalRepresentativeHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignatures from '../../../../../components/ShowSignatures';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
@@ -37,14 +40,13 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const GlobalPersonaTable = ({
+const ZoneLegalRepresentativeTable = ({
   assessmentCycleValue,
   setAssessmentCycleValue,
   zoneValue,
   setZoneValue,
-  buValue,
-  setBUValue,
 }) => {
+  const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
 
@@ -52,16 +54,19 @@ const GlobalPersonaTable = ({
 
   const { accounts } = useMsal();
   const dispatch = useDispatch();
-  const getGlobalPersonaHomePageData = useSelector(get_BU_GlobalPersonaHomePageDataSelector);
 
-  //getGlobalPersonaHomePageData?.data[0]?.recipientData
+  const getHomePageData = useSelector(get_BUZone_ZoneLegalRepresentativeHomePageDataSelector);
+  const addBUSection2UploadMailApprovalState = useSelector(addBUSection2UploadMailApprovalSelector);
+  const addBUSection2CheckboxState = useSelector(addBUSection2CheckboxSelector);
+
+  //getRecipientHomePageData?.data[0]?.recipientData
   const HomePageData = useMemo(() => {
-    return getGlobalPersonaHomePageData?.data[0]?.home_page_table_global || [];
-  }, [getGlobalPersonaHomePageData?.data[0]]);
+    return getHomePageData?.data[0]?.zonelegaRepData || [];
+  }, [getHomePageData?.data[0]]);
 
   useEffect(() => {
-    dispatch(get_BU_GlobalPersonaHomePageData());
-  }, []);
+    dispatch(get_BUZone_ZoneLegalRepresentativeHomePageData());
+  }, [addBUSection2UploadMailApprovalState?.data, addBUSection2CheckboxState?.data]);
 
   const TABLE_COLUMNS = [
     {
@@ -91,18 +96,26 @@ const GlobalPersonaTable = ({
                 Review
               </Button>
             )}
+            {['Responded', 'Approval Pending'].includes(row.row.original.Status) &&
+              row.row.original?.signatures?.buh_signed === false && (
+                <Button
+                  className="mr-2"
+                  onClick={() => {
+                    const data = {
+                      scopeData: row.row.original,
+                      modalType: 'attemptSection2',
+                      letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
+                      isSection3ApproveState: false,
+                    };
+                    history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
+                  }}
+                >
+                  Signature
+                </Button>
+              )}
           </div>
         );
       },
-    },
-    {
-      accessorKey: 'Letter_Type',
-      id: 'Letter_Type',
-      header: 'Letter Type',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
     },
     {
       accessorKey: 'Zone',
@@ -114,36 +127,15 @@ const GlobalPersonaTable = ({
       size: 90,
     },
     {
-      accessorKey: 'BU',
-      id: 'BU',
-      header: 'BU',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 150,
-    },
-    {
       accessorKey: 'Status',
       id: 'Status',
-      header: 'Over All Status',
+      header: 'Status',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 170,
       Cell: (row) => {
         return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
-      },
-    },
-    {
-      accessorKey: 'RBA_Status',
-      id: 'RBA_Status',
-      header: 'RBA Status',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 170,
-      Cell: (row) => {
-        return <span className={'text-yellow-dark'}>{row.row.original.RBA_Status}</span>;
       },
     },
     {
@@ -167,9 +159,18 @@ const GlobalPersonaTable = ({
       size: 200,
     },
     {
-      accessorKey: 'BU_Head',
-      id: 'BU_Head',
-      header: 'BU Head',
+      accessorKey: 'Excom_Member',
+      id: 'Excom_Member',
+      header: 'Excom Member',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 200,
+    },
+    {
+      accessorKey: 'Zone_Legal_Representative',
+      id: 'Zone_Legal_Representative',
+      header: 'Zone Legal Representative',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -188,15 +189,6 @@ const GlobalPersonaTable = ({
       accessorKey: 'Zone_VP',
       id: 'Zone_VP',
       header: 'Zone VP',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 200,
-    },
-    {
-      accessorKey: 'Finance_Director',
-      id: 'Finance_Director',
-      header: 'Finance Director',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -223,42 +215,39 @@ const GlobalPersonaTable = ({
   ];
 
   useEffect(() => {
-    if (!HomePageData?.length) return setTableDataArray([]);
-    if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
-      return setTableDataArray(HomePageData);
+    setTableData(HomePageData);
+  }, [getHomePageData?.data[0], HomePageData]);
+
+  useEffect(() => {
+    if (!tableData?.length) return setTableDataArray([]);
+    if (!assessmentCycleValue?.length && !zoneValue?.length) {
+      return setTableDataArray(tableData);
     }
-    const updatedData = HomePageData?.filter((i) => {
+    const updatedData = tableData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
-        (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-        (buValue?.length ? buValue.includes(i.BU) : true)
+        (zoneValue?.length ? zoneValue.includes(i.Zone) : true)
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, buValue, HomePageData]);
+  }, [assessmentCycleValue, zoneValue, tableData]);
   return (
     <>
       <div className="container-fluid">
-        {getGlobalPersonaHomePageData?.loading ? (
+        {getHomePageData?.loading ? (
           <TableLoader className="mt-8" />
         ) : (
           <div className="row pt-5">
             <div className="col-12 col-lg-12">
               <Group spacing="xs" className="actions-button-wrapper">
                 <FilterMultiSelect
-                  data={getGlobalPersonaHomePageData?.data[0]?.distinct_zone || []}
+                  data={getHomePageData?.data[0]?.distinct_zone || []}
                   label="Zone"
                   value={zoneValue}
                   onChange={setZoneValue}
                 />
                 <FilterMultiSelect
-                  data={getGlobalPersonaHomePageData?.data[0]?.distinct_bu || []}
-                  label="BU"
-                  value={buValue}
-                  onChange={setBUValue}
-                />
-                <FilterMultiSelect
-                  data={getGlobalPersonaHomePageData?.data[0]?.distinct_assesment_cycle || []}
+                  data={getHomePageData?.data[0]?.distinct_assesment_cycle || []}
                   label="Assessment Cycle"
                   value={assessmentCycleValue}
                   onChange={setAssessmentCycleValue}
@@ -267,15 +256,11 @@ const GlobalPersonaTable = ({
             </div>
 
             <div className="col-12 col-lg-12 mt-5">
-              {tableDataArray?.length > 0 ? (
-                <Table2
-                  tableData={tableDataArray}
-                  loading={getGlobalPersonaHomePageData.loading}
-                  tableColumns={TABLE_COLUMNS}
-                />
-              ) : (
-                <NoDataPlaceholder />
-              )}
+              <Table2
+                tableData={tableDataArray}
+                loading={getHomePageData.loading}
+                tableColumns={TABLE_COLUMNS}
+              />
             </div>
           </div>
         )}
@@ -284,4 +269,4 @@ const GlobalPersonaTable = ({
   );
 };
 
-export default GlobalPersonaTable;
+export default ZoneLegalRepresentativeTable;

@@ -37,10 +37,12 @@ const ZoneVPHomePage = () => {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);
       return {
-        RBA_completed: getNumberOfItem(RBAStatus, 'RBA Approved'),
+        rbaApproved: getNumberOfItem(RBAStatus, 'RBA Approved'),
         notStarted: getNumberOfItem(allstatus, 'Not Started'),
+        responded: getNumberOfItem(allstatus, 'Responded'),
+        signed: getNumberOfItem(allstatus, 'Signed'),
         completed: getNumberOfItem(allstatus, 'Completed'),
-        draft: getNumberOfItem(allstatus, 'Drafted'),
+        total: allstatus?.length,
       };
     }
 
@@ -56,10 +58,12 @@ const ZoneVPHomePage = () => {
     const allUpdatestatus = updatedData?.map((d) => d?.Status);
     const RBAStatus = updatedData.map((d) => d?.RBA_Status);
     return {
-      RBA_completed: getNumberOfItem(RBAStatus, 'RBA Approved'),
+      rbaApproved: getNumberOfItem(RBAStatus, 'RBA Approved'),
       notStarted: getNumberOfItem(allUpdatestatus, 'Not Started'),
+      responded: getNumberOfItem(allUpdatestatus, 'Responded'),
+      signed: getNumberOfItem(allUpdatestatus, 'Signed'),
       completed: getNumberOfItem(allUpdatestatus, 'Completed'),
-      draft: getNumberOfItem(allUpdatestatus, 'Drafted'),
+      total: allUpdatestatus?.length,
     };
   }, [
     getHomePageData?.data[0],
@@ -83,10 +87,12 @@ const ZoneVPHomePage = () => {
           </div>
           <div className="col-lg-8">
             <div className="d-flex align-items-center flex-wrap justify-content-end">
-              <AmountInfo amount={statusInfo.notStarted} infoText="NOT STARTED" />
+              {/* <AmountInfo amount={statusInfo.notStarted} infoText="NOT STARTED" /> */}
+              <AmountInfo amount={statusInfo.responded} infoText="RESPONDED" />
+              <AmountInfo amount={statusInfo.signed} infoText="SIGNED" />
+              <AmountInfo amount={statusInfo.rbaApproved} infoText="RBA APPROVED" />
               <AmountInfo amount={statusInfo.completed} infoText="COMPLETED" />
-              <AmountInfo amount={statusInfo.draft} infoText="DRAFTED" />
-              <AmountInfo amount={statusInfo.RBA_completed} infoText="RBA APPROVED" />
+              {/* <AmountInfo amount={statusInfo.total} infoText="TOTAL" /> */}
             </div>
           </div>
         </div>

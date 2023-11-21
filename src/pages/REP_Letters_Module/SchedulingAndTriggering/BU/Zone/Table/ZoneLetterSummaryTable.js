@@ -238,7 +238,7 @@ const ZoneLetterSummaryTable = () => {
               </div>
             </div>
 
-            <div className="container-fluid mt-5">
+            <div className="mt-5">
               <div className="row">
                 <div className="d-flex align-items-center justify-content-end">
                   <div>

@@ -3,7 +3,14 @@ import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
 import { InteractionStatus, PublicClientApplication } from '@azure/msal-browser';
 import { loginRequest, msalConfig, snowBackendRequest, powerbiRequest } from './utils/authConfig';
 import { Helmet } from 'react-helmet';
-import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 'react-router-dom';
+import {
+  Routes,
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useLocation,
+  useHistory,
+} from 'react-router-dom';
 import axios from 'axios';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './assets/styles/App.css';
@@ -36,6 +43,7 @@ import ContactUs from './pages/ContactUS/contactus';
 import { NoMatch } from './pages/NoMatch/NoMatch';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/i18n';
+import BU_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterForm/BU/FormComponents/LazyApprovalSection2/BU_Letter_LazyApprovalSection2.jsx';
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -68,6 +76,8 @@ const Pages = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useIsAuthenticated();
   const { instance, accounts, inProgress } = useMsal();
+  const params = new URLSearchParams(location.search);
+  const redirect = params.get('redirect');
   const userRole = localStorage.getItem('selected_Role');
   const module = localStorage.getItem('selected_module_Role');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
@@ -113,82 +123,91 @@ const Pages = () => {
   }, [accounts]);
   const user_role = localStorage.getItem('user_Role');
 
-  useEffect(() => {
-    if (!isAuthenticated && inProgress === InteractionStatus.None) {
-      history.push('/login');
-    }
-  }, [inProgress]);
+  // useEffect(() => {
+  //   if (!isAuthenticated && inProgress === InteractionStatus.None) {
+  //     history.push('/login');
+  //   }
+  // }, [inProgress]);
+
+  // useEffect(() => {
+  //   const dom = document.getElementById('google_translate_element');
+  //   if (!dom) return;
+  //   if (['/login'].includes(window.location.pathname)) {
+  //     dom.classList.add('d-none');
+  //   } else {
+  //     dom.classList.remove('d-none');
+  //   }
+  // }, [history.location.pathname]);
 
   useEffect(() => {
-    const dom = document.getElementById('google_translate_element');
-    if (!dom) return;
-    if (['/login'].includes(window.location.pathname)) {
-      dom.classList.add('d-none');
-    } else {
-      dom.classList.remove('d-none');
-    }
-  }, [history.location.pathname]);
-
-  useEffect(() => {
-    if (accounts?.length > 0) {
-      instance
-        .acquireTokenSilent({
-          ...loginRequest,
-          account: accounts[0],
-        })
-        .then((response) => {
-          localStorage.setItem('id_token', response?.idToken);
-          dataService
-            .getMSGraphPhoto(response.accessToken)
-            .then((image) => {
-              if (image.type === 'image/jpeg')
-                userDispatch({ type: 'SET_PROFILE_PHOTO', payload: image });
-            })
-            .catch((err) => console.log(err));
-        })
-        .catch((err) => {
-          instance.logout({
-            account: accounts.length > 0 ? accounts[0] : null,
+    // // logic redirect login url
+    if (accounts && accounts?.length > 0 && inProgress === InteractionStatus.None) {
+      if (accounts?.length > 0) {
+        instance
+          .acquireTokenSilent({
+            ...loginRequest,
+            account: accounts[0],
+          })
+          .then((response) => {
+            localStorage.setItem('id_token', response?.idToken);
+            dataService
+              .getMSGraphPhoto(response.accessToken)
+              .then((image) => {
+                if (image.type === 'image/jpeg')
+                  userDispatch({ type: 'SET_PROFILE_PHOTO', payload: image });
+              })
+              .catch((err) => console.log(err));
+          })
+          .catch((err) => {
+            instance.logout({
+              account: accounts.length > 0 ? accounts[0] : null,
+            });
           });
-        });
-      // for creating Snow API token for Ticketing
-      instance
-        .acquireTokenSilent({
-          ...snowBackendRequest,
-          account: accounts[0],
-        })
-        .then((response) => {
-          localStorage.setItem('snow_api_access_token', response?.accessToken);
-        })
-        .catch((err) => {
-          console.log(`Error occurred while acquiring token: ${err}`);
-        });
-      // for creating PowerBI API token for PowerBI
-      instance
-        .acquireTokenSilent({
-          ...powerbiRequest,
-          account: accounts[0],
-        })
-        .then((response) => {
-          localStorage.setItem('powerbi_access_token', response?.accessToken);
-        });
-    }
-    // logic for getting NPS api auth token
-    if (accounts) {
-      instance
-        .acquireTokenSilent({
-          scopes: [process.env.REACT_APP_NPS_AUTH_API],
-          account: accounts[0],
-        })
-        .then((response) => {
-          if (response) {
-            //setToken(response.accessToken);
-            localStorage.setItem('nps-auth-token', response.accessToken);
-          }
-        })
-        .catch((error) => {
-          console.log('error in custom', error);
-        });
+        // for creating Snow API token for Ticketing
+        instance
+          .acquireTokenSilent({
+            ...snowBackendRequest,
+            account: accounts[0],
+          })
+          .then((response) => {
+            localStorage.setItem('snow_api_access_token', response?.accessToken);
+          })
+          .catch((err) => {
+            console.log(`Error occurred while acquiring token: ${err}`);
+          });
+        // for creating PowerBI API token for PowerBI
+        instance
+          .acquireTokenSilent({
+            ...powerbiRequest,
+            account: accounts[0],
+          })
+          .then((response) => {
+            localStorage.setItem('powerbi_access_token', response?.accessToken);
+          });
+      }
+      // logic for getting NPS api auth token
+      if (accounts) {
+        instance
+          .acquireTokenSilent({
+            scopes: [process.env.REACT_APP_NPS_AUTH_API],
+            account: accounts[0],
+          })
+          .then((response) => {
+            if (response) {
+              //setToken(response.accessToken);
+              localStorage.setItem('nps-auth-token', response.accessToken);
+            }
+          })
+          .catch((error) => {
+            console.log('error in custom', error);
+          });
+      }
+      if (redirect) history.push(redirect);
+      else if (location.pathname == '/login') history.push('/');
+      else history.push(location.pathname);
+    } else if (accounts && accounts.length === 0 && inProgress === InteractionStatus.None) {
+      if (redirect) history.push(`/login?redirect=${redirect}`);
+      else history.push('/login');
     }
   }, [accounts, inProgress]);
 
@@ -236,7 +255,7 @@ const Pages = () => {
           {userRole === 'Global internal control' || module === 'Functional' || module === 'BU'
             ? AdminRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
-
+          <Route exact path="/BU-Letter-approve/:id" component={BU_Letter_LazyApprovalSection2} />
           <Route exact path="/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
           <Route exact path="/POC" component={POC} />

@@ -8,14 +8,16 @@ import Button from '../../../../../MDM/MDM_Tab_Buttons/Button';
 import { Divider, Box } from '@mantine/core';
 import Workbook from 'react-excel-workbook';
 import { months } from '../../../../../QuestionBank/CreateQuestions/constant';
-import { addRlFunctionalAssessmentData, addRlBuLetterData } from '../../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
+import {
+  addRlFunctionalAssessmentData,
+  addRlBuLetterData,
+} from '../../../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
 
 const ReviewLetterDetails = ({ finalPayload, onClose }) => {
   const history = useHistory();
   console.log('finalPayload', finalPayload);
   const dispatch = useDispatch();
   const handleSubmit = () => {
-
     dispatch(addRlBuLetterData(finalPayload));
     history.push('/REP-Letters/scheduling-and-triggering');
   };
@@ -118,7 +120,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
         <div className="d-flex align-items-center">
           <span className="black-text font-weight-bold">Instances:</span>
           <Workbook
-            filename="Recipients-List.xlsx"
+            filename="BU-Disclosure-Processor-List.xlsx"
             element={
               <>
                 <button className="export_excel_button">
@@ -127,7 +129,10 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               </>
             }
           >
-            <Workbook.Sheet data={finalPayload?.SelectedDataFromTable} name="Disclosure-Processor-List">
+            <Workbook.Sheet
+              data={finalPayload?.SelectedDataFromTable}
+              name="Disclosure-Processor-List"
+            >
               <Workbook.Column label="Zone" value="Zone" />
               <Workbook.Column label="BU" value="BU" />
               <Workbook.Column label="BU Head" value="BU_Head" />

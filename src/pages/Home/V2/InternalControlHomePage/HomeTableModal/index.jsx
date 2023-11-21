@@ -142,8 +142,8 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           getAssessmentSection2Ans({
             MICS_code: 'INV_REP_06' || Control_ID,
             Entity_ID: 'Argentina, Botswana',
-            KPI_From: '2023-03-01' || '',
-            KPI_To: '2023-05-31' || '',
+            KPI_From: '2023-09-01' || '',
+            KPI_To: '2023-11-30' || '',
           }),
         );
       }

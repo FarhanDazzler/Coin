@@ -55,6 +55,15 @@ const BuZoneMasterdataTable = () => {
     //   size: 100,
     // },
     {
+      accessorKey: 'Disclosure_Processor',
+      id: 'Disclosure_Processor',
+      header: 'Disclosure Processor',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 250,
+    },
+    {
       accessorKey: 'Zone_Control',
       id: 'Zone_Control',
       header: 'Zone Control',

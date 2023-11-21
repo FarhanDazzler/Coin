@@ -1,5 +1,12 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import {
+  Routes,
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useLocation,
+  useHistory,
+} from 'react-router-dom';
 import '../../assets/styles/Login.css';
 import { Button, Card } from 'react-bootstrap';
 import { loginRequest } from '../../utils/authConfig';
@@ -10,15 +17,13 @@ import { InteractionStatus } from '@azure/msal-browser';
 import PageWrapper from '../../components/wrappers/PageWrapper';
 
 const Login = () => {
-  const { accounts } = useMsal();
+  const location = useLocation();
   const history = useHistory();
-
-  const { instance, inProgress } = useMsal();
-
   const isAuthenticated = useIsAuthenticated();
+  const { instance, accounts, inProgress } = useMsal();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (accounts && accounts.length > 0 && inProgress === InteractionStatus.None) {
       history.push('/');
     }
   }, [inProgress]);
