@@ -233,16 +233,19 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
     case GET_ASSESSMENT_SECTION_2_REQUEST:
       return {
         ...state,
+        kpiResult: { ...state.kpiResult, loading: true },
         getResponseSection2: { ...state.getResponseSection2, loading: true },
       };
     case GET_ASSESSMENT_SECTION_2_SUCCESS:
       return {
         ...state,
+        kpiResult: { ...state.kpiResult, loading: false },
         getResponseSection2: { ...state.getResponseSection2, data: payload.data, loading: false },
       };
     case GET_ASSESSMENT_SECTION_2_ERROR:
       return {
         ...state,
+        kpiResult: { ...state.kpiResult, loading: false },
         getResponseSection2: { ...state.getResponseSection2, loading: false },
       };
 

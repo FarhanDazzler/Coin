@@ -10,7 +10,6 @@ import {
   addOrUpdateDraft,
   getAssessmentAns,
   getAssessmentSection2Ans,
-  getKPIData,
   getLatestDraft,
   getQuestions,
   clearAssessmentResponse,

@@ -97,7 +97,7 @@ const ControlSection2Chart = () => {
   return (
     <div className="d-flex">
       <div className="controlSection2ChartWrapper w-full">
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 15px' }}>
           {thresholds.map((s) => {
             return (
               <span className="mr-3">
@@ -106,51 +106,55 @@ const ControlSection2Chart = () => {
             );
           })}
         </div>
-        <ReactApexChart
-          type="area"
-          options={{
-            chart: {
-              type: 'line',
-              height: 350,
-            },
-            plotOptions: {
-              bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                endingShape: 'rounded',
+        <div className="chart-wrapper">
+          <div className="axis y-axis">Y axis</div>
+          <div className="axis x-axis">X axis</div>
+          <ReactApexChart
+            type="area"
+            options={{
+              chart: {
+                type: 'line',
+                height: 350,
               },
-            },
-            dataLabels: {
-              enabled: false,
-            },
-            stroke: {
-              show: true,
-              width: 2,
-              colors: ['transparent'],
-            },
-            xaxis: {
-              categories: xAxis,
-            },
-            yaxis,
-            // yaxis: {
-            //   title: {
-            //     text: '$ (thousands)',
-            //   },
-            // },
-            fill: {
-              opacity: 1,
-            },
-            tooltip: {
-              y: {
-                formatter: function (val) {
-                  return val || '0';
+              plotOptions: {
+                bar: {
+                  horizontal: false,
+                  columnWidth: '55%',
+                  endingShape: 'rounded',
                 },
               },
-            },
-          }}
-          series={series}
-          height={350}
-        />
+              dataLabels: {
+                enabled: false,
+              },
+              stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent'],
+              },
+              xaxis: {
+                categories: xAxis,
+              },
+              yaxis,
+              // yaxis: {
+              //   title: {
+              //     text: '$ (thousands)',
+              //   },
+              // },
+              fill: {
+                opacity: 1,
+              },
+              tooltip: {
+                y: {
+                  formatter: function (val) {
+                    return val || '0';
+                  },
+                },
+              },
+            }}
+            series={series}
+            height={350}
+          />
+        </div>
       </div>
       <div className="renderBlockWrapper" style={{ minWidth: 350 }}>
         <div className="d-flex chart-info-table overflow-table">
