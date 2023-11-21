@@ -16,6 +16,30 @@ import {
   DELETE_ADMIN_ROLE_REQUEST,
   DELETE_ADMIN_ROLE_SUCCESS,
   DELETE_ADMIN_ROLE_ERROR,
+  GET_BU_ALL_ROLES_REQUEST,
+  GET_BU_ALL_ROLES_SUCCESS,
+  GET_BU_ALL_ROLES_ERROR,
+  ADD_BU_ADMIN_ROLE_REQUEST,
+  ADD_BU_ADMIN_ROLE_SUCCESS,
+  ADD_BU_ADMIN_ROLE_ERROR,
+  MODIFY_BU_ADMIN_ROLE_REQUEST,
+  MODIFY_BU_ADMIN_ROLE_SUCCESS,
+  MODIFY_BU_ADMIN_ROLE_ERROR,
+  DELETE_BU_ADMIN_ROLE_REQUEST,
+  DELETE_BU_ADMIN_ROLE_SUCCESS,
+  DELETE_BU_ADMIN_ROLE_ERROR,
+  GET_FUNCTION_ALL_ROLES_REQUEST,
+  GET_FUNCTION_ALL_ROLES_SUCCESS,
+  GET_FUNCTION_ALL_ROLES_ERROR,
+  ADD_FUNCTION_ADMIN_ROLE_REQUEST,
+  ADD_FUNCTION_ADMIN_ROLE_SUCCESS,
+  ADD_FUNCTION_ADMIN_ROLE_ERROR,
+  MODIFY_FUNCTION_ADMIN_ROLE_REQUEST,
+  MODIFY_FUNCTION_ADMIN_ROLE_SUCCESS,
+  MODIFY_FUNCTION_ADMIN_ROLE_ERROR,
+  DELETE_FUNCTION_ADMIN_ROLE_REQUEST,
+  DELETE_FUNCTION_ADMIN_ROLE_SUCCESS,
+  DELETE_FUNCTION_ADMIN_ROLE_ERROR,
 } from './AdminPageReducer';
 import { ACTION_ADD_ERROR_NOTIFICATION_DATA } from '../ErrorNotification/ErrorNotificationReducer';
 import Swal from 'sweetalert2';
@@ -159,9 +183,296 @@ function* deleteAdminRoleData({ payload }) {
     }
   }
 }
+
+//GET All BU Admin ROLE Data
+
+async function get_BU_All_RolesApi(params) {
+  return await Axios.get('/get_business_unit_persona', { params });
+}
+function* handle_Get_BU_All_Roles({ payload }) {
+  try {
+    const response = yield call(get_BU_All_RolesApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BU_ALL_ROLES_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BU_ALL_ROLES_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+//ADD BU Admin ROLE Data
+async function add_BU_AdminRoleApi(payload) {
+  return await Axios.post('/add_business_unit_persona', payload);
+}
+function* add_BU_AdminRoleData({ payload }) {
+  try {
+    const response = yield call(add_BU_AdminRoleApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_BU_ADMIN_ROLE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Added Successfully!', 'success');
+      yield call(get_BU_All_RolesApi);
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    if (error?.response?.status === 400) {
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: error?.response?.data?.data, type: 'danger' },
+        },
+      });
+      yield put({
+        type: ADD_BU_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: ADD_BU_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  }
+}
+
+//Modify BU Admin ROLE Data
+async function modify_BU_AdminRoleApi(payload) {
+  return await Axios.post('/update_business_unit_persona', payload);
+}
+function* modify_BU_AdminRoleData({ payload }) {
+  try {
+    const response = yield call(modify_BU_AdminRoleApi, payload);
+    if (response.success) {
+      yield put({
+        type: MODIFY_BU_ADMIN_ROLE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Updated Successfully!', 'success');
+      yield call(get_BU_All_RolesApi);
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    if (error?.response?.status === 400) {
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: error?.response?.data?.data, type: 'danger' },
+        },
+      });
+      yield put({
+        type: MODIFY_BU_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: MODIFY_BU_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  }
+}
+
+//Delete BU Admin ROLE Data
+async function delete_BU_AdminRoleApi(payload) {
+  return await Axios.post('/delete_business_unit_persona', payload);
+}
+function* delete_BU_AdminRoleData({ payload }) {
+  try {
+    const response = yield call(delete_BU_AdminRoleApi, payload);
+    if (response.success) {
+      yield put({
+        type: DELETE_BU_ADMIN_ROLE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Deleted Successfully!', 'success');
+      yield call(get_BU_All_RolesApi);
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    if (error?.response?.status === 400) {
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: error?.response?.data?.data, type: 'danger' },
+        },
+      });
+      yield put({
+        type: DELETE_BU_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: DELETE_BU_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  }
+}
+
+//GET All Function Admin ROLE Data
+
+async function get_Function_All_RolesApi(params) {
+  return await Axios.get('/get_function_persona', { params });
+}
+function* handle_Get_Function_All_Roles({ payload }) {
+  try {
+    const response = yield call(get_Function_All_RolesApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_FUNCTION_ALL_ROLES_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_FUNCTION_ALL_ROLES_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
+//ADD Function Admin ROLE Data
+async function add_Function_AdminRoleApi(payload) {
+  return await Axios.post('/add_function_persona', payload);
+}
+function* add_Function_AdminRoleData({ payload }) {
+  try {
+    const response = yield call(add_Function_AdminRoleApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_FUNCTION_ADMIN_ROLE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Added Successfully!', 'success');
+      yield call(get_Function_All_RolesApi);
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    if (error?.response?.status === 400) {
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: error?.response?.data?.data, type: 'danger' },
+        },
+      });
+      yield put({
+        type: ADD_FUNCTION_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: ADD_FUNCTION_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  }
+}
+
+//Modify Function Admin ROLE Data
+async function modify_Function_AdminRoleApi(payload) {
+  return await Axios.post('/update_function_persona', payload);
+}
+function* modify_Function_AdminRoleData({ payload }) {
+  try {
+    const response = yield call(modify_Function_AdminRoleApi, payload);
+    if (response.success) {
+      yield put({
+        type: MODIFY_FUNCTION_ADMIN_ROLE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Updated Successfully!', 'success');
+      yield call(get_Function_All_RolesApi);
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    if (error?.response?.status === 400) {
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: error?.response?.data?.data, type: 'danger' },
+        },
+      });
+      yield put({
+        type: MODIFY_FUNCTION_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: MODIFY_FUNCTION_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  }
+}
+
+//Delete Function Admin ROLE Data
+async function delete_Function_AdminRoleApi(payload) {
+  return await Axios.post('/delete_function_persona', payload);
+}
+function* delete_Function_AdminRoleData({ payload }) {
+  try {
+    const response = yield call(delete_Function_AdminRoleApi, payload);
+    if (response.success) {
+      yield put({
+        type: DELETE_FUNCTION_ADMIN_ROLE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Deleted Successfully!', 'success');
+      yield call(get_Function_All_RolesApi);
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    if (error?.response?.status === 400) {
+      yield put({
+        type: ACTION_ADD_ERROR_NOTIFICATION_DATA,
+        payload: {
+          data: { text: error?.response?.data?.data, type: 'danger' },
+        },
+      });
+      yield put({
+        type: DELETE_FUNCTION_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+    } else {
+      yield put({
+        type: DELETE_FUNCTION_ADMIN_ROLE_ERROR,
+        // error: getSimplifiedError(error),
+      });
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  }
+}
+
 export default all([
   takeLatest(GET__ALL_ROLES_REQUEST, handle_Get_All_Roles),
   takeLatest(ADD_ADMIN_ROLE_REQUEST, addAdminRoleData),
   takeLatest(MODIFY_ADMIN_ROLE_REQUEST, modifyAdminRoleData),
   takeLatest(DELETE_ADMIN_ROLE_REQUEST, deleteAdminRoleData),
+  takeLatest(GET_BU_ALL_ROLES_REQUEST, handle_Get_BU_All_Roles),
+  takeLatest(ADD_BU_ADMIN_ROLE_REQUEST, add_BU_AdminRoleData),
+  takeLatest(MODIFY_BU_ADMIN_ROLE_REQUEST, modify_BU_AdminRoleData),
+  takeLatest(DELETE_BU_ADMIN_ROLE_REQUEST, delete_BU_AdminRoleData),
+  takeLatest(GET_FUNCTION_ALL_ROLES_REQUEST, handle_Get_Function_All_Roles),
+  takeLatest(ADD_FUNCTION_ADMIN_ROLE_REQUEST, add_Function_AdminRoleData),
+  takeLatest(MODIFY_FUNCTION_ADMIN_ROLE_REQUEST, modify_Function_AdminRoleData),
+  takeLatest(DELETE_FUNCTION_ADMIN_ROLE_REQUEST, delete_Function_AdminRoleData),
 ]);

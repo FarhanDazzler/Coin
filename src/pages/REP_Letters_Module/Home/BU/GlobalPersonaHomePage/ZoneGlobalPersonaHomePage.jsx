@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 import Tooltip from '@mui/material/Tooltip';
 import '../../styles.scss';
 import ProgressBar from '../../../../Home/V2/InternalControlHomePage/HomePageTable/ProgressBar/ProgressBar';
-import GlobalPersonaTable from './GlobalPersonaTable';
+import ZoneGlobalPersonaTable from './ZoneGlobalPersonaTable';
 import { ReactComponent as InfoIcon } from '../../../../../assets/images/InfoCircle.svg';
-import { get_BU_GlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { get_BUZone_GlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 const NumberWithText = ({ total, number, tooltip, subTitle }) => (
   <div className="d-flex justify-content-between bg-black mb-2 p-1 px-4 rounded-3">
     <div className="d-flex align-items-center">
@@ -22,16 +22,15 @@ const NumberWithText = ({ total, number, tooltip, subTitle }) => (
   </div>
 );
 
-const GlobalPersonaHomePage = () => {
+const ZoneGlobalPersonaHomePage = () => {
   const history = useHistory();
   const { accounts } = useMsal();
   const selectedUserRole = localStorage.getItem('selected_Role');
-  const getGlobalPersonaHomePageData = useSelector(get_BU_GlobalPersonaHomePageDataSelector);
+  const getGlobalPersonaHomePageData = useSelector(get_BUZone_GlobalPersonaHomePageDataSelector);
 
   const [yearValue, setYearValue] = useState([]);
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
-  const [buValue, setBUValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
@@ -43,8 +42,7 @@ const GlobalPersonaHomePage = () => {
       return (
         (!yearValue.length || yearValue.includes(i.Year)) &&
         (!assessmentCycleValue.length || assessmentCycleValue.includes(i.Assessment_Cycle)) &&
-        (!zoneValue.length || zoneValue.includes(i.Zone)) &&
-        (!buValue.length || buValue.includes(i.BU))
+        (!zoneValue.length || zoneValue.includes(i.Zone))
       );
     });
 
@@ -66,7 +64,6 @@ const GlobalPersonaHomePage = () => {
     yearValue,
     assessmentCycleValue,
     zoneValue,
-    buValue,
     getNumberOfItem,
   ]);
 
@@ -161,18 +158,16 @@ const GlobalPersonaHomePage = () => {
           </div>
         </div>
       </div>
-      <GlobalPersonaTable
+      <ZoneGlobalPersonaTable
         yearValue={yearValue}
         setYearValue={setYearValue}
         assessmentCycleValue={assessmentCycleValue}
         setAssessmentCycleValue={setAssessmentCycleValue}
         zoneValue={zoneValue}
         setZoneValue={setZoneValue}
-        buValue={buValue}
-        setBUValue={setBUValue}
       />
     </div>
   );
 };
 
-export default GlobalPersonaHomePage;
+export default ZoneGlobalPersonaHomePage;

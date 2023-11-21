@@ -230,22 +230,6 @@ const ControlOwnerAndOversightTable = () => {
       cellClassName: 'dashboardCell',
       size: 300,
     },
-    // {
-    //   accessorKey: 'local_control_description',
-    //   id: 'local_control_description',
-    //   header: 'Local Control Desc(LCD)',
-    //   flex: 1,
-    //   columnDefType: 'data',
-    //   cellClassName: 'dashboardCell',
-    //   size: 500,
-    //   Cell: (row) => {
-    //     return (
-    //       <span>
-    //         <p dangerouslySetInnerHTML={{ __html: row.row.original.local_control_description }} />
-    //       </span>
-    //     );
-    //   },
-    // },
     {
       accessorKey: 'cowner',
       id: 'cowner',
@@ -304,6 +288,22 @@ const ControlOwnerAndOversightTable = () => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 230,
+    },
+    {
+      accessorKey: 'local_control_description',
+      id: 'local_control_description',
+      header: 'Local Control Desc(LCD)',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 500,
+      Cell: (row) => {
+        return (
+          <span>
+            <p dangerouslySetInnerHTML={{ __html: row.row.original.local_control_description }} />
+          </span>
+        );
+      },
     },
   ];
   useEffect(() => {
@@ -435,7 +435,7 @@ const ControlOwnerAndOversightTable = () => {
                   loading={controlOwnerAndOversight.loading}
                   tableColumns={tableColumns}
                   setEditTableIndex={setEditTableIndex}
-                  Is_Expanding_Detail_Panel={Is_Expanding_Detail_Panel}
+                  //Is_Expanding_Detail_Panel={Is_Expanding_Detail_Panel}
                 />
               </div>
             </div>
