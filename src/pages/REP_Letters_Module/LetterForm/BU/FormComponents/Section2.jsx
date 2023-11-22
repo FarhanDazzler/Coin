@@ -89,24 +89,28 @@ const Section2 = ({ scopeData }) => {
       signatures.push({
         role: 'ZC',
         type: 'checkbox',
+        comment: value.Comments
       });
     }
     if (localStorage.getItem('selected_Role') === 'BU Head') {
       signatures.push({
         role: 'BUH',
         type: 'checkbox',
+        comment: value.Comments
       });
     }
     if (localStorage.getItem('selected_Role') === 'Zone VP') {
       signatures.push({
         role: 'ZV',
         type: 'checkbox',
+        comment: value.Comments
       });
     }
     if (localStorage.getItem('selected_Role') === 'Finance Director') {
       signatures.push({
         role: 'FD',
         type: 'checkbox',
+        comment: value.Comments
       });
     }
     const data = JSON.stringify({
@@ -532,7 +536,12 @@ const Section2 = ({ scopeData }) => {
                                 <p>
                                   <b>Finance Director</b>
                                 </p>
-                                <h5>Finance Director has Approved by Auto Authentication</h5>
+                                <h5>Finance Director has Approved by Auto Authenticator</h5>
+                                {
+                                  getBUSection2SignatureResponseState?.data?.signatures?.fd?.comment && (
+                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.fd?.comment}</h6>
+                                  )
+                                }
                               </div>
                             )}
                         </>
@@ -570,6 +579,11 @@ const Section2 = ({ scopeData }) => {
                                   <b>Zone VP</b>
                                 </p>
                                 <h5>Zone VP has Approved by Auto Authenticator</h5>
+                                {
+                                  getBUSection2SignatureResponseState?.data?.signatures?.zv?.comment && (
+                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.zv?.comment}</h6>
+                                  )
+                                }
                               </div>
                             )}
                         </>
@@ -607,6 +621,12 @@ const Section2 = ({ scopeData }) => {
                                   <b>BU Head</b>
                                 </p>
                                 <h5>BU Head has Approved by Auto Authenticator</h5>
+                                {
+                                  getBUSection2SignatureResponseState?.data?.signatures?.buh?.comment && (
+                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.buh?.comment}</h6>
+                                  )
+                                }
+                               
                               </div>
                             )}
                         </>
@@ -646,6 +666,11 @@ const Section2 = ({ scopeData }) => {
                                   <b>Zone Control</b>
                                 </p>
                                 <h5>Zone Control has Approved by Auto Authenticator</h5>
+                                {
+                                  getBUSection2SignatureResponseState?.data?.signatures?.zc?.comment && (
+                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.zc?.comment}</h6>
+                                  )
+                                }
                               </div>
                             )}
                         </>
