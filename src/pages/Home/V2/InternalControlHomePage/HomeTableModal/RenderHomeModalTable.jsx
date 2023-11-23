@@ -12,6 +12,7 @@ import ControlSection from './ControlSection';
 import ControlSection2Chart from './ControlSection2Chart';
 
 const RenderHomeModalTable = ({
+  s1FailObj,
   questionsInfo,
   setShowMoreSection,
   ansSection1,
@@ -43,7 +44,7 @@ const RenderHomeModalTable = ({
     if (value?.length > 0) return value[0]?.includes('no');
   });
   const [showControlSection, setShowControlSection] = useState(true);
-
+  console.log('s1FailObj', s1FailObj);
   useEffect(() => {
     let sectionTerminating = false;
     if (Object.keys(ansSection3).length !== 0) {
@@ -104,15 +105,16 @@ const RenderHomeModalTable = ({
                 language={language}
               />
               {showMoreSection && (
+                <ControlSection2
+                  tableData={tableData}
+                  setTableData={setTableData}
+                  controlId={controlId}
+                  setStartEdit={setStartEdit}
+                  isModal={isModal}
+                />
+              )}
+              {showMoreSection && !s1FailObj && (
                 <>
-                  <ControlSection2
-                    tableData={tableData}
-                    setTableData={setTableData}
-                    controlId={controlId}
-                    setStartEdit={setStartEdit}
-                    isModal={isModal}
-                  />
-
                   <ControlSection3
                     setTerminating={setTerminating}
                     ans={ansSection3}
@@ -126,7 +128,7 @@ const RenderHomeModalTable = ({
                 </>
               )}
 
-              {!isModal && terminating ? (
+              {(!isModal && terminating) || (s1FailObj && showMoreSection) ? (
                 <>
                   {section1TerminatingLogicValue || !!isSection3Failed ? (
                     <div style={{ color: 'red', marginBottom: '10px' }}>
