@@ -107,8 +107,8 @@ const ControlSection2Chart = () => {
           })}
         </div>
         <div className="chart-wrapper">
-          <div className="axis y-axis">Y axis</div>
-          <div className="axis x-axis">X axis</div>
+          <div className="axis y-axis">KPI Values</div>
+          <div className="axis x-axis mb-2">Receivers</div>
           <ReactApexChart
             type="area"
             options={{
