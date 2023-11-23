@@ -7,7 +7,7 @@ import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import { Form, Container, Row, Col, Card } from 'react-bootstrap';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import * as Yup from 'yup';
-import { useFormikContext, Field, Formik } from 'formik';
+import { useFormikContext, Field, Formik, ErrorMessage } from 'formik';
 import {
   getBUSection2SignatureResponseAction,
   addBUSection2CheckboxAction,
@@ -375,7 +375,9 @@ const Section2 = ({ scopeData }) => {
             Comments: '',
           }}
           validationSchema={Yup.object().shape({
-            toggle: Yup.string().required('Agree is required'),
+           
+            toggle: Yup.boolean()
+            .oneOf([true], "You must accept to complete Authentication")
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {
@@ -411,6 +413,7 @@ const Section2 = ({ scopeData }) => {
                     & email adress) for authentication
                   </p>
                 </Form.Label>
+                <ErrorMessage name="toggle" component="div" className="error" />
               </Form.Group>
 
               <Form.Group className="mb-3">
@@ -437,7 +440,7 @@ const Section2 = ({ scopeData }) => {
                         color="neutral"
                         className="ml-4"
                         onClick={handleSubmit}
-                        disabled={!values.toggle}
+                      
                         //loading={values.toggle}
                       >
                         Confirm
