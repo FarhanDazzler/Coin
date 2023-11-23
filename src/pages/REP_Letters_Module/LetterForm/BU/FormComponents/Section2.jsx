@@ -89,28 +89,28 @@ const Section2 = ({ scopeData }) => {
       signatures.push({
         role: 'ZC',
         type: 'checkbox',
-        comment: value.Comments
+        comment: value.Comments,
       });
     }
     if (localStorage.getItem('selected_Role') === 'BU Head') {
       signatures.push({
         role: 'BUH',
         type: 'checkbox',
-        comment: value.Comments
+        comment: value.Comments,
       });
     }
     if (localStorage.getItem('selected_Role') === 'Zone VP') {
       signatures.push({
         role: 'ZV',
         type: 'checkbox',
-        comment: value.Comments
+        comment: value.Comments,
       });
     }
     if (localStorage.getItem('selected_Role') === 'Finance Director') {
       signatures.push({
         role: 'FD',
         type: 'checkbox',
-        comment: value.Comments
+        comment: value.Comments,
       });
     }
     const data = JSON.stringify({
@@ -375,9 +375,7 @@ const Section2 = ({ scopeData }) => {
             Comments: '',
           }}
           validationSchema={Yup.object().shape({
-           
-            toggle: Yup.boolean()
-            .oneOf([true], "You must accept to complete Authentication")
+            toggle: Yup.boolean().oneOf([true], 'You must accept to complete Authentication'),
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {
@@ -405,13 +403,15 @@ const Section2 = ({ scopeData }) => {
                 <Form.Label className="mt-3">
                   <Field type="checkbox" name="toggle" />
                   <span>
-                    &nbsp;&nbsp;I hereby declare, that the above responses are in alignment with the
-                    business expectations
+                    &nbsp;&nbsp;I hereby certify that the above representation letter reflects my
+                    understanding of the accuracy of the financial reporting package and the
+                    effectiveness of the internal controls and financial reporting controls of
+                    Cognos Company Code.
                   </span>
-                  <p>
+                  {/* <p>
                     with this selection, I agree to let COIN collect my information - (ie. Timestamp
                     & email adress) for authentication
-                  </p>
+                  </p> */}
                 </Form.Label>
                 <ErrorMessage name="toggle" component="div" className="error" />
               </Form.Group>
@@ -437,14 +437,14 @@ const Section2 = ({ scopeData }) => {
                       Cancel
                     </Button>
                     <Button
-                        color="neutral"
-                        className="ml-4"
-                        onClick={handleSubmit}
-                      
-                        //loading={values.toggle}
-                      >
-                        Confirm
-                      </Button>
+                      color="neutral"
+                      className="ml-4"
+                      onClick={handleSubmit}
+
+                      //loading={values.toggle}
+                    >
+                      Confirm
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -477,15 +477,10 @@ const Section2 = ({ scopeData }) => {
                     <p>Upload the approval email from the respective signatories/authenticators</p>
                   </>
                 ) : (
-                  <>
-                    <p>Choose your method of approval/authentication</p>
-                    <ul>
-                      <li>
-                        Select the check-box below to provide your approval for the above filled
-                        responses
-                      </li>
-                    </ul>
-                  </>
+                  <p>
+                    Select the check-box below to provide your signature for the above filled
+                    responses
+                  </p>
                 )}
               </div>
               {getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted ||
@@ -539,12 +534,17 @@ const Section2 = ({ scopeData }) => {
                                 <p>
                                   <b>Finance Director</b>
                                 </p>
-                                <h5>Finance Director has Approved by Auto Authenticator</h5>
-                                {
-                                  getBUSection2SignatureResponseState?.data?.signatures?.fd?.comment && (
-                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.fd?.comment}</h6>
-                                  )
-                                }
+                                <h5>Finance Director has Signed by Auto Authenticator</h5>
+                                {getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                  ?.comment && (
+                                  <h6>
+                                    <b>Comments:</b>{' '}
+                                    {
+                                      getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                        ?.comment
+                                    }
+                                  </h6>
+                                )}
                               </div>
                             )}
                         </>
@@ -581,12 +581,17 @@ const Section2 = ({ scopeData }) => {
                                 <p>
                                   <b>Zone VP</b>
                                 </p>
-                                <h5>Zone VP has Approved by Auto Authenticator</h5>
-                                {
-                                  getBUSection2SignatureResponseState?.data?.signatures?.zv?.comment && (
-                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.zv?.comment}</h6>
-                                  )
-                                }
+                                <h5>Zone VP has Signed by Auto Authenticator</h5>
+                                {getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                  ?.comment && (
+                                  <h6>
+                                    <b>Comments:</b>{' '}
+                                    {
+                                      getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                        ?.comment
+                                    }
+                                  </h6>
+                                )}
                               </div>
                             )}
                         </>
@@ -623,13 +628,17 @@ const Section2 = ({ scopeData }) => {
                                 <p>
                                   <b>BU Head</b>
                                 </p>
-                                <h5>BU Head has Approved by Auto Authenticator</h5>
-                                {
-                                  getBUSection2SignatureResponseState?.data?.signatures?.buh?.comment && (
-                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.buh?.comment}</h6>
-                                  )
-                                }
-                               
+                                <h5>BU Head has Signed by Auto Authenticator</h5>
+                                {getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                  ?.comment && (
+                                  <h6>
+                                    <b>Comments:</b>{' '}
+                                    {
+                                      getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                        ?.comment
+                                    }
+                                  </h6>
+                                )}
                               </div>
                             )}
                         </>
@@ -668,12 +677,17 @@ const Section2 = ({ scopeData }) => {
                                 <p>
                                   <b>Zone Control</b>
                                 </p>
-                                <h5>Zone Control has Approved by Auto Authenticator</h5>
-                                {
-                                  getBUSection2SignatureResponseState?.data?.signatures?.zc?.comment && (
-                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.zc?.comment}</h6>
-                                  )
-                                }
+                                <h5>Zone Control has Signed by Auto Authenticator</h5>
+                                {getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                  ?.comment && (
+                                  <h6>
+                                    <b>Comments:</b>{' '}
+                                    {
+                                      getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                        ?.comment
+                                    }
+                                  </h6>
+                                )}
                               </div>
                             )}
                         </>
