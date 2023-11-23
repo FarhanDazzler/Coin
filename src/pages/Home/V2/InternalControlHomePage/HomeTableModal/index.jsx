@@ -21,6 +21,7 @@ import {
   getLatestDraftSelector,
   getQuestionsSelector,
   getResponseSelector,
+  kpiResultSelector,
 } from '../../../../../redux/Assessments/AssessmentSelectors';
 import Swal from 'sweetalert2';
 import RenderHomeModalTable from './RenderHomeModalTable';
@@ -54,7 +55,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const Control_ID = Assessment_id || query.get('Control_ID');
   const responseUpdatedData =
     responseData.data?.Latest_Response || responseData.data?.Latest_response;
-
+  const kpiResultData = useSelector(kpiResultSelector);
   const currentLanguage = i18n.language;
   const [language, setLanguage] = useState(currentLanguage);
 
@@ -310,6 +311,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           Assessment_result: isupdated ? 'NA' : isS3FailedData || s1FailObj ? 'Fail' : 'Pass',
           Latest_response: {
             s1: ansSection1,
+            data: kpiResultData?.data?.data,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
           },
           kpis: isupdated ? [] : tableData,
