@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import cellEditFactory from 'react-bootstrap-table2-editor';
+import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import Workbook from 'react-excel-workbook';
 import readXlsxFile from 'read-excel-file';
 import {
@@ -15,6 +15,8 @@ import { getCsvTampredDataAction } from '../../../../../redux/CsvTampred/CsvTamp
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
+import ControlSection2Chart from './ControlSection2Chart';
+import { Loader } from '@mantine/core';
 
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
 const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
@@ -25,6 +27,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   } else {
     headerStyles = { color: '#fff', fontWeight: '700', backgroundColor: '#000' };
   }
+  const [showGraph, setShowGraph] = useState(true);
   const getKPIResponse = useSelector(getResponseSelector);
   const kpiResultData = useSelector(kpiResultSelector);
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
@@ -32,6 +35,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   const [editProductIds, setEditProductIds] = useState([
     { idNumeratorList: [], idDenominatorList: [] },
   ]);
+
   const [excelFile, setExcelFile] = useState(null);
   const [csvUpdateData, setScvUpdateData] = useState(0);
   useEffect(() => {
@@ -61,6 +65,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
     {
       dataField: 'Global_KPI_Code',
       text: 'Global_KPI_Code',
+      editable: false,
+      headerStyle: {
+        ...headerStyles,
+      },
+      // filter: textFilter(),
+    },
+    {
+      dataField: 'Applicability',
+      text: 'Applicability',
       editable: false,
       headerStyle: {
         ...headerStyles,
@@ -116,6 +129,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
     {
       dataField: 'Entity_ID',
       text: 'Entity_ID',
+      editable: false,
+      headerStyle: {
+        ...headerStyles,
+      },
+    },
+    {
+      dataField: 'isManual',
+      formatter: (cellContent, row) => (row?.isManual ? 'Manual' : 'Automated'),
+      text: 'KPI Type',
       editable: false,
       headerStyle: {
         ...headerStyles,
@@ -211,6 +233,75 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       },
     },
     {
+      dataField: 'Upload_Approach',
+      text: 'KPI Data source (Select from Excel/PBI/Celonis/Others)',
+      formatter: (cellContent, row) => '',
+      editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
+      headerStyle: {
+        ...headerStyles,
+      },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (row.isManual) {
+          return {
+            backgroundColor: 'white',
+            border: '2px solid gold',
+            color: 'black',
+          };
+        }
+      },
+    },
+    // {
+    //   dataField: 'Upload_Approach',
+    //   text: 'KPI Data source (Select from Excel/PBI/Celonis/Others)',
+    //   editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
+    //   headerStyle: {
+    //     ...headerStyles,
+    //   },
+    //   editor: {
+    //     type: Type.SELECT,
+    //     options: [{
+    //       value: 'Excel',
+    //       label: 'Excel'
+    //     }, {
+    //       value: 'PBI',
+    //       label: 'PBI'
+    //     }, {
+    //       value: 'Celonis',
+    //       label: 'Celonis'
+    //     }, {
+    //       value: 'Others',
+    //       label: 'Others'
+    //     }]
+    //   },
+    //   style: (cell, row, rowIndex, colIndex) => {
+    //     if (row.isManual) {
+    //       return {
+    //         backgroundColor: 'white',
+    //         border: '2px solid gold',
+    //         color: 'black',
+    //       };
+    //     }
+    //   },
+    // },
+    {
+      dataField: 'Source_System',
+      text: 'Link to data',
+      editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
+      formatter: (cellContent, row) => '',
+      headerStyle: {
+        ...headerStyles,
+      },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (row.isManual) {
+          return {
+            backgroundColor: 'white',
+            border: '2px solid gold',
+            color: 'black',
+          };
+        }
+      },
+    },
+    {
       dataField: 'Month',
       text: 'Month',
       editable: false,
@@ -256,8 +347,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   useEffect(() => {
     if (getKPIResponse?.data?.Latest_Response?.kpis) {
       setTableData(getKPIResponse?.data?.Latest_Response?.kpis);
-    } else if (kpiResultData?.data?.length > 0) {
-      const table_data = [...kpiResultData.data];
+    } else if (kpiResultData?.data?.kpis?.length > 0) {
+      const table_data = [...kpiResultData?.data?.kpis];
       table_data.forEach((tData, i) => {
         if (tData.KPI_Value === '' || tData.KPI_Value === 0) {
           // console.log('null');
@@ -487,78 +578,100 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section2KPI')} active>
-        {tableData?.length !== 0 ? (
-          <div className="mt-5">
-            <div id="my_btns">
-              <div className="d-flex align-items-center">
-                <div className="row " id="export_button_right">
-                  <Workbook
-                    filename={`data-${controlId}.xlsx`}
-                    element={
-                      <button className="export_button">
-                        <strong>{t('selfAssessment.assessmentForm.exportToExcel')}</strong>
-                      </button>
-                    }
-                  >
-                    <Workbook.Sheet data={tableData} name="Sheet A">
-                      {/* <Workbook.Column label="sep" value="sep" /> */}
-                      <Workbook.Column label="Global_KPI_Code" value="Global_KPI_Code" />
-                      <Workbook.Column label="Entity_ID" value="Entity_ID" />
-                      <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />
-                      <Workbook.Column label="Numerator" value="Numerator" />
-                      <Workbook.Column label="Expected_Denominator" value="Expected_Denominator" />
-                      <Workbook.Column label="Denominator" value="Denominator" />
-                      <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
-                      {/* <Workbook.Column label="KPI_Value" value="KPI_Value" /> */}
-                      <Workbook.Column label="Month" value="Month" />
-                      {/* <Workbook.Column label="L1_Result" value="L1_Result" />
-                    <Workbook.Column label="L2_Result" value="L2_Result" />
-                    <Workbook.Column label="L3_Result" value="L3_Result" /> */}
-                    </Workbook.Sheet>
-                  </Workbook>
-                </div>
-                <h1 className="table-modal-title">
-                  {t('selfAssessment.assessmentForm.excelFileUploadAndDownload')}
-                </h1>
-              </div>
-              {!isModal && (
-                <form onSubmit={handleSubmit} id="combine_btn">
-                  <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
-                  <button type="submit" className="submit_btn black-text">
-                    <strong>{t('selfAssessment.assessmentForm.section2UploadExcelBtn')}</strong>
-                  </button>
-                </form>
-              )}
-            </div>
-            <div
-              className={`renderBlockWrapper section2-table ${
-                isModal ? 'section2-table-ismodal' : 'section2-table-notmodal'
-              }`}
-            >
-              <BootstrapTable
-                keyField="id"
-                // cellEdit={ cellEditProp }
-                data={tableData}
-                columns={columns}
-                filter={filterFactory()}
-                pagination={paginationFactory()}
-                className="container pagination"
-                responsive
-                rowStyle={rowStyle2}
-                cellEdit={cellEditFactory({
-                  mode: 'click',
-                  blurToSave: true,
-                  afterSaveCell: handleChange,
-                })}
-              />
+        {kpiResultData.loading ? (
+          <div>
+            <div className="mt-8 mb-8 text-center">
+              <Loader color="#e7c55d" />
             </div>
           </div>
         ) : (
-          <div className="mt-5 text-center">
-            <h1 className="table-modal-title">
-              {t('selfAssessment.assessmentForm.section2NoKPIavailableText')}
-            </h1>
-          </div>
+          <>
+            {tableData?.length !== 0 ? (
+              <div className="mt-5">
+                {showGraph && <ControlSection2Chart />}
+
+                <div id="my_btns">
+                  <div className="d-flex align-items-center">
+                    <div className="row " id="export_button_right">
+                      <Workbook
+                        filename={`data-${controlId}.xlsx`}
+                        element={
+                          <button className="export_button">
+                            <strong>{t('selfAssessment.assessmentForm.exportToExcel')}</strong>
+                          </button>
+                        }
+                      >
+                        <Workbook.Sheet data={tableData} name="Sheet A">
+                          {/* <Workbook.Column label="sep" value="sep" /> */}
+                          <Workbook.Column label="Global_KPI_Code" value="Global_KPI_Code" />
+                          <Workbook.Column label="Applicability" value="Applicability" />
+                      <Workbook.Column label="Entity_ID" value="Entity_ID" />
+                      {/* <Workbook.Column label="KPI Type" value="isManual" /> */}
+                          <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />
+                          <Workbook.Column label="Numerator" value="Numerator" />
+                          <Workbook.Column
+                            label="Expected_Denominator"
+                            value="Expected_Denominator"
+                          />
+                          <Workbook.Column label="Denominator" value="Denominator" />
+                          <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
+                          {/* <Workbook.Column label="KPI_Value" value="KPI_Value" /> */}
+                          <Workbook.Column label="Month" value="Month" />
+                      <Workbook.Column label="KPI Data source (Select from Excel/PBI/Celonis/Others)" value="Upload_Approach" />
+                      <Workbook.Column label="Link to data" value="Source_System" />
+                          {/* <Workbook.Column label="L1_Result" value="L1_Result" />
+                    <Workbook.Column label="L2_Result" value="L2_Result" />
+                    <Workbook.Column label="L3_Result" value="L3_Result" /> */}
+                        </Workbook.Sheet>
+                      </Workbook>
+                    </div>
+                    {/*<h1 className="table-modal-title">fddkj*/}
+                    {/*  {t('selfAssessment.assessmentForm.excelFileUploadAndDownload')}*/}
+                    {/*</h1>*/}
+                    <button className="export_button" onClick={() => setShowGraph(!showGraph)}>
+                      <strong> KPI Statistics</strong>
+                    </button>
+                  </div>
+                  {!isModal && (
+                    <form onSubmit={handleSubmit} id="combine_btn">
+                      <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
+                      <button type="submit" className="submit_btn black-text">
+                        <strong>{t('selfAssessment.assessmentForm.section2UploadExcelBtn')}</strong>
+                      </button>
+                    </form>
+                  )}
+                </div>
+                <div
+                  className={`renderBlockWrapper section2-table ${
+                    isModal ? 'section2-table-ismodal' : 'section2-table-notmodal'
+                  }`}
+                >
+                  <BootstrapTable
+                    keyField="id"
+                    // cellEdit={ cellEditProp }
+                    data={tableData}
+                    columns={columns}
+                    filter={filterFactory()}
+                    pagination={paginationFactory()}
+                    className="container pagination"
+                    responsive
+                    rowStyle={rowStyle2}
+                    cellEdit={cellEditFactory({
+                      mode: 'click',
+                      blurToSave: true,
+                      afterSaveCell: handleChange,
+                    })}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="mt-5 text-center">
+                <h1 className="table-modal-title">
+                  {t('selfAssessment.assessmentForm.section2NoKPIavailableText')}
+                </h1>
+              </div>
+            )}{' '}
+          </>
         )}
       </CollapseFrame>
     </div>

@@ -84,7 +84,12 @@ const ReviewSection2 = (props) => {
                               <p>
                                 <b>Finance Director</b>
                               </p>
-                              <h5>Finance Director has Approved by Auto Authentication</h5>
+                              <h5>Finance Director has Approved by Auto Authenticator</h5>
+                              {
+                                  getBUSection2SignatureResponseState?.data?.signatures?.fd?.comment && (
+                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.fd?.comment}</h6>
+                                  )
+                                }
                             </div>
                           )}
                       </>
@@ -121,6 +126,11 @@ const ReviewSection2 = (props) => {
                                 <b>Zone VP</b>
                               </p>
                               <h5>Zone VP has Approved by Auto Authenticator</h5>
+                              {
+                                  getBUSection2SignatureResponseState?.data?.signatures?.zv?.comment && (
+                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.zv?.comment}</h6>
+                                  )
+                                }
                             </div>
                           )}
                       </>
@@ -157,6 +167,11 @@ const ReviewSection2 = (props) => {
                                 <b>BU Head</b>
                               </p>
                               <h5>BU Head has Approved by Auto Authenticator</h5>
+                              {
+                                  getBUSection2SignatureResponseState?.data?.signatures?.buh?.comment && (
+                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.buh?.comment}</h6>
+                                  )
+                                }
                             </div>
                           )}
                       </>
@@ -193,6 +208,11 @@ const ReviewSection2 = (props) => {
                                 <b>Zone Control</b>
                               </p>
                               <h5>Zone Control has Approved by Auto Authenticator</h5>
+                              {
+                                  getBUSection2SignatureResponseState?.data?.signatures?.zc?.comment && (
+                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.zc?.comment}</h6>
+                                  )
+                                }
                             </div>
                           )}
                       </>

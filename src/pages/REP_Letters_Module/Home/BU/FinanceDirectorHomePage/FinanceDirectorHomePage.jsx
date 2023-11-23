@@ -83,20 +83,28 @@ const FinanceDirectorHomePage = () => {
             <h2 className="user-name-home yellow-gradient-text mb-2 text-capitalize">
               {accounts.length > 0 ? accounts[0].name : 'User Name'}
             </h2>
+          </div>
+        </div>
+      </div>
+      {/* <div className="container-fluid">
+        <div className="row pt-5 align-items-center">
+          <div className="col-lg-4 pt-5">
+            <h4 className="welcome-text">Welcome</h4>
+            <h2 className="user-name-home yellow-gradient-text mb-2 text-capitalize">
+              {accounts.length > 0 ? accounts[0].name : 'User Name'}
+            </h2>
             {selectedUserRole && <h3 className="user-role">{selectedUserRole}</h3>}
           </div>
           <div className="col-lg-8">
             <div className="d-flex align-items-center flex-wrap justify-content-end">
-              {/* <AmountInfo amount={statusInfo.notStarted} infoText="NOT STARTED" /> */}
               <AmountInfo amount={statusInfo.responded} infoText="RESPONDED" />
               <AmountInfo amount={statusInfo.signed} infoText="SIGNED" />
               <AmountInfo amount={statusInfo.rbaApproved} infoText="RBA APPROVED" />
               <AmountInfo amount={statusInfo.completed} infoText="COMPLETED" />
-              {/* <AmountInfo amount={statusInfo.total} infoText="TOTAL" /> */}
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <FinanceDirectorTable
         yearValue={yearValue}

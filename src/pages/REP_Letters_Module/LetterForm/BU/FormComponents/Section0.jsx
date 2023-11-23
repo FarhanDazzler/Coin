@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useHistory } from 'react-router-dom';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { Divider, Box } from '@mantine/core';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -11,17 +12,12 @@ import { getInstructionsSelector } from '../../../../../redux/REP_Letters/RL_Que
 
 const Section0 = ({ scopeData, letterType }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const history = useHistory();
   const [ShowVideoModal, setShowVideoModal] = useState(false);
   const [activeTab, setActiveTab] = useState('Instructions');
   const isClear = (text) => activeTab === text;
   const getInstructionsState = useSelector(getInstructionsSelector);
-
-  //   useEffect(() => {
-  //     const payload = {
-  //       module: letterType,
-  //     };
-  //     dispatch(getInstructions(payload));
-  //   }, []);
 
   const InstructionSection = () => {
     return (
@@ -163,6 +159,25 @@ const Section0 = ({ scopeData, letterType }) => {
               >
                 Scope
               </Button>
+              {localStorage.getItem('selected_Role') === 'Disclosure Processor' && (
+                <Button
+                  startIcon={<FeedOutlinedIcon />}
+                  className={
+                    location.pathname === '/REP-Letters/re-attempt-letter/BU-letter-form'
+                      ? 'mr-4 active'
+                      : 'mr-4'
+                  }
+                  onClick={() => {
+                    const data = {
+                      scopeData: scopeData,
+                      letterType: letterType,
+                    };
+                    history.push('/REP-Letters/re-attempt-letter/BU-letter-form', { data });
+                  }}
+                >
+                  Edit Response
+                </Button>
+              )}
 
               {/* when tab is active then show the content */}
               {(activeTab === 'Scope' || activeTab === 'Instructions') && (

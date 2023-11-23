@@ -10,7 +10,7 @@ import { Divider, Box } from '@mantine/core';
 import { Form } from 'react-bootstrap';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import * as Yup from 'yup';
-import { useFormikContext, Field, Formik } from 'formik';
+import { useFormikContext, Field, Formik, ErrorMessage } from 'formik';
 import CollapseFrame from '../../../../../../components/UI/CollapseFrame';
 // import Button from '../../../../../../components/UI/Button';
 import Button from '../../../../../MDM/MDM_Tab_Buttons/Button';
@@ -117,7 +117,7 @@ const Section2 = ({ id }) => {
             Comments: '',
           }}
           validationSchema={Yup.object().shape({
-            toggle: Yup.string().required('Agree is required'),
+            toggle: Yup.boolean().oneOf([true], 'You must accept to complete Authentication'),
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {
@@ -145,14 +145,17 @@ const Section2 = ({ id }) => {
                 <Form.Label className="mt-3">
                   <Field type="checkbox" name="toggle" />
                   <span>
-                    &nbsp;&nbsp;I hereby declare, that the above responses are in alignment with the
-                    business expectations
+                    &nbsp;&nbsp;I hereby certify that the above representation letter reflects my
+                    understanding of the accuracy of the financial reporting package and the
+                    effectiveness of the internal controls and financial reporting controls of
+                    Cognos Company Code.
                   </span>
-                  <p>
+                  {/* <p>
                     with this selection, I agree to let COIN collect my information - (ie. Timestamp
                     & email adress) for authentication
-                  </p>
+                  </p> */}
                 </Form.Label>
+                <ErrorMessage name="toggle" component="div" className="error" />
               </Form.Group>
 
               <Form.Group className="mb-3">
@@ -179,7 +182,8 @@ const Section2 = ({ id }) => {
                       color="neutral"
                       className="ml-4"
                       onClick={handleSubmit}
-                      disabled={!values.toggle}
+
+                      //loading={values.toggle}
                     >
                       Confirm
                     </Button>
@@ -201,24 +205,9 @@ const Section2 = ({ id }) => {
             <div>
               <div className="renderBlockWrapper_content">
                 <p>
-                  <b>
-                    As a{' '}
-                    {localStorage.getItem('selected_Role') === 'Disclosure Processor'
-                      ? 'Disclosure Processor'
-                      : `${localStorage.getItem('selected_Role')} - Signatory`}
-                  </b>
+                  Select the check-box below to provide your Signatures for the above filled
+                  responses.
                 </p>
-              </div>
-              <div className="renderBlockWrapper_content">
-                <>
-                  <p>Choose your method of approval/authentication</p>
-                  <ul>
-                    <li>
-                      Select the check-box below to provide your approval for the above filled
-                      responses
-                    </li>
-                  </ul>
-                </>
               </div>
               {getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted ||
               getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted ||
@@ -271,7 +260,17 @@ const Section2 = ({ id }) => {
                                 <p>
                                   <b>Finance Director</b>
                                 </p>
-                                <h5>Finance Director has Approved by Auto Authentication</h5>
+                                <h5>Finance Director has Signed by Auto Authenticator</h5>
+                                {getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                  ?.comment && (
+                                  <h6>
+                                    <b>Comments:</b>{' '}
+                                    {
+                                      getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                        ?.comment
+                                    }
+                                  </h6>
+                                )}
                               </div>
                             )}
                         </>
@@ -308,7 +307,17 @@ const Section2 = ({ id }) => {
                                 <p>
                                   <b>Zone VP</b>
                                 </p>
-                                <h5>Zone VP has Approved by Auto Authenticator</h5>
+                                <h5>Zone VP has Signed by Auto Authenticator</h5>
+                                {getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                  ?.comment && (
+                                  <h6>
+                                    <b>Comments:</b>{' '}
+                                    {
+                                      getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                        ?.comment
+                                    }
+                                  </h6>
+                                )}
                               </div>
                             )}
                         </>
@@ -345,7 +354,17 @@ const Section2 = ({ id }) => {
                                 <p>
                                   <b>BU Head</b>
                                 </p>
-                                <h5>BU Head has Approved by Auto Authenticator</h5>
+                                <h5>BU Head has Signed by Auto Authenticator</h5>
+                                {getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                  ?.comment && (
+                                  <h6>
+                                    <b>Comments:</b>{' '}
+                                    {
+                                      getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                        ?.comment
+                                    }
+                                  </h6>
+                                )}
                               </div>
                             )}
                         </>
@@ -384,7 +403,17 @@ const Section2 = ({ id }) => {
                                 <p>
                                   <b>Zone Control</b>
                                 </p>
-                                <h5>Zone Control has Approved by Auto Authenticator</h5>
+                                <h5>Zone Control has Signed by Auto Authenticator</h5>
+                                {getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                  ?.comment && (
+                                  <h6>
+                                    <b>Comments:</b>{' '}
+                                    {
+                                      getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                        ?.comment
+                                    }
+                                  </h6>
+                                )}
                               </div>
                             )}
                         </>
