@@ -80,3 +80,11 @@
     margin-top: 15px;
   }
 }
+.apexcharts-legend-text {
+  color: #000 !important;
+}
+.page-wrapper {
+  .apexcharts-legend-text {
+    color: #fff !important;
+  }
+}

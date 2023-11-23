@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ControlActions from './ControlActions';
 import { Loader } from '@mantine/core';
 import ControlSection1 from './ControlSection1';
@@ -8,6 +8,8 @@ import Button from '../../../../../components/UI/Button';
 import { useDispatch } from 'react-redux';
 import { resetSection3 } from '../../../../../redux/Questions/QuestionsAction';
 import { useTranslation } from 'react-i18next';
+import ControlSection from './ControlSection';
+import ControlSection2Chart from './ControlSection2Chart';
 
 const RenderHomeModalTable = ({
   questionsInfo,
@@ -40,6 +42,7 @@ const RenderHomeModalTable = ({
     const value = ansSection3[i] && Object.values(ansSection3[i]);
     if (value?.length > 0) return value[0]?.includes('no');
   });
+  const [showControlSection, setShowControlSection] = useState(true);
 
   useEffect(() => {
     let sectionTerminating = false;
@@ -87,77 +90,83 @@ const RenderHomeModalTable = ({
         </div>
       ) : (
         <div className="p-5">
-          <ControlSection1
-            setTerminating={setTerminating}
-            setShowMoreSection={setShowMoreSection}
-            ans={ansSection1}
-            setAns={setAnsSection1}
-            setStartEdit={setStartEdit}
-            isModal={!isModal}
-            language={language}
-          />
-          {showMoreSection && (
-            <>
-              <ControlSection2
-                tableData={tableData}
-                setTableData={setTableData}
-                controlId={controlId}
-                setStartEdit={setStartEdit}
-                isModal={isModal}
-              />
+          {/*<ControlSection setShowControlSection={setShowControlSection} />*/}
 
-              <ControlSection3
+          {showControlSection && (
+            <>
+              <ControlSection1
                 setTerminating={setTerminating}
-                ans={ansSection3}
-                setAns={setAnsSection3}
-                showNoQuestionAns={showNoQuestionAns}
-                setShowNoQuestionAns={setShowNoQuestionAns}
+                setShowMoreSection={setShowMoreSection}
+                ans={ansSection1}
+                setAns={setAnsSection1}
                 setStartEdit={setStartEdit}
                 isModal={!isModal}
-                showMoreSection={showMoreSection}
+                language={language}
               />
-            </>
-          )}
+              {showMoreSection && (
+                <>
+                  <ControlSection2
+                    tableData={tableData}
+                    setTableData={setTableData}
+                    controlId={controlId}
+                    setStartEdit={setStartEdit}
+                    isModal={isModal}
+                  />
 
-          {!isModal && terminating ? (
-            <>
-              {section1TerminatingLogicValue || !!isSection3Failed ? (
-                <div style={{ color: 'red', marginBottom: '10px' }}>
-                  Based on above response, the control is assessed as failed because of{' '}
-                  {Object.keys(ansSection3).includes('L1') &&
-                  !!Object.values(ansSection3?.L1)[0].includes('no')
-                    ? 'L1'
-                    : Object.keys(ansSection3).includes('L2')
-                    ? 'L2'
-                    : ''}{' '}
-                  {'  '}
-                  {section1TerminatingLogicValue &&
-                    Object.keys(ansSection3).length !== 0 &&
-                    Object.keys(ansSection3).length !== 3 &&
-                    '/'}
-                  {section1TerminatingLogicValue &&
-                    ' inadequate Documentation or inadequate frequency'}
+                  <ControlSection3
+                    setTerminating={setTerminating}
+                    ans={ansSection3}
+                    setAns={setAnsSection3}
+                    showNoQuestionAns={showNoQuestionAns}
+                    setShowNoQuestionAns={setShowNoQuestionAns}
+                    setStartEdit={setStartEdit}
+                    isModal={!isModal}
+                    showMoreSection={showMoreSection}
+                  />
+                </>
+              )}
+
+              {!isModal && terminating ? (
+                <>
+                  {section1TerminatingLogicValue || !!isSection3Failed ? (
+                    <div style={{ color: 'red', marginBottom: '10px' }}>
+                      Based on above response, the control is assessed as failed because of{' '}
+                      {Object.keys(ansSection3).includes('L1') &&
+                      !!Object.values(ansSection3?.L1)[0].includes('no')
+                        ? 'L1'
+                        : Object.keys(ansSection3).includes('L2')
+                        ? 'L2'
+                        : ''}{' '}
+                      {'  '}
+                      {section1TerminatingLogicValue &&
+                        Object.keys(ansSection3).length !== 0 &&
+                        Object.keys(ansSection3).length !== 3 &&
+                        '/'}
+                      {section1TerminatingLogicValue &&
+                        ' inadequate Documentation or inadequate frequency'}
+                    </div>
+                  ) : null}
+
+                  <Button
+                    color="neutral"
+                    className="w-100"
+                    id="submit-button"
+                    loading={loadingSubmit}
+                    onClick={handleSubmit}
+                  >
+                    {t('selfAssessment.assessmentForm.submitBtn')}
+                  </Button>
+                </>
+              ) : handleSaveDraft && !isModal ? (
+                <div className="save-draft-btn-wrapper">
+                  <Button onClick={handleSaveDraft} {...handleSaveDraftProps}>
+                    {t('selfAssessment.assessmentForm.saveDraftBtn')}
+                  </Button>
                 </div>
-              ) : null}
-
-              <Button
-                color="neutral"
-                className="w-100"
-                id="submit-button"
-                loading={loadingSubmit}
-                onClick={handleSubmit}
-              >
-                {t('selfAssessment.assessmentForm.submitBtn')}
-              </Button>
+              ) : (
+                <div />
+              )}
             </>
-          ) : handleSaveDraft && !isModal ? (
-            <div className="save-draft-btn-wrapper">
-              <Button onClick={handleSaveDraft} {...handleSaveDraftProps}>
-                {t('selfAssessment.assessmentForm.saveDraftBtn')}
-              </Button>
-            </div>
-          ) : (
-            <div />
           )}
         </div>
       )}
