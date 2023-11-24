@@ -225,3 +225,21 @@
     padding: 0 5px;
   }
 }
+
+.modal-wrapper {
+  .chart-wrapper {
+    &:before {
+      background: #000;
+    }
+    &:after {
+      background: #000;
+    }
+
+    .y-axis {
+      background: #fff;
+    }
+    .x-axis {
+      background: #fff;
+    }
+  }
+}
