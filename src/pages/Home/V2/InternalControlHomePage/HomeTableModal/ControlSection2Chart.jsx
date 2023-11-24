@@ -1,22 +1,27 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { useSelector } from 'react-redux';
-import { kpiResultSelector } from '../../../../../redux/Assessments/AssessmentSelectors';
+import {
+  getResponseSelector,
+  kpiResultSelector,
+} from '../../../../../redux/Assessments/AssessmentSelectors';
 
 const ControlSection2Chart = () => {
   const kpiResultData = useSelector(kpiResultSelector);
+  const getKPIResponse = useSelector(getResponseSelector);
+  const kpiResult = kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
   const [series, setSeries] = useState([]);
   const [xAxis, setXAxis] = useState([]);
   const [KPIList, setKPIList] = useState(null);
   const [activeKPI, setActiveKPI] = useState();
   const [activeKPIObj, setActiveKPIObj] = useState(null);
-
+  console.log('getKPIResponse', kpiResultData, getKPIResponse);
   useEffect(() => {
-    if (kpiResultData?.data?.data) {
-      setKPIList(Object.keys(kpiResultData?.data?.data));
-      const activeIdVal = Object.keys(kpiResultData?.data?.data)[0];
+    if (kpiResult) {
+      setKPIList(Object.keys(kpiResult));
+      const activeIdVal = Object.keys(kpiResult)[0];
       setActiveKPI(activeIdVal);
-      setActiveKPIObj(kpiResultData?.data?.data[activeIdVal]);
+      setActiveKPIObj(kpiResult[activeIdVal]);
     }
   }, [kpiResultData?.data]);
 
@@ -66,7 +71,7 @@ const ControlSection2Chart = () => {
 
   const handleKPIClick = (id) => {
     setActiveKPI(id);
-    setActiveKPIObj(kpiResultData?.data?.data[id]);
+    if (kpiResult) setActiveKPIObj(kpiResult[id]);
   };
 
   const yaxis = useMemo(() => {

@@ -30,6 +30,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   const [showGraph, setShowGraph] = useState(true);
   const getKPIResponse = useSelector(getResponseSelector);
   const kpiResultData = useSelector(kpiResultSelector);
+  const kpiResult = kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();
   const [editProductIds, setEditProductIds] = useState([
@@ -235,7 +236,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
     {
       dataField: 'Upload_Approach',
       text: 'KPI Data source (Select from Excel/PBI/Celonis/Others)',
-      formatter: (cellContent, row) => '',
+      // formatter: (cellContent, row) => '',
       editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
       headerStyle: {
         ...headerStyles,
@@ -381,8 +382,12 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   }, [kpiResultData]);
 
   function handleChange(oldValue, newValue, row, column) {
+    console.log('@@@@@@', oldValue, newValue, row, column);
     const updateProduct = tableData.map((d) => {
       if (d.id === row.id) {
+        if (column.dataField === 'Upload_Approach') {
+          row['Upload_Approach'] = newValue;
+        }
         row.KPI_Value = (row.Numerator / row.Denominator).toFixed(2);
         if (row.Positive_direction === 'Lower is better') {
           if (row.MICS_L1_Threshold === '-' || row.L1_Result === '') {
@@ -449,6 +454,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       }
       return d;
     });
+    console.log('updateProduct', updateProduct);
     setTableData(updateProduct);
   }
 
@@ -586,10 +592,13 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
           </div>
         ) : (
           <>
+            <div className="mt-5 pt-5">
+              {showGraph && kpiResult && Object.keys(kpiResult).length > 0 && (
+                <ControlSection2Chart />
+              )}
+            </div>
             {tableData?.length !== 0 ? (
               <div className="mt-5">
-                {showGraph && <ControlSection2Chart />}
-
                 <div id="my_btns">
                   <div className="d-flex align-items-center">
                     <div className="row " id="export_button_right">
@@ -605,8 +614,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
                           {/* <Workbook.Column label="sep" value="sep" /> */}
                           <Workbook.Column label="Global_KPI_Code" value="Global_KPI_Code" />
                           <Workbook.Column label="Applicability" value="Applicability" />
-                      <Workbook.Column label="Entity_ID" value="Entity_ID" />
-                      {/* <Workbook.Column label="KPI Type" value="isManual" /> */}
+                          <Workbook.Column label="Entity_ID" value="Entity_ID" />
+                          {/* <Workbook.Column label="KPI Type" value="isManual" /> */}
                           <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />
                           <Workbook.Column label="Numerator" value="Numerator" />
                           <Workbook.Column
@@ -617,8 +626,11 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
                           <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
                           {/* <Workbook.Column label="KPI_Value" value="KPI_Value" /> */}
                           <Workbook.Column label="Month" value="Month" />
-                      <Workbook.Column label="KPI Data source (Select from Excel/PBI/Celonis/Others)" value="Upload_Approach" />
-                      <Workbook.Column label="Link to data" value="Source_System" />
+                          <Workbook.Column
+                            label="KPI Data source (Select from Excel/PBI/Celonis/Others)"
+                            value="Upload_Approach"
+                          />
+                          <Workbook.Column label="Link to data" value="Source_System" />
                           {/* <Workbook.Column label="L1_Result" value="L1_Result" />
                     <Workbook.Column label="L2_Result" value="L2_Result" />
                     <Workbook.Column label="L3_Result" value="L3_Result" /> */}

@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import './homeTableModalStyles.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { useMsal } from '@azure/msal-react';
 import { useTranslation } from 'react-i18next';
 import {
   addAssessmentAns,
-  addAssessmentSection2Ans,
   addOrUpdateDraft,
   getAssessmentAns,
   getAssessmentSection2Ans,
@@ -27,7 +25,6 @@ import Swal from 'sweetalert2';
 import RenderHomeModalTable from './RenderHomeModalTable';
 import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAction';
 import CustomModal from '../../../../../components/UI/CustomModal';
-import blockType from '../../../../../components/RenderBlock/constant';
 import CloseIcon from '@mui/icons-material/Close';
 import { getLanguageFormat, isJsonString } from '../../../../../utils/helper';
 import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
@@ -141,14 +138,14 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       if (!isModal) {
         dispatch(
           getAssessmentSection2Ans({
-            MICS_code: activeData.Control_ID || Control_ID,
-            Entity_ID: activeData.Receiver,
-            KPI_From: activeData.KPI_From || '',
-            KPI_To: activeData.KPI_To || '',
-            // MICS_code: 'INV_REP_06' || Control_ID,
-            // Entity_ID: 'Argentina, Botswana',
-            // KPI_From: '2023-09-01' || '',
-            // KPI_To: '2023-11-30' || '',
+            // MICS_code: activeData.Control_ID || Control_ID,
+            // Entity_ID: activeData.Receiver,
+            // KPI_From: activeData.KPI_From || '',
+            // KPI_To: activeData.KPI_To || '',
+            MICS_code: 'INV_REP_06' || Control_ID,
+            Entity_ID: 'Argentina, Botswana',
+            KPI_From: '2023-09-01' || '',
+            KPI_To: '2023-11-30' || '',
           }),
         );
       }
@@ -268,6 +265,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     }
   }, [responseData.data, questionData, Control_ID]);
 
+  const s1FailObj = useMemo(() => {
+    return ansSection1.some((i) => {
+      return !!i?.question_options?.find((d) => d?.option_id === i.selectVal)?.is_Failing;
+    });
+  }, [ansSection1]);
+
   const handleSubmit = () => {
     let isS3FailedData;
     Swal.fire({
@@ -293,9 +296,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       if (result.isConfirmed) {
         // setLoading(true);
         // dispatch(addAssessmentSection2Ans({ kpis: tableData }));
-        const s1FailObj = ansSection1.some((i) => {
-          return !!i?.question_options?.find((d) => d?.option_id === i.selectVal)?.is_Failing;
-        });
+
         const isupdated = ansSection1.find((i) => i.is_AD === 1);
         const dataArray = Object.keys(ansSection3) || [];
         for (const key in ansSection3) {
@@ -436,6 +437,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           </div>
         )}
         <RenderHomeModalTable
+          s1FailObj={s1FailObj}
           questionsInfo={questionsInfo}
           setShowMoreSection={setShowMoreSection}
           ansSection1={ansSection1}
@@ -473,6 +475,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       onClose={handleClose}
     >
       <RenderHomeModalTable
+        s1FailObj={s1FailObj}
         questionsInfo={questionsInfo}
         setShowMoreSection={setShowMoreSection}
         ansSection1={ansSection1}
