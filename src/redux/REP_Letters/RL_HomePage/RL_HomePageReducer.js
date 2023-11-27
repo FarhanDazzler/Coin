@@ -193,6 +193,8 @@ export const GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST =
 export const GET_BU_SECTION2_SIGNATURE_RESPONSE_SUCCESS =
   'GET_BU_SECTION2_SIGNATURE_RESPONSE_SUCCESS';
 export const GET_BU_SECTION2_SIGNATURE_RESPONSE_ERROR = 'GET_BU_SECTION2_SIGNATURE_RESPONSE_ERROR';
+export const CLEAR_GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST =
+  'CLEAR_GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST';
 // ============= ADD BU SUBMIT RESPONSE data ===============//
 
 // ============= ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL ===============//
@@ -209,6 +211,12 @@ export const ADD_BU_SECTION2_CHECKBOX_REQUEST = 'ADD_BU_SECTION2_CHECKBOX_REQUES
 export const ADD_BU_SECTION2_CHECKBOX_SUCCESS = 'ADD_BU_SECTION2_CHECKBOX_SUCCESS';
 export const ADD_BU_SECTION2_CHECKBOX_ERROR = 'ADD_BU_SECTION2_CHECKBOX_ERROR';
 // ============= ADD BU SECTION2 CHECKBOX data ===============//
+
+// ============= ADD BU SECTION2 Lazy Approval ===============//
+export const ADD_BU_SECTION2_LAZY_APPROVAL_REQUEST = 'ADD_BU_SECTION2_LAZY_APPROVAL_REQUEST';
+export const ADD_BU_SECTION2_LAZY_APPROVAL_SUCCESS = 'ADD_BU_SECTION2_LAZY_APPROVAL_SUCCESS';
+export const ADD_BU_SECTION2_LAZY_APPROVAL_ERROR = 'ADD_BU_SECTION2_LAZY_APPROVAL_ERROR';
+// ============= ADD BU SECTION2 Lazy Approval ===============//
 
 // ============== Get BU section 3 Response ==================//
 export const GET_BU_SECTION_3_RESPONSE_REQUEST = 'GET_BU_SECTION_3_RESPONSE_REQUEST';
@@ -261,6 +269,7 @@ const initialState = {
   getBUSection2SignatureResponse: { ...block, data: [] },
   addBUSection2UploadMailApproval: { ...block, data: [] },
   addBUSection2Checkbox: { ...block, data: [] },
+  addBUSection2LazyApproval: { ...block, data: [] },
   getBUSection3Response: { ...block, data: [] },
   addBUSection3Response: { ...block, data: [] },
   approveBUSection3Response: { ...block, data: [] },
@@ -922,6 +931,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
           loading: false,
         },
       };
+
     // ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST data
     case ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST:
       return {
@@ -972,6 +982,43 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         ...state,
         getBUSection2SignatureResponse: {
           ...state.getBUSection2SignatureResponse,
+          loading: false,
+        },
+      };
+    case CLEAR_GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getBUSection2SignatureResponse: {
+          ...state.getBUSection2SignatureResponse,
+          data: {},
+          loading: false,
+        },
+      };
+
+    // ADD_BU_SECTION2_LAZY_APPROVAL_REQUEST data
+    case ADD_BU_SECTION2_LAZY_APPROVAL_REQUEST:
+      return {
+        ...state,
+        addBUSection2LazyApproval: {
+          ...state.addBUSection2LazyApproval,
+          loading: true,
+        },
+      };
+    case ADD_BU_SECTION2_LAZY_APPROVAL_SUCCESS:
+      return {
+        ...state,
+        addBUSection2LazyApproval: {
+          ...state.addBUSection2LazyApproval,
+          data: payload,
+          loading: false,
+          success: true,
+        },
+      };
+    case ADD_BU_SECTION2_LAZY_APPROVAL_ERROR:
+      return {
+        ...state,
+        addBUSection2LazyApproval: {
+          ...state.addBUSection2LazyApproval,
           loading: false,
         },
       };

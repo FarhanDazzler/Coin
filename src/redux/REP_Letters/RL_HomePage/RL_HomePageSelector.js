@@ -45,6 +45,8 @@ export const getBUSection2SignatureResponseSelector = (state) =>
 export const addBUSection2CheckboxSelector = (state) => state?.RL_HomePage?.addBUSection2Checkbox;
 export const addBUSection2UploadMailApprovalSelector = (state) =>
   state?.RL_HomePage?.addBUSection2UploadMailApproval;
+export const addBUSection2LazyApprovalSelector = (state) =>
+  state?.RL_HomePage?.addBUSection2LazyApproval;
 export const getBUSection3ResponseSelector = (state) => state?.RL_HomePage?.getBUSection3Response;
 export const addBUSection3ResponseSelector = (state) => state?.RL_HomePage?.addBUSection3Response;
 export const approveBUSection3ResponseSelector = (state) =>

@@ -78,6 +78,9 @@ import {
   ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR,
   ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
   ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS,
+  ADD_BU_SECTION2_LAZY_APPROVAL_REQUEST,
+  ADD_BU_SECTION2_LAZY_APPROVAL_SUCCESS,
+  ADD_BU_SECTION2_LAZY_APPROVAL_ERROR,
   GET_BU_SECTION_3_RESPONSE_REQUEST,
   GET_BU_SECTION_3_RESPONSE_SUCCESS,
   GET_BU_SECTION_3_RESPONSE_ERROR,
@@ -556,7 +559,7 @@ function* updateAddBUSubmitResponse({ payload }) {
       });
       Swal.fire('Done!', 'Response Submitted Successfully!', 'success');
 
-      // Clear the get Latest Function Submitted Response state
+      // Clear the get Latest BU Submitted Response state
       yield put({ type: GET_BU_SUBMIT_RESPONSE_SUCCESS, payload: null });
       // Redirect the user to '/'
       yield put(push('/'));
@@ -642,6 +645,38 @@ function* handle_AddBUSection2CheckboxData({ payload }) {
   } catch (error) {
     yield put({
       type: ADD_BU_SECTION2_CHECKBOX_ERROR,
+    });
+    if (error?.response?.status === 400) {
+      Swal.fire('Oops...', error?.response?.data?.data, 'error');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  }
+}
+
+// ADD BU Section2 Lazy Approval
+async function addBUSection2LazyApprovalApi(payload) {
+  return await Axios.post('/', payload);
+}
+function* updateAddBUSection2LazyApproval({ payload }) {
+  try {
+    const response = yield call(addBUSection2LazyApprovalApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_BU_SECTION2_LAZY_APPROVAL_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Response Submitted Successfully!', 'success');
+
+      // Clear the get BU Section 1 and Section 2 Response state
+      yield put({ type: GET_BU_SUBMIT_RESPONSE_SUCCESS, payload: null });
+      yield put({ type: GET_BU_SECTION2_SIGNATURE_RESPONSE_SUCCESS, payload: null });
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_BU_SECTION2_LAZY_APPROVAL_ERROR,
     });
     if (error?.response?.status === 400) {
       Swal.fire('Oops...', error?.response?.data?.data, 'error');
@@ -796,6 +831,7 @@ export default all([
     ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
     handle_AddBUSection2UploadMailApprovalData,
   ),
+  takeLatest(ADD_BU_SECTION2_LAZY_APPROVAL_REQUEST, updateAddBUSection2LazyApproval),
   takeLatest(GET_BU_SECTION_3_RESPONSE_REQUEST, handle_GetBUSection3Response),
   takeLatest(ADD_BU_SECTION_3_RESPONSE_REQUEST, updateAddBUSection3Response),
   takeLatest(APPROVE_BU_SECTION_3_RESPONSE_REQUEST, updateApproveBUSection3Response),
