@@ -94,8 +94,7 @@ const Section2 = ({ id }) => {
   const handleAutoAuth = (value, resetForm) => {
     const payload = {
       id: id,
-      Email: accounts[0]?.username,
-      oid: accounts[0]?.idTokenClaims.oid,
+      comment: value.Comments,
     };
 
     //console.log('payload', payload);
