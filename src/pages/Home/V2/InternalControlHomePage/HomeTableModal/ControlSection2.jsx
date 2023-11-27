@@ -233,46 +233,13 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         ...headerStyles,
       },
     },
-    {
-      dataField: 'Upload_Approach',
-      text: 'KPI Data source (Select from Excel/PBI/Celonis/Others)',
-      // formatter: (cellContent, row) => '',
-      editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
-      headerStyle: {
-        ...headerStyles,
-      },
-      style: (cell, row, rowIndex, colIndex) => {
-        if (row.isManual) {
-          return {
-            backgroundColor: 'white',
-            border: '2px solid gold',
-            color: 'black',
-          };
-        }
-      },
-    },
     // {
     //   dataField: 'Upload_Approach',
     //   text: 'KPI Data source (Select from Excel/PBI/Celonis/Others)',
+    //   // formatter: (cellContent, row) => '',
     //   editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
     //   headerStyle: {
     //     ...headerStyles,
-    //   },
-    //   editor: {
-    //     type: Type.SELECT,
-    //     options: [{
-    //       value: 'Excel',
-    //       label: 'Excel'
-    //     }, {
-    //       value: 'PBI',
-    //       label: 'PBI'
-    //     }, {
-    //       value: 'Celonis',
-    //       label: 'Celonis'
-    //     }, {
-    //       value: 'Others',
-    //       label: 'Others'
-    //     }]
     //   },
     //   style: (cell, row, rowIndex, colIndex) => {
     //     if (row.isManual) {
@@ -285,8 +252,46 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
     //   },
     // },
     {
+      dataField: 'Upload_Approach',
+      text: 'KPI Data source (Excel/PBI/Celonis/Others)',
+      editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
+      headerStyle: {
+        ...headerStyles,
+      },
+      editor: {
+        type: Type.SELECT,
+        options: [
+          {
+            value: 'Excel',
+            label: 'Excel',
+          },
+          {
+            value: 'PBI',
+            label: 'PBI',
+          },
+          {
+            value: 'Celonis',
+            label: 'Celonis',
+          },
+          {
+            value: 'Others',
+            label: 'Others',
+          },
+        ],
+      },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (row.isManual) {
+          return {
+            backgroundColor: 'white',
+            border: '2px solid gold',
+            color: 'black',
+          };
+        }
+      },
+    },
+    {
       dataField: 'Source_System',
-      text: 'Link to data',
+      text: 'Source of Data - Link',
       editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
       formatter: (cellContent, row) => '',
       headerStyle: {
