@@ -1,165 +1,240 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
 import { Form } from 'react-bootstrap';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import * as formik from 'formik';
 import { useMsal } from '@azure/msal-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Divider, Group, SimpleGrid, Text } from '@mantine/core';
 import CollapseFrame from '../../../../../../components/UI/CollapseFrame';
 import Button from '../../../../../../components/UI/Button';
-import ActionLogChatTimeline from './ActionLogChatTimeline';
 import '../../../LetterFormStyle.scss';
 import {
   approveBUSection3Response,
   clearGetBUSection3Response,
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import { getBUSection3ResponseSelector } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import Table2 from '../../../../../../components/UI/Table/Table2';
 
 const ApprovalPageSection3 = ({ scopeData }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { accounts } = useMsal();
+  const { Formik } = formik;
 
   const getBUSection3ResponseState = useSelector(getBUSection3ResponseSelector);
-  const [comment, setComment] = useState('');
 
   // clear all the states on page leave or refresh page or change url path or change module or change role
   useEffect(() => {
     return () => {
       dispatch(clearGetBUSection3Response());
-      console.log('clearing section 3 response');
     };
   }, []);
 
-  const handleApprove = () => {
+  const handleSave = (value, resetForm) => {
     const payload = {
       assessment_id: scopeData?.id,
-      comment: comment,
-      created_by: accounts[0]?.username,
-      is_approved: true,
+      FD_Comment: value.Comment,
     };
 
+    //console.log('payload', payload);
     dispatch(approveBUSection3Response(payload));
     dispatch(clearGetBUSection3Response());
     history.push('/');
   };
 
-  const handleReject = () => {
-    if (!comment) {
-      toast.error('Please provide comment for Rejection.');
-      return;
-    } else {
-      const payload = {
-        assessment_id: scopeData?.id,
-        comment: comment,
-        created_by: accounts[0]?.username,
-        is_approved: false,
-      };
-
-      dispatch(approveBUSection3Response(payload));
-      dispatch(clearGetBUSection3Response());
-      history.push('/');
-    }
-  };
+  const TABLE_COLUMNS = [
+    {
+      accessorKey: 'Date',
+      id: 'Date',
+      header: 'Date',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
+      accessorKey: 'Reporting_Entity_COGNOS_Entity',
+      id: 'Reporting_Entity_COGNOS_Entity',
+      header: 'Reporting Entity (COGNOS Entity)',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
+      accessorKey: 'Type_Of_Reconciliation_Error',
+      id: 'Type_Of_Reconciliation_Error',
+      header: 'Type Of Reconciliation Error',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 250,
+    },
+    {
+      accessorKey: 'Accounts_Of_The_Reconciliation',
+      id: 'Accounts_Of_The_Reconciliation',
+      header: 'Accounts Of The Reconciliation',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 200,
+    },
+    {
+      accessorKey: 'Description_Of_Reconciliation',
+      id: 'Description_Of_Reconciliation',
+      header: 'Description Of Reconciliation',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 200,
+    },
+    {
+      accessorKey: 'Account1',
+      id: 'Account1',
+      header: 'Account 1',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
+      accessorKey: 'Account2',
+      id: 'Account2',
+      header: 'Account 2',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
+      accessorKey: 'Reconciliation_Local_Currency',
+      id: 'Reconciliation_Local_Currency',
+      header: 'Reconciliation Local Currency',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 100,
+    },
+    {
+      accessorKey: 'Reconciliation_USD',
+      id: 'Reconciliation_USD',
+      header: 'Reconciliation USD',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
+      accessorKey: 'Absolute_Values',
+      id: 'Absolute_Values',
+      header: 'Absolute Values',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+  ];
 
   return (
     <CollapseFrame title="Section 3 : RBA" active>
-      <Col xs={12} md={12}>
-        <Card className="bu-letter-section3 mt-5">
-          <Card.Body>
-            <Row style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Col>
-                <h5>
-                  Is the RBA applicable -{' '}
-                  <span className="golden-text">
-                    {getBUSection3ResponseState?.data?.is_rba_applicable === 'true' ? 'Yes' : 'No'}
-                  </span>{' '}
-                </h5>
-              </Col>
-            </Row>
-            {getBUSection3ResponseState?.data?.is_rba_applicable === 'true' && (
-              <>
-                <Row>
-                  <h5>
-                    Kindly consolidate all relevant RBA proof documents into a single, polished PDF
-                    file. Merge all proofs into a unified document and attach it accordingly. If
-                    necessary, feel free to include comments to provide explanations regarding the
-                    content.
-                  </h5>
-                </Row>
+      <Formik
+        enableReinitialize
+        initialValues={{
+          Comment: '',
+        }}
+        validationSchema={Yup.object().shape({
+          Comment: Yup.string().required('Comment is required'),
+        })}
+        onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
+          try {
+            handleSave(values, resetForm);
+          } catch (error) {
+            const message = error.message || 'Something went wrong';
+            setStatus({ success: false });
+            setErrors({ submit: message });
+            setSubmitting(false);
+          }
+        }}
+      >
+        {({
+          errors,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+          isSubmitting,
+          touched,
+          values,
+          setFieldValue,
+        }) => (
+          <Form onSubmit={handleSubmit}>
+            <Col xs={12} md={12}>
+              <Card className="bu-letter-section3 mt-5">
+                <Card.Body>
+                  {getBUSection3ResponseState?.data?.RBA_Data && (
+                    <Row>
+                      <Table2
+                        tableData={getBUSection3ResponseState?.data?.RBA_Data[0]}
+                        loading={getBUSection3ResponseState.loading}
+                        tableColumns={TABLE_COLUMNS}
+                      />
+                    </Row>
+                  )}
+                  <Row>
+                    <Divider color="gray" className="section3-divider" size="xs" />
+                    <Row>
+                      <h5>
+                        <span className="golden-text">
+                          Comment provided by the Disclosure Processor :
+                        </span>
+                        {' ' + getBUSection3ResponseState?.data?.FD_Comment}
+                      </h5>
+                    </Row>
+                  </Row>
+                  <Row>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                      <Form.Label>Comment :</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        placeholder="Please provide your comment..."
+                        required
+                        onChange={handleChange}
+                        isInvalid={!!errors.Comment}
+                        name="Comment"
+                        maxLength={5000}
+                        value={values.Comment}
+                        rows={3}
+                      />
+                      <Form.Control.Feedback type="invalid">{errors.Comment}</Form.Control.Feedback>
+                    </Form.Group>
+                  </Row>
 
-                <Row className=" mt-5">
-                  <Col>
-                    <h5>
-                      {' '}
-                      <span className="golden-text">RBA file attached by Disclosure Processor</span>
-                    </h5>
-                  </Col>
-                  <Col>
-                    <Button
-                      startIcon={<PictureAsPdfIcon />}
-                      onClick={() => {
-                        const pdfUrl = getBUSection3ResponseState?.data?.rba_attachment_url;
-                        window.open(pdfUrl, '_blank');
-                      }}
-                    >
-                      RBA Attachment
-                    </Button>
-                  </Col>
-                </Row>
-              </>
-            )}
-            {getBUSection3ResponseState?.data?.comment_response && (
-              <Row>
-                <Group position="apart">
-                  <SimpleGrid cols={1}>
-                    <Text size="lg" weight={700} color="#ffffff" align="left">{`Chat Logs`}</Text>
-                  </SimpleGrid>
-                </Group>
-                <Divider color="gray" className="section3-divider" size="xs" />
-                <ActionLogChatTimeline
-                  comments={getBUSection3ResponseState?.data?.comment_response}
-                />
-              </Row>
-            )}
-            <Row>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                <Form.Label className="mt-5">Comment :</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  placeholder="Please provide your comment..."
-                  required
-                  onChange={(e) => setComment(e.target.value)}
-                  name="Comment"
-                  maxLength={5000}
-                  rows={3}
-                />
-              </Form.Group>
-              {/* form error message */}
-            </Row>
-
-            <div className="d-flex align-items-center justify-content-end">
-              <div>
-                <Button
-                  //variant="outlined"
-                  color="secondary"
-                  onClick={() => history.push('/')}
-                >
-                  Cancel
-                </Button>
-                <Button className="ml-4" color="secondary" onClick={handleReject}>
-                  Reject
-                </Button>
-                <Button color="neutral" className="ml-4" onClick={handleApprove} id="submit-button">
-                  Approve
-                </Button>
-              </div>
-            </div>
-          </Card.Body>
-        </Card>
-      </Col>
+                  <div className="d-flex align-items-center justify-content-end">
+                    <div>
+                      <Button
+                        //variant="outlined"
+                        color="secondary"
+                        onClick={() => history.push('/')}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        color="neutral"
+                        className="ml-4"
+                        onClick={handleSubmit}
+                        id="submit-button"
+                      >
+                        Approve
+                      </Button>
+                    </div>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Form>
+        )}
+      </Formik>
     </CollapseFrame>
   );
 };
