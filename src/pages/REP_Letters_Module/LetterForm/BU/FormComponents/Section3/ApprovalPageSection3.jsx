@@ -145,7 +145,7 @@ const ApprovalPageSection3 = ({ scopeData }) => {
           Comment: '',
         }}
         validationSchema={Yup.object().shape({
-          Comment: Yup.string().required('Comment is required'),
+          // Comment: Yup.string().required('Comment is required'),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
           try {
@@ -172,6 +172,15 @@ const ApprovalPageSection3 = ({ scopeData }) => {
             <Col xs={12} md={12}>
               <Card className="bu-letter-section3 mt-5">
                 <Card.Body>
+                  <Row>
+                    <Row>
+                      <h5>
+                        Please find the list of existing RBAs. Request you to review the same and
+                        kindly provide an approval with comments (if required).
+                      </h5>
+                    </Row>
+                    <Divider color="gray" className="section3-divider" size="xs" />
+                  </Row>
                   {getBUSection3ResponseState?.data?.RBA_Data && (
                     <Row>
                       <Table2
@@ -188,8 +197,10 @@ const ApprovalPageSection3 = ({ scopeData }) => {
                         <span className="golden-text">
                           Comment provided by the Disclosure Processor :
                         </span>
-                        {' ' + getBUSection3ResponseState?.data?.FD_Comment}
                       </h5>
+                    </Row>
+                    <Row>
+                      <h5>{getBUSection3ResponseState?.data?.DP_Comment}</h5>
                     </Row>
                   </Row>
                   <Row>

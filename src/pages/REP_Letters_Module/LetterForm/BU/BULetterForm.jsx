@@ -125,7 +125,9 @@ const ReviewSubmittedResponses = ({
       {scopeData?.s2_submitted && (
         <ReviewSection2 getBUSection2SignatureResponseState={getBUSection2SignatureResponseState} />
       )}
-      {scopeData?.s3_submitted && scopeData?.RBA_Status === 'RBA Approved' && <ReviewSection3 />}
+      {scopeData?.s3_submitted &&
+        scopeData?.RBA_Status === 'RBA Approved' &&
+        scopeData?.s2_submitted && <ReviewSection3 />}
 
       {scopeData?.Status === 'Completed' && (
         <div className="d-flex align-items-center justify-content-end">
