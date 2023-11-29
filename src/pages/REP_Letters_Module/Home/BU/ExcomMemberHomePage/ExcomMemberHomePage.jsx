@@ -67,16 +67,6 @@ const ExcomMemberHomePage = () => {
 
   return (
     <div>
-      <div className="container-fluid">
-        <div className="row pt-5 align-items-center">
-          <div className="col-lg-4 pt-5">
-            <h4 className="welcome-text">Welcome</h4>
-            <h2 className="user-name-home yellow-gradient-text mb-2 text-capitalize">
-              {accounts.length > 0 ? accounts[0].name : 'User Name'}
-            </h2>
-          </div>
-        </div>
-      </div>
       {/* <div className="container-fluid">
         <div className="row pt-5 align-items-center">
           <div className="col-lg-4 pt-5">

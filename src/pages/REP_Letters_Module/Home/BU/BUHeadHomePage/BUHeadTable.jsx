@@ -90,7 +90,6 @@ const DisclosureProcessorTable = ({
                     scopeData: row.row.original,
                     modalType: 'Review',
                     letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                    isSection3ApproveState: false,
                   };
                   history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
@@ -107,7 +106,6 @@ const DisclosureProcessorTable = ({
                       scopeData: row.row.original,
                       modalType: 'attemptSection2',
                       letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                      isSection3ApproveState: false,
                     };
                     history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                   }}
