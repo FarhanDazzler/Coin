@@ -2,21 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Form } from 'react-bootstrap';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { useMsal } from '@azure/msal-react';
 import * as formik from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import { Divider, Group, SimpleGrid, Text } from '@mantine/core';
 import CollapseFrame from '../../../../../../components/UI/CollapseFrame';
 import Button from '../../../../../../components/UI/Button';
-import ActionLogChatTimeline from './ActionLogChatTimeline';
 import '../../../LetterFormStyle.scss';
 import {
   addBUSection3Response,
-  clearGetBUSection3Response,
+  clearGetBUSection3RBA_Data,
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
-import { getBUSection3ResponseSelector } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { getBUSection3RBA_DataSelector } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import Table2 from '../../../../../../components/UI/Table/Table2';
 
 const AttemptSection3 = ({ scopeData }) => {
   const history = useHistory();
@@ -24,53 +22,130 @@ const AttemptSection3 = ({ scopeData }) => {
   const { accounts } = useMsal();
   const { Formik } = formik;
 
-  const getBUSection3ResponseState = useSelector(getBUSection3ResponseSelector);
-
-  var formdata = new FormData();
+  const getBUSection3RBA_DataState = useSelector(getBUSection3RBA_DataSelector);
 
   // clear all the states on page leave or refresh page or change url path or change module or change role
   useEffect(() => {
     return () => {
-      dispatch(clearGetBUSection3Response());
-      console.log('clearing section 3 response');
+      dispatch(clearGetBUSection3RBA_Data());
+      console.log('clearing section 3 RBA');
     };
   }, []);
 
   const handleSave = (value, resetForm) => {
-    formdata.append('assessment_id', scopeData?.id);
-    if (value.is_rba_applicable === 'Yes') {
-      formdata.append('is_rba_applicable', true);
-      formdata.append('rba_attachment', value.RBA_File);
-    } else {
-      formdata.append('is_rba_applicable', false);
-    }
-    formdata.append('comment', value.Comment);
-    formdata.append('created_by', accounts[0]?.username);
+    const payload = {
+      assessment_id: scopeData?.id,
+      DP_Comment: value.Comment,
+      RBA_Data: getBUSection3RBA_DataState?.data ? getBUSection3RBA_DataState?.data : null,
+    };
 
-    dispatch(addBUSection3Response(formdata));
-    dispatch(clearGetBUSection3Response());
+    //console.log('payload', payload);
+    dispatch(addBUSection3Response(payload));
+    dispatch(clearGetBUSection3RBA_Data());
     history.push('/');
   };
+
+  const TABLE_COLUMNS = [
+    {
+      accessorKey: 'Date',
+      id: 'Date',
+      header: 'Date',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
+      accessorKey: 'Reporting_Entity_COGNOS_Entity',
+      id: 'Reporting_Entity_COGNOS_Entity',
+      header: 'Reporting Entity (COGNOS Entity)',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
+      accessorKey: 'Type_Of_Reconciliation_Error',
+      id: 'Type_Of_Reconciliation_Error',
+      header: 'Type Of Reconciliation Error',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 250,
+    },
+    {
+      accessorKey: 'Accounts_Of_The_Reconciliation',
+      id: 'Accounts_Of_The_Reconciliation',
+      header: 'Accounts Of The Reconciliation',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 200,
+    },
+    {
+      accessorKey: 'Description_Of_Reconciliation',
+      id: 'Description_Of_Reconciliation',
+      header: 'Description Of Reconciliation',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 200,
+    },
+    {
+      accessorKey: 'Account1',
+      id: 'Account1',
+      header: 'Account 1',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
+      accessorKey: 'Account2',
+      id: 'Account2',
+      header: 'Account 2',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
+      accessorKey: 'Reconciliation_Local_Currency',
+      id: 'Reconciliation_Local_Currency',
+      header: 'Reconciliation Local Currency',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 100,
+    },
+    {
+      accessorKey: 'Reconciliation_USD',
+      id: 'Reconciliation_USD',
+      header: 'Reconciliation USD',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
+      accessorKey: 'Absolute_Values',
+      id: 'Absolute_Values',
+      header: 'Absolute Values',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+  ];
 
   return (
     <CollapseFrame title="Section 3 : RBA" active>
       <Formik
         enableReinitialize
         initialValues={{
-          RBA_File: null,
-          is_rba_applicable: getBUSection3ResponseState?.data?.is_rba_applicable
-            ? getBUSection3ResponseState?.data?.is_rba_applicable === 'true'
-              ? 'Yes'
-              : 'No'
-            : 'Yes',
           Comment: '',
         }}
         validationSchema={Yup.object().shape({
-          is_rba_applicable: Yup.string().required('Please select an option'),
-          RBA_File: Yup.mixed().when('is_rba_applicable', {
-            is: (value) => ['Yes'].includes(value),
-            then: Yup.mixed().required('RBA file is required'),
-          }),
           Comment: Yup.string().required('Comment is required'),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
@@ -98,93 +173,12 @@ const AttemptSection3 = ({ scopeData }) => {
             <Col xs={12} md={12}>
               <Card className="bu-letter-section3 mt-5">
                 <Card.Body>
-                  <Row style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Col>
-                      <h5>Is the RBA applicable?</h5>
-                    </Col>
-                    <Col className="col-lg-4">
-                      <Form.Group className="input-group mb-3">
-                        <Form.Control
-                          as="select"
-                          name="is_rba_applicable"
-                          placeholder=""
-                          value={values.is_rba_applicable}
-                          isInvalid={!!errors.is_rba_applicable}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          readOnly={false}
-                          className="form-select"
-                        >
-                          <option value="Yes">Yes</option>
-                          <option value="No">No</option>
-                        </Form.Control>
-
-                        <Form.Control.Feedback type="invalid">
-                          {errors.is_rba_applicable}
-                        </Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  {values.is_rba_applicable === 'Yes' && (
-                    <>
-                      <h5>
-                        Kindly consolidate all relevant RBA proof documents into a single, polished
-                        PDF file. Merge all proofs into a unified document and attach it
-                        accordingly. If necessary, feel free to include comments to provide
-                        explanations regarding the content.
-                      </h5>
-                      <Row className="col-lg-4">
-                        <Form.Group style={{ padding: '0px', marginBottom: '20px' }}>
-                          <Form.Control
-                            type="file"
-                            required
-                            accept=".pdf, .zip, .rar, .7z, .gz"
-                            name="RBA_File"
-                            onChange={(event) => {
-                              setFieldValue('RBA_File', event.currentTarget.files[0]);
-                            }}
-                            isInvalid={!!errors.RBA_File}
-                          />
-                          <Form.Control.Feedback type="invalid">
-                            {errors.RBA_File}
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                      </Row>
-                    </>
-                  )}
-                  {getBUSection3ResponseState?.data?.is_rba_applicable === 'true' && (
+                  {getBUSection3RBA_DataState?.data && (
                     <Row>
-                      <Col>
-                        <h5>RBA file attached by Disclosure Processor</h5>
-                      </Col>
-                      <Col>
-                        <Button
-                          startIcon={<PictureAsPdfIcon />}
-                          onClick={() => {
-                            const pdfUrl = getBUSection3ResponseState?.data?.rba_attachment_url;
-                            window.open(pdfUrl, '_blank');
-                          }}
-                        >
-                          RBA Attachment
-                        </Button>
-                      </Col>
-                    </Row>
-                  )}
-                  {getBUSection3ResponseState?.data?.comment_response && (
-                    <Row>
-                      <Group position="apart">
-                        <SimpleGrid cols={1}>
-                          <Text
-                            size="lg"
-                            weight={700}
-                            color="#ffffff"
-                            align="left"
-                          >{`Chat Logs`}</Text>
-                        </SimpleGrid>
-                      </Group>
-                      <Divider color="gray" className="section3-divider" size="xs" />
-                      <ActionLogChatTimeline
-                        comments={getBUSection3ResponseState?.data?.comment_response}
+                      <Table2
+                        tableData={getBUSection3RBA_DataState?.data}
+                        loading={getBUSection3RBA_DataState.loading}
+                        tableColumns={TABLE_COLUMNS}
                       />
                     </Row>
                   )}

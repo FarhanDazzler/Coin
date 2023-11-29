@@ -10,6 +10,8 @@ import { Divider, Box } from '@mantine/core';
 import { Form } from 'react-bootstrap';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import * as Yup from 'yup';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { Container, Title, Text, Group, Stack } from '@mantine/core';
 import { useFormikContext, Field, Formik, ErrorMessage } from 'formik';
 import CollapseFrame from '../../../../../../components/UI/CollapseFrame';
 // import Button from '../../../../../../components/UI/Button';
@@ -22,11 +24,13 @@ import { getInstructionsSelector } from '../../../../../../redux/REP_Letters/RL_
 import {
   getBUSubmitResponse,
   getBUSection2SignatureResponseAction,
-  addBUSection2CheckboxAction,
+  addBUSection2LazyApproval,
+  clearGetBUSection2SignatureResponseAction,
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import {
   getBUSubmitResponseSelector,
   getBUSection2SignatureResponseSelector,
+  addBUSection2LazyApprovalSelector,
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../../../LetterFormStyle.scss';
 
@@ -90,21 +94,11 @@ const Section2 = ({ id }) => {
   const handleAutoAuth = (value, resetForm) => {
     const payload = {
       id: id,
-      Email: accounts[0]?.username,
-      oid: accounts[0]?.idTokenClaims.oid,
+      comment: value.Comments,
     };
 
-    console.log('payload', payload);
-    // dispatch(
-    //   addBUSection2CheckboxAction({
-    //     formData,
-    //     event: {
-    //       onSuccess: () => {
-    //         resetForm();
-    //       },
-    //     },
-    //   }),
-    // );
+    //console.log('payload', payload);
+    dispatch(addBUSection2LazyApproval(payload));
   };
 
   const AutoAuth = () => {
@@ -524,16 +518,50 @@ const ReviewSubmittedResponses = ({ scopeData, getBUSubmitResponseState }) => {
   );
 };
 
+const SuccessDialog = () => {
+  const history = useHistory();
+
+  return (
+    <div className="container py-5">
+      <div>
+        <Stack
+          align="center"
+          justify="center"
+          spacing="sm"
+          sx={(theme) => ({
+            height: 300,
+          })}
+        >
+          <Title className="golden-text">
+            <CheckCircleOutlineIcon style={{ fontSize: 100, paddingRight: '5px' }} />
+            Success
+          </Title>
+          <Text c="dimmed" size="lg" ta="center" style={{ fontSize: '26px', fontWeight: '600' }}>
+            Thank you for signing the responses. Feel free to close this window now.
+          </Text>
+          <Group justify="center">
+            <Button color="neutral" className="ml-4" onClick={() => history.push('/')}>
+              Take me back to home page
+            </Button>
+          </Group>
+        </Stack>
+      </div>
+    </div>
+  );
+};
+
 const BU_Letter_LazyApprovalSection2 = () => {
   const { instance, accounts, inProgress } = useMsal();
   const dispatch = useDispatch();
   const scopeData = {};
   const { id } = useParams();
   const token = Cookies.get('token');
+  const [successDialogOpen, setSuccessDialogOpen] = useState(false);
 
   const instructionState = useSelector(getInstructionsSelector);
   const getBUSubmitResponseState = useSelector(getBUSubmitResponseSelector);
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
+  const addBUSection2LazyApprovalState = useSelector(addBUSection2LazyApprovalSelector);
 
   useEffect(() => {
     if (token) {
@@ -552,31 +580,49 @@ const BU_Letter_LazyApprovalSection2 = () => {
         id: id,
       };
       dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
+      dispatch(clearGetBUSection2SignatureResponseAction());
     }
   }, [token]);
 
+  // logic to open success dialog box on successful submission of response
+  useEffect(() => {
+    if (addBUSection2LazyApprovalState.success) {
+      setSuccessDialogOpen(true);
+    }
+  }, [addBUSection2LazyApprovalState]);
   return (
     <div>
       <PageWrapper>
-        <div className="container-fluid custom-scroll-page">
-          {token?.length <= 0 ||
-          instructionState.loading ||
-          getBUSubmitResponseState.loading ||
-          getBUSection2SignatureResponseState?.loading ? (
-            <div className="loader-animation">
-              <DotSpinner size={100} speed={0.9} color="#e3af32" />
-              <p className="loader-Desc ml-3">Please wait while we are Loading responses for you</p>
-            </div>
-          ) : (
-            <div className="col-lg-12">
-              <ReviewSubmittedResponses
-                scopeData={scopeData}
-                getBUSubmitResponseState={getBUSubmitResponseState}
-              />
-              <Section2 id={id} />
-            </div>
-          )}
-        </div>
+        {successDialogOpen === false ? (
+          <div className="container-fluid custom-scroll-page">
+            {token?.length <= 0 ||
+            instructionState.loading ||
+            getBUSubmitResponseState.loading ||
+            getBUSection2SignatureResponseState?.loading ? (
+              <div className="loader-animation">
+                <DotSpinner size={100} speed={0.9} color="#e3af32" />
+                <p className="loader-Desc ml-3">
+                  Please wait while we are Loading responses for you
+                </p>
+              </div>
+            ) : addBUSection2LazyApprovalState?.loading ? (
+              <div className="loader-animation">
+                <DotSpinner size={100} speed={0.9} color="#e3af32" />
+                <p className="loader-Desc ml-3">Please wait ...</p>
+              </div>
+            ) : (
+              <div className="col-lg-12">
+                <ReviewSubmittedResponses
+                  scopeData={scopeData}
+                  getBUSubmitResponseState={getBUSubmitResponseState}
+                />
+                <Section2 id={id} />
+              </div>
+            )}
+          </div>
+        ) : (
+          <SuccessDialog />
+        )}
       </PageWrapper>
     </div>
   );
