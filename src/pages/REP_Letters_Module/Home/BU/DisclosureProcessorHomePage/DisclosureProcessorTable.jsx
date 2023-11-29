@@ -106,7 +106,6 @@ const DisclosureProcessorTable = ({
                     scopeData: row.row.original,
                     modalType: 'Review',
                     letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                    isSection3ApproveState: false,
                   };
                   history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
@@ -122,7 +121,6 @@ const DisclosureProcessorTable = ({
                     scopeData: row.row.original,
                     modalType: 'attemptSection1',
                     letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                    isSection3ApproveState: false,
                   };
                   history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
@@ -138,7 +136,6 @@ const DisclosureProcessorTable = ({
                     scopeData: row.row.original,
                     modalType: 'attemptSection2',
                     letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                    isSection3ApproveState: false,
                   };
                   history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
@@ -147,7 +144,7 @@ const DisclosureProcessorTable = ({
               </Button>
             )}
             {['Responded', 'Signed', 'Approval Pending'].includes(row.row.original.Status) &&
-              ['RBA Rejected', 'Not Started'].includes(row.row.original.RBA_Status) && (
+              ['Not Started'].includes(row.row.original.RBA_Status) && (
                 <Button
                   className="mr-2"
                   onClick={() => {
@@ -155,7 +152,6 @@ const DisclosureProcessorTable = ({
                       scopeData: row.row.original,
                       modalType: 'attemptSection3',
                       letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                      isSection3ApproveState: false,
                     };
                     history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                   }}

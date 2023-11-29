@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Form } from 'react-bootstrap';
 import { useMsal } from '@azure/msal-react';
+import { Divider, Group, SimpleGrid, Text } from '@mantine/core';
 import * as formik from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Card } from 'react-bootstrap';
@@ -173,6 +174,15 @@ const AttemptSection3 = ({ scopeData }) => {
             <Col xs={12} md={12}>
               <Card className="bu-letter-section3 mt-5">
                 <Card.Body>
+                  <Row>
+                    <Row>
+                      <h5>
+                        Please find the list of existing RBAs. Request you to review the same and
+                        kindly provide an approval with comments (if required).
+                      </h5>
+                    </Row>
+                    <Divider color="gray" className="section3-divider" size="xs" />
+                  </Row>
                   {getBUSection3RBA_DataState?.data && (
                     <Row>
                       <Table2

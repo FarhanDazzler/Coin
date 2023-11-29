@@ -95,7 +95,6 @@ const FinanceDirectorTable = ({
                     scopeData: row.row.original,
                     modalType: 'Review',
                     letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                    isSection3ApproveState: false,
                   };
                   history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
@@ -112,7 +111,6 @@ const FinanceDirectorTable = ({
                       scopeData: row.row.original,
                       modalType: 'attemptSection2',
                       letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                      isSection3ApproveState: false,
                     };
                     history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                   }}
@@ -120,17 +118,14 @@ const FinanceDirectorTable = ({
                   Signature
                 </Button>
               )}
-            {['RBA Not Applicable', 'Pending RBA Approval'].includes(
-              row.row.original.RBA_Status,
-            ) && (
+            {['Pending RBA Approval'].includes(row.row.original.RBA_Status) && (
               <Button
                 className="mr-2"
                 onClick={() => {
                   const data = {
                     scopeData: row.row.original,
-                    modalType: 'attemptSection3',
+                    modalType: 'approveSection3',
                     letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                    isSection3ApproveState: true,
                   };
                   history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
                 }}
