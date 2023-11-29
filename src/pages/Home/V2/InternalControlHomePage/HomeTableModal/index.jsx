@@ -201,6 +201,14 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         setAnsSection1(getLanguageFormat(responseUpdatedData.s1, language));
       }
 
+      if (responseUpdatedData?.kpis) {
+        setTableData(responseUpdatedData?.kpis);
+      }
+
+      if (responseUpdatedData?.showTable) {
+        setShowMoreSection(true);
+      }
+
       if (responseUpdatedData?.s3?.length > 0 || condition) {
         const section3Data = responseUpdatedData?.s3?.reduce(
           (acc, [k, v]) => ((acc[k] = v), acc),
@@ -258,7 +266,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
                 Assessment_ID: activeData.id,
               }),
             );
-            setTerminating(true);
+            if (!showMoreSection) setTerminating(true);
           }, 2000);
         }
       }
@@ -314,6 +322,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             s1: ansSection1,
             data: kpiResultData?.data?.data,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+            showTable: showMoreSection,
           },
           kpis: isupdated ? [] : tableData,
           event: {
