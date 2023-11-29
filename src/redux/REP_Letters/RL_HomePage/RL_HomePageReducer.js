@@ -218,6 +218,13 @@ export const ADD_BU_SECTION2_LAZY_APPROVAL_SUCCESS = 'ADD_BU_SECTION2_LAZY_APPRO
 export const ADD_BU_SECTION2_LAZY_APPROVAL_ERROR = 'ADD_BU_SECTION2_LAZY_APPROVAL_ERROR';
 // ============= ADD BU SECTION2 Lazy Approval ===============//
 
+// ============== Get BU section 3 RBA Data ==================//
+export const GET_BU_SECTION_3_RBA_DATA_REQUEST = 'GET_BU_SECTION_3_RBA_DATA_REQUEST';
+export const GET_BU_SECTION_3_RBA_DATA_SUCCESS = 'GET_BU_SECTION_3_RBA_DATA_SUCCESS';
+export const GET_BU_SECTION_3_RBA_DATA_ERROR = 'GET_BU_SECTION_3_RBA_DATA_ERROR';
+export const CLEAR_GET_BU_SECTION_3_RBA_DATA_REQUEST = 'CLEAR_GET_BU_SECTION_3_RBA_DATA_REQUEST';
+// ============== Get BU section 3 RBA Data ==================//
+
 // ============== Get BU section 3 Response ==================//
 export const GET_BU_SECTION_3_RESPONSE_REQUEST = 'GET_BU_SECTION_3_RESPONSE_REQUEST';
 export const GET_BU_SECTION_3_RESPONSE_SUCCESS = 'GET_BU_SECTION_3_RESPONSE_SUCCESS';
@@ -270,6 +277,7 @@ const initialState = {
   addBUSection2UploadMailApproval: { ...block, data: [] },
   addBUSection2Checkbox: { ...block, data: [] },
   addBUSection2LazyApproval: { ...block, data: [] },
+  getBUSection3RBA_Data: { ...block, data: [] },
   getBUSection3Response: { ...block, data: [] },
   addBUSection3Response: { ...block, data: [] },
   approveBUSection3Response: { ...block, data: [] },
@@ -1019,6 +1027,42 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         ...state,
         addBUSection2LazyApproval: {
           ...state.addBUSection2LazyApproval,
+          loading: false,
+        },
+      };
+
+    // GET BU section 3 RBA Data
+    case GET_BU_SECTION_3_RBA_DATA_REQUEST:
+      return {
+        ...state,
+        getBUSection3RBA_Data: {
+          ...state.getBUSection3RBA_Data,
+          loading: true,
+        },
+      };
+    case GET_BU_SECTION_3_RBA_DATA_SUCCESS:
+      return {
+        ...state,
+        getBUSection3RBA_Data: {
+          ...state.getBUSection3RBA_Data,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BU_SECTION_3_RBA_DATA_ERROR:
+      return {
+        ...state,
+        getBUSection3RBA_Data: {
+          ...state.getBUSection3RBA_Data,
+          loading: false,
+        },
+      };
+    case CLEAR_GET_BU_SECTION_3_RBA_DATA_REQUEST:
+      return {
+        ...state,
+        getBUSection3RBA_Data: {
+          ...state.getBUSection3RBA_Data,
+          data: [],
           loading: false,
         },
       };

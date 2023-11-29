@@ -81,6 +81,9 @@ import {
   ADD_BU_SECTION2_LAZY_APPROVAL_REQUEST,
   ADD_BU_SECTION2_LAZY_APPROVAL_SUCCESS,
   ADD_BU_SECTION2_LAZY_APPROVAL_ERROR,
+  GET_BU_SECTION_3_RBA_DATA_REQUEST,
+  GET_BU_SECTION_3_RBA_DATA_SUCCESS,
+  GET_BU_SECTION_3_RBA_DATA_ERROR,
   GET_BU_SECTION_3_RESPONSE_REQUEST,
   GET_BU_SECTION_3_RESPONSE_SUCCESS,
   GET_BU_SECTION_3_RESPONSE_ERROR,
@@ -656,7 +659,7 @@ function* handle_AddBUSection2CheckboxData({ payload }) {
 
 // ADD BU Section2 Lazy Approval
 async function addBUSection2LazyApprovalApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/autosign_section2', payload);
 }
 function* updateAddBUSection2LazyApproval({ payload }) {
   try {
@@ -686,9 +689,29 @@ function* updateAddBUSection2LazyApproval({ payload }) {
   }
 }
 
+// get BU Section 3 RBA DATA
+async function getBUSection3RBA_DataApi(params) {
+  return await Axios.get('/get_bu_section3_rba', { params });
+}
+function* handle_GetBUSection3RBA_DataApi({ payload }) {
+  try {
+    const response = yield call(getBUSection3RBA_DataApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BU_SECTION_3_RBA_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BU_SECTION_3_RBA_DATA_ERROR,
+    });
+  }
+}
+
 // get BU Section 3 Response
 async function getBUSection3ResponseApi(params) {
-  return await Axios.get('/get_bu_section3_rba', { params });
+  return await Axios.get('/get_bu_section_3_submitted_response', { params });
 }
 function* handle_GetBUSection3Response({ payload }) {
   try {
@@ -708,7 +731,7 @@ function* handle_GetBUSection3Response({ payload }) {
 
 // add BU Section 3 Response
 async function addBUSection3ResponseApi(payload) {
-  return await Axios.post('/add_bu_section3_rba', payload);
+  return await Axios.post('/add_bu_section_3_data', payload);
 }
 function* updateAddBUSection3Response({ payload }) {
   try {
@@ -738,7 +761,7 @@ function* updateAddBUSection3Response({ payload }) {
 
 // Approve BU Section 3 Response
 async function approveBUSection3ResponseApi(payload) {
-  return await Axios.post('/approve_bu_section3_rba', payload);
+  return await Axios.post('/approve_bu_section_3_submitted_response', payload);
 }
 function* updateApproveBUSection3Response({ payload }) {
   try {
@@ -832,6 +855,7 @@ export default all([
     handle_AddBUSection2UploadMailApprovalData,
   ),
   takeLatest(ADD_BU_SECTION2_LAZY_APPROVAL_REQUEST, updateAddBUSection2LazyApproval),
+  takeLatest(GET_BU_SECTION_3_RBA_DATA_REQUEST, handle_GetBUSection3RBA_DataApi),
   takeLatest(GET_BU_SECTION_3_RESPONSE_REQUEST, handle_GetBUSection3Response),
   takeLatest(ADD_BU_SECTION_3_RESPONSE_REQUEST, updateAddBUSection3Response),
   takeLatest(APPROVE_BU_SECTION_3_RESPONSE_REQUEST, updateApproveBUSection3Response),

@@ -30,6 +30,8 @@ import {
   ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
   ADD_BU_SECTION2_LAZY_APPROVAL_REQUEST,
   CLEAR_GET_BU_SECTION2_SIGNATURE_RESPONSE_REQUEST,
+  GET_BU_SECTION_3_RBA_DATA_REQUEST,
+  CLEAR_GET_BU_SECTION_3_RBA_DATA_REQUEST,
   GET_BU_SECTION_3_RESPONSE_REQUEST,
   CLEAR_GET_BU_SECTION_3_RESPONSE_REQUEST,
   ADD_BU_SECTION_3_RESPONSE_REQUEST,
@@ -174,6 +176,11 @@ export const addBUSection2LazyApproval = (payload) => ({
   payload,
 });
 
+export const getBUSection3RBA_Data = (payload) => ({
+  type: GET_BU_SECTION_3_RBA_DATA_REQUEST,
+  payload,
+});
+
 export const getBUSection3Response = (payload) => ({
   type: GET_BU_SECTION_3_RESPONSE_REQUEST,
   payload,
@@ -187,6 +194,10 @@ export const addBUSection3Response = (payload) => ({
 export const approveBUSection3Response = (payload) => ({
   type: APPROVE_BU_SECTION_3_RESPONSE_REQUEST,
   payload,
+});
+
+export const clearGetBUSection3RBA_Data = () => ({
+  type: CLEAR_GET_BU_SECTION_3_RBA_DATA_REQUEST,
 });
 
 export const clearGetBUSection3Response = () => ({
