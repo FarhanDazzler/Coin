@@ -76,6 +76,7 @@ const FinanceDirectorHomePage = () => {
 
   return (
     <div>
+      <div className="row pt-5 align-items-center"></div>
       {/* <div className="container-fluid">
         <div className="row pt-5 align-items-center">
           <div className="col-lg-4 pt-5">

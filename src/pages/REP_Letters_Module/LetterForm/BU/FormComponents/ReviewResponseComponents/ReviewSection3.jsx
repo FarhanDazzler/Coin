@@ -139,16 +139,20 @@ const ReviewSection3 = () => {
             )}
             <Row>
               <Divider color="gray" className="section3-divider" size="xs" />
-              <Row>
-                <h5>
-                  <span className="golden-text">
-                    Comment provided by the Disclosure Processor :
-                  </span>
-                </h5>
-              </Row>
-              <Row>
-                <h5>{getBUSection3ResponseState?.data?.DP_Comment}</h5>
-              </Row>
+              {getBUSection3ResponseState?.data?.DP_Comment && (
+                <>
+                  <Row>
+                    <h5>
+                      <span className="golden-text">
+                        Comment provided by the Disclosure Processor :
+                      </span>
+                    </h5>
+                  </Row>
+                  <Row>
+                    <h5>{getBUSection3ResponseState?.data?.DP_Comment}</h5>
+                  </Row>
+                </>
+              )}
               {getBUSection3ResponseState?.data?.FD_Comment && (
                 <>
                   <Row>
