@@ -16,7 +16,6 @@ import {
   delete_BU_Zone_AdminRole,
 } from '../../../../redux/AdminPage/AdminPageAction';
 import BU_Zone_Model from './BU_Zone_Model.jsx';
-
 import {
   get_BU_Zone_RolesSelector,
   add_BU_Zone_AdminRoleSelector,
@@ -32,11 +31,6 @@ const BU_Zone_AdminTable = () => {
   const [editTableData, setEditTableData] = useState();
 
   const dispatch = useDispatch();
-
-  // API Call using dispatch
-  useEffect(() => {
-    dispatch(get_BU_Zone_Roles());
-  }, []);
 
   //const getAll_Roles_data = useSelector(getAll_RolesSelector);
   const get_BU_Zone_RolesState = useSelector(get_BU_Zone_RolesSelector);
@@ -85,13 +79,10 @@ const BU_Zone_AdminTable = () => {
       }).then((res) => {
         if (res.isConfirmed) {
           let payload = {
-            Module: 'SA_Admins',
-            Zone: data.zone_id,
-            IC_Email: data.zic_email,
-            IC_OID: data.zic_oid,
+            ZIC_OID: data.oid,
           };
 
-          console.log(payload, 'ZIC delete payload');
+          //console.log(payload, 'ZIC delete payload');
           dispatch(delete_BU_Zone_AdminRole(payload));
         }
       });
@@ -112,8 +103,8 @@ const BU_Zone_AdminTable = () => {
       },
     },
     {
-      accessorKey: 'zone_id',
-      id: 'zone_id',
+      accessorKey: 'Zone',
+      id: 'Zone',
       header: 'Zone',
       flex: 1,
       columnDefType: 'data',
@@ -122,8 +113,8 @@ const BU_Zone_AdminTable = () => {
     },
 
     {
-      accessorKey: 'zic_email',
-      id: 'zic_email',
+      accessorKey: 'Email',
+      id: 'Email',
       header: 'Email',
       flex: 1,
       columnDefType: 'data',
@@ -171,7 +162,7 @@ const BU_Zone_AdminTable = () => {
     setTableData(
       getAll_ZIC_Role?.map((i, index) => {
         return {
-          id: getAll_ZIC_Role[index].zic_oid,
+          id: getAll_ZIC_Role[index].oid,
           ...i,
         };
       }),
