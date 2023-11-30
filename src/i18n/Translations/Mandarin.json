@@ -12,6 +12,7 @@
       "exportToExcel": "导出到Excel",
       "excelFileUploadAndDownload": "Excel文件上传和下载",
       "section2NoKPIavailableText": "此控制不适用于KPI",
+      "section2NoKPIChartavailableText": "历史数据不可用",
       "section3_MICS": "第三节：MICS特定",
       "saveDraftBtn": "保存草稿！",
       "section3FailedText": "基于上述回答，需要为失败的控制制定行动计划。请详细说明行动计划？（提示：行动计划是一项限时提案，旨在纠正控制失效，以确保MICS合规性）",

@@ -12,6 +12,7 @@
       "exportToExcel": "Exportar para Excel",
       "excelFileUploadAndDownload": "Upload e Download de Arquivo Excel",
       "section2NoKPIavailableText": "KPI não se aplica a este Controle",
+      "section2NoKPIChartavailableText": "Os dados históricos não estão disponíveis",
       "section3_MICS": "Seção 3: ESPECÍFICO MICS",
       "saveDraftBtn": "Salvar rascunho!",
       "section3FailedText": "Com base na resposta acima, é necessário criar planos de ação para o controle que falhou. Poderia detalhar o plano de ação? (Dica: Um plano de ação é uma proposta com prazo definido projetada para remediar a falha no controle, com o objetivo de garantir a conformidade com o MICS)",

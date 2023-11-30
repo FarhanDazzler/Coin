@@ -359,6 +359,8 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+            data: kpiResultData?.data?.data,
+            showTable: showMoreSection,
           },
           events: {
             onSuccess: () => {
