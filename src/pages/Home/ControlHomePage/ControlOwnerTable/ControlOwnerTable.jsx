@@ -16,11 +16,37 @@ import { getControlOwnerTableData } from '../../../../redux/DashBoard/DashBoardA
 import { getControlOwnerDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
 import TableLoader from '../../../../components/UI/TableLoader';
 import Button from '../../../../components/UI/Button';
-import { Group } from '@mantine/core';
-import FilterButtons from '../../../../components/FilterButtons';
+import { Group, MultiSelect } from '@mantine/core';
+//  import FilterButtons from '../../../../components/FilterButtons';
 import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
 import { clearLatestDraftResponse } from '../../../../redux/Assessments/AssessmentAction';
+
+// Filter buttons
+const FilterMultiSelect = ({ data, label, value, onChange }) => {
+  const { t } = useTranslation();
+  const [searchValue, onSearchChange] = useState('');
+  return (
+    <MultiSelect
+      className="mantine-MultiSelect-wrapper"
+      data={data}
+      label={<span className="mantine-MultiSelect-label">{label}</span>}
+      placeholder={t('selfAssessment.multi_select_filter_placeHolder')}
+      searchable
+      limit={20}
+      searchValue={searchValue}
+      onSearchChange={onSearchChange}
+      nothingFound="Nothing found"
+      clearButtonLabel="Clear selection"
+      clearable
+      value={value}
+      onChange={onChange}
+      radius="xl"
+      variant="filled"
+      size="xs"
+    />
+  );
+};
 
 const ControlOwnerTable = ({
   tableName,
@@ -343,30 +369,44 @@ const ControlOwnerTable = ({
           <div className="row pt-5">
             <div className="col-12 col-lg-12">
               <Group spacing="xs" className="actions-button-wrapper">
-                <FilterButtons
-                  year={removeDuplicates(year)}
-                  assessment_Cycle={removeDuplicates(assessment_Cycle)}
-                  Zone={removeDuplicates(Zone)}
-                  BU={removeDuplicates(BU)}
-                  Receiver={removeDuplicates(Receiver)}
-                  Provider={removeDuplicates(Provider)}
-                  yearValue={yearValue}
-                  assessmentCycleValue={assessmentCycleValue}
-                  zoneValue={zoneValue}
-                  buValue={buValue}
-                  receiverValue={receiverValue}
-                  providerValue={providerValue}
-                  setYearValue={setYearValue}
-                  setAssessmentCycleValue={setAssessmentCycleValue}
-                  setZoneValue={setZoneValue}
-                  setBUValue={setBUValue}
-                  setReceiverValue={setReceiverValue}
-                  setProviderValue={setProviderValue}
-                  isHide={true}
+                <FilterMultiSelect
+                  data={removeDuplicates(year) || []}
+                  label="Year"
+                  value={yearValue}
+                  onChange={setYearValue}
+                />
+                <FilterMultiSelect
+                  data={removeDuplicates(assessment_Cycle) || []}
+                  label="Assessment Cycle"
+                  value={assessmentCycleValue}
+                  onChange={setAssessmentCycleValue}
+                />
+                <FilterMultiSelect
+                  data={removeDuplicates(Zone) || []}
+                  label="Zone"
+                  value={zoneValue}
+                  onChange={setZoneValue}
+                />
+                <FilterMultiSelect
+                  data={removeDuplicates(BU) || []}
+                  label="BU"
+                  value={buValue}
+                  onChange={setBUValue}
+                />
+                {/* <FilterMultiSelect
+                  data={removeDuplicates(Receiver) || []}
+                  label="Receiver Organization"
+                  value={receiverValue}
+                  onChange={setReceiverValue}
+                /> */}
+                <FilterMultiSelect
+                  data={removeDuplicates(Provider) || []}
+                  label="Provider Organization"
+                  value={providerValue}
+                  onChange={setProviderValue}
                 />
               </Group>
             </div>
-
             <div className="col-12 col-lg-12 mt-5">
               <Table2
                 tableData={tableDataArray}
