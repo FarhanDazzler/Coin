@@ -35,69 +35,69 @@ export const DELETE_ADMIN_ROLE_ERROR = 'DELETE_ADMIN_ROLE_ERROR';
 
 // =================== Delete ROLE Data ========================//
 
-// =================== GET BU All ROLE Data ========================//
+// =================== GET BU Zone ROLE Data ========================//
 
-export const GET_BU_ALL_ROLES_REQUEST = 'GET_BU_ALL_ROLES_REQUEST';
-export const GET_BU_ALL_ROLES_SUCCESS = 'GET_BU_ALL_ROLES_SUCCESS';
-export const GET_BU_ALL_ROLES_ERROR = 'GET_BU_ALL_ROLES_ERROR';
+export const GET_BU_ZONE_ROLES_REQUEST = 'GET_BU_ZONE_ROLES_REQUEST';
+export const GET_BU_ZONE_ROLES_SUCCESS = 'GET_BU_ALL_ROLES_SUCCESS';
+export const GET_BU_ZONE_ROLES_ERROR = 'GET_BU_ZONE_ROLES_ERROR';
 
-// =================== GET BU All  ROLE Data ========================//
+// =================== GET BU Zone  ROLE Data ========================//
 
-// =================== ADD BU ROLE Data ========================//
+// =================== ADD BU Zone ROLE Data ========================//
 
-export const ADD_BU_ADMIN_ROLE_REQUEST = 'ADD_BU_ADMIN_ROLE_REQUEST';
-export const ADD_BU_ADMIN_ROLE_SUCCESS = 'ADD_BU_ADMIN_ROLE_SUCCESS';
-export const ADD_BU_ADMIN_ROLE_ERROR = 'ADD_BU_ADMIN_ROLE_ERROR';
+export const ADD_BU_ZONE_ADMIN_ROLE_REQUEST = 'ADD_BU_ZONE_ADMIN_ROLE_REQUEST';
+export const ADD_BU_ZONE_ADMIN_ROLE_SUCCESS = 'ADD_BU_ZONE_ADMIN_ROLE_SUCCESS';
+export const ADD_BU_ZONE_ADMIN_ROLE_ERROR = 'ADD_BU_ZONE_ADMIN_ROLE_ERROR';
 
-// =================== ADD BU ROLE Data ========================//
+// =================== ADD BU Zone ROLE Data ========================//
 
-// =================== Modify BU ROLE Data ========================//
+// =================== Modify BU Zone ROLE Data ========================//
 
-export const MODIFY_BU_ADMIN_ROLE_REQUEST = 'MODIFY_BU_ADMIN_ROLE_REQUEST';
-export const MODIFY_BU_ADMIN_ROLE_SUCCESS = 'MODIFY_BU_ADMIN_ROLE_SUCCESS';
-export const MODIFY_BU_ADMIN_ROLE_ERROR = 'MODIFY_BU_ADMIN_ROLE_ERROR';
+export const MODIFY_BU_ZONE_ADMIN_ROLE_REQUEST = 'MODIFY_BU_ZONE_ADMIN_ROLE_REQUEST';
+export const MODIFY_BU_ZONE_ADMIN_ROLE_SUCCESS = 'MODIFY_BU_ZONE_ADMIN_ROLE_SUCCESS';
+export const MODIFY_BU_ZONE_ADMIN_ROLE_ERROR = 'MODIFY_BU_ZONE_ADMIN_ROLE_ERROR';
 
-// =================== Modify BU ROLE Data ========================//
+// =================== Modify BU Zone ROLE Data ========================//
 
-// =================== Delete BU ROLE Data ========================//
+// =================== Delete BU Zone ROLE Data ========================//
 
-export const DELETE_BU_ADMIN_ROLE_REQUEST = 'DELETE_BU_ADMIN_ROLE_REQUEST';
-export const DELETE_BU_ADMIN_ROLE_SUCCESS = 'DELETE_BU_ADMIN_ROLE_SUCCESS';
-export const DELETE_BU_ADMIN_ROLE_ERROR = 'DELETE_BU_ADMIN_ROLE_ERROR';
+export const DELETE_BU_ZONE_ADMIN_ROLE_REQUEST = 'DELETE_BU_ZONE_ADMIN_ROLE_REQUEST';
+export const DELETE_BU_ZONE_ADMIN_ROLE_SUCCESS = 'DELETE_BU_ZONE_ADMIN_ROLE_SUCCESS';
+export const DELETE_BU_ZONE_ADMIN_ROLE_ERROR = 'DELETE_BU_ZONE_ADMIN_ROLE_ERROR';
 
-// =================== Delete BU ROLE Data ========================//
+// =================== Delete BU Zone ROLE Data ========================//
 
-// =================== GET Function All ROLE Data ========================//
+// =================== GET Function ZONE ROLE Data ========================//
 
-export const GET_FUNCTION_ALL_ROLES_REQUEST = 'GET_FUNCTION_ALL_ROLES_REQUEST';
-export const GET_FUNCTION_ALL_ROLES_SUCCESS = 'GET_FUNCTION_ALL_ROLES_SUCCESS';
-export const GET_FUNCTION_ALL_ROLES_ERROR = 'GET_FUNCTION_ALL_ROLES_ERROR';
+export const GET_FUNCTION_ZONE_ROLES_REQUEST = 'GET_FUNCTION_ZONE_ROLES_REQUEST';
+export const GET_FUNCTION_ZONE_ROLES_SUCCESS = 'GET_FUNCTION_ZONE_ROLES_SUCCESS';
+export const GET_FUNCTION_ZONE_ROLES_ERROR = 'GET_FUNCTION_ZONE_ROLES_ERROR';
 
-// =================== GET Function All  ROLE Data ========================//
+// =================== GET Function ZONE  ROLE Data ========================//
 
-// =================== ADD Function ROLE Data ========================//
+// =================== ADD Function Zone ROLE Data ========================//
 
-export const ADD_FUNCTION_ADMIN_ROLE_REQUEST = 'ADD_FUNCTION_ADMIN_ROLE_REQUEST';
-export const ADD_FUNCTION_ADMIN_ROLE_SUCCESS = 'ADD_FUNCTION_ADMIN_ROLE_SUCCESS';
-export const ADD_FUNCTION_ADMIN_ROLE_ERROR = 'ADD_FUNCTION_ADMIN_ROLE_ERROR';
+export const ADD_FUNCTION_ZONE_ADMIN_ROLE_REQUEST = 'ADD_FUNCTION_ZONE_ADMIN_ROLE_REQUEST';
+export const ADD_FUNCTION_ZONE_ADMIN_ROLE_SUCCESS = 'ADD_FUNCTION_ZONE_ADMIN_ROLE_SUCCESS';
+export const ADD_FUNCTION_ZONE_ADMIN_ROLE_ERROR = 'ADD_FUNCTION_ZONE_ADMIN_ROLE_ERROR';
 
-// =================== ADD Function ROLE Data ========================//
+// =================== ADD Function Zone ROLE Data ========================//
 
-// =================== Modify Function ROLE Data ========================//
+// =================== Modify Function Zone ROLE Data ========================//
 
-export const MODIFY_FUNCTION_ADMIN_ROLE_REQUEST = 'MODIFY_FUNCTION_ADMIN_ROLE_REQUEST';
-export const MODIFY_FUNCTION_ADMIN_ROLE_SUCCESS = 'MODIFY_FUNCTION_ADMIN_ROLE_SUCCESS';
-export const MODIFY_FUNCTION_ADMIN_ROLE_ERROR = 'MODIFY_FUNCTION_ADMIN_ROLE_ERROR';
+export const MODIFY_FUNCTION_ZONE_ADMIN_ROLE_REQUEST = 'MODIFY_FUNCTION_ZONE_ADMIN_ROLE_REQUEST';
+export const MODIFY_FUNCTION_ZONE_ADMIN_ROLE_SUCCESS = 'MODIFY_FUNCTION_ZONE_ADMIN_ROLE_SUCCESS';
+export const MODIFY_FUNCTION_ZONE_ADMIN_ROLE_ERROR = 'MODIFY_FUNCTION_ZONE_ADMIN_ROLE_ERROR';
 
-// =================== Modify Function ROLE Data ========================//
+// =================== Modify Function Zone ROLE Data ========================//
 
-// =================== Delete Function ROLE Data ========================//
+// =================== Delete Function Zone ROLE Data ========================//
 
-export const DELETE_FUNCTION_ADMIN_ROLE_REQUEST = 'DELETE_FUNCTION_ADMIN_ROLE_REQUEST';
-export const DELETE_FUNCTION_ADMIN_ROLE_SUCCESS = 'DELETE_FUNCTION_ADMIN_ROLE_SUCCESS';
-export const DELETE_FUNCTION_ADMIN_ROLE_ERROR = 'DELETE_FUNCTION_ADMIN_ROLE_ERROR';
+export const DELETE_FUNCTION_ZONE_ADMIN_ROLE_REQUEST = 'DELETE_FUNCTION_ZONE_ADMIN_ROLE_REQUEST';
+export const DELETE_FUNCTION_ZONE_ADMIN_ROLE_SUCCESS = 'DELETE_FUNCTION_ZONE_ADMIN_ROLE_SUCCESS';
+export const DELETE_FUNCTION_ZONE_ADMIN_ROLE_ERROR = 'DELETE_FUNCTION_ZONE_ADMIN_ROLE_ERROR';
 
-// =================== Delete Function ROLE Data ========================//
+// =================== Delete Function Zone ROLE Data ========================//
 
 const block = {
   loading: false,
@@ -110,14 +110,14 @@ const initialState = {
   addAdminRole: { ...block, data: [] },
   modifyAdminRole: { ...block, data: [] },
   deleteAdminRole: { ...block, data: [] },
-  get_BU_All_Roles: { ...block, data: [] },
-  add_BU_AdminRole: { ...block, data: [] },
-  modify_BU_AdminRole: { ...block, data: [] },
-  delete_BU_AdminRole: { ...block, data: [] },
-  get_Function_All_Roles: { ...block, data: [] },
-  add_Function_AdminRole: { ...block, data: [] },
-  modify_Function_AdminRole: { ...block, data: [] },
-  delete_Function_AdminRole: { ...block, data: [] },
+  get_BU_Zone_Roles: { ...block, data: [] },
+  add_BU_Zone_AdminRole: { ...block, data: [] },
+  modify_BU_Zone_AdminRole: { ...block, data: [] },
+  delete_BU_Zone_AdminRole: { ...block, data: [] },
+  get_Function_Zone_Roles: { ...block, data: [] },
+  add_Function_Zone_AdminRole: { ...block, data: [] },
+  modify_Function_Zone_AdminRole: { ...block, data: [] },
+  delete_Function_Zone_AdminRole: { ...block, data: [] },
 };
 
 export const AdminPageReducer = (state = initialState, { type, payload = {} }) => {
@@ -190,148 +190,179 @@ export const AdminPageReducer = (state = initialState, { type, payload = {} }) =
         deleteAdminRole: { ...state.deleteAdminRole, loading: false },
       };
 
-    // Get BU Roles data
-    case GET_BU_ALL_ROLES_REQUEST:
+    // Get BU Zone Roles data
+    case GET_BU_ZONE_ROLES_REQUEST:
       return {
         ...state,
-        get_BU_All_Roles: { ...state.get_BU_All_Roles, loading: true },
+        get_BU_Zone_Roles: { ...state.get_BU_Zone_Roles, loading: true },
       };
-    case GET_BU_ALL_ROLES_SUCCESS:
+    case GET_BU_ZONE_ROLES_SUCCESS:
       return {
         ...state,
-        get_BU_All_Roles: { ...state.get_BU_All_Roles, data: payload, loading: false },
+        get_BU_Zone_Roles: { ...state.get_BU_Zone_Roles, data: payload, loading: false },
       };
-    case GET_BU_ALL_ROLES_ERROR:
+    case GET_BU_ZONE_ROLES_ERROR:
       return {
         ...state,
-        get_BU_All_Roles: { ...state.get_BU_All_Roles, loading: false },
-      };
-
-    // Add BU Roles data
-    case ADD_BU_ADMIN_ROLE_REQUEST:
-      return {
-        ...state,
-        add_BU_AdminRole: { ...state.add_BU_AdminRole, loading: true },
-      };
-    case ADD_BU_ADMIN_ROLE_SUCCESS:
-      return {
-        ...state,
-        add_BU_AdminRole: { ...state.add_BU_AdminRole, data: payload, loading: false },
-      };
-    case ADD_BU_ADMIN_ROLE_ERROR:
-      return {
-        ...state,
-        add_BU_AdminRole: { ...state.add_BU_AdminRole, loading: false },
+        get_BU_Zone_Roles: { ...state.get_BU_Zone_Roles, loading: false },
       };
 
-    // Modify BU Roles data
-    case MODIFY_BU_ADMIN_ROLE_REQUEST:
+    // Add BU Zone Roles data
+    case ADD_BU_ZONE_ADMIN_ROLE_REQUEST:
       return {
         ...state,
-        modify_BU_AdminRole: { ...state.modify_BU_AdminRole, loading: true },
+        add_BU_Zone_AdminRole: { ...state.add_BU_Zone_AdminRole, loading: true },
       };
-    case MODIFY_BU_ADMIN_ROLE_SUCCESS:
+    case ADD_BU_ZONE_ADMIN_ROLE_SUCCESS:
       return {
         ...state,
-        modify_BU_AdminRole: { ...state.modify_BU_AdminRole, data: payload, loading: false },
+        add_BU_Zone_AdminRole: { ...state.add_BU_Zone_AdminRole, data: payload, loading: false },
       };
-    case MODIFY_BU_ADMIN_ROLE_ERROR:
+    case ADD_BU_ZONE_ADMIN_ROLE_ERROR:
       return {
         ...state,
-        modify_BU_AdminRole: { ...state.modify_BU_AdminRole, loading: false },
-      };
-
-    //Delete BU Roles data
-    case DELETE_BU_ADMIN_ROLE_REQUEST:
-      return {
-        ...state,
-        delete_BU_AdminRole: { ...state.delete_BU_AdminRole, loading: true },
-      };
-    case DELETE_BU_ADMIN_ROLE_SUCCESS:
-      return {
-        ...state,
-        delete_BU_AdminRole: { ...state.delete_BU_AdminRole, data: payload, loading: false },
-      };
-    case DELETE_BU_ADMIN_ROLE_ERROR:
-      return {
-        ...state,
-        delete_BU_AdminRole: { ...state.delete_BU_AdminRole, loading: false },
+        add_BU_Zone_AdminRole: { ...state.add_BU_Zone_AdminRole, loading: false },
       };
 
-    // Get Function Roles data
-    case GET_FUNCTION_ALL_ROLES_REQUEST:
+    // Modify BU Zone Roles data
+    case MODIFY_BU_ZONE_ADMIN_ROLE_REQUEST:
       return {
         ...state,
-        get_Function_All_Roles: { ...state.get_Function_All_Roles, loading: true },
+        modify_BU_Zone_AdminRole: { ...state.modify_BU_Zone_AdminRole, loading: true },
       };
-    case GET_FUNCTION_ALL_ROLES_SUCCESS:
+    case MODIFY_BU_ZONE_ADMIN_ROLE_SUCCESS:
       return {
         ...state,
-        get_Function_All_Roles: { ...state.get_Function_All_Roles, data: payload, loading: false },
-      };
-    case GET_FUNCTION_ALL_ROLES_ERROR:
-      return {
-        ...state,
-        get_Function_All_Roles: { ...state.get_Function_All_Roles, loading: false },
-      };
-
-    // Add Function Roles data
-    case ADD_FUNCTION_ADMIN_ROLE_REQUEST:
-      return {
-        ...state,
-        add_Function_AdminRole: { ...state.add_Function_AdminRole, loading: true },
-      };
-    case ADD_FUNCTION_ADMIN_ROLE_SUCCESS:
-      return {
-        ...state,
-        add_Function_AdminRole: { ...state.add_Function_AdminRole, data: payload, loading: false },
-      };
-    case ADD_FUNCTION_ADMIN_ROLE_ERROR:
-      return {
-        ...state,
-        add_Function_AdminRole: { ...state.add_Function_AdminRole, loading: false },
-      };
-
-    // Modify Function Roles data
-    case MODIFY_FUNCTION_ADMIN_ROLE_REQUEST:
-      return {
-        ...state,
-        modify_Function_AdminRole: { ...state.modify_Function_AdminRole, loading: true },
-      };
-    case MODIFY_FUNCTION_ADMIN_ROLE_SUCCESS:
-      return {
-        ...state,
-        modify_Function_AdminRole: {
-          ...state.modify_Function_AdminRole,
+        modify_BU_Zone_AdminRole: {
+          ...state.modify_BU_Zone_AdminRole,
           data: payload,
           loading: false,
         },
       };
-    case MODIFY_FUNCTION_ADMIN_ROLE_ERROR:
+    case MODIFY_BU_ZONE_ADMIN_ROLE_ERROR:
       return {
         ...state,
-        modify_Function_AdminRole: { ...state.modify_Function_AdminRole, loading: false },
+        modify_BU_Zone_AdminRole: { ...state.modify_BU_Zone_AdminRole, loading: false },
       };
 
-    //Delete Function Roles data
-    case DELETE_FUNCTION_ADMIN_ROLE_REQUEST:
+    //Delete BU Zone Roles data
+    case DELETE_BU_ZONE_ADMIN_ROLE_REQUEST:
       return {
         ...state,
-        delete_Function_AdminRole: { ...state.delete_Function_AdminRole, loading: true },
+        delete_BU_Zone_AdminRole: { ...state.delete_BU_Zone_AdminRole, loading: true },
       };
-    case DELETE_FUNCTION_ADMIN_ROLE_SUCCESS:
+    case DELETE_BU_ZONE_ADMIN_ROLE_SUCCESS:
       return {
         ...state,
-        delete_Function_AdminRole: {
-          ...state.delete_Function_AdminRole,
+        delete_BU_Zone_AdminRole: {
+          ...state.delete_BU_Zone_AdminRole,
           data: payload,
           loading: false,
         },
       };
-    case DELETE_FUNCTION_ADMIN_ROLE_ERROR:
+    case DELETE_BU_ZONE_ADMIN_ROLE_ERROR:
       return {
         ...state,
-        delete_Function_AdminRole: { ...state.delete_Function_AdminRole, loading: false },
+        delete_BU_Zone_AdminRole: { ...state.delete_BU_Zone_AdminRole, loading: false },
+      };
+
+    // Get Function Zone Roles data
+    case GET_FUNCTION_ZONE_ROLES_REQUEST:
+      return {
+        ...state,
+        get_Function_Zone_Roles: { ...state.get_Function_Zone_Roles, loading: true },
+      };
+    case GET_FUNCTION_ZONE_ROLES_SUCCESS:
+      return {
+        ...state,
+        get_Function_Zone_Roles: {
+          ...state.get_Function_Zone_Roles,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_FUNCTION_ZONE_ROLES_ERROR:
+      return {
+        ...state,
+        get_Function_Zone_Roles: { ...state.get_Function_Zone_Roles, loading: false },
+      };
+
+    // Add Function Zone Roles data
+    case ADD_FUNCTION_ZONE_ADMIN_ROLE_REQUEST:
+      return {
+        ...state,
+        add_Function_Zone_AdminRole: {
+          ...state.add_Function_Zone_AdminRole,
+          loading: true,
+        },
+      };
+    case ADD_FUNCTION_ZONE_ADMIN_ROLE_SUCCESS:
+      return {
+        ...state,
+        add_Function_Zone_AdminRole: {
+          ...state.add_Function_Zone_AdminRole,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ADD_FUNCTION_ZONE_ADMIN_ROLE_ERROR:
+      return {
+        ...state,
+        add_Function_Zone_AdminRole: { ...state.add_Function_Zone_AdminRole, loading: false },
+      };
+
+    // Modify Function Zone Roles data
+    case MODIFY_FUNCTION_ZONE_ADMIN_ROLE_REQUEST:
+      return {
+        ...state,
+        modify_Function_Zone_AdminRole: {
+          ...state.modify_Function_Zone_AdminRole,
+          loading: true,
+        },
+      };
+    case MODIFY_FUNCTION_ZONE_ADMIN_ROLE_SUCCESS:
+      return {
+        ...state,
+        modify_Function_Zone_AdminRole: {
+          ...state.modify_Function_Zone_AdminRole,
+          data: payload,
+          loading: false,
+        },
+      };
+    case MODIFY_FUNCTION_ZONE_ADMIN_ROLE_ERROR:
+      return {
+        ...state,
+        modify_Function_Zone_AdminRole: {
+          ...state.modify_Function_Zone_AdminRole,
+          loading: false,
+        },
+      };
+
+    //Delete Function Zone Roles data
+    case DELETE_FUNCTION_ZONE_ADMIN_ROLE_REQUEST:
+      return {
+        ...state,
+        delete_Function_Zone_AdminRole: {
+          ...state.delete_Function_Zone_AdminRole,
+          loading: true,
+        },
+      };
+    case DELETE_FUNCTION_ZONE_ADMIN_ROLE_SUCCESS:
+      return {
+        ...state,
+        delete_Function_Zone_AdminRole: {
+          ...state.delete_Function_Zone_AdminRole,
+          data: payload,
+          loading: false,
+        },
+      };
+    case DELETE_FUNCTION_ZONE_ADMIN_ROLE_ERROR:
+      return {
+        ...state,
+        delete_Function_Zone_AdminRole: {
+          ...state.delete_Function_Zone_AdminRole,
+          loading: false,
+        },
       };
 
     //reset block with flag and data

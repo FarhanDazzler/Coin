@@ -11,14 +11,17 @@ import CustomModal from '../../../../components/UI/CustomModal';
 import { Box, IconButton } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 // geting data from redux
-import { get_BU_All_Roles, delete_BU_AdminRole } from '../../../../redux/AdminPage/AdminPageAction';
+import {
+  get_BU_Zone_Roles,
+  delete_BU_Zone_AdminRole,
+} from '../../../../redux/AdminPage/AdminPageAction';
 import BU_Zone_Model from './BU_Zone_Model.jsx';
 
 import {
-  get_BU_All_RolesSelector,
-  add_BU_AdminRoleSelector,
-  modify_BU_AdminRoleSelector,
-  delete_BU_AdminRoleSelector,
+  get_BU_Zone_RolesSelector,
+  add_BU_Zone_AdminRoleSelector,
+  modify_BU_Zone_AdminRoleSelector,
+  delete_BU_Zone_AdminRoleSelector,
 } from '../../../../redux/AdminPage/AdminPageSelectors.js';
 
 const BU_Zone_AdminTable = () => {
@@ -32,24 +35,25 @@ const BU_Zone_AdminTable = () => {
 
   // API Call using dispatch
   useEffect(() => {
-    dispatch(get_BU_All_Roles());
+    dispatch(get_BU_Zone_Roles());
   }, []);
 
   //const getAll_Roles_data = useSelector(getAll_RolesSelector);
-  const getAll_Roles_data = useSelector(get_BU_All_RolesSelector);
-  const addAdminRoleState = useSelector(add_BU_AdminRoleSelector);
-  const modifyAdminRoleState = useSelector(modify_BU_AdminRoleSelector);
-  const deleteAdminRoleState = useSelector(delete_BU_AdminRoleSelector);
+  const get_BU_Zone_RolesState = useSelector(get_BU_Zone_RolesSelector);
+  const add_BU_Zone_AdminRoleState = useSelector(add_BU_Zone_AdminRoleSelector);
+  const modify_BU_Zone_AdminRoleState = useSelector(modify_BU_Zone_AdminRoleSelector);
+  const delete_BU_Zone_AdminRoleState = useSelector(delete_BU_Zone_AdminRoleSelector);
 
   useEffect(() => {
-    dispatch(get_BU_All_Roles());
+    dispatch(get_BU_Zone_Roles());
     setShowModal(false);
-  }, [addAdminRoleState?.data, modifyAdminRoleState?.data, deleteAdminRoleState?.data]);
+  }, [
+    add_BU_Zone_AdminRoleState?.data,
+    modify_BU_Zone_AdminRoleState?.data,
+    delete_BU_Zone_AdminRoleState?.data,
+  ]);
 
-  const getAll_ZIC_Role =
-    getAll_Roles_data?.data[0]?.SA_Admins?.length &&
-    getAll_Roles_data?.data[0]?.SA_Admins[0][1].Zonal_IC?.length &&
-    getAll_Roles_data?.data[0]?.SA_Admins[0][1].Zonal_IC[0];
+  const getAll_ZIC_Role = get_BU_Zone_RolesState?.data;
 
   // for closing POP up after confirm
   useEffect(() => {
@@ -88,7 +92,7 @@ const BU_Zone_AdminTable = () => {
           };
 
           console.log(payload, 'ZIC delete payload');
-          dispatch(delete_BU_AdminRole(payload));
+          dispatch(delete_BU_Zone_AdminRole(payload));
         }
       });
     }
@@ -212,7 +216,7 @@ const BU_Zone_AdminTable = () => {
             <div className="col-12 col-lg-12">
               <Table2
                 tableData={tableData}
-                loading={getAll_Roles_data.loading}
+                loading={get_BU_Zone_RolesState.loading}
                 tableColumns={tableColumns}
               />
             </div>
