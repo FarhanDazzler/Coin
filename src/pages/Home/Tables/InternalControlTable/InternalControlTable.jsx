@@ -37,6 +37,10 @@ const InternalControlTable = ({
   setReceiverValue,
   providerValue,
   setProviderValue,
+  statusOfAssessmentValue,
+  setStatusOfAssessmentValue,
+  controlIdValue,
+  setControlIdValue
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -81,7 +85,9 @@ const InternalControlTable = ({
       !zoneValue.length &&
       !buValue.length &&
       !receiverValue.length &&
-      !providerValue.length
+      !providerValue.length &&
+      !statusOfAssessmentValue.length &&
+      !controlIdValue.length
     ) {
       return setTableData(tableDataArray);
     }
@@ -92,11 +98,13 @@ const InternalControlTable = ({
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true) &&
         (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
-        (providerValue?.length ? providerValue.includes(i.Provider) : true)
+        (providerValue?.length ? providerValue.includes(i.Provider) : true) &&
+        (controlIdValue?.length ? controlIdValue.includes(i.Control_ID) : true) &&
+        (statusOfAssessmentValue?.length ? statusOfAssessmentValue.includes(i.Status) : true)
       );
     });
     setTableData(updateData);
-  }, [yearValue, assessmentCycleValue, zoneValue, buValue, receiverValue, providerValue]);
+  }, [yearValue, assessmentCycleValue, zoneValue, buValue, receiverValue, providerValue, controlIdValue, statusOfAssessmentValue]);
 
   const TABLE_COLUMNS = [
     {
@@ -156,6 +164,24 @@ const InternalControlTable = ({
       accessorKey: 'Provider',
       id: 'Provider',
       header: 'Provider Organization',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
+      accessorKey: 'BU',
+      id: 'BU',
+      header: `BU (Receiver/org's BU)`,
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
+      accessorKey: 'Receiver',
+      id: 'Receiver',
+      header: 'Receiver Organization',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -245,6 +271,15 @@ const InternalControlTable = ({
       cellClassName: 'dashboardCell',
       size: 90,
     },
+    {
+      accessorKey: 'Modified_By',
+      id: 'Modified_By',
+      header: 'Assessment submitted by',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
   ];
 
   useEffect(() => {
@@ -271,6 +306,8 @@ const InternalControlTable = ({
   const Provider = getDashBoardDataState?.data?.map((i) => i.Provider);
   const year = getDashBoardDataState?.data?.map((i) => i.Year);
   const assessment_Cycle = getDashBoardDataState?.data?.map((i) => i.Assessment_Cycle);
+  const control_id = getDashBoardDataState?.data?.map((i) => i.Control_ID);
+  const status_of_assessment = getDashBoardDataState?.data?.map((i) => i.Status);
 
   return (
     <>
@@ -288,18 +325,24 @@ const InternalControlTable = ({
                       BU={removeDuplicates(BU)}
                       Receiver={removeDuplicates(Receiver)}
                       Provider={removeDuplicates(Provider)}
+                      ControlID={removeDuplicates(control_id)}
+                      StatusOfAssessment={removeDuplicates(status_of_assessment)}
                       yearValue={yearValue}
                       assessmentCycleValue={assessmentCycleValue}
                       zoneValue={zoneValue}
                       buValue={buValue}
                       receiverValue={receiverValue}
                       providerValue={providerValue}
+                      controlIdValue={controlIdValue}
+                      statusOfAssessmentValue={statusOfAssessmentValue}
                       setYearValue={setYearValue}
                       setAssessmentCycleValue={setAssessmentCycleValue}
                       setZoneValue={setZoneValue}
                       setBUValue={setBUValue}
                       setReceiverValue={setReceiverValue}
                       setProviderValue={setProviderValue}
+                      setControlIdValue={setControlIdValue}
+                      setStatusOfAssessmentValue={setStatusOfAssessmentValue}
                       isHide
                     />
                   </Group>
