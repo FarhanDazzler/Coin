@@ -10,7 +10,7 @@ import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import { getInstructions } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import { getInstructionsSelector } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
 
-const Section0 = ({ scopeData, letterType }) => {
+const Section0 = ({ scopeData, letterType, isReview = false }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
@@ -131,7 +131,11 @@ const Section0 = ({ scopeData, letterType }) => {
 
   return (
     <div className="Rep-Letter-form-Section0">
-      <CollapseFrame title="Instructions and Scope" active>
+      <CollapseFrame
+        title="Instructions and Scope"
+        active
+        isOpen={isReview === true ? false : true}
+      >
         <div className="renderBlockWrapper mt-5">
           {getInstructionsState?.data?.length > 0 && (
             // if instructions are not there and scope is there then show scope only

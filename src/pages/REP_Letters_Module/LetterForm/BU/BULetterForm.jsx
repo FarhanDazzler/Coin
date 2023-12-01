@@ -118,7 +118,7 @@ const ReviewSubmittedResponses = ({
           </button>
         </div>
       </div>
-      <Section0 scopeData={scopeData} letterType={letterType} />
+      <Section0 scopeData={scopeData} letterType={letterType} isReview={true} />
       {scopeData?.s1_submitted && (
         <ReviewSection1 submittedResponses={getBUSubmitResponseState?.data?.Latest_Response} />
       )}

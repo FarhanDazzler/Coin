@@ -10,7 +10,7 @@ const ReviewSection1 = ({ submittedResponses = [] }) => {
   const history = useHistory();
 
   return (
-    <CollapseFrame title="Section 1 : BU Representation Letter" active>
+    <CollapseFrame title="Section 1 : BU Representation Letter" active isOpen={false}>
       {submittedResponses?.map((item, index) => (
         <div key={item.questionID}>
           <div className="renderBlockWrapper mt-5">

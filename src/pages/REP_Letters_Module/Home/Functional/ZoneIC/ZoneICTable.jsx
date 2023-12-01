@@ -8,9 +8,8 @@ import Table2 from '../../../../../components/UI/Table/Table2';
 import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
 import NoDataPlaceholder from '../../../../../components/NoDataPlaceholder/NoDataPlaceholderForRepLetter';
-import { get_BUZone_GlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
-import { get_BUZone_GlobalPersonaHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
-import ShowSignatures from '../../../../../components/ShowSignatures';
+import { getFunctionZIC_PersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { getFunctionZIC_PersonaHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -37,12 +36,17 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const ZoneGlobalPersonaTable = ({
+const ZoneICTable = ({
   assessmentCycleValue,
   setAssessmentCycleValue,
   zoneValue,
   setZoneValue,
+  buValue,
+  setBUValue,
+  functionValue,
+  setFunctionValue,
 }) => {
+  const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
 
@@ -50,49 +54,47 @@ const ZoneGlobalPersonaTable = ({
 
   const { accounts } = useMsal();
   const dispatch = useDispatch();
-  const getGlobalPersonaHomePageData = useSelector(get_BUZone_GlobalPersonaHomePageDataSelector);
+  const getZICHomePageData = useSelector(getFunctionZIC_PersonaHomePageDataSelector);
 
   //getGlobalPersonaHomePageData?.data[0]?.recipientData
-  const HomePageData = useMemo(() => {
-    return getGlobalPersonaHomePageData?.data[0]?.home_page_table_global || [];
-  }, [getGlobalPersonaHomePageData?.data[0]]);
+  const recipientHomePageData = useMemo(() => {
+    return getZICHomePageData?.data[0]?.home_page_table_global || [];
+  }, [getZICHomePageData?.data[0]]);
 
   useEffect(() => {
-    dispatch(get_BUZone_GlobalPersonaHomePageData());
-  }, []);
+    dispatch(getFunctionZIC_PersonaHomePageData());
+  }, [token, dispatch]);
 
   const TABLE_COLUMNS = [
-    // {
-    //   accessorKey: 'Action',
-    //   id: 'Action',
-    //   header: 'Action',
-    //   flex: 1,
-    //   columnDefType: 'data',
-    //   cellClassName: 'dashboardCell',
-    //   size: 100,
-    //   Cell: (row) => {
-    //     return (
-    //       <div>
-    //         {row.row.original.Status === 'Completed' && (
-    //           <Button
-    //             className="mr-2"
-    //             onClick={() => {
-    //               const data = {
-    //                 scopeData: row.row.original,
-    //                 modalType: 'Review',
-    //                 letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-    //                 isSection3ApproveState: false,
-    //               };
-    //               history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
-    //             }}
-    //           >
-    //             Review
-    //           </Button>
-    //         )}
-    //       </div>
-    //     );
-    //   },
-    // },
+    {
+      accessorKey: 'Action',
+      id: 'Action',
+      header: 'Action',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 100,
+      Cell: (row) => {
+        return (
+          <div>
+            {row.row.original.Status === 'Completed' && (
+              <Button
+                className="mr-2"
+                onClick={() => {
+                  const data = {
+                    scopeData: row.row.original,
+                    modalType: 'review',
+                  };
+                  history.push('/REP-Letters/attempt-letter/functional-letter-form', { data });
+                }}
+              >
+                Review
+              </Button>
+            )}
+          </div>
+        );
+      },
+    },
     {
       accessorKey: 'Zone',
       id: 'Zone',
@@ -101,6 +103,15 @@ const ZoneGlobalPersonaTable = ({
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 90,
+    },
+    {
+      accessorKey: 'Function',
+      id: 'Function',
+      header: 'Function',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 150,
     },
     {
       accessorKey: 'Status',
@@ -115,38 +126,9 @@ const ZoneGlobalPersonaTable = ({
       },
     },
     {
-      accessorKey: 'signatures',
-      id: 'signatures',
-      header: 'Signatures',
-      flex: 1,
-      cellClassName: 'dashboardCell',
-      size: 170,
-      Cell: (row) => {
-        return <ShowSignatures signatures={row.row.original?.signatures} />;
-      },
-    },
-    {
-      accessorKey: 'Disclosure_Processor',
-      id: 'Disclosure_Processor',
-      header: 'Disclosure Processor',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 200,
-    },
-    {
-      accessorKey: 'Excom_Member',
-      id: 'Excom_Member',
-      header: 'Excom Member',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 200,
-    },
-    {
-      accessorKey: 'Zone_Legal_Representative',
-      id: 'Zone_Legal_Representative',
-      header: 'Zone Legal Representative',
+      accessorKey: 'Recipient',
+      id: 'Recipient',
+      header: 'Recipient',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -156,15 +138,6 @@ const ZoneGlobalPersonaTable = ({
       accessorKey: 'Zone_Control',
       id: 'Zone_Control',
       header: 'Zone Control',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 200,
-    },
-    {
-      accessorKey: 'Zone_VP',
-      id: 'Zone_VP',
-      header: 'Zone VP',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -191,35 +164,58 @@ const ZoneGlobalPersonaTable = ({
   ];
 
   useEffect(() => {
-    if (!HomePageData?.length) return setTableDataArray([]);
-    if (!assessmentCycleValue?.length && !zoneValue?.length) {
-      return setTableDataArray(HomePageData);
+    setTableData(recipientHomePageData);
+  }, [getZICHomePageData?.data[0], recipientHomePageData]);
+
+  useEffect(() => {
+    if (!tableData?.length) return setTableDataArray([]);
+    if (
+      !assessmentCycleValue?.length &&
+      !zoneValue?.length &&
+      !buValue?.length &&
+      !functionValue?.length
+    ) {
+      return setTableDataArray(tableData);
     }
-    const updatedData = HomePageData?.filter((i) => {
+    const updatedData = tableData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
-        (zoneValue?.length ? zoneValue.includes(i.Zone) : true)
+        (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+        (buValue?.length ? buValue.includes(i.BU) : true) &&
+        (functionValue?.length ? functionValue.includes(i.Function) : true)
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, HomePageData]);
+  }, [assessmentCycleValue, zoneValue, buValue, functionValue, tableData]);
   return (
     <>
       <div className="container-fluid">
-        {getGlobalPersonaHomePageData?.loading ? (
+        {getZICHomePageData?.loading ? (
           <TableLoader className="mt-8" />
         ) : (
           <div className="row pt-5">
             <div className="col-12 col-lg-12">
               <Group spacing="xs" className="actions-button-wrapper">
                 <FilterMultiSelect
-                  data={getGlobalPersonaHomePageData?.data[0]?.distinct_zone || []}
+                  data={getZICHomePageData?.data[0]?.distinct_zone || []}
                   label="Zone"
                   value={zoneValue}
                   onChange={setZoneValue}
                 />
                 <FilterMultiSelect
-                  data={getGlobalPersonaHomePageData?.data[0]?.distinct_assesment_cycle || []}
+                  data={getZICHomePageData?.data[0]?.distinct_bu || []}
+                  label="BU / Entity"
+                  value={buValue}
+                  onChange={setBUValue}
+                />
+                <FilterMultiSelect
+                  data={getZICHomePageData?.data[0]?.distinct_function || []}
+                  label="Function"
+                  value={functionValue}
+                  onChange={setFunctionValue}
+                />
+                <FilterMultiSelect
+                  data={getZICHomePageData?.data[0]?.distinct_assesment_cycle || []}
                   label="Assessment Cycle"
                   value={assessmentCycleValue}
                   onChange={setAssessmentCycleValue}
@@ -231,7 +227,7 @@ const ZoneGlobalPersonaTable = ({
               {tableDataArray?.length > 0 ? (
                 <Table2
                   tableData={tableDataArray}
-                  loading={getGlobalPersonaHomePageData.loading}
+                  loading={getZICHomePageData.loading}
                   tableColumns={TABLE_COLUMNS}
                 />
               ) : (
@@ -245,4 +241,4 @@ const ZoneGlobalPersonaTable = ({
   );
 };
 
-export default ZoneGlobalPersonaTable;
+export default ZoneICTable;

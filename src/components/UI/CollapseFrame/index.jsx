@@ -4,8 +4,15 @@ import './collapseFrameStyles.scss';
 import cs from 'classnames';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 
-const CollapseFrame = ({ title = '', centerText = '', active, className, children }) => {
-  const [open, setOpen] = useState(true);
+const CollapseFrame = ({
+  title = '',
+  centerText = '',
+  active,
+  isOpen = true,
+  className,
+  children,
+}) => {
+  const [open, setOpen] = useState(isOpen == true ? true : false);
   return (
     <div className={cs('mb-4 pb-2', { [className]: className })}>
       <div

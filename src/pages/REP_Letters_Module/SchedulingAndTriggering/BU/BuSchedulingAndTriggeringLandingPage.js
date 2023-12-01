@@ -38,32 +38,34 @@ const BuSchedulingAndTriggeringLandingPage = () => {
         <h3>Scheduling And Triggering</h3>
       </div>
       <div className="row">
-        <div className="col-lg-5 py-4 mr-2 RlQuestionBankBoxWrapper">
-          <div id="admin-panel" className="content">
-            <div className="wrapper">
-              <div className="RlQuestionBankHeader">
-                <h3>Zone</h3>
-                <p>Choose a sub-category to proceed with the necessary action.</p>
+        {localStorage.getItem('selected_Role') == 'Global Persona' && (
+          <div className="col-lg-5 py-4 mr-2 RlQuestionBankBoxWrapper">
+            <div id="admin-panel" className="content">
+              <div className="wrapper">
+                <div className="RlQuestionBankHeader">
+                  <h3>Zone</h3>
+                  <p>Choose a sub-category to proceed with the necessary action.</p>
+                </div>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  endIcon={<ArrowNarrowRight />}
+                  onClick={() => handleScheduleLetter('Zone')}
+                >
+                  <span className="text-white">Schedule Letter</span>
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  endIcon={<ArrowNarrowRight />}
+                  onClick={() => handleBuModify('Zone')}
+                >
+                  <span className="text-white">Scheduled Data</span>
+                </Button>
               </div>
-              <Button
-                variant="outlined"
-                size="large"
-                endIcon={<ArrowNarrowRight />}
-                onClick={() => handleScheduleLetter('Zone')}
-              >
-                <span className="text-white">Schedule Letter</span>
-              </Button>
-              <Button
-                variant="outlined"
-                size="large"
-                endIcon={<ArrowNarrowRight />}
-                onClick={() => handleBuModify('Zone')}
-              >
-                <span className="text-white">Scheduled Data</span>
-              </Button>
             </div>
           </div>
-        </div>
+        )}
 
         <div className="col-lg-5 py-4 RlQuestionBankBoxWrapper">
           <div id="admin-panel" className="content">
@@ -72,14 +74,16 @@ const BuSchedulingAndTriggeringLandingPage = () => {
                 <h3>BU</h3>
                 <p>Choose a sub-category to proceed with the necessary action.</p>
               </div>
-              <Button
-                variant="outlined"
-                size="large"
-                endIcon={<ArrowNarrowRight />}
-                onClick={() => handleScheduleLetter('BU')}
-              >
-                <span className="text-white">Schedule Letter</span>
-              </Button>
+              {localStorage.getItem('selected_Role') == 'Global Persona' && (
+                <Button
+                  variant="outlined"
+                  size="large"
+                  endIcon={<ArrowNarrowRight />}
+                  onClick={() => handleScheduleLetter('BU')}
+                >
+                  <span className="text-white">Schedule Letter</span>
+                </Button>
+              )}
               <Button
                 variant="outlined"
                 size="large"
