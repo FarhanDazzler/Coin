@@ -81,20 +81,22 @@ const SchedulingAndTriggering = () => {
               ) : (
                 <>
                   <div className="mt-5">
-                    <div className="row">
-                      <div className="col-12 col-lg-12">
-                        <Group spacing="xs" className="actions-button-wrapper">
-                          <Button
-                            color="silver"
-                            size="large"
-                            startIcon={<MoreTimeIcon />}
-                            onClick={handleSheduleSurvey}
-                          >
-                            Schedule Letter
-                          </Button>
-                        </Group>
+                    {localStorage.getItem('selected_Role') == 'Global Persona' && (
+                      <div className="row">
+                        <div className="col-12 col-lg-12">
+                          <Group spacing="xs" className="actions-button-wrapper">
+                            <Button
+                              color="silver"
+                              size="large"
+                              startIcon={<MoreTimeIcon />}
+                              onClick={handleSheduleSurvey}
+                            >
+                              Schedule Letter
+                            </Button>
+                          </Group>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                   <FunctionalLetterSummaryTable />
                 </>
