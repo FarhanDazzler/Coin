@@ -9,9 +9,12 @@ import { getUserFromADSelector } from '../../../../redux/AzureAD/AD_Selectors';
 import useDebounce from '../../../../hooks/useDebounce';
 import AdSearch from '../../AssessmentModulePanel/Tables/AdSearch';
 import { isEmailValidADSelector } from '../../../../redux/AzureAD/AD_Selectors';
-import { getAllZone } from '../../../../redux/AssessmentBank/AssessmentBankAction';
-import { getAllZoneSelector } from '../../../../redux/AssessmentBank/AssessmentBankSelectors';
-import { addAdminRole, modifyAdminRole } from '../../../../redux/AdminPage/AdminPageAction';
+import { getRlBUZoneData } from '../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringAction';
+import { getBUZonedataSelector } from '../../../../redux/REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSelectors';
+import {
+  modify_Function_Zone_AdminRole,
+  add_Function_Zone_AdminRole,
+} from '../../../../redux/AdminPage/AdminPageAction';
 
 const GetFormikValue = () => {
   // Grab values and submitForm from context
@@ -32,12 +35,12 @@ const Functional_Zone_Model = ({ setShowModal, ediatbleData, setEditTableData, m
 
   // fetch all zone
   useEffect(() => {
-    dispatch(getAllZone());
+    dispatch(getRlBUZoneData());
   }, []);
 
   const userFromAD = useSelector(getUserFromADSelector);
   const isEmailValidADState = useSelector(isEmailValidADSelector);
-  const getAllZone_State = useSelector(getAllZoneSelector);
+  const getAllZone_State = useSelector(getBUZonedataSelector);
 
   useEffect(() => {}, [isEmailValidADState.data]);
 
@@ -58,23 +61,21 @@ const Functional_Zone_Model = ({ setShowModal, ediatbleData, setEditTableData, m
   const handleSave = (values) => {
     if (modalType === 'edit') {
       let payload = {
-        Module: 'SA_Admins',
         Zone: values.Zone,
-        IC_Email: values.Email,
-        Old_IC_OID: ediatbleData.zic_oid,
+        Email: values.Email,
+        Old_ZIC_OID: ediatbleData.oid,
       };
 
       console.log(payload, 'ZIC edit payload');
-      dispatch(modifyAdminRole(payload));
+      dispatch(modify_Function_Zone_AdminRole(payload));
     } else {
       let payload = {
-        Module: 'SA_Admins',
         Zone: values.Zone,
-        IC_Email: values.Email,
+        Email: values.Email,
       };
 
       console.log(payload, 'ZIC add payload');
-      dispatch(addAdminRole(payload));
+      dispatch(add_Function_Zone_AdminRole(payload));
     }
   };
   const handleChangeAd = () => {
@@ -89,8 +90,8 @@ const Functional_Zone_Model = ({ setShowModal, ediatbleData, setEditTableData, m
         <Formik
           enableReinitialize
           initialValues={{
-            Zone: ediatbleData?.zone_id || '',
-            Email: ediatbleData?.zic_email || '',
+            Zone: ediatbleData?.Zone || '',
+            Email: ediatbleData?.Email || '',
           }}
           validationSchema={Yup.object().shape({
             Zone: Yup.string().required('Zone is required'),
@@ -139,12 +140,13 @@ const Functional_Zone_Model = ({ setShowModal, ediatbleData, setEditTableData, m
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
+                              // disabled={modalType === 'edit'}
                               className="form-select"
                             >
                               <option value="">Select Zone</option>
                               {getAllZone_State?.data.map((data, i) => (
-                                <option key={i} value={data.zone}>
-                                  {data.zone}
+                                <option key={i} value={data.Zone}>
+                                  {data.Zone}
                                 </option>
                               ))}
                             </Form.Control>

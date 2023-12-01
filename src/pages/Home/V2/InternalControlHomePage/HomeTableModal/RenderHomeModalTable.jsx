@@ -127,8 +127,7 @@ const RenderHomeModalTable = ({
                   />
                 </>
               )}
-
-              {(!isModal && terminating) || (s1FailObj && showMoreSection) ? (
+              {(!isModal && terminating) || (s1FailObj && showMoreSection && !isModal) ? (
                 <>
                   {section1TerminatingLogicValue || !!isSection3Failed ? (
                     <div style={{ color: 'red', marginBottom: '10px' }}>

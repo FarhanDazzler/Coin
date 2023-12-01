@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
-import { Group } from '@mantine/core';
+import { Group, MultiSelect } from '@mantine/core';
 import Table from '../../../../components/UI/Table';
 import Table2 from '../../../../components/UI/Table/Table2';
 import NoDataPlaceholder from '../../../../components/NoDataPlaceholder';
@@ -14,7 +14,7 @@ import {
   class_to_apply,
   Badge_apply,
 } from '../../V2/InternalControlHomePage/HomePageTable/constant';
-import FilterButtons from '../../../../components/FilterButtons';
+//import FilterButtons from '../../../../components/FilterButtons';
 import Button from '../../../../components/UI/Button';
 import {
   getControlDataAction,
@@ -23,6 +23,30 @@ import {
 import Cookies from 'js-cookie';
 
 // Filter buttons
+const FilterMultiSelect = ({ data, label, value, onChange }) => {
+  const [searchValue, onSearchChange] = useState('');
+
+  return (
+    <MultiSelect
+      className="mantine-MultiSelect-wrapper"
+      data={data}
+      label={<span className="mantine-MultiSelect-label">{label}</span>}
+      placeholder="Select your option"
+      searchable
+      limit={20}
+      searchValue={searchValue}
+      onSearchChange={onSearchChange}
+      nothingFound="Nothing found"
+      clearButtonLabel="Clear selection"
+      clearable
+      value={value}
+      onChange={onChange}
+      radius="xl"
+      variant="filled"
+      size="xs"
+    />
+  );
+};
 
 const InternalControlTable = ({
   yearValue,
@@ -37,6 +61,10 @@ const InternalControlTable = ({
   setReceiverValue,
   providerValue,
   setProviderValue,
+  statusOfAssessmentValue,
+  setStatusOfAssessmentValue,
+  controlIdValue,
+  setControlIdValue,
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -81,7 +109,9 @@ const InternalControlTable = ({
       !zoneValue.length &&
       !buValue.length &&
       !receiverValue.length &&
-      !providerValue.length
+      !providerValue.length &&
+      !statusOfAssessmentValue.length &&
+      !controlIdValue.length
     ) {
       return setTableData(tableDataArray);
     }
@@ -92,11 +122,22 @@ const InternalControlTable = ({
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true) &&
         (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
-        (providerValue?.length ? providerValue.includes(i.Provider) : true)
+        (providerValue?.length ? providerValue.includes(i.Provider) : true) &&
+        (controlIdValue?.length ? controlIdValue.includes(i.Control_ID) : true) &&
+        (statusOfAssessmentValue?.length ? statusOfAssessmentValue.includes(i.Status) : true)
       );
     });
     setTableData(updateData);
-  }, [yearValue, assessmentCycleValue, zoneValue, buValue, receiverValue, providerValue]);
+  }, [
+    yearValue,
+    assessmentCycleValue,
+    zoneValue,
+    buValue,
+    receiverValue,
+    providerValue,
+    controlIdValue,
+    statusOfAssessmentValue,
+  ]);
 
   const TABLE_COLUMNS = [
     {
@@ -156,6 +197,24 @@ const InternalControlTable = ({
       accessorKey: 'Provider',
       id: 'Provider',
       header: 'Provider Organization',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
+      accessorKey: 'BU',
+      id: 'BU',
+      header: `BU (Receiver/org's BU)`,
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
+      accessorKey: 'Receiver',
+      id: 'Receiver',
+      header: 'Receiver Organization',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -245,6 +304,15 @@ const InternalControlTable = ({
       cellClassName: 'dashboardCell',
       size: 90,
     },
+    {
+      accessorKey: 'Modified_By',
+      id: 'Modified_By',
+      header: 'Assessment submitted by',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
   ];
 
   useEffect(() => {
@@ -271,6 +339,8 @@ const InternalControlTable = ({
   const Provider = getDashBoardDataState?.data?.map((i) => i.Provider);
   const year = getDashBoardDataState?.data?.map((i) => i.Year);
   const assessment_Cycle = getDashBoardDataState?.data?.map((i) => i.Assessment_Cycle);
+  const control_id = getDashBoardDataState?.data?.map((i) => i.Control_ID);
+  const status_of_assessment = getDashBoardDataState?.data?.map((i) => i.Status);
 
   return (
     <>
@@ -279,28 +349,55 @@ const InternalControlTable = ({
           <div className="col col-lg-12">
             <div className="container-fluid pl-0 pr-0 mt-5">
               <div className="row">
-                <div className="col col-lg-12">
+                <div className="col-12 col-lg-12">
                   <Group spacing="xs" className="actions-button-wrapper">
-                    <FilterButtons
-                      year={removeDuplicates(year)}
-                      assessment_Cycle={removeDuplicates(assessment_Cycle)}
-                      Zone={removeDuplicates(Zone)}
-                      BU={removeDuplicates(BU)}
-                      Receiver={removeDuplicates(Receiver)}
-                      Provider={removeDuplicates(Provider)}
-                      yearValue={yearValue}
-                      assessmentCycleValue={assessmentCycleValue}
-                      zoneValue={zoneValue}
-                      buValue={buValue}
-                      receiverValue={receiverValue}
-                      providerValue={providerValue}
-                      setYearValue={setYearValue}
-                      setAssessmentCycleValue={setAssessmentCycleValue}
-                      setZoneValue={setZoneValue}
-                      setBUValue={setBUValue}
-                      setReceiverValue={setReceiverValue}
-                      setProviderValue={setProviderValue}
-                      isHide
+                    <FilterMultiSelect
+                      data={removeDuplicates(year) || []}
+                      label="Year"
+                      value={yearValue}
+                      onChange={setYearValue}
+                    />
+                    <FilterMultiSelect
+                      data={removeDuplicates(assessment_Cycle) || []}
+                      label="Assessment Cycle"
+                      value={assessmentCycleValue}
+                      onChange={setAssessmentCycleValue}
+                    />
+                    <FilterMultiSelect
+                      data={removeDuplicates(Zone) || []}
+                      label="Zone"
+                      value={zoneValue}
+                      onChange={setZoneValue}
+                    />
+                    <FilterMultiSelect
+                      data={removeDuplicates(BU) || []}
+                      label="BU"
+                      value={buValue}
+                      onChange={setBUValue}
+                    />
+                    <FilterMultiSelect
+                      data={removeDuplicates(Receiver) || []}
+                      label="Receiver Organization"
+                      value={receiverValue}
+                      onChange={setReceiverValue}
+                    />
+                    <FilterMultiSelect
+                      data={removeDuplicates(Provider) || []}
+                      label="Provider Organization"
+                      value={providerValue}
+                      onChange={setProviderValue}
+                    />
+                    <FilterMultiSelect
+                      data={removeDuplicates(control_id) || []}
+                      label="Control ID"
+                      value={controlIdValue}
+                      onChange={setControlIdValue}
+                    />
+                    <FilterMultiSelect
+                      data={removeDuplicates(status_of_assessment) || []}
+                      label="Status of Assessment"
+                      value={statusOfAssessmentValue}
+                      onChange={setStatusOfAssessmentValue}
                     />
                   </Group>
                 </div>

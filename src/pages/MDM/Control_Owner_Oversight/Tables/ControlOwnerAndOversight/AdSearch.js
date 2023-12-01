@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Loader, Select } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import FormControl from '@mui/material/FormControl';
@@ -8,8 +8,10 @@ import '../../../../../components/UI/InputWidthSelect/styles.scss';
 import { validateEmail } from '../../../../../utils/helper';
 import { isEmailValidAD } from '../../../../../redux/AzureAD/AD_Action';
 import { isEmailValidADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
+import useDebounce from '../../../../../hooks/useDebounce';
 
 const AdSearch = ({ userApiStart, values, setFieldValue, block = {}, setBlock, mode }) => {
+  console.log('values', values);
   const { loading, dropDownOption, isDropdownSaveInput = true, value } = block;
   const dispatch = useDispatch();
   const isEmailValidADState = useSelector(isEmailValidADSelector);
@@ -20,7 +22,11 @@ const AdSearch = ({ userApiStart, values, setFieldValue, block = {}, setBlock, m
       setBlock({ dropDownOption: [], loading: false });
     }
   }, [isEmailValidADState.data]);
+  useEffect(() => {
+    handleChange(values);
+  }, [values]);
   const handleChange = (value) => {
+    console.log('val', value);
     setAdValue(value);
     const param = {
       email: value,
@@ -31,6 +37,7 @@ const AdSearch = ({ userApiStart, values, setFieldValue, block = {}, setBlock, m
     // setFieldValue(adValue);
     // setAdValue(value)
   };
+  console.log('jhvg', dropDownOption?.length, loading);
   return (
     <div>
       <div>
@@ -39,7 +46,7 @@ const AdSearch = ({ userApiStart, values, setFieldValue, block = {}, setBlock, m
             <Loader color="yellow" />
           </div>
         )}
-        {!loading && !dropDownOption?.length && !validateEmail(values) && (
+        {!loading && !isEmailValidADState.data?.isValid && (
           <Typography component="div" variant="body1">
             <Box sx={{ color: 'error.main' }}>This user is not in our list!</Box>
           </Typography>

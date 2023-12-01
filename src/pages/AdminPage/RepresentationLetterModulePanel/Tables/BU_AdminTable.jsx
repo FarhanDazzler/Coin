@@ -33,11 +33,6 @@ const BU_AdminTable = () => {
 
   const dispatch = useDispatch();
 
-  // API Call using dispatch
-  useEffect(() => {
-    dispatch(getAll_Roles());
-  }, []);
-
   //const getAll_Roles_data = useSelector(getAll_RolesSelector);
   const getAll_Roles_data = useSelector(getAll_RolesSelector);
   const addAdminRoleState = useSelector(addAdminRoleSelector);

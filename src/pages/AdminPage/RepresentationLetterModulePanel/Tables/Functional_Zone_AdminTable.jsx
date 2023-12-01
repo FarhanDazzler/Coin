@@ -11,14 +11,17 @@ import CustomModal from '../../../../components/UI/CustomModal';
 import { Box, IconButton } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 // geting data from redux
-import { getAll_Roles, deleteAdminRole } from '../../../../redux/AdminPage/AdminPageAction';
+import {
+  get_Function_Zone_Roles,
+  delete_Function_Zone_AdminRole,
+} from '../../../../redux/AdminPage/AdminPageAction';
 import Functional_Zone_Model from './Functional_Zone_Model.jsx';
 
 import {
-  getAll_RolesSelector,
-  addAdminRoleSelector,
-  modifyAdminRoleSelector,
-  deleteAdminRoleSelector,
+  get_Function_Zone_RolesSelector,
+  add_Function_Zone_AdminRoleSelector,
+  modify_Function_Zone_AdminRoleSelector,
+  delete_Function_Zone_AdminRoleSelector,
 } from '../../../../redux/AdminPage/AdminPageSelectors.js';
 
 const Functional_Zone_AdminTable = () => {
@@ -30,26 +33,22 @@ const Functional_Zone_AdminTable = () => {
 
   const dispatch = useDispatch();
 
-  // API Call using dispatch
-  useEffect(() => {
-    dispatch(getAll_Roles());
-  }, []);
-
   //const getAll_Roles_data = useSelector(getAll_RolesSelector);
-  const getAll_Roles_data = useSelector(getAll_RolesSelector);
-  const addAdminRoleState = useSelector(addAdminRoleSelector);
-  const modifyAdminRoleState = useSelector(modifyAdminRoleSelector);
-  const deleteAdminRoleState = useSelector(deleteAdminRoleSelector);
+  const get_Function_Zone_RolesState = useSelector(get_Function_Zone_RolesSelector);
+  const add_Function_Zone_AdminRoleState = useSelector(add_Function_Zone_AdminRoleSelector);
+  const modify_Function_Zone_AdminRoleState = useSelector(modify_Function_Zone_AdminRoleSelector);
+  const delete_Function_Zone_AdminRoleState = useSelector(delete_Function_Zone_AdminRoleSelector);
 
   useEffect(() => {
-    dispatch(getAll_Roles());
+    dispatch(get_Function_Zone_Roles());
     setShowModal(false);
-  }, [addAdminRoleState?.data, modifyAdminRoleState?.data, deleteAdminRoleState?.data]);
+  }, [
+    add_Function_Zone_AdminRoleState?.data,
+    modify_Function_Zone_AdminRoleState?.data,
+    delete_Function_Zone_AdminRoleState?.data,
+  ]);
 
-  const getAll_ZIC_Role =
-    getAll_Roles_data?.data[0]?.SA_Admins?.length &&
-    getAll_Roles_data?.data[0]?.SA_Admins[0][1].Zonal_IC?.length &&
-    getAll_Roles_data?.data[0]?.SA_Admins[0][1].Zonal_IC[0];
+  const getAll_ZIC_Role = get_Function_Zone_RolesState?.data;
 
   // for closing POP up after confirm
   useEffect(() => {
@@ -81,14 +80,11 @@ const Functional_Zone_AdminTable = () => {
       }).then((res) => {
         if (res.isConfirmed) {
           let payload = {
-            Module: 'SA_Admins',
-            Zone: data.zone_id,
-            IC_Email: data.zic_email,
-            IC_OID: data.zic_oid,
+            ZIC_OID: data.oid,
           };
 
           console.log(payload, 'ZIC delete payload');
-          dispatch(deleteAdminRole(payload));
+          dispatch(delete_Function_Zone_AdminRole(payload));
         }
       });
     }
@@ -108,7 +104,7 @@ const Functional_Zone_AdminTable = () => {
       },
     },
     {
-      accessorKey: 'zone_id',
+      accessorKey: 'Zone',
       id: 'zone_id',
       header: 'Zone',
       flex: 1,
@@ -118,8 +114,8 @@ const Functional_Zone_AdminTable = () => {
     },
 
     {
-      accessorKey: 'zic_email',
-      id: 'zic_email',
+      accessorKey: 'Email',
+      id: 'Email',
       header: 'Email',
       flex: 1,
       columnDefType: 'data',
@@ -167,7 +163,7 @@ const Functional_Zone_AdminTable = () => {
     setTableData(
       getAll_ZIC_Role?.map((i, index) => {
         return {
-          id: getAll_ZIC_Role[index].zic_oid,
+          id: getAll_ZIC_Role[index].oid,
           ...i,
         };
       }),
@@ -209,7 +205,7 @@ const Functional_Zone_AdminTable = () => {
             <div className="col-12 col-lg-12">
               <Table2
                 tableData={tableData}
-                loading={getAll_Roles_data.loading}
+                loading={get_Function_Zone_RolesState.loading}
                 tableColumns={tableColumns}
               />
             </div>

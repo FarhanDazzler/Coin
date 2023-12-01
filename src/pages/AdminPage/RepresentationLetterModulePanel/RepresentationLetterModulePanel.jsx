@@ -12,11 +12,6 @@ import Functional_Zone_AdminTable from './Tables/Functional_Zone_AdminTable';
 const RepresentationLetterModulePanel = () => {
   const dispatch = useDispatch();
 
-  // API Call using dispatch
-  useEffect(() => {
-    dispatch(getAll_Roles());
-  }, []);
-
   return (
     <PageWrapper>
       <div className="container">

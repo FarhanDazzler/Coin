@@ -25,6 +25,8 @@ const InternalControlHomePage = () => {
   const [buValue, setBUValue] = useState([]);
   const [receiverValue, setReceiverValue] = useState([]);
   const [providerValue, setProviderValue] = useState([]);
+  const [controlIdValue, setControlIdValue] = useState([]);
+  const [statusOfAssessmentValue, setStatusOfAssessmentValue] = useState([]);
 
   const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
@@ -203,6 +205,10 @@ const InternalControlHomePage = () => {
           setReceiverValue={setReceiverValue}
           providerValue={providerValue}
           setProviderValue={setProviderValue}
+          statusOfAssessmentValue={statusOfAssessmentValue}
+          setStatusOfAssessmentValue={setStatusOfAssessmentValue}
+          controlIdValue={controlIdValue}
+          setControlIdValue={setControlIdValue}
         />
         {Control_ID && <HomeTableModal isModal={true} activeData={state} />}
         {/*<SummaryView />*/}
