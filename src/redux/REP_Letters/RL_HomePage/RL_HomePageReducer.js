@@ -25,6 +25,24 @@ export const GET_BU_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_ERROR';
 // ============= GET BU Global PErsona home page table data ===============//
 
+// ============= GET Functional ZIC Persona home page table data ===============//
+export const GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST =
+  'GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST';
+export const GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS =
+  'GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS';
+export const GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR =
+  'GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR';
+// ============= GET Functional ZIC PErsona home page table data ===============//
+
+// ============= GET BU ZIC Persona home page table data ===============//
+export const GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST =
+  'GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST';
+export const GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS =
+  'GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS';
+export const GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR =
+  'GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR';
+// ============= GET BU ZIC PErsona home page table data ===============//
+
 // ============= GET BU BU Head home page table data ===============//
 export const GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_REQUEST';
@@ -254,6 +272,8 @@ const initialState = {
   getFunctionRecipientHomePageData: { ...block, data: [] },
   getFunctionGlobalPersonaHomePageData: { ...block, data: [] },
   get_BU_GlobalPersonaHomePageData: { ...block, data: [] },
+  getFunctionZIC_PersonaHomePageData: { ...block, data: [] },
+  get_BU_ZIC_PersonaHomePageData: { ...block, data: [] },
   get_BU_BU_HeadHomePageData: { ...block, data: [] },
   get_BU_Disclosure_ProcessorHomePageData: { ...block, data: [] },
   get_BU_Finance_DirectorHomePageData: { ...block, data: [] },
@@ -361,6 +381,60 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         ...state,
         get_BU_GlobalPersonaHomePageData: {
           ...state.get_BU_GlobalPersonaHomePageData,
+          loading: false,
+        },
+      };
+
+    // GET Functional ZIC Persona home page table data
+    case GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST:
+      return {
+        ...state,
+        getFunctionZIC_PersonaHomePageData: {
+          ...state.getFunctionZIC_PersonaHomePageData,
+          loading: true,
+        },
+      };
+    case GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS:
+      return {
+        ...state,
+        getFunctionZIC_PersonaHomePageData: {
+          ...state.getFunctionZIC_PersonaHomePageData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR:
+      return {
+        ...state,
+        getFunctionZIC_PersonaHomePageData: {
+          ...state.getFunctionZIC_PersonaHomePageData,
+          loading: false,
+        },
+      };
+
+    // GET BU ZIC Persona home page table data
+    case GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST:
+      return {
+        ...state,
+        get_BU_ZIC_PersonaHomePageData: {
+          ...state.get_BU_ZIC_PersonaHomePageData,
+          loading: true,
+        },
+      };
+    case GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS:
+      return {
+        ...state,
+        get_BU_ZIC_PersonaHomePageData: {
+          ...state.get_BU_ZIC_PersonaHomePageData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR:
+      return {
+        ...state,
+        get_BU_ZIC_PersonaHomePageData: {
+          ...state.get_BU_ZIC_PersonaHomePageData,
           loading: false,
         },
       };

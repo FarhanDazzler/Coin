@@ -4,6 +4,10 @@ export const getFunctionGlobalPersonaHomePageDataSelector = (state) =>
   state?.RL_HomePage?.getFunctionGlobalPersonaHomePageData;
 export const get_BU_GlobalPersonaHomePageDataSelector = (state) =>
   state?.RL_HomePage?.get_BU_GlobalPersonaHomePageData;
+export const getFunctionZIC_PersonaHomePageDataSelector = (state) =>
+  state?.RL_HomePage?.getFunctionZIC_PersonaHomePageData;
+export const get_BU_ZIC_PersonaHomePageDataSelector = (state) =>
+  state?.RL_HomePage?.get_BU_ZIC_PersonaHomePageData;
 export const get_BU_BU_HeadHomePageDataSelector = (state) =>
   state?.RL_HomePage?.get_BU_BU_HeadHomePageData;
 export const get_BU_Disclosure_ProcessorHomePageDataSelector = (state) =>
