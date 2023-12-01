@@ -164,7 +164,7 @@ function* handle_Get_BU_GlobalPersonaHomePageData({ payload }) {
 
 // GET Functional ZIC PErsona home page table data
 async function getFunctionZIC_PersonaHomePageDataApi(params) {
-  return await Axios.get('/', { params });
+  return await Axios.get('/get_function_home_page_data_for_zone_ic', { params });
 }
 function* handle_GetFunctionZIC_PersonaHomePageData({ payload }) {
   try {
@@ -184,7 +184,7 @@ function* handle_GetFunctionZIC_PersonaHomePageData({ payload }) {
 
 // GET BU ZIC PErsona home page table data
 async function get_BU_ZIC_PersonaHomePageDataApi(params) {
-  return await Axios.get('/', { params });
+  return await Axios.get('/get_bu_home_page_data_for_zonal_ic', { params });
 }
 function* handle_Get_BU_ZIC_PersonaHomePageData({ payload }) {
   try {
