@@ -147,7 +147,7 @@ const AttemptSection3 = ({ scopeData }) => {
           Comment: '',
         }}
         validationSchema={Yup.object().shape({
-          Comment: Yup.string().required('Comment is required'),
+          // Comment: Yup.string().required('Comment is required'),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
           try {
@@ -189,6 +189,7 @@ const AttemptSection3 = ({ scopeData }) => {
                         tableData={getBUSection3RBA_DataState?.data}
                         loading={getBUSection3RBA_DataState.loading}
                         tableColumns={TABLE_COLUMNS}
+                        isSimpleTable={true}
                       />
                     </Row>
                   )}

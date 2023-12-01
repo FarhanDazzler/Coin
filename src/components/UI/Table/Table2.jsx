@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import MaterialReactTable from 'material-react-table';
+import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { FloatRight } from 'tabler-icons-react';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -80,6 +80,7 @@ const Table2 = ({
   loading,
   initialState = {},
   Is_Expanding_Detail_Panel = { Is_Expanding: false },
+  isSimpleTable = false,
 }) => {
   const { t } = useTranslation();
   const [rowSelection, setRowSelection] = useState({});
@@ -248,15 +249,16 @@ const Table2 = ({
           enableColumnFilters
           columns={tableColumns}
           data={tableData}
-          initialState={({ showColumnFilters: false, density: 'compact' })}
+          initialState={{ showColumnFilters: false, density: 'compact' }}
           // initialState={{ columnPinning: { left: ['Entity_Id'], right: ['Total'] } }}
-          enableRowSelection
+          enableRowSelection={isSimpleTable ? false : true}
           enableStickyHeader
           getRowId={(row) => row.id} //give each row a more useful id
           onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
           state={{ rowSelection, isLoading: loading }} //pass our managed row selection state to the table to use
           icons={fontAwesomeIcons}
-          enablePinning
+          enableRowPinning={isSimpleTable ? false : true}
+          enableColumnPinning={isSimpleTable ? false : true}
           renderTopToolbarCustomActions={({ table }) => (
             <div className="new-table-button" style={{ padding: '4px 10px' }}>
               {/*<FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />*/}

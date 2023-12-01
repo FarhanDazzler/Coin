@@ -187,21 +187,26 @@ const ApprovalPageSection3 = ({ scopeData }) => {
                         tableData={getBUSection3ResponseState?.data?.RBA_Data[0]}
                         loading={getBUSection3ResponseState.loading}
                         tableColumns={TABLE_COLUMNS}
+                        isSimpleTable={true}
                       />
                     </Row>
                   )}
                   <Row>
                     <Divider color="gray" className="section3-divider" size="xs" />
-                    <Row>
-                      <h5>
-                        <span className="golden-text">
-                          Comment provided by the Disclosure Processor :
-                        </span>
-                      </h5>
-                    </Row>
-                    <Row>
-                      <h5>{getBUSection3ResponseState?.data?.DP_Comment}</h5>
-                    </Row>
+                    {getBUSection3ResponseState?.data?.DP_Comment && (
+                      <>
+                        <Row>
+                          <h5>
+                            <span className="golden-text">
+                              Comment provided by the Disclosure Processor :
+                            </span>
+                          </h5>
+                        </Row>
+                        <Row>
+                          <h5>{getBUSection3ResponseState?.data?.DP_Comment}</h5>
+                        </Row>
+                      </>
+                    )}
                   </Row>
                   <Row>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">

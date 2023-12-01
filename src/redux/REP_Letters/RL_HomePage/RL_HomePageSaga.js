@@ -12,6 +12,12 @@ import {
   GET_BU_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BU_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS,
   GET_BU_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_ERROR,
+  GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
+  GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS,
+  GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR,
+  GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
+  GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS,
+  GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR,
   GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_SUCCESS,
   GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_ERROR,
@@ -152,6 +158,46 @@ function* handle_Get_BU_GlobalPersonaHomePageData({ payload }) {
   } catch (error) {
     yield put({
       type: GET_BU_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_ERROR,
+    });
+  }
+}
+
+// GET Functional ZIC PErsona home page table data
+async function getFunctionZIC_PersonaHomePageDataApi(params) {
+  return await Axios.get('/get_function_home_page_data_for_zone_ic', { params });
+}
+function* handle_GetFunctionZIC_PersonaHomePageData({ payload }) {
+  try {
+    const response = yield call(getFunctionZIC_PersonaHomePageDataApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR,
+    });
+  }
+}
+
+// GET BU ZIC PErsona home page table data
+async function get_BU_ZIC_PersonaHomePageDataApi(params) {
+  return await Axios.get('/get_bu_home_page_data_for_zonal_ic', { params });
+}
+function* handle_Get_BU_ZIC_PersonaHomePageData({ payload }) {
+  try {
+    const response = yield call(get_BU_ZIC_PersonaHomePageDataApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR,
     });
   }
 }
@@ -801,6 +847,14 @@ export default all([
   takeLatest(
     GET_BU_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
     handle_Get_BU_GlobalPersonaHomePageData,
+  ),
+  takeLatest(
+    GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
+    handle_GetFunctionZIC_PersonaHomePageData,
+  ),
+  takeLatest(
+    GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
+    handle_Get_BU_ZIC_PersonaHomePageData,
   ),
   takeLatest(GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_REQUEST, handle_Get_BU_BU_HeadHomePageData),
   takeLatest(

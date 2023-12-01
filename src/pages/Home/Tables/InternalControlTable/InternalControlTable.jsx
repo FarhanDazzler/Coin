@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
-import { Group } from '@mantine/core';
+import { Group, MultiSelect } from '@mantine/core';
 import Table from '../../../../components/UI/Table';
 import Table2 from '../../../../components/UI/Table/Table2';
 import NoDataPlaceholder from '../../../../components/NoDataPlaceholder';
@@ -14,7 +14,7 @@ import {
   class_to_apply,
   Badge_apply,
 } from '../../V2/InternalControlHomePage/HomePageTable/constant';
-import FilterButtons from '../../../../components/FilterButtons';
+//import FilterButtons from '../../../../components/FilterButtons';
 import Button from '../../../../components/UI/Button';
 import {
   getControlDataAction,
@@ -23,6 +23,30 @@ import {
 import Cookies from 'js-cookie';
 
 // Filter buttons
+const FilterMultiSelect = ({ data, label, value, onChange }) => {
+  const [searchValue, onSearchChange] = useState('');
+
+  return (
+    <MultiSelect
+      className="mantine-MultiSelect-wrapper"
+      data={data}
+      label={<span className="mantine-MultiSelect-label">{label}</span>}
+      placeholder="Select your option"
+      searchable
+      limit={20}
+      searchValue={searchValue}
+      onSearchChange={onSearchChange}
+      nothingFound="Nothing found"
+      clearButtonLabel="Clear selection"
+      clearable
+      value={value}
+      onChange={onChange}
+      radius="xl"
+      variant="filled"
+      size="xs"
+    />
+  );
+};
 
 const InternalControlTable = ({
   yearValue,
@@ -40,7 +64,7 @@ const InternalControlTable = ({
   statusOfAssessmentValue,
   setStatusOfAssessmentValue,
   controlIdValue,
-  setControlIdValue
+  setControlIdValue,
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -104,7 +128,16 @@ const InternalControlTable = ({
       );
     });
     setTableData(updateData);
-  }, [yearValue, assessmentCycleValue, zoneValue, buValue, receiverValue, providerValue, controlIdValue, statusOfAssessmentValue]);
+  }, [
+    yearValue,
+    assessmentCycleValue,
+    zoneValue,
+    buValue,
+    receiverValue,
+    providerValue,
+    controlIdValue,
+    statusOfAssessmentValue,
+  ]);
 
   const TABLE_COLUMNS = [
     {
@@ -316,34 +349,55 @@ const InternalControlTable = ({
           <div className="col col-lg-12">
             <div className="container-fluid pl-0 pr-0 mt-5">
               <div className="row">
-                <div className="col col-lg-12">
+                <div className="col-12 col-lg-12">
                   <Group spacing="xs" className="actions-button-wrapper">
-                    <FilterButtons
-                      year={removeDuplicates(year)}
-                      assessment_Cycle={removeDuplicates(assessment_Cycle)}
-                      Zone={removeDuplicates(Zone)}
-                      BU={removeDuplicates(BU)}
-                      Receiver={removeDuplicates(Receiver)}
-                      Provider={removeDuplicates(Provider)}
-                      ControlID={removeDuplicates(control_id)}
-                      StatusOfAssessment={removeDuplicates(status_of_assessment)}
-                      yearValue={yearValue}
-                      assessmentCycleValue={assessmentCycleValue}
-                      zoneValue={zoneValue}
-                      buValue={buValue}
-                      receiverValue={receiverValue}
-                      providerValue={providerValue}
-                      controlIdValue={controlIdValue}
-                      statusOfAssessmentValue={statusOfAssessmentValue}
-                      setYearValue={setYearValue}
-                      setAssessmentCycleValue={setAssessmentCycleValue}
-                      setZoneValue={setZoneValue}
-                      setBUValue={setBUValue}
-                      setReceiverValue={setReceiverValue}
-                      setProviderValue={setProviderValue}
-                      setControlIdValue={setControlIdValue}
-                      setStatusOfAssessmentValue={setStatusOfAssessmentValue}
-                      isHide
+                    <FilterMultiSelect
+                      data={removeDuplicates(year) || []}
+                      label="Year"
+                      value={yearValue}
+                      onChange={setYearValue}
+                    />
+                    <FilterMultiSelect
+                      data={removeDuplicates(assessment_Cycle) || []}
+                      label="Assessment Cycle"
+                      value={assessmentCycleValue}
+                      onChange={setAssessmentCycleValue}
+                    />
+                    <FilterMultiSelect
+                      data={removeDuplicates(Zone) || []}
+                      label="Zone"
+                      value={zoneValue}
+                      onChange={setZoneValue}
+                    />
+                    <FilterMultiSelect
+                      data={removeDuplicates(BU) || []}
+                      label="BU"
+                      value={buValue}
+                      onChange={setBUValue}
+                    />
+                    <FilterMultiSelect
+                      data={removeDuplicates(Receiver) || []}
+                      label="Receiver Organization"
+                      value={receiverValue}
+                      onChange={setReceiverValue}
+                    />
+                    <FilterMultiSelect
+                      data={removeDuplicates(Provider) || []}
+                      label="Provider Organization"
+                      value={providerValue}
+                      onChange={setProviderValue}
+                    />
+                    <FilterMultiSelect
+                      data={removeDuplicates(control_id) || []}
+                      label="Control ID"
+                      value={controlIdValue}
+                      onChange={setControlIdValue}
+                    />
+                    <FilterMultiSelect
+                      data={removeDuplicates(status_of_assessment) || []}
+                      label="Status of Assessment"
+                      value={statusOfAssessmentValue}
+                      onChange={setStatusOfAssessmentValue}
                     />
                   </Group>
                 </div>
