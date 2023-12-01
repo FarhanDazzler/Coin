@@ -115,7 +115,7 @@ const ReviewSection3 = () => {
   ];
 
   return (
-    <CollapseFrame title="Section 3 : RBA" active>
+    <CollapseFrame title="Section 3 : RBA" active isOpen={false}>
       <Col xs={12} md={12}>
         <Card className="bu-letter-section3 mt-5">
           <Card.Body>
