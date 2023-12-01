@@ -134,6 +134,7 @@ const ReviewSection3 = () => {
                   tableData={getBUSection3ResponseState?.data?.RBA_Data[0]}
                   loading={getBUSection3ResponseState.loading}
                   tableColumns={TABLE_COLUMNS}
+                  isSimpleTable={true}
                 />
               </Row>
             )}

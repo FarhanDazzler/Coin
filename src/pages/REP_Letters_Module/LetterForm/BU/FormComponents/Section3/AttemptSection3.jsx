@@ -189,6 +189,7 @@ const AttemptSection3 = ({ scopeData }) => {
                         tableData={getBUSection3RBA_DataState?.data}
                         loading={getBUSection3RBA_DataState.loading}
                         tableColumns={TABLE_COLUMNS}
+                        isSimpleTable={true}
                       />
                     </Row>
                   )}
