@@ -365,7 +365,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
           tData['sep'] = 1;
         }
         tData['id'] = i + 1;
-
+        tData['Upload_Approach'] = tData['Upload_Approach'] || 'Excel';
+        console.log('-----------');
         let period = tData.Period_From;
         let words = period.split('-');
         const month = parseInt(words[1]);
@@ -507,10 +508,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         output_table: excelFile,
       };
 
-      console.log(apiBody, 'API BODY For Section 2');
       dispatch(getCsvTampredDataAction(apiBody));
       if (stateCsvTampred?.data === false) {
-        console.log('i am in data update');
         let newDataArray = tableData.map((data, i) => {
           return {
             ...data,
@@ -521,7 +520,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         setTableData([...newDataArray]);
         setScvUpdateData(csvUpdateData + 1);
       } else {
-        console.log('i am in true state');
         setScvUpdateData(0);
       }
 
