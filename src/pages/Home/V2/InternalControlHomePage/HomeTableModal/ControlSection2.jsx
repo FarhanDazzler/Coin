@@ -30,7 +30,9 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   const [showGraph, setShowGraph] = useState(true);
   const getKPIResponse = useSelector(getResponseSelector);
   const kpiResultData = useSelector(kpiResultSelector);
-  const kpiResult = kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
+  const kpiResult = isModal
+    ? getKPIResponse?.data?.Latest_Response?.data
+    : kpiResultData?.data?.data;
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();
   const [editProductIds, setEditProductIds] = useState([
@@ -351,19 +353,17 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   };
 
   useEffect(() => {
-    if (getKPIResponse?.data?.Latest_Response?.kpis) {
-      setTableData(getKPIResponse?.data?.Latest_Response?.kpis);
+    if (isModal) {
+      if (getKPIResponse?.data?.Latest_Response?.kpis)
+        setTableData(getKPIResponse?.data?.Latest_Response?.kpis);
     } else if (kpiResultData?.data?.kpis?.length > 0) {
       const table_data = [...kpiResultData?.data?.kpis];
       table_data.forEach((tData, i) => {
         if (tData.KPI_Value === '' || tData.KPI_Value === 0) {
-          // console.log('null');
           tData['sep'] = 2;
         } else {
-          // console.log('not null');
           tData['sep'] = 1;
         }
-        // console.log('ids');
         tData['id'] = i + 1;
 
         let period = tData.Period_From;
@@ -371,7 +371,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         const month = parseInt(words[1]);
         const d = new Date();
         d.setMonth(month - 1);
-        // console.log(monthName);
         tData['Month'] = moment(period, 'YYYY-MM-DD').format('MMMM');
         tData['Type_of_KPI'] = tData.isManual ? 'Manual' : 'Automated';
       });
@@ -387,7 +386,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   }, [kpiResultData]);
 
   function handleChange(oldValue, newValue, row, column) {
-    console.log('@@@@@@', oldValue, newValue, row, column);
     const updateProduct = tableData.map((d) => {
       if (d.id === row.id) {
         if (column.dataField === 'Upload_Approach') {
@@ -410,7 +408,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
           } else if (+row.KPI_Value <= +row.MICS_L2_Threshold && row.MICS_L2_Threshold !== '') {
             row.L2_Result = 'Pass';
           } else {
-            console.log('');
             row.L2_Result = 'Fail';
           }
 
@@ -459,7 +456,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       }
       return d;
     });
-    console.log('updateProduct', updateProduct);
     setTableData(updateProduct);
   }
 
@@ -538,14 +534,10 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       // fetch(`${process.env.REACT_APP_API_BASE_URL}/is_csv_tampered`, requestParameters)
       //   .then((response) => response.text())
       //   .then((response) => {
-      //     console.log(JSON.parse(response).data, 'Check Section 2 validation data');
-
       //     const flag = JSON.parse(response).data;
       //     if (flag) {
-      //       //console.log('Not Valid');
       //       alert("Please don't change the existing values from excel file!!");
       //     } else {
-      //       console.log('Valid');
       //       setTableData(excelFile);
       //     }
       //   })
@@ -598,8 +590,14 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         ) : (
           <>
             <div className="mt-5 pt-5">
-              {showGraph && kpiResult && Object.keys(kpiResult).length > 0 && (
-                <ControlSection2Chart />
+              {showGraph && kpiResult && Object.keys(kpiResult).length > 0 ? (
+                <ControlSection2Chart isModal={isModal} />
+              ) : (
+                <div className="mt-5 text-center">
+                  <h1 className="table-modal-title">
+                    {t('selfAssessment.assessmentForm.section2NoKPIChartavailableText')}
+                  </h1>
+                </div>
               )}
             </div>
             {tableData?.length !== 0 ? (
@@ -682,7 +680,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
                 </div>
               </div>
             ) : (
-              <div className="mt-5 text-center">
+              <div className="text-center top-order">
                 <h1 className="table-modal-title">
                   {t('selfAssessment.assessmentForm.section2NoKPIavailableText')}
                 </h1>

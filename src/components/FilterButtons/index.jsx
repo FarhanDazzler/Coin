@@ -35,7 +35,6 @@ const FilterButtons = ({
   return (
     <div>
       <Group spacing="xs">
-       
         <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={year}
@@ -158,46 +157,46 @@ const FilterButtons = ({
           variant="filled"
           size="xs"
         />
-         <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={ControlID}
-          label={<span className="mantine-MultiSelect-label">Control ID</span>}
-          placeholder={t('selfAssessment.multi_select_filter_placeHolder')}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={controlIdValue}
-          onChange={(e) => {
-            setControlIdValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
-          data={StatusOfAssessment}
-          label={<span className="mantine-MultiSelect-label">Status Of Assessment</span>}
-          placeholder={t('selfAssessment.multi_select_filter_placeHolder')}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
-          value={statusOfAssessmentValue}
-          onChange={(e) => {
-            setStatusOfAssessmentValue(e);
-          }}
-          radius="xl"
-          variant="filled"
-          size="xs"
-        />
+        {/*<MultiSelect*/}
+        {/*  className="mantine-MultiSelect-wrapper"*/}
+        {/*  data={ControlID}*/}
+        {/*  label={<span className="mantine-MultiSelect-label">Control ID</span>}*/}
+        {/*  placeholder={t('selfAssessment.multi_select_filter_placeHolder')}*/}
+        {/*  searchable*/}
+        {/*  limit={20}*/}
+        {/*  searchValue={searchValue}*/}
+        {/*  onSearchChange={onSearchChange}*/}
+        {/*  nothingFound="Nothing found"*/}
+        {/*  clearButtonLabel="Clear selection"*/}
+        {/*  clearable*/}
+        {/*  value={controlIdValue}*/}
+        {/*  onChange={(e) => {*/}
+        {/*    setControlIdValue(e);*/}
+        {/*  }}*/}
+        {/*  radius="xl"*/}
+        {/*  variant="filled"*/}
+        {/*  size="xs"*/}
+        {/*/>*/}
+        {/*<MultiSelect*/}
+        {/*  className="mantine-MultiSelect-wrapper"*/}
+        {/*  data={StatusOfAssessment}*/}
+        {/*  label={<span className="mantine-MultiSelect-label">Status Of Assessment</span>}*/}
+        {/*  placeholder={t('selfAssessment.multi_select_filter_placeHolder')}*/}
+        {/*  searchable*/}
+        {/*  limit={20}*/}
+        {/*  searchValue={searchValue}*/}
+        {/*  onSearchChange={onSearchChange}*/}
+        {/*  nothingFound="Nothing found"*/}
+        {/*  clearButtonLabel="Clear selection"*/}
+        {/*  clearable*/}
+        {/*  value={statusOfAssessmentValue}*/}
+        {/*  onChange={(e) => {*/}
+        {/*    setStatusOfAssessmentValue(e);*/}
+        {/*  }}*/}
+        {/*  radius="xl"*/}
+        {/*  variant="filled"*/}
+        {/*  size="xs"*/}
+        {/*/>*/}
       </Group>
     </div>
   );

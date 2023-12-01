@@ -6,16 +6,18 @@ import {
   kpiResultSelector,
 } from '../../../../../redux/Assessments/AssessmentSelectors';
 
-const ControlSection2Chart = () => {
+const ControlSection2Chart = ({ isModal }) => {
   const kpiResultData = useSelector(kpiResultSelector);
   const getKPIResponse = useSelector(getResponseSelector);
-  const kpiResult = kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
+  const kpiResult = isModal
+    ? getKPIResponse?.data?.Latest_Response?.data
+    : kpiResultData?.data?.data;
   const [series, setSeries] = useState([]);
   const [xAxis, setXAxis] = useState([]);
   const [KPIList, setKPIList] = useState(null);
   const [activeKPI, setActiveKPI] = useState();
   const [activeKPIObj, setActiveKPIObj] = useState(null);
-  console.log('getKPIResponse', kpiResultData, getKPIResponse);
+
   useEffect(() => {
     if (kpiResult) {
       setKPIList(Object.keys(kpiResult));
