@@ -2,6 +2,8 @@ import {
   GET_FUNCTION_RECIPIENT_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_FUNCTION_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BU_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
+  GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
+  GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST,
   GET_BU_FINANCE_DIRECTOR_HOME_PAGE_TABLE_DATA_REQUEST,
@@ -49,6 +51,16 @@ export const getFunctionGlobalPersonaHomePageData = (payload) => ({
 
 export const get_BU_GlobalPersonaHomePageData = (payload) => ({
   type: GET_BU_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
+  payload,
+});
+
+export const getFunctionZIC_PersonaHomePageData = (payload) => ({
+  type: GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
+  payload,
+});
+
+export const get_BU_ZIC_PersonaHomePageData = (payload) => ({
+  type: GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST,
   payload,
 });
 export const get_BU_BU_HeadHomePageData = (payload) => ({
