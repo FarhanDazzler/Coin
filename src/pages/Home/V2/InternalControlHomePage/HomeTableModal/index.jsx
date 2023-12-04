@@ -138,14 +138,14 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       if (!isModal) {
         dispatch(
           getAssessmentSection2Ans({
-            MICS_code: activeData.Control_ID || Control_ID,
-            Entity_ID: activeData.Receiver,
-            KPI_From: activeData.KPI_From || '',
-            KPI_To: activeData.KPI_To || '',
-            // MICS_code: 'INV_REP_06' || Control_ID,
-            // Entity_ID: 'Argentina, Botswana',
-            // KPI_From: '2023-09-01' || '',
-            // KPI_To: '2023-11-30' || '',
+            // MICS_code: activeData.Control_ID || Control_ID,
+            // Entity_ID: activeData.Receiver,
+            // KPI_From: activeData.KPI_From || '',
+            // KPI_To: activeData.KPI_To || '',
+            MICS_code: 'INV_REP_06' || Control_ID,
+            Entity_ID: 'Argentina, Botswana',
+            KPI_From: '2023-09-01' || '',
+            KPI_To: '2023-11-30' || '',
           }),
         );
       }
@@ -359,6 +359,8 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+            data: kpiResultData?.data?.data,
+            showTable: showMoreSection,
           },
           events: {
             onSuccess: () => {
