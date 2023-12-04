@@ -27,6 +27,26 @@ const ControlSection2Chart = ({ isModal }) => {
     }
   }, [kpiResultData?.data]);
 
+  function compareMonths(a, b) {
+    const monthOrder = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    const aValue = a.split('_')[0];
+    const bValue = b.split('_')[0];
+    return monthOrder.indexOf(aValue) - monthOrder.indexOf(bValue);
+  }
+
   useEffect(() => {
     if (activeKPI) {
       const kpiData = activeKPIObj;
@@ -42,7 +62,7 @@ const ControlSection2Chart = ({ isModal }) => {
           });
         }
       });
-      setXAxis(xCategories);
+      setXAxis(xCategories?.sort(compareMonths));
 
       [kpiId].map((kpiId, kpiIndex) => {
         const receivers = kpiData.receivers;
@@ -55,9 +75,11 @@ const ControlSection2Chart = ({ isModal }) => {
               values.push(0);
             }
           }
-          Object.keys(country).map((name, i) => {
-            values.push(+country[name]);
-          });
+          Object.keys(country)
+            .sort(compareMonths)
+            .map((name, i) => {
+              values.push(+country[name]);
+            });
           const data = xCategories.map((d, catIndex) => {
             return values[catIndex] || 0;
           });
@@ -107,7 +129,7 @@ const ControlSection2Chart = ({ isModal }) => {
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 15px' }}>
           {thresholds.map((s) => {
             return (
-              <span className="mr-3">
+              <span className="mr-3 font-weight-bold">
                 {s.name.split('_').join(' ')}: {s.value}
               </span>
             );
