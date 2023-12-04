@@ -24,3 +24,9 @@ yarn-debug.log*
 yarn-error.log*
 
 .eslintcache
+
+# Lock files for packages (yarn/npm/pnpm)
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+.pnpm-lock.yaml
