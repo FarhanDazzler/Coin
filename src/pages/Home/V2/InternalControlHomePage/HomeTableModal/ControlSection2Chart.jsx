@@ -6,16 +6,18 @@ import {
   kpiResultSelector,
 } from '../../../../../redux/Assessments/AssessmentSelectors';
 
-const ControlSection2Chart = () => {
+const ControlSection2Chart = ({ isModal }) => {
   const kpiResultData = useSelector(kpiResultSelector);
   const getKPIResponse = useSelector(getResponseSelector);
-  const kpiResult = kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
+  const kpiResult = isModal
+    ? getKPIResponse?.data?.Latest_Response?.data
+    : kpiResultData?.data?.data;
   const [series, setSeries] = useState([]);
   const [xAxis, setXAxis] = useState([]);
   const [KPIList, setKPIList] = useState(null);
   const [activeKPI, setActiveKPI] = useState();
   const [activeKPIObj, setActiveKPIObj] = useState(null);
-  console.log('getKPIResponse', kpiResultData, getKPIResponse);
+
   useEffect(() => {
     if (kpiResult) {
       setKPIList(Object.keys(kpiResult));
@@ -24,6 +26,26 @@ const ControlSection2Chart = () => {
       setActiveKPIObj(kpiResult[activeIdVal]);
     }
   }, [kpiResultData?.data]);
+
+  function compareMonths(a, b) {
+    const monthOrder = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    const aValue = a.split('_')[0];
+    const bValue = b.split('_')[0];
+    return monthOrder.indexOf(aValue) - monthOrder.indexOf(bValue);
+  }
 
   useEffect(() => {
     if (activeKPI) {
@@ -40,7 +62,7 @@ const ControlSection2Chart = () => {
           });
         }
       });
-      setXAxis(xCategories);
+      setXAxis(xCategories?.sort(compareMonths));
 
       [kpiId].map((kpiId, kpiIndex) => {
         const receivers = kpiData.receivers;
@@ -53,9 +75,11 @@ const ControlSection2Chart = () => {
               values.push(0);
             }
           }
-          Object.keys(country).map((name, i) => {
-            values.push(+country[name]);
-          });
+          Object.keys(country)
+            .sort(compareMonths)
+            .map((name, i) => {
+              values.push(+country[name]);
+            });
           const data = xCategories.map((d, catIndex) => {
             return values[catIndex] || 0;
           });
@@ -105,7 +129,7 @@ const ControlSection2Chart = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 15px' }}>
           {thresholds.map((s) => {
             return (
-              <span className="mr-3">
+              <span className="mr-3 font-weight-bold">
                 {s.name.split('_').join(' ')}: {s.value}
               </span>
             );
