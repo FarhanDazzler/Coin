@@ -12,6 +12,7 @@
       "exportToExcel": "엑셀로 내보내기",
       "excelFileUploadAndDownload": "엑셀 파일 업로드 및 다운로드",
       "section2NoKPIavailableText": "이 컨트롤에는 KPI가 적용되지 않습니다.",
+      "section2NoKPIChartavailableText": "과거 데이터를 사용할 수 없습니다.",
       "section3_MICS": "섹션 3 : MICS 특정",
       "section3FailedText": "위의 응답을 기반으로 실패한 통제에 대한 대응 계획을 작성해야 합니다. 대응 계획을 자세히 설명해 주시겠습니까? (힌트: 대응 계획은 MICS 준수를 보장하기 위해 통제 결함을 복구하기 위한 시간 제한 제안입니다)",
       "saveDraftBtn": "임시 저장!",
