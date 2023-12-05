@@ -29,14 +29,17 @@ const FilterButtons = ({
   provider_entity,
   cowner,
   coversight,
+  Zone,
   valueControl_ID,
   valueProvider_entity,
   valueCowner,
   valueCoversight,
+  valueZone,
   setValueCoversight,
   setValueCowner,
   setValueProvider_entity,
   setValueControl_ID,
+  setValueZone
 }) => {
   const [searchValue, onSearchChange] = useState('');
 
@@ -63,6 +66,27 @@ const FilterButtons = ({
           variant="filled"
           size="xs"
         />
+         <MultiSelect
+          className="mantine-MultiSelect-wrapper"
+          data={Zone}
+          label={<span className="mantine-MultiSelect-label">{'Zone'}</span>}
+          placeholder={'Select your option'}
+          searchable
+          limit={20}
+          searchValue={searchValue}
+          onSearchChange={onSearchChange}
+          nothingFound="Nothing found"
+          clearButtonLabel="Clear selection"
+          clearable
+          value={valueZone}
+          onChange={(e) => {
+            setValueZone(e);
+          }}
+          radius="xl"
+          variant="filled"
+          size="xs"
+        />
+       
         <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={provider_entity}
@@ -140,6 +164,7 @@ const ControlOwnerAndOversightTable = () => {
   const [valueProvider_entity, setValueProvider_entity] = useState([]);
   const [valueCowner, setValueCowner] = useState([]);
   const [valueCoversight, setValueCoversight] = useState([]);
+  const [valueZone, setValueZone] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showLcdModal, setShowLcdModal] = useState(false);
   const [editTableIndex, setEditTableIndex] = useState([]);
@@ -157,13 +182,15 @@ const ControlOwnerAndOversightTable = () => {
     setValueProvider_entity([]);
     setValueCowner([]);
     setValueCoversight([]);
+    setValueZone([]);
   }, [modifyControlOwnerAndOversightState.data]);
   useEffect(() => {
     if (
       !valueControl_ID.length &&
       !valueProvider_entity.length &&
       !valueCowner.length &&
-      !valueCoversight.length
+      !valueCoversight.length&&
+      !valueZone.length
     ) {
       return setTableData(tableDataArray);
     }
@@ -176,11 +203,12 @@ const ControlOwnerAndOversightTable = () => {
             ? valueProvider_entity.includes(i.provider_entity)
             : true) &&
           (valueCowner?.length ? valueCowner.includes(i.cowner) : true) &&
-          (valueCoversight?.length ? valueCoversight.includes(i.coversight) : true)
+          (valueCoversight?.length ? valueCoversight.includes(i.coversight) : true) &&
+          (valueZone?.length ? valueZone.includes(i.zone) : true)
         );
       }),
     );
-  }, [valueControl_ID, valueProvider_entity, valueCowner, valueCoversight]);
+  }, [valueControl_ID, valueProvider_entity, valueCowner, valueCoversight, valueZone]);
 
   const class_to_apply = (item) => {
     let className = '';
@@ -366,6 +394,7 @@ const ControlOwnerAndOversightTable = () => {
   const providerOrgArray = controlOwnerAndOversight.data.map((i) => i.provider_entity);
   const cownerArray = controlOwnerAndOversight.data.map((i) => i.cowner);
   const coversightArray = controlOwnerAndOversight.data.map((i) => i.coversight);
+  const zoneArray = controlOwnerAndOversight.data.map((i) => i.zone);
   //zoneArray = removeDuplicates(zoneArray);
 
   // object for Expanding Detail Panel
@@ -392,14 +421,17 @@ const ControlOwnerAndOversightTable = () => {
                     provider_entity={removeDuplicates(providerOrgArray)}
                     cowner={removeDuplicates(cownerArray)}
                     coversight={removeDuplicates(coversightArray)}
+                    Zone={removeDuplicates(zoneArray)}
                     valueControl_ID={valueControl_ID}
                     valueProvider_entity={valueProvider_entity}
                     valueCowner={valueCowner}
                     valueCoversight={valueCoversight}
+                    valueZone={valueZone}
                     setValueControl_ID={setValueControl_ID}
                     setValueProvider_entity={setValueProvider_entity}
                     setValueCowner={setValueCowner}
                     setValueCoversight={setValueCoversight}
+                    setValueZone={setValueZone}
                   />
                 </div>
                 <div className="mdm-table-button">
