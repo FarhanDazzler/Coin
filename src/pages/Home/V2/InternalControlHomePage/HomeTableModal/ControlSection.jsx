@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import { useTranslation } from 'react-i18next';
 import CustomTextarea from '../../../../../components/UI/CustomTextarea';
