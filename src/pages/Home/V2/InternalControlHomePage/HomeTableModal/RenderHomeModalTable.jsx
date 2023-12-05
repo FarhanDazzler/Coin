@@ -43,7 +43,7 @@ const RenderHomeModalTable = ({
     const value = ansSection3[i] && Object.values(ansSection3[i]);
     if (value?.length > 0) return value[0]?.includes('no');
   });
-  const [showControlSection, setShowControlSection] = useState(true);
+  const [showControlSection, setShowControlSection] = useState(false);
   console.log('s1FailObj', s1FailObj);
   useEffect(() => {
     let sectionTerminating = false;
@@ -91,7 +91,11 @@ const RenderHomeModalTable = ({
         </div>
       ) : (
         <div className="p-5">
-          {/*<ControlSection setShowControlSection={setShowControlSection} />*/}
+          <ControlSection
+            setShowControlSection={setShowControlSection}
+            loadingSubmit={loadingSubmit}
+            handleSubmit={handleSubmit}
+          />
 
           {showControlSection && (
             <>
