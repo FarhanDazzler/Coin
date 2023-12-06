@@ -363,7 +363,7 @@ function* handle_addUpdateFinalSubmitResponse({ payload }) {
 
 // Get MICS Open Action Plan Data
 async function get_MICS_OpenActionPlanApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/get_mics_open_action_plan', payload);
 }
 function* handle_get_MICS_OpenActionPlan({ payload }) {
   try {
