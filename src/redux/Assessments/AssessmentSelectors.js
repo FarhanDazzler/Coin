@@ -10,3 +10,4 @@ export const addUpdateFinalSubmitResponseSelector = (state) =>
   state.assessments.addUpdateFinalSubmitResponse;
 export const getLatestDraftSelector = (state) => state.assessments.getLatestDraft;
 export const addOrEditUpdateDraftSelector = (state) => state.assessments.addOrEditUpdateDraft;
+export const get_MICS_OpenActionPlanSelector = (state) => state.assessments.get_MICS_OpenActionPlan;

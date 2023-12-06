@@ -71,6 +71,13 @@ export const UPDATE_LATEST_DRAFT = 'UPDATE_LATEST_DRAFT';
 export const RESET_BLOCK_ASSESSMENT = 'RESET_BLOCK_ASSESSMENT';
 export const RESET_FLAGS_ASSESSMENT = 'RESET_FLAGS_ASSESSMENT';
 
+// ================= MICS Action Plan ================== //
+export const GET_MICS_OPEN_ACTION_PLAN_DATA_REQUEST = 'GET_MICS_OPEN_ACTION_PLAN_DATA_REQUEST';
+export const GET_MICS_OPEN_ACTION_PLAN_DATA_SUCCESS = 'GET_MICS_OPEN_ACTION_PLAN_DATA_SUCCESS';
+export const GET_MICS_OPEN_ACTION_PLAN_DATA_ERROR = 'GET_MICS_OPEN_ACTION_PLAN_DATA_ERROR';
+export const CLEAR_MICS_OPEN_ACTION_PLAN_DATA = 'CLEAR_MICS_OPEN_ACTION_PLAN_DATA';
+// ================= MICS Action Plan ================== //
+
 const block = {
   loading: false,
   error: '',
@@ -93,6 +100,7 @@ const initialState = {
   addUpdateFinalSubmitResponse: { ...block, data: [] },
   addOrEditUpdateDraft: { ...block },
   getLatestDraft: { ...block, data: { s1: null, s2: null, s3: null } },
+  get_MICS_OpenActionPlan: { ...block, data: null },
 };
 
 export const AssessmentReducer = (state = initialState, { type, payload = {} }) => {
@@ -397,6 +405,42 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
       return {
         ...state,
         addUpdateFinalSubmitResponse: { ...state.addUpdateFinalSubmitResponse, loading: false },
+      };
+
+    // MICS Action Plan
+    case GET_MICS_OPEN_ACTION_PLAN_DATA_REQUEST:
+      return {
+        ...state,
+        get_MICS_OpenActionPlan: {
+          ...state.get_MICS_OpenActionPlan,
+          loading: true,
+        },
+      };
+    case GET_MICS_OPEN_ACTION_PLAN_DATA_SUCCESS:
+      return {
+        ...state,
+        get_MICS_OpenActionPlan: {
+          ...state.get_MICS_OpenActionPlan,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_MICS_OPEN_ACTION_PLAN_DATA_ERROR:
+      return {
+        ...state,
+        get_MICS_OpenActionPlan: {
+          ...state.get_MICS_OpenActionPlan,
+          loading: false,
+        },
+      };
+    case CLEAR_MICS_OPEN_ACTION_PLAN_DATA:
+      return {
+        ...state,
+        get_MICS_OpenActionPlan: {
+          ...state.get_MICS_OpenActionPlan,
+          data: null,
+          loading: false,
+        },
       };
 
     //reset block with flag and data
