@@ -19,6 +19,7 @@ import {
   ADD_ASSESSMENT_SECTION_2_REQUEST,
   GET_ASSESSMENT_SECTION_2_REQUEST,
   UPDATE_LATEST_DRAFT,
+  GET_MICS_OPEN_ACTION_PLAN_REQUEST,
   GET_MICS_OPEN_ACTION_PLAN_DATA_REQUEST,
   CLEAR_MICS_OPEN_ACTION_PLAN_DATA,
 } from './AssessmentReducer';
@@ -28,6 +29,11 @@ export const saveAssessmentAns = (payload) => ({ type: SAVE_ANS, payload });
 export const getQuestions = (payload) => ({ type: GET_QUESTIONS_REQUEST, payload });
 
 export const getAssessmentAns = (payload) => ({ type: GET_ASSESSMENT_RESPONSE_REQUEST, payload });
+
+export const getMicsOpenActionPlan = (payload) => ({
+  type: GET_MICS_OPEN_ACTION_PLAN_REQUEST,
+  payload,
+});
 
 export const updateLastAccess = () => ({
   type: UPDATE_LATEST_DRAFT,

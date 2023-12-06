@@ -1,3 +1,5 @@
+import { getMicsOpenActionPlan } from './AssessmentAction';
+
 export const SAVE_ANS = 'RESET_BLOCK_ASSESSMENT';
 export const SAVE_ANS_SUCCESS = 'SAVE_ANS_SUCCESS';
 export const SAVE_ANS_ERROR = 'SAVE_ANS_ERROR';
@@ -9,6 +11,10 @@ export const GET_ASSESSMENT_RESPONSE_ERROR = 'GET_ASSESSMENT_RESPONSE_ERROR';
 // ============= CLEAR Assessment RESPONSE data ===============//
 export const CLEAR_GET_ASSESSMENT_RESPONSE = 'CLEAR_GET_ASSESSMENT_RESPONSE';
 // ============= CLEAR Assessment RESPONSE data ===============//
+
+export const GET_MICS_OPEN_ACTION_PLAN_REQUEST = 'GET_MICS_OPEN_ACTION_PLAN_REQUEST';
+export const GET_MICS_OPEN_ACTION_PLAN_SUCCESS = 'GET_MICS_OPEN_ACTION_PLAN_SUCCESS';
+export const GET_MICS_OPEN_ACTION_PLAN_ERROR = 'GET_MICS_OPEN_ACTION_PLAN_ERROR';
 
 export const GET_CONTROL_RESPONSE_REQUEST = 'GET_CONTROL_RESPONSE_REQUEST';
 export const GET_CONTROL_RESPONSE_SUCCESS = 'GET_CONTROL_RESPONSE_SUCCESS';
@@ -100,7 +106,8 @@ const initialState = {
   addUpdateFinalSubmitResponse: { ...block, data: [] },
   addOrEditUpdateDraft: { ...block },
   getLatestDraft: { ...block, data: { s1: null, s2: null, s3: null } },
-  get_MICS_OpenActionPlan: { ...block, data: null },
+  getMicsOpenActionPlan: { ...block, data: {} },
+  get_MICS_OpenActionPlan: { ...block, data: {} },
 };
 
 export const AssessmentReducer = (state = initialState, { type, payload = {} }) => {
@@ -236,6 +243,22 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
       return {
         ...state,
         updateResponse: { ...state.updateResponse, loading: false },
+      };
+
+    case GET_MICS_OPEN_ACTION_PLAN_REQUEST:
+      return {
+        ...state,
+        getMicsOpenActionPlan: { ...state.getMicsOpenActionPlan, loading: true },
+      };
+    case GET_MICS_OPEN_ACTION_PLAN_SUCCESS:
+      return {
+        ...state,
+        getMicsOpenActionPlan: { ...state.getMicsOpenActionPlan, data: payload, loading: false },
+      };
+    case GET_MICS_OPEN_ACTION_PLAN_ERROR:
+      return {
+        ...state,
+        getMicsOpenActionPlan: { ...state.getMicsOpenActionPlan, loading: false },
       };
 
     case GET_ASSESSMENT_SECTION_2_REQUEST:

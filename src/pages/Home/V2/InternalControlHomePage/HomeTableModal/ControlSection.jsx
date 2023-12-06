@@ -1,21 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import { useTranslation } from 'react-i18next';
 import CustomTextarea from '../../../../../components/UI/CustomTextarea';
 import DatePickers from '../../../../../components/UI/DatePickers';
 import Button from '../../../../../components/UI/Button';
+import dayjs from 'dayjs';
 
-const ControlSection = ({ setShowControlSection, loadingSubmit, handleSubmit }) => {
+const ControlSection = ({
+  setShowControlSection,
+  loadingSubmit,
+  handleSubmit,
+  info = {},
+  setInfo,
+}) => {
   const { t } = useTranslation();
-
   const [step, setStep] = useState(1);
 
   const handleSave = () => {
     setShowControlSection(true);
   };
 
+  useEffect(() => {
+    if (info.step) setStep(info.step);
+  }, [info.step]);
   const handleNo = () => {
     setStep(step + 1);
+    setInfo({ ...info, step: step + 1 });
     setShowControlSection(false);
   };
 
@@ -24,17 +34,31 @@ const ControlSection = ({ setShowControlSection, loadingSubmit, handleSubmit }) 
       <CollapseFrame title={t('selfAssessment.assessmentForm.section0_Standard')} active>
         <div className="mt-5">
           <div className="renderBlockWrapper">
-            <CustomTextarea label="Issue Description: " name="IssueDescription" />
+            <CustomTextarea readOnly label="Issue Description: " name="IssueDescription">
+              {info.Issue_Description}
+            </CustomTextarea>
             <CustomTextarea
               formControlProps={{ style: { paddingTop: 20 } }}
               label="Resolution/Action Plan:: "
               name="actkonPlan"
-            />
+              readOnly
+            >
+              {info.Action_Plan}
+            </CustomTextarea>
 
-            <div className="pt-4 d-flex align-items-center">
-              <DatePickers label="Original Due Date" />
+            <div className="pt-4 d-flex align-items-center date-white-border">
+              <DatePickers
+                readOnly
+                label="Original Due Date"
+                value={dayjs(info.Original_Due_Date)}
+              />
               <div className="pl-5">
-                <DatePickers label="Revised Due Date" />
+                <DatePickers
+                  readOnly
+                  value={dayjs(info.Revised_Due_Date)}
+                  className="date-white-border"
+                  label="Revised Due Date"
+                />
               </div>
             </div>
 
@@ -83,7 +107,15 @@ const ControlSection = ({ setShowControlSection, loadingSubmit, handleSubmit }) 
                   the further action plan proposed. Also is there any change in Action plan? (Can
                   even provide Examples)
                 </Button>
-                <CustomTextarea name="IssueDescription" className="mt-3" />
+                <CustomTextarea
+                  name="detailsInfo"
+                  className="mt-3"
+                  onChange={({ target: { value } }) => {
+                    setInfo({ ...info, detailsInfo: value });
+                  }}
+                >
+                  {info.detailsInfo}
+                </CustomTextarea>
               </div>
             )}
 
