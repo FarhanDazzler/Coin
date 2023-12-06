@@ -46,6 +46,9 @@ import {
   GET_ASSESSMENT_SECTION_2_SUCCESS,
   GET_ASSESSMENT_SECTION_2_ERROR,
   GET_ASSESSMENT_SECTION_2_REQUEST,
+  GET_MICS_OPEN_ACTION_PLAN_DATA_REQUEST,
+  GET_MICS_OPEN_ACTION_PLAN_DATA_SUCCESS,
+  GET_MICS_OPEN_ACTION_PLAN_DATA_ERROR,
 } from './AssessmentReducer';
 import { ACTION_ADD_ERROR_NOTIFICATION_DATA } from '../ErrorNotification/ErrorNotificationReducer';
 import Swal from 'sweetalert2';
@@ -358,6 +361,27 @@ function* handle_addUpdateFinalSubmitResponse({ payload }) {
   }
 }
 
+// Get MICS Open Action Plan Data
+async function get_MICS_OpenActionPlanApi(payload) {
+  return await Axios.post('/get_mics_open_action_plan', payload);
+}
+function* handle_get_MICS_OpenActionPlan({ payload }) {
+  try {
+    const response = yield call(get_MICS_OpenActionPlanApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_MICS_OPEN_ACTION_PLAN_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_MICS_OPEN_ACTION_PLAN_DATA_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 export default all([
   takeLatest(GET_LATEST_DRAFT_REQUEST, handleGetLatestDraft),
   takeLatest(ADD_OR_UPDATE_DRAFT_REQUEST, handleAddOrUpdateDraft),
@@ -372,4 +396,5 @@ export default all([
   takeLatest(ADD_UPDATE_DRAFT_RESPONSE_REQUEST, handle_addUpdateDraftResponse),
   takeLatest(GET_FINAL_SUBMIT_RESPONSE_REQUEST, handleGet_FinalSubmitResponse),
   takeLatest(ADD_UPDATE_FINAL_SUBMIT_RESPONSE_REQUEST, handle_addUpdateFinalSubmitResponse),
+  takeLatest(GET_MICS_OPEN_ACTION_PLAN_DATA_REQUEST, handle_get_MICS_OpenActionPlan),
 ]);

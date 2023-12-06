@@ -7,20 +7,23 @@ import PageWrapper from '../../../components/wrappers/PageWrapper';
 import HomeTableModal from '../V2/InternalControlHomePage/HomeTableModal';
 import './styles.scss';
 import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
+import { submitAssessmentResponseSelector } from '../../../redux/Assessments/AssessmentSelectors.js';
 import { useTranslation } from 'react-i18next';
+import ProductFeedback from '../../../components/NPSFeedbackModule/ProductFeedback/ProductFeedback.js';
 
 const ControlHomePage = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const { state } = useLocation();
   const selectedUserRole = localStorage.getItem('selected_Role');
-  const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const loginUserRole = loginRole ?? selectedUserRole;
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
   const { accounts } = useMsal();
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
+  const [openNPS, setOpenNPS] = useState(false);
+  const submitAssessmentResponseState = useSelector(submitAssessmentResponseSelector);
 
   const [yearValue, setYearValue] = useState([]);
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
@@ -112,9 +115,38 @@ const ControlHomePage = () => {
     loginUserRole,
   ]);
 
+  // to open NPS feedback modal
+  useEffect(() => {
+    if (submitAssessmentResponseState.success) {
+      // Delay by 1 second (1000 milliseconds)
+      const timeoutId = setTimeout(() => {
+        setOpenNPS(true);
+      }, 2500);
+
+      // Clean up the timeout when the component unmounts or when the effect re-runs
+      return () => clearTimeout(timeoutId);
+    }
+  }, [submitAssessmentResponseState]);
+
   return (
     <div>
       <PageWrapper>
+        <ProductFeedback
+          env={process.env.REACT_APP_STAGE}
+          apiKey={''}
+          token={localStorage.getItem('nps-auth-token')}
+          feedbackMetadata={{
+            Activity: 'Control owner/Control oversigth has submitted the assessment',
+            Created_By: {
+              Email: accounts[0]?.username,
+              name: accounts[0]?.name ? accounts[0].name : '',
+            },
+          }}
+          productId={process.env.REACT_APP_NPS_PRODUCT_ID}
+          productActivityId="nps_score_provided_IC"
+          modalOpened={openNPS}
+          setModalOpened={setOpenNPS}
+        />
         <div className="container-fluid">
           <div className="row pt-5 align-items-center">
             <div className="col-lg-4 pt-5">

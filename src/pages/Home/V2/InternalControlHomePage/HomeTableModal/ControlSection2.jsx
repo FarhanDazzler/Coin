@@ -404,7 +404,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
 
-          if (row.MICS_L2_Threshold === '-' || row.L2_Result === '' || row.KPI_Value === 'NaN') {
+          if (row.MICS_L2_Threshold === '-' || row.L2_Result === '') {
             row.L2_Result = 'NA';
           } else if (+row.KPI_Value <= +row.MICS_L2_Threshold && row.MICS_L2_Threshold !== '') {
             row.L2_Result = 'Pass';
@@ -412,7 +412,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             row.L2_Result = 'Fail';
           }
 
-          if (row.MICS_L3_Threshold === '-' || row.L3_Result === '' || row.KPI_Value === 'NaN') {
+          if (row.MICS_L3_Threshold === '-' || row.L3_Result === '') {
+            console.log("l3 there", row.MICS_L3_Threshold, row.L3_Result, row.KPI_Value);
             row.L3_Result = 'NA';
           } else {
             if (+row.KPI_Value <= +row.MICS_L3_Threshold) {
@@ -422,7 +423,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
         } else if (row.Positive_direction === 'Higher is better') {
-          if (row.MICS_L1_Threshold === '-' || row.L1_Result === '' || row.KPI_Value === 'NaN') {
+          if (row.MICS_L1_Threshold === '-' || row.L1_Result === '') {
             row.L1_Result = 'NA';
           } else {
             if (+row.KPI_Value >= +row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
@@ -432,7 +433,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
 
-          if (row.MICS_L2_Threshold === '-' || row.L2_Result === '' || row.KPI_Value === 'NaN') {
+          if (row.MICS_L2_Threshold === '-' || row.L2_Result === '') {
             row.L2_Result = 'NA';
           } else {
             if (+row.KPI_Value >= +row.MICS_L2_Threshold) {
@@ -442,7 +443,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
 
-          if (row.MICS_L3_Threshold === '-' || row.L3_Result === '' || row.KPI_Value === 'NaN') {
+          if (row.MICS_L3_Threshold === '-' || row.L3_Result === '') {
             row.L3_Result = 'NA';
           } else {
             if (+row.KPI_Value >= +row.MICS_L3_Threshold) {

@@ -115,7 +115,7 @@ const ReviewSection3 = () => {
   ];
 
   return (
-    <CollapseFrame title="Section 3 : RBA" active>
+    <CollapseFrame title="Section 3 : RBA" active isOpen={false}>
       <Col xs={12} md={12}>
         <Card className="bu-letter-section3 mt-5">
           <Card.Body>
@@ -134,21 +134,26 @@ const ReviewSection3 = () => {
                   tableData={getBUSection3ResponseState?.data?.RBA_Data[0]}
                   loading={getBUSection3ResponseState.loading}
                   tableColumns={TABLE_COLUMNS}
+                  isSimpleTable={true}
                 />
               </Row>
             )}
             <Row>
               <Divider color="gray" className="section3-divider" size="xs" />
-              <Row>
-                <h5>
-                  <span className="golden-text">
-                    Comment provided by the Disclosure Processor :
-                  </span>
-                </h5>
-              </Row>
-              <Row>
-                <h5>{getBUSection3ResponseState?.data?.DP_Comment}</h5>
-              </Row>
+              {getBUSection3ResponseState?.data?.DP_Comment && (
+                <>
+                  <Row>
+                    <h5>
+                      <span className="golden-text">
+                        Comment provided by the Disclosure Processor :
+                      </span>
+                    </h5>
+                  </Row>
+                  <Row>
+                    <h5>{getBUSection3ResponseState?.data?.DP_Comment}</h5>
+                  </Row>
+                </>
+              )}
               {getBUSection3ResponseState?.data?.FD_Comment && (
                 <>
                   <Row>

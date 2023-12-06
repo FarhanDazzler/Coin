@@ -409,7 +409,11 @@ const TopBar = (props) => {
           </a>
         </li>
 
-        {localStorage.getItem('selected_Role') == 'Global Persona' && (
+        {[
+          'BU Zone Internal Control',
+          'Functional Zone Internal Control',
+          'Global Persona',
+        ].includes(localStorage.getItem('selected_Role')) && (
           <>
             {
               <li className="nav-item">
@@ -431,7 +435,7 @@ const TopBar = (props) => {
               </li>
             }
 
-            {
+            {localStorage.getItem('selected_Role') == 'Global Persona' && (
               <li className="nav-item">
                 <a
                   className={`navbar-link ${
@@ -447,7 +451,7 @@ const TopBar = (props) => {
                   &nbsp;{'Question Bank'}
                 </a>
               </li>
-            }
+            )}
 
             {
               <li className="nav-item">
@@ -485,7 +489,7 @@ const TopBar = (props) => {
                 </a>
               </li>
             }
-            {
+            {localStorage.getItem('selected_Role') == 'Global Persona' && (
               <li className="nav-item">
                 <a
                   className={`navbar-link ${
@@ -499,7 +503,7 @@ const TopBar = (props) => {
                   &nbsp;{'Admin Panel'}
                 </a>
               </li>
-            }
+            )}
           </>
         )}
       </ul>

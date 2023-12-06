@@ -10,6 +10,7 @@ import ExcomMemberHomePage from './ExcomMemberHomePage/ExcomMemberHomePage';
 import ZoneLegalRepresentativeHomePage from './ZoneLegalRepresentativeHomePage/ZoneLegalRepresentativeHomePage';
 import ZoneControlHomePageContainer from './ZoneControlHomePage';
 import ZoneVPHomePageContainer from './ZoneVP';
+import ZoneICHomePage from './ZoneIC/ZoneICHomePage';
 import '../styles.scss';
 import { useSelector } from 'react-redux';
 import DisclosureProcessorHomePageContainer from './DisclosureProcessorHomePage';
@@ -35,6 +36,8 @@ const BU_HomePage = () => {
         <ExcomMemberHomePage />
       ) : (loginRole || selected_Role) === 'Zone Legal Representative' ? (
         <ZoneLegalRepresentativeHomePage />
+      ) : (loginRole || selected_Role) === 'BU Zone Internal Control' ? (
+        <ZoneICHomePage />
       ) : (
         <GlobalPersonaHomePageContainer />
       )}
