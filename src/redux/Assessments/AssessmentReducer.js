@@ -281,7 +281,7 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
     case ADD_ASSESSMENT_RESPONSE_SUCCESS:
       return {
         ...state,
-        addResponse: { ...state.addResponse, loading: false },
+        addResponse: { ...state.addResponse, loading: false, success: true },
       };
     case ADD_ASSESSMENT_RESPONSE_ERROR:
       return {
