@@ -30,12 +30,38 @@ const ControlSection = ({
     setShowControlSection(false);
   };
 
+  useEffect(() => {
+    const Action_Plan_Dom = document.getElementById('Action_Plan');
+    if (Action_Plan_Dom) {
+      Action_Plan_Dom.innerHTML = info.Action_Plan;
+    }
+  }, [info.Action_Plan]);
+
+  useEffect(() => {
+    const Issue_Description_Dom = document.getElementById('Issue_Description');
+    if (Issue_Description_Dom) {
+      Issue_Description_Dom.innerHTML = info.Action_Plan;
+    }
+  }, [info.Issue_Description]);
+
+  useEffect(() => {
+    const detailsInfoDom = document.getElementById('detailsInfo');
+    if (detailsInfoDom) {
+      detailsInfoDom.innerHTML = info.detailsInfo;
+    }
+  }, [info.Issue_Description]);
+
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section0_Standard')} active>
         <div className="mt-5">
           <div className="renderBlockWrapper">
-            <CustomTextarea readOnly label="Issue Description: " name="IssueDescription">
+            <CustomTextarea
+              id="Issue_Description"
+              readOnly
+              label="Issue Description: "
+              name="IssueDescription"
+            >
               {info.Issue_Description}
             </CustomTextarea>
             <CustomTextarea
@@ -43,6 +69,7 @@ const ControlSection = ({
               label="Resolution/Action Plan:: "
               name="actkonPlan"
               readOnly
+              id="Action_Plan"
             >
               {info.Action_Plan}
             </CustomTextarea>
@@ -141,6 +168,7 @@ const ControlSection = ({
                   onChange={({ target: { value } }) => {
                     setInfo({ ...info, detailsInfo: value });
                   }}
+                  id="detailsInfo"
                 >
                   {info.detailsInfo}
                 </CustomTextarea>
