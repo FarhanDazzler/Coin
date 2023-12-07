@@ -45,6 +45,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const getMicsOpenActionPlanVal = useSelector(getMicsOpenActionPlanSelector);
   const responseData = !getResponse?.data?.Latest_Response ? latestDraftData : getResponse;
   const questionsInfo = useSelector(getQuestionsSelector);
+  console.log('responseData', responseData);
   const [ansSection1, setAnsSection1] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [ansSection3, setAnsSection3] = useState({});
@@ -74,6 +75,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions || '[]')
     ? JSON.parse(questionData.Level?.L2?.Inner_Questions || '[]')
     : [];
+
+  useEffect(() => {
+    if (responseUpdatedData?.actionPlanInfo?.Action_Plan) {
+      setActionPlanInfo({ ...actionPlanInfo, ...responseUpdatedData?.actionPlanInfo });
+    }
+  }, [responseUpdatedData]);
 
   useEffect(() => {
     setLanguage(currentLanguage);
@@ -345,6 +352,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             data: kpiResultData?.data?.data,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
             showTable: showMoreSection,
+            actionPlanInfo,
           },
           kpis: isupdated ? [] : tableData,
           event: {
@@ -383,6 +391,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
             data: kpiResultData?.data?.data,
             showTable: showMoreSection,
+            actionPlanInfo,
           },
           events: {
             onSuccess: () => {
@@ -425,6 +434,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
           },
+          actionPlanInfo,
           events: {
             onSuccess: () => {
               Swal.fire(t('selfAssessment.assessmentForm.saveDraftSuccessText'), '', 'success');
