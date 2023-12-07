@@ -25,8 +25,8 @@ const ControlSection = ({
     if (info.step) setStep(info.step);
   }, [info.step]);
   const handleNo = () => {
-    setStep(step + 1);
-    setInfo({ ...info, step: step + 1 });
+    setStep(step + 2);
+    setInfo({ ...info, step: step + 2 });
     setShowControlSection(false);
   };
 
@@ -70,16 +70,25 @@ const ControlSection = ({
                 </Button>
                 <div className="d-flex">
                   <Button
+                    className={cs({ ['active-btn']: info.issueResolved === 'yes' })}
                     color="neutral"
                     onClick={() => {
                       handleSave();
                       setStep(1);
+                      setInfo({ ...info, issueResolved: 'yes' });
                     }}
                   >
                     Yes
                   </Button>
                   <div className="pl-5">
-                    <Button color="neutral" onClick={handleNo}>
+                    <Button
+                      className={cs({ ['active-btn']: info.issueResolved === 'no' })}
+                      color="neutral"
+                      onClick={() => {
+                        handleNo();
+                        setInfo({ ...info, issueResolved: 'no' });
+                      }}
+                    >
                       No
                     </Button>
                   </div>
@@ -91,21 +100,26 @@ const ControlSection = ({
               <div className="pt-5">
                 <div className="d-flex justify-content-between">
                   <Button color="neutral" style={{ minWidth: 'calc(100% - 190px)' }}>
-                    Are you still the Owner of Action plan?
+                    Are you still the Owner of Action ?
                   </Button>
                   <div className="d-flex">
                     <Button
+                      className={cs({ ['active-btn']: info.ownerAction === 'yes' })}
                       color="neutral"
                       onClick={() => {
-                        handleSave();
-                        setStep(2);
+                        setInfo({ ...info, ownerAction: 'yes' });
                       }}
-                      className={cs('')}
                     >
                       Yes
                     </Button>
                     <div className="pl-5">
-                      <Button color="neutral" onClick={handleNo}>
+                      <Button
+                        className={cs({ ['active-btn']: info.ownerAction === 'no' })}
+                        color="neutral"
+                        onClick={() => {
+                          setInfo({ ...info, ownerAction: 'no' });
+                        }}
+                      >
                         No
                       </Button>
                     </div>
@@ -141,35 +155,28 @@ const ControlSection = ({
                   </Button>
                   <div className="d-flex">
                     <Button
+                      className={cs({ ['active-btn']: info.isEscalationRequired === 'yes' })}
                       color="neutral"
                       onClick={() => {
                         handleSave();
-                        setStep(3);
+                        setInfo({ ...info, isEscalationRequired: 'yes' });
                       }}
                     >
                       Yes
                     </Button>
                     <div className="pl-5">
-                      <Button color="neutral" onClick={handleNo}>
+                      <Button
+                        className={cs({ ['active-btn']: info.isEscalationRequired === 'no' })}
+                        color="neutral"
+                        onClick={() => {
+                          handleSave();
+                          setInfo({ ...info, isEscalationRequired: 'no' });
+                        }}
+                      >
                         No
                       </Button>
                     </div>
                   </div>
-                </div>
-              </div>
-            )}
-
-            {step > 3 && (
-              <div className="pt-5">
-                <div>
-                  <Button
-                    color="neutral"
-                    style={{ minWidth: '100%' }}
-                    loading={loadingSubmit}
-                    onClick={handleSubmit}
-                  >
-                    {t('selfAssessment.assessmentForm.submitBtn')}
-                  </Button>
                 </div>
               </div>
             )}
