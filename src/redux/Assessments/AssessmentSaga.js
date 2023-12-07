@@ -46,12 +46,16 @@ import {
   GET_ASSESSMENT_SECTION_2_SUCCESS,
   GET_ASSESSMENT_SECTION_2_ERROR,
   GET_ASSESSMENT_SECTION_2_REQUEST,
+  GET_MICS_OPEN_ACTION_PLAN_REQUEST,
+  GET_MICS_OPEN_ACTION_PLAN_SUCCESS,
+  GET_MICS_OPEN_ACTION_PLAN_ERROR,
   GET_MICS_OPEN_ACTION_PLAN_DATA_REQUEST,
   GET_MICS_OPEN_ACTION_PLAN_DATA_SUCCESS,
   GET_MICS_OPEN_ACTION_PLAN_DATA_ERROR,
 } from './AssessmentReducer';
 import { ACTION_ADD_ERROR_NOTIFICATION_DATA } from '../ErrorNotification/ErrorNotificationReducer';
 import Swal from 'sweetalert2';
+import { getMicsOpenActionPlan } from './AssessmentAction';
 
 async function GetLatestDraftApi(params) {
   return await Axios.get('/get_latest_draft', { params });
@@ -361,6 +365,37 @@ function* handle_addUpdateFinalSubmitResponse({ payload }) {
   }
 }
 
+// API needs to be added
+async function getMicsOpenActionPlanApi(params) {
+  return await Axios.post('/get_mics_open_action_plan', params);
+}
+function* handle_getMicsOpenActionPlan({ payload }) {
+  try {
+    const response = yield call(getMicsOpenActionPlanApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_MICS_OPEN_ACTION_PLAN_SUCCESS,
+        payload: response.data,
+      });
+    } else {
+    }
+  } catch (error) {
+    if (error?.response?.status === 400) {
+      yield put({
+        type: GET_MICS_OPEN_ACTION_PLAN_ERROR,
+        payload: {
+          data: { text: error?.response?.data?.data, type: 'danger' },
+        },
+      });
+    } else {
+      yield put({
+        type: GET_MICS_OPEN_ACTION_PLAN_ERROR``,
+        // error: getSimplifiedError(error),
+      });
+    }
+  }
+}
+
 // Get MICS Open Action Plan Data
 async function get_MICS_OpenActionPlanApi(payload) {
   return await Axios.post('/get_mics_open_action_plan', payload);
@@ -396,5 +431,6 @@ export default all([
   takeLatest(ADD_UPDATE_DRAFT_RESPONSE_REQUEST, handle_addUpdateDraftResponse),
   takeLatest(GET_FINAL_SUBMIT_RESPONSE_REQUEST, handleGet_FinalSubmitResponse),
   takeLatest(ADD_UPDATE_FINAL_SUBMIT_RESPONSE_REQUEST, handle_addUpdateFinalSubmitResponse),
+  takeLatest(GET_MICS_OPEN_ACTION_PLAN_REQUEST, handle_getMicsOpenActionPlan),
   takeLatest(GET_MICS_OPEN_ACTION_PLAN_DATA_REQUEST, handle_get_MICS_OpenActionPlan),
 ]);

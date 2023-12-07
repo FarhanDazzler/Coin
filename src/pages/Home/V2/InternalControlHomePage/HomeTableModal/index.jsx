@@ -13,10 +13,12 @@ import {
   clearAssessmentResponse,
   clearLatestDraftResponse,
   updateLastAccess,
+  getMicsOpenActionPlan,
 } from '../../../../../redux/Assessments/AssessmentAction';
 import {
   addOrEditUpdateDraftSelector,
   getLatestDraftSelector,
+  getMicsOpenActionPlanSelector,
   getQuestionsSelector,
   getResponseSelector,
   kpiResultSelector,
@@ -34,12 +36,16 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const { t, i18n } = useTranslation();
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   const questionData = useSelector(question3Selector);
-  const { Assessment_id = '' } = useParams();
+  const param = useParams();
+  const { Assessment_id = '' } = param;
+  // console.log('queryquery', daads);
   const dispatch = useDispatch();
   const getResponse = useSelector(getResponseSelector);
   const latestDraftData = useSelector(getLatestDraftSelector);
+  const getMicsOpenActionPlanVal = useSelector(getMicsOpenActionPlanSelector);
   const responseData = !getResponse?.data?.Latest_Response ? latestDraftData : getResponse;
   const questionsInfo = useSelector(getQuestionsSelector);
+  console.log('responseData', responseData);
   const [ansSection1, setAnsSection1] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [ansSection3, setAnsSection3] = useState({});
@@ -55,6 +61,13 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const kpiResultData = useSelector(kpiResultSelector);
   const currentLanguage = i18n.language;
   const [language, setLanguage] = useState(currentLanguage);
+  const [actionPlanInfo, setActionPlanInfo] = useState({
+    Action_Plan: '',
+    Issue_Description: '',
+    Original_Due_Date: null,
+    Revised_Due_Date: null,
+    ...getMicsOpenActionPlanVal.data,
+  });
 
   const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
     ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
@@ -64,8 +77,18 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     : [];
 
   useEffect(() => {
+    if (responseUpdatedData?.actionPlanInfo?.Action_Plan) {
+      setActionPlanInfo({ ...actionPlanInfo, ...responseUpdatedData?.actionPlanInfo });
+    }
+  }, [responseUpdatedData]);
+
+  useEffect(() => {
     setLanguage(currentLanguage);
   }, [currentLanguage]);
+
+  useEffect(() => {
+    setActionPlanInfo({ ...getMicsOpenActionPlanVal.data });
+  }, [getMicsOpenActionPlanVal.data]);
 
   const handleClose = () => {
     if (startEdit && responseData?.data?.Attempt_no <= 5) {
@@ -172,6 +195,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   }, [terminating]);
 
   useEffect(() => {
+    dispatch(
+      getMicsOpenActionPlan({
+        Control_ID: 'OTC_AR_04',
+        Provider: 'SSC_ZCC_MAZ_GUA_CO_ECUADOR',
+      }),
+    );
     return () => {
       dispatch(clearLatestDraftResponse());
       setAnsSection1([]);
@@ -323,6 +352,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             data: kpiResultData?.data?.data,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
             showTable: showMoreSection,
+            actionPlanInfo,
           },
           kpis: isupdated ? [] : tableData,
           event: {
@@ -361,6 +391,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
             data: kpiResultData?.data?.data,
             showTable: showMoreSection,
+            actionPlanInfo,
           },
           events: {
             onSuccess: () => {
@@ -403,6 +434,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
           },
+          actionPlanInfo,
           events: {
             onSuccess: () => {
               Swal.fire(t('selfAssessment.assessmentForm.saveDraftSuccessText'), '', 'success');
@@ -466,6 +498,9 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           activeData={activeData}
           handleSaveDraft={handleSaveDraft}
           loadingSubmit={loading}
+          actionPlanInfo={actionPlanInfo}
+          setActionPlanInfo={setActionPlanInfo}
+          getMicsOpenActionPlanVal={getMicsOpenActionPlanVal}
           handleSaveDraftProps={{
             disabled: responseData?.data?.Attempt_no >= 5,
             style: { width: 128 },
@@ -505,6 +540,9 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         controlId={Control_ID}
         handleSaveDraft={handleSaveDraft}
         loadingSubmit={loading}
+        actionPlanInfo={actionPlanInfo}
+        setActionPlanInfo={setActionPlanInfo}
+        getMicsOpenActionPlanVal={getMicsOpenActionPlanVal}
         handleSaveDraftProps={{
           disabled: responseData?.data?.Attempt_no >= 5,
           style: { width: 128 },
