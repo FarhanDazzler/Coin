@@ -46,7 +46,8 @@ const RenderHomeModalTable = ({
     const value = ansSection3[i] && Object.values(ansSection3[i]);
     if (value?.length > 0) return value[0]?.includes('no');
   });
-  const isNotEscalationRequired = !!actionPlanInfo.isEscalationRequired;
+  const isNotEscalationRequired =
+    actionPlanInfo.issueResolved === 'no' && !!actionPlanInfo.isEscalationRequired;
   const [showControlSection, setShowControlSection] = useState(false);
 
   const isDisabledButton = useMemo(() => {
