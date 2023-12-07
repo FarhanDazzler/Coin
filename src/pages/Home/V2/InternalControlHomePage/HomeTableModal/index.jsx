@@ -30,6 +30,7 @@ import CustomModal from '../../../../../components/UI/CustomModal';
 import CloseIcon from '@mui/icons-material/Close';
 import { getLanguageFormat, isJsonString } from '../../../../../utils/helper';
 import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
+
 const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);

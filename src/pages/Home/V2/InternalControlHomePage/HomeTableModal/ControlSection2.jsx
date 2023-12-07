@@ -413,7 +413,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
           }
 
           if (row.MICS_L3_Threshold === '-' || row.L3_Result === '') {
-            console.log("l3 there", row.MICS_L3_Threshold, row.L3_Result, row.KPI_Value);
+            console.log('l3 there', row.MICS_L3_Threshold, row.L3_Result, row.KPI_Value);
             row.L3_Result = 'NA';
           } else {
             if (+row.KPI_Value <= +row.MICS_L3_Threshold) {
