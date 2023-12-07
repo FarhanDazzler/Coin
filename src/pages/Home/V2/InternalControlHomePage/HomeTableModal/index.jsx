@@ -475,7 +475,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   if (!isModal)
     return (
       <>
-        <KIP_Graph_Section_2 />
         {Control_ID && (
           <div className="homeTableModalTop">
             <div className="topBar d-flex justify-content-between">
