@@ -69,6 +69,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     Revised_Due_Date: null,
     ...getMicsOpenActionPlanVal.data,
   });
+  const isNotEscalationRequired = actionPlanInfo.isEscalationRequired === 'no';
 
   const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
     ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
@@ -367,7 +368,10 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
                 );
                 history.push('/');
               } else {
-                if (dataArray.length > 0 ? isS3FailedData || s1FailObj : s1FailObj) {
+                if (
+                  (dataArray.length > 0 ? isS3FailedData || s1FailObj : s1FailObj) ||
+                  isNotEscalationRequired
+                ) {
                   Swal.fire(t('selfAssessment.assessmentForm.assessmentFailText'), '', 'success');
                 } else {
                   Swal.fire(t('selfAssessment.assessmentForm.assessmentPassText'), '', 'success');

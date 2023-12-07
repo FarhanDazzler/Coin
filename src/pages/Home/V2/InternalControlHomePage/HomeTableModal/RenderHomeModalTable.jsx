@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import ControlActions from './ControlActions';
 import { Loader } from '@mantine/core';
 import ControlSection1 from './ControlSection1';
@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { resetSection3 } from '../../../../../redux/Questions/QuestionsAction';
 import { useTranslation } from 'react-i18next';
 import ControlSection from './ControlSection';
-import ControlSection2Chart from './ControlSection2Chart';
+import cs from 'classnames';
 
 const RenderHomeModalTable = ({
   s1FailObj,
@@ -46,7 +46,19 @@ const RenderHomeModalTable = ({
     const value = ansSection3[i] && Object.values(ansSection3[i]);
     if (value?.length > 0) return value[0]?.includes('no');
   });
+  const isNotEscalationRequired = actionPlanInfo.isEscalationRequired === 'no';
   const [showControlSection, setShowControlSection] = useState(false);
+  console.log('isNotEscalationRequired', isNotEscalationRequired);
+  const isDisabledButton = useMemo(() => {
+    if (isNotEscalationRequired) {
+      return !(
+        actionPlanInfo.isEscalationRequired &&
+        actionPlanInfo.ownerAction &&
+        actionPlanInfo.detailsInfo
+      );
+    }
+    return false;
+  }, [actionPlanInfo]);
 
   useEffect(() => {
     let sectionTerminating = false;
@@ -112,8 +124,9 @@ const RenderHomeModalTable = ({
                 setStartEdit={setStartEdit}
                 isModal={!isModal}
                 language={language}
+                isDisabled={isNotEscalationRequired}
               />
-              {showMoreSection && (
+              {(showMoreSection || isNotEscalationRequired) && (
                 <ControlSection2
                   tableData={tableData}
                   setTableData={setTableData}
@@ -136,7 +149,9 @@ const RenderHomeModalTable = ({
                   />
                 </>
               )}
-              {(!isModal && terminating) || (s1FailObj && showMoreSection && !isModal) ? (
+              {(!isModal && terminating) ||
+              (s1FailObj && showMoreSection && !isModal) ||
+              isNotEscalationRequired ? (
                 <>
                   {section1TerminatingLogicValue || !!isSection3Failed ? (
                     <div style={{ color: 'red', marginBottom: '10px' }}>
@@ -156,10 +171,9 @@ const RenderHomeModalTable = ({
                         ' inadequate Documentation or inadequate frequency'}
                     </div>
                   ) : null}
-
                   <Button
                     color="neutral"
-                    className="w-100"
+                    className={cs('w-100', { [isDisabledButton]: isDisabledButton })}
                     id="submit-button"
                     loading={loadingSubmit}
                     onClick={handleSubmit}
