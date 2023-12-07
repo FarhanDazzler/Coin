@@ -351,7 +351,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           Assessment_ID: activeData.id,
           Assessment_result: isupdated
             ? 'NA'
-            : isS3FailedData || s1FailObj || actionPlanInfo.isEscalationRequired === 'no'
+            : isS3FailedData || s1FailObj || actionPlanInfo.issueResolved === 'no'
             ? 'Fail'
             : 'Pass',
           Latest_response: {
@@ -375,7 +375,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
               } else {
                 if (
                   (dataArray.length > 0 ? isS3FailedData || s1FailObj : s1FailObj) ||
-                  actionPlanInfo.isEscalationRequired === 'no'
+                  actionPlanInfo.issueResolved === 'no'
                 ) {
                   Swal.fire(t('selfAssessment.assessmentForm.assessmentFailText'), '', 'success');
                 } else {

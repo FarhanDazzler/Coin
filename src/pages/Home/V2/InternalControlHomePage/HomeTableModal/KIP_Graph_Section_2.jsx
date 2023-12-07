@@ -15,6 +15,7 @@ import {
   getResponseSelector,
   kpiResultSelector,
 } from '../../../../../redux/Assessments/AssessmentSelectors';
+import useWindowDimensions from '../../../../../hooks/useWindowDimensions';
 
 function convertData(key, data) {
   if (!data) return [];
@@ -59,7 +60,7 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
   const [KPIList, setKPIList] = useState(null);
   const [activeKPI, setActiveKPI] = useState();
   const [activeKPIObj, setActiveKPIObj] = useState(null);
-  console.log('activeKPI', activeKPI);
+  const { width } = useWindowDimensions();
   const handleKPIClick = (id) => {
     setActiveKPI(id);
     if (kpiResult) setActiveKPIObj(kpiResult[id]);
@@ -82,7 +83,7 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
       <div className="d-flex">
         <div className="chart-wrapper">
           <ComposedChart
-            width={isModal ? 600 : 1100}
+            width={isModal ? 600 : width - 650}
             height={400}
             data={data}
             margin={{
