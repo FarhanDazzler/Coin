@@ -19,6 +19,7 @@ const CustomTextarea = ({
   disabled,
   maxLength = 2500,
   errorMessage,
+  children,
   ...res
 }) => {
   const isMaxValueEnter = maxLength === value?.length;
@@ -39,7 +40,9 @@ const CustomTextarea = ({
           </span>
         </FormLabel>
       )}
-      <TextareaAutosize rowsMin={5} {...res} />
+      <TextareaAutosize rowsMin={5} {...res}>
+        {children}
+      </TextareaAutosize>
       {isMaxValueEnter && <small className="text-danger input-error-message">{message}</small>}
     </FormControl>
   );

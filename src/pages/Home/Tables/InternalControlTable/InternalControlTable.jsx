@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
 import { Group, MultiSelect } from '@mantine/core';
+import { toast } from 'react-toastify';
 import Table from '../../../../components/UI/Table';
 import Table2 from '../../../../components/UI/Table/Table2';
 import NoDataPlaceholder from '../../../../components/NoDataPlaceholder';
@@ -49,10 +50,6 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
 };
 
 const InternalControlTable = ({
-  yearValue,
-  setYearValue,
-  assessmentCycleValue,
-  setAssessmentCycleValue,
   zoneValue,
   setZoneValue,
   buValue,
@@ -74,16 +71,41 @@ const InternalControlTable = ({
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
-  const [editTableIndex, setEditTableIndex] = useState([]);
+
+  function getCurrentQuarter() {
+    var currentMonth = new Date().getMonth() + 1; // Adding 1 because getMonth() returns zero-based month (0-11)
+    var quarter;
+
+    if (currentMonth >= 1 && currentMonth <= 3) {
+      quarter = 'Assessment Cycle 1';
+    } else if (currentMonth >= 4 && currentMonth <= 6) {
+      quarter = 'Assessment Cycle 2';
+    } else if (currentMonth >= 7 && currentMonth <= 9) {
+      quarter = 'Assessment Cycle 3';
+    } else {
+      quarter = 'Assessment Cycle 4';
+    }
+    return quarter;
+  }
+
+  const [yearValue, setYearValue] = useState([new Date().getFullYear().toString()]);
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentQuarter()]);
 
   useEffect(() => {
     //code for getting Internal Control Home Page table data
-    dispatch(
-      getInternalControlTableData({
-        email: accounts[0]?.username,
-      }),
-    );
-  }, [token]);
+
+    if (yearValue.length > 0) {
+      const payload = {
+        assessmentCycle: assessmentCycleValue,
+        year: yearValue,
+      };
+      //toast.error('Please select year in filter.');
+      console.log(payload, 'payload');
+      dispatch(getInternalControlTableData(payload));
+    } else {
+      toast.error('Please select Year in filter.');
+    }
+  }, [assessmentCycleValue, yearValue, token]);
 
   const handleControlIDClick = (id, row) => {
     //TODO: modal redirect
@@ -104,8 +126,6 @@ const InternalControlTable = ({
 
   useEffect(() => {
     if (
-      !yearValue.length &&
-      !assessmentCycleValue.length &&
       !zoneValue.length &&
       !buValue.length &&
       !receiverValue.length &&
@@ -117,8 +137,6 @@ const InternalControlTable = ({
     }
     const updateData = tableDataArray.filter((i) => {
       return (
-        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true) &&
         (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
@@ -128,16 +146,7 @@ const InternalControlTable = ({
       );
     });
     setTableData(updateData);
-  }, [
-    yearValue,
-    assessmentCycleValue,
-    zoneValue,
-    buValue,
-    receiverValue,
-    providerValue,
-    controlIdValue,
-    statusOfAssessmentValue,
-  ]);
+  }, [zoneValue, buValue, receiverValue, providerValue, controlIdValue, statusOfAssessmentValue]);
 
   const TABLE_COLUMNS = [
     {
@@ -332,12 +341,26 @@ const InternalControlTable = ({
     return [...new Set(arr)];
   }
 
+  function getYearsData() {
+    var currentYear = new Date().getFullYear();
+    var previousYear = currentYear - 1;
+    var yearBeforePrevious = previousYear - 1;
+
+    var yearsArray = [
+      { value: currentYear.toString(), label: currentYear.toString() },
+      { value: previousYear.toString(), label: previousYear.toString() },
+      { value: yearBeforePrevious.toString(), label: yearBeforePrevious.toString() },
+    ];
+
+    return yearsArray;
+  }
+
   // Arrays for showing data on filters
   const Zone = getDashBoardDataState?.data?.map((i) => i.Zone);
   const BU = getDashBoardDataState?.data?.map((i) => i.BU);
   const Receiver = getDashBoardDataState?.data?.map((i) => i.Receiver);
   const Provider = getDashBoardDataState?.data?.map((i) => i.Provider);
-  const year = getDashBoardDataState?.data?.map((i) => i.Year);
+  // const year = getDashBoardDataState?.data?.map((i) => i.Year);
   const assessment_Cycle = getDashBoardDataState?.data?.map((i) => i.Assessment_Cycle);
   const control_id = getDashBoardDataState?.data?.map((i) => i.Control_ID);
   const status_of_assessment = getDashBoardDataState?.data?.map((i) => i.Status);
@@ -351,17 +374,40 @@ const InternalControlTable = ({
               <div className="row">
                 <div className="col-12 col-lg-12">
                   <Group spacing="xs" className="actions-button-wrapper">
-                    <FilterMultiSelect
-                      data={removeDuplicates(year) || []}
-                      label="Year"
+                    <MultiSelect
+                      className="mantine-MultiSelect-wrapper"
+                      data={getYearsData() || []}
+                      label={<span className="mantine-MultiSelect-label">Year</span>}
+                      placeholder="Select your option"
+                      limit={20}
+                      nothingFound="Nothing found"
+                      clearButtonLabel="Clear selection"
+                      clearable
                       value={yearValue}
                       onChange={setYearValue}
+                      radius="xl"
+                      variant="filled"
+                      size="xs"
                     />
-                    <FilterMultiSelect
-                      data={removeDuplicates(assessment_Cycle) || []}
-                      label="Assessment Cycle"
+                    <MultiSelect
+                      className="mantine-MultiSelect-wrapper"
+                      data={[
+                        { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
+                        { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
+                        { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
+                        { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
+                      ]}
+                      label={<span className="mantine-MultiSelect-label">Assessment Cycle</span>}
+                      placeholder="Select your option"
+                      limit={20}
+                      nothingFound="Nothing found"
+                      clearButtonLabel="Clear selection"
+                      clearable
                       value={assessmentCycleValue}
                       onChange={setAssessmentCycleValue}
+                      radius="xl"
+                      variant="filled"
+                      size="xs"
                     />
                     <FilterMultiSelect
                       data={removeDuplicates(Zone) || []}

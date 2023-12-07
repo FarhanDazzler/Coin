@@ -129,9 +129,12 @@ const ControlOwnerTable = ({
                 onClick={() => {
                   dispatch(clearLatestDraftResponse());
                   const data = { row: row.row.original };
-                  history.push(`/Assessments/${row.row.original.Control_ID}`, {
-                    data,
-                  });
+                  history.push(
+                    `/Assessments/${row.row.original.Control_ID}?Provider=${row.row.original.Provider}`,
+                    {
+                      data,
+                    },
+                  );
                 }}
               >
                 {t('selfAssessment.homePage.controleOwner.Table.take_assessment_button')}
