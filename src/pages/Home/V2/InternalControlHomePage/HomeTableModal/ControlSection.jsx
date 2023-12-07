@@ -5,6 +5,7 @@ import CustomTextarea from '../../../../../components/UI/CustomTextarea';
 import DatePickers from '../../../../../components/UI/DatePickers';
 import Button from '../../../../../components/UI/Button';
 import dayjs from 'dayjs';
+import cs from 'classnames';
 
 const ControlSection = ({
   setShowControlSection,
@@ -68,7 +69,13 @@ const ControlSection = ({
                   ISSUE RESOLVED?
                 </Button>
                 <div className="d-flex">
-                  <Button color="neutral" onClick={handleSave}>
+                  <Button
+                    color="neutral"
+                    onClick={() => {
+                      handleSave();
+                      setStep(1);
+                    }}
+                  >
                     Yes
                   </Button>
                   <div className="pl-5">
@@ -87,7 +94,14 @@ const ControlSection = ({
                     Are you still the Owner of Action plan?
                   </Button>
                   <div className="d-flex">
-                    <Button color="neutral" onClick={handleSave}>
+                    <Button
+                      color="neutral"
+                      onClick={() => {
+                        handleSave();
+                        setStep(2);
+                      }}
+                      className={cs('')}
+                    >
                       Yes
                     </Button>
                     <div className="pl-5">
@@ -126,7 +140,13 @@ const ControlSection = ({
                     Is escalation required?
                   </Button>
                   <div className="d-flex">
-                    <Button color="neutral" onClick={handleSave}>
+                    <Button
+                      color="neutral"
+                      onClick={() => {
+                        handleSave();
+                        setStep(3);
+                      }}
+                    >
                       Yes
                     </Button>
                     <div className="pl-5">
