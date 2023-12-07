@@ -16,41 +16,6 @@ import {
   kpiResultSelector,
 } from '../../../../../redux/Assessments/AssessmentSelectors';
 
-// const data = [
-//   {
-//     name: 'Jan_23',
-//     Argentina: null,
-//     Botswana: 680,
-//     L1_Threshold: null,
-//     L2_Threshold: 800,
-//     L3_Threshold: null,
-//   },
-//   {
-//     name: 'Feb_23',
-//     Argentina: 400,
-//     Botswana: 580,
-//     L1_Threshold: null,
-//     L2_Threshold: '800',
-//     L3_Threshold: null,
-//   },
-//   {
-//     name: 'March_23',
-//     Argentina: 200,
-//     Botswana: 680,
-//     L1_Threshold: null,
-//     L2_Threshold: 800,
-//     L3_Threshold: null,
-//   },
-//   {
-//     name: 'Apirl_23',
-//     Argentina: 10,
-//     Botswana: 680,
-//     L1_Threshold: null,
-//     L2_Threshold: 800,
-//     L3_Threshold: null,
-//   },
-// ];
-
 function convertData(key, data) {
   if (!data) return [];
   const kpiData = data[key];
@@ -117,7 +82,7 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
       <div className="d-flex">
         <div className="chart-wrapper">
           <ComposedChart
-            width={500}
+            width={isModal ? 600 : 1100}
             height={400}
             data={data}
             margin={{
@@ -147,7 +112,7 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
             <Line type="monotone" dataKey="L3_Threshold" stroke="#ff7300" />
           </ComposedChart>
         </div>
-        <div className="renderBlockWrapper" style={{ minWidth: 350 }}>
+        <div className="renderBlockWrapper" style={{ minWidth: 450 }}>
           <div className="d-flex chart-info-table overflow-table">
             <table className="w-full">
               <tr>
