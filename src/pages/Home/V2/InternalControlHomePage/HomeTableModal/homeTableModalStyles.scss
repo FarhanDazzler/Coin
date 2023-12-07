@@ -167,26 +167,26 @@
   padding-left: 10px;
   padding-bottom: 10px;
 
-  &:before {
-    content: '';
-    position: absolute;
-    width: 80%;
-    height: 1px;
-    background: #fff;
-    margin-left: 13%;
-    bottom: 48px;
-    z-index: 0;
-  }
-  &:after {
-    content: '';
-    position: absolute;
-    height: 70%;
-    width: 1px;
-    background: #fff;
-    left: 5px;
-    top: 30px;
-    z-index: 0;
-  }
+  //&:before {
+  //  content: '';
+  //  position: absolute;
+  //  width: 80%;
+  //  height: 1px;
+  //  background: #fff;
+  //  margin-left: 13%;
+  //  bottom: 48px;
+  //  z-index: 0;
+  //}
+  //&:after {
+  //  content: '';
+  //  position: absolute;
+  //  height: 70%;
+  //  width: 1px;
+  //  background: #fff;
+  //  left: 5px;
+  //  top: 30px;
+  //  z-index: 0;
+  //}
 
   .apexcharts-xaxis-texts-g {
     transform: translate(0px, -10px);

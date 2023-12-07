@@ -30,6 +30,7 @@ import CustomModal from '../../../../../components/UI/CustomModal';
 import CloseIcon from '@mui/icons-material/Close';
 import { getLanguageFormat, isJsonString } from '../../../../../utils/helper';
 import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
+import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 
 const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
@@ -474,6 +475,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   if (!isModal)
     return (
       <>
+        <KIP_Graph_Section_2 />
         {Control_ID && (
           <div className="homeTableModalTop">
             <div className="topBar d-flex justify-content-between">

@@ -48,7 +48,7 @@ const RenderHomeModalTable = ({
   });
   const isNotEscalationRequired = !!actionPlanInfo.isEscalationRequired;
   const [showControlSection, setShowControlSection] = useState(false);
-  console.log('isNotEscalationRequired', isNotEscalationRequired);
+
   const isDisabledButton = useMemo(() => {
     if (isNotEscalationRequired) {
       return !(
@@ -59,8 +59,6 @@ const RenderHomeModalTable = ({
     }
     return false;
   }, [actionPlanInfo]);
-
-  console.log('isDisabledButton', isDisabledButton);
 
   useEffect(() => {
     let sectionTerminating = false;
