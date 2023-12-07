@@ -254,3 +254,9 @@
 .active-btn {
   background-color: #ffe595 !important;
 }
+
+.isDisabledButton {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

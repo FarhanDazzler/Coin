@@ -46,7 +46,7 @@ const RenderHomeModalTable = ({
     const value = ansSection3[i] && Object.values(ansSection3[i]);
     if (value?.length > 0) return value[0]?.includes('no');
   });
-  const isNotEscalationRequired = actionPlanInfo.isEscalationRequired === 'no';
+  const isNotEscalationRequired = !!actionPlanInfo.isEscalationRequired;
   const [showControlSection, setShowControlSection] = useState(false);
   console.log('isNotEscalationRequired', isNotEscalationRequired);
   const isDisabledButton = useMemo(() => {
@@ -59,6 +59,8 @@ const RenderHomeModalTable = ({
     }
     return false;
   }, [actionPlanInfo]);
+
+  console.log('isDisabledButton', isDisabledButton);
 
   useEffect(() => {
     let sectionTerminating = false;
@@ -173,7 +175,7 @@ const RenderHomeModalTable = ({
                   ) : null}
                   <Button
                     color="neutral"
-                    className={cs('w-100', { [isDisabledButton]: isDisabledButton })}
+                    className={cs('w-100', { ['isDisabledButton']: isDisabledButton })}
                     id="submit-button"
                     loading={loadingSubmit}
                     onClick={handleSubmit}

@@ -69,7 +69,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     Revised_Due_Date: null,
     ...getMicsOpenActionPlanVal.data,
   });
-  const isNotEscalationRequired = actionPlanInfo.isEscalationRequired === 'no';
+  const isNotEscalationRequired = !!actionPlanInfo.isEscalationRequired;
 
   const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
     ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
@@ -348,7 +348,11 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
 
         const payload = {
           Assessment_ID: activeData.id,
-          Assessment_result: isupdated ? 'NA' : isS3FailedData || s1FailObj ? 'Fail' : 'Pass',
+          Assessment_result: isupdated
+            ? 'NA'
+            : isS3FailedData || s1FailObj || actionPlanInfo.isEscalationRequired === 'no'
+            ? 'Fail'
+            : 'Pass',
           Latest_response: {
             s1: ansSection1,
             data: kpiResultData?.data?.data,
@@ -370,7 +374,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
               } else {
                 if (
                   (dataArray.length > 0 ? isS3FailedData || s1FailObj : s1FailObj) ||
-                  isNotEscalationRequired
+                  actionPlanInfo.isEscalationRequired === 'no'
                 ) {
                   Swal.fire(t('selfAssessment.assessmentForm.assessmentFailText'), '', 'success');
                 } else {
