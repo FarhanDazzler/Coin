@@ -85,6 +85,7 @@ const ControlSection2Chart = ({ isModal }) => {
           });
           series.push({
             name: recKey,
+            type: i === 0 ? 'area' : 'column',
             data,
           });
         });

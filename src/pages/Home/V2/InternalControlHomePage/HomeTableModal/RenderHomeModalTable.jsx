@@ -35,6 +35,9 @@ const RenderHomeModalTable = ({
   isModal = false,
   activeData = {},
   language,
+  getMicsOpenActionPlanVal,
+  actionPlanInfo,
+  setActionPlanInfo,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -43,8 +46,8 @@ const RenderHomeModalTable = ({
     const value = ansSection3[i] && Object.values(ansSection3[i]);
     if (value?.length > 0) return value[0]?.includes('no');
   });
-  const [showControlSection, setShowControlSection] = useState(true);
-  console.log('s1FailObj', s1FailObj);
+  const [showControlSection, setShowControlSection] = useState(false);
+
   useEffect(() => {
     let sectionTerminating = false;
     if (Object.keys(ansSection3).length !== 0) {
@@ -85,13 +88,19 @@ const RenderHomeModalTable = ({
     <div className="modal-form-body">
       <ControlActions activeData={activeData} />
 
-      {questionsInfo.loading ? (
+      {questionsInfo.loading || getMicsOpenActionPlanVal.loading ? (
         <div className="d-flex w-100 align-items-center justify-content-center py-5 my-5">
           <Loader color="#d3a306" />
         </div>
       ) : (
         <div className="p-5">
-          {/*<ControlSection setShowControlSection={setShowControlSection} />*/}
+          <ControlSection
+            setShowControlSection={setShowControlSection}
+            loadingSubmit={loadingSubmit}
+            handleSubmit={handleSubmit}
+            info={actionPlanInfo}
+            setInfo={setActionPlanInfo}
+          />
 
           {showControlSection && (
             <>

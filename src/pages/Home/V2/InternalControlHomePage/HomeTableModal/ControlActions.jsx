@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 const ControlActions = ({ activeData }) => {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState('');
+  const [activeTab, setActiveTab] = useState('Scope');
   const [isReadMore, setIsReadMore] = useState(true);
   const toggleReadMore = () => {
     setIsReadMore(!isReadMore);
@@ -37,6 +37,13 @@ const ControlActions = ({ activeData }) => {
     <div className="control-actions-wrapper">
       <div className="pb-5 pt-4">
         <Button
+          // disabled={activeTab && activeTab !== 'Scope'}
+          className={activeTab === 'Scope' ? 'mr-4 active' : 'mr-4'}
+          onClick={() => setActiveTab(isClear('Scope') ? '' : 'Scope')}
+        >
+          {t('selfAssessment.assessmentForm.scopeBtn')}
+        </Button>
+        <Button
           // disabled={activeTab && activeTab !== 'GCD'}
           className={activeTab === 'GCD' ? 'mr-4 active' : 'mr-4'}
           onClick={() => setActiveTab(isClear('GCD') ? '' : 'GCD')}
@@ -49,13 +56,6 @@ const ControlActions = ({ activeData }) => {
           onClick={() => setActiveTab(isClear('LCD') ? '' : 'LCD')}
         >
           {t('selfAssessment.assessmentForm.localControlDescriptionBtn')}
-        </Button>
-        <Button
-          // disabled={activeTab && activeTab !== 'Scope'}
-          className={activeTab === 'Scope' ? 'mr-4 active' : 'mr-4'}
-          onClick={() => setActiveTab(isClear('Scope') ? '' : 'Scope')}
-        >
-          {t('selfAssessment.assessmentForm.scopeBtn')}
         </Button>
       </div>
       <div className="control-actions-collapse">
