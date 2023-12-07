@@ -103,7 +103,7 @@ const InternalControlTable = ({
       console.log(payload, 'payload');
       dispatch(getInternalControlTableData(payload));
     } else {
-      toast.error('Please select year in filter.');
+      toast.error('Please select Year in filter.');
     }
   }, [assessmentCycleValue, yearValue, token]);
 
