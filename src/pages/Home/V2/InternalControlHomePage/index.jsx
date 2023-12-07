@@ -18,9 +18,6 @@ const InternalControlHomePage = () => {
   const Control_ID = query.get('Control_ID');
   const selectedUserRole = localStorage.getItem('selected_Role');
 
-  // multi choice user input State for filters button
-  const [yearValue, setYearValue] = useState([]);
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
   const [receiverValue, setReceiverValue] = useState([]);
@@ -37,14 +34,7 @@ const InternalControlHomePage = () => {
   };
 
   const statusInfo = useMemo(() => {
-    if (
-      !yearValue.length &&
-      !assessmentCycleValue.length &&
-      !zoneValue.length &&
-      !buValue.length &&
-      !receiverValue.length &&
-      !providerValue.length
-    ) {
+    if (!zoneValue.length && !buValue.length && !receiverValue.length && !providerValue.length) {
       const allstatus = getControlOwnerData?.data?.map((d) => {
         return d.Status;
       });
@@ -61,8 +51,6 @@ const InternalControlHomePage = () => {
     }
     const updateData = getControlOwnerData?.data?.filter((i) => {
       return (
-        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true) &&
         (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
@@ -82,29 +70,11 @@ const InternalControlHomePage = () => {
       completedRatio: ((completedAssessment / allstatusUpdateData.length) * 100)?.toFixed(0),
       total: allstatusUpdateData?.length,
     };
-  }, [
-    getControlOwnerData,
-    userRole,
-    yearValue,
-    assessmentCycleValue,
-    zoneValue,
-    buValue,
-    receiverValue,
-    providerValue,
-  ]);
+  }, [getControlOwnerData, userRole, zoneValue, buValue, receiverValue, providerValue]);
 
   useEffect(() => {
     // if (!userRole?.length || userRole === 'undefined') history.push('/not-authorized');
-  }, [
-    getControlOwnerData,
-    userRole,
-    yearValue,
-    assessmentCycleValue,
-    zoneValue,
-    buValue,
-    receiverValue,
-    providerValue,
-  ]);
+  }, [getControlOwnerData, userRole, zoneValue, buValue, receiverValue, providerValue]);
   const { accounts } = useMsal();
   return (
     <div>
@@ -193,10 +163,6 @@ const InternalControlHomePage = () => {
           </div>
         </div>
         <InternalControlTable
-          yearValue={yearValue}
-          setYearValue={setYearValue}
-          assessmentCycleValue={assessmentCycleValue}
-          setAssessmentCycleValue={setAssessmentCycleValue}
           zoneValue={zoneValue}
           setZoneValue={setZoneValue}
           buValue={buValue}
