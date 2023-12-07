@@ -591,14 +591,18 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
           <>
             <div className="mt-5 pt-5">
               {/*<ControlSection2Chart isModal={isModal} />*/}
-              {showGraph && kpiResult && Object.keys(kpiResult).length > 0 ? (
-                <KIP_Graph_Section_2 isModal={isModal} />
-              ) : (
-                <div className="mt-5 text-center">
-                  <h1 className="table-modal-title">
-                    {t('selfAssessment.assessmentForm.section2NoKPIChartavailableText')}
-                  </h1>
-                </div>
+              {showGraph && (
+                <>
+                  {kpiResult && Object.keys(kpiResult).length > 0 ? (
+                    <KIP_Graph_Section_2 isModal={isModal} />
+                  ) : (
+                    <div className="mt-5 text-center">
+                      <h1 className="table-modal-title">
+                        {t('selfAssessment.assessmentForm.section2NoKPIChartavailableText')}
+                      </h1>
+                    </div>
+                  )}
+                </>
               )}
             </div>
             {tableData?.length !== 0 ? (

@@ -8,7 +8,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  Area,
+  ResponsiveContainer,
 } from 'recharts';
 import { useSelector } from 'react-redux';
 import {
