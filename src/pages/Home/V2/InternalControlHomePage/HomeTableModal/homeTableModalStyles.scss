@@ -252,11 +252,21 @@
 }
 
 .active-btn {
-  background-color: #ffe595 !important;
+  background-color: #e7c55d !important;
+  color: #000;
 }
 
 .isDisabledButton {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+.ActionPlanQuestionSection {
+  background: #e7c55d !important;
+  color: #111 !important;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 16px;
 }
