@@ -103,12 +103,12 @@ const RenderHomeModalTable = ({
   useEffect(() => {
     dispatch(resetSection3());
   }, []);
-  
+
   return (
     <div className="modal-form-body">
       <ControlActions activeData={activeData} />
 
-      {questionsInfo.loading || getMicsOpenActionPlanVal.loading ||actionPlanInfo?.loading? (
+      {questionsInfo.loading || getMicsOpenActionPlanVal.loading || actionPlanInfo?.loading ? (
         <div className="d-flex w-100 align-items-center justify-content-center py-5 my-5">
           <Loader color="#d3a306" />
         </div>
@@ -162,7 +162,7 @@ const RenderHomeModalTable = ({
               )}
               {(!isModal && terminating) ||
               (s1FailObj && showMoreSection && !isModal) ||
-              isNotEscalationRequired ? (
+              (isNotEscalationRequired && !isModal) ? (
                 <>
                   {section1TerminatingLogicValue || !!isSection3Failed ? (
                     <div style={{ color: 'red', marginBottom: '10px' }}>
