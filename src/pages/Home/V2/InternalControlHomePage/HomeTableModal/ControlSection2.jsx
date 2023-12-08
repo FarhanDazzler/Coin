@@ -10,6 +10,7 @@ import readXlsxFile from 'read-excel-file';
 import {
   kpiResultSelector,
   getResponseSelector,
+  getLatestDraftSelector,
 } from '../../../../../redux/Assessments/AssessmentSelectors';
 import { getCsvTampredDataAction } from '../../../../../redux/CsvTampred/CsvTampredAction';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
@@ -31,9 +32,11 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   const [showGraph, setShowGraph] = useState(true);
   const getKPIResponse = useSelector(getResponseSelector);
   const kpiResultData = useSelector(kpiResultSelector);
+  const latestDraftData = useSelector(getLatestDraftSelector);
   const kpiResult = isModal
     ? getKPIResponse?.data?.Latest_Response?.data
     : kpiResultData?.data?.data;
+  const kpiResponseData = latestDraftData?.data?.Latest_response?.kpis || kpiResultData?.data?.kpis;
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();
   const [editProductIds, setEditProductIds] = useState([
@@ -356,10 +359,11 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
 
   useEffect(() => {
     if (isModal) {
-      if (getKPIResponse?.data?.Latest_Response?.kpis)
+      if (getKPIResponse?.data?.Latest_Response?.kpis) {
         setTableData(getKPIResponse?.data?.Latest_Response?.kpis);
-    } else if (kpiResultData?.data?.kpis?.length > 0) {
-      const table_data = [...kpiResultData?.data?.kpis];
+      }
+    } else if (kpiResponseData?.length > 0) {
+      const table_data = [...kpiResponseData];
       table_data.forEach((tData, i) => {
         if (tData.KPI_Value === '' || tData.KPI_Value === 0) {
           tData['sep'] = 2;
