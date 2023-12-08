@@ -92,9 +92,15 @@ const ControlSection = ({
 
             <div className="pt-5">
               <div className="d-flex justify-content-between">
-                <Button color="neutral" style={{ minWidth: 'calc(100% - 190px)' }}>
+                <div
+                  className="ActionPlanQuestionSection"
+                  style={{ minWidth: 'calc(100% - 190px)' }}
+                >
+                  Issue resolved?
+                </div>
+                {/* <Button color="neutral" style={{ minWidth: 'calc(100% - 190px)' }}>
                   ISSUE RESOLVED?
-                </Button>
+                </Button> */}
                 <div className="d-flex">
                   <Button
                     className={cs({ ['active-btn']: info.issueResolved === 'yes' })}
@@ -126,9 +132,15 @@ const ControlSection = ({
             {step > 1 && (
               <div className="pt-5">
                 <div className="d-flex justify-content-between">
-                  <Button color="neutral" style={{ minWidth: 'calc(100% - 190px)' }}>
+                  <div
+                    className="ActionPlanQuestionSection"
+                    style={{ minWidth: 'calc(100% - 190px)' }}
+                  >
                     Are you still the Owner of Action ?
-                  </Button>
+                  </div>
+                  {/* <Button color="neutral" style={{ minWidth: 'calc(100% - 190px)' }}>
+                    Are you still the Owner of Action ?
+                  </Button> */}
                   <div className="d-flex">
                     <Button
                       className={cs({ ['active-btn']: info.ownerAction === 'yes' })}
@@ -157,11 +169,19 @@ const ControlSection = ({
 
             {step > 2 && (
               <div className="pt-5">
-                <Button color="neutral" style={{ minWidth: '100%', textAlign: 'left' }}>
+                <div
+                  className="ActionPlanQuestionSection"
+                  style={{ minWidth: '100%', textAlign: 'left' }}
+                >
                   Provide details on what was the actions taken in the last 3 months and what are
                   the further action plan proposed. Also is there any change in Action plan? (Can
                   even provide Examples)
-                </Button>
+                </div>
+                {/* <Button color="neutral" style={{ minWidth: '100%', textAlign: 'left' }}>
+                  Provide details on what was the actions taken in the last 3 months and what are
+                  the further action plan proposed. Also is there any change in Action plan? (Can
+                  even provide Examples)
+                </Button> */}
                 <CustomTextarea
                   name="detailsInfo"
                   className="mt-3"
@@ -178,9 +198,15 @@ const ControlSection = ({
             {step > 2 && (
               <div className="pt-5">
                 <div className="d-flex justify-content-between">
-                  <Button color="neutral" style={{ minWidth: 'calc(100% - 190px)' }}>
+                  <div
+                    className="ActionPlanQuestionSection"
+                    style={{ minWidth: 'calc(100% - 190px)' }}
+                  >
                     Is escalation required?
-                  </Button>
+                  </div>
+                  {/* <Button color="neutral" style={{ minWidth: 'calc(100% - 190px)' }}>
+                    Is escalation required?
+                  </Button> */}
                   <div className="d-flex">
                     <Button
                       className={cs({ ['active-btn']: info.isEscalationRequired === 'yes' })}
