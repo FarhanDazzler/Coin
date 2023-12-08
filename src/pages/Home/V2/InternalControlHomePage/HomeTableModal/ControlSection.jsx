@@ -104,7 +104,8 @@ const ControlSection = ({
                 <div className="d-flex">
                   <Button
                     className={cs({ ['active-btn']: info.issueResolved === 'yes' })}
-                    color="neutral"
+                    //color="silver"
+                    variant="outlined"
                     onClick={() => {
                       handleSave();
                       setStep(1);
@@ -116,7 +117,8 @@ const ControlSection = ({
                   <div className="pl-5">
                     <Button
                       className={cs({ ['active-btn']: info.issueResolved === 'no' })}
-                      color="neutral"
+                      //color="silver"
+                      variant="outlined"
                       onClick={() => {
                         handleNo();
                         setInfo({ ...info, issueResolved: 'no' });
@@ -144,7 +146,8 @@ const ControlSection = ({
                   <div className="d-flex">
                     <Button
                       className={cs({ ['active-btn']: info.ownerAction === 'yes' })}
-                      color="neutral"
+                      //color="silver"
+                      variant="outlined"
                       onClick={() => {
                         setInfo({ ...info, ownerAction: 'yes' });
                       }}
@@ -154,7 +157,8 @@ const ControlSection = ({
                     <div className="pl-5">
                       <Button
                         className={cs({ ['active-btn']: info.ownerAction === 'no' })}
-                        color="neutral"
+                        //color="silver"
+                        variant="outlined"
                         onClick={() => {
                           setInfo({ ...info, ownerAction: 'no' });
                         }}
@@ -210,7 +214,8 @@ const ControlSection = ({
                   <div className="d-flex">
                     <Button
                       className={cs({ ['active-btn']: info.isEscalationRequired === 'yes' })}
-                      color="neutral"
+                      //color="silver"
+                      variant="outlined"
                       onClick={() => {
                         handleSave();
                         setInfo({ ...info, isEscalationRequired: 'yes' });
@@ -221,7 +226,8 @@ const ControlSection = ({
                     <div className="pl-5">
                       <Button
                         className={cs({ ['active-btn']: info.isEscalationRequired === 'no' })}
-                        color="neutral"
+                        //color="silver"
+                        variant="outlined"
                         onClick={() => {
                           handleSave();
                           setInfo({ ...info, isEscalationRequired: 'no' });
