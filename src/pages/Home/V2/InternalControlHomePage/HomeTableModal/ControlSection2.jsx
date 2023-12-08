@@ -200,6 +200,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       editable: false,
     },
     {
+      // ddasd
       dataField: 'Denominator',
       text: 'Denominator',
       editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
@@ -366,8 +367,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
           tData['sep'] = 1;
         }
         tData['id'] = i + 1;
-        tData['Upload_Approach'] = tData['Upload_Approach'] || 'Excel';
-        console.log('-----------');
+        tData['Upload_Approach'] = tData['Upload_Approach'] || '';
         let period = tData.Period_From;
         let words = period.split('-');
         const month = parseInt(words[1]);
@@ -392,6 +392,9 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       if (d.id === row.id) {
         if (column.dataField === 'Upload_Approach') {
           row['Upload_Approach'] = newValue;
+        }
+        if (column.dataField === 'Denominator' && newValue < 1) {
+          row['Denominator'] = '';
         }
         row.KPI_Value = (row.Numerator / row.Denominator).toFixed(2);
         if (row.Positive_direction === 'Lower is better') {
@@ -677,6 +680,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
                     responsive
                     rowStyle={rowStyle2}
                     cellEdit={cellEditFactory({
+                      autoSelectText: true,
+                      autoFocus: true,
                       mode: 'click',
                       blurToSave: true,
                       afterSaveCell: handleChange,
