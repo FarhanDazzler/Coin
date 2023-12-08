@@ -4,6 +4,7 @@
   color: #666666;
   padding: 14px 24px;
   cursor: pointer;
+
   &.active-collapse-frame {
     background: #e7c55d;
     color: #333333;
@@ -28,4 +29,8 @@
   .open-arrow {
     transform: scaleX(-1) scaleY(-1);
   }
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed !important;
 }

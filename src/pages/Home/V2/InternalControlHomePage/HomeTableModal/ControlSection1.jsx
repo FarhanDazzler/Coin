@@ -19,6 +19,7 @@ const ControlSection1 = ({
   setStartEdit,
   isModal,
   language,
+  isDisabled,
 }) => {
   const { t } = useTranslation();
   const getQuestions = useSelector(getQuestionsSelector);
@@ -168,7 +169,11 @@ const ControlSection1 = ({
 
   return (
     <div>
-      <CollapseFrame title={t('selfAssessment.assessmentForm.section1_Standard')} active>
+      <CollapseFrame
+        title={t('selfAssessment.assessmentForm.section1_Standard')}
+        active
+        isDisabled={isDisabled}
+      >
         <div className="mt-5">
           <RenderBlock
             blocks={ans}

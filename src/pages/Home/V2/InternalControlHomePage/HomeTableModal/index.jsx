@@ -30,6 +30,8 @@ import CustomModal from '../../../../../components/UI/CustomModal';
 import CloseIcon from '@mui/icons-material/Close';
 import { getLanguageFormat, isJsonString } from '../../../../../utils/helper';
 import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
+import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
+
 const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
@@ -68,6 +70,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     Revised_Due_Date: null,
     ...getMicsOpenActionPlanVal.data,
   });
+  const isNotEscalationRequired = !!actionPlanInfo.isEscalationRequired;
 
   const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
     ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
@@ -346,7 +349,11 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
 
         const payload = {
           Assessment_ID: activeData.id,
-          Assessment_result: isupdated ? 'NA' : isS3FailedData || s1FailObj ? 'Fail' : 'Pass',
+          Assessment_result: isupdated
+            ? 'NA'
+            : isS3FailedData || s1FailObj || actionPlanInfo.issueResolved === 'no'
+            ? 'Fail'
+            : 'Pass',
           Latest_response: {
             s1: ansSection1,
             data: kpiResultData?.data?.data,
@@ -366,7 +373,10 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
                 );
                 history.push('/');
               } else {
-                if (dataArray.length > 0 ? isS3FailedData || s1FailObj : s1FailObj) {
+                if (
+                  (dataArray.length > 0 ? isS3FailedData || s1FailObj : s1FailObj) ||
+                  actionPlanInfo.issueResolved === 'no'
+                ) {
                   Swal.fire(t('selfAssessment.assessmentForm.assessmentFailText'), '', 'success');
                 } else {
                   Swal.fire(t('selfAssessment.assessmentForm.assessmentPassText'), '', 'success');

@@ -5,6 +5,7 @@ import CustomTextarea from '../../../../../components/UI/CustomTextarea';
 import DatePickers from '../../../../../components/UI/DatePickers';
 import Button from '../../../../../components/UI/Button';
 import dayjs from 'dayjs';
+import cs from 'classnames';
 
 const ControlSection = ({
   setShowControlSection,
@@ -24,17 +25,43 @@ const ControlSection = ({
     if (info.step) setStep(info.step);
   }, [info.step]);
   const handleNo = () => {
-    setStep(step + 1);
-    setInfo({ ...info, step: step + 1 });
+    setStep(step + 2);
+    setInfo({ ...info, step: step + 2 });
     setShowControlSection(false);
   };
+
+  useEffect(() => {
+    const Action_Plan_Dom = document.getElementById('Action_Plan');
+    if (Action_Plan_Dom) {
+      Action_Plan_Dom.innerHTML = info.Action_Plan;
+    }
+  }, [info.Action_Plan]);
+
+  useEffect(() => {
+    const Issue_Description_Dom = document.getElementById('Issue_Description');
+    if (Issue_Description_Dom) {
+      Issue_Description_Dom.innerHTML = info.Action_Plan;
+    }
+  }, [info.Issue_Description]);
+
+  useEffect(() => {
+    const detailsInfoDom = document.getElementById('detailsInfo');
+    if (detailsInfoDom) {
+      detailsInfoDom.innerHTML = info.detailsInfo;
+    }
+  }, [info.Issue_Description]);
 
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section0_Standard')} active>
         <div className="mt-5">
           <div className="renderBlockWrapper">
-            <CustomTextarea readOnly label="Issue Description: " name="IssueDescription">
+            <CustomTextarea
+              id="Issue_Description"
+              readOnly
+              label="Issue Description: "
+              name="IssueDescription"
+            >
               {info.Issue_Description}
             </CustomTextarea>
             <CustomTextarea
@@ -42,6 +69,7 @@ const ControlSection = ({
               label="Resolution/Action Plan:: "
               name="actkonPlan"
               readOnly
+              id="Action_Plan"
             >
               {info.Action_Plan}
             </CustomTextarea>
@@ -68,11 +96,26 @@ const ControlSection = ({
                   ISSUE RESOLVED?
                 </Button>
                 <div className="d-flex">
-                  <Button color="neutral" onClick={handleSave}>
+                  <Button
+                    className={cs({ ['active-btn']: info.issueResolved === 'yes' })}
+                    color="neutral"
+                    onClick={() => {
+                      handleSave();
+                      setStep(1);
+                      setInfo({ ...info, issueResolved: 'yes' });
+                    }}
+                  >
                     Yes
                   </Button>
                   <div className="pl-5">
-                    <Button color="neutral" onClick={handleNo}>
+                    <Button
+                      className={cs({ ['active-btn']: info.issueResolved === 'no' })}
+                      color="neutral"
+                      onClick={() => {
+                        handleNo();
+                        setInfo({ ...info, issueResolved: 'no' });
+                      }}
+                    >
                       No
                     </Button>
                   </div>
@@ -84,14 +127,26 @@ const ControlSection = ({
               <div className="pt-5">
                 <div className="d-flex justify-content-between">
                   <Button color="neutral" style={{ minWidth: 'calc(100% - 190px)' }}>
-                    Are you still the Owner of Action plan?
+                    Are you still the Owner of Action ?
                   </Button>
                   <div className="d-flex">
-                    <Button color="neutral" onClick={handleSave}>
+                    <Button
+                      className={cs({ ['active-btn']: info.ownerAction === 'yes' })}
+                      color="neutral"
+                      onClick={() => {
+                        setInfo({ ...info, ownerAction: 'yes' });
+                      }}
+                    >
                       Yes
                     </Button>
                     <div className="pl-5">
-                      <Button color="neutral" onClick={handleNo}>
+                      <Button
+                        className={cs({ ['active-btn']: info.ownerAction === 'no' })}
+                        color="neutral"
+                        onClick={() => {
+                          setInfo({ ...info, ownerAction: 'no' });
+                        }}
+                      >
                         No
                       </Button>
                     </div>
@@ -113,6 +168,7 @@ const ControlSection = ({
                   onChange={({ target: { value } }) => {
                     setInfo({ ...info, detailsInfo: value });
                   }}
+                  id="detailsInfo"
                 >
                   {info.detailsInfo}
                 </CustomTextarea>
@@ -126,30 +182,29 @@ const ControlSection = ({
                     Is escalation required?
                   </Button>
                   <div className="d-flex">
-                    <Button color="neutral" onClick={handleSave}>
+                    <Button
+                      className={cs({ ['active-btn']: info.isEscalationRequired === 'yes' })}
+                      color="neutral"
+                      onClick={() => {
+                        handleSave();
+                        setInfo({ ...info, isEscalationRequired: 'yes' });
+                      }}
+                    >
                       Yes
                     </Button>
                     <div className="pl-5">
-                      <Button color="neutral" onClick={handleNo}>
+                      <Button
+                        className={cs({ ['active-btn']: info.isEscalationRequired === 'no' })}
+                        color="neutral"
+                        onClick={() => {
+                          handleSave();
+                          setInfo({ ...info, isEscalationRequired: 'no' });
+                        }}
+                      >
                         No
                       </Button>
                     </div>
                   </div>
-                </div>
-              </div>
-            )}
-
-            {step > 3 && (
-              <div className="pt-5">
-                <div>
-                  <Button
-                    color="neutral"
-                    style={{ minWidth: '100%' }}
-                    loading={loadingSubmit}
-                    onClick={handleSubmit}
-                  >
-                    {t('selfAssessment.assessmentForm.submitBtn')}
-                  </Button>
                 </div>
               </div>
             )}

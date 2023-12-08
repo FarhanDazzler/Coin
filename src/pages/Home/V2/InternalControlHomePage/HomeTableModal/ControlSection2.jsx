@@ -17,6 +17,7 @@ import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import ControlSection2Chart from './ControlSection2Chart';
 import { Loader } from '@mantine/core';
+import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
 const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
@@ -413,7 +414,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
           }
 
           if (row.MICS_L3_Threshold === '-' || row.L3_Result === '') {
-            console.log("l3 there", row.MICS_L3_Threshold, row.L3_Result, row.KPI_Value);
+            console.log('l3 there', row.MICS_L3_Threshold, row.L3_Result, row.KPI_Value);
             row.L3_Result = 'NA';
           } else {
             if (+row.KPI_Value <= +row.MICS_L3_Threshold) {
@@ -589,14 +590,19 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         ) : (
           <>
             <div className="mt-5 pt-5">
-              {showGraph && kpiResult && Object.keys(kpiResult).length > 0 ? (
-                <ControlSection2Chart isModal={isModal} />
-              ) : (
-                <div className="mt-5 text-center">
-                  <h1 className="table-modal-title">
-                    {t('selfAssessment.assessmentForm.section2NoKPIChartavailableText')}
-                  </h1>
-                </div>
+              {/*<ControlSection2Chart isModal={isModal} />*/}
+              {showGraph && (
+                <>
+                  {kpiResult && Object.keys(kpiResult).length > 0 ? (
+                    <KIP_Graph_Section_2 isModal={isModal} />
+                  ) : (
+                    <div className="mt-5 text-center">
+                      <h1 className="table-modal-title">
+                        {t('selfAssessment.assessmentForm.section2NoKPIChartavailableText')}
+                      </h1>
+                    </div>
+                  )}
+                </>
               )}
             </div>
             {tableData?.length !== 0 ? (
