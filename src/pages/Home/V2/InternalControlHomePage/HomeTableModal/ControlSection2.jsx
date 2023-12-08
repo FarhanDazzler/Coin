@@ -593,7 +593,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
               {/*<ControlSection2Chart isModal={isModal} />*/}
               {showGraph && (
                 <>
-                  {kpiResult && Object.keys(kpiResult).length > 0 ? (
+                  {kpiResult && Object.keys(kpiResult)?.length > 0 ? (
                     <KIP_Graph_Section_2 isModal={isModal} />
                   ) : (
                     <div className="mt-5 text-center">
