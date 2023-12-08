@@ -66,7 +66,7 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
     setActiveKPI(id);
     if (kpiResult) setActiveKPIObj(kpiResult[id]);
   };
-  if (kpiResult && kpiResult[activeKPI]?.length)
+
   useEffect(() => {
     if (kpiResult) {
       setKPIList(Object.keys(kpiResult));
@@ -77,13 +77,14 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
   }, [kpiResultData?.data]);
 
   console.log('kpiResult', kpiResult);
-  
-  
 
   const data = convertData(activeKPI, kpiResult);
-  const renderData=kpiResult && kpiResult[activeKPI]?.length? Object.keys(kpiResult[activeKPI][0])?.filter(i=>{
-    return !['L1_Threshold', 'L2_Threshold', 'L3_Threshold', 'name'].includes(i)
-     }):[]
+  const renderData =
+    kpiResult && kpiResult[activeKPI]?.length
+      ? Object.keys(kpiResult[activeKPI][0])?.filter((i) => {
+          return !['L1_Threshold', 'L2_Threshold', 'L3_Threshold', 'name'].includes(i);
+        })
+      : [];
   return (
     <>
       <div className="d-flex">
@@ -112,9 +113,9 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
             <YAxis label={{ value: 'Index', angle: -90, position: 'insideLeft' }} />
             <Tooltip />
             <Legend />
-            {renderData?.map(i=>
-            <Bar dataKey={i} barSize={20} fill="#413ea0" />
-              )}
+            {renderData?.map((i) => (
+              <Bar dataKey={i} barSize={20} fill="#413ea0" />
+            ))}
             <Line type="monotone" dataKey="L1_Threshold" stroke="#ff7300" />
             <Line type="monotone" dataKey="L2_Threshold" stroke="#ff7300" />
             <Line type="monotone" dataKey="L3_Threshold" stroke="#ff7300" />
