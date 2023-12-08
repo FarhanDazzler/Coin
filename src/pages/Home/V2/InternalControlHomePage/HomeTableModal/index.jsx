@@ -47,7 +47,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const getMicsOpenActionPlanVal = useSelector(getMicsOpenActionPlanSelector);
   const responseData = !getResponse?.data?.Latest_Response ? latestDraftData : getResponse;
   const questionsInfo = useSelector(getQuestionsSelector);
-  console.log('responseData', responseData);
+
   const [ansSection1, setAnsSection1] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [ansSection3, setAnsSection3] = useState({});
@@ -203,10 +203,10 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     //console.log(activeData, '@@@@');
     dispatch(
       getMicsOpenActionPlan({
-        Control_ID: activeData.Control_ID || Control_ID,
-        Provider: activeData.Provider,
-        // Control_ID: 'OTC_AR_04',
-        // Provider: 'SSC_ZCC_MAZ_GUA_CO_ECUADOR',
+        // Control_ID: activeData.Control_ID || Control_ID,
+        // Provider: activeData.Provider,
+        Control_ID: 'OTC_AR_04',
+        Provider: 'SSC_ZCC_MAZ_GUA_CO_ECUADOR',
       }),
     );
     return () => {
@@ -315,7 +315,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       return !!i?.question_options?.find((d) => d?.option_id === i.selectVal)?.is_Failing;
     });
   }, [ansSection1]);
-  console.log('actionPlanInfo', actionPlanInfo);
+
   const handleSubmit = () => {
     let isS3FailedData;
     Swal.fire({
@@ -362,6 +362,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           Latest_response: {
             s1: ansSection1,
             data: kpiResultData?.data?.data,
+            kpis: tableData.length > 0 ? tableData : null,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
             showTable: showMoreSection,
             actionPlanInfo,
@@ -405,6 +406,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
             data: kpiResultData?.data?.data,
+            kpis: tableData.length > 0 ? tableData : null,
             showTable: showMoreSection,
             actionPlanInfo,
           },
@@ -448,6 +450,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+            kpis: tableData.length > 0 ? tableData : null,
           },
           actionPlanInfo,
           events: {
