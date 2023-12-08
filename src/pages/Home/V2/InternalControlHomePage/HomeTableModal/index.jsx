@@ -164,14 +164,14 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       if (!isModal) {
         dispatch(
           getAssessmentSection2Ans({
-            // MICS_code: activeData.Control_ID || Control_ID,
-            // Entity_ID: activeData.Receiver,
-            // KPI_From: activeData.KPI_From || '',
-            // KPI_To: activeData.KPI_To || '',
-            MICS_code: 'INV_REP_06' || Control_ID,
-            Entity_ID: 'Argentina, Botswana',
-            KPI_From: '2023-09-01' || '',
-            KPI_To: '2023-11-30' || '',
+            MICS_code: activeData.Control_ID || Control_ID,
+            Entity_ID: activeData.Receiver,
+            KPI_From: activeData.KPI_From || '',
+            KPI_To: activeData.KPI_To || '',
+            // MICS_code: 'INV_REP_06' || Control_ID,
+            // Entity_ID: 'Argentina, Botswana',
+            // KPI_From: '2023-09-01' || '',
+            // KPI_To: '2023-11-30' || '',
           }),
         );
       }
@@ -198,10 +198,13 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   }, [terminating]);
 
   useEffect(() => {
+    //console.log(activeData, '@@@@');
     dispatch(
       getMicsOpenActionPlan({
-        Control_ID: 'OTC_AR_04',
-        Provider: 'SSC_ZCC_MAZ_GUA_CO_ECUADOR',
+        Control_ID: activeData.Control_ID || Control_ID,
+        Provider: activeData.Provider,
+        // Control_ID: 'OTC_AR_04',
+        // Provider: 'SSC_ZCC_MAZ_GUA_CO_ECUADOR',
       }),
     );
     return () => {
