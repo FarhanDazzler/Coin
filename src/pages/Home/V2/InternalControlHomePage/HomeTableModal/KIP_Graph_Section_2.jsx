@@ -23,7 +23,6 @@ function convertData(key, data) {
   if (!kpiData) return [];
   const receivers = kpiData.receivers;
   const thresholds = kpiData.thresholds;
-  console.log('datdatadatadataa', data);
   const data_2 = kpiData;
   //  Object.keys(receivers.Argentina).map((date) => ({
   //   name: date,
@@ -35,7 +34,7 @@ function convertData(key, data) {
   // }));
 
   // Sort the array by year and month
-  data_2.sort((a, b) => {
+  data_2?.sort((a, b) => {
     const dateA = new Date(a.name);
     const dateB = new Date(b.name);
     return dateA - dateB;

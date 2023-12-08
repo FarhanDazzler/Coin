@@ -69,7 +69,9 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     Original_Due_Date: null,
     Revised_Due_Date: null,
     ...getMicsOpenActionPlanVal.data,
+    loading:!!getMicsOpenActionPlanVal?.loading
   });
+  
   const isNotEscalationRequired = !!actionPlanInfo.isEscalationRequired;
 
   const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
