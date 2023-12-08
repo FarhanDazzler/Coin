@@ -39,6 +39,7 @@ const RenderHomeModalTable = ({
   actionPlanInfo,
   setActionPlanInfo,
 }) => {
+  console.log('actionPlanInfo', actionPlanInfo);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
@@ -59,6 +60,10 @@ const RenderHomeModalTable = ({
       );
     }
     return false;
+  }, [actionPlanInfo]);
+
+  useEffect(() => {
+    setShowControlSection(!!actionPlanInfo?.issueResolved);
   }, [actionPlanInfo]);
 
   useEffect(() => {
