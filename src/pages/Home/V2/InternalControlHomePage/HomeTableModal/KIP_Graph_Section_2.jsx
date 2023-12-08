@@ -113,7 +113,7 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
             <Line type="monotone" dataKey="L3_Threshold" stroke="#ff7300" />
           </ComposedChart>
         </div>
-        <div className="renderBlockWrapper" style={{ minWidth: 450 }}>
+        <div className="renderBlockWrapper" style={{ minWidth: isModal ? 300 : 450 }}>
           <div className="d-flex chart-info-table overflow-table">
             <table className="w-full">
               <tr>
