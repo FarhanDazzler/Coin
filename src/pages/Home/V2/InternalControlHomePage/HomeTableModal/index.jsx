@@ -69,7 +69,9 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     Original_Due_Date: null,
     Revised_Due_Date: null,
     ...getMicsOpenActionPlanVal.data,
+    loading:!!getMicsOpenActionPlanVal?.loading
   });
+  
   const isNotEscalationRequired = !!actionPlanInfo.isEscalationRequired;
 
   const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
@@ -201,10 +203,10 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     //console.log(activeData, '@@@@');
     dispatch(
       getMicsOpenActionPlan({
-        // Control_ID: activeData.Control_ID || Control_ID,
-        // Provider: activeData.Provider,
-        Control_ID: 'OTC_AR_04',
-        Provider: 'SSC_ZCC_MAZ_GUA_CO_ECUADOR',
+        Control_ID: activeData.Control_ID || Control_ID,
+        Provider: activeData.Provider,
+        // Control_ID: 'OTC_AR_04',
+        // Provider: 'SSC_ZCC_MAZ_GUA_CO_ECUADOR',
       }),
     );
     return () => {

@@ -62,7 +62,6 @@ const RenderHomeModalTable = ({
     return false;
   }, [actionPlanInfo]);
   useEffect(() => {
-    console.log('actionPlanInfoqwqw',JSON.stringify(actionPlanInfo) === JSON.stringify({}))
     if (JSON.stringify(actionPlanInfo) === JSON.stringify({})) return setShowControlSection(true);
     if (!!actionPlanInfo?.isEscalationRequired) return setShowControlSection(true);
     if (actionPlanInfo?.issueResolved === 'no') return setShowControlSection(false);
@@ -104,11 +103,12 @@ const RenderHomeModalTable = ({
   useEffect(() => {
     dispatch(resetSection3());
   }, []);
+  
   return (
     <div className="modal-form-body">
       <ControlActions activeData={activeData} />
 
-      {questionsInfo.loading || getMicsOpenActionPlanVal.loading ? (
+      {questionsInfo.loading || getMicsOpenActionPlanVal.loading ||actionPlanInfo?.loading? (
         <div className="d-flex w-100 align-items-center justify-content-center py-5 my-5">
           <Loader color="#d3a306" />
         </div>
