@@ -67,7 +67,7 @@ const ControlSection = ({
             </CustomTextarea>
             <CustomTextarea
               formControlProps={{ style: { paddingTop: 20 } }}
-              label="Resolution/Action Plan:: "
+              label="Resolution/Action Plan: "
               name="actkonPlan"
               readOnly
               id="Action_Plan"
@@ -126,7 +126,7 @@ const ControlSection = ({
                       variant="outlined"
                       onClick={() => {
                         handleNo();
-                        setInfo({ ...info, issueResolved: 'no',step:3 });
+                        setInfo({ ...info, issueResolved: 'no', step: 3 });
                       }}
                     >
                       No
@@ -187,8 +187,8 @@ const ControlSection = ({
                   style={{ minWidth: '100%', textAlign: 'left' }}
                 >
                   Provide details on what was the actions taken in the last 3 months and what are
-                  the further action plan proposed. Also is there any change in Action plan? (Can
-                  even provide Examples)
+                  the further action plan proposed. Also is there any change in Action plan?
+                  (Mandatory)
                 </div>
                 {/* <Button color="neutral" style={{ minWidth: '100%', textAlign: 'left' }}>
                   Provide details on what was the actions taken in the last 3 months and what are
