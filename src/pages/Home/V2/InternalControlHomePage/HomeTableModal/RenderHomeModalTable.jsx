@@ -61,11 +61,13 @@ const RenderHomeModalTable = ({
     }
     return false;
   }, [actionPlanInfo]);
-
   useEffect(() => {
+    console.log('actionPlanInfoqwqw',JSON.stringify(actionPlanInfo) === JSON.stringify({}))
+    if (JSON.stringify(actionPlanInfo) === JSON.stringify({})) return setShowControlSection(true);
+    if (!!actionPlanInfo?.isEscalationRequired) return setShowControlSection(true);
+    if (actionPlanInfo?.issueResolved === 'no') return setShowControlSection(false);
     setShowControlSection(!!actionPlanInfo?.issueResolved);
   }, [actionPlanInfo]);
-
   useEffect(() => {
     let sectionTerminating = false;
     if (Object.keys(ansSection3).length !== 0) {
@@ -112,13 +114,15 @@ const RenderHomeModalTable = ({
         </div>
       ) : (
         <div className="p-5">
-          <ControlSection
-            setShowControlSection={setShowControlSection}
-            loadingSubmit={loadingSubmit}
-            handleSubmit={handleSubmit}
-            info={actionPlanInfo}
-            setInfo={setActionPlanInfo}
-          />
+          {!!actionPlanInfo?.Action_Plan && (
+            <ControlSection
+              setShowControlSection={setShowControlSection}
+              loadingSubmit={loadingSubmit}
+              handleSubmit={handleSubmit}
+              info={actionPlanInfo}
+              setInfo={setActionPlanInfo}
+            />
+          )}
 
           {showControlSection && (
             <>
