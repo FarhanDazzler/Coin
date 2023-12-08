@@ -203,10 +203,10 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     //console.log(activeData, '@@@@');
     dispatch(
       getMicsOpenActionPlan({
-        Control_ID: activeData.Control_ID || Control_ID,
-        Provider: activeData.Provider,
-        // Control_ID: 'OTC_AR_04',
-        // Provider: 'SSC_ZCC_MAZ_GUA_CO_ECUADOR',
+        // Control_ID: activeData.Control_ID || Control_ID,
+        // Provider: activeData.Provider,
+        Control_ID: 'OTC_AR_04',
+        Provider: 'SSC_ZCC_MAZ_GUA_CO_ECUADOR',
       }),
     );
     return () => {
@@ -315,7 +315,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       return !!i?.question_options?.find((d) => d?.option_id === i.selectVal)?.is_Failing;
     });
   }, [ansSection1]);
-
+console.log('actionPlanInfo',actionPlanInfo)
   const handleSubmit = () => {
     let isS3FailedData;
     Swal.fire({
