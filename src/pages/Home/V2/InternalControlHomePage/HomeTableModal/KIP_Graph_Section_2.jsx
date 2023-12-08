@@ -24,15 +24,16 @@ function convertData(key, data) {
   const receivers = kpiData.receivers;
   const thresholds = kpiData.thresholds;
 
-  const data_2 = Object.keys(receivers.Argentina).map((date) => ({
-    name: date,
-    Argentina: convertToInteger(receivers.Argentina[date]),
-    Botswana: convertToInteger(receivers.Botswana[date]),
-    L1_Threshold: convertToInteger(thresholds.L1_Threshold),
-    L2_Threshold: convertToInteger(thresholds.L2_Threshold),
-    L3_Threshold: convertToInteger(thresholds.L3_Threshold),
-  }));
-
+  const data_2 = kpiData;
+  //  Object.keys(receivers.Argentina).map((date) => ({
+  //   name: date,
+  //   Argentina: convertToInteger(receivers.Argentina[date]),
+  //   Botswana: convertToInteger(receivers.Botswana[date]),
+  //   L1_Threshold: convertToInteger(thresholds.L1_Threshold),
+  //   L2_Threshold: convertToInteger(thresholds.L2_Threshold),
+  //   L3_Threshold: convertToInteger(thresholds.L3_Threshold),
+  // }));
+  
   // Sort the array by year and month
   data_2.sort((a, b) => {
     const dateA = new Date(a.name);
@@ -65,7 +66,7 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
     setActiveKPI(id);
     if (kpiResult) setActiveKPIObj(kpiResult[id]);
   };
-
+console.log('kpiResultkpiResult',kpiResult)
   useEffect(() => {
     if (kpiResult) {
       setKPIList(Object.keys(kpiResult));
