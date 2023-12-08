@@ -13,6 +13,7 @@ const ControlSection = ({
   handleSubmit,
   info = {},
   setInfo,
+  isModal,
 }) => {
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
@@ -105,7 +106,9 @@ const ControlSection = ({
                   <Button
                     className={cs({ ['active-btn']: info.issueResolved === 'yes' })}
                     //color="silver"
+                    style={{ height: '100%' }}
                     variant="outlined"
+                    disabled={isModal}
                     onClick={() => {
                       handleSave();
                       setStep(1);
@@ -118,6 +121,8 @@ const ControlSection = ({
                     <Button
                       className={cs({ ['active-btn']: info.issueResolved === 'no' })}
                       //color="silver"
+                      disabled={isModal}
+                      style={{ height: '100%' }}
                       variant="outlined"
                       onClick={() => {
                         handleNo();
@@ -147,6 +152,8 @@ const ControlSection = ({
                     <Button
                       className={cs({ ['active-btn']: info.ownerAction === 'yes' })}
                       //color="silver"
+                      style={{ height: '100%' }}
+                      disabled={isModal}
                       variant="outlined"
                       onClick={() => {
                         setInfo({ ...info, ownerAction: 'yes' });
@@ -158,6 +165,8 @@ const ControlSection = ({
                       <Button
                         className={cs({ ['active-btn']: info.ownerAction === 'no' })}
                         //color="silver"
+                        style={{ height: '100%' }}
+                        disabled={isModal}
                         variant="outlined"
                         onClick={() => {
                           setInfo({ ...info, ownerAction: 'no' });
@@ -215,6 +224,8 @@ const ControlSection = ({
                     <Button
                       className={cs({ ['active-btn']: info.isEscalationRequired === 'yes' })}
                       //color="silver"
+                      style={{ height: '100%' }}
+                      disabled={isModal}
                       variant="outlined"
                       onClick={() => {
                         handleSave();
@@ -226,7 +237,9 @@ const ControlSection = ({
                     <div className="pl-5">
                       <Button
                         className={cs({ ['active-btn']: info.isEscalationRequired === 'no' })}
+                        style={{ height: '100%' }}
                         //color="silver"
+                        disabled={isModal}
                         variant="outlined"
                         onClick={() => {
                           handleSave();

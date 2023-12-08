@@ -3,13 +3,13 @@ import { Button as BaseButton } from '@mui/material';
 import './buttonStyles.scss';
 import CircularProgress from '@mui/material/CircularProgress';
 
-const Button = ({ variant = 'contained', loading, className, children, style = {}, ...res }) => {
+const Button = ({ variant = 'contained',disabled, loading, className, children, style = {}, ...res }) => {
   return (
     <BaseButton
       variant={variant}
       className={`custom-button-wrapper ${className}`}
       style={style}
-      disabled={loading}
+      disabled={disabled||loading}
       {...res}
     >
       {loading ? <CircularProgress size={22} /> : children}
