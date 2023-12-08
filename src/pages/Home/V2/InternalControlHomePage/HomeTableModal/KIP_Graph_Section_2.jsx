@@ -23,7 +23,7 @@ function convertData(key, data) {
   if (!kpiData) return [];
   const receivers = kpiData.receivers;
   const thresholds = kpiData.thresholds;
-
+  console.log('datdatadatadataa', data);
   const data_2 = kpiData;
   //  Object.keys(receivers.Argentina).map((date) => ({
   //   name: date,
@@ -33,7 +33,7 @@ function convertData(key, data) {
   //   L2_Threshold: convertToInteger(thresholds.L2_Threshold),
   //   L3_Threshold: convertToInteger(thresholds.L3_Threshold),
   // }));
-  
+
   // Sort the array by year and month
   data_2.sort((a, b) => {
     const dateA = new Date(a.name);
@@ -66,7 +66,7 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
     setActiveKPI(id);
     if (kpiResult) setActiveKPIObj(kpiResult[id]);
   };
-console.log('kpiResultkpiResult',kpiResult)
+  if (kpiResult && kpiResult[activeKPI]?.length)
   useEffect(() => {
     if (kpiResult) {
       setKPIList(Object.keys(kpiResult));
@@ -77,8 +77,13 @@ console.log('kpiResultkpiResult',kpiResult)
   }, [kpiResultData?.data]);
 
   console.log('kpiResult', kpiResult);
+  
+  
 
   const data = convertData(activeKPI, kpiResult);
+  const renderData=kpiResult && kpiResult[activeKPI]?.length? Object.keys(kpiResult[activeKPI][0])?.filter(i=>{
+    return !['L1_Threshold', 'L2_Threshold', 'L3_Threshold', 'name'].includes(i)
+     }):[]
   return (
     <>
       <div className="d-flex">
@@ -107,8 +112,9 @@ console.log('kpiResultkpiResult',kpiResult)
             <YAxis label={{ value: 'Index', angle: -90, position: 'insideLeft' }} />
             <Tooltip />
             <Legend />
-            <Bar dataKey="Argentina" barSize={20} fill="#413ea0" />
-            <Bar dataKey="Botswana" barSize={20} fill="#413ea0" />
+            {renderData?.map(i=>
+            <Bar dataKey={i} barSize={20} fill="#413ea0" />
+              )}
             <Line type="monotone" dataKey="L1_Threshold" stroke="#ff7300" />
             <Line type="monotone" dataKey="L2_Threshold" stroke="#ff7300" />
             <Line type="monotone" dataKey="L3_Threshold" stroke="#ff7300" />
