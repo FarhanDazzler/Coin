@@ -315,7 +315,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       return !!i?.question_options?.find((d) => d?.option_id === i.selectVal)?.is_Failing;
     });
   }, [ansSection1]);
-
+  console.log('actionPlanInfo', actionPlanInfo);
   const handleSubmit = () => {
     let isS3FailedData;
     Swal.fire({

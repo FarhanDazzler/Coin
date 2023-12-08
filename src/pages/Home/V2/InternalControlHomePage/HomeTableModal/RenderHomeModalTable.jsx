@@ -121,6 +121,7 @@ const RenderHomeModalTable = ({
               handleSubmit={handleSubmit}
               info={actionPlanInfo}
               setInfo={setActionPlanInfo}
+              isModal={isModal}
             />
           )}
 
