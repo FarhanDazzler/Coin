@@ -126,7 +126,7 @@ const ControlSection = ({
                       variant="outlined"
                       onClick={() => {
                         handleNo();
-                        setInfo({ ...info, issueResolved: 'no' });
+                        setInfo({ ...info, issueResolved: 'no',step:3 });
                       }}
                     >
                       No
