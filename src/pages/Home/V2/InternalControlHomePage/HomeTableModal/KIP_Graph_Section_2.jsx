@@ -116,8 +116,8 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
               <Bar dataKey={i} barSize={20} fill="#413ea0" />
             ))}
             <Line type="monotone" dataKey="L1_Threshold" stroke="#ff7300" />
-            <Line type="monotone" dataKey="L2_Threshold" stroke="#ff7300" />
-            <Line type="monotone" dataKey="L3_Threshold" stroke="#ff7300" />
+            <Line type="monotone" dataKey="L2_Threshold" stroke="#00FF00" />
+            <Line type="monotone" dataKey="L3_Threshold" stroke="#ffc658" />
           </ComposedChart>
         </div>
         <div className="renderBlockWrapper" style={{ minWidth: isModal ? 300 : 450 }}>
