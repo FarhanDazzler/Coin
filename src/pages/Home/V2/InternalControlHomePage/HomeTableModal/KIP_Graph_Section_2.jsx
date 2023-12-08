@@ -102,14 +102,14 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
             <CartesianGrid stroke="#f5f5f5" />
             <XAxis
               dataKey="name"
-              // label={{
-              //   value: "Receivers",
-              //   position: "insideBottomRight",
-              //   offset: 0
-              // }}
-              scale="band"
+              label={{
+                //value: "Receivers",
+                position: 'insideBottomRight',
+                offset: 0,
+              }}
+              //scale="band"
             />
-            <YAxis label={{ value: 'Index', angle: -90, position: 'insideLeft' }} />
+            <YAxis label={{ value: 'KPI', angle: -90, position: 'insideLeft' }} />
             <Tooltip />
             <Legend />
             {renderData?.map((i) => (
