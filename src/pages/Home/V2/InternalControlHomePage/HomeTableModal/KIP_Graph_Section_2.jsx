@@ -99,7 +99,8 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
               left: 20,
             }}
           >
-            <CartesianGrid stroke="#f5f5f5" />
+            <CartesianGrid stroke="#ccc" strokeDasharray="7 7" />
+            {/* <CartesianGrid stroke="#f5f5f5" /> */}
             <XAxis
               dataKey="name"
               label={{
