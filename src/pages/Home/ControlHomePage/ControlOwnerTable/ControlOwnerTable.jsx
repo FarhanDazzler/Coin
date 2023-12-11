@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   getControlDataGcdAction,
   getControlDataAction,
@@ -50,10 +51,6 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
 
 const ControlOwnerTable = ({
   tableName,
-  yearValue,
-  setYearValue,
-  assessmentCycleValue,
-  setAssessmentCycleValue,
   zoneValue,
   setZoneValue,
   buValue,
@@ -76,12 +73,25 @@ const ControlOwnerTable = ({
   const loginUserRole = loginRole ?? userRole;
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
   console.log('getControlOwnerData', getControlOwnerData);
-  // let controlOwnerData = ([] = []);
-  // if (loginUserRole === 'Control owner') {
-  //   controlOwnerData = getControlOwnerData.data[0]?.cOwnerData || [];
-  // } else {
-  //   controlOwnerData = getControlOwnerData.data[1]?.cOverSightData || [];
-  // }
+
+  function getCurrentQuarter() {
+    var currentMonth = new Date().getMonth() + 1; // Adding 1 because getMonth() returns zero-based month (0-11)
+    var quarter;
+
+    if (currentMonth >= 1 && currentMonth <= 3) {
+      quarter = 'Assessment Cycle 1';
+    } else if (currentMonth >= 4 && currentMonth <= 6) {
+      quarter = 'Assessment Cycle 2';
+    } else if (currentMonth >= 7 && currentMonth <= 9) {
+      quarter = 'Assessment Cycle 3';
+    } else {
+      quarter = 'Assessment Cycle 4';
+    }
+    return quarter;
+  }
+
+  const [yearValue, setYearValue] = useState([new Date().getFullYear().toString()]);
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentQuarter()]);
 
   const controlOwnerData = useMemo(() => {
     return loginUserRole === 'Control owner'
@@ -90,14 +100,26 @@ const ControlOwnerTable = ({
   }, [getControlOwnerData.data, loginUserRole]);
 
   useEffect(() => {
-    dispatch(
-      getControlOwnerTableData({
-        email: accounts[0]?.username,
-        User_oid: accounts[0]?.idTokenClaims.oid,
-      }),
-    );
+    if (yearValue.length > 0) {
+      const payload = {
+        assessmentCycle: assessmentCycleValue,
+        year: yearValue,
+      };
+      //toast.error('Please select year in filter.');
+      console.log('payload', payload);
+      dispatch(getControlOwnerTableData(payload));
+    } else {
+      toast.error('Please select Year in filter.');
+    }
+
+    // dispatch(
+    //   getControlOwnerTableData({
+    //     email: accounts[0]?.username,
+    //     User_oid: accounts[0]?.idTokenClaims.oid,
+    //   }),
+    // );
     setTableColumns(TABLE_COLUMNS);
-  }, [token]);
+  }, [assessmentCycleValue, yearValue, token]);
 
   const actionHeader = t('selfAssessment.homePage.controleOwner.Table.actions_button');
   const TABLE_COLUMNS = [
@@ -270,20 +292,7 @@ const ControlOwnerTable = ({
   // Memoize static data to prevent re-creation on every render
   const Zone = useMemo(() => controlOwnerData?.map((i) => i.Zone), [controlOwnerData]);
   const BU = useMemo(() => controlOwnerData?.map((i) => i.BU), [controlOwnerData]);
-  const Receiver = useMemo(() => controlOwnerData?.map((i) => i.Receiver), [controlOwnerData]);
   const Provider = useMemo(() => controlOwnerData?.map((i) => i.Provider), [controlOwnerData]);
-  const year = useMemo(() => controlOwnerData?.map((i) => i.Year), [controlOwnerData]);
-  const assessment_Cycle = useMemo(
-    () => controlOwnerData?.map((i) => i.Assessment_Cycle),
-    [controlOwnerData],
-  );
-
-  // const Zone = controlOwnerData?.map((i) => i.Zone);
-  // const BU = controlOwnerData?.map((i) => i.BU);
-  // const Receiver = controlOwnerData?.map((i) => i.Receiver);
-  // const Provider = controlOwnerData?.map((i) => i.Provider);
-  // const year = controlOwnerData?.map((i) => i.Year);
-  // const assessment_Cycle = controlOwnerData?.map((i) => i.Assessment_Cycle);
 
   // Memoize the function to prevent re-creation on every render
   const handleControlIDClick = useCallback(
@@ -303,41 +312,17 @@ const ControlOwnerTable = ({
     [dispatch, history],
   );
 
-  // const handleControlIDClick = (id, row) => {
-  //   //TODO: modal redirect
-  //   let payload = {
-  //     controlId: id,
-  //     coOwner: row?.Control_Owner,
-  //     provider: row?.Provider,
-  //   };
-  //   let gcdPayload = {
-  //     controlId: id,
-  //   };
-  //   dispatch(getControlDataAction(payload));
-  //   dispatch(getControlDataGcdAction(gcdPayload));
-  //   history.push(`${history.location.pathname}?Control_ID=${id}`, row);
-  // };
-
   function removeDuplicates(arr) {
     return [...new Set(arr)];
   }
 
   useEffect(() => {
     if (!controlOwnerData.length) return setTableDataArray([]);
-    if (
-      !yearValue.length &&
-      !assessmentCycleValue.length &&
-      !zoneValue.length &&
-      !buValue.length &&
-      !receiverValue.length &&
-      !providerValue.length
-    ) {
+    if (!zoneValue.length && !buValue.length && !receiverValue.length && !providerValue.length) {
       return setTableDataArray(controlOwnerData);
     }
     const updatedData = controlOwnerData.filter((i) => {
       return (
-        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true) &&
         (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
@@ -345,26 +330,24 @@ const ControlOwnerTable = ({
       );
     });
     setTableDataArray(updatedData);
-  }, [
-    yearValue,
-    assessmentCycleValue,
-    zoneValue,
-    buValue,
-    receiverValue,
-    providerValue,
-    controlOwnerData,
-    loginUserRole,
-  ]);
+  }, [zoneValue, buValue, receiverValue, providerValue, controlOwnerData, loginUserRole]);
+
+  function getYearsData() {
+    var currentYear = new Date().getFullYear();
+    var previousYear = currentYear - 1;
+    var yearBeforePrevious = previousYear - 1;
+
+    var yearsArray = [
+      { value: currentYear.toString(), label: currentYear.toString() },
+      { value: previousYear.toString(), label: previousYear.toString() },
+      { value: yearBeforePrevious.toString(), label: yearBeforePrevious.toString() },
+    ];
+
+    return yearsArray;
+  }
+
   return (
     <>
-      {/*<div className="container-fluid mt-5">
-        <div className="row pt-5">
-          <div className="col-12 col-lg-12">
-            <Typography className="table-title">{tableName}</Typography>
-          </div>
-        </div>
-  </div> */}
-
       <div className="container-fluid">
         {getControlOwnerData.loading ? (
           <TableLoader className="mt-8" />
@@ -373,13 +356,18 @@ const ControlOwnerTable = ({
             <div className="col-12 col-lg-12">
               <Group spacing="xs" className="actions-button-wrapper">
                 <FilterMultiSelect
-                  data={removeDuplicates(year) || []}
+                  data={getYearsData() || []}
                   label="Year"
                   value={yearValue}
                   onChange={setYearValue}
                 />
                 <FilterMultiSelect
-                  data={removeDuplicates(assessment_Cycle) || []}
+                  data={[
+                    { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
+                    { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
+                    { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
+                    { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
+                  ]}
                   label="Assessment Cycle"
                   value={assessmentCycleValue}
                   onChange={setAssessmentCycleValue}
@@ -396,12 +384,6 @@ const ControlOwnerTable = ({
                   value={buValue}
                   onChange={setBUValue}
                 />
-                {/* <FilterMultiSelect
-                  data={removeDuplicates(Receiver) || []}
-                  label="Receiver Organization"
-                  value={receiverValue}
-                  onChange={setReceiverValue}
-                /> */}
                 <FilterMultiSelect
                   data={removeDuplicates(Provider) || []}
                   label="Provider Organization"

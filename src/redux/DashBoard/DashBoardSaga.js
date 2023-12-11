@@ -38,7 +38,7 @@ function* handleGetInternalControlData({ payload: copyPayload }) {
 }
 
 async function getControlOwnerDataApi(payload) {
-  return await Axios.get('/get_control_owner_oversight_data', { params: payload });
+  return await Axios.post('/get_control_owner_oversight_data', payload);
 }
 function* handleGetControlOwnerData({ payload: copyPayload }) {
   try {

@@ -25,16 +25,12 @@ const ControlHomePage = () => {
   const [openNPS, setOpenNPS] = useState(false);
   const submitAssessmentResponseState = useSelector(submitAssessmentResponseSelector);
 
-  const [yearValue, setYearValue] = useState([]);
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
   const [receiverValue, setReceiverValue] = useState([]);
   const [providerValue, setProviderValue] = useState([]);
 
   useEffect(() => {
-    setYearValue([]);
-    setAssessmentCycleValue([]);
     setZoneValue([]);
     setBUValue([]);
     setReceiverValue([]);
@@ -50,8 +46,6 @@ const ControlHomePage = () => {
   }, [
     getControlOwnerData.data,
     loginUserRole,
-    yearValue,
-    assessmentCycleValue,
     zoneValue,
     buValue,
     receiverValue,
@@ -64,14 +58,7 @@ const ControlHomePage = () => {
       loginUserRole === 'Control owner'
         ? getControlOwnerData.data[0]?.cOwnerData || []
         : getControlOwnerData.data[1]?.cOverSightData || [];
-    if (
-      !yearValue.length &&
-      !assessmentCycleValue.length &&
-      !zoneValue.length &&
-      !buValue.length &&
-      !receiverValue.length &&
-      !providerValue.length
-    ) {
+    if (!zoneValue.length && !buValue.length && !receiverValue.length && !providerValue.length) {
       const allstatus = tableData.map((d) => {
         return d.Status;
       });
@@ -85,8 +72,6 @@ const ControlHomePage = () => {
 
     const updatedData = tableData.filter((i) => {
       return (
-        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true) &&
         (receiverValue?.length ? receiverValue.includes(i.Receiver) : true) &&
@@ -106,8 +91,6 @@ const ControlHomePage = () => {
   }, [
     getControlOwnerData.data,
     loginUserRole,
-    yearValue,
-    assessmentCycleValue,
     zoneValue,
     buValue,
     receiverValue,
@@ -182,10 +165,6 @@ const ControlHomePage = () => {
         {loginUserRole === 'Control owner' ? (
           <ControlOwnerTable
             tableName="Control Owner"
-            yearValue={yearValue}
-            setYearValue={setYearValue}
-            assessmentCycleValue={assessmentCycleValue}
-            setAssessmentCycleValue={setAssessmentCycleValue}
             zoneValue={zoneValue}
             setZoneValue={setZoneValue}
             buValue={buValue}
@@ -198,10 +177,6 @@ const ControlHomePage = () => {
         ) : (
           <ControlOwnerTable
             tableName="Control Oversight"
-            yearValue={yearValue}
-            setYearValue={setYearValue}
-            assessmentCycleValue={assessmentCycleValue}
-            setAssessmentCycleValue={setAssessmentCycleValue}
             zoneValue={zoneValue}
             setZoneValue={setZoneValue}
             buValue={buValue}
