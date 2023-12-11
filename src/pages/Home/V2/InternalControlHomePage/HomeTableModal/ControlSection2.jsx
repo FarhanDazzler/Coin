@@ -222,12 +222,11 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       },
 
       validator: (newValue, row, column) => {
-        if (isNaN(newValue)) {
+        if (isNaN(newValue) || newValue <= 0) {
           row.Denominator = '';
-
           return {
             valid: false,
-            message: 'only numbers are allowed',
+            message: 'Denominator can be positive values only',
           };
         }
       },
@@ -238,6 +237,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       editable: false,
       headerStyle: {
         ...headerStyles,
+      },
+      formatter: (cellContent, row) => (!row.Numerator || !row.Denominator ? '' : row.KPI_Value),
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.Numerator || !row.Denominator) {
+          return {
+            backgroundColor: 'white',
+            color: 'white',
+          };
+        }
       },
     },
     // {
@@ -667,6 +675,10 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
                       </button>
                     </form>
                   )}
+                </div>
+                <div style={{ textDecoration: 'underline' }}>
+                  NOTE: Kindly enter both numerator and denominator, partial information will result
+                  in the failure of KPIs
                 </div>
                 <div
                   className={`renderBlockWrapper section2-table ${
