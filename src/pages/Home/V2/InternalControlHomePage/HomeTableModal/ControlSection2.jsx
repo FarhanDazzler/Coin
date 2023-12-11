@@ -676,6 +676,10 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
                     </form>
                   )}
                 </div>
+                <div style={{ textDecoration: 'underline' }}>
+                  NOTE: Kindly enter both numerator and denominator, partial information will result
+                  in the failure of KPIs
+                </div>
                 <div
                   className={`renderBlockWrapper section2-table ${
                     isModal ? 'section2-table-ismodal' : 'section2-table-notmodal'
