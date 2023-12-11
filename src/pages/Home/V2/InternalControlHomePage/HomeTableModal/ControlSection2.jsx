@@ -400,7 +400,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         if (column.dataField === 'Denominator' && newValue < 1) {
           row['Denominator'] = '';
         }
-        row.KPI_Value = (row.Numerator / row.Denominator).toFixed(2);
+        row.KPI_Value = (row.Numerator / row.Denominator).toFixed(5);
         if (row.Positive_direction === 'Lower is better') {
           if (row.MICS_L1_Threshold === '-' || row.L1_Result === '') {
             row.L1_Result = 'NA';
