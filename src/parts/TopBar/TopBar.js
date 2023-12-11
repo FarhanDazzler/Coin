@@ -522,6 +522,7 @@ const TopBar = (props) => {
   }, [roleValue, loginRole, selected_Role]);
 
   const handleHardRefresh = () => {
+    history.push('/');
     window.location.reload(true);
   };
 
