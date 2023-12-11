@@ -8,6 +8,9 @@ import coinLogo from '../../assets/images/coin_logo.png';
 import defaultProfilePhoto from '../../assets/images/profile.jpg';
 import { UserContext } from '../../context/userContext';
 import { useDispatch, useSelector } from 'react-redux';
+import { ActionIcon } from '@mantine/core';
+import Tooltip from '@mui/material/Tooltip';
+import CachedIcon from '@mui/icons-material/Cached';
 import {
   setLoginInfo,
   setLoginRole,
@@ -518,6 +521,10 @@ const TopBar = (props) => {
     }
   }, [roleValue, loginRole, selected_Role]);
 
+  const handleHardRefresh = () => {
+    window.location.reload(true);
+  };
+
   return (
     <div className="top-nav">
       <div className="header py-4">
@@ -630,6 +637,28 @@ const TopBar = (props) => {
               <div className="d-flex align-items-center justify-content-end">
                 <span className="golden-text" style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                   {process.env.REACT_APP_STAGE === 'prod' ? null : <strong>{`BETA`}</strong>}
+                </span>
+                <span
+                  style={{
+                    marginTop: 'auto',
+                    marginBottom: 'auto',
+                    marginRight: '1rem',
+                    marginLeft: '1rem',
+                  }}
+                >
+                  <Tooltip title="Refresh Application" position="bottom">
+                    <ActionIcon
+                      size="md"
+                      radius="xl"
+                      variant="filled"
+                      color="yellow"
+                      onClick={() => {
+                        handleHardRefresh();
+                      }}
+                    >
+                      <CachedIcon size={18} />
+                    </ActionIcon>
+                  </Tooltip>
                 </span>
                 <div className="dropdown">
                   <a className="nav-link pr-0 leading-none" onClick={togglingDropDown}>
