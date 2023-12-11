@@ -99,8 +99,6 @@ const InternalControlTable = ({
         assessmentCycle: assessmentCycleValue,
         year: yearValue,
       };
-      //toast.error('Please select year in filter.');
-      console.log(payload, 'payload');
       dispatch(getInternalControlTableData(payload));
     } else {
       toast.error('Please select Year in filter.');
@@ -360,8 +358,6 @@ const InternalControlTable = ({
   const BU = getDashBoardDataState?.data?.map((i) => i.BU);
   const Receiver = getDashBoardDataState?.data?.map((i) => i.Receiver);
   const Provider = getDashBoardDataState?.data?.map((i) => i.Provider);
-  // const year = getDashBoardDataState?.data?.map((i) => i.Year);
-  const assessment_Cycle = getDashBoardDataState?.data?.map((i) => i.Assessment_Cycle);
   const control_id = getDashBoardDataState?.data?.map((i) => i.Control_ID);
   const status_of_assessment = getDashBoardDataState?.data?.map((i) => i.Status);
 
