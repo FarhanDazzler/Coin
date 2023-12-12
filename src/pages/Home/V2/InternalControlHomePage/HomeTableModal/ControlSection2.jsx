@@ -308,7 +308,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       dataField: 'Source_System',
       text: 'Source of Data - Link',
       editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
-      formatter: (cellContent, row) => '',
+      // formatter: (cellContent, row) => '',
       headerStyle: {
         ...headerStyles,
       },
@@ -317,6 +317,10 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
           return {
             backgroundColor: 'white',
             border: '2px solid gold',
+            color: 'black',
+          };
+        } else {
+          return {
             color: 'black',
           };
         }
@@ -410,8 +414,13 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         }
         row.KPI_Value = (row.Numerator / row.Denominator).toFixed(5);
         if (row.Positive_direction === 'Lower is better') {
-          if (row.MICS_L1_Threshold === '-' || row.L1_Result === '') {
-            row.L1_Result = 'NA';
+          if (
+            row.MICS_L1_Threshold === '-' ||
+            row.L1_Result === '' ||
+            row.MICS_L1_Threshold == null
+          ) {
+            console.log('l1 there', row.MICS_L1_Threshold);
+            row.L1_Result = 'N/A';
           } else {
             if (+row.KPI_Value <= +row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
               row.L1_Result = 'Pass';
@@ -420,17 +429,26 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
 
-          if (row.MICS_L2_Threshold === '-' || row.L2_Result === '') {
-            row.L2_Result = 'NA';
+          if (
+            row.MICS_L2_Threshold === '-' ||
+            row.L2_Result === '' ||
+            row.MICS_L2_Threshold == null
+          ) {
+            console.log('l2 there', row.MICS_L2_Threshold);
+            row.L2_Result = 'N/A';
           } else if (+row.KPI_Value <= +row.MICS_L2_Threshold && row.MICS_L2_Threshold !== '') {
             row.L2_Result = 'Pass';
           } else {
             row.L2_Result = 'Fail';
           }
 
-          if (row.MICS_L3_Threshold === '-' || row.L3_Result === '') {
+          if (
+            row.MICS_L3_Threshold === '-' ||
+            row.L3_Result === '' ||
+            row.MICS_L3_Threshold == null
+          ) {
             console.log('l3 there', row.MICS_L3_Threshold, row.L3_Result, row.KPI_Value);
-            row.L3_Result = 'NA';
+            row.L3_Result = 'N/A';
           } else {
             if (+row.KPI_Value <= +row.MICS_L3_Threshold) {
               row.L3_Result = 'Pass';
@@ -439,8 +457,12 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
         } else if (row.Positive_direction === 'Higher is better') {
-          if (row.MICS_L1_Threshold === '-' || row.L1_Result === '') {
-            row.L1_Result = 'NA';
+          if (
+            row.MICS_L1_Threshold === '-' ||
+            row.L1_Result === '' ||
+            row.MICS_L1_Threshold === null
+          ) {
+            row.L1_Result = 'N/A';
           } else {
             if (+row.KPI_Value >= +row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
               row.L1_Result = 'Pass';
@@ -449,8 +471,12 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
 
-          if (row.MICS_L2_Threshold === '-' || row.L2_Result === '') {
-            row.L2_Result = 'NA';
+          if (
+            row.MICS_L2_Threshold === '-' ||
+            row.L2_Result === '' ||
+            row.MICS_L2_Threshold === null
+          ) {
+            row.L2_Result = 'N/A';
           } else {
             if (+row.KPI_Value >= +row.MICS_L2_Threshold) {
               row.L2_Result = 'Pass';
@@ -459,8 +485,12 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
 
-          if (row.MICS_L3_Threshold === '-' || row.L3_Result === '') {
-            row.L3_Result = 'NA';
+          if (
+            row.MICS_L3_Threshold === '-' ||
+            row.L3_Result === '' ||
+            row.MICS_L3_Threshold === null
+          ) {
+            row.L3_Result = 'N/A';
           } else {
             if (+row.KPI_Value >= +row.MICS_L3_Threshold) {
               row.L3_Result = 'Pass';
@@ -527,13 +557,17 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
 
       dispatch(getCsvTampredDataAction(apiBody));
       if (stateCsvTampred?.data === false) {
-        let newDataArray = tableData.map((data, i) => {
+        let newDataArray = tableData?.map((data, i) => {
+          //console.log(excelFile[i], '***');
           return {
             ...data,
-            Numerator: excelFile[i].Numerator,
-            Denominator: excelFile[i].Denominator,
+            Numerator: excelFile[i]?.Numerator,
+            Denominator: excelFile[i]?.Denominator,
+            Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
+            Source_System: excelFile[i]['Link to data'],
           };
         });
+        console.log(newDataArray, 'newDataArray');
         setTableData([...newDataArray]);
         setScvUpdateData(csvUpdateData + 1);
       } else {
@@ -577,6 +611,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         readXlsxFile(selectedFile).then((data) => {
           setExcelFile(
             data.slice(1).map((d) => {
+              //console.log(d, '@@@@');
               let obj = {};
               d.map((v, i) => {
                 obj[data[0][i]] = v;
