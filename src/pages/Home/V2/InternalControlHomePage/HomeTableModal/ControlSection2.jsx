@@ -410,8 +410,9 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
         }
         row.KPI_Value = (row.Numerator / row.Denominator).toFixed(5);
         if (row.Positive_direction === 'Lower is better') {
-          if (row.MICS_L1_Threshold === '-' || row.L1_Result === '') {
-            row.L1_Result = 'NA';
+          if (row.MICS_L1_Threshold === '-' || row.L1_Result === '' || row.MICS_L1_Threshold == null) {
+            console.log('l1 there', row.MICS_L1_Threshold);
+            row.L1_Result = 'N/A';
           } else {
             if (+row.KPI_Value <= +row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
               row.L1_Result = 'Pass';
@@ -420,17 +421,18 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
 
-          if (row.MICS_L2_Threshold === '-' || row.L2_Result === '') {
-            row.L2_Result = 'NA';
+          if (row.MICS_L2_Threshold === '-' || row.L2_Result === '' || row.MICS_L2_Threshold == null) {
+            console.log('l2 there', row.MICS_L2_Threshold);
+            row.L2_Result = 'N/A';
           } else if (+row.KPI_Value <= +row.MICS_L2_Threshold && row.MICS_L2_Threshold !== '') {
             row.L2_Result = 'Pass';
           } else {
             row.L2_Result = 'Fail';
           }
 
-          if (row.MICS_L3_Threshold === '-' || row.L3_Result === '') {
+          if (row.MICS_L3_Threshold === '-' || row.L3_Result === '' || row.MICS_L3_Threshold == null) {
             console.log('l3 there', row.MICS_L3_Threshold, row.L3_Result, row.KPI_Value);
-            row.L3_Result = 'NA';
+            row.L3_Result = 'N/A';
           } else {
             if (+row.KPI_Value <= +row.MICS_L3_Threshold) {
               row.L3_Result = 'Pass';
@@ -439,8 +441,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
         } else if (row.Positive_direction === 'Higher is better') {
-          if (row.MICS_L1_Threshold === '-' || row.L1_Result === '') {
-            row.L1_Result = 'NA';
+          if (row.MICS_L1_Threshold === '-' || row.L1_Result === '' || row.MICS_L1_Threshold === null) {
+            row.L1_Result = 'N/A';
           } else {
             if (+row.KPI_Value >= +row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
               row.L1_Result = 'Pass';
@@ -449,8 +451,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
 
-          if (row.MICS_L2_Threshold === '-' || row.L2_Result === '') {
-            row.L2_Result = 'NA';
+          if (row.MICS_L2_Threshold === '-' || row.L2_Result === '' || row.MICS_L2_Threshold === null) {
+            row.L2_Result = 'N/A';
           } else {
             if (+row.KPI_Value >= +row.MICS_L2_Threshold) {
               row.L2_Result = 'Pass';
@@ -459,8 +461,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
             }
           }
 
-          if (row.MICS_L3_Threshold === '-' || row.L3_Result === '') {
-            row.L3_Result = 'NA';
+          if (row.MICS_L3_Threshold === '-' || row.L3_Result === '' || row.MICS_L3_Threshold === null) {
+            row.L3_Result = 'N/A';
           } else {
             if (+row.KPI_Value >= +row.MICS_L3_Threshold) {
               row.L3_Result = 'Pass';
