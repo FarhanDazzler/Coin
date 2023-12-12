@@ -308,7 +308,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       dataField: 'Source_System',
       text: 'Source of Data - Link',
       editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
-      formatter: (cellContent, row) => '',
+      // formatter: (cellContent, row) => '',
       headerStyle: {
         ...headerStyles,
       },
@@ -317,6 +317,10 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
           return {
             backgroundColor: 'white',
             border: '2px solid gold',
+            color: 'black',
+          };
+        } else {
+          return {
             color: 'black',
           };
         }
