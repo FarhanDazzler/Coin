@@ -44,6 +44,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const dispatch = useDispatch();
   const getResponse = useSelector(getResponseSelector);
   const latestDraftData = useSelector(getLatestDraftSelector);
+
   const getMicsOpenActionPlanVal = useSelector(getMicsOpenActionPlanSelector);
   const responseData = !getResponse?.data?.Latest_Response ? latestDraftData : getResponse;
   const questionsInfo = useSelector(getQuestionsSelector);
@@ -61,6 +62,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const responseUpdatedData =
     responseData.data?.Latest_Response || responseData.data?.Latest_response;
   const kpiResultData = useSelector(kpiResultSelector);
+  console.log('getResponse', questionsInfo, questionData);
   const currentLanguage = i18n.language;
   const [language, setLanguage] = useState(currentLanguage);
   const [actionPlanInfo, setActionPlanInfo] = useState({
@@ -116,10 +118,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         denyButtonText: t('selfAssessment.assessmentForm.saveDraftBtn'),
       }).then((result) => {
         if (result.isDismissed) {
+          dispatch(clearAssessmentResponse());
           history.push('/');
         }
         if (result.isDenied) {
           if (responseData?.data?.Attempt_no >= 5) {
+            dispatch(clearAssessmentResponse());
             history.push('/');
             return;
           }
@@ -377,6 +381,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
                   '',
                   'success',
                 );
+                dispatch(clearAssessmentResponse());
                 history.push('/');
               } else {
                 if (
@@ -387,6 +392,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
                 } else {
                   Swal.fire(t('selfAssessment.assessmentForm.assessmentPassText'), '', 'success');
                 }
+                dispatch(clearAssessmentResponse());
                 history.push('/');
               }
             },
@@ -412,6 +418,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           },
           events: {
             onSuccess: () => {
+              dispatch(clearAssessmentResponse());
               history.push('/');
             },
           },
@@ -456,6 +463,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
           events: {
             onSuccess: () => {
               Swal.fire(t('selfAssessment.assessmentForm.saveDraftSuccessText'), '', 'success');
+              dispatch(clearAssessmentResponse());
               history.push('/');
             },
           },
@@ -476,6 +484,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       confirmButtonText: t('selfAssessment.assessmentForm.closePopupBtnConfirmBtn'),
     }).then((result) => {
       if (result.isConfirmed) {
+        dispatch(clearAssessmentResponse());
         history.push('/');
       }
     });

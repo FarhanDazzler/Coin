@@ -1,3 +1,5 @@
+import { CLEAR_GET_ASSESSMENT_RESPONSE } from '../Assessments/AssessmentReducer';
+
 export const GET_SECTION_1_MICS_REQUEST = 'GET_SECTION_1_MICS_REQUEST';
 export const GET_SECTION_1_MICS_SUCCESS = 'GET_SECTION_1_MICS_SUCCESS';
 export const GET_SECTION_1_MICS_ERROR = 'GET_SECTION_1_MICS_ERROR';
@@ -86,6 +88,11 @@ const initialState = {
 
 export const QuestionsReducer = (state = initialState, { type, payload = {} }) => {
   switch (type) {
+    case CLEAR_GET_ASSESSMENT_RESPONSE:
+      return {
+        ...state,
+        question3: { ...block, data: [], Level: {} },
+      };
     case GET_SECTION_1_MICS_REQUEST:
       if (state.question1.data.length > 0 && !payload.disabledLoading) {
         return { ...state };
