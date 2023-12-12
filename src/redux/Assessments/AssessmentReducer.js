@@ -214,10 +214,26 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
         getResponse: { ...state.getResponse, loading: false },
       };
     case CLEAR_GET_ASSESSMENT_RESPONSE:
+      // @@@@@@@@
       return {
         ...state,
         getResponse: {
           ...state.getResponse,
+          data: {},
+          loading: false,
+        },
+        getLatestDraft: {
+          ...state.getLatestDraft,
+          data: {},
+          loading: false,
+        },
+        questions: {
+          ...state.questions,
+          data: {},
+          loading: false,
+        },
+        kpiResult: {
+          ...state.kpiResult,
           data: {},
           loading: false,
         },
