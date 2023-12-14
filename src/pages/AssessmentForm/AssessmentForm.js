@@ -41,6 +41,7 @@ const AssessmentForm = (props) => {
       controlId: Id,
     };
     dispatch(getControlDataAction(payload));
+    console.log('@@@@ -> 3');
     dispatch(getControlDataGcdAction(gcdPayload));
     dispatch(getAssessmentAns({ COwner: state?.Control_Owner, Control_ID: state.id }));
   }, []);

@@ -44,6 +44,8 @@ import { NoMatch } from './pages/NoMatch/NoMatch';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/i18n';
 import BU_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterForm/BU/FormComponents/LazyApprovalSection2/BU_Letter_LazyApprovalSection2.jsx';
+import Review from './pages/Review';
+import { Redirect } from 'react-router';
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -72,6 +74,7 @@ const theme = createTheme({
 
 const Pages = () => {
   const location = useLocation();
+  const { state } = location;
   const history = useHistory();
   const dispatch = useDispatch();
   const isAuthenticated = useIsAuthenticated();
@@ -232,6 +235,7 @@ const Pages = () => {
           ) : (
             <Route exact path="/" component={InternalControlHomePage} />
           )}
+          {state ? <Route exact path="/review" component={Review} /> : <Redirect to={'/'} />}
 
           {user_role === 'organizational persona' ? (
             <Route exact path="/home" component={Home_controlOwner} />

@@ -39,7 +39,6 @@ const RenderHomeModalTable = ({
   actionPlanInfo,
   setActionPlanInfo,
 }) => {
-  console.log('actionPlanInfo', actionPlanInfo);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
