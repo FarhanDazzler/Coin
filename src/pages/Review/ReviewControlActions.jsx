@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import Button from '../../../../../components/UI/Button';
 import { useTranslation } from 'react-i18next';
+import Button from '../../components/UI/Button';
 
-const ControlActions = ({ activeData }) => {
+const ReviewControlActions = ({ activeData }) => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('Scope');
   const [isReadMore, setIsReadMore] = useState(true);
@@ -12,8 +12,6 @@ const ControlActions = ({ activeData }) => {
   };
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   const stateGcdData = useSelector((state) => state?.controlData?.gcd?.data);
-  console.log('@@@@@stateControlData', stateControlData);
-  console.log('@@@@@stateGcdData', stateGcdData);
   const renderPeriodOfAssessment = () => {
     const year = activeData?.Year;
     switch (activeData?.Assessment_Cycle) {
@@ -152,4 +150,4 @@ const ControlActions = ({ activeData }) => {
   );
 };
 
-export default ControlActions;
+export default ReviewControlActions;
