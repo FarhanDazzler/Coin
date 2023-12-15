@@ -1,0 +1,17 @@
+.reviewTopBar {
+  background: #6c6c6c38;
+  color: #000;
+}
+.text-left {
+  text-align: left;
+}
+.App-header .reviewSectionWrapper .radio-wrapper .MuiSvgIcon-root {
+  color: #595959 !important;
+}
+.reviewSectionWrapper {
+  text-align: left;
+
+  .modal-form-body {
+    max-height: fit-content;
+  }
+}

@@ -32,7 +32,9 @@ import { getLanguageFormat, isJsonString } from '../../../../../utils/helper';
 import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
 import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 
-const HomeTableModal = ({ isModal = false, activeData = {} }) => {
+const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
+  console.log('activeDataactiveData', activeData);
+  const isModal = isReview || contentTypeModal;
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const { t, i18n } = useTranslation();
@@ -489,7 +491,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       }
     });
   };
-  if (!isModal)
+  if (!contentTypeModal || isReview)
     return (
       <>
         {Control_ID && (
@@ -502,7 +504,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
                   <span>{stateControlData.control_name}</span>
                 </div>
               </div>
-              <CloseIcon className="close-modal-icon" onClick={() => handleCloseAssessment()} />
             </div>
           </div>
         )}
@@ -533,7 +534,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             style: { width: 128 },
             loading: addOrEditUpdateDraft.loading,
           }}
-          isModal={false}
+          isModal={isReview}
           setStartEdit={setStartEdit}
           language={language}
         />

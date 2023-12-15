@@ -58,6 +58,7 @@ const InternalControlTable = (props) => {
       controlId: id,
     };
     dispatch(getControlDataAction(payload));
+    console.log('@@@@ ->71');
     dispatch(getControlDataGcdAction(gcdPayload));
     history.push(`${history.location.pathname}?Control_ID=${id}`);
   };
