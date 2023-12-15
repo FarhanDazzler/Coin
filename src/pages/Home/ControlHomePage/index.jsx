@@ -126,7 +126,7 @@ const ControlHomePage = () => {
             },
           }}
           productId={process.env.REACT_APP_NPS_PRODUCT_ID}
-          productActivityId="nps_score_provided_IC"
+          productActivityId="nps_score_provided_controlOwner_and_controlOversight"
           modalOpened={openNPS}
           setModalOpened={setOpenNPS}
         />

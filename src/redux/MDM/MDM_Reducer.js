@@ -377,7 +377,12 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
     case ADD_MEGA_AND_SUBPROCESS_SUCCESS:
       return {
         ...state,
-        addMegaAndSubprocess: { ...state.addMegaAndSubprocess, data: payload, loading: false },
+        addMegaAndSubprocess: {
+          ...state.addMegaAndSubprocess,
+          data: payload,
+          loading: false,
+          success: true,
+        },
       };
     case ADD_MEGA_AND_SUBPROCESS_ERROR:
       return {
@@ -449,6 +454,7 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
           ...state.updateMegaAndSubprocess,
           data: payload,
           loading: false,
+          success: true,
         },
       };
     case UPDATE_MEGA_AND_SUBPROCESS_ERROR:
@@ -512,6 +518,7 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
           ...state.modifyControlOwnerAndOversight,
           data: payload,
           loading: false,
+          success: true,
         },
       };
     case MODIFY_CONTROL_OWNER_AND_OVERSIGHT_ERROR:
@@ -563,6 +570,7 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
           ...state.assignApplicabilityAndAssignmentOfProviderOrganization,
           data: payload,
           loading: false,
+          success: true,
         },
       };
     case ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_ERROR:
@@ -649,6 +657,7 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
         addOrgStructureData: {
           data: payload,
           loading: false,
+          success: true,
         },
       };
     case ACTION_ADD_ORG_STRUCTURE_DATA_FAILED:
@@ -673,6 +682,7 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
         updateOrgStructureData: {
           data: payload,
           loading: false,
+          success: true,
         },
       };
     case ACTION_UPDATE_ORG_STRUCTURE_DATA_FAILED:

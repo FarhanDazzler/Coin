@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useMsal } from '@azure/msal-react';
+import ProductFeedback from '../../../components/NPSFeedbackModule/ProductFeedback/ProductFeedback.js';
 import PageWrapper from '../../../components/wrappers/PageWrapper';
 import '../MDMStyle.scss';
 import NavTabsMDM from '../MDM_Tab_Buttons/TabButtons';
@@ -14,6 +16,8 @@ import {
 
 const MDM_OrganizationHierarchyLandingPage = () => {
   const dispatch = useDispatch();
+  const { accounts } = useMsal();
+  const [openNPS, setOpenNPS] = useState(false);
   const orgManageButtonState = useSelector(orgManageButtonSelector);
   const addOrgStructureState = useSelector(addOrgStructureSelector);
   const updateOrgState = useSelector(updateOrgStructureSelector);
@@ -24,8 +28,18 @@ const MDM_OrganizationHierarchyLandingPage = () => {
     dispatch(getOrgHierarchy());
   }, [addOrgStructureState?.data, updateOrgState?.data?.message]);
 
-  // to select data from redux store using selector
-  // const orgStructures = useSelector(getOrgStructuresSelector);
+  // to open NPS feedback modal
+  useEffect(() => {
+    if (addOrgStructureState.success || updateOrgState.success) {
+      // Delay by 1 second (1000 milliseconds)
+      const timeoutId = setTimeout(() => {
+        setOpenNPS(true);
+      }, 2500);
+
+      // Clean up the timeout when the component unmounts or when the effect re-runs
+      return () => clearTimeout(timeoutId);
+    }
+  }, [addOrgStructureState?.data, updateOrgState?.data?.message]);
 
   return (
     <PageWrapper>
