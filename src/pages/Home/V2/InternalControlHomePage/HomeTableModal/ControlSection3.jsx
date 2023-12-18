@@ -134,7 +134,7 @@ const ControlSection3 = ({
               onSuccess: () => {
                 setTimeout(() => {
                   setLoadingLevel({ ...loadingLevel, L2: false });
-                }, 1000);
+                }, 1500);
               },
             },
           }),
@@ -296,7 +296,7 @@ const ControlSection3 = ({
                       onSuccess: () => {
                         setTimeout(() => {
                           setLoadingLevel({ ...loadingLevel, L3: false });
-                        }, 1000);
+                        }, 1500);
                       },
                     },
                   }),

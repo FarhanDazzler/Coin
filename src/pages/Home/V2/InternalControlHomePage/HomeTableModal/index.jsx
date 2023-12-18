@@ -305,7 +305,7 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
                     onSuccess: () => {
                       setTimeout(() => {
                         setLoadingLevel({ ...loadingLevel, L2: false });
-                      }, 1000);
+                      }, 1500);
                     },
                   },
                 }),
@@ -331,7 +331,7 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
                     onSuccess: () => {
                       setTimeout(() => {
                         setLoadingLevel({ ...loadingLevel, L3: false });
-                      }, 1000);
+                      }, 1500);
                     },
                   },
                 }),

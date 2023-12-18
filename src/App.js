@@ -235,7 +235,7 @@ const Pages = () => {
           ) : (
             <Route exact path="/" component={InternalControlHomePage} />
           )}
-          {state ? <Route exact path="/review" component={Review} /> : <Redirect to={'/'} />}
+          {state && <Route exact path="/review" component={Review} />}
 
           {user_role === 'organizational persona' ? (
             <Route exact path="/home" component={Home_controlOwner} />
