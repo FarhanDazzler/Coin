@@ -41,6 +41,8 @@ const RenderHomeModalTable = ({
   loadingLevel,
   setLoadingLevel,
   loadingRef,
+  setIsModal,
+  isReview,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -108,7 +110,12 @@ const RenderHomeModalTable = ({
 
   return (
     <div className="modal-form-body">
-      <ControlActions activeData={activeData} />
+      <ControlActions
+        isReview={isReview}
+        activeData={activeData}
+        setIsModal={setIsModal}
+        isModal={isModal}
+      />
 
       {questionsInfo.loading || getMicsOpenActionPlanVal.loading || actionPlanInfo?.loading ? (
         <div className="d-flex w-100 align-items-center justify-content-center py-5 my-5">
