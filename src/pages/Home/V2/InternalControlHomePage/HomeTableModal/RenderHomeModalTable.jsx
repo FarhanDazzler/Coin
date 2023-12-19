@@ -38,6 +38,9 @@ const RenderHomeModalTable = ({
   getMicsOpenActionPlanVal,
   actionPlanInfo,
   setActionPlanInfo,
+  loadingLevel,
+  setLoadingLevel,
+  loadingRef,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -156,6 +159,9 @@ const RenderHomeModalTable = ({
                     setStartEdit={setStartEdit}
                     isModal={!isModal}
                     showMoreSection={showMoreSection}
+                    loadingLevel={loadingLevel}
+                    setLoadingLevel={setLoadingLevel}
+                    loadingRef={loadingRef}
                   />
                 </>
               )}

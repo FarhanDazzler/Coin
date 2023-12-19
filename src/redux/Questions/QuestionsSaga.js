@@ -136,11 +136,15 @@ function* handleDeleteSection1({ payload }) {
 async function getSection3Api(params) {
   return await Axios.get('/get_Section3_MICS_Specific_Question', { params });
 }
-function* handleGetSection3({ payload }) {
+function* handleGetSection3({ payload: copyPayload }) {
   try {
+    const { events, ...payload } = copyPayload;
     const level = payload.Level;
     const response = yield call(getSection3Api, payload);
     if (response.success) {
+      if (events?.onSuccess) {
+        events?.onSuccess(response.data);
+      }
       const responseLevel = response.data[level];
       yield put({
         type: GET_SECTION_3_MICS_SUCCESS,
