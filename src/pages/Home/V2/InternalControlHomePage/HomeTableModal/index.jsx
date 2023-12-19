@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import './homeTableModalStyles.scss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,7 +32,8 @@ import { getLanguageFormat, isJsonString } from '../../../../../utils/helper';
 import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
 import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 
-const HomeTableModal = ({ isModal = false, activeData = {} }) => {
+const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
+  const isModal = isReview || contentTypeModal;
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const { t, i18n } = useTranslation();
@@ -62,7 +63,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
   const responseUpdatedData =
     responseData.data?.Latest_Response || responseData.data?.Latest_response;
   const kpiResultData = useSelector(kpiResultSelector);
-  console.log('getResponse', questionsInfo, questionData);
   const currentLanguage = i18n.language;
   const [language, setLanguage] = useState(currentLanguage);
   const [actionPlanInfo, setActionPlanInfo] = useState({
@@ -73,6 +73,16 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
     ...getMicsOpenActionPlanVal.data,
     loading: !!getMicsOpenActionPlanVal?.loading,
   });
+  const [loadingLevel, setLoadingLevel] = useState({
+    L2: false,
+    L3: false,
+  });
+
+  const loadingRef = useRef();
+
+  useEffect(() => {
+    loadingRef.current = loadingLevel;
+  }, [loadingLevel]);
 
   const isNotEscalationRequired = !!actionPlanInfo.isEscalationRequired;
 
@@ -284,13 +294,23 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         ) {
           if (timeOutSection2) clearTimeout(timeOutSection2);
           timeOutSection2 = setTimeout(() => {
-            dispatch(
-              getSection3Questions({
-                Level: 'L2',
-                Control_ID: Control_ID,
-                Assessment_ID: activeData.id,
-              }),
-            );
+            if (!loadingRef?.current?.L2) {
+              setLoadingLevel({ ...loadingLevel, L2: true });
+              dispatch(
+                getSection3Questions({
+                  Level: 'L2',
+                  Control_ID: Control_ID,
+                  Assessment_ID: activeData.id,
+                  events: {
+                    onSuccess: () => {
+                      setTimeout(() => {
+                        setLoadingLevel({ ...loadingLevel, L2: false });
+                      }, 1500);
+                    },
+                  },
+                }),
+              );
+            }
           }, 1000);
         }
 
@@ -300,13 +320,24 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         ) {
           if (timeOutSection3) clearTimeout(timeOutSection3);
           timeOutSection3 = setTimeout(() => {
-            dispatch(
-              getSection3Questions({
-                Level: 'L3',
-                Control_ID: Control_ID,
-                Assessment_ID: activeData.id,
-              }),
-            );
+            if (!loadingRef?.current?.L3) {
+              setLoadingLevel({ ...loadingLevel, L3: true });
+              dispatch(
+                getSection3Questions({
+                  Level: 'L3',
+                  Control_ID: Control_ID,
+                  Assessment_ID: activeData.id,
+                  events: {
+                    onSuccess: () => {
+                      setTimeout(() => {
+                        setLoadingLevel({ ...loadingLevel, L3: false });
+                      }, 1500);
+                    },
+                  },
+                }),
+              );
+            }
+
             if (!showMoreSection) setTerminating(true);
           }, 2000);
         }
@@ -489,7 +520,7 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
       }
     });
   };
-  if (!isModal)
+  if (!contentTypeModal || isReview)
     return (
       <>
         {Control_ID && (
@@ -502,7 +533,6 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
                   <span>{stateControlData.control_name}</span>
                 </div>
               </div>
-              <CloseIcon className="close-modal-icon" onClick={() => handleCloseAssessment()} />
             </div>
           </div>
         )}
@@ -533,9 +563,12 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
             style: { width: 128 },
             loading: addOrEditUpdateDraft.loading,
           }}
-          isModal={false}
+          isModal={isReview}
           setStartEdit={setStartEdit}
           language={language}
+          loadingLevel={loadingLevel}
+          setLoadingLevel={setLoadingLevel}
+          loadingRef={loadingRef}
         />
       </>
     );
@@ -578,6 +611,9 @@ const HomeTableModal = ({ isModal = false, activeData = {} }) => {
         isModal={true}
         setStartEdit={setStartEdit}
         language={language}
+        loadingLevel={loadingLevel}
+        setLoadingLevel={setLoadingLevel}
+        loadingRef={loadingRef}
       />
     </CustomModal>
   );

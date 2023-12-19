@@ -38,8 +38,10 @@ const RenderHomeModalTable = ({
   getMicsOpenActionPlanVal,
   actionPlanInfo,
   setActionPlanInfo,
+  loadingLevel,
+  setLoadingLevel,
+  loadingRef,
 }) => {
-  console.log('actionPlanInfo', actionPlanInfo);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
@@ -157,6 +159,9 @@ const RenderHomeModalTable = ({
                     setStartEdit={setStartEdit}
                     isModal={!isModal}
                     showMoreSection={showMoreSection}
+                    loadingLevel={loadingLevel}
+                    setLoadingLevel={setLoadingLevel}
+                    loadingRef={loadingRef}
                   />
                 </>
               )}

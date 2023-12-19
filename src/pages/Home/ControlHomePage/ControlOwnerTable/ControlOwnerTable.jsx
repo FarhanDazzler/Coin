@@ -72,7 +72,6 @@ const ControlOwnerTable = ({
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const loginUserRole = loginRole ?? userRole;
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
-  console.log('getControlOwnerData', getControlOwnerData);
 
   function getCurrentQuarter() {
     var currentMonth = new Date().getMonth() + 1; // Adding 1 because getMonth() returns zero-based month (0-11)
@@ -307,7 +306,7 @@ const ControlOwnerTable = ({
       };
       dispatch(getControlDataAction(payload));
       dispatch(getControlDataGcdAction(gcdPayload));
-      history.push(`${history.location.pathname}?Control_ID=${id}`, row);
+      history.push(`/review?Control_ID=${id}`, row);
     },
     [dispatch, history],
   );

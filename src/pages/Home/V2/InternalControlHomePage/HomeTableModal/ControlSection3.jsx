@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
 import { Loader } from 'semantic-ui-react';
@@ -26,6 +26,9 @@ const ControlSection3 = ({
   setStartEdit,
   isModal,
   showMoreSection,
+  loadingLevel,
+  setLoadingLevel,
+  loadingRef,
 }) => {
   const history = useHistory();
   const { Assessment_id = '' } = useParams();
@@ -121,7 +124,22 @@ const ControlSection3 = ({
       isJsonString(questionData.Level?.L1?.Inner_Questions) &&
       !JSON.parse(questionData.Level?.L1?.Inner_Questions).length;
     if (isFirstSectionWithNoQuestion) {
-      dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
+      if (!loadingRef?.current?.L2) {
+        setLoadingLevel({ ...loadingLevel, L2: true });
+        dispatch(
+          getSection3Questions({
+            Level: 'L2',
+            Control_ID: Control_ID,
+            events: {
+              onSuccess: () => {
+                setTimeout(() => {
+                  setLoadingLevel({ ...loadingLevel, L2: false });
+                }, 1500);
+              },
+            },
+          }),
+        );
+      }
       setQuestion2Api(true);
     }
 
@@ -268,7 +286,22 @@ const ControlSection3 = ({
             const updateAnsL2 = setSelectedQuestionAns(data2, ans.L2);
             setQuestionL2(updateAnsL2);
             if (!question3Api) {
-              dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
+              if (!loadingRef?.current?.L3) {
+                setLoadingLevel({ ...loadingLevel, L3: true });
+                dispatch(
+                  getSection3Questions({
+                    Level: 'L3',
+                    Control_ID: Control_ID,
+                    events: {
+                      onSuccess: () => {
+                        setTimeout(() => {
+                          setLoadingLevel({ ...loadingLevel, L3: false });
+                        }, 1500);
+                      },
+                    },
+                  }),
+                );
+              }
               setQuestion3Api(true);
             }
           } else {
@@ -319,11 +352,11 @@ const ControlSection3 = ({
   }, [questionData.Level, ans, languageVal]);
 
   useEffect(() => {
-    if (questionData.loading) {
+    if (questionData.loadingLevel) {
       const div = document.getElementById('section3');
       if (div) div.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }, [questionData.loading]);
+  }, [questionData.loadingLevel]);
 
   const isEmptySection = !questionL1.length > 0 && !questionL2.length > 0 && !questionL3.length;
   useEffect(() => {
@@ -331,7 +364,7 @@ const ControlSection3 = ({
       const ansLength = Object.keys(ans?.L3 || {}).length;
 
       if (
-        (isEmptySection && !questionData.loading) ||
+        (isEmptySection && !questionData.loadingLevel) ||
         (ansLength > 0 && questionL3[0]?.innerOptions?.length === ansLength)
       ) {
         setTerminating(true);
@@ -339,7 +372,7 @@ const ControlSection3 = ({
         setTerminating(false);
       }
     }, 10);
-  }, [questionL1.length, questionData.loading, ans.L3]);
+  }, [questionL1.length, questionData.loadingLevel, ans.L3]);
 
   if (isEmptySection) return <div />;
 
@@ -393,7 +426,7 @@ const ControlSection3 = ({
             </RenderBlockWrapper>
           )}
 
-          {questionData.loading && (
+          {questionData.loadingLevel && (
             <div className="d-flex w-100 justify-content-center pt-4" id="loader">
               <Loader />
             </div>

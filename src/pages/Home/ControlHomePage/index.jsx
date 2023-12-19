@@ -24,7 +24,7 @@ const ControlHomePage = () => {
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
   const [openNPS, setOpenNPS] = useState(false);
   const submitAssessmentResponseState = useSelector(submitAssessmentResponseSelector);
-
+  console.log('statestate', state);
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
   const [receiverValue, setReceiverValue] = useState([]);
@@ -126,7 +126,7 @@ const ControlHomePage = () => {
             },
           }}
           productId={process.env.REACT_APP_NPS_PRODUCT_ID}
-          productActivityId="nps_score_provided_IC"
+          productActivityId="nps_score_provided_controlOwner_and_controlOversight"
           modalOpened={openNPS}
           setModalOpened={setOpenNPS}
         />

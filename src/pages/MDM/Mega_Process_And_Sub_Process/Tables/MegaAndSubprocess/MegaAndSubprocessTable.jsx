@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FloatRight } from 'tabler-icons-react';
-
+import { useMsal } from '@azure/msal-react';
 import Table from '../../../../../components/UI/Table';
 import Table2 from '../../../../../components/UI/Table/Table2';
 
@@ -27,6 +27,7 @@ import {
   getMegaAndSubprocess,
 } from '../../../../../redux/MDM/MDM_Action';
 import Swal from 'sweetalert2';
+import ProductFeedback from '../../../../../components/NPSFeedbackModule/ProductFeedback/ProductFeedback.js';
 
 const MegaAndSubprocessTable = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,8 @@ const MegaAndSubprocessTable = () => {
   const updateMegaAndSubprocessState = useSelector(updateMegaAndSubprocessSelector);
   const [editTableIndex, setEditTableIndex] = useState([]);
   const [editTableData, setEditTableData] = useState();
+  const { accounts } = useMsal();
+  const [openNPS, setOpenNPS] = useState(false);
 
   useEffect(() => {
     if (addMegaAndSubprocessState || updateMegaAndSubprocessState) {
@@ -47,6 +50,19 @@ const MegaAndSubprocessTable = () => {
       dispatch(getMegaAndSubprocess());
     }
   }, [addMegaAndSubprocessState.data, updateMegaAndSubprocessState.data]);
+
+  // to open NPS feedback modal
+  useEffect(() => {
+    if (addMegaAndSubprocessState.success || updateMegaAndSubprocessState.success) {
+      // Delay by 1 second (1000 milliseconds)
+      const timeoutId = setTimeout(() => {
+        setOpenNPS(true);
+      }, 2500);
+
+      // Clean up the timeout when the component unmounts or when the effect re-runs
+      return () => clearTimeout(timeoutId);
+    }
+  }, [addMegaAndSubprocessState, updateMegaAndSubprocessState]);
 
   const megaAndSubprocess = useSelector(getMegaAndSubprocessSelector);
 
@@ -144,6 +160,22 @@ const MegaAndSubprocessTable = () => {
 
   return (
     <>
+      <ProductFeedback
+        env={process.env.REACT_APP_STAGE}
+        apiKey={''}
+        token={localStorage.getItem('nps-auth-token')}
+        feedbackMetadata={{
+          Activity: 'IC Has done MDM modification for Mega and Subprocess',
+          Created_By: {
+            Email: accounts[0]?.username,
+            name: accounts[0]?.name ? accounts[0].name : '',
+          },
+        }}
+        productId={process.env.REACT_APP_NPS_PRODUCT_ID}
+        productActivityId="nps_score_provided_IC"
+        modalOpened={openNPS}
+        setModalOpened={setOpenNPS}
+      />
       <div className="container-fluid mt-5" id="MegaAndSubprocessManage">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
