@@ -1,7 +1,7 @@
 {
   "selfAssessment": {
     "assessmentForm": {
-      "edit": "Editar",
+      "edit": "Anular",
       "globalControlDescriptionBtn": "Descripción de Control Global (DCG)",
       "localControlDescriptionBtn": "Descripción de Control Local (DCL)",
       "scopeBtn": "Alcance",

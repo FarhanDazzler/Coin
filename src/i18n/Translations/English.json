@@ -1,7 +1,7 @@
 {
   "selfAssessment": {
     "assessmentForm": {
-      "edit": "Edit",
+      "edit": "Override",
       "globalControlDescriptionBtn": "Global Control Description (GCD)",
       "localControlDescriptionBtn": "Local Control Description (LCD)",
       "scopeBtn": "Scope",
