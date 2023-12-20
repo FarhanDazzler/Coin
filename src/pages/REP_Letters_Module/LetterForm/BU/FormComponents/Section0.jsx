@@ -129,6 +129,7 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
     );
   };
 
+  //console.log(scopeData, '@');
   return (
     <div className="Rep-Letter-form-Section0">
       <CollapseFrame
@@ -163,25 +164,26 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
               >
                 Scope
               </Button>
-              {localStorage.getItem('selected_Role') === 'Disclosure Processor' && (
-                <Button
-                  startIcon={<FeedOutlinedIcon />}
-                  className={
-                    location.pathname === '/REP-Letters/re-attempt-letter/BU-letter-form'
-                      ? 'mr-4 active'
-                      : 'mr-4'
-                  }
-                  onClick={() => {
-                    const data = {
-                      scopeData: scopeData,
-                      letterType: letterType,
-                    };
-                    history.push('/REP-Letters/re-attempt-letter/BU-letter-form', { data });
-                  }}
-                >
-                  Edit Response
-                </Button>
-              )}
+              {localStorage.getItem('selected_Role') === 'Disclosure Processor' &&
+                scopeData.Status === 'Responded' && (
+                  <Button
+                    startIcon={<FeedOutlinedIcon />}
+                    className={
+                      location.pathname === '/REP-Letters/re-attempt-letter/BU-letter-form'
+                        ? 'mr-4 active'
+                        : 'mr-4'
+                    }
+                    onClick={() => {
+                      const data = {
+                        scopeData: scopeData,
+                        letterType: letterType,
+                      };
+                      history.push('/REP-Letters/re-attempt-letter/BU-letter-form', { data });
+                    }}
+                  >
+                    Edit Response
+                  </Button>
+                )}
 
               {/* when tab is active then show the content */}
               {(activeTab === 'Scope' || activeTab === 'Instructions') && (
