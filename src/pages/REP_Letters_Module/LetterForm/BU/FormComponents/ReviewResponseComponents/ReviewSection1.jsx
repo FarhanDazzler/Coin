@@ -25,7 +25,7 @@ const ReviewSection1 = ({ submittedResponses = [] }) => {
             <Divider color="gray" className="renderBlockWrapper_divider_form" size="xs" />
             <div className="option-section">
               <Group position="left" spacing="sm">
-                {['Yes', 'No', 'NA'].map((value) => (
+                {['Yes', 'No', 'N/A'].map((value) => (
                   <label key={value}>
                     <input type="radio" value={value} checked={item.response === value} readOnly />
                     <label className="radio-option-label">{value}</label>

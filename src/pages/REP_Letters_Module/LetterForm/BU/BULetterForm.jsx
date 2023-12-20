@@ -70,12 +70,12 @@ const ReviewSubmittedResponses = ({
     // Create a worksheet for the responses data with questionText converted to plain text
     const responsesSheet = XLSX.utils.json_to_sheet(
       responses.map((response) => ({
-        questionNumber: response.questionNumber,
-        questionText: convert(response.questionText),
-        response: response.response,
-        comment: response.comment,
-        month: response.month,
-        year: response.year,
+        'Question Number': response.questionNumber,
+        'Question Text': convert(response.questionText),
+        Response: response.response,
+        Comment: response.comment,
+        'Action plan due date - Month': response.month,
+        'Action plan due date - Year': response.year,
       })),
     );
     XLSX.utils.book_append_sheet(wb, responsesSheet, 'Responses');

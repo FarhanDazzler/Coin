@@ -42,6 +42,9 @@ const months = [
   { value: 'December', label: 'December' },
 ];
 
+const currentMonth = new Date().getMonth(); // Month index (0-11)
+const filteredMonths = months.slice(currentMonth);
+
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 3 }, (_, index) => currentYear + index);
 
@@ -92,7 +95,7 @@ const EditSection1 = (props) => {
         questionText: response.questionText,
         response: response.value,
         comment: response.value === 'Yes' ? '' : comment,
-        //month: response.value === 'NA' ? month : '',
+        //month: response.value === 'N/A' ? month : '',
         month: response.value === 'No' ? month || '' : '',
         year: response.value === 'No' ? year || '' : '',
       },
@@ -181,7 +184,7 @@ const EditSection1 = (props) => {
       const year = responses[question.id]?.year;
       if (!response) {
         newFormErrors[question.id] = 'Response is required.';
-      } else if ((response === 'No' || response === 'NA') && !comment) {
+      } else if ((response === 'No' || response === 'N/A') && !comment) {
         newFormErrors[question.id] = 'Comment is required.';
       } else if (response === 'No' && !month) {
         newFormErrors[question.id] = 'Month is required.';
@@ -272,7 +275,7 @@ const EditSection1 = (props) => {
                       <Divider color="gray" className="renderBlockWrapper_divider_form" size="xs" />
                       <div className="option-section">
                         <Group position="left" spacing="sm">
-                          {['Yes', 'No', 'NA'].map((value) => (
+                          {['Yes', 'No', 'N/A'].map((value) => (
                             <label key={value}>
                               <input
                                 type="radio"
@@ -321,25 +324,6 @@ const EditSection1 = (props) => {
                             Please select action plan month and year:{' '}
                           </Form.Label>
                           <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <Form.Group>
-                              <Form.Control
-                                as="select"
-                                name="Month"
-                                placeholder="Please select Month"
-                                required
-                                value={response.month || ''}
-                                onChange={(e) => handleMonthChange(question.id, e.target.value)}
-                                className="form-select"
-                                style={{ width: '150px', marginRight: '10px' }}
-                              >
-                                <option value="">Select Month</option>
-                                {months.map((month) => (
-                                  <option key={month.value} value={month.value}>
-                                    {month.label}
-                                  </option>
-                                ))}
-                              </Form.Control>
-                            </Form.Group>
                             <Form.Control
                               as="select"
                               name="Year"
@@ -348,7 +332,7 @@ const EditSection1 = (props) => {
                               value={response.year || ''}
                               onChange={(e) => handleYearChange(question.id, e.target.value)}
                               className="form-select"
-                              style={{ width: '150px' }}
+                              style={{ width: '150px', marginRight: '10px' }}
                             >
                               <option value="">Select Year</option>
                               {years.map((year) => (
@@ -357,6 +341,47 @@ const EditSection1 = (props) => {
                                 </option>
                               ))}
                             </Form.Control>
+                            {response.year == new Date().getFullYear() ? (
+                              <Form.Group>
+                                <Form.Control
+                                  as="select"
+                                  name="Month"
+                                  placeholder="Please select Month"
+                                  required
+                                  value={response.month || ''}
+                                  onChange={(e) => handleMonthChange(question.id, e.target.value)}
+                                  className="form-select"
+                                  style={{ width: '150px' }}
+                                >
+                                  <option value="">Select Month</option>
+                                  {filteredMonths.map((month) => (
+                                    <option key={month.value} value={month.value}>
+                                      {month.label}
+                                    </option>
+                                  ))}
+                                </Form.Control>
+                              </Form.Group>
+                            ) : (
+                              <Form.Group>
+                                <Form.Control
+                                  as="select"
+                                  name="Month"
+                                  placeholder="Please select Month"
+                                  required
+                                  value={response.month || ''}
+                                  onChange={(e) => handleMonthChange(question.id, e.target.value)}
+                                  className="form-select"
+                                  style={{ width: '150px' }}
+                                >
+                                  <option value="">Select Month</option>
+                                  {months.map((month) => (
+                                    <option key={month.value} value={month.value}>
+                                      {month.label}
+                                    </option>
+                                  ))}
+                                </Form.Control>
+                              </Form.Group>
+                            )}
                           </div>
                         </div>
                       )}
