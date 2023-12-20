@@ -41,22 +41,24 @@ const AssessmentBankLandingPage = () => {
 
   return (
     <PageWrapper>
-      <ProductFeedback
-        env={process.env.REACT_APP_STAGE}
-        apiKey={''}
-        token={localStorage.getItem('nps-auth-token')}
-        feedbackMetadata={{
-          Activity: 'IC has scheduled a survey',
-          Created_By: {
-            Email: accounts[0]?.username,
-            name: accounts[0]?.name ? accounts[0].name : '',
-          },
-        }}
-        productId={process.env.REACT_APP_NPS_PRODUCT_ID}
-        productActivityId="nps_score_provided_IC"
-        modalOpened={opened}
-        setModalOpened={setOpened}
-      />
+      {opened && (
+        <ProductFeedback
+          env={process.env.REACT_APP_STAGE}
+          apiKey={''}
+          token={localStorage.getItem('nps-auth-token')}
+          feedbackMetadata={{
+            Activity: 'IC has scheduled a survey',
+            Created_By: {
+              Email: accounts[0]?.username,
+              name: accounts[0]?.name ? accounts[0].name : '',
+            },
+          }}
+          productId={process.env.REACT_APP_NPS_PRODUCT_ID}
+          productActivityId="nps_score_provided_IC"
+          modalOpened={opened}
+          setModalOpened={setOpened}
+        />
+      )}
       {addAssessmentSchedulingAndTriggeringState.loading ? (
         <div className="loader-animation">
           <DotSpinner size={100} speed={0.9} color="#e3af32" />

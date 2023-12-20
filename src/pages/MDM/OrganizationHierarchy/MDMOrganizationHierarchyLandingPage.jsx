@@ -43,6 +43,24 @@ const MDM_OrganizationHierarchyLandingPage = () => {
 
   return (
     <PageWrapper>
+      {openNPS && (
+        <ProductFeedback
+          env={process.env.REACT_APP_STAGE}
+          apiKey={''}
+          token={localStorage.getItem('nps-auth-token')}
+          feedbackMetadata={{
+            Activity: 'IC Has done MDM modification for Organization Hierarchy',
+            Created_By: {
+              Email: accounts[0]?.username,
+              name: accounts[0]?.name ? accounts[0].name : '',
+            },
+          }}
+          productId={process.env.REACT_APP_NPS_PRODUCT_ID}
+          productActivityId="nps_score_provided_IC"
+          modalOpened={openNPS}
+          setModalOpened={setOpenNPS}
+        />
+      )}
       <div className="col-12 col-lg-12">
         <NavTabsMDM />
         <OrgHierarchyTable />

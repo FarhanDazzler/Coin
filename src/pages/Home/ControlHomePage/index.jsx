@@ -114,22 +114,24 @@ const ControlHomePage = () => {
   return (
     <div>
       <PageWrapper>
-        <ProductFeedback
-          env={process.env.REACT_APP_STAGE}
-          apiKey={''}
-          token={localStorage.getItem('nps-auth-token')}
-          feedbackMetadata={{
-            Activity: 'Control owner/Control oversigth has submitted the assessment',
-            Created_By: {
-              Email: accounts[0]?.username,
-              name: accounts[0]?.name ? accounts[0].name : '',
-            },
-          }}
-          productId={process.env.REACT_APP_NPS_PRODUCT_ID}
-          productActivityId="nps_score_provided_controlOwner_and_controlOversight"
-          modalOpened={openNPS}
-          setModalOpened={setOpenNPS}
-        />
+        {openNPS && (
+          <ProductFeedback
+            env={process.env.REACT_APP_STAGE}
+            apiKey={''}
+            token={localStorage.getItem('nps-auth-token')}
+            feedbackMetadata={{
+              Activity: 'Control owner/Control oversigth has submitted the assessment',
+              Created_By: {
+                Email: accounts[0]?.username,
+                name: accounts[0]?.name ? accounts[0].name : '',
+              },
+            }}
+            productId={process.env.REACT_APP_NPS_PRODUCT_ID}
+            productActivityId="nps_score_provided_controlOwner_and_controlOversight"
+            modalOpened={openNPS}
+            setModalOpened={setOpenNPS}
+          />
+        )}
         <div className="container-fluid">
           <div className="row pt-5 align-items-center">
             <div className="col-lg-4 pt-5">
