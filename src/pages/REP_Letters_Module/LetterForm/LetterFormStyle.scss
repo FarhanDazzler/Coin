@@ -4,6 +4,9 @@
   padding: 20px 25px;
   margin-bottom: 20px;
 
+  textarea {
+    color: #1a1a1a !important;
+  }
   .question-text-section {
     display: flex;
     align-items: center; /* Optional, to vertically center the content */
@@ -142,17 +145,18 @@
     border-top: none;
   }
 }
-.section2-form{
-  input[type='file'], input[type='text']{
+.section2-form {
+  input[type='file'],
+  input[type='text'] {
     background-color: #1a1a1a !important;
     color: #fff;
   }
-  input[type='file']:disabled{
+  input[type='file']:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
 }
-.custom-scroll-page{
+.custom-scroll-page {
   max-height: 80vh;
   overflow: hidden;
   overflow-y: auto;
@@ -168,8 +172,8 @@
     margin-bottom: 20px;
   }
 }
-.existing-attachment-review{
-  h5{
+.existing-attachment-review {
+  h5 {
     color: #e3af32;
     margin-bottom: 0.375rem;
     font-weight: 600;
@@ -177,21 +181,20 @@
     margin-bottom: 0px;
     padding-right: 50px;
   }
-  .auto-auth{
-    p{
+  .auto-auth {
+    p {
       margin-bottom: 10px !important;
     }
-    h5{
+    h5 {
       margin-bottom: 15px;
     }
-    h6{
-      b{
+    h6 {
+      b {
         color: #e3af32;
       }
     }
   }
-  p{
+  p {
     margin-bottom: 0 !important;
   }
-
 }

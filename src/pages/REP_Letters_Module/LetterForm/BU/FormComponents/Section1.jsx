@@ -339,25 +339,6 @@ const Section1 = ({ questions, scopeData }) => {
                     Please select action plan month and year:{' '}
                   </Form.Label>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <Form.Group>
-                      <Form.Control
-                        as="select"
-                        name="Month"
-                        placeholder="Please select Month"
-                        required
-                        value={response.month || ''}
-                        onChange={(e) => handleMonthChange(question.id, e.target.value)}
-                        className="form-select"
-                        style={{ width: '150px', marginRight: '10px' }}
-                      >
-                        <option value="">Select Month</option>
-                        {filteredMonths.map((month) => (
-                          <option key={month.value} value={month.value}>
-                            {month.label}
-                          </option>
-                        ))}
-                      </Form.Control>
-                    </Form.Group>
                     <Form.Control
                       as="select"
                       name="Year"
@@ -366,7 +347,7 @@ const Section1 = ({ questions, scopeData }) => {
                       value={response.year || ''}
                       onChange={(e) => handleYearChange(question.id, e.target.value)}
                       className="form-select"
-                      style={{ width: '150px' }}
+                      style={{ width: '150px', marginRight: '10px' }}
                     >
                       <option value="">Select Year</option>
                       {years.map((year) => (
@@ -375,6 +356,47 @@ const Section1 = ({ questions, scopeData }) => {
                         </option>
                       ))}
                     </Form.Control>
+                    {response.year == new Date().getFullYear() ? (
+                      <Form.Group>
+                        <Form.Control
+                          as="select"
+                          name="Month"
+                          placeholder="Please select Month"
+                          required
+                          value={response.month || ''}
+                          onChange={(e) => handleMonthChange(question.id, e.target.value)}
+                          className="form-select"
+                          style={{ width: '150px' }}
+                        >
+                          <option value="">Select Month</option>
+                          {filteredMonths.map((month) => (
+                            <option key={month.value} value={month.value}>
+                              {month.label}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </Form.Group>
+                    ) : (
+                      <Form.Group>
+                        <Form.Control
+                          as="select"
+                          name="Month"
+                          placeholder="Please select Month"
+                          required
+                          value={response.month || ''}
+                          onChange={(e) => handleMonthChange(question.id, e.target.value)}
+                          className="form-select"
+                          style={{ width: '150px' }}
+                        >
+                          <option value="">Select Month</option>
+                          {months.map((month) => (
+                            <option key={month.value} value={month.value}>
+                              {month.label}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </Form.Group>
+                    )}
                   </div>
                 </div>
               )}
