@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useMsal } from '@azure/msal-react';
-import ProductFeedback from '../../../components/NPSFeedbackModule/ProductFeedback/ProductFeedback.js';
+import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
 import PageWrapper from '../../../components/wrappers/PageWrapper';
 import '../MDMStyle.scss';
 import NavTabsMDM from '../MDM_Tab_Buttons/TabButtons';
