@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getControlOwnerAndOversight } from '../../../redux/MDM/MDM_Action';
 import ControlOwnerAndOversightTable from './Tables/ControlOwnerAndOversight/ControlOwnerandOversightTable';
 import { modifyControlOwnerAndOversightSelector } from '../../../redux/MDM/MDM_Selectors';
-import ProductFeedback from '../../../components/NPSFeedbackModule/ProductFeedback/ProductFeedback.js';
+import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module';
 
 const MDM_Control_Owner_OversightLandingPage = () => {
   const dispatch = useDispatch();
