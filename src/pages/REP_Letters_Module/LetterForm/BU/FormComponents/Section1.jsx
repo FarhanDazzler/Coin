@@ -34,6 +34,9 @@ const months = [
   { value: 'December', label: 'December' },
 ];
 
+const currentMonth = new Date().getMonth(); // Month index (0-11)
+const filteredMonths = months.slice(currentMonth);
+
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 3 }, (_, index) => currentYear + index);
 
@@ -348,7 +351,7 @@ const Section1 = ({ questions, scopeData }) => {
                         style={{ width: '150px', marginRight: '10px' }}
                       >
                         <option value="">Select Month</option>
-                        {months.map((month) => (
+                        {filteredMonths.map((month) => (
                           <option key={month.value} value={month.value}>
                             {month.label}
                           </option>
