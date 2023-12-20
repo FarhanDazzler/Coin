@@ -22,7 +22,7 @@ import CustomModal from '../../../../../components/UI/CustomModal';
 import Swal from 'sweetalert2';
 import ApplicabilityAndAssignmentTableFilter from './ApplicabilityAndAssignmentTableFilter';
 import { DotSpinner } from '@uiball/loaders';
-import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module';
+import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
 
 const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone }) => {
   const [tableColumns, setTableColumns] = useState([]);

@@ -27,7 +27,7 @@ import {
   getMegaAndSubprocess,
 } from '../../../../../redux/MDM/MDM_Action';
 import Swal from 'sweetalert2';
-import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module';
+import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
 
 const MegaAndSubprocessTable = () => {
   const dispatch = useDispatch();

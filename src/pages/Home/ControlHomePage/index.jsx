@@ -9,7 +9,7 @@ import './styles.scss';
 import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
 import { submitAssessmentResponseSelector } from '../../../redux/Assessments/AssessmentSelectors.js';
 import { useTranslation } from 'react-i18next';
-import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module';
+import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
 
 const ControlHomePage = () => {
   const { t } = useTranslation();

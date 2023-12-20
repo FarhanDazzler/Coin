@@ -9,7 +9,7 @@ import Button from '../../../components/UI/Button';
 import FunctionalLetterSummaryTable from './Functional/Table/FunctionalLetterSummaryTable';
 import { DotSpinner } from '@uiball/loaders';
 import './SchedulingAndTriggeringLandingPage.scss';
-import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module';
+import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
 import BuSchedulingAndTriggeringLandingPage from './BU/BuSchedulingAndTriggeringLandingPage';
 import {
   rlAddFunctionalAssessmentDataSelector,
