@@ -57,7 +57,7 @@ const Section1 = ({ questions, scopeData }) => {
         questionText: response.questionText,
         response: response.value,
         comment: response.value === 'Yes' ? '' : comment,
-        //month: response.value === 'NA' ? month : '',
+        //month: response.value === 'N/A' ? month : '',
         month: response.value === 'No' ? month || '' : '',
         year: response.value === 'No' ? year || '' : '',
       },
@@ -184,7 +184,7 @@ const Section1 = ({ questions, scopeData }) => {
       const year = responses[question.id]?.year;
       if (!response) {
         newFormErrors[question.id] = 'Response is required.';
-      } else if ((response === 'No' || response === 'NA') && !comment) {
+      } else if ((response === 'No' || response === 'N/A') && !comment) {
         newFormErrors[question.id] = 'Comment is required.';
       } else if (response === 'No' && !month) {
         newFormErrors[question.id] = 'Month is required.';
@@ -287,7 +287,7 @@ const Section1 = ({ questions, scopeData }) => {
               <Divider color="gray" className="renderBlockWrapper_divider_form" size="xs" />
               <div className="option-section">
                 <Group position="left" spacing="sm">
-                  {['Yes', 'No', 'NA'].map((value) => (
+                  {['Yes', 'No', 'N/A'].map((value) => (
                     <label key={value}>
                       <input
                         type="radio"
