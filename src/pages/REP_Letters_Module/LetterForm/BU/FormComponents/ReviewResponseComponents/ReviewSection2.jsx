@@ -3,7 +3,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Divider, Group, SimpleGrid, Text } from '@mantine/core';
-import CollapseFrame from '../../../../../../components/UI/CollapseFrame';
+import ClosedCollapseFrame from '../../../../../../components/UI/CollapseFrame/ClosedCollapseFrame';
 import Button from '../../../../../../components/UI/Button';
 import ActionLogChatTimeline from '../Section3/ActionLogChatTimeline';
 import '../../../LetterFormStyle.scss';
@@ -15,7 +15,7 @@ const ReviewSection2 = (props) => {
 
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
   return (
-    <CollapseFrame title="Section 2 : Signatures" active isOpen={false}>
+    <ClosedCollapseFrame title="Section 2 : Signatures" active>
       <div className="renderBlockWrapper mt-5">
         <div className="renderBlockWrapper-control-actions-wrapper pb-5 pt-4">
           <div>
@@ -85,11 +85,16 @@ const ReviewSection2 = (props) => {
                                 <b>Finance Director</b>
                               </p>
                               <h5>Finance Director has Approved by Auto Authenticator</h5>
-                              {
-                                  getBUSection2SignatureResponseState?.data?.signatures?.fd?.comment && (
-                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.fd?.comment}</h6>
-                                  )
-                                }
+                              {getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                ?.comment && (
+                                <h6>
+                                  <b>Comments:</b>{' '}
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                      ?.comment
+                                  }
+                                </h6>
+                              )}
                             </div>
                           )}
                       </>
@@ -126,11 +131,16 @@ const ReviewSection2 = (props) => {
                                 <b>Zone VP</b>
                               </p>
                               <h5>Zone VP has Approved by Auto Authenticator</h5>
-                              {
-                                  getBUSection2SignatureResponseState?.data?.signatures?.zv?.comment && (
-                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.zv?.comment}</h6>
-                                  )
-                                }
+                              {getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                ?.comment && (
+                                <h6>
+                                  <b>Comments:</b>{' '}
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                      ?.comment
+                                  }
+                                </h6>
+                              )}
                             </div>
                           )}
                       </>
@@ -167,11 +177,16 @@ const ReviewSection2 = (props) => {
                                 <b>BU Head</b>
                               </p>
                               <h5>BU Head has Approved by Auto Authenticator</h5>
-                              {
-                                  getBUSection2SignatureResponseState?.data?.signatures?.buh?.comment && (
-                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.buh?.comment}</h6>
-                                  )
-                                }
+                              {getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                ?.comment && (
+                                <h6>
+                                  <b>Comments:</b>{' '}
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                      ?.comment
+                                  }
+                                </h6>
+                              )}
                             </div>
                           )}
                       </>
@@ -208,11 +223,16 @@ const ReviewSection2 = (props) => {
                                 <b>Zone Control</b>
                               </p>
                               <h5>Zone Control has Approved by Auto Authenticator</h5>
-                              {
-                                  getBUSection2SignatureResponseState?.data?.signatures?.zc?.comment && (
-                                    <h6><b>Comments:</b> {getBUSection2SignatureResponseState?.data?.signatures?.zc?.comment}</h6>
-                                  )
-                                }
+                              {getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                ?.comment && (
+                                <h6>
+                                  <b>Comments:</b>{' '}
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                      ?.comment
+                                  }
+                                </h6>
+                              )}
                             </div>
                           )}
                       </>
@@ -228,7 +248,7 @@ const ReviewSection2 = (props) => {
 
         <div id="lastShow" />
       </div>
-    </CollapseFrame>
+    </ClosedCollapseFrame>
   );
 };
 

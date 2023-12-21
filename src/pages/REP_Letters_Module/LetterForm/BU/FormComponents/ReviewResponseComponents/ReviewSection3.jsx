@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Divider, Group, SimpleGrid, Text } from '@mantine/core';
-import CollapseFrame from '../../../../../../components/UI/CollapseFrame';
+import ClosedCollapseFrame from '../../../../../../components/UI/CollapseFrame/ClosedCollapseFrame';
 import '../../../LetterFormStyle.scss';
 import { clearGetBUSection3Response } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import { getBUSection3ResponseSelector } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
@@ -115,7 +115,7 @@ const ReviewSection3 = () => {
   ];
 
   return (
-    <CollapseFrame title="Section 3 : RBA" active isOpen={false}>
+    <ClosedCollapseFrame title="Section 3 : RBA" active>
       <Col xs={12} md={12}>
         <Card className="bu-letter-section3 mt-5">
           <Card.Body>
@@ -172,7 +172,7 @@ const ReviewSection3 = () => {
           </Card.Body>
         </Card>
       </Col>
-    </CollapseFrame>
+    </ClosedCollapseFrame>
   );
 };
 

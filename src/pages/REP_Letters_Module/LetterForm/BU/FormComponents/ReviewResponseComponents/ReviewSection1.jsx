@@ -3,14 +3,14 @@ import { useHistory } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import { Divider, Group } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
-import CollapseFrame from '../../../../../../components/UI/CollapseFrame';
+import ClosedCollapseFrame from '../../../../../../components/UI/CollapseFrame/ClosedCollapseFrame';
 import Button from '../../../../../../components/UI/Button';
 
 const ReviewSection1 = ({ submittedResponses = [] }) => {
   const history = useHistory();
 
   return (
-    <CollapseFrame title="Section 1 : BU Representation Letter" active isOpen={false}>
+    <ClosedCollapseFrame title="Section 1 : BU Representation Letter" active>
       {submittedResponses?.map((item, index) => (
         <div key={item.questionID}>
           <div className="renderBlockWrapper mt-5">
@@ -87,7 +87,7 @@ const ReviewSection1 = ({ submittedResponses = [] }) => {
           </Button>
         </div>
       </div> */}
-    </CollapseFrame>
+    </ClosedCollapseFrame>
   );
 };
 

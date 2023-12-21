@@ -5,7 +5,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { Divider, Box } from '@mantine/core';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
-import CollapseFrame from '../../../../../components/UI/CollapseFrame';
+import ClosedCollapseFrame from '../../../../../components/UI/CollapseFrame/ClosedCollapseFrame';
 import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import { getInstructions } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import { getInstructionsSelector } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
@@ -132,7 +132,7 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
   //console.log(scopeData, '@');
   return (
     <div className="Rep-Letter-form-Section0">
-      <CollapseFrame
+      <ClosedCollapseFrame
         title="Instructions and Scope"
         active
         isOpen={isReview === true ? false : true}
@@ -199,7 +199,7 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
 
           <div id="lastShow" />
         </div>
-      </CollapseFrame>
+      </ClosedCollapseFrame>
     </div>
   );
 };

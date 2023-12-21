@@ -143,6 +143,22 @@ const ZoneControlTable = ({
       size: 150,
     },
     {
+      accessorKey: 'signatures',
+      id: 'signatures',
+      header: 'Your status',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 170,
+      Cell: (row) => {
+        return (
+          <span className={'text-yellow-dark'}>
+            {row.row.original?.signatures?.zc_signed === false ? 'Approval Pending' : 'Signed'}
+          </span>
+        );
+      },
+    },
+    {
       accessorKey: 'Status',
       id: 'Status',
       header: 'Over All Status',
