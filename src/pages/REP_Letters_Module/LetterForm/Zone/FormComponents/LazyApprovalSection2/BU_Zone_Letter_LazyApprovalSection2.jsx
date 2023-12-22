@@ -27,7 +27,7 @@ import {
   addBUZoneSection2LazyApproval,
   clearGetBUZoneSection2SignatureResponseAction,
   getBUZoneScopeData,
-  clearGetBUZoneScopeData,
+  clearBUZoneScopeData,
   clearBUZoneSubmitResponse,
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import {
@@ -610,7 +610,7 @@ const BU_Zone_Letter_LazyApprovalSection2 = () => {
     return () => {
       dispatch(clearBUZoneSubmitResponse());
       dispatch(clearGetBUZoneSection2SignatureResponseAction());
-      dispatch(clearGetBUZoneScopeData());
+      dispatch(clearBUZoneScopeData());
     };
   }, []);
 
