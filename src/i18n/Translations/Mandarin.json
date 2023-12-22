@@ -1,6 +1,7 @@
 {
   "selfAssessment": {
     "assessmentForm": {
+      "edit": "覆盖",
       "globalControlDescriptionBtn": "全球控制描述（GCD）",
       "localControlDescriptionBtn": "本地控制描述（LCD）",
       "scopeBtn": "范围",

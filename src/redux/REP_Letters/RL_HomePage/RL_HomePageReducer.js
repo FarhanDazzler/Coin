@@ -52,14 +52,14 @@ export const GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_ERROR';
 // ============= GET BU BU Head home page table data ===============//
 
-// ============= GET BU Disclosure Processor home page table data ===============//
+// ============= GET BU Local Internal Control home page table data ===============//
 export const GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST';
 export const GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS =
   'GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS';
 export const GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR';
-// ============= GET BU Disclosure Processor home page table data ===============//
+// ============= GET BU Local Internal Control home page table data ===============//
 
 // ============= GET BU Finance Director home page table data ===============//
 export const GET_BU_FINANCE_DIRECTOR_HOME_PAGE_TABLE_DATA_REQUEST =
@@ -88,14 +88,14 @@ export const GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR';
 // ============= GET BU Zone Control home page table data ===============//
 
-// ============= GET BU-Zone Disclosure Processor home page table data ===============//
+// ============= GET BU-Zone Local Internal Control home page table data ===============//
 export const GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST';
 export const GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS =
   'GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS';
 export const GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR';
-// ============= GET BU-Zone Disclosure Processor home page table data ===============//
+// ============= GET BU-Zone Local Internal Control home page table data ===============//
 
 // ============= Get BU-Zone Excom Member Home Page Data ===============//
 export const GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_REQUEST =
@@ -262,6 +262,88 @@ export const APPROVE_BU_SECTION_3_RESPONSE_SUCCESS = 'APPROVE_BU_SECTION_3_RESPO
 export const APPROVE_BU_SECTION_3_RESPONSE_ERROR = 'APPROVE_BU_SECTION_3_RESPONSE_ERROR';
 // ============== Approve BU section 3 Response ==================//
 
+// ============== Get BU Scope Data ==================//
+export const GET_BU_SCOPE_DATA_REQUEST = 'GET_BU_SCOPE_DATA_REQUEST';
+export const GET_BU_SCOPE_DATA_SUCCESS = 'GET_BU_SCOPE_DATA_SUCCESS';
+export const GET_BU_SCOPE_DATA_ERROR = 'GET_BU_SCOPE_DATA_ERROR';
+export const CLEAR_BU_SCOPE_DATA = 'CLEAR_BU_SCOPE_DATA';
+// ============== Get BU Scope Data ==================//
+
+// ============= ADD OR UPDATE BUZone DRAFT RESPONSE data ===============//
+export const ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_REQUEST =
+  'ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_REQUEST';
+export const ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_SUCCESS =
+  'ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_SUCCESS';
+export const ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_ERROR =
+  'ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_ERROR';
+// ============= ADD OR UPDATE BUZone DRAFT RESPONSE data ===============//
+
+// ============= GET LATEST BUZone DRAFT RESPONSE data ===============//
+export const GET_LATEST_BU_ZONE_DRAFT_RESPONSE_REQUEST =
+  'GET_LATEST_BU_ZONE_DRAFT_RESPONSE_REQUEST';
+export const GET_LATEST_BU_ZONE_DRAFT_RESPONSE_SUCCESS =
+  'GET_LATEST_BU_ZONE_DRAFT_RESPONSE_SUCCESS';
+export const GET_LATEST_BU_ZONE_DRAFT_RESPONSE_ERROR = 'GET_LATEST_BU_ZONE_DRAFT_RESPONSE_ERROR';
+// ============= GET LATEST BUZone DRAFT RESPONSE data ===============//
+
+// ============= CLEAR LATEST BUZone DRAFT RESPONSE data ===============//
+export const CLEAR_LATEST_BU_ZONE_DRAFT_RESPONSE = 'CLEAR_LATEST_BU_ZONE_DRAFT_RESPONSE';
+// ============= CLEAR LATEST BUZone DRAFT RESPONSE data ===============//
+
+// ============= GET BUZone SUBMIT RESPONSE data ===============//
+export const GET_BU_ZONE_SUBMIT_RESPONSE_REQUEST = 'GET_BU_ZONE_SUBMIT_RESPONSE_REQUEST';
+export const GET_BU_ZONE_SUBMIT_RESPONSE_SUCCESS = 'GET_BU_ZONE_SUBMIT_RESPONSE_SUCCESS';
+export const GET_BU_ZONE_SUBMIT_RESPONSE_ERROR = 'GET_BU_ZONE_SUBMIT_RESPONSE_ERROR';
+export const CLEAR_BU_ZONE_SUBMIT_RESPONSE_REQUEST = 'CLEAR_BU_ZONE_SUBMIT_RESPONSE_REQUEST';
+// ============= GET BUZone SUBMIT RESPONSE data ===============//
+
+// ============= ADD BUZone SUBMIT RESPONSE data ===============//
+export const ADD_BU_ZONE_SUBMIT_RESPONSE_REQUEST = 'ADD_BU_ZONE_SUBMIT_RESPONSE_REQUEST';
+export const ADD_BU_ZONE_SUBMIT_RESPONSE_SUCCESS = 'ADD_BU_ZONE_SUBMIT_RESPONSE_SUCCESS';
+export const ADD_BU_ZONE_SUBMIT_RESPONSE_ERROR = 'ADD_BU_ZONE_SUBMIT_RESPONSE_ERROR';
+// ============= ADD BUZone SUBMIT RESPONSE data ===============//
+
+// ============= Get BU Zone Section 2 SUBMIT RESPONSE data ===============//
+export const GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_REQUEST =
+  'GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_REQUEST';
+export const GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_SUCCESS =
+  'GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_SUCCESS';
+export const GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_ERROR =
+  'GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_ERROR';
+export const CLEAR_GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_REQUEST =
+  'CLEAR_GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_REQUEST';
+// ============= Get BU Zone Section 2 SUBMIT RESPONSE data ===============//
+
+// ============= ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL ===============//
+export const ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST =
+  'ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST';
+export const ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS =
+  'ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS';
+export const ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR =
+  'ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR';
+// ============= ADD_BU_SECTION2_UPLOAD_MAIL_APPROVAL ===============//
+
+// ============= ADD BU SECTION2 CHECKBOX data ===============//
+export const ADD_BU_ZONE_SECTION2_CHECKBOX_REQUEST = 'ADD_BU_ZONE_SECTION2_CHECKBOX_REQUEST';
+export const ADD_BU_ZONE_SECTION2_CHECKBOX_SUCCESS = 'ADD_BU_ZONE_SECTION2_CHECKBOX_SUCCESS';
+export const ADD_BU_ZONE_SECTION2_CHECKBOX_ERROR = 'ADD_BU_ZONE_SECTION2_CHECKBOX_ERROR';
+// ============= ADD BU SECTION2 CHECKBOX data ===============//
+
+// ============= ADD BU SECTION2 Lazy Approval ===============//
+export const ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_REQUEST =
+  'ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_REQUEST';
+export const ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_SUCCESS =
+  'ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_SUCCESS';
+export const ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_ERROR = 'ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_ERROR';
+// ============= ADD BU SECTION2 Lazy Approval ===============//
+
+// ============== Get BUZone Scope Data ==================//
+export const GET_BU_ZONE_SCOPE_DATA_REQUEST = 'GET_BU_ZONE_SCOPE_DATA_REQUEST';
+export const GET_BU_ZONE_SCOPE_DATA_SUCCESS = 'GET_BU_ZONE_SCOPE_DATA_SUCCESS';
+export const GET_BU_ZONE_SCOPE_DATA_ERROR = 'GET_BU_ZONE_SCOPE_DATA_ERROR';
+export const CLEAR_BU_ZONE_SCOPE_DATA = 'CLEAR_BU_ZONE_SCOPE_DATA';
+// ============== Get BUZone Scope Data ==================//
+
 const block = {
   loading: false,
   error: '',
@@ -301,6 +383,16 @@ const initialState = {
   getBUSection3Response: { ...block, data: [] },
   addBUSection3Response: { ...block, data: [] },
   approveBUSection3Response: { ...block, data: [] },
+  getBUScopeData: { ...block, data: [] },
+  addOrUpdateBUZoneDraftResponse: { ...block, data: [] },
+  getLatestBUZoneDraftResponse: { ...block, data: [] },
+  getBUZoneSubmitResponse: { ...block, data: [] },
+  addBUZoneSubmitResponse: { ...block, data: [] },
+  getBUZoneSection2SignatureResponse: { ...block, data: [] },
+  addBUZoneSection2UploadMailApproval: { ...block, data: [] },
+  addBUZoneSection2Checkbox: { ...block, data: [] },
+  addBUZoneSection2LazyApproval: { ...block, data: [] },
+  getBUZoneScopeData: { ...block, data: [] },
 };
 
 export const RL_HomePageReducer = (state = initialState, { type, payload = {} }) => {
@@ -466,7 +558,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         },
       };
 
-    // GET BU Disclosure Processor home page table data
+    // GET BU Local Internal Control home page table data
     case GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST:
       return {
         ...state,
@@ -574,7 +666,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         },
       };
 
-    // GET BU-Zone Disclosure Processor home page table data
+    // GET BU-Zone Local Internal Control home page table data
     case GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST:
       return {
         ...state,
@@ -1227,6 +1319,322 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         ...state,
         approveBUSection3Response: {
           ...state.approveBUSection3Response,
+          loading: false,
+        },
+      };
+
+    // GET BU Scope Data
+    case GET_BU_SCOPE_DATA_REQUEST:
+      return {
+        ...state,
+        getBUScopeData: {
+          ...state.getBUScopeData,
+          loading: true,
+        },
+      };
+    case GET_BU_SCOPE_DATA_SUCCESS:
+      return {
+        ...state,
+        getBUScopeData: {
+          ...state.getBUScopeData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BU_SCOPE_DATA_ERROR:
+      return {
+        ...state,
+        getBUScopeData: {
+          ...state.getBUScopeData,
+          loading: false,
+        },
+      };
+    case CLEAR_BU_SCOPE_DATA:
+      return {
+        ...state,
+        getBUScopeData: {
+          ...state.getBUScopeData,
+          data: {},
+          loading: false,
+        },
+      };
+
+    // ADD OR UPDATE BUZone DRAFT RESPONSE data
+    case ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        addOrUpdateBUZoneDraftResponse: {
+          ...state.addOrUpdateBUZoneDraftResponse,
+          loading: true,
+        },
+      };
+    case ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        addOrUpdateBUZoneDraftResponse: {
+          ...state.addOrUpdateBUZoneDraftResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_ERROR:
+      return {
+        ...state,
+        addOrUpdateBUZoneDraftResponse: {
+          ...state.addOrUpdateBUZoneDraftResponse,
+          loading: false,
+        },
+      };
+
+    // GET LATEST BUZone DRAFT RESPONSE data
+    case GET_LATEST_BU_ZONE_DRAFT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getLatestBUZoneDraftResponse: {
+          ...state.getLatestBUZoneDraftResponse,
+          loading: true,
+        },
+      };
+    case GET_LATEST_BU_ZONE_DRAFT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        getLatestBUZoneDraftResponse: {
+          ...state.getLatestBUZoneDraftResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_LATEST_BU_ZONE_DRAFT_RESPONSE_ERROR:
+      return {
+        ...state,
+        getLatestBUZoneDraftResponse: {
+          ...state.getLatestBUZoneDraftResponse,
+          loading: false,
+        },
+      };
+    case CLEAR_LATEST_BU_ZONE_DRAFT_RESPONSE:
+      return {
+        ...state,
+        getLatestBUZoneDraftResponse: {
+          ...state.getLatestBUZoneDraftResponse,
+          data: [],
+          loading: false,
+        },
+      };
+
+    // GET BUZone SUBMIT RESPONSE data
+    case GET_BU_ZONE_SUBMIT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getBUZoneSubmitResponse: {
+          ...state.getBUZoneSubmitResponse,
+          loading: true,
+        },
+      };
+    case GET_BU_ZONE_SUBMIT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        getBUZoneSubmitResponse: {
+          ...state.getBUZoneSubmitResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BU_ZONE_SUBMIT_RESPONSE_ERROR:
+      return {
+        ...state,
+        getBUZoneSubmitResponse: {
+          ...state.getBUZoneSubmitResponse,
+          loading: false,
+        },
+      };
+    case CLEAR_BU_ZONE_SUBMIT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getBUZoneSubmitResponse: {
+          ...state.getBUZoneSubmitResponse,
+          data: [],
+          loading: false,
+        },
+      };
+
+    // ADD BUZone SUBMIT RESPONSE data
+    case ADD_BU_ZONE_SUBMIT_RESPONSE_REQUEST:
+      return {
+        ...state,
+        addBUZoneSubmitResponse: {
+          ...state.addBUZoneSubmitResponse,
+          loading: true,
+        },
+      };
+    case ADD_BU_ZONE_SUBMIT_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        addBUZoneSubmitResponse: {
+          ...state.addBUZoneSubmitResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ADD_BU_ZONE_SUBMIT_RESPONSE_ERROR:
+      return {
+        ...state,
+        addBUZoneSubmitResponse: {
+          ...state.addBUZoneSubmitResponse,
+          loading: false,
+        },
+      };
+
+    // GET BUZone section 2 signature data
+    case GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getBUZoneSection2SignatureResponse: {
+          ...state.getBUZoneSection2SignatureResponse,
+          loading: true,
+        },
+      };
+    case GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_SUCCESS:
+      return {
+        ...state,
+        getBUZoneSection2SignatureResponse: {
+          ...state.getBUZoneSection2SignatureResponse,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_ERROR:
+      return {
+        ...state,
+        getBUZoneSection2SignatureResponse: {
+          ...state.getBUZoneSection2SignatureResponse,
+          loading: false,
+        },
+      };
+    case CLEAR_GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_REQUEST:
+      return {
+        ...state,
+        getBUZoneSection2SignatureResponse: {
+          ...state.getBUZoneSection2SignatureResponse,
+          data: {},
+          loading: false,
+        },
+      };
+
+    // ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_REQUEST data
+    case ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_REQUEST:
+      return {
+        ...state,
+        addBUZoneSection2LazyApproval: {
+          ...state.addBUZoneSection2LazyApproval,
+          loading: true,
+        },
+      };
+    case ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_SUCCESS:
+      return {
+        ...state,
+        addBUZoneSection2LazyApproval: {
+          ...state.addBUZoneSection2LazyApproval,
+          data: payload,
+          loading: false,
+          success: true,
+        },
+      };
+    case ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_ERROR:
+      return {
+        ...state,
+        addBUZoneSection2LazyApproval: {
+          ...state.addBUZoneSection2LazyApproval,
+          loading: false,
+        },
+      };
+
+    // ADD_BU_ZONE_SECTION2_CHECKBOX_REQUEST data
+    case ADD_BU_ZONE_SECTION2_CHECKBOX_REQUEST:
+      return {
+        ...state,
+        addBUZoneSection2Checkbox: {
+          ...state.addBUZoneSection2Checkbox,
+          loading: true,
+        },
+      };
+    case ADD_BU_ZONE_SECTION2_CHECKBOX_SUCCESS:
+      return {
+        ...state,
+        addBUZoneSection2Checkbox: {
+          ...state.addBUZoneSection2Checkbox,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ADD_BU_ZONE_SECTION2_CHECKBOX_ERROR:
+      return {
+        ...state,
+        addBUZoneSection2Checkbox: {
+          ...state.addBUZoneSection2Checkbox,
+          loading: false,
+        },
+      };
+
+    // ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST data
+    case ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST:
+      return {
+        ...state,
+        addBUZoneSection2UploadMailApproval: {
+          ...state.addBUZoneSection2UploadMailApproval,
+          loading: true,
+        },
+      };
+    case ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS:
+      return {
+        ...state,
+        addBUZoneSection2UploadMailApproval: {
+          ...state.addBUZoneSection2UploadMailApproval,
+          data: payload,
+          loading: false,
+        },
+      };
+    case ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR:
+      return {
+        ...state,
+        addBUZoneSection2UploadMailApproval: {
+          ...state.addBUZoneSection2UploadMailApproval,
+          loading: false,
+        },
+      };
+
+    // GET BUZone Scope Data
+    case GET_BU_ZONE_SCOPE_DATA_REQUEST:
+      return {
+        ...state,
+        getBUZoneScopeData: {
+          ...state.getBUZoneScopeData,
+          loading: true,
+        },
+      };
+    case GET_BU_ZONE_SCOPE_DATA_SUCCESS:
+      return {
+        ...state,
+        getBUZoneScopeData: {
+          ...state.getBUZoneScopeData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BU_ZONE_SCOPE_DATA_ERROR:
+      return {
+        ...state,
+        getBUZoneScopeData: {
+          ...state.getBUZoneScopeData,
+          loading: false,
+        },
+      };
+    case CLEAR_BU_ZONE_SCOPE_DATA:
+      return {
+        ...state,
+        getBUZoneScopeData: {
+          ...state.getBUZoneScopeData,
+          data: {},
           loading: false,
         },
       };

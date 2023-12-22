@@ -99,6 +99,36 @@ import {
   APPROVE_BU_SECTION_3_RESPONSE_REQUEST,
   APPROVE_BU_SECTION_3_RESPONSE_SUCCESS,
   APPROVE_BU_SECTION_3_RESPONSE_ERROR,
+  GET_BU_SCOPE_DATA_REQUEST,
+  GET_BU_SCOPE_DATA_SUCCESS,
+  GET_BU_SCOPE_DATA_ERROR,
+  ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_REQUEST,
+  ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_SUCCESS,
+  ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_ERROR,
+  GET_LATEST_BU_ZONE_DRAFT_RESPONSE_REQUEST,
+  GET_LATEST_BU_ZONE_DRAFT_RESPONSE_SUCCESS,
+  GET_LATEST_BU_ZONE_DRAFT_RESPONSE_ERROR,
+  GET_BU_ZONE_SUBMIT_RESPONSE_REQUEST,
+  GET_BU_ZONE_SUBMIT_RESPONSE_SUCCESS,
+  GET_BU_ZONE_SUBMIT_RESPONSE_ERROR,
+  ADD_BU_ZONE_SUBMIT_RESPONSE_REQUEST,
+  ADD_BU_ZONE_SUBMIT_RESPONSE_SUCCESS,
+  ADD_BU_ZONE_SUBMIT_RESPONSE_ERROR,
+  GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_ERROR,
+  GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_REQUEST,
+  GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_SUCCESS,
+  ADD_BU_ZONE_SECTION2_CHECKBOX_ERROR,
+  ADD_BU_ZONE_SECTION2_CHECKBOX_REQUEST,
+  ADD_BU_ZONE_SECTION2_CHECKBOX_SUCCESS,
+  ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR,
+  ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
+  ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS,
+  ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_REQUEST,
+  ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_SUCCESS,
+  ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_ERROR,
+  GET_BU_ZONE_SCOPE_DATA_REQUEST,
+  GET_BU_ZONE_SCOPE_DATA_SUCCESS,
+  GET_BU_ZONE_SCOPE_DATA_ERROR,
 } from './RL_HomePageReducer';
 import Swal from 'sweetalert2';
 
@@ -222,7 +252,7 @@ function* handle_Get_BU_BU_HeadHomePageData({ payload }) {
   }
 }
 
-// GET BU Disclosure Processor home page table data
+// GET BU Local Internal Control home page table data
 async function get_BU_Disclosure_ProcessorHomePageDataApi(params) {
   return await Axios.get('/get_bu_home_page_data_for_disclosure_processor', { params });
 }
@@ -302,7 +332,7 @@ function* handle_Get_BU_Zone_VPHomePageData({ payload }) {
   }
 }
 
-// GET BU-Zone Disclosure Processor home page table data
+// GET BU-Zone Local Internal Control home page table data
 async function get_BUZone_Disclosure_ProcessorHomePageDataApi(params) {
   return await Axios.get('/get_zone_home_page_data_for_disclosure_processor', { params });
 }
@@ -835,6 +865,258 @@ function* updateApproveBUSection3Response({ payload }) {
   }
 }
 
+// get BU Scope Data
+async function getBUScopeDataAPI(params) {
+  return await Axios.get('/get_bu_assessment_scope', { params });
+}
+function* handle_GetBUScopeData({ payload }) {
+  try {
+    const response = yield call(getBUScopeDataAPI, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BU_SCOPE_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BU_SCOPE_DATA_ERROR,
+    });
+  }
+}
+
+// add Or Update BU Zone Draft Response
+async function addOrUpdateBUZoneDraftResponseApi(payload) {
+  return await Axios.post('/', payload);
+}
+function* updateAddOrUpdateBUZoneDraftResponse({ payload }) {
+  try {
+    const response = yield call(addOrUpdateBUZoneDraftResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Response Drafted Successfully!', 'success');
+
+      // Clear the getLatestFunctionDraftResponse state
+      yield put({ type: GET_LATEST_BU_ZONE_DRAFT_RESPONSE_SUCCESS, payload: null });
+
+      // Redirect the user to '/'
+      yield put(push('/'));
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+// get Latest BU Zone Draft Response
+async function getLatestBUZoneDraftResponseApi(params) {
+  return await Axios.get('/', { params });
+}
+function* handle_GetLatestBUZoneDraftResponse({ payload }) {
+  try {
+    const response = yield call(getLatestBUZoneDraftResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_LATEST_BU_ZONE_DRAFT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_LATEST_BU_ZONE_DRAFT_RESPONSE_ERROR,
+    });
+  }
+}
+
+// get BU Zone Submit Response
+async function getBUZoneSubmitResponseApi(params) {
+  return await Axios.get('/', { params });
+}
+function* handle_GetBUZoneSubmitResponse({ payload }) {
+  try {
+    const response = yield call(getBUZoneSubmitResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BU_ZONE_SUBMIT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BU_ZONE_SUBMIT_RESPONSE_ERROR,
+    });
+  }
+}
+
+// add BU Zone Submit Response
+async function addBUZoneSubmitResponseApi(payload) {
+  return await Axios.post('/', payload);
+}
+function* updateAddBUZoneSubmitResponse({ payload }) {
+  try {
+    const response = yield call(addBUZoneSubmitResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_BU_ZONE_SUBMIT_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Response Submitted Successfully!', 'success');
+
+      // Clear the get Latest BU Zone Submitted Response state
+      yield put({ type: GET_BU_ZONE_SUBMIT_RESPONSE_SUCCESS, payload: null });
+      // Redirect the user to '/'
+      yield put(push('/'));
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_BU_ZONE_SUBMIT_RESPONSE_ERROR,
+      // error: getSimplifiedError(error),
+    });
+    Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+// get BU Zone Section2 Signature Response data
+async function getBUZoneSection2SignatureResponseApi(params) {
+  return await Axios.get('/', { params });
+}
+function* handle_GetBUZoneSection2SignatureResponseData({ payload }) {
+  try {
+    const response = yield call(getBUZoneSection2SignatureResponseApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_ERROR,
+    });
+  }
+}
+
+// ADD BU Zone Section2 Upload Mail Approval
+async function addBUZoneSection2UploadMailApprovalApi(payload) {
+  return await Axios.post('/', payload);
+}
+function* handle_AddBUZoneSection2UploadMailApprovalData({ payload }) {
+  try {
+    const { formData, event } = payload;
+    const response = yield call(addBUZoneSection2UploadMailApprovalApi, formData);
+    if (response.success) {
+      yield put({
+        type: ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_SUCCESS,
+        payload: response.data,
+      });
+      if (event && event.onSuccess) {
+        event.onSuccess(response.data);
+      }
+      Swal.fire('Done!', 'Email Attachment Uploded Successfully!', 'success');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_ERROR,
+    });
+    if (error?.response?.status === 400) {
+      Swal.fire('Oops...', error?.response?.data?.data, 'error');
+    } else if (error?.response?.status === 500) {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  }
+}
+
+// ADD BU Zone Section2 Checkbox
+async function addBUZoneSection2CheckboxApi(payload) {
+  return await Axios.post('/', payload);
+}
+function* handle_AddBUZoneSection2CheckboxData({ payload }) {
+  const { formData, event } = payload;
+  try {
+    const response = yield call(addBUZoneSection2CheckboxApi, formData);
+    console.log('there', response);
+    if (response.success) {
+      yield put({
+        type: ADD_BU_ZONE_SECTION2_CHECKBOX_SUCCESS,
+        payload: response.data,
+      });
+
+      Swal.fire('Done!', 'Auto Authentication Successfully!', 'success');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_BU_ZONE_SECTION2_CHECKBOX_ERROR,
+    });
+    if (error?.response?.status === 400) {
+      Swal.fire('Oops...', error?.response?.data?.data, 'error');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  }
+}
+
+// ADD BU Zone Section2 Lazy Approval
+async function addBUZoneSection2LazyApprovalApi(payload) {
+  return await Axios.post('/', payload);
+}
+function* updateAddBUZoneSection2LazyApproval({ payload }) {
+  try {
+    const response = yield call(addBUZoneSection2LazyApprovalApi, payload);
+    if (response.success) {
+      yield put({
+        type: ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_SUCCESS,
+        payload: response.data,
+      });
+      Swal.fire('Done!', 'Response Submitted Successfully!', 'success');
+
+      // Clear the get BU Zone Section 1 and Section 2 Response state
+      yield put({ type: GET_BU_ZONE_SUBMIT_RESPONSE_SUCCESS, payload: null });
+      yield put({ type: GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_SUCCESS, payload: null });
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  } catch (error) {
+    yield put({
+      type: ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_ERROR,
+    });
+    if (error?.response?.status === 400) {
+      Swal.fire('Oops...', error?.response?.data?.data, 'error');
+    } else {
+      Swal.fire('Oops...', 'Something Went Wrong', 'error');
+    }
+  }
+}
+
+// get BU Zone Scope Data
+async function getBUZoneScopeDataAPI(params) {
+  return await Axios.get('/', { params });
+}
+function* handle_GetBUZoneScopeData({ payload }) {
+  try {
+    const response = yield call(getBUZoneScopeDataAPI, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BU_ZONE_SCOPE_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BU_ZONE_SCOPE_DATA_ERROR,
+    });
+  }
+}
+
 export default all([
   takeLatest(
     GET_FUNCTION_RECIPIENT_HOME_PAGE_TABLE_DATA_REQUEST,
@@ -913,4 +1195,20 @@ export default all([
   takeLatest(GET_BU_SECTION_3_RESPONSE_REQUEST, handle_GetBUSection3Response),
   takeLatest(ADD_BU_SECTION_3_RESPONSE_REQUEST, updateAddBUSection3Response),
   takeLatest(APPROVE_BU_SECTION_3_RESPONSE_REQUEST, updateApproveBUSection3Response),
+  takeLatest(GET_BU_SCOPE_DATA_REQUEST, handle_GetBUScopeData),
+  takeLatest(ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_REQUEST, updateAddOrUpdateBUZoneDraftResponse),
+  takeLatest(GET_LATEST_BU_ZONE_DRAFT_RESPONSE_REQUEST, handle_GetLatestBUZoneDraftResponse),
+  takeLatest(GET_BU_ZONE_SUBMIT_RESPONSE_REQUEST, handle_GetBUZoneSubmitResponse),
+  takeLatest(ADD_BU_ZONE_SUBMIT_RESPONSE_REQUEST, updateAddBUZoneSubmitResponse),
+  takeLatest(
+    GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_REQUEST,
+    handle_GetBUZoneSection2SignatureResponseData,
+  ),
+  takeLatest(ADD_BU_ZONE_SECTION2_CHECKBOX_REQUEST, handle_AddBUZoneSection2CheckboxData),
+  takeLatest(
+    ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
+    handle_AddBUZoneSection2UploadMailApprovalData,
+  ),
+  takeLatest(ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_REQUEST, updateAddBUZoneSection2LazyApproval),
+  takeLatest(GET_BU_ZONE_SCOPE_DATA_REQUEST, handle_GetBUZoneScopeData),
 ]);

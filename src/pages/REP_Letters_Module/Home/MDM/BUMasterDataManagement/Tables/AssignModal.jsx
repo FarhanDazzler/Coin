@@ -152,7 +152,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
             Applicability: Yup.string().required('Applicability is required'),
             Disclosure_Processor: Yup.string().when('Applicability', {
               is: 'Yes',
-              then: Yup.string().required('Disclosure Processor Email is required'),
+              then: Yup.string().required('Local Internal Control Email is required'),
             }),
             Finance_Director: Yup.string().when('Applicability', {
               is: 'Yes',
@@ -257,7 +257,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                       <div className="col-lg-6">
                         <div className="row mb-4">
                           <div className="col-lg-4">
-                            <Form.Label>Disclosure Processor:</Form.Label>
+                            <Form.Label>Local Internal Control:</Form.Label>
                           </div>
                           <div className="col-lg-8">
                             <Form.Group className="input-group mb-3">

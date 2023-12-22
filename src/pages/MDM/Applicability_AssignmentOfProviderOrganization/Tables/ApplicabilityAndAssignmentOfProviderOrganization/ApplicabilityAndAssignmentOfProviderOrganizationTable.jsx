@@ -66,17 +66,18 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
     setProviderOrganizationValue([]);
     setControl_IDValue([]);
     setEntityValue([]);
+  }, [assignApplicabilityAndAssignmentOfProviderOrganization?.data]);
 
+  useEffect(() => {
     if (assignApplicabilityAndAssignmentOfProviderOrganization.success) {
       // Delay by 1 second (1000 milliseconds)
       const timeoutId = setTimeout(() => {
         setOpenNPS(true);
       }, 2500);
-
       // Clean up the timeout when the component unmounts or when the effect re-runs
       return () => clearTimeout(timeoutId);
     }
-  }, [assignApplicabilityAndAssignmentOfProviderOrganization?.data]);
+  }, [assignApplicabilityAndAssignmentOfProviderOrganization]);
 
   const TABLE_COLUMNS = [
     {
@@ -259,23 +260,25 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
 
   return (
     <>
-      <ProductFeedback
-        env={process.env.REACT_APP_STAGE}
-        apiKey={''}
-        token={localStorage.getItem('nps-auth-token')}
-        feedbackMetadata={{
-          Activity:
-            'IC Has done MDM modification in Applicability and Assignment of Provider Organization table',
-          Created_By: {
-            Email: accounts[0]?.username,
-            name: accounts[0]?.name ? accounts[0].name : '',
-          },
-        }}
-        productId={process.env.REACT_APP_NPS_PRODUCT_ID}
-        productActivityId="nps_score_provided_IC"
-        modalOpened={openNPS}
-        setModalOpened={setOpenNPS}
-      />
+      {openNPS && (
+        <ProductFeedback
+          env={process.env.REACT_APP_STAGE}
+          apiKey={''}
+          token={localStorage.getItem('nps-auth-token')}
+          feedbackMetadata={{
+            Activity:
+              'IC Has done MDM modification in Applicability and Assignment of Provider Organization table',
+            Created_By: {
+              Email: accounts[0]?.username,
+              name: accounts[0]?.name ? accounts[0].name : '',
+            },
+          }}
+          productId={process.env.REACT_APP_NPS_PRODUCT_ID}
+          productActivityId="nps_score_provided_IC"
+          modalOpened={openNPS}
+          setModalOpened={setOpenNPS}
+        />
+      )}
       {assignApplicabilityAndAssignmentOfProviderOrganization.loading ? (
         <div className="loader-animation">
           <DotSpinner size={100} speed={0.9} color="#e3af32" />

@@ -40,7 +40,7 @@ const BUZone_DisclosureProcessorHomePage = () => {
       return {
         rbaApproved: getNumberOfItem(RBAStatus, 'RBA Approved'),
         notStarted: getNumberOfItem(allstatus, 'Not Started'),
-        responded: getNumberOfItem(allstatus, 'Responded'),
+        Prepared: getNumberOfItem(allstatus, 'Prepared'),
         signed: getNumberOfItem(allstatus, 'Signed'),
         completed: getNumberOfItem(allstatus, 'Completed'),
         total: allstatus?.length,
@@ -60,7 +60,7 @@ const BUZone_DisclosureProcessorHomePage = () => {
     return {
       rbaApproved: getNumberOfItem(RBAStatus, 'RBA Approved'),
       notStarted: getNumberOfItem(allUpdatestatus, 'Not Started'),
-      responded: getNumberOfItem(allUpdatestatus, 'Responded'),
+      Prepared: getNumberOfItem(allUpdatestatus, 'Prepared'),
       signed: getNumberOfItem(allUpdatestatus, 'Signed'),
       completed: getNumberOfItem(allUpdatestatus, 'Completed'),
       total: allUpdatestatus?.length,
@@ -87,7 +87,7 @@ const BUZone_DisclosureProcessorHomePage = () => {
           <div className="col-lg-8">
             <div className="d-flex align-items-center flex-wrap justify-content-end">
               {/* <AmountInfo amount={statusInfo.notStarted} infoText="NOT STARTED" /> */}
-              <AmountInfo amount={statusInfo.responded} infoText="RESPONDED" />
+              <AmountInfo amount={statusInfo.Prepared} infoText="Prepared" />
               <AmountInfo amount={statusInfo.signed} infoText="SIGNED" />
               <AmountInfo amount={statusInfo.rbaApproved} infoText="RBA APPROVED" />
               <AmountInfo amount={statusInfo.completed} infoText="COMPLETED" />

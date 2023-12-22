@@ -465,14 +465,14 @@ const Section2 = ({ scopeData }) => {
                 <p>
                   <b>
                     As a{' '}
-                    {localStorage.getItem('selected_Role') === 'Disclosure Processor'
-                      ? 'Disclosure Processor'
+                    {localStorage.getItem('selected_Role') === 'Local Internal Control'
+                      ? 'Local Internal Control'
                       : `${localStorage.getItem('selected_Role')} - Signatory`}
                   </b>
                 </p>
               </div>
               <div className="renderBlockWrapper_content">
-                {localStorage.getItem('selected_Role') === 'Disclosure Processor' ? (
+                {localStorage.getItem('selected_Role') === 'Local Internal Control' ? (
                   <>
                     <p>Upload the approval email from the respective signatories/authenticators</p>
                   </>
@@ -508,7 +508,7 @@ const Section2 = ({ scopeData }) => {
                           </p>
                           <div className="rep-letter-form-bottom-btn">
                             <h5>
-                              Approval Email attached by Disclosure Processor For Finance Director
+                              Approval Email attached by Local Internal Control For Finance Director
                             </h5>
 
                             <Button
@@ -556,7 +556,7 @@ const Section2 = ({ scopeData }) => {
                             <b>Zone VP</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>Approval Email attached by Disclosure Processor For Zone VP</h5>
+                            <h5>Approval Email attached by Local Internal Control For Zone VP</h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
@@ -603,7 +603,7 @@ const Section2 = ({ scopeData }) => {
                             <b>BU Head</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>Approval Email attached by Disclosure Processor For BU Head</h5>
+                            <h5>Approval Email attached by Local Internal Control For BU Head</h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
@@ -651,7 +651,7 @@ const Section2 = ({ scopeData }) => {
                           </p>
                           <div className="rep-letter-form-bottom-btn">
                             <h5>
-                              Approval Email attached by Disclosure Processor For Zone Control
+                              Approval Email attached by Local Internal Control For Zone Control
                             </h5>
 
                             <Button
@@ -707,7 +707,7 @@ const Section2 = ({ scopeData }) => {
               />
               <div className="renderBlockWrapper_file">
                 <div>
-                  {localStorage.getItem('selected_Role') === 'Disclosure Processor' ? (
+                  {localStorage.getItem('selected_Role') === 'Local Internal Control' ? (
                     <EmailAttachmentDiv />
                   ) : (
                     <AutoAuth />

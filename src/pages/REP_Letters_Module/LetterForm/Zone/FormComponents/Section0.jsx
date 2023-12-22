@@ -169,7 +169,7 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
                   <Button
                     startIcon={<FeedOutlinedIcon />}
                     className={
-                      location.pathname === '/REP-Letters/re-attempt-letter/BU-letter-form'
+                      location.pathname === '/REP-Letters/re-attempt-letter/Zone-letter-form'
                         ? 'mr-4 active'
                         : 'mr-4'
                     }
@@ -178,7 +178,7 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
                         scopeData: scopeData,
                         letterType: letterType,
                       };
-                      history.push('/REP-Letters/re-attempt-letter/BU-letter-form', { data });
+                      history.push('/REP-Letters/re-attempt-letter/Zone-letter-form', { data });
                     }}
                   >
                     Edit Response

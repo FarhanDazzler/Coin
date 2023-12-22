@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import Button from '../../../../../components/UI/Button';
 import { useTranslation } from 'react-i18next';
 
-const ControlActions = ({ activeData }) => {
+const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('Scope');
   const [isReadMore, setIsReadMore] = useState(true);
@@ -37,28 +37,39 @@ const ControlActions = ({ activeData }) => {
   const isClear = (text) => activeTab === text;
   return (
     <div className="control-actions-wrapper">
-      <div className="pb-5 pt-4">
-        <Button
-          // disabled={activeTab && activeTab !== 'Scope'}
-          className={activeTab === 'Scope' ? 'mr-4 active' : 'mr-4'}
-          onClick={() => setActiveTab(isClear('Scope') ? '' : 'Scope')}
-        >
-          {t('selfAssessment.assessmentForm.scopeBtn')}
-        </Button>
-        <Button
-          // disabled={activeTab && activeTab !== 'GCD'}
-          className={activeTab === 'GCD' ? 'mr-4 active' : 'mr-4'}
-          onClick={() => setActiveTab(isClear('GCD') ? '' : 'GCD')}
-        >
-          {t('selfAssessment.assessmentForm.globalControlDescriptionBtn')}
-        </Button>
-        <Button
-          // disabled={activeTab && activeTab !== 'LCD'}
-          className={activeTab === 'LCD' ? 'mr-4 active' : 'mr-4'}
-          onClick={() => setActiveTab(isClear('LCD') ? '' : 'LCD')}
-        >
-          {t('selfAssessment.assessmentForm.localControlDescriptionBtn')}
-        </Button>
+      <div className="pb-5 pt-4 d-flex justify-content-between">
+        <div>
+          <Button
+            // disabled={activeTab && activeTab !== 'Scope'}
+            className={activeTab === 'Scope' ? 'mr-4 active' : 'mr-4'}
+            onClick={() => setActiveTab(isClear('Scope') ? '' : 'Scope')}
+          >
+            {t('selfAssessment.assessmentForm.scopeBtn')}
+          </Button>
+          <Button
+            // disabled={activeTab && activeTab !== 'GCD'}
+            className={activeTab === 'GCD' ? 'mr-4 active' : 'mr-4'}
+            onClick={() => setActiveTab(isClear('GCD') ? '' : 'GCD')}
+          >
+            {t('selfAssessment.assessmentForm.globalControlDescriptionBtn')}
+          </Button>
+          <Button
+            // disabled={activeTab && activeTab !== 'LCD'}
+            className={activeTab === 'LCD' ? 'mr-4 active' : 'mr-4'}
+            onClick={() => setActiveTab(isClear('LCD') ? '' : 'LCD')}
+          >
+            {t('selfAssessment.assessmentForm.localControlDescriptionBtn')}
+          </Button>
+        </div>
+        {isReview && (
+          <Button
+            // disabled={activeTab && activeTab !== 'LCD'}
+            className={!isModal ? 'mr-4 active' : 'mr-4'}
+            onClick={() => setIsModal(!isModal)}
+          >
+            {t('selfAssessment.assessmentForm.edit')}
+          </Button>
+        )}
       </div>
       <div className="control-actions-collapse">
         {activeTab === 'GCD' && (

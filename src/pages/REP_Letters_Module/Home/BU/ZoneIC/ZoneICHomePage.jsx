@@ -55,7 +55,7 @@ const ZoneICHomePage = () => {
     return {
       rbaApproved: getNumberOfItem(RBAStatus, 'RBA Approved'),
       notStarted: getNumberOfItem(allUpdatestatus, 'Not Started'),
-      responded: getNumberOfItem(allUpdatestatus, 'Responded'),
+      Prepared: getNumberOfItem(allUpdatestatus, 'Prepared'),
       signed: getNumberOfItem(allUpdatestatus, 'Signed'),
       completed: completedAssessment,
       completedRatio: ((completedAssessment / allUpdatestatus?.length) * 100)?.toFixed(0),
@@ -95,7 +95,8 @@ const ZoneICHomePage = () => {
                     <div>
                       <span className="yellow-text"> Not Started : </span>
                       <span>
-                        Contact Disclosure Processor to complete Letter, and check fallbacks on GRC.
+                        Contact Local Internal Control to complete Letter, and check fallbacks on
+                        GRC.
                       </span>
                     </div>
                   }
@@ -104,14 +105,14 @@ const ZoneICHomePage = () => {
 
                 <NumberWithText
                   total={statusInfo.total}
-                  number={statusInfo.responded}
+                  number={statusInfo.Prepared}
                   tooltip={
                     <div>
-                      <span className="yellow-text"> Responded : </span>
-                      <span>Disclosure Processor has submitted response for section 1.</span>
+                      <span className="yellow-text"> Prepared : </span>
+                      <span>Local Internal Control has submitted response for section 1.</span>
                     </div>
                   }
-                  subTitle="Responded"
+                  subTitle="Prepared"
                 />
                 <NumberWithText
                   total={statusInfo.total}

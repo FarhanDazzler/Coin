@@ -5,15 +5,13 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Divider, Group, SimpleGrid, Text } from '@mantine/core';
 import ClosedCollapseFrame from '../../../../../../components/UI/CollapseFrame/ClosedCollapseFrame';
 import Button from '../../../../../../components/UI/Button';
-import ActionLogChatTimeline from '../Section3/ActionLogChatTimeline';
 import '../../../LetterFormStyle.scss';
-import { clearGetBUSection3Response } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
-import { getBUSection2SignatureResponseSelector } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { getBUZoneSection2SignatureResponseSelector } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
 const ReviewSection2 = (props) => {
   const dispatch = useDispatch();
 
-  const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
+  const getBUSection2SignatureResponseState = useSelector(getBUZoneSection2SignatureResponseSelector);
   return (
     <ClosedCollapseFrame title="Section 2 : Signatures" active>
       <div className="renderBlockWrapper mt-5">

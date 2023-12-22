@@ -62,37 +62,36 @@ const ZoneGlobalPersonaTable = ({
   }, []);
 
   const TABLE_COLUMNS = [
-    // {
-    //   accessorKey: 'Action',
-    //   id: 'Action',
-    //   header: 'Action',
-    //   flex: 1,
-    //   columnDefType: 'data',
-    //   cellClassName: 'dashboardCell',
-    //   size: 100,
-    //   Cell: (row) => {
-    //     return (
-    //       <div>
-    //         {row.row.original.Status === 'Completed' && (
-    //           <Button
-    //             className="mr-2"
-    //             onClick={() => {
-    //               const data = {
-    //                 scopeData: row.row.original,
-    //                 modalType: 'Review',
-    //                 letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-    //                 isSection3ApproveState: false,
-    //               };
-    //               history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
-    //             }}
-    //           >
-    //             Review
-    //           </Button>
-    //         )}
-    //       </div>
-    //     );
-    //   },
-    // },
+    {
+      accessorKey: 'Action',
+      id: 'Action',
+      header: 'Action',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 100,
+      Cell: (row) => {
+        return (
+          <div>
+            {row.row.original.Status === 'Completed' && (
+              <Button
+                className="mr-2"
+                onClick={() => {
+                  const data = {
+                    scopeData: row.row.original,
+                    modalType: 'Review',
+                    letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
+                  };
+                  history.push('/REP-Letters/attempt-letter/Zone-letter-form', { data });
+                }}
+              >
+                Review
+              </Button>
+            )}
+          </div>
+        );
+      },
+    },
     {
       accessorKey: 'Zone',
       id: 'Zone',
@@ -128,7 +127,7 @@ const ZoneGlobalPersonaTable = ({
     {
       accessorKey: 'Disclosure_Processor',
       id: 'Disclosure_Processor',
-      header: 'Disclosure Processor',
+      header: 'Local Internal Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',

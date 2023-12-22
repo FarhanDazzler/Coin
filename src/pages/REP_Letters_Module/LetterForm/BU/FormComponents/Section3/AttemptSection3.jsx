@@ -183,7 +183,7 @@ const AttemptSection3 = ({ scopeData }) => {
                     </Row>
                     <Divider color="gray" className="section3-divider" size="xs" />
                   </Row>
-                  {getBUSection3RBA_DataState?.data && (
+                  {getBUSection3RBA_DataState?.data ? (
                     <Row>
                       <Table2
                         tableData={getBUSection3RBA_DataState?.data}
@@ -191,6 +191,10 @@ const AttemptSection3 = ({ scopeData }) => {
                         tableColumns={TABLE_COLUMNS}
                         isSimpleTable={true}
                       />
+                    </Row>
+                  ) : (
+                    <Row>
+                      <h5>All RBA are reconciling</h5>
                     </Row>
                   )}
                   <Row>

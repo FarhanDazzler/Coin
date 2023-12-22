@@ -19,15 +19,15 @@ import {
   getInstructionsSelector,
 } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
 import {
-  addBUSubmitResponse,
-  clearBUSubmitResponse,
-  getBUSubmitResponse,
-  clearGetBUScopeData,
-  getBUScopeData,
+  addBUZoneSubmitResponse,
+  clearBUZoneSubmitResponse,
+  getBUZoneSubmitResponse,
+  clearBUZoneScopeData,
+  getBUZoneScopeData,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import {
-  getBUSubmitResponseSelector,
-  getBUScopeDataSelector,
+  getBUZoneSubmitResponseSelector,
+  getBUZoneScopeDataSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import Section0 from './Section0';
 import PageWrapper from '../../../../../components/wrappers/PageWrapper';
@@ -53,18 +53,18 @@ const filteredMonths = months.slice(currentMonth);
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 3 }, (_, index) => currentYear + index);
 
-const EditSection1 = (props) => {
+const EditZoneSection1 = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const scopeData = props.location.state?.data?.scopeData;
   const letterType = props.location.state?.data?.letterType;
 
-  const getBUSubmitResponseState = useSelector(getBUSubmitResponseSelector);
+  const getBUSubmitResponseState = useSelector(getBUZoneSubmitResponseSelector);
   const questionState = useSelector(get_BU_QuestionsSelector);
   const questions = questionState?.data;
   const instructionState = useSelector(getInstructionsSelector);
-  const getBUScopeDataState = useSelector(getBUScopeDataSelector);
+  const getBUScopeDataState = useSelector(getBUZoneScopeDataSelector);
 
   const newFormat = [];
   const [responses, setResponses] = useState(
@@ -84,7 +84,7 @@ const EditSection1 = (props) => {
     const payloadGetBUScopeData = {
       id: scopeData?.id,
     };
-    dispatch(getBUScopeData(payloadGetBUScopeData));
+    dispatch(getBUZoneScopeData(payloadGetBUScopeData));
 
     let payloadGet_BU_Questions = {
       type: letterType,
@@ -95,7 +95,7 @@ const EditSection1 = (props) => {
       assessment_id: scopeData?.id,
     };
 
-    dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+    dispatch(getBUZoneSubmitResponse(payloadForGettingSubmittedResp));
   }, []);
 
   const handleRadioChange = (questionId, index, response, comment = '', month = '', year = '') => {
@@ -176,8 +176,8 @@ const EditSection1 = (props) => {
   // clear all the states on page leave or refresh page or change url path or change module or change role
   useEffect(() => {
     return () => {
-      dispatch(clearBUSubmitResponse());
-      dispatch(clearGetBUScopeData());
+      dispatch(clearBUZoneSubmitResponse());
+      dispatch(clearBUZoneScopeData());
     };
   }, []);
 
@@ -249,9 +249,9 @@ const EditSection1 = (props) => {
             override_response: responses,
             Latest_response: newFormat?.sort((a, b) => a.questionNumber - b.questionNumber),
           };
-          dispatch(addBUSubmitResponse(payload));
+          dispatch(addBUZoneSubmitResponse(payload));
           // after api success clear the redux state
-          dispatch(clearBUSubmitResponse());
+          dispatch(clearBUZoneSubmitResponse());
           history.push('/');
         }
       });
@@ -431,4 +431,4 @@ const EditSection1 = (props) => {
   );
 };
 
-export default EditSection1;
+export default EditZoneSection1;

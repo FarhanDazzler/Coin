@@ -96,7 +96,7 @@ const ExcomMemberTable = ({
     //             Review
     //           </Button>
     //         )}
-    //         {['Responded', 'Approval Pending'].includes(row.row.original.Status) &&
+    //         {['Prepared', 'Approval Pending'].includes(row.row.original.Status) &&
     //           row.row.original?.signatures?.buh_signed === false && (
     //             <Button
     //               className="mr-2"
@@ -152,7 +152,7 @@ const ExcomMemberTable = ({
     {
       accessorKey: 'Disclosure_Processor',
       id: 'Disclosure_Processor',
-      header: 'Disclosure Processor',
+      header: 'Local Internal Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',

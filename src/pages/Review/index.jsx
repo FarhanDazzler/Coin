@@ -13,7 +13,7 @@ const Review = () => {
   console.log('statestate', state);
 
   return (
-    <div className="reviewSectionWrapper">
+    <div className="page-wrapper">
       <div className="container-fluid">
         {Control_ID && <HomeTableModal isReview={true} activeData={state} />}
       </div>

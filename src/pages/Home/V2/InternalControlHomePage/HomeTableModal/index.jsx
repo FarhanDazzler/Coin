@@ -33,7 +33,8 @@ import { question3Selector } from '../../../../../redux/Questions/QuestionsSelec
 import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 
 const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
-  const isModal = isReview || contentTypeModal;
+  // const isModal = isReview || contentTypeModal;
+  const [isModal, setIsModal] = useState(isReview || contentTypeModal);
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const { t, i18n } = useTranslation();
@@ -533,6 +534,7 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
                   <span>{stateControlData.control_name}</span>
                 </div>
               </div>
+              <CloseIcon className="close-modal-icon" onClick={() => handleCloseAssessment()} />
             </div>
           </div>
         )}
@@ -563,7 +565,9 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
             style: { width: 128 },
             loading: addOrEditUpdateDraft.loading,
           }}
-          isModal={isReview}
+          isReview={isReview}
+          isModal={isModal}
+          setIsModal={setIsModal}
           setStartEdit={setStartEdit}
           language={language}
           loadingLevel={loadingLevel}
@@ -608,7 +612,9 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
           style: { width: 128 },
           loading: addOrEditUpdateDraft.loading,
         }}
-        isModal={true}
+        isReview={isReview}
+        isModal={isModal}
+        setIsModal={setIsModal}
         setStartEdit={setStartEdit}
         language={language}
         loadingLevel={loadingLevel}

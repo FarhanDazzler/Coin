@@ -160,22 +160,24 @@ const MegaAndSubprocessTable = () => {
 
   return (
     <>
-      <ProductFeedback
-        env={process.env.REACT_APP_STAGE}
-        apiKey={''}
-        token={localStorage.getItem('nps-auth-token')}
-        feedbackMetadata={{
-          Activity: 'IC Has done MDM modification for Mega and Subprocess',
-          Created_By: {
-            Email: accounts[0]?.username,
-            name: accounts[0]?.name ? accounts[0].name : '',
-          },
-        }}
-        productId={process.env.REACT_APP_NPS_PRODUCT_ID}
-        productActivityId="nps_score_provided_IC"
-        modalOpened={openNPS}
-        setModalOpened={setOpenNPS}
-      />
+      {openNPS && (
+        <ProductFeedback
+          env={process.env.REACT_APP_STAGE}
+          apiKey={''}
+          token={localStorage.getItem('nps-auth-token')}
+          feedbackMetadata={{
+            Activity: 'IC Has done MDM modification for Mega and Subprocess',
+            Created_By: {
+              Email: accounts[0]?.username,
+              name: accounts[0]?.name ? accounts[0].name : '',
+            },
+          }}
+          productId={process.env.REACT_APP_NPS_PRODUCT_ID}
+          productActivityId="nps_score_provided_IC"
+          modalOpened={openNPS}
+          setModalOpened={setOpenNPS}
+        />
+      )}
       <div className="container-fluid mt-5" id="MegaAndSubprocessManage">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">

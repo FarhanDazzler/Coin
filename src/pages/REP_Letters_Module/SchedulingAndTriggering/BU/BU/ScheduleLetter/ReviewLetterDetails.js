@@ -110,7 +110,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               <>
                 <TableExport size={16} />
                 <Box ml={5}>
-                  <Form.Label>View All Selected Disclosure Processor:</Form.Label>
+                  <Form.Label>View All Selected Local Internal Control:</Form.Label>
                 </Box>
               </>
             }
@@ -137,7 +137,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               <Workbook.Column label="BU" value="BU" />
               <Workbook.Column label="BU Head" value="BU_Head" />
               <Workbook.Column label="Applicability" value="Applicability" />
-              <Workbook.Column label="Disclosure Processor" value="Disclosure_Processor" />
+              <Workbook.Column label="Local Internal Control" value="Disclosure_Processor" />
               <Workbook.Column label="Finance Director" value="Finance_Director" />
               <Workbook.Column label="Zone VP" value="Zone_VP" />
               <Workbook.Column label="Zone Control" value="Zone_Control" />

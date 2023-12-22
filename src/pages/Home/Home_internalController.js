@@ -74,7 +74,7 @@ const Home = () => {
                 <div className="row">
                   <div className="col col-sm-2">
                     <p className="row card-subtitle">
-                      <strong>RESPONDED</strong>
+                      <strong>Prepared</strong>
                     </p>
                     <p className="row card-subtitle">
                       <strong className="red-text">33%</strong>
