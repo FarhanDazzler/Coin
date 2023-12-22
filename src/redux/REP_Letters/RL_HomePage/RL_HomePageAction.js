@@ -40,6 +40,19 @@ import {
   APPROVE_BU_SECTION_3_RESPONSE_REQUEST,
   GET_BU_SCOPE_DATA_REQUEST,
   CLEAR_BU_SCOPE_DATA,
+  ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_REQUEST,
+  GET_LATEST_BU_ZONE_DRAFT_RESPONSE_REQUEST,
+  CLEAR_LATEST_BU_ZONE_DRAFT_RESPONSE,
+  GET_BU_ZONE_SUBMIT_RESPONSE_REQUEST,
+  ADD_BU_ZONE_SUBMIT_RESPONSE_REQUEST,
+  CLEAR_BU_ZONE_SUBMIT_RESPONSE_REQUEST,
+  GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_REQUEST,
+  ADD_BU_ZONE_SECTION2_CHECKBOX_REQUEST,
+  ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
+  ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_REQUEST,
+  CLEAR_GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_REQUEST,
+  GET_BU_ZONE_SCOPE_DATA_REQUEST,
+  CLEAR_BU_ZONE_SCOPE_DATA,
 } from './RL_HomePageReducer';
 
 export const getFunctionRecipientHomePageData = (payload) => ({
@@ -225,4 +238,65 @@ export const getBUScopeData = (payload) => ({
 
 export const clearGetBUScopeData = () => ({
   type: CLEAR_BU_SCOPE_DATA,
+});
+
+export const addOrUpdateBUZoneDraftResponse = (payload) => ({
+  type: ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_REQUEST,
+  payload,
+});
+
+export const getLatestBUZoneDraftResponse = (payload) => ({
+  type: GET_LATEST_BU_ZONE_DRAFT_RESPONSE_REQUEST,
+  payload,
+});
+
+export const clearLatestBUZoneDraftResponse = () => ({
+  type: CLEAR_LATEST_BU_ZONE_DRAFT_RESPONSE,
+});
+
+export const getBUZoneSubmitResponse = (payload) => ({
+  type: GET_BU_ZONE_SUBMIT_RESPONSE_REQUEST,
+  payload,
+});
+
+export const addBUZoneSubmitResponse = (payload) => ({
+  type: ADD_BU_ZONE_SUBMIT_RESPONSE_REQUEST,
+  payload,
+});
+
+export const clearBUZoneSubmitResponse = () => ({
+  type: CLEAR_BU_ZONE_SUBMIT_RESPONSE_REQUEST,
+});
+
+export const getBUZoneSection2SignatureResponseAction = (payload) => ({
+  type: GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_REQUEST,
+  payload,
+});
+
+export const clearGetBUZoneSection2SignatureResponseAction = () => ({
+  type: CLEAR_GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_REQUEST,
+});
+
+export const addBUZoneSection2CheckboxAction = (payload) => ({
+  type: ADD_BU_ZONE_SECTION2_CHECKBOX_REQUEST,
+  payload,
+});
+
+export const addBUZoneSection2UploadMailApprovalAction = (payload) => ({
+  type: ADD_BU_ZONE_SECTION2_UPLOAD_MAIL_APPROVAL_REQUEST,
+  payload,
+});
+
+export const addBUZoneSection2LazyApproval = (payload) => ({
+  type: ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_REQUEST,
+  payload,
+});
+
+export const getBUZoneScopeData = (payload) => ({
+  type: GET_BU_ZONE_SCOPE_DATA_REQUEST,
+  payload,
+});
+
+export const clearBUZoneScopeData = () => ({
+  type: CLEAR_BU_ZONE_SCOPE_DATA,
 });

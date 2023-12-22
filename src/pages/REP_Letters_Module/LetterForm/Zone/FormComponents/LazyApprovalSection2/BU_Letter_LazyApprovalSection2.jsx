@@ -22,19 +22,19 @@ import ReviewSection1 from '../ReviewResponseComponents/ReviewSection1';
 import { getInstructions } from '../../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import { getInstructionsSelector } from '../../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
 import {
-  getBUSubmitResponse,
-  getBUSection2SignatureResponseAction,
-  addBUSection2LazyApproval,
-  clearGetBUSection2SignatureResponseAction,
-  getBUScopeData,
-  clearGetBUScopeData,
-  clearBUSubmitResponse,
+  getBUZoneSubmitResponse,
+  getBUZoneSection2SignatureResponseAction,
+  addBUZoneSection2LazyApproval,
+  clearGetBUZoneSection2SignatureResponseAction,
+  getBUZoneScopeData,
+  clearGetBUZoneScopeData,
+  clearBUZoneSubmitResponse,
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import {
-  getBUSubmitResponseSelector,
-  getBUSection2SignatureResponseSelector,
-  addBUSection2LazyApprovalSelector,
-  getBUScopeDataSelector,
+  getBUZoneSubmitResponseSelector,
+  getBUZoneSection2SignatureResponseSelector,
+  addBUZoneSection2LazyApprovalSelector,
+  getBUZoneScopeDataSelector,
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../../../LetterFormStyle.scss';
 
@@ -43,7 +43,9 @@ const Section2 = ({ id }) => {
   const dispatch = useDispatch();
   const { instance, accounts, inProgress } = useMsal();
 
-  const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
+  const getBUSection2SignatureResponseState = useSelector(
+    getBUZoneSection2SignatureResponseSelector,
+  );
 
   const [toggleData, setToggleData] = useState(false);
 
@@ -102,7 +104,7 @@ const Section2 = ({ id }) => {
     };
 
     //console.log('payload', payload);
-    dispatch(addBUSection2LazyApproval(payload));
+    dispatch(addBUZoneSection2LazyApproval(payload));
   };
 
   const AutoAuth = () => {
@@ -443,7 +445,7 @@ const Section2 = ({ id }) => {
 };
 
 const ReviewSubmittedResponses = ({ scopeData, getBUSubmitResponseState }) => {
-  const getBUScopeDataState = useSelector(getBUScopeDataSelector);
+  const getBUScopeDataState = useSelector(getBUZoneScopeDataSelector);
   const exportResponseToExcel = (info, responses, Last_Saved_At) => {
     // Create a new workbook
     const wb = XLSX.utils.book_new();
@@ -563,10 +565,12 @@ const BU_Letter_LazyApprovalSection2 = () => {
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
 
   const instructionState = useSelector(getInstructionsSelector);
-  const getBUSubmitResponseState = useSelector(getBUSubmitResponseSelector);
-  const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
-  const addBUSection2LazyApprovalState = useSelector(addBUSection2LazyApprovalSelector);
-  const getBUScopeDataState = useSelector(getBUScopeDataSelector);
+  const getBUSubmitResponseState = useSelector(getBUZoneSubmitResponseSelector);
+  const getBUSection2SignatureResponseState = useSelector(
+    getBUZoneSection2SignatureResponseSelector,
+  );
+  const addBUSection2LazyApprovalState = useSelector(addBUZoneSection2LazyApprovalSelector);
+  const getBUScopeDataState = useSelector(getBUZoneScopeDataSelector);
 
   useEffect(() => {
     if (token) {
@@ -580,17 +584,17 @@ const BU_Letter_LazyApprovalSection2 = () => {
         id: id,
       };
 
-      dispatch(getBUScopeData(payloadForGettingScopeData));
+      dispatch(getBUZoneScopeData(payloadForGettingScopeData));
 
       let payloadForGettingSubmittedResp = {
         assessment_id: id,
       };
 
-      dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+      dispatch(getBUZoneSubmitResponse(payloadForGettingSubmittedResp));
       let payloadForBuSection2Response = {
         id: id,
       };
-      dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
+      dispatch(getBUZoneSection2SignatureResponseAction(payloadForBuSection2Response));
     }
   }, [token]);
 
@@ -604,9 +608,9 @@ const BU_Letter_LazyApprovalSection2 = () => {
   // clear all the states on page leave or refresh page or change url path or change module or change role
   useEffect(() => {
     return () => {
-      dispatch(clearBUSubmitResponse());
-      dispatch(clearGetBUSection2SignatureResponseAction());
-      dispatch(clearGetBUScopeData());
+      dispatch(clearBUZoneSubmitResponse());
+      dispatch(clearGetBUZoneSection2SignatureResponseAction());
+      dispatch(clearGetBUZoneScopeData());
     };
   }, []);
 

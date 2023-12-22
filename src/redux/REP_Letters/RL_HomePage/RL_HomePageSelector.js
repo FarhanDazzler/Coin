@@ -57,3 +57,20 @@ export const addBUSection3ResponseSelector = (state) => state?.RL_HomePage?.addB
 export const approveBUSection3ResponseSelector = (state) =>
   state?.RL_HomePage?.approveBUSection3Response;
 export const getBUScopeDataSelector = (state) => state?.RL_HomePage?.getBUScopeData;
+export const addOrUpdateBUZoneDraftResponseSelector = (state) =>
+  state?.RL_HomePage?.addOrUpdateBUZoneDraftResponse;
+export const getLatestBUZoneDraftResponseSelector = (state) =>
+  state?.RL_HomePage?.getLatestBUZoneDraftResponse;
+export const getBUZoneSubmitResponseSelector = (state) =>
+  state?.RL_HomePage?.getBUZoneSubmitResponse;
+export const addBUZoneSubmitResponseSelector = (state) =>
+  state?.RL_HomePage?.addBUZoneSubmitResponse;
+export const getBUZoneSection2SignatureResponseSelector = (state) =>
+  state?.RL_HomePage?.getBUZoneSection2SignatureResponse;
+export const addBUZoneSection2CheckboxSelector = (state) =>
+  state?.RL_HomePage?.addBUZoneSection2Checkbox;
+export const addBUZoneSection2UploadMailApprovalSelector = (state) =>
+  state?.RL_HomePage?.addBUZoneSection2UploadMailApproval;
+export const addBUZoneSection2LazyApprovalSelector = (state) =>
+  state?.RL_HomePage?.addBUZoneSection2LazyApproval;
+export const getBUZoneScopeDataSelector = (state) => state?.RL_HomePage?.getBUZoneScopeData;

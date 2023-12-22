@@ -13,12 +13,15 @@ import FunctionalDetailsTableData from '../../pages/REP_Letters_Module/Schedulin
 import BUDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/BU/Table/BUDetailsTableData';
 import FunctionalLetterForm from '../../pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm';
 import BULetterForm from '../../pages/REP_Letters_Module/LetterForm/BU/BULetterForm';
+import ZoneForm from '../../pages/REP_Letters_Module/LetterForm/Zone/ZoneForm';
 import RepLetterReporting from '../../pages/REP_Letters_Module/Reporting/RepLetterReporting';
 import BULetterSummaryTable from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/BU/Table/BULetterSummaryTable';
 import ZoneLetterSummaryTable from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Zone/Table/ZoneLetterSummaryTable';
 import ZoneDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Zone/Table/ZoneDetailsTableData';
 import ScheduleSurveyZonePage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Zone/ScheduleLetter/ScheduleSurveyZoneLandingPage';
 import EditSection1 from '../../pages/REP_Letters_Module/LetterForm/BU/FormComponents/EditSection1';
+import EditZoneSection1 from '../../pages/REP_Letters_Module/LetterForm/Zone/FormComponents/EditZoneSection1';
+
 export const RepLettersRoutes = [
   {
     path: '/REP-Letters/master-data-management',
@@ -96,9 +99,19 @@ export const RepLettersRoutes = [
     component: BULetterForm,
   },
   {
+    path: '/REP-Letters/attempt-letter/Zone-letter-form',
+    exact: true,
+    component: ZoneForm,
+  },
+  {
     path: '/REP-Letters/re-attempt-letter/BU-letter-form',
     exact: true,
     component: EditSection1,
+  },
+  {
+    path: '/REP-Letters/re-attempt-letter/Zone-letter-form',
+    exact: true,
+    component: EditZoneSection1,
   },
   {
     path: '/REP-Letters/reporting',
