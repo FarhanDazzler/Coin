@@ -22,7 +22,7 @@ const BU_HomePage = () => {
   // console.log('@@@@@@@', localStorage.getItem('selected_Role'));
   return (
     <div>
-      {(loginRole || selected_Role) === 'Disclosure Processor' ? (
+      {(loginRole || selected_Role) === 'Local Internal Control' ? (
         <DisclosureProcessorHomePageContainer />
       ) : (loginRole || selected_Role) === 'BU Head' ? (
         <BUHeadHomePage />

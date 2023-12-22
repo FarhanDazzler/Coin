@@ -25,6 +25,8 @@ import {
   getBUSection3RBA_Data,
   getBUSection3Response,
   getBUSection2SignatureResponseAction,
+  getBUScopeData,
+  clearGetBUScopeData,
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import {
   addOrUpdateBUDraftResponseSelector,
@@ -33,6 +35,7 @@ import {
   getBUSection3RBA_DataSelector,
   getBUSection3ResponseSelector,
   getBUSection2SignatureResponseSelector,
+  getBUScopeDataSelector,
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../LetterFormStyle.scss';
 import AttemptSection3 from './FormComponents/Section3/AttemptSection3';
@@ -58,7 +61,7 @@ const ReviewSubmittedResponses = ({
       { Key: 'Zone', Value: info.Zone },
       { Key: 'BU', Value: info.BU },
       { Key: 'Entity', Value: info.Entity },
-      { Key: 'Disclosure Processor', Value: info.Disclosure_Processor },
+      { Key: 'Local Internal Control', Value: info.Disclosure_Processor },
       { Key: 'Finance Director', Value: info.Finance_Director },
       { Key: 'BU Head', Value: info.BU_Head },
       { Key: 'Zone Control', Value: info.Zone_Control },
@@ -160,14 +163,20 @@ const BULetterForm = (props) => {
   const getBUSection3RBA_DataState = useSelector(getBUSection3RBA_DataSelector);
   const getBUSection3ResponseState = useSelector(getBUSection3ResponseSelector);
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
+  const getBUScopeDataState = useSelector(getBUScopeDataSelector);
 
   useEffect(() => {
-    const payload = {
+    const payloadForGettingInstructions = {
       module: letterType,
     };
 
-    dispatch(getInstructions(payload));
+    dispatch(getInstructions(payloadForGettingInstructions));
 
+    const payloadForGettingScopeData = {
+      id: scopeData.id,
+    };
+
+    dispatch(getBUScopeData(payloadForGettingScopeData));
     if (modalType === 'attemptSection1') {
       let payload = {
         type: letterType,
@@ -240,12 +249,20 @@ const BULetterForm = (props) => {
     }
   }, []);
 
+  // clear all the states on page leave or refresh page or change url path or change module or change role
+  useEffect(() => {
+    return () => {
+      dispatch(clearGetBUScopeData());
+    };
+  }, []);
+
   return (
     <div>
       <PageWrapper>
         {modalType === 'attemptSection1' && (
           <div className="container-fluid custom-scroll-page">
             {instructionState.loading ||
+            getBUScopeDataState.loading ||
             questionState.loading ||
             getLatestBUDraftResponseState.loading ? (
               <div className="loader-animation">
@@ -254,7 +271,7 @@ const BULetterForm = (props) => {
               </div>
             ) : (
               <div className="col-lg-12">
-                <Section0 scopeData={scopeData} letterType={letterType} />
+                <Section0 scopeData={getBUScopeDataState?.data} letterType={letterType} />
                 <Section1 questions={questionState.data} scopeData={scopeData} />
               </div>
             )}
@@ -263,6 +280,7 @@ const BULetterForm = (props) => {
         {modalType === 'attemptSection2' && (
           <div className="container-fluid custom-scroll-page">
             {instructionState.loading ||
+            getBUScopeDataState.loading ||
             getBUSubmitResponseState.loading ||
             getBUSection2SignatureResponseState?.loading ? (
               <div className="loader-animation">
@@ -274,7 +292,7 @@ const BULetterForm = (props) => {
             ) : (
               <div className="col-lg-12">
                 <ReviewSubmittedResponses
-                  scopeData={scopeData}
+                  scopeData={getBUScopeDataState?.data}
                   letterType={letterType}
                   getBUSubmitResponseState={getBUSubmitResponseState}
                   getBUSection2SignatureResponseState={getBUSection2SignatureResponseState}
@@ -287,6 +305,7 @@ const BULetterForm = (props) => {
         {modalType === 'attemptSection3' && (
           <div className="container-fluid custom-scroll-page">
             {instructionState.loading ||
+            getBUScopeDataState.loading ||
             getBUSubmitResponseState.loading ||
             getBUSection3RBA_DataState.loading ||
             getBUSection2SignatureResponseState.loading ? (
@@ -299,7 +318,7 @@ const BULetterForm = (props) => {
             ) : (
               <div className="col-lg-12">
                 <ReviewSubmittedResponses
-                  scopeData={scopeData}
+                  scopeData={getBUScopeDataState?.data}
                   letterType={letterType}
                   getBUSubmitResponseState={getBUSubmitResponseState}
                   getBUSection2SignatureResponseState={getBUSection2SignatureResponseState}
@@ -312,6 +331,7 @@ const BULetterForm = (props) => {
         {modalType === 'approveSection3' && (
           <div className="container-fluid custom-scroll-page">
             {instructionState.loading ||
+            getBUScopeDataState.loading ||
             getBUSubmitResponseState.loading ||
             getBUSection3ResponseState.loading ||
             getBUSection2SignatureResponseState.loading ? (
@@ -324,7 +344,7 @@ const BULetterForm = (props) => {
             ) : (
               <div className="col-lg-12">
                 <ReviewSubmittedResponses
-                  scopeData={scopeData}
+                  scopeData={getBUScopeDataState?.data}
                   letterType={letterType}
                   getBUSubmitResponseState={getBUSubmitResponseState}
                   getBUSection2SignatureResponseState={getBUSection2SignatureResponseState}
@@ -337,6 +357,7 @@ const BULetterForm = (props) => {
         {modalType === 'Review' && (
           <div className="container-fluid custom-scroll-page">
             {instructionState.loading ||
+            getBUScopeDataState.loading ||
             getBUSubmitResponseState.loading ||
             getBUSection3ResponseState.loading ||
             getBUSection2SignatureResponseState.loading ? (
@@ -349,7 +370,7 @@ const BULetterForm = (props) => {
             ) : (
               <div className="col-lg-12">
                 <ReviewSubmittedResponses
-                  scopeData={scopeData}
+                  scopeData={getBUScopeDataState?.data}
                   letterType={letterType}
                   getBUSubmitResponseState={getBUSubmitResponseState}
                 />

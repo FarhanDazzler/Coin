@@ -26,11 +26,14 @@ import {
   getBUSection2SignatureResponseAction,
   addBUSection2LazyApproval,
   clearGetBUSection2SignatureResponseAction,
+  getBUScopeData,
+  clearGetBUScopeData,
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import {
   getBUSubmitResponseSelector,
   getBUSection2SignatureResponseSelector,
   addBUSection2LazyApprovalSelector,
+  getBUScopeDataSelector,
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../../../LetterFormStyle.scss';
 
@@ -228,7 +231,7 @@ const Section2 = ({ id }) => {
                           </p>
                           <div className="rep-letter-form-bottom-btn">
                             <h5>
-                              Approval Email attached by Disclosure Processor For Finance Director
+                              Approval Email attached by Local Internal Control For Finance Director
                             </h5>
 
                             <Button
@@ -276,7 +279,7 @@ const Section2 = ({ id }) => {
                             <b>Zone VP</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>Approval Email attached by Disclosure Processor For Zone VP</h5>
+                            <h5>Approval Email attached by Local Internal Control For Zone VP</h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
@@ -323,7 +326,7 @@ const Section2 = ({ id }) => {
                             <b>BU Head</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>Approval Email attached by Disclosure Processor For BU Head</h5>
+                            <h5>Approval Email attached by Local Internal Control For BU Head</h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
@@ -371,7 +374,7 @@ const Section2 = ({ id }) => {
                           </p>
                           <div className="rep-letter-form-bottom-btn">
                             <h5>
-                              Approval Email attached by Disclosure Processor For Zone Control
+                              Approval Email attached by Local Internal Control For Zone Control
                             </h5>
 
                             <Button
@@ -439,6 +442,7 @@ const Section2 = ({ id }) => {
 };
 
 const ReviewSubmittedResponses = ({ scopeData, getBUSubmitResponseState }) => {
+  const getBUScopeDataState = useSelector(getBUScopeDataSelector);
   const exportResponseToExcel = (info, responses, Last_Saved_At) => {
     // Create a new workbook
     const wb = XLSX.utils.book_new();
@@ -452,7 +456,7 @@ const ReviewSubmittedResponses = ({ scopeData, getBUSubmitResponseState }) => {
       { Key: 'Zone', Value: info.Zone },
       { Key: 'BU', Value: info.BU },
       { Key: 'Entity', Value: info.Entity },
-      { Key: 'Disclosure Processor', Value: info.Disclosure_Processor },
+      { Key: 'Local Internal Control', Value: info.Disclosure_Processor },
       { Key: 'Finance Director', Value: info.Finance_Director },
       { Key: 'BU Head', Value: info.BU_Head },
       { Key: 'Zone Control', Value: info.Zone_Control },
@@ -512,7 +516,7 @@ const ReviewSubmittedResponses = ({ scopeData, getBUSubmitResponseState }) => {
           </button>
         </div>
       </div>
-      <Section0 scopeData={scopeData} letterType="BU" />
+      <Section0 scopeData={getBUScopeDataState?.data} letterType="BU" isReview={true} />
       <ReviewSection1 submittedResponses={getBUSubmitResponseState?.data?.Latest_Response} />
     </>
   );
@@ -553,7 +557,6 @@ const SuccessDialog = () => {
 const BU_Letter_LazyApprovalSection2 = () => {
   const { instance, accounts, inProgress } = useMsal();
   const dispatch = useDispatch();
-  const scopeData = {};
   const { id } = useParams();
   const token = Cookies.get('token');
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
@@ -562,6 +565,7 @@ const BU_Letter_LazyApprovalSection2 = () => {
   const getBUSubmitResponseState = useSelector(getBUSubmitResponseSelector);
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
   const addBUSection2LazyApprovalState = useSelector(addBUSection2LazyApprovalSelector);
+  const getBUScopeDataState = useSelector(getBUScopeDataSelector);
 
   useEffect(() => {
     if (token) {
@@ -570,6 +574,12 @@ const BU_Letter_LazyApprovalSection2 = () => {
           module: 'BU',
         }),
       );
+
+      const payloadForGettingScopeData = {
+        id: id,
+      };
+
+      dispatch(getBUScopeData(payloadForGettingScopeData));
 
       let payloadForGettingSubmittedResp = {
         assessment_id: id,
@@ -590,6 +600,14 @@ const BU_Letter_LazyApprovalSection2 = () => {
       setSuccessDialogOpen(true);
     }
   }, [addBUSection2LazyApprovalState]);
+
+  // clear all the states on page leave or refresh page or change url path or change module or change role
+  useEffect(() => {
+    return () => {
+      dispatch(clearGetBUScopeData());
+    };
+  }, []);
+
   return (
     <div>
       <PageWrapper>
@@ -597,6 +615,7 @@ const BU_Letter_LazyApprovalSection2 = () => {
           <div className="container-fluid custom-scroll-page">
             {token?.length <= 0 ||
             instructionState.loading ||
+            getBUScopeDataState.loading ||
             getBUSubmitResponseState.loading ||
             getBUSection2SignatureResponseState?.loading ? (
               <div className="loader-animation">
@@ -613,7 +632,7 @@ const BU_Letter_LazyApprovalSection2 = () => {
             ) : (
               <div className="col-lg-12">
                 <ReviewSubmittedResponses
-                  scopeData={scopeData}
+                  scopeData={getBUScopeDataState?.data}
                   getBUSubmitResponseState={getBUSubmitResponseState}
                 />
                 <Section2 id={id} />

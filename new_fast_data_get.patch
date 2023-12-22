@@ -268,8 +268,8 @@ diff --git a/src/pages/REP_Letters_Module/Home/BU/BU_HomePage.jsx b/src/pages/RE
 +  console.log('@@@@@@@', localStorage.getItem('selected_Role'));
    return (
      <div>
--      {localStorage.getItem('selected_Role') === 'Disclosure Processor' ? (
-+      {(loginRole || selected_Role) === 'Disclosure Processor' ? (
+-      {localStorage.getItem('selected_Role') === 'Local Internal Control' ? (
++      {(loginRole || selected_Role) === 'Local Internal Control' ? (
          <DisclosureProcessorHomePage />
 -      ) : localStorage.getItem('selected_Role') === 'BU Head' ? (
 +      ) : (loginRole || selected_Role) === 'BU Head' ? (

@@ -23,8 +23,8 @@ const ReviewSection2 = (props) => {
               <p>
                 <b>
                   As a{' '}
-                  {localStorage.getItem('selected_Role') === 'Disclosure Processor'
-                    ? 'Disclosure Processor'
+                  {localStorage.getItem('selected_Role') === 'Local Internal Control'
+                    ? 'Local Internal Control'
                     : `${localStorage.getItem('selected_Role')} - Signatory`}
                 </b>
               </p>
@@ -59,7 +59,7 @@ const ReviewSection2 = (props) => {
                         </p>
                         <div className="rep-letter-form-bottom-btn">
                           <h5>
-                            Approval Email attached by Disclosure Processor For Finance Director
+                            Approval Email attached by Local Internal Control For Finance Director
                           </h5>
 
                           <Button
@@ -106,7 +106,7 @@ const ReviewSection2 = (props) => {
                           <b>Zone VP</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
-                          <h5>Approval Email attached by Disclosure Processor For Zone VP</h5>
+                          <h5>Approval Email attached by Local Internal Control For Zone VP</h5>
 
                           <Button
                             startIcon={<PictureAsPdfIcon />}
@@ -152,7 +152,7 @@ const ReviewSection2 = (props) => {
                           <b>BU Head</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
-                          <h5>Approval Email attached by Disclosure Processor For BU Head</h5>
+                          <h5>Approval Email attached by Local Internal Control For BU Head</h5>
 
                           <Button
                             startIcon={<PictureAsPdfIcon />}
@@ -198,7 +198,9 @@ const ReviewSection2 = (props) => {
                           <b>Zone Control</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
-                          <h5>Approval Email attached by Disclosure Processor For Zone Control</h5>
+                          <h5>
+                            Approval Email attached by Local Internal Control For Zone Control
+                          </h5>
 
                           <Button
                             startIcon={<PictureAsPdfIcon />}

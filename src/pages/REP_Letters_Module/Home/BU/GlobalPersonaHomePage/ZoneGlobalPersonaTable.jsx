@@ -128,7 +128,7 @@ const ZoneGlobalPersonaTable = ({
     {
       accessorKey: 'Disclosure_Processor',
       id: 'Disclosure_Processor',
-      header: 'Disclosure Processor',
+      header: 'Local Internal Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',

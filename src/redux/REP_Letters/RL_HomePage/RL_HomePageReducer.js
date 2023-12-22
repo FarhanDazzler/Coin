@@ -52,14 +52,14 @@ export const GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_ERROR';
 // ============= GET BU BU Head home page table data ===============//
 
-// ============= GET BU Disclosure Processor home page table data ===============//
+// ============= GET BU Local Internal Control home page table data ===============//
 export const GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST';
 export const GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS =
   'GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS';
 export const GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR';
-// ============= GET BU Disclosure Processor home page table data ===============//
+// ============= GET BU Local Internal Control home page table data ===============//
 
 // ============= GET BU Finance Director home page table data ===============//
 export const GET_BU_FINANCE_DIRECTOR_HOME_PAGE_TABLE_DATA_REQUEST =
@@ -88,14 +88,14 @@ export const GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR';
 // ============= GET BU Zone Control home page table data ===============//
 
-// ============= GET BU-Zone Disclosure Processor home page table data ===============//
+// ============= GET BU-Zone Local Internal Control home page table data ===============//
 export const GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST';
 export const GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS =
   'GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS';
 export const GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR';
-// ============= GET BU-Zone Disclosure Processor home page table data ===============//
+// ============= GET BU-Zone Local Internal Control home page table data ===============//
 
 // ============= Get BU-Zone Excom Member Home Page Data ===============//
 export const GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_REQUEST =
@@ -262,6 +262,13 @@ export const APPROVE_BU_SECTION_3_RESPONSE_SUCCESS = 'APPROVE_BU_SECTION_3_RESPO
 export const APPROVE_BU_SECTION_3_RESPONSE_ERROR = 'APPROVE_BU_SECTION_3_RESPONSE_ERROR';
 // ============== Approve BU section 3 Response ==================//
 
+// ============== Get BU Scope Data ==================//
+export const GET_BU_SCOPE_DATA_REQUEST = 'GET_BU_SCOPE_DATA_REQUEST';
+export const GET_BU_SCOPE_DATA_SUCCESS = 'GET_BU_SCOPE_DATA_SUCCESS';
+export const GET_BU_SCOPE_DATA_ERROR = 'GET_BU_SCOPE_DATA_ERROR';
+export const CLEAR_BU_SCOPE_DATA = 'CLEAR_BU_SCOPE_DATA';
+// ============== Get BU Scope Data ==================//
+
 const block = {
   loading: false,
   error: '',
@@ -301,6 +308,7 @@ const initialState = {
   getBUSection3Response: { ...block, data: [] },
   addBUSection3Response: { ...block, data: [] },
   approveBUSection3Response: { ...block, data: [] },
+  getBUScopeData: { ...block, data: [] },
 };
 
 export const RL_HomePageReducer = (state = initialState, { type, payload = {} }) => {
@@ -466,7 +474,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         },
       };
 
-    // GET BU Disclosure Processor home page table data
+    // GET BU Local Internal Control home page table data
     case GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST:
       return {
         ...state,
@@ -574,7 +582,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         },
       };
 
-    // GET BU-Zone Disclosure Processor home page table data
+    // GET BU-Zone Local Internal Control home page table data
     case GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST:
       return {
         ...state,
@@ -1227,6 +1235,42 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         ...state,
         approveBUSection3Response: {
           ...state.approveBUSection3Response,
+          loading: false,
+        },
+      };
+
+    // GET BU Scope Data
+    case GET_BU_SCOPE_DATA_REQUEST:
+      return {
+        ...state,
+        getBUScopeData: {
+          ...state.getBUScopeData,
+          loading: true,
+        },
+      };
+    case GET_BU_SCOPE_DATA_SUCCESS:
+      return {
+        ...state,
+        getBUScopeData: {
+          ...state.getBUScopeData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BU_SCOPE_DATA_ERROR:
+      return {
+        ...state,
+        getBUScopeData: {
+          ...state.getBUScopeData,
+          loading: false,
+        },
+      };
+    case CLEAR_BU_SCOPE_DATA:
+      return {
+        ...state,
+        getBUScopeData: {
+          ...state.getBUScopeData,
+          data: {},
           loading: false,
         },
       };

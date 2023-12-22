@@ -128,7 +128,7 @@ const BUZone_DisclosureProcessorTable = ({
     //             Letter
     //           </Button>
     //         )}
-    //         {['Responded', 'Approval Pending'].includes(row.row.original.Status) && (
+    //         {['Prepared', 'Approval Pending'].includes(row.row.original.Status) && (
     //           <Button
     //             className="mr-2"
     //             onClick={() => {
@@ -144,7 +144,7 @@ const BUZone_DisclosureProcessorTable = ({
     //             Signature
     //           </Button>
     //         )}
-    //         {['Responded', 'Signed', 'Approval Pending'].includes(row.row.original.Status) &&
+    //         {['Prepared', 'Signed', 'Approval Pending'].includes(row.row.original.Status) &&
     //           ['RBA Rejected', 'Not Started'].includes(row.row.original.RBA_Status) && (
     //             <Button
     //               className="mr-2"
@@ -200,7 +200,7 @@ const BUZone_DisclosureProcessorTable = ({
     {
       accessorKey: 'Disclosure_Processor',
       id: 'Disclosure_Processor',
-      header: 'Disclosure Processor',
+      header: 'Local Internal Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',

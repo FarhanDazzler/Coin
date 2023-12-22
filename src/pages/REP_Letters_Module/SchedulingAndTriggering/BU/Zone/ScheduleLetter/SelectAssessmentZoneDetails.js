@@ -97,7 +97,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
     {
       accessorKey: 'Disclosure_Processor',
       id: 'Disclosure_Processor',
-      header: 'Disclosure Processor',
+      header: 'Local Internal Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -506,7 +506,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
                     label={
                       <>
                         <Box ml={5}>
-                          <Form.Label>Disclosure Processor</Form.Label>
+                          <Form.Label>Local Internal Control</Form.Label>
                         </Box>
                       </>
                     }

@@ -22,8 +22,13 @@ import {
   addBUSubmitResponse,
   clearBUSubmitResponse,
   getBUSubmitResponse,
+  clearGetBUScopeData,
+  getBUScopeData,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
-import { getBUSubmitResponseSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import {
+  getBUSubmitResponseSelector,
+  getBUScopeDataSelector,
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import Section0 from './Section0';
 import PageWrapper from '../../../../../components/wrappers/PageWrapper';
 
@@ -59,6 +64,7 @@ const EditSection1 = (props) => {
   const questionState = useSelector(get_BU_QuestionsSelector);
   const questions = questionState?.data;
   const instructionState = useSelector(getInstructionsSelector);
+  const getBUScopeDataState = useSelector(getBUScopeDataSelector);
 
   const newFormat = [];
   const [responses, setResponses] = useState(
@@ -74,6 +80,11 @@ const EditSection1 = (props) => {
     };
 
     dispatch(getInstructions(payloadGetInstructions));
+
+    const payloadGetBUScopeData = {
+      id: scopeData?.id,
+    };
+    dispatch(getBUScopeData(payloadGetBUScopeData));
 
     let payloadGet_BU_Questions = {
       type: letterType,
@@ -166,6 +177,7 @@ const EditSection1 = (props) => {
   useEffect(() => {
     return () => {
       dispatch(clearBUSubmitResponse());
+      dispatch(clearGetBUScopeData());
     };
   }, []);
 
@@ -249,14 +261,17 @@ const EditSection1 = (props) => {
   return (
     <PageWrapper>
       <div className="container-fluid custom-scroll-page">
-        {instructionState.loading || questionState.loading || getBUSubmitResponseState.loading ? (
+        {instructionState.loading ||
+        getBUScopeDataState.loading ||
+        questionState.loading ||
+        getBUSubmitResponseState.loading ? (
           <div className="loader-animation">
             <DotSpinner size={100} speed={0.9} color="#e3af32" />
             <p className="loader-Desc ml-3">Please wait while we are Loading letter for you</p>
           </div>
         ) : (
           <div className="col-lg-12">
-            <Section0 scopeData={scopeData} letterType={letterType} />
+            <Section0 scopeData={getBUScopeDataState?.data} letterType={letterType} />
             <CollapseFrame title="Section 1 : Edit Response" active>
               {questions?.map((question, index) => {
                 const response = responses[question.id] || { response: '' };

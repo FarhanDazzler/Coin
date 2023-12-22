@@ -56,3 +56,4 @@ export const getBUSection3ResponseSelector = (state) => state?.RL_HomePage?.getB
 export const addBUSection3ResponseSelector = (state) => state?.RL_HomePage?.addBUSection3Response;
 export const approveBUSection3ResponseSelector = (state) =>
   state?.RL_HomePage?.approveBUSection3Response;
+export const getBUScopeDataSelector = (state) => state?.RL_HomePage?.getBUScopeData;

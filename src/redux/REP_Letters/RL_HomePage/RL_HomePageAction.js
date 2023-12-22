@@ -38,6 +38,8 @@ import {
   CLEAR_GET_BU_SECTION_3_RESPONSE_REQUEST,
   ADD_BU_SECTION_3_RESPONSE_REQUEST,
   APPROVE_BU_SECTION_3_RESPONSE_REQUEST,
+  GET_BU_SCOPE_DATA_REQUEST,
+  CLEAR_BU_SCOPE_DATA,
 } from './RL_HomePageReducer';
 
 export const getFunctionRecipientHomePageData = (payload) => ({
@@ -214,4 +216,13 @@ export const clearGetBUSection3RBA_Data = () => ({
 
 export const clearGetBUSection3Response = () => ({
   type: CLEAR_GET_BU_SECTION_3_RESPONSE_REQUEST,
+});
+
+export const getBUScopeData = (payload) => ({
+  type: GET_BU_SCOPE_DATA_REQUEST,
+  payload,
+});
+
+export const clearGetBUScopeData = () => ({
+  type: CLEAR_BU_SCOPE_DATA,
 });

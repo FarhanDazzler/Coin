@@ -97,7 +97,7 @@ const DisclosureProcessorTable = ({
                 Review
               </Button>
             )}
-            {['Responded', 'Approval Pending'].includes(row.row.original.Status) &&
+            {['Prepared', 'Approval Pending'].includes(row.row.original.Status) &&
               row.row.original?.signatures?.buh_signed === false && (
                 <Button
                   className="mr-2"
@@ -163,7 +163,7 @@ const DisclosureProcessorTable = ({
     {
       accessorKey: 'Status',
       id: 'Status',
-      header: 'Over All Status',
+      header: 'Overall Status',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -198,7 +198,7 @@ const DisclosureProcessorTable = ({
     {
       accessorKey: 'Disclosure_Processor',
       id: 'Disclosure_Processor',
-      header: 'Disclosure Processor',
+      header: 'Local Internal Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',

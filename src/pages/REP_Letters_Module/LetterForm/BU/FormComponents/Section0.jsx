@@ -65,7 +65,7 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
 
   const ScopeSection = () => {
     const entityString = scopeData?.Entity;
-    const entityObject = JSON.parse(entityString.replace(/'/g, '"'));
+    const entityObject = JSON.parse(entityString?.replace(/'/g, '"'));
     return (
       <div className="scopeSectionGrid">
         <div>
@@ -105,7 +105,7 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
         <div>
           {' '}
           <p className="mb-2">
-            <span className="renderBlockWrapper_title">Disclosure Processor : </span>
+            <span className="renderBlockWrapper_title">Local Internal Control : </span>
             <span>{scopeData?.Disclosure_Processor}</span>
           </p>
           <p className="mb-2">
@@ -164,8 +164,8 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
               >
                 Scope
               </Button>
-              {localStorage.getItem('selected_Role') === 'Disclosure Processor' &&
-                scopeData.Status === 'Responded' && (
+              {localStorage.getItem('selected_Role') === 'Local Internal Control' &&
+                scopeData.Status != 'Not Started' && (
                   <Button
                     startIcon={<FeedOutlinedIcon />}
                     className={

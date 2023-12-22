@@ -131,7 +131,7 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               name="Disclosure-Processor-List"
             >
               <Workbook.Column label="Zone" value="Zone" />
-              <Workbook.Column label="Disclosure Processor" value="Disclosure_Processor" />
+              <Workbook.Column label="Local Internal Control" value="Disclosure_Processor" />
               <Workbook.Column label="Excom Member" value="Excom_Member" />
               <Workbook.Column
                 label="Zone Legal Representative"

@@ -145,7 +145,7 @@ const ReviewSection3 = () => {
                   <Row>
                     <h5>
                       <span className="golden-text">
-                        Comment provided by the Disclosure Processor :
+                        Comment provided by the Local Internal Control :
                       </span>
                     </h5>
                   </Row>

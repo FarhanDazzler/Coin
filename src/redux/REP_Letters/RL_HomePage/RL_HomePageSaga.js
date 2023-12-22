@@ -99,6 +99,9 @@ import {
   APPROVE_BU_SECTION_3_RESPONSE_REQUEST,
   APPROVE_BU_SECTION_3_RESPONSE_SUCCESS,
   APPROVE_BU_SECTION_3_RESPONSE_ERROR,
+  GET_BU_SCOPE_DATA_REQUEST,
+  GET_BU_SCOPE_DATA_SUCCESS,
+  GET_BU_SCOPE_DATA_ERROR,
 } from './RL_HomePageReducer';
 import Swal from 'sweetalert2';
 
@@ -222,7 +225,7 @@ function* handle_Get_BU_BU_HeadHomePageData({ payload }) {
   }
 }
 
-// GET BU Disclosure Processor home page table data
+// GET BU Local Internal Control home page table data
 async function get_BU_Disclosure_ProcessorHomePageDataApi(params) {
   return await Axios.get('/get_bu_home_page_data_for_disclosure_processor', { params });
 }
@@ -302,7 +305,7 @@ function* handle_Get_BU_Zone_VPHomePageData({ payload }) {
   }
 }
 
-// GET BU-Zone Disclosure Processor home page table data
+// GET BU-Zone Local Internal Control home page table data
 async function get_BUZone_Disclosure_ProcessorHomePageDataApi(params) {
   return await Axios.get('/get_zone_home_page_data_for_disclosure_processor', { params });
 }
@@ -835,6 +838,25 @@ function* updateApproveBUSection3Response({ payload }) {
   }
 }
 
+// get BU Scope Data
+async function getBUScopeDataAPI(params) {
+  return await Axios.get('/get_bu_assessment_scope', { params });
+}
+function* handle_GetBUScopeData({ payload }) {
+  try {
+    const response = yield call(getBUScopeDataAPI, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BU_SCOPE_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BU_SCOPE_DATA_ERROR,
+    });
+  }
+}
 export default all([
   takeLatest(
     GET_FUNCTION_RECIPIENT_HOME_PAGE_TABLE_DATA_REQUEST,
@@ -913,4 +935,5 @@ export default all([
   takeLatest(GET_BU_SECTION_3_RESPONSE_REQUEST, handle_GetBUSection3Response),
   takeLatest(ADD_BU_SECTION_3_RESPONSE_REQUEST, updateAddBUSection3Response),
   takeLatest(APPROVE_BU_SECTION_3_RESPONSE_REQUEST, updateApproveBUSection3Response),
+  takeLatest(GET_BU_SCOPE_DATA_REQUEST, handle_GetBUScopeData),
 ]);

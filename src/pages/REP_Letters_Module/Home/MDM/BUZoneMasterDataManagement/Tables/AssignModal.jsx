@@ -150,7 +150,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
           }
           validationSchema={Yup.object().shape({
             // Applicability: Yup.string().required('Applicability is required'),
-            Disclosure_Processor: Yup.string().required('Disclosure Processor Email is required'),
+            Disclosure_Processor: Yup.string().required('Local Internal Control Email is required'),
             Excom_Member: Yup.string().required('Excom Member Email is required'),
             Zone_Legal_Representative: Yup.string().required(
               'Zone legal representative Email is required',
@@ -251,7 +251,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                   <div className="col-lg-6">
                     <div className="row mb-4">
                       <div className="col-lg-4">
-                        <Form.Label>Disclosure Processor:</Form.Label>
+                        <Form.Label>Local Internal Control:</Form.Label>
                       </div>
                       <div className="col-lg-8">
                         <Form.Group className="input-group mb-3">

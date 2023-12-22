@@ -130,7 +130,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
     {
       accessorKey: 'Disclosure_Processor',
       id: 'Disclosure_Processor',
-      header: 'Disclosure Processor',
+      header: 'Local Internal Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -223,7 +223,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
     if (editTableIndex.length === 0) {
       Swal.fire({
         title: 'Are you sure?',
-        text: 'All Disclosure Processor Selected.',
+        text: 'All Local Internal Control Selected.',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'gold',
@@ -549,7 +549,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                     label={
                       <>
                         <Box ml={5}>
-                          <Form.Label>Disclosure Processor</Form.Label>
+                          <Form.Label>Local Internal Control</Form.Label>
                         </Box>
                       </>
                     }
