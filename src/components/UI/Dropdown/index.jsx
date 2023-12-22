@@ -24,7 +24,7 @@ const Dropdown = ({
 
   return (
     <FormControl
-      disabled={disabled}
+      // disabled={disabled}
       className="dropdown-wrapper"
       {...formControlProps}
       size="small"
@@ -36,6 +36,7 @@ const Dropdown = ({
         value={value}
         onChange={onChange}
         options={[...options]}
+        readOnly={disabled}
       />
     </FormControl>
   );

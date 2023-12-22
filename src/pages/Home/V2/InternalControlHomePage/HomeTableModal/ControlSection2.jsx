@@ -25,7 +25,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   const { t } = useTranslation();
   let headerStyles;
   if (isModal) {
-    headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
+    headerStyles = { color: '#fff', fontWeight: '700', backgroundColor: '#000' };
   } else {
     headerStyles = { color: '#fff', fontWeight: '700', backgroundColor: '#000' };
   }
