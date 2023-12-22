@@ -44,6 +44,7 @@ import { NoMatch } from './pages/NoMatch/NoMatch';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/i18n';
 import BU_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterForm/BU/FormComponents/LazyApprovalSection2/BU_Letter_LazyApprovalSection2.jsx';
+import BU_Zone_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterForm/Zone/FormComponents/LazyApprovalSection2/BU_Zone_Letter_LazyApprovalSection2.jsx';
 import Review from './pages/Review';
 import { Redirect } from 'react-router';
 
@@ -260,6 +261,11 @@ const Pages = () => {
             ? AdminRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
           <Route exact path="/BU-Letter-approve/:id" component={BU_Letter_LazyApprovalSection2} />
+          <Route
+            exact
+            path="/BU-Zone-Letter-approve/:id"
+            component={BU_Zone_Letter_LazyApprovalSection2}
+          />
           <Route exact path="/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
           <Route exact path="/POC" component={POC} />

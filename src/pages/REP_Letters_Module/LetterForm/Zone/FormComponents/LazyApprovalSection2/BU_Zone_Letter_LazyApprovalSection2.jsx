@@ -557,7 +557,7 @@ const SuccessDialog = () => {
   );
 };
 
-const BU_Letter_LazyApprovalSection2 = () => {
+const BU_Zone_Letter_LazyApprovalSection2 = () => {
   const { instance, accounts, inProgress } = useMsal();
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -653,4 +653,4 @@ const BU_Letter_LazyApprovalSection2 = () => {
   );
 };
 
-export default BU_Letter_LazyApprovalSection2;
+export default BU_Zone_Letter_LazyApprovalSection2;
