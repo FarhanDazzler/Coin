@@ -21,7 +21,7 @@ import { Loader } from '@mantine/core';
 import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
-const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
+const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview }) => {
   const { t } = useTranslation();
   let headerStyles;
   if (isModal) {
@@ -644,7 +644,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
               {showGraph && (
                 <>
                   {kpiResult && Object.keys(kpiResult)?.length > 0 ? (
-                    <KIP_Graph_Section_2 isModal={isModal} />
+                    <KIP_Graph_Section_2 isReview={isReview} isModal={isModal} />
                   ) : (
                     <div className="mt-5 text-center">
                       <h1 className="table-modal-title">

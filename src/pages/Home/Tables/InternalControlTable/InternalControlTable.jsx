@@ -117,7 +117,8 @@ const InternalControlTable = ({
     };
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
-    history.push(`${history.location.pathname}?Control_ID=${id}`, row);
+    history.push(`/review?Control_ID=${id}`, row);
+    // history.push(`${history.location.pathname}?Control_ID=${id}`, row);
   };
 
   const getDashBoardDataState = useSelector(getInternalControlDataSelector);

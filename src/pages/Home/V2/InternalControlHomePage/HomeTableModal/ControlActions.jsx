@@ -12,8 +12,12 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
   };
   const stateControlData = useSelector((state) => state?.controlData?.controlData?.data);
   const stateGcdData = useSelector((state) => state?.controlData?.gcd?.data);
-  console.log('@@@@@stateControlData', stateControlData);
-  console.log('@@@@@stateGcdData', stateGcdData);
+
+  const selected_Role = localStorage.getItem('selected_Role');
+  const loginRole = useSelector((state) => state?.auth?.loginRole);
+  const role =  loginRole || selected_Role
+  const isHideOverride =   ['Control owner', 'control_owner','Control oversight', 'control_oversight'].includes(role)
+
   const renderPeriodOfAssessment = () => {
     const year = activeData?.Year;
     switch (activeData?.Assessment_Cycle) {
@@ -60,16 +64,16 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
           >
             {t('selfAssessment.assessmentForm.localControlDescriptionBtn')}
           </Button>
+          {isReview &&  !isHideOverride &&(
+            <Button
+              // disabled={activeTab && activeTab !== 'LCD'}
+              className={!isModal ? 'mr-4 active' : 'mr-4'}
+              onClick={() => setIsModal(!isModal)}
+            >
+              {t('selfAssessment.assessmentForm.edit')}
+            </Button>
+          )}
         </div>
-        {isReview && (
-          <Button
-            // disabled={activeTab && activeTab !== 'LCD'}
-            className={!isModal ? 'mr-4 active' : 'mr-4'}
-            onClick={() => setIsModal(!isModal)}
-          >
-            {t('selfAssessment.assessmentForm.edit')}
-          </Button>
-        )}
       </div>
       <div className="control-actions-collapse">
         {activeTab === 'GCD' && (
