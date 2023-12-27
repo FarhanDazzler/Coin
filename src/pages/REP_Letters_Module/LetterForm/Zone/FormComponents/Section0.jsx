@@ -78,27 +78,12 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
             <span>{scopeData?.Letter_Type}</span>
           </p>
           <p className="mb-2">
-            <span className="renderBlockWrapper_title">BU : </span>
-            <span>{scopeData?.BU}</span>
-          </p>
-          <p className="mb-2">
             <span className="renderBlockWrapper_title">Assessment Cycle : </span>
             <span>{scopeData?.Assessment_Cycle}</span>
           </p>
           <p className="mb-2">
             <span className="renderBlockWrapper_title">Year : </span>
             <span>{scopeData?.Year}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Cognos Code : Legal Entity Name </span>
-
-            <ul>
-              {Object.keys(entityObject).map((key) => (
-                <li key={key}>
-                  {key} : {entityObject[key]}
-                </li>
-              ))}
-            </ul>
           </p>
         </div>
 
@@ -109,12 +94,12 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
             <span>{scopeData?.Disclosure_Processor}</span>
           </p>
           <p className="mb-2">
-            <span className="renderBlockWrapper_title">BU Head : </span>
-            <span>{scopeData?.BU_Head}</span>
+            <span className="renderBlockWrapper_title">Excom Member : </span>
+            <span>{scopeData?.Excom_Member}</span>
           </p>
           <p className="mb-2">
-            <span className="renderBlockWrapper_title">Finance Director : </span>
-            <span>{scopeData?.Finance_Director}</span>
+            <span className="renderBlockWrapper_title">Zone Legal Representative : </span>
+            <span>{scopeData?.Zone_Legal_Representative}</span>
           </p>
           <p className="mb-2">
             <span className="renderBlockWrapper_title">Zone Control : </span>
