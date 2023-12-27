@@ -60,10 +60,10 @@ const Section2 = ({ id }) => {
         setToggleData(false);
       }
     }
-    if (localStorage.getItem('selected_Role') === 'BU Head') {
+    if (localStorage.getItem('selected_Role') === 'Excom Member') {
       if (
-        getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted === true &&
-        getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame === ''
+        getBUSection2SignatureResponseState?.data?.signatures?.exc?.submitted === true &&
+        getBUSection2SignatureResponseState?.data?.signatures?.exc?.finame === ''
       ) {
         setToggleData(true);
       } else {
@@ -80,10 +80,10 @@ const Section2 = ({ id }) => {
         setToggleData(false);
       }
     }
-    if (localStorage.getItem('selected_Role') === 'Finance Director') {
+    if (localStorage.getItem('selected_Role') === 'Zone Legal Representative') {
       if (
-        getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted === true &&
-        getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame === ''
+        getBUSection2SignatureResponseState?.data?.signatures?.zlr?.submitted === true &&
+        getBUSection2SignatureResponseState?.data?.signatures?.zlr?.finame === ''
       ) {
         setToggleData(true);
       } else {
@@ -91,8 +91,8 @@ const Section2 = ({ id }) => {
       }
     }
   }, [
-    getBUSection2SignatureResponseState?.data?.signatures?.fd ||
-      getBUSection2SignatureResponseState?.data?.signatures?.buh ||
+    getBUSection2SignatureResponseState?.data?.signatures?.zlr ||
+      getBUSection2SignatureResponseState?.data?.signatures?.exc ||
       getBUSection2SignatureResponseState?.data?.signatures?.zc ||
       getBUSection2SignatureResponseState?.data?.signatures?.zv,
   ]);
@@ -209,8 +209,8 @@ const Section2 = ({ id }) => {
                   responses.
                 </p>
               </div>
-              {getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted ||
-              getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted ||
+              {getBUSection2SignatureResponseState?.data?.signatures?.zlr?.submitted ||
+              getBUSection2SignatureResponseState?.data?.signatures?.exc?.submitted ||
               getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted ||
               getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted ? (
                 <>
@@ -226,22 +226,22 @@ const Section2 = ({ id }) => {
                     </p>
                     <br />
                     <div className="row">
-                      {getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted &&
-                      getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame ? (
+                      {getBUSection2SignatureResponseState?.data?.signatures?.zlr?.submitted &&
+                      getBUSection2SignatureResponseState?.data?.signatures?.zlr?.finame ? (
                         <div className="col-lg-12">
                           <p>
-                            <b>Finance Director</b>
+                            <b>Zone Legal Representative</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
                             <h5>
-                              Approval Email attached by Local Internal Control For Finance Director
+                              Approval Email attached by Local Internal Control For Zone Legal Representative
                             </h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
                               onClick={() => {
                                 const pdfUrl =
-                                  getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                  getBUSection2SignatureResponseState?.data?.signatures?.zlr
                                     ?.sas_url;
                                 window.open(pdfUrl, '_blank');
                               }}
@@ -252,21 +252,21 @@ const Section2 = ({ id }) => {
                         </div>
                       ) : (
                         <>
-                          {getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted ===
+                          {getBUSection2SignatureResponseState?.data?.signatures?.zlr?.submitted ===
                             true &&
-                            getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame ===
+                            getBUSection2SignatureResponseState?.data?.signatures?.zlr?.finame ===
                               '' && (
                               <div className="col-lg-12 auto-auth">
                                 <p>
-                                  <b>Finance Director</b>
+                                  <b>Zone Legal Representative</b>
                                 </p>
-                                <h5>Finance Director has Signed by Auto Authenticator</h5>
-                                {getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                <h5>Zone Legal Representative has Signed by Auto Authenticator</h5>
+                                {getBUSection2SignatureResponseState?.data?.signatures?.zlr
                                   ?.comment && (
                                   <h6>
                                     <b>Comments:</b>{' '}
                                     {
-                                      getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                      getBUSection2SignatureResponseState?.data?.signatures?.zlr
                                         ?.comment
                                     }
                                   </h6>
@@ -322,20 +322,20 @@ const Section2 = ({ id }) => {
                             )}
                         </>
                       )}
-                      {getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted &&
-                      getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ? (
+                      {getBUSection2SignatureResponseState?.data?.signatures?.exc?.submitted &&
+                      getBUSection2SignatureResponseState?.data?.signatures?.exc?.finame ? (
                         <div className="col-lg-12">
                           <p>
-                            <b>BU Head</b>
+                            <b>Excom Member</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>Approval Email attached by Local Internal Control For BU Head</h5>
+                            <h5>Approval Email attached by Local Internal Control For Excom Member</h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
                               onClick={() => {
                                 const pdfUrl =
-                                  getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                  getBUSection2SignatureResponseState?.data?.signatures?.exc
                                     ?.sas_url;
                                 window.open(pdfUrl, '_blank');
                               }}
@@ -346,21 +346,21 @@ const Section2 = ({ id }) => {
                         </div>
                       ) : (
                         <>
-                          {getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted ===
+                          {getBUSection2SignatureResponseState?.data?.signatures?.exc?.submitted ===
                             true &&
-                            getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ===
+                            getBUSection2SignatureResponseState?.data?.signatures?.exc?.finame ===
                               '' && (
                               <div className="col-lg-12 auto-auth">
                                 <p>
-                                  <b>BU Head</b>
+                                  <b>Excom Member</b>
                                 </p>
-                                <h5>BU Head has Signed by Auto Authenticator</h5>
-                                {getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                <h5>Excom Member has Signed by Auto Authenticator</h5>
+                                {getBUSection2SignatureResponseState?.data?.signatures?.exc
                                   ?.comment && (
                                   <h6>
                                     <b>Comments:</b>{' '}
                                     {
-                                      getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                      getBUSection2SignatureResponseState?.data?.signatures?.exc
                                         ?.comment
                                     }
                                   </h6>
@@ -460,8 +460,8 @@ const ReviewSubmittedResponses = ({ scopeData, getBUSubmitResponseState }) => {
       { Key: 'BU', Value: info.BU },
       { Key: 'Entity', Value: info.Entity },
       { Key: 'Local Internal Control', Value: info.Disclosure_Processor },
-      { Key: 'Finance Director', Value: info.Finance_Director },
-      { Key: 'BU Head', Value: info.BU_Head },
+      { Key: 'Zone Legal Representative', Value: info.Finance_Director },
+      { Key: 'Excom Member', Value: info.BU_Head },
       { Key: 'Zone Control', Value: info.Zone_Control },
       { Key: 'Zone VP', Value: info.Zone_VP },
       { Key: 'Submitted on', Value: Last_Saved_At },

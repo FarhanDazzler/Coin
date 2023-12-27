@@ -32,8 +32,8 @@ const ReviewSection2 = (props) => {
                 Review the Uploaded approval email from the respective signatories/authenticators
               </p>
             </div>
-            {getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted ||
-            getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted ||
+            {getBUSection2SignatureResponseState?.data?.signatures?.zlr?.submitted ||
+            getBUSection2SignatureResponseState?.data?.signatures?.exc?.submitted ||
             getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted ||
             getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted ? (
               <>
@@ -49,22 +49,22 @@ const ReviewSection2 = (props) => {
                   </p>
                   <br />
                   <div className="row">
-                    {getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted &&
-                    getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame ? (
+                    {getBUSection2SignatureResponseState?.data?.signatures?.zlr?.submitted &&
+                    getBUSection2SignatureResponseState?.data?.signatures?.zlr?.finame ? (
                       <div className="col-lg-12">
                         <p>
-                          <b>Finance Director</b>
+                          <b>Zone Legal Representative</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
                           <h5>
-                            Approval Email attached by Local Internal Control For Finance Director
+                            Approval Email attached by Local Internal Control For Zone Legal Representative
                           </h5>
 
                           <Button
                             startIcon={<PictureAsPdfIcon />}
                             onClick={() => {
                               const pdfUrl =
-                                getBUSection2SignatureResponseState?.data?.signatures?.fd?.sas_url;
+                                getBUSection2SignatureResponseState?.data?.signatures?.zlr?.sas_url;
                               window.open(pdfUrl, '_blank');
                             }}
                           >
@@ -74,21 +74,21 @@ const ReviewSection2 = (props) => {
                       </div>
                     ) : (
                       <>
-                        {getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted ===
+                        {getBUSection2SignatureResponseState?.data?.signatures?.zlr?.submitted ===
                           true &&
-                          getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame ===
+                          getBUSection2SignatureResponseState?.data?.signatures?.zlr?.finame ===
                             '' && (
                             <div className="col-lg-12 auto-auth">
                               <p>
-                                <b>Finance Director</b>
+                                <b>Zone Legal Representative</b>
                               </p>
-                              <h5>Finance Director has Approved by Auto Authenticator</h5>
-                              {getBUSection2SignatureResponseState?.data?.signatures?.fd
+                              <h5>Zone Legal Representative has Approved by Auto Authenticator</h5>
+                              {getBUSection2SignatureResponseState?.data?.signatures?.zlr
                                 ?.comment && (
                                 <h6>
                                   <b>Comments:</b>{' '}
                                   {
-                                    getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zlr
                                       ?.comment
                                   }
                                 </h6>
@@ -143,20 +143,20 @@ const ReviewSection2 = (props) => {
                           )}
                       </>
                     )}
-                    {getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted &&
-                    getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ? (
+                    {getBUSection2SignatureResponseState?.data?.signatures?.exc?.submitted &&
+                    getBUSection2SignatureResponseState?.data?.signatures?.exc?.finame ? (
                       <div className="col-lg-12">
                         <p>
-                          <b>BU Head</b>
+                          <b>Excom Member</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
-                          <h5>Approval Email attached by Local Internal Control For BU Head</h5>
+                          <h5>Approval Email attached by Local Internal Control For Excom Member</h5>
 
                           <Button
                             startIcon={<PictureAsPdfIcon />}
                             onClick={() => {
                               const pdfUrl =
-                                getBUSection2SignatureResponseState?.data?.signatures?.buh?.sas_url;
+                                getBUSection2SignatureResponseState?.data?.signatures?.exc?.sas_url;
                               window.open(pdfUrl, '_blank');
                             }}
                           >
@@ -166,21 +166,21 @@ const ReviewSection2 = (props) => {
                       </div>
                     ) : (
                       <>
-                        {getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted ===
+                        {getBUSection2SignatureResponseState?.data?.signatures?.exc?.submitted ===
                           true &&
-                          getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ===
+                          getBUSection2SignatureResponseState?.data?.signatures?.exc?.finame ===
                             '' && (
                             <div className="col-lg-12 auto-auth">
                               <p>
-                                <b>BU Head</b>
+                                <b>Excom Member</b>
                               </p>
-                              <h5>BU Head has Approved by Auto Authenticator</h5>
-                              {getBUSection2SignatureResponseState?.data?.signatures?.buh
+                              <h5>Excom Member has Approved by Auto Authenticator</h5>
+                              {getBUSection2SignatureResponseState?.data?.signatures?.exc
                                 ?.comment && (
                                 <h6>
                                   <b>Comments:</b>{' '}
                                   {
-                                    getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                    getBUSection2SignatureResponseState?.data?.signatures?.exc
                                       ?.comment
                                   }
                                 </h6>
