@@ -37,8 +37,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
     isModal || isReview
       ? getKPIResponse?.data?.Latest_Response?.data
       : kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
-
-  console.log('@@@@@: kpiResult', kpiResult);
   const kpiResponseData = latestDraftData?.data?.Latest_response?.kpis || kpiResultData?.data?.kpis;
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();
