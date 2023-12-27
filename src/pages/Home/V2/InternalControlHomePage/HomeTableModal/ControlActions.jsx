@@ -15,8 +15,13 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
 
   const selected_Role = localStorage.getItem('selected_Role');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
-  const role =  loginRole || selected_Role
-  const isHideOverride =   ['Control owner', 'control_owner','Control oversight', 'control_oversight'].includes(role)
+  const role = loginRole || selected_Role;
+  const isHideOverride = [
+    'Control owner',
+    'control_owner',
+    'Control oversight',
+    'control_oversight',
+  ].includes(role);
 
   const renderPeriodOfAssessment = () => {
     const year = activeData?.Year;
@@ -64,7 +69,7 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
           >
             {t('selfAssessment.assessmentForm.localControlDescriptionBtn')}
           </Button>
-          {isReview &&  !isHideOverride &&(
+          {true && (
             <Button
               // disabled={activeTab && activeTab !== 'LCD'}
               className={!isModal ? 'mr-4 active' : 'mr-4'}

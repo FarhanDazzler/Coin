@@ -33,9 +33,12 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
   const getKPIResponse = useSelector(getResponseSelector);
   const kpiResultData = useSelector(kpiResultSelector);
   const latestDraftData = useSelector(getLatestDraftSelector);
-  const kpiResult = isModal
-    ? getKPIResponse?.data?.Latest_Response?.data
-    : kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
+  const kpiResult =
+    isModal || isReview
+      ? getKPIResponse?.data?.Latest_Response?.data
+      : kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
+
+  console.log('@@@@@: kpiResult', kpiResult);
   const kpiResponseData = latestDraftData?.data?.Latest_response?.kpis || kpiResultData?.data?.kpis;
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();
@@ -370,7 +373,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
   };
 
   useEffect(() => {
-    if (isModal) {
+    if (isModal || isReview) {
       if (getKPIResponse?.data?.Latest_Response?.kpis) {
         setTableData(getKPIResponse?.data?.Latest_Response?.kpis);
       }
