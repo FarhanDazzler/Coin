@@ -35,7 +35,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
   const latestDraftData = useSelector(getLatestDraftSelector);
   const kpiResult = isModal
     ? getKPIResponse?.data?.Latest_Response?.data
-    : kpiResultData?.data?.data;
+    : kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
   const kpiResponseData = latestDraftData?.data?.Latest_response?.kpis || kpiResultData?.data?.kpis;
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();
@@ -627,7 +627,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       // console.log('plz select your file');
     }
   };
-
+  console.log('kpiResult && Object.keys(kpiResult)?.length > 0', kpiResult);
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section2KPI')} active>

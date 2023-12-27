@@ -33,7 +33,7 @@ function convertData(key, data) {
   //   L3_Threshold: convertToInteger(thresholds.L3_Threshold),
   // }));
   // Sort the array by year and month
-  if(data_2?.length > 0)
+  if (data_2?.length > 0)
     data_2?.sort((a, b) => {
       const dateA = new Date(a.name);
       const dateB = new Date(b.name);
@@ -50,12 +50,12 @@ function convertToInteger(value) {
   return parseInt(value, 10);
 }
 
-const KIP_Graph_Section_2 = ({ isModal,isReview }) => {
+const KIP_Graph_Section_2 = ({ isModal, isReview }) => {
   const kpiResultData = useSelector(kpiResultSelector);
   const getKPIResponse = useSelector(getResponseSelector);
   const kpiResult = isModal
     ? getKPIResponse?.data?.Latest_Response?.data
-    : kpiResultData?.data?.data;
+    : kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
   const [KPIList, setKPIList] = useState(null);
   const [activeKPI, setActiveKPI] = useState();
   const [activeKPIObj, setActiveKPIObj] = useState(null);
@@ -81,12 +81,14 @@ const KIP_Graph_Section_2 = ({ isModal,isReview }) => {
           return !['L1_Threshold', 'L2_Threshold', 'L3_Threshold', 'name'].includes(i);
         })
       : [];
+  console.log('datadatadatadata', data);
   return (
     <>
-      <div>
+      <div className="d-flex">
         <div className="chart-wrapper">
           <ComposedChart
-            width={isModal && !isReview ? 600 : width - 180}
+            // width={isModal && !isReview ? 600 : width - 180}
+            width={width - 650}
             height={400}
             data={data}
             margin={{
