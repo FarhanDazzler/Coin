@@ -63,6 +63,8 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
   const Control_ID = Assessment_id || query.get('Control_ID');
   const responseUpdatedData =
     responseData.data?.Latest_Response || responseData.data?.Latest_response;
+
+  console.log('@@@@@: responseUpdatedData', responseUpdatedData);
   const kpiResultData = useSelector(kpiResultSelector);
   const currentLanguage = i18n.language;
   const [language, setLanguage] = useState(currentLanguage);
@@ -397,7 +399,7 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
             : 'Pass',
           Latest_response: {
             s1: ansSection1,
-            data: kpiResultData?.data?.data,
+            data: isReview ? responseUpdatedData.data : kpiResultData?.data?.data,
             kpis: tableData.length > 0 ? tableData : null,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
             showTable: showMoreSection,

@@ -53,9 +53,10 @@ function convertToInteger(value) {
 const KIP_Graph_Section_2 = ({ isModal, isReview }) => {
   const kpiResultData = useSelector(kpiResultSelector);
   const getKPIResponse = useSelector(getResponseSelector);
-  const kpiResult = isModal
-    ? getKPIResponse?.data?.Latest_Response?.data
-    : kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
+  const kpiResult =
+    isModal || isReview
+      ? getKPIResponse?.data?.Latest_Response?.data
+      : kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
   const [KPIList, setKPIList] = useState(null);
   const [activeKPI, setActiveKPI] = useState();
   const [activeKPIObj, setActiveKPIObj] = useState(null);
