@@ -887,7 +887,7 @@ function* handle_GetBUScopeData({ payload }) {
 
 // add Or Update BU Zone Draft Response
 async function addOrUpdateBUZoneDraftResponseApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/save_zone_assessment_draft', payload);
 }
 function* updateAddOrUpdateBUZoneDraftResponse({ payload }) {
   try {
@@ -918,7 +918,7 @@ function* updateAddOrUpdateBUZoneDraftResponse({ payload }) {
 
 // get Latest BU Zone Draft Response
 async function getLatestBUZoneDraftResponseApi(params) {
-  return await Axios.get('/', { params });
+  return await Axios.get('/get_zone_assessment_draft', { params });
 }
 function* handle_GetLatestBUZoneDraftResponse({ payload }) {
   try {
@@ -938,7 +938,7 @@ function* handle_GetLatestBUZoneDraftResponse({ payload }) {
 
 // get BU Zone Submit Response
 async function getBUZoneSubmitResponseApi(params) {
-  return await Axios.get('/', { params });
+  return await Axios.get('/get_zone_assessment_response', { params });
 }
 function* handle_GetBUZoneSubmitResponse({ payload }) {
   try {
@@ -958,7 +958,7 @@ function* handle_GetBUZoneSubmitResponse({ payload }) {
 
 // add BU Zone Submit Response
 async function addBUZoneSubmitResponseApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/save_zone_assessment_response', payload);
 }
 function* updateAddBUZoneSubmitResponse({ payload }) {
   try {
@@ -988,7 +988,7 @@ function* updateAddBUZoneSubmitResponse({ payload }) {
 
 // get BU Zone Section2 Signature Response data
 async function getBUZoneSection2SignatureResponseApi(params) {
-  return await Axios.get('/', { params });
+  return await Axios.get('/get_zone_section2', { params });
 }
 function* handle_GetBUZoneSection2SignatureResponseData({ payload }) {
   try {
@@ -1008,7 +1008,7 @@ function* handle_GetBUZoneSection2SignatureResponseData({ payload }) {
 
 // ADD BU Zone Section2 Upload Mail Approval
 async function addBUZoneSection2UploadMailApprovalApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/submit_zone_section2', payload);
 }
 function* handle_AddBUZoneSection2UploadMailApprovalData({ payload }) {
   try {
@@ -1038,7 +1038,7 @@ function* handle_AddBUZoneSection2UploadMailApprovalData({ payload }) {
 
 // ADD BU Zone Section2 Checkbox
 async function addBUZoneSection2CheckboxApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/submit_zone_section2', payload);
 }
 function* handle_AddBUZoneSection2CheckboxData({ payload }) {
   const { formData, event } = payload;
@@ -1067,7 +1067,7 @@ function* handle_AddBUZoneSection2CheckboxData({ payload }) {
 
 // ADD BU Zone Section2 Lazy Approval
 async function addBUZoneSection2LazyApprovalApi(payload) {
-  return await Axios.post('/', payload);
+  return await Axios.post('/autosign_zone_section2', payload);
 }
 function* updateAddBUZoneSection2LazyApproval({ payload }) {
   try {
@@ -1099,7 +1099,7 @@ function* updateAddBUZoneSection2LazyApproval({ payload }) {
 
 // get BU Zone Scope Data
 async function getBUZoneScopeDataAPI(params) {
-  return await Axios.get('/', { params });
+  return await Axios.get('/get_zone_assessment_scope', { params });
 }
 function* handle_GetBUZoneScopeData({ payload }) {
   try {

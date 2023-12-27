@@ -9,12 +9,10 @@ import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
 import {
   get_BUZone_Disclosure_ProcessorHomePageDataSelector,
-  addBUSubmitResponseSelector,
-  addOrUpdateBUDraftResponseSelector,
-  addBUSection3ResponseSelector,
-  approveBUSection3ResponseSelector,
-  addBUSection2CheckboxSelector,
-  addBUSection2UploadMailApprovalSelector,
+  addBUZoneSubmitResponseSelector,
+  addOrUpdateBUZoneDraftResponseSelector,
+  addBUZoneSection2CheckboxSelector,
+  addBUZoneSection2UploadMailApprovalSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BUZone_Disclosure_ProcessorHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignatures from '../../../../../components/ShowSignatures';
@@ -61,12 +59,12 @@ const BUZone_DisclosureProcessorTable = ({
   const getDisclosureProcessorHomePageData = useSelector(
     get_BUZone_Disclosure_ProcessorHomePageDataSelector,
   );
-  const addOrUpdateDraftResponseState = useSelector(addOrUpdateBUDraftResponseSelector);
-  const addBUSubmitResponseState = useSelector(addBUSubmitResponseSelector);
-  const addBUSection3ResponseState = useSelector(addBUSection3ResponseSelector);
-  const approveBUSection3ResponseState = useSelector(approveBUSection3ResponseSelector);
-  const addBUSection2UploadMailApprovalState = useSelector(addBUSection2UploadMailApprovalSelector);
-  const addBUSection2CheckboxState = useSelector(addBUSection2CheckboxSelector);
+  const addOrUpdateBUZoneDraftResponseState = useSelector(addOrUpdateBUZoneDraftResponseSelector);
+  const addBUZoneSubmitResponseState = useSelector(addBUZoneSubmitResponseSelector);
+  const addBUZoneSection2UploadMailApprovalState = useSelector(
+    addBUZoneSection2UploadMailApprovalSelector,
+  );
+  const addBUZoneSection2CheckboxState = useSelector(addBUZoneSection2CheckboxSelector);
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const disclosureProcessorHomePageData = useMemo(() => {
@@ -76,12 +74,10 @@ const BUZone_DisclosureProcessorTable = ({
   useEffect(() => {
     dispatch(get_BUZone_Disclosure_ProcessorHomePageData());
   }, [
-    addOrUpdateDraftResponseState?.data,
-    addBUSubmitResponseState?.data,
-    addBUSection3ResponseState?.data,
-    approveBUSection3ResponseState?.data,
-    addBUSection2UploadMailApprovalState?.data,
-    addBUSection2CheckboxState?.data,
+    addOrUpdateBUZoneDraftResponseState?.data,
+    addBUZoneSubmitResponseState?.data,
+    addBUZoneSection2UploadMailApprovalState?.data,
+    addBUZoneSection2CheckboxState?.data,
   ]);
 
   const TABLE_COLUMNS = [

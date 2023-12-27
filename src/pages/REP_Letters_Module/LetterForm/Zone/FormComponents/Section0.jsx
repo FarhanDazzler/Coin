@@ -64,52 +64,44 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
   };
 
   const ScopeSection = () => {
-    const entityString = scopeData?.Entity;
-    const entityObject = JSON.parse(entityString?.replace(/'/g, '"'));
     return (
       <div className="scopeSectionGrid">
-        <div>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Zone : </span>
-            <span>{scopeData?.Zone}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Letter Type : </span>
-            <span>{scopeData?.Letter_Type}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Assessment Cycle : </span>
-            <span>{scopeData?.Assessment_Cycle}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Year : </span>
-            <span>{scopeData?.Year}</span>
-          </p>
-        </div>
-
-        <div>
-          {' '}
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Local Internal Control : </span>
-            <span>{scopeData?.Disclosure_Processor}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Excom Member : </span>
-            <span>{scopeData?.Excom_Member}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Zone Legal Representative : </span>
-            <span>{scopeData?.Zone_Legal_Representative}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Zone Control : </span>
-            <span>{scopeData?.Zone_Control}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Zone VP : </span>
-            <span>{scopeData?.Zone_VP}</span>
-          </p>
-        </div>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Zone : </span>
+          <span>{scopeData?.Zone}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Letter Type : </span>
+          <span>{scopeData?.Letter_Type}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Assessment Cycle : </span>
+          <span>{scopeData?.Assessment_Cycle}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Year : </span>
+          <span>{scopeData?.Year}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Local Internal Control : </span>
+          <span>{scopeData?.Disclosure_Processor}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Excom Member : </span>
+          <span>{scopeData?.Excom_Member}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Zone Legal Representative : </span>
+          <span>{scopeData?.Zone_Legal_Representative}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Zone Control : </span>
+          <span>{scopeData?.Zone_Control}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Zone VP : </span>
+          <span>{scopeData?.Zone_VP}</span>
+        </p>
       </div>
     );
   };
