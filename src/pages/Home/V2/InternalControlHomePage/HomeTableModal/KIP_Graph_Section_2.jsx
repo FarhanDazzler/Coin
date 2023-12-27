@@ -32,13 +32,13 @@ function convertData(key, data) {
   //   L2_Threshold: convertToInteger(thresholds.L2_Threshold),
   //   L3_Threshold: convertToInteger(thresholds.L3_Threshold),
   // }));
-
   // Sort the array by year and month
-  data_2?.sort((a, b) => {
-    const dateA = new Date(a.name);
-    const dateB = new Date(b.name);
-    return dateA - dateB;
-  });
+  if(data_2?.length > 0)
+    data_2?.sort((a, b) => {
+      const dateA = new Date(a.name);
+      const dateB = new Date(b.name);
+      return dateA - dateB;
+    });
 
   return data_2;
 }
@@ -50,13 +50,12 @@ function convertToInteger(value) {
   return parseInt(value, 10);
 }
 
-const KIP_Graph_Section_2 = ({ isModal }) => {
+const KIP_Graph_Section_2 = ({ isModal,isReview }) => {
   const kpiResultData = useSelector(kpiResultSelector);
   const getKPIResponse = useSelector(getResponseSelector);
   const kpiResult = isModal
     ? getKPIResponse?.data?.Latest_Response?.data
     : kpiResultData?.data?.data;
-
   const [KPIList, setKPIList] = useState(null);
   const [activeKPI, setActiveKPI] = useState();
   const [activeKPIObj, setActiveKPIObj] = useState(null);
@@ -75,8 +74,6 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
     }
   }, [kpiResultData?.data]);
 
-  console.log('kpiResult', kpiResult);
-
   const data = convertData(activeKPI, kpiResult);
   const renderData =
     kpiResult && kpiResult[activeKPI]?.length
@@ -86,10 +83,10 @@ const KIP_Graph_Section_2 = ({ isModal }) => {
       : [];
   return (
     <>
-      <div className="d-flex">
+      <div>
         <div className="chart-wrapper">
           <ComposedChart
-            width={isModal ? 600 : width - 650}
+            width={isModal && !isReview ? 600 : width - 180}
             height={400}
             data={data}
             margin={{

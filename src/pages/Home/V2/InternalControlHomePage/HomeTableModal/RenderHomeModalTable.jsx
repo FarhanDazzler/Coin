@@ -153,6 +153,7 @@ const RenderHomeModalTable = ({
                   controlId={controlId}
                   setStartEdit={setStartEdit}
                   isModal={isModal}
+                  isReview={isReview}
                 />
               )}
               {showMoreSection && !s1FailObj && (

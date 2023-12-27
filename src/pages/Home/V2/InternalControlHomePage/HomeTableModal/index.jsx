@@ -489,7 +489,10 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
           Latest_response: {
             s1: ansSection1,
             s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+            data: kpiResultData?.data?.data,
             kpis: tableData.length > 0 ? tableData : null,
+            showTable: showMoreSection,
+            actionPlanInfo,
           },
           actionPlanInfo,
           events: {
