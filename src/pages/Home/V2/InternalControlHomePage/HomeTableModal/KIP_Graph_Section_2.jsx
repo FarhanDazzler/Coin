@@ -83,10 +83,11 @@ const KIP_Graph_Section_2 = ({ isModal,isReview }) => {
       : [];
   return (
     <>
-      <div>
+     <div className="d-flex">
         <div className="chart-wrapper">
           <ComposedChart
-            width={isModal && !isReview ? 600 : width - 180}
+            // width={isModal && !isReview ? 600 : width - 180}
+            width={isModal ? 600 : width - 650}
             height={400}
             data={data}
             margin={{
