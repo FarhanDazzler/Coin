@@ -14,7 +14,7 @@ const ReviewSection2 = (props) => {
   const getBUSection2SignatureResponseState = useSelector(getBUZoneSection2SignatureResponseSelector);
   return (
     <ClosedCollapseFrame title="Section 2 : Signatures" active>
-      <div className="renderBlockWrapper mt-5">
+      <div className="renderBlockWrapper-rep-letter-form mt-5">
         <div className="renderBlockWrapper-control-actions-wrapper pb-5 pt-4">
           <div>
             <div className="renderBlockWrapper_content">

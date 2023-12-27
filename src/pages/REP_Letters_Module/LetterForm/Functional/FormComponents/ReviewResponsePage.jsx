@@ -13,7 +13,7 @@ const ReviewResponsePage = ({ submittedResponses = [] }) => {
     <CollapseFrame title="Section 1 : Please give your responses" active>
       {submittedResponses?.map((item, index) => (
         <div key={item.questionID}>
-          <div className="renderBlockWrapper mt-5">
+          <div className="renderBlockWrapper-rep-letter-form mt-5">
             <div className="question-text-section">
               <div className="question-number"> {item.questionNumber}</div>
               <div

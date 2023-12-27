@@ -278,7 +278,7 @@ const Section1 = ({ questions, scopeData }) => {
 
         return (
           <div key={question.id}>
-            <div className="renderBlockWrapper mt-5">
+            <div className="renderBlockWrapper-rep-letter-form mt-5">
               <div className="question-text-section">
                 <div className="question-number"> {index + 1}</div>
                 <div
