@@ -88,7 +88,7 @@ const Section0 = ({ scopeData }) => {
   return (
     <div className="Rep-Letter-form-Section0">
       <CollapseFrame title="Instructions and Scope" active>
-        <div className="renderBlockWrapper mt-5">
+        <div className="renderBlockWrapper-rep-letter-form mt-5">
           {getInstructionsState?.data?.length > 0 && (
             // if instructions are not there and scope is there then show scope only
             <div className="renderBlockWrapper-control-actions-wrapper pb-5 pt-4">

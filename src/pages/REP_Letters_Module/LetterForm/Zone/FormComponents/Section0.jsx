@@ -64,67 +64,44 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
   };
 
   const ScopeSection = () => {
-    const entityString = scopeData?.Entity;
-    const entityObject = JSON.parse(entityString?.replace(/'/g, '"'));
     return (
       <div className="scopeSectionGrid">
-        <div>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Zone : </span>
-            <span>{scopeData?.Zone}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Letter Type : </span>
-            <span>{scopeData?.Letter_Type}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">BU : </span>
-            <span>{scopeData?.BU}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Assessment Cycle : </span>
-            <span>{scopeData?.Assessment_Cycle}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Year : </span>
-            <span>{scopeData?.Year}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Cognos Code : Legal Entity Name </span>
-
-            <ul>
-              {Object.keys(entityObject).map((key) => (
-                <li key={key}>
-                  {key} : {entityObject[key]}
-                </li>
-              ))}
-            </ul>
-          </p>
-        </div>
-
-        <div>
-          {' '}
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Local Internal Control : </span>
-            <span>{scopeData?.Disclosure_Processor}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">BU Head : </span>
-            <span>{scopeData?.BU_Head}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Finance Director : </span>
-            <span>{scopeData?.Finance_Director}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Zone Control : </span>
-            <span>{scopeData?.Zone_Control}</span>
-          </p>
-          <p className="mb-2">
-            <span className="renderBlockWrapper_title">Zone VP : </span>
-            <span>{scopeData?.Zone_VP}</span>
-          </p>
-        </div>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Zone : </span>
+          <span>{scopeData?.Zone}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Letter Type : </span>
+          <span>{scopeData?.Letter_Type}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Assessment Cycle : </span>
+          <span>{scopeData?.Assessment_Cycle}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Year : </span>
+          <span>{scopeData?.Year}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Local Internal Control : </span>
+          <span>{scopeData?.Disclosure_Processor}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Excom Member : </span>
+          <span>{scopeData?.Excom_Member}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Zone Legal Representative : </span>
+          <span>{scopeData?.Zone_Legal_Representative}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Zone Control : </span>
+          <span>{scopeData?.Zone_Control}</span>
+        </p>
+        <p className="mb-2">
+          <span className="renderBlockWrapper_title">Zone VP : </span>
+          <span>{scopeData?.Zone_VP}</span>
+        </p>
       </div>
     );
   };
@@ -137,7 +114,7 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
         active
         isOpen={isReview === true ? false : true}
       >
-        <div className="renderBlockWrapper mt-5">
+        <div className="renderBlockWrapper-rep-letter-form mt-5">
           {getInstructionsState?.data?.length > 0 && (
             // if instructions are not there and scope is there then show scope only
             <div className="renderBlockWrapper-control-actions-wrapper pb-5 pt-4">
@@ -165,7 +142,8 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
                 Scope
               </Button>
               {localStorage.getItem('selected_Role') === 'Local Internal Control' &&
-                scopeData.Status != 'Not Started' && (
+                scopeData.Status != 'Not Started' &&
+                scopeData.Status != 'Drafted' && (
                   <Button
                     startIcon={<FeedOutlinedIcon />}
                     className={

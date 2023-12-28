@@ -458,7 +458,7 @@ const Section2 = ({ scopeData }) => {
   return (
     <div className="Rep-Letter-form-Section0">
       <CollapseFrame title="Section 2 : Signatures" active>
-        <div className="renderBlockWrapper mt-5">
+        <div className="renderBlockWrapper-rep-letter-form mt-5">
           <div className="renderBlockWrapper-control-actions-wrapper pb-5 pt-4">
             <div>
               <div className="renderBlockWrapper_content">

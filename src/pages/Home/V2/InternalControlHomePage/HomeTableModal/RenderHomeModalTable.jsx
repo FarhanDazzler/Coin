@@ -5,11 +5,12 @@ import ControlSection1 from './ControlSection1';
 import ControlSection2 from './ControlSection2';
 import ControlSection3 from './ControlSection3';
 import Button from '../../../../../components/UI/Button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { resetSection3 } from '../../../../../redux/Questions/QuestionsAction';
 import { useTranslation } from 'react-i18next';
 import ControlSection from './ControlSection';
 import cs from 'classnames';
+import { kpiResultSelector } from '../../../../../redux/Assessments/AssessmentSelectors';
 
 const RenderHomeModalTable = ({
   s1FailObj,
@@ -46,6 +47,7 @@ const RenderHomeModalTable = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const kpiResultData = useSelector(kpiResultSelector);
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
   const isSection3Failed = Object.keys(ansSection3)?.find((i) => {
     const value = ansSection3[i] && Object.values(ansSection3[i]);
@@ -153,6 +155,7 @@ const RenderHomeModalTable = ({
                   controlId={controlId}
                   setStartEdit={setStartEdit}
                   isModal={isModal}
+                  isReview={isReview}
                 />
               )}
               {showMoreSection && !s1FailObj && (
@@ -194,15 +197,17 @@ const RenderHomeModalTable = ({
                         ' inadequate Documentation or inadequate frequency'}
                     </div>
                   ) : null}
-                  <Button
-                    color="neutral"
-                    className={cs('w-100', { ['isDisabledButton']: isDisabledButton })}
-                    id="submit-button"
-                    loading={loadingSubmit}
-                    onClick={handleSubmit}
-                  >
-                    {t('selfAssessment.assessmentForm.submitBtn')}
-                  </Button>
+                  {!kpiResultData.loading && (
+                    <Button
+                      color="neutral"
+                      className={cs('w-100', { ['isDisabledButton']: isDisabledButton })}
+                      id="submit-button"
+                      loading={loadingSubmit}
+                      onClick={handleSubmit}
+                    >
+                      {t('selfAssessment.assessmentForm.submitBtn')}
+                    </Button>
+                  )}
                 </>
               ) : handleSaveDraft && !isModal ? (
                 <div className="save-draft-btn-wrapper">

@@ -579,62 +579,67 @@ const TopBar = (props) => {
                     </div>
                   </>
                 )}
-                <div>
-                  <div>
-                    <span className={'text-yellow ml-2'}>Select Module :</span>
-                  </div>
-                  <FormControl sx={{ width: 300, marginLeft: '15px' }}>
-                    <Select
-                      defaultValue="Assessment Module"
-                      size="small"
-                      inputLook
-                      classes={{ root: `select-options inputLook-text user-role-input` }}
-                      inputProps={{ 'aria-label': 'Without label' }}
-                      options={module}
-                      onChange={(e) => {
-                        setActiveModule(e.target.value);
-                        window.location.href = '/';
-                      }}
-                      value={activeModule}
-                    />
-                  </FormControl>
-                </div>
+                {!location.pathname.includes('/BU-Letter-approve') &&
+                  !location.pathname.includes('/BU-Zone-Letter-approve') && (
+                    <div>
+                      <div>
+                        <span className={'text-yellow ml-2'}>Select Module :</span>
+                      </div>
+                      <FormControl sx={{ width: 300, marginLeft: '15px' }}>
+                        <Select
+                          defaultValue="Assessment Module"
+                          size="small"
+                          inputLook
+                          classes={{ root: `select-options inputLook-text user-role-input` }}
+                          inputProps={{ 'aria-label': 'Without label' }}
+                          options={module}
+                          onChange={(e) => {
+                            setActiveModule(e.target.value);
+                            window.location.href = '/';
+                          }}
+                          value={activeModule}
+                        />
+                      </FormControl>
+                    </div>
+                  )}
               </div>
             </div>
             <div
               className="d-flex order-lg-2 ml-auto  user-info-wrapper"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
             >
-              {roleValue.length > 0 && (
-                <div className="mr-4">
-                  <div>
-                    <span className={'text-yellow ml-2'}>
-                      {t('selfAssessment.homePage.controleOwner.select_role')}
-                    </span>
+              {roleValue.length > 0 &&
+                !location.pathname.includes('/BU-Letter-approve') &&
+                !location.pathname.includes('/BU-Zone-Letter-approve') && (
+                  <div className="mr-4">
+                    <div>
+                      <span className={'text-yellow ml-2'}>
+                        {t('selfAssessment.homePage.controleOwner.select_role')}
+                      </span>
+                    </div>
+                    <FormControl sx={{ width: 250 }}>
+                      <Select
+                        defaultValue="Assessment Module"
+                        size="small"
+                        inputLook
+                        classes={{ root: `select-options inputLook-text user-role-input` }}
+                        inputProps={{ 'aria-label': 'Without label' }}
+                        options={roleValue}
+                        onChange={(e) => {
+                          dispatch(setLoginRole(e.target.value));
+                          localStorage.setItem('selected_Role', e.target.value);
+                          history.push('/');
+                          // window.location.href = '/';
+                        }}
+                        value={
+                          (loginRole || selected_Role) === 'control_oversight'
+                            ? 'Control oversight'
+                            : loginRole || selected_Role
+                        }
+                      />
+                    </FormControl>
                   </div>
-                  <FormControl sx={{ width: 250 }}>
-                    <Select
-                      defaultValue="Assessment Module"
-                      size="small"
-                      inputLook
-                      classes={{ root: `select-options inputLook-text user-role-input` }}
-                      inputProps={{ 'aria-label': 'Without label' }}
-                      options={roleValue}
-                      onChange={(e) => {
-                        dispatch(setLoginRole(e.target.value));
-                        localStorage.setItem('selected_Role', e.target.value);
-                        history.push('/');
-                        // window.location.href = '/';
-                      }}
-                      value={
-                        (loginRole || selected_Role) === 'control_oversight'
-                          ? 'Control oversight'
-                          : loginRole || selected_Role
-                      }
-                    />
-                  </FormControl>
-                </div>
-              )}
+                )}
               <div className="d-flex align-items-center justify-content-end">
                 <span className="golden-text" style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                   {process.env.REACT_APP_STAGE === 'prod' ? null : <strong>{`BETA`}</strong>}

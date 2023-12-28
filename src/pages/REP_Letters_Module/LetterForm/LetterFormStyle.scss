@@ -1,4 +1,12 @@
-.renderBlockWrapper {
+.page-wrapper {
+  .renderBlockWrapper {
+    textarea {
+      color: #fff !important;
+    }
+  }
+}
+
+.renderBlockWrapper-rep-letter-form {
   background: rgba(140, 140, 140, 0.14);
   border-radius: 8px;
   padding: 20px 25px;

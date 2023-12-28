@@ -21,7 +21,7 @@ import { Loader } from '@mantine/core';
 import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
-const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
+const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview }) => {
   const { t } = useTranslation();
   let headerStyles;
   if (isModal) {
@@ -33,9 +33,10 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   const getKPIResponse = useSelector(getResponseSelector);
   const kpiResultData = useSelector(kpiResultSelector);
   const latestDraftData = useSelector(getLatestDraftSelector);
-  const kpiResult = isModal
-    ? getKPIResponse?.data?.Latest_Response?.data
-    : kpiResultData?.data?.data;
+  const kpiResult =
+    isModal || isReview
+      ? getKPIResponse?.data?.Latest_Response?.data
+      : kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
   const kpiResponseData = latestDraftData?.data?.Latest_response?.kpis || kpiResultData?.data?.kpis;
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();
@@ -370,7 +371,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
   };
 
   useEffect(() => {
-    if (isModal) {
+    if (isModal || isReview) {
       if (getKPIResponse?.data?.Latest_Response?.kpis) {
         setTableData(getKPIResponse?.data?.Latest_Response?.kpis);
       }
@@ -627,7 +628,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
       // console.log('plz select your file');
     }
   };
-
+  console.log('kpiResult && Object.keys(kpiResult)?.length > 0', kpiResult);
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section2KPI')} active>
@@ -644,7 +645,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal }) => {
               {showGraph && (
                 <>
                   {kpiResult && Object.keys(kpiResult)?.length > 0 ? (
-                    <KIP_Graph_Section_2 isModal={isModal} />
+                    <KIP_Graph_Section_2 isReview={isReview} isModal={isModal} />
                   ) : (
                     <div className="mt-5 text-center">
                       <h1 className="table-modal-title">

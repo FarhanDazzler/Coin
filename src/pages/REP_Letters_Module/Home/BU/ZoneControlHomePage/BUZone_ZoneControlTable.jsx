@@ -13,7 +13,7 @@ import {
   addBUSection2UploadMailApprovalSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BUZone_Zone_ControlHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
-import ShowSignatures from '../../../../../components/ShowSignatures';
+import ShowSignaturesBU_Zone from '../../../../../components/ShowSignatures/ShowSignaturesBU_Zone';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -144,7 +144,7 @@ const BUZone_ExcomMemberTable = ({
       cellClassName: 'dashboardCell',
       size: 170,
       Cell: (row) => {
-        return <ShowSignatures signatures={row.row.original?.signatures} />;
+        return <ShowSignaturesBU_Zone signatures={row.row.original?.signatures} />;
       },
     },
     {
