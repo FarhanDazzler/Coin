@@ -15,7 +15,7 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
   const location = useLocation();
   const history = useHistory();
   const [ShowVideoModal, setShowVideoModal] = useState(false);
-  const [activeTab, setActiveTab] = useState('Instructions');
+  const [activeTab, setActiveTab] = useState('Scope');
   const isClear = (text) => activeTab === text;
   const getInstructionsState = useSelector(getInstructionsSelector);
 
@@ -132,11 +132,7 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
   //console.log(scopeData, '@');
   return (
     <div className="Rep-Letter-form-Section0">
-      <ClosedCollapseFrame
-        title="Instructions and Scope"
-        active
-        isOpen={isReview === true ? false : true}
-      >
+      <ClosedCollapseFrame title="Instructions and Scope" active isOpen={true}>
         <div className="renderBlockWrapper-rep-letter-form mt-5">
           {getInstructionsState?.data?.length > 0 && (
             // if instructions are not there and scope is there then show scope only
