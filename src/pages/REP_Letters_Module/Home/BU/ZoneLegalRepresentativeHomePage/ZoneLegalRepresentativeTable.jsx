@@ -9,8 +9,8 @@ import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
 import {
   get_BUZone_ZoneLegalRepresentativeHomePageDataSelector,
-  addBUSection2CheckboxSelector,
-  addBUSection2UploadMailApprovalSelector,
+  addBUZoneSection2CheckboxSelector,
+  addBUZoneSection2UploadMailApprovalSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BUZone_ZoneLegalRepresentativeHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignaturesBU_Zone from '../../../../../components/ShowSignatures/ShowSignaturesBU_Zone';
@@ -56,8 +56,10 @@ const ZoneLegalRepresentativeTable = ({
   const dispatch = useDispatch();
 
   const getHomePageData = useSelector(get_BUZone_ZoneLegalRepresentativeHomePageDataSelector);
-  const addBUSection2UploadMailApprovalState = useSelector(addBUSection2UploadMailApprovalSelector);
-  const addBUSection2CheckboxState = useSelector(addBUSection2CheckboxSelector);
+  const addBUZoneSection2UploadMailApprovalState = useSelector(
+    addBUZoneSection2UploadMailApprovalSelector,
+  );
+  const addBUZoneSection2CheckboxState = useSelector(addBUZoneSection2CheckboxSelector);
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const HomePageData = useMemo(() => {
@@ -66,7 +68,7 @@ const ZoneLegalRepresentativeTable = ({
 
   useEffect(() => {
     dispatch(get_BUZone_ZoneLegalRepresentativeHomePageData());
-  }, [addBUSection2UploadMailApprovalState?.data, addBUSection2CheckboxState?.data]);
+  }, [addBUZoneSection2UploadMailApprovalState?.data, addBUZoneSection2CheckboxState?.data]);
 
   const TABLE_COLUMNS = [
     {
