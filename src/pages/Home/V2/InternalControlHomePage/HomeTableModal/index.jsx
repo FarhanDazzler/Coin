@@ -63,8 +63,6 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
   const Control_ID = Assessment_id || query.get('Control_ID');
   const responseUpdatedData =
     responseData.data?.Latest_Response || responseData.data?.Latest_response;
-
-  console.log('@@@@@: responseUpdatedData', responseUpdatedData);
   const kpiResultData = useSelector(kpiResultSelector);
   const currentLanguage = i18n.language;
   const [language, setLanguage] = useState(currentLanguage);

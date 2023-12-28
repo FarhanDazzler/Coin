@@ -69,7 +69,7 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
           >
             {t('selfAssessment.assessmentForm.localControlDescriptionBtn')}
           </Button>
-          {true && (
+          {isReview && !isHideOverride && (
             <Button
               // disabled={activeTab && activeTab !== 'LCD'}
               className={!isModal ? 'mr-4 active' : 'mr-4'}
