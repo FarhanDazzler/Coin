@@ -27,7 +27,7 @@ import {
   getMegaAndSubprocess,
 } from '../../../../../redux/MDM/MDM_Action';
 import Swal from 'sweetalert2';
-import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
+// import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
 
 const MegaAndSubprocessTable = () => {
   const dispatch = useDispatch();
@@ -160,7 +160,7 @@ const MegaAndSubprocessTable = () => {
 
   return (
     <>
-      {openNPS && (
+      {/* {openNPS && (
         <ProductFeedback
           env={process.env.REACT_APP_STAGE}
           apiKey={''}
@@ -177,7 +177,7 @@ const MegaAndSubprocessTable = () => {
           modalOpened={openNPS}
           setModalOpened={setOpenNPS}
         />
-      )}
+      )} */}
       <div className="container-fluid mt-5" id="MegaAndSubprocessManage">
         <div className="row pt-5">
           <div className="col-12 col-lg-12">
