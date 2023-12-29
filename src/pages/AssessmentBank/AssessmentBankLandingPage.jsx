@@ -11,7 +11,7 @@ import { DotSpinner } from '@uiball/loaders';
 // Assessments Summary Table
 import AssessmentsSummaryTable from './Table/AssessmentsSummaryTable';
 import { addAssessmentSchedulingAndTriggeringSelector } from '../../redux/AssessmentBank/AssessmentBankSelectors';
-import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
+// import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
 
 const AssessmentBankLandingPage = () => {
   const history = useHistory();
@@ -41,7 +41,7 @@ const AssessmentBankLandingPage = () => {
 
   return (
     <PageWrapper>
-      {opened && (
+      {/* {opened && (
         <ProductFeedback
           env={process.env.REACT_APP_STAGE}
           apiKey={''}
@@ -58,7 +58,7 @@ const AssessmentBankLandingPage = () => {
           modalOpened={opened}
           setModalOpened={setOpened}
         />
-      )}
+      )} */}
       {addAssessmentSchedulingAndTriggeringState.loading ? (
         <div className="loader-animation">
           <DotSpinner size={100} speed={0.9} color="#e3af32" />
