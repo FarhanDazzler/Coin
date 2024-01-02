@@ -73,24 +73,53 @@ const ControlOwnerTable = ({
   const loginUserRole = loginRole ?? userRole;
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
 
-  function getCurrentQuarter() {
-    var currentMonth = new Date().getMonth() + 1; // Adding 1 because getMonth() returns zero-based month (0-11)
-    var quarter;
+  function getCurrentAssessmentCycle() {
+    const today = new Date();
+    const todayDatetime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
-    if (currentMonth >= 1 && currentMonth <= 3) {
-      quarter = 'Assessment Cycle 1';
-    } else if (currentMonth >= 4 && currentMonth <= 6) {
-      quarter = 'Assessment Cycle 2';
-    } else if (currentMonth >= 7 && currentMonth <= 9) {
-      quarter = 'Assessment Cycle 3';
+    if (
+      new Date(today.getFullYear(), 2, 1) <= todayDatetime &&
+      todayDatetime <= new Date(today.getFullYear(), 4, 31)
+    ) {
+      return 'Assessment Cycle 1';
+    } else if (
+      new Date(today.getFullYear(), 5, 1) <= todayDatetime &&
+      todayDatetime <= new Date(today.getFullYear(), 7, 31)
+    ) {
+      return 'Assessment Cycle 2';
+    } else if (
+      new Date(today.getFullYear(), 8, 1) <= todayDatetime &&
+      todayDatetime <= new Date(today.getFullYear(), 10, 30)
+    ) {
+      return 'Assessment Cycle 3';
     } else {
-      quarter = 'Assessment Cycle 4';
+      // For December 1 to February 28, and accounting for leap year (February 29)
+      if (
+        (new Date(today.getFullYear(), 11, 1) <= todayDatetime &&
+          todayDatetime <= new Date(today.getFullYear(), 11, 31)) ||
+        (new Date(today.getFullYear(), 0, 1) <= todayDatetime &&
+          todayDatetime <= new Date(today.getFullYear(), 1, 28))
+      ) {
+        return 'Assessment Cycle 4';
+      } else if (
+        today.getFullYear() % 4 === 0 &&
+        todayDatetime.toDateString() === new Date(today.getFullYear(), 1, 29).toDateString()
+      ) {
+        return 'Assessment Cycle 4';
+      } else {
+        return 'Invalid date';
+      }
     }
-    return quarter;
   }
 
-  const [yearValue, setYearValue] = useState([new Date().getFullYear().toString()]);
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentQuarter()]);
+  //var currentMonth = new Date().getMonth() + 1;
+  // Adding 1 because getMonth() returns zero-based month (0-11)
+  const [yearValue, setYearValue] = useState(
+    new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
+      ? [String(new Date().getFullYear() - 1)]
+      : [String(new Date().getFullYear())],
+  );
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
 
   const controlOwnerData = useMemo(() => {
     return loginUserRole === 'Control owner'
