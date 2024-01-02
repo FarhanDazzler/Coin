@@ -47,11 +47,9 @@ const ZoneGlobalPersonaHomePage = () => {
     });
 
     const allUpdatestatus = updatedData.map((d) => d?.Status);
-    const RBAStatus = updatedData.map((d) => d?.RBA_Status);
     const completedAssessment = getNumberOfItem(allUpdatestatus, 'Completed'); // Signature_status
 
     return {
-      rbaApproved: getNumberOfItem(RBAStatus, 'RBA Approved'),
       notStarted: getNumberOfItem(allUpdatestatus, 'Not Started'),
       Prepared: getNumberOfItem(allUpdatestatus, 'Prepared'),
       signed: getNumberOfItem(allUpdatestatus, 'Signed'),
@@ -121,17 +119,6 @@ const ZoneGlobalPersonaHomePage = () => {
                     </div>
                   }
                   subTitle="Signed"
-                />
-                <NumberWithText
-                  total={statusInfo.total}
-                  number={statusInfo.rbaApproved}
-                  tooltip={
-                    <div>
-                      <span className="yellow-text"> RBA Approved : </span>
-                      <span>Total number of RBA files approved.</span>
-                    </div>
-                  }
-                  subTitle="RBA Approved"
                 />
                 <NumberWithText
                   total={statusInfo.total}
