@@ -22,7 +22,7 @@ import CustomModal from '../../../../../components/UI/CustomModal';
 import Swal from 'sweetalert2';
 import ApplicabilityAndAssignmentTableFilter from './ApplicabilityAndAssignmentTableFilter';
 import { DotSpinner } from '@uiball/loaders';
-// import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
+import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
 
 const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone }) => {
   const [tableColumns, setTableColumns] = useState([]);
@@ -260,7 +260,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
 
   return (
     <>
-      {/* {openNPS && (
+      {openNPS && (
         <ProductFeedback
           env={process.env.REACT_APP_STAGE}
           apiKey={''}
@@ -278,7 +278,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
           modalOpened={openNPS}
           setModalOpened={setOpenNPS}
         />
-      )} */}
+      )}
       {assignApplicabilityAndAssignmentOfProviderOrganization.loading ? (
         <div className="loader-animation">
           <DotSpinner size={100} speed={0.9} color="#e3af32" />

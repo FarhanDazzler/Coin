@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getControlOwnerAndOversight } from '../../../redux/MDM/MDM_Action';
 import ControlOwnerAndOversightTable from './Tables/ControlOwnerAndOversight/ControlOwnerandOversightTable';
 import { modifyControlOwnerAndOversightSelector } from '../../../redux/MDM/MDM_Selectors';
-// import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
+import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
 
 const MDM_Control_Owner_OversightLandingPage = () => {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const MDM_Control_Owner_OversightLandingPage = () => {
 
   return (
     <PageWrapper>
-      {/* {openNPS && (
+      {openNPS && (
         <ProductFeedback
           env={process.env.REACT_APP_STAGE}
           apiKey={''}
@@ -50,7 +50,7 @@ const MDM_Control_Owner_OversightLandingPage = () => {
           modalOpened={openNPS}
           setModalOpened={setOpenNPS}
         />
-      )} */}
+      )}
       <div className="col-12 col-lg-12">
         <NavTabsMDM />
         <ControlOwnerAndOversightTable />
