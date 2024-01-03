@@ -22,8 +22,6 @@ const RecipientHomePage = () => {
   const selectedUserRole = localStorage.getItem('selected_Role');
   const getRecipientHomePageData = useSelector(getFunctionRecipientHomePageDataSelector);
 
-  const [yearValue, setYearValue] = useState([]);
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
   const [functionValue, setFunctionValue] = useState([]);
@@ -34,13 +32,7 @@ const RecipientHomePage = () => {
 
   const statusInfo = useMemo(() => {
     const tableData = getRecipientHomePageData?.data[0]?.recipientData || [];
-    if (
-      !yearValue.length &&
-      !assessmentCycleValue.length &&
-      !zoneValue.length &&
-      !buValue.length &&
-      !functionValue.length
-    ) {
+    if (!zoneValue.length && !buValue.length && !functionValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       return {
         notStarted: getNumberOfItem(allstatus, 'Not started'),
@@ -51,8 +43,6 @@ const RecipientHomePage = () => {
 
     const updatedData = tableData?.filter((i) => {
       return (
-        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true) &&
         (functionValue?.length ? functionValue.includes(i.Function) : true)
@@ -65,15 +55,7 @@ const RecipientHomePage = () => {
       completed: getNumberOfItem(allUpdatestatus, 'Completed'),
       draft: getNumberOfItem(allUpdatestatus, 'Drafted'),
     };
-  }, [
-    getRecipientHomePageData?.data[0],
-    yearValue,
-    assessmentCycleValue,
-    zoneValue,
-    buValue,
-    functionValue,
-    getNumberOfItem,
-  ]);
+  }, [getRecipientHomePageData?.data[0], zoneValue, buValue, functionValue, getNumberOfItem]);
 
   return (
     <div>
@@ -97,10 +79,6 @@ const RecipientHomePage = () => {
       </div>
 
       <RecipientTable
-        yearValue={yearValue}
-        setYearValue={setYearValue}
-        assessmentCycleValue={assessmentCycleValue}
-        setAssessmentCycleValue={setAssessmentCycleValue}
         zoneValue={zoneValue}
         setZoneValue={setZoneValue}
         buValue={buValue}
