@@ -9,7 +9,7 @@ import './styles.scss';
 import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
 import { submitAssessmentResponseSelector } from '../../../redux/Assessments/AssessmentSelectors.js';
 import { useTranslation } from 'react-i18next';
-// import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
+import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
 
 const ControlHomePage = () => {
   const { t } = useTranslation();
@@ -114,7 +114,7 @@ const ControlHomePage = () => {
   return (
     <div>
       <PageWrapper>
-        {/* {openNPS && (
+        {openNPS && (
           <ProductFeedback
             env={process.env.REACT_APP_STAGE}
             apiKey={''}
@@ -131,7 +131,7 @@ const ControlHomePage = () => {
             modalOpened={openNPS}
             setModalOpened={setOpenNPS}
           />
-        )} */}
+        )}
         <div className="container-fluid">
           <div className="row pt-5 align-items-center">
             <div className="col-lg-4 pt-5">
