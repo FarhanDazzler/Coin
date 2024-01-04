@@ -36,9 +36,7 @@ const BUZone_DisclosureProcessorHomePage = () => {
     const tableData = getDisclosureProcessorHomePageData?.data[0]?.disclosureProcessorData || [];
     if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
-      const RBAStatus = tableData.map((d) => d?.RBA_Status);
       return {
-        rbaApproved: getNumberOfItem(RBAStatus, 'RBA Approved'),
         notStarted: getNumberOfItem(allstatus, 'Not Started'),
         Prepared: getNumberOfItem(allstatus, 'Prepared'),
         signed: getNumberOfItem(allstatus, 'Signed'),
@@ -56,9 +54,7 @@ const BUZone_DisclosureProcessorHomePage = () => {
     });
 
     const allUpdatestatus = updatedData?.map((d) => d?.Status);
-    const RBAStatus = updatedData.map((d) => d?.RBA_Status);
     return {
-      rbaApproved: getNumberOfItem(RBAStatus, 'RBA Approved'),
       notStarted: getNumberOfItem(allUpdatestatus, 'Not Started'),
       Prepared: getNumberOfItem(allUpdatestatus, 'Prepared'),
       signed: getNumberOfItem(allUpdatestatus, 'Signed'),
@@ -89,7 +85,6 @@ const BUZone_DisclosureProcessorHomePage = () => {
               {/* <AmountInfo amount={statusInfo.notStarted} infoText="NOT STARTED" /> */}
               <AmountInfo amount={statusInfo.Prepared} infoText="Prepared" />
               <AmountInfo amount={statusInfo.signed} infoText="SIGNED" />
-              <AmountInfo amount={statusInfo.rbaApproved} infoText="RBA APPROVED" />
               <AmountInfo amount={statusInfo.completed} infoText="COMPLETED" />
               {/* <AmountInfo amount={statusInfo.total} infoText="TOTAL" /> */}
             </div>
