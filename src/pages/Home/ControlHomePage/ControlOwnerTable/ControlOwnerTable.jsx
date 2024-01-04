@@ -149,6 +149,21 @@ const ControlOwnerTable = ({
     setTableColumns(TABLE_COLUMNS);
   }, [assessmentCycleValue, yearValue, token]);
 
+  // function for accessing form on the basis of current assessment cycle and year.
+  // Attempt button will be visible only for current assessment cycle and year in action column.
+  const isFormAccessible = (assessmentCycle, year) => {
+    const currentAssessmentCycle = getCurrentAssessmentCycle();
+    const currentYear =
+      new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
+        ? String(new Date().getFullYear() - 1)
+        : String(new Date().getFullYear());
+
+    if (currentAssessmentCycle == assessmentCycle && currentYear == year) {
+      return true;
+    }
+    return false;
+  };
+
   const actionHeader = t('selfAssessment.homePage.controleOwner.Table.actions_button');
   const TABLE_COLUMNS = [
     {
@@ -174,22 +189,23 @@ const ControlOwnerTable = ({
                 {t('selfAssessment.homePage.controleOwner.Table.review_button')}
               </Button>
             )}
-            {['Not started', 'Re-assessed', 'Drafted'].includes(row.row.original.Status) && (
-              <Button
-                onClick={() => {
-                  dispatch(clearLatestDraftResponse());
-                  const data = { row: row.row.original };
-                  history.push(
-                    `/Assessments/${row.row.original.Control_ID}?Provider=${row.row.original.Provider}`,
-                    {
-                      data,
-                    },
-                  );
-                }}
-              >
-                {t('selfAssessment.homePage.controleOwner.Table.take_assessment_button')}
-              </Button>
-            )}
+            {isFormAccessible(row.row.original.Assessment_Cycle, row.row.original.Year) &&
+              ['Not started', 'Re-assessed', 'Drafted'].includes(row.row.original.Status) && (
+                <Button
+                  onClick={() => {
+                    dispatch(clearLatestDraftResponse());
+                    const data = { row: row.row.original };
+                    history.push(
+                      `/Assessments/${row.row.original.Control_ID}?Provider=${row.row.original.Provider}`,
+                      {
+                        data,
+                      },
+                    );
+                  }}
+                >
+                  {t('selfAssessment.homePage.controleOwner.Table.take_assessment_button')}
+                </Button>
+              )}
           </div>
         );
       },

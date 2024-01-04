@@ -147,6 +147,20 @@ const RecipientTable = ({
     addFunctionSubmitResponseState?.data,
   ]);
 
+  // function for accessing form on the basis of current assessment cycle and year.
+  // Attempt button will be visible only for current assessment cycle and year in action column.
+  const isFormAccessible = (assessmentCycle, year) => {
+    const currentAssessmentCycle = getCurrentAssessmentCycle();
+    const currentYear =
+      new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
+        ? String(new Date().getFullYear() - 1)
+        : String(new Date().getFullYear());
+    if (currentAssessmentCycle == assessmentCycle && currentYear == year) {
+      return true;
+    }
+    return false;
+  };
+
   const TABLE_COLUMNS = [
     {
       accessorKey: 'Action',
@@ -173,19 +187,20 @@ const RecipientTable = ({
                 Review
               </Button>
             )}
-            {['Not started', 'Drafted'].includes(row.row.original.Status) && (
-              <Button
-                onClick={() => {
-                  const data = {
-                    scopeData: row.row.original,
-                    modalType: 'attempt',
-                  };
-                  history.push('/REP-Letters/attempt-letter/functional-letter-form', { data });
-                }}
-              >
-                Letter
-              </Button>
-            )}
+            {isFormAccessible(row.row.original.Assessment_Cycle, row.row.original.Year) &&
+              ['Not started', 'Drafted'].includes(row.row.original.Status) && (
+                <Button
+                  onClick={() => {
+                    const data = {
+                      scopeData: row.row.original,
+                      modalType: 'attempt',
+                    };
+                    history.push('/REP-Letters/attempt-letter/functional-letter-form', { data });
+                  }}
+                >
+                  Letter
+                </Button>
+              )}
           </div>
         );
       },
