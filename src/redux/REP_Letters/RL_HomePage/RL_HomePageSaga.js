@@ -134,7 +134,7 @@ import Swal from 'sweetalert2';
 
 // GET Functional Recipient home page table data
 async function getFunctionRecipientHomePageDataApi(params) {
-  return await Axios.get('/get_function_home_page_data_for_recipient', { params });
+  return await Axios.post('/get_function_home_page_data_for_recipient', params);
 }
 function* handle_GetFunctionRecipientHomePageData({ payload }) {
   try {
@@ -152,9 +152,9 @@ function* handle_GetFunctionRecipientHomePageData({ payload }) {
   }
 }
 
-// GET Functional Global PErsona home page table data
+// GET Functional Global Persona home page table data
 async function getFunctionGlobalPersonaHomePageDataApi(params) {
-  return await Axios.get('/get_function_home_page_data_for_global', { params });
+  return await Axios.post('/get_function_home_page_data_for_global', params);
 }
 function* handle_GetFunctionGlobalPersonaHomePageData({ payload }) {
   try {
@@ -168,6 +168,26 @@ function* handle_GetFunctionGlobalPersonaHomePageData({ payload }) {
   } catch (error) {
     yield put({
       type: GET_FUNCTION_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_ERROR,
+    });
+  }
+}
+
+// GET Functional ZIC PErsona home page table data
+async function getFunctionZIC_PersonaHomePageDataApi(params) {
+  return await Axios.post('/get_function_home_page_data_for_zone_ic', params);
+}
+function* handle_GetFunctionZIC_PersonaHomePageData({ payload }) {
+  try {
+    const response = yield call(getFunctionZIC_PersonaHomePageDataApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR,
     });
   }
 }
@@ -188,26 +208,6 @@ function* handle_Get_BU_GlobalPersonaHomePageData({ payload }) {
   } catch (error) {
     yield put({
       type: GET_BU_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_ERROR,
-    });
-  }
-}
-
-// GET Functional ZIC PErsona home page table data
-async function getFunctionZIC_PersonaHomePageDataApi(params) {
-  return await Axios.get('/get_function_home_page_data_for_zone_ic', { params });
-}
-function* handle_GetFunctionZIC_PersonaHomePageData({ payload }) {
-  try {
-    const response = yield call(getFunctionZIC_PersonaHomePageDataApi, payload);
-    if (response.success) {
-      yield put({
-        type: GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_SUCCESS,
-        payload: response.data,
-      });
-    }
-  } catch (error) {
-    yield put({
-      type: GET_FUNCTION_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR,
     });
   }
 }

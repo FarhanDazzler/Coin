@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useMsal } from '@azure/msal-react';
-import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
 import PageWrapper from '../../../components/wrappers/PageWrapper';
 import '../MDMStyle.scss';
 import NavTabsMDM from '../MDM_Tab_Buttons/TabButtons';
@@ -13,6 +12,7 @@ import {
   addOrgStructureSelector,
   updateOrgStructureSelector,
 } from '../../../redux/MDM/MDM_Selectors';
+import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
 
 const MDM_OrganizationHierarchyLandingPage = () => {
   const dispatch = useDispatch();
