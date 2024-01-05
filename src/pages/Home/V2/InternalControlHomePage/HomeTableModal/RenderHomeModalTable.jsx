@@ -158,7 +158,7 @@ const RenderHomeModalTable = ({
                   isReview={isReview}
                 />
               )}
-              {showMoreSection && !s1FailObj && (
+              {showMoreSection && !s1FailObj&&!isNotEscalationRequired && (
                 <>
                   <ControlSection3
                     setTerminating={setTerminating}

@@ -85,7 +85,8 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
     loadingRef.current = loadingLevel;
   }, [loadingLevel]);
 
-  const isNotEscalationRequired = !!actionPlanInfo.isEscalationRequired;
+  const isNotEscalationRequired =
+    actionPlanInfo.issueResolved === 'no' && !!actionPlanInfo.isEscalationRequired;
 
   const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
     ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
@@ -399,7 +400,9 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
             s1: ansSection1,
             data: isReview ? responseUpdatedData.data : kpiResultData?.data?.data,
             kpis: tableData.length > 0 ? tableData : null,
-            s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+            s3: isNotEscalationRequired
+              ? null
+              : Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
             showTable: showMoreSection,
             actionPlanInfo,
           },
@@ -488,7 +491,9 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
           Assessment_ID: activeData.id,
           Latest_response: {
             s1: ansSection1,
-            s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+            s3: isNotEscalationRequired
+              ? null
+              : Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
             data: kpiResultData?.data?.data,
             kpis: tableData.length > 0 ? tableData : null,
             showTable: showMoreSection,
