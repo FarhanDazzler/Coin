@@ -202,8 +202,9 @@ const ControlSection = ({
                     setInfo({ ...info, detailsInfo: value });
                   }}
                   id="detailsInfo"
+                  readOnly={isModal}
                 >
-                  {info.detailsInfo}
+                  {info.detailsInfo || ""}
                 </CustomTextarea>
               </div>
             )}

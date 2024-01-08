@@ -8,3 +8,8 @@
 .swal2-container {
   z-index: 999999;
 }
+
+.renderBlockWrapper .MuiButtonBase-root.MuiButton-outlined.Mui-disabled:not(.active-btn) {
+  border: 1px solid rgba(211, 163, 6, 0.5) !important;
+  color: #d3a306 !important;
+}
