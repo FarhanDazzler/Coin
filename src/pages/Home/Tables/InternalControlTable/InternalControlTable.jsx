@@ -146,9 +146,19 @@ const InternalControlTable = ({
     };
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
-    history.push(`/review?Control_ID=${id}`, row);
+    history.push(
+      `/review?Control_ID=${id}&Provider=${encodeURIComponent(
+        row.Provider,
+      )}&Control_Owner=${encodeURIComponent(row.Control_Owner)}&Question_Bank=${encodeURIComponent(
+        row.Question_Bank,
+      )}&Receiver=${encodeURIComponent(row.Receiver)}&KPI_From=${encodeURIComponent(
+        row.KPI_From,
+      )}&KPI_To=${encodeURIComponent(row.KPI_To)}&id=${encodeURIComponent(row.id)}`,
+    );
+
     // history.push(`${history.location.pathname}?Control_ID=${id}`, row);
   };
+  console.log('rowrow');
 
   const getDashBoardDataState = useSelector(getInternalControlDataSelector);
 

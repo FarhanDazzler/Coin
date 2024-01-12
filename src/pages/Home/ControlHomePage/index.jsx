@@ -24,7 +24,6 @@ const ControlHomePage = () => {
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
   const [openNPS, setOpenNPS] = useState(false);
   const submitAssessmentResponseState = useSelector(submitAssessmentResponseSelector);
-  console.log('statestate', state);
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
   const [receiverValue, setReceiverValue] = useState([]);

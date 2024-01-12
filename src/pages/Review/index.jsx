@@ -7,9 +7,26 @@ import HomeTableModal from '../Home/V2/InternalControlHomePage/HomeTableModal';
 const Review = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const { state } = useLocation();
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
+  const id = query.get('id');
+  const Provider = query.get('Provider');
+  const Control_Owner = query.get('Control_Owner');
+  const Question_Bank = query.get('Question_Bank');
+  const Receiver = query.get('Receiver');
+  const KPI_From = query.get('KPI_From');
+  const KPI_To = query.get('KPI_To');
+  const state = {
+    id,
+    Provider,
+    Control_Owner,
+    Question_Bank,
+    Receiver,
+    KPI_From,
+    KPI_To,
+    Control_ID,
+  };
+
   console.log('statestate', state);
 
   return (

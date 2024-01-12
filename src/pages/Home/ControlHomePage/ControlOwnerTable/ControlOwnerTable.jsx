@@ -195,11 +195,19 @@ const ControlOwnerTable = ({
                   onClick={() => {
                     dispatch(clearLatestDraftResponse());
                     const data = { row: row.row.original };
+                    console.log('datadata', data);
                     history.push(
-                      `/Assessments/${row.row.original.Control_ID}?Provider=${row.row.original.Provider}`,
-                      {
-                        data,
-                      },
+                      `/Assessments/${row.row.original.Control_ID}?Provider=${encodeURIComponent(
+                        row.row.original.Provider,
+                      )}&Control_Owner=${encodeURIComponent(
+                        data.row.Control_Owner,
+                      )}&Question_Bank=${encodeURIComponent(
+                        data.row.Question_Bank,
+                      )}&Receiver=${encodeURIComponent(
+                        data.row.Receiver,
+                      )}&KPI_From=${encodeURIComponent(
+                        data.row.KPI_From,
+                      )}&KPI_To=${encodeURIComponent(data.row.KPI_To)}`,
                     );
                   }}
                 >
@@ -351,7 +359,17 @@ const ControlOwnerTable = ({
       };
       dispatch(getControlDataAction(payload));
       dispatch(getControlDataGcdAction(gcdPayload));
-      history.push(`/review?Control_ID=${id}`, row);
+      history.push(
+        `/review?Control_ID=${id}&Provider=${encodeURIComponent(
+          row.Provider,
+        )}&Control_Owner=${encodeURIComponent(
+          row.Control_Owner,
+        )}&Question_Bank=${encodeURIComponent(row.Question_Bank)}&Receiver=${encodeURIComponent(
+          row.Receiver,
+        )}&KPI_From=${encodeURIComponent(row.KPI_From)}&KPI_To=${encodeURIComponent(
+          row.KPI_To,
+        )}&id=${encodeURIComponent(row.id)}`,
+      );
     },
     [dispatch, history],
   );
