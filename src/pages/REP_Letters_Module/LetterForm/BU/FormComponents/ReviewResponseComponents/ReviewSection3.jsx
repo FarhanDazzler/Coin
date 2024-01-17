@@ -128,7 +128,7 @@ const ReviewSection3 = () => {
               </Row>
               <Divider color="gray" className="section3-divider" size="xs" />
             </Row>
-            {getBUSection3ResponseState?.data?.RBA_Data?.length > 2 ? (
+            {getBUSection3ResponseState?.data?.RBA_Data[0]?.length > 0 ? (
               <Row>
                 <Table2
                   tableData={getBUSection3ResponseState?.data?.RBA_Data[0]}
