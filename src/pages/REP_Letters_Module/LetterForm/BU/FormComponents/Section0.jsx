@@ -65,7 +65,7 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
 
   const ScopeSection = () => {
     const entityString = scopeData?.Entity;
-    const entityObject = JSON.parse(entityString?.replace(/'/g, '"'));
+    const entityObject = entityString ? JSON.parse(entityString?.replace(/'/g, '"')) : {};
     return (
       <div className="scopeSectionGrid">
         <div>
