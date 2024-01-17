@@ -183,7 +183,7 @@ const AttemptSection3 = ({ scopeData }) => {
                     </Row>
                     <Divider color="gray" className="section3-divider" size="xs" />
                   </Row>
-                  {getBUSection3RBA_DataState?.data ? (
+                  {getBUSection3RBA_DataState?.data?.length > 0 ? (
                     <Row>
                       <Table2
                         tableData={getBUSection3RBA_DataState?.data}
