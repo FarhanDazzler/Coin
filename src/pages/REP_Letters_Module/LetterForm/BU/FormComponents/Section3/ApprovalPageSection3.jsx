@@ -181,7 +181,8 @@ const ApprovalPageSection3 = ({ scopeData }) => {
                     </Row>
                     <Divider color="gray" className="section3-divider" size="xs" />
                   </Row>
-                  {getBUSection3ResponseState?.data?.RBA_Data[0]?.length > 0 ? (
+                  {getBUSection3ResponseState?.data?.RBA_Data &&
+                  getBUSection3ResponseState?.data?.RBA_Data[0]?.length > 0 ? (
                     <Row>
                       <Table2
                         tableData={getBUSection3ResponseState?.data?.RBA_Data[0]}
