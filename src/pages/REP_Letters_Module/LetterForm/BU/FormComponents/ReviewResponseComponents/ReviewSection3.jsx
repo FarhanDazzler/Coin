@@ -128,7 +128,8 @@ const ReviewSection3 = () => {
               </Row>
               <Divider color="gray" className="section3-divider" size="xs" />
             </Row>
-            {getBUSection3ResponseState?.data?.RBA_Data && (
+            {getBUSection3ResponseState?.data?.RBA_Data &&
+            getBUSection3ResponseState?.data?.RBA_Data[0]?.length > 0 ? (
               <Row>
                 <Table2
                   tableData={getBUSection3ResponseState?.data?.RBA_Data[0]}
@@ -136,6 +137,10 @@ const ReviewSection3 = () => {
                   tableColumns={TABLE_COLUMNS}
                   isSimpleTable={true}
                 />
+              </Row>
+            ) : (
+              <Row>
+                <h5>All RBA are reconciling</h5>
               </Row>
             )}
             <Row>

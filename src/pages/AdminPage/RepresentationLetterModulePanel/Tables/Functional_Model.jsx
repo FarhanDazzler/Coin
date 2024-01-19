@@ -178,7 +178,12 @@ const Functional_Model = ({ setShowModal, ediatbleData, setEditTableData, modalT
                       >
                         Cancel
                       </Button>
-                      <Button color="neutral" className="ml-4" onClick={handleSubmit}>
+                      <Button
+                        color="neutral"
+                        className="ml-4"
+                        onClick={handleSubmit}
+                        disabled={!isEmailValidADState.data?.isValid}
+                      >
                         Confirm
                       </Button>
                     </div>
