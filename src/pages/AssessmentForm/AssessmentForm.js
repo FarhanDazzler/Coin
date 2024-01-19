@@ -18,13 +18,29 @@ import { getControlOwnerDataSelector } from '../../redux/DashBoard/DashBoardSele
 const AssessmentForm = (props) => {
   const { Assessment_id } = useParams();
   const history = useHistory();
-  const state = props.location.state.data?.row;
   const query = new URLSearchParams(history.location.pathname);
   // const Assessment_id = 'ATR_MJE_01a-K';
   const { accounts } = useMsal();
   const dispatch = useDispatch();
-  const Id = Assessment_id || query.get('Assessment_id');
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
+  const Id = Assessment_id || query.get('Assessment_id');
+  const params = new URL(document.location).searchParams;
+  const Provider = decodeURIComponent(params.get('Provider'));
+  const Control_Owner = decodeURIComponent(params.get('Control_Owner'));
+  const Question_Bank = decodeURIComponent(params.get('Question_Bank'));
+  const Receiver = decodeURIComponent(params.get('Receiver'));
+  const KPI_From = decodeURIComponent(params.get('KPI_From'));
+  const KPI_To = decodeURIComponent(params.get('KPI_To'));
+  const state = {
+    id: Assessment_id,
+    Provider,
+    Control_Owner,
+    Question_Bank,
+    Receiver,
+    KPI_From,
+    KPI_To,
+  };
+  console.log('statestate@@@@@@@', Provider);
 
   useEffect(() => {
     const ownerData = (getControlOwnerData.data[0]?.cOwnerData || []).find(
