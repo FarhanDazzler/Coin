@@ -20,6 +20,7 @@ const ControlSection2Chart = ({ isModal }) => {
 
   useEffect(() => {
     if (kpiResult) {
+      // if kpiResult exist then store data to local state
       setKPIList(Object.keys(kpiResult));
       const activeIdVal = Object.keys(kpiResult)[0];
       setActiveKPI(activeIdVal);

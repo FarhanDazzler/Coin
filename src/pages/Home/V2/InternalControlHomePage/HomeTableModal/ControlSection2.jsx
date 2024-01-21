@@ -51,6 +51,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       handleChange('', '', data, i);
     });
   }, [csvUpdateData, tableData.length]);
+
+  //All fixed table schema
   const columns = [
     {
       dataField: 'id',
@@ -249,24 +251,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         }
       },
     },
-    // {
-    //   dataField: 'Upload_Approach',
-    //   text: 'KPI Data source (Select from Excel/PBI/Celonis/Others)',
-    //   // formatter: (cellContent, row) => '',
-    //   editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
-    //   headerStyle: {
-    //     ...headerStyles,
-    //   },
-    //   style: (cell, row, rowIndex, colIndex) => {
-    //     if (row.isManual) {
-    //       return {
-    //         backgroundColor: 'white',
-    //         border: '2px solid gold',
-    //         color: 'black',
-    //       };
-    //     }
-    //   },
-    // },
     {
       dataField: 'Upload_Approach',
       text: 'KPI Data source (Excel/PBI/Celonis/Others)',
@@ -372,10 +356,12 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
 
   useEffect(() => {
     if (isModal || isReview) {
+      //Check is user only preview mode then api data store in table view
       if (getKPIResponse?.data?.Latest_Response?.kpis) {
         setTableData(getKPIResponse?.data?.Latest_Response?.kpis);
       }
     } else if (kpiResponseData?.length > 0) {
+      //Convert table formate data TO display structure
       const table_data = [...kpiResponseData];
       table_data.forEach((tData, i) => {
         if (tData.KPI_Value === '' || tData.KPI_Value === 0) {
@@ -404,23 +390,27 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
     }
   }, [kpiResultData]);
 
+  //Table on change function
   function handleChange(oldValue, newValue, row, column) {
     const updateProduct = tableData.map((d) => {
+      // Check user change row id match or not
       if (d.id === row.id) {
+        //If user Upload_Approach change value then update existing value
         if (column.dataField === 'Upload_Approach') {
           row['Upload_Approach'] = newValue;
         }
+        //If user Denominator change value then update existing value
         if (column.dataField === 'Denominator' && newValue < 1) {
           row['Denominator'] = '';
         }
         row.KPI_Value = (row.Numerator / row.Denominator).toFixed(5);
+        //If user Lower is better change value then update existing value
         if (row.Positive_direction === 'Lower is better') {
           if (
             row.MICS_L1_Threshold === '-' ||
             row.L1_Result === '' ||
             row.MICS_L1_Threshold == null
           ) {
-            console.log('l1 there', row.MICS_L1_Threshold);
             row.L1_Result = 'N/A';
           } else {
             if (+row.KPI_Value <= +row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
@@ -430,12 +420,12 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
             }
           }
 
+          // store L2_Result when KPI value lessthen MICS L2 thresshold value then pass L2 result
           if (
             row.MICS_L2_Threshold === '-' ||
             row.L2_Result === '' ||
             row.MICS_L2_Threshold == null
           ) {
-            console.log('l2 there', row.MICS_L2_Threshold);
             row.L2_Result = 'N/A';
           } else if (+row.KPI_Value <= +row.MICS_L2_Threshold && row.MICS_L2_Threshold !== '') {
             row.L2_Result = 'Pass';
@@ -443,12 +433,12 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
             row.L2_Result = 'Fail';
           }
 
+          // when KPI value lessthen MICS L3 threshold then result is pass othervise faild
           if (
             row.MICS_L3_Threshold === '-' ||
             row.L3_Result === '' ||
             row.MICS_L3_Threshold == null
           ) {
-            console.log('l3 there', row.MICS_L3_Threshold, row.L3_Result, row.KPI_Value);
             row.L3_Result = 'N/A';
           } else {
             if (+row.KPI_Value <= +row.MICS_L3_Threshold) {
@@ -508,44 +498,10 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
     setTableData(updateProduct);
   }
 
-  const Section2ExcelDataValidation = (old_table, new_table) => {
-    var myHeaders = new Headers();
-    myHeaders.append('Authorization', 'Basic Q09JTjpDT0lOX1NlY3VyZUAxMjM=');
-    myHeaders.append('Content-Type', 'application/json');
-
-    var apiBody = JSON.stringify({
-      input_table: old_table,
-      output_table: new_table,
-    });
-
-    var requestParameters = {
-      method: 'POST',
-      headers: myHeaders,
-      body: apiBody,
-    };
-
-    fetch(`${process.env.REACT_APP_API_BASE_URL}/is_csv_tampered`, requestParameters)
-      .then((response) => response.text())
-      .then((response) => {
-        const flag = JSON.parse(response).data;
-        if (flag) {
-          //console.log('Not Valid');
-          alert("Please don't change the existing values from excel file!!");
-        } else {
-          console.log('Valid');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (excelFile !== null) {
       document.getElementById('combine_btn').reset();
-      // Section 2 data validation
-      //Section2ExcelDataValidation(tableData, excelFile);
 
       var myHeaders = new Headers();
       myHeaders.append('Authorization', 'Basic Q09JTjpDT0lOX1NlY3VyZUAxMjM=');
@@ -580,39 +536,20 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         headers: myHeaders,
         body: apiBody,
       };
-
-      // fetch(`${process.env.REACT_APP_API_BASE_URL}/is_csv_tampered`, requestParameters)
-      //   .then((response) => response.text())
-      //   .then((response) => {
-      //     const flag = JSON.parse(response).data;
-      //     if (flag) {
-      //       alert("Please don't change the existing values from excel file!!");
-      //     } else {
-      //       setTableData(excelFile);
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //   });
     } else {
       setTableData(null);
     }
   };
 
+  // File upload logic
+  // This function convert uploaded Excel file data read and view on table mode
   const handleFile = (e) => {
     let selectedFile = e.target.files[0];
     if (selectedFile) {
       if (selectedFile) {
-        // let reader = new FileReader();
-        // reader.readAsArrayBuffer(selectedFile);
-        // reader.onload = (e) => {
-        //   setExcelFileError(null);
-        //   setExcelFile(e.target.result);
-        // };
         readXlsxFile(selectedFile).then((data) => {
           setExcelFile(
             data.slice(1).map((d) => {
-              //console.log(d, '@@@@');
               let obj = {};
               d.map((v, i) => {
                 obj[data[0][i]] = v;
@@ -628,7 +565,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       // console.log('plz select your file');
     }
   };
-  console.log('kpiResult && Object.keys(kpiResult)?.length > 0', kpiResult);
+
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section2KPI')} active>
@@ -641,7 +578,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         ) : (
           <>
             <div className="mt-5 pt-5">
-              {/*<ControlSection2Chart isModal={isModal} />*/}
               {showGraph && (
                 <>
                   {kpiResult && Object.keys(kpiResult)?.length > 0 ? (
@@ -690,15 +626,9 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
                             value="Upload_Approach"
                           />
                           <Workbook.Column label="Link to data" value="Source_System" />
-                          {/* <Workbook.Column label="L1_Result" value="L1_Result" />
-                    <Workbook.Column label="L2_Result" value="L2_Result" />
-                    <Workbook.Column label="L3_Result" value="L3_Result" /> */}
                         </Workbook.Sheet>
                       </Workbook>
                     </div>
-                    {/*<h1 className="table-modal-title">fddkj*/}
-                    {/*  {t('selfAssessment.assessmentForm.excelFileUploadAndDownload')}*/}
-                    {/*</h1>*/}
                     <button className="export_button" onClick={() => setShowGraph(!showGraph)}>
                       <strong> KPI Statistics</strong>
                     </button>
