@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import {
   getResponseSelector,
   kpiResultSelector,
-} from '../../../../../redux/Assessments/AssessmentSelectors';
+} from '../../../redux/Assessments/AssessmentSelectors';
 
 const ControlSection2Chart = ({ isModal }) => {
   const kpiResultData = useSelector(kpiResultSelector);

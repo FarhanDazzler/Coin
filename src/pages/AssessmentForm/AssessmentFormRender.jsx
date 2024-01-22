@@ -4,15 +4,15 @@ import { Loader } from '@mantine/core';
 import ControlSection1 from './ControlSection1';
 import ControlSection2 from './ControlSection2';
 import ControlSection3 from './ControlSection3';
-import Button from '../../../../../components/UI/Button';
+import Button from '../../components/UI/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetSection3 } from '../../../../../redux/Questions/QuestionsAction';
+import { resetSection3 } from '../../redux/Questions/QuestionsAction';
 import { useTranslation } from 'react-i18next';
 import ControlSection from './ControlSection';
 import cs from 'classnames';
-import { kpiResultSelector } from '../../../../../redux/Assessments/AssessmentSelectors';
+import { kpiResultSelector } from '../../redux/Assessments/AssessmentSelectors';
 
-const RenderHomeModalTable = ({
+const AssessmentFormRender = ({
   s1FailObj,
   questionsInfo,
   setShowMoreSection,
@@ -135,8 +135,6 @@ const RenderHomeModalTable = ({
           {!!actionPlanInfo?.Action_Plan && (
             <ControlSection
               setShowControlSection={setShowControlSection}
-              loadingSubmit={loadingSubmit}
-              handleSubmit={handleSubmit}
               info={actionPlanInfo}
               setInfo={setActionPlanInfo}
               isModal={isModal}
@@ -175,7 +173,6 @@ const RenderHomeModalTable = ({
                     setShowNoQuestionAns={setShowNoQuestionAns}
                     setStartEdit={setStartEdit}
                     isModal={!isModal}
-                    showMoreSection={showMoreSection}
                     loadingLevel={loadingLevel}
                     setLoadingLevel={setLoadingLevel}
                     loadingRef={loadingRef}
@@ -233,4 +230,4 @@ const RenderHomeModalTable = ({
   );
 };
 
-export default RenderHomeModalTable;
+export default AssessmentFormRender;

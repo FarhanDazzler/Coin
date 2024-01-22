@@ -1,8 +1,8 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './review.scss';
 import { useTranslation } from 'react-i18next';
-import HomeTableModal from '../Home/V2/InternalControlHomePage/HomeTableModal';
+import AssessmentFormView from '../AssessmentForm/AssessmentFormView';
 
 const Review = () => {
   const { t } = useTranslation();
@@ -32,7 +32,7 @@ const Review = () => {
   return (
     <div className="page-wrapper">
       <div className="container-fluid">
-        {Control_ID && <HomeTableModal isReview={true} activeData={state} />}
+        {Control_ID && <AssessmentFormView isReview={true} activeData={state} />}
       </div>
     </div>
   );
