@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import './homeTableModalStyles.scss';
+import './assessmentFormStyles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
@@ -14,7 +14,7 @@ import {
   clearLatestDraftResponse,
   updateLastAccess,
   getMicsOpenActionPlan,
-} from '../../../../../redux/Assessments/AssessmentAction';
+} from '../../redux/Assessments/AssessmentAction';
 import {
   addOrEditUpdateDraftSelector,
   getLatestDraftSelector,
@@ -22,17 +22,16 @@ import {
   getQuestionsSelector,
   getResponseSelector,
   kpiResultSelector,
-} from '../../../../../redux/Assessments/AssessmentSelectors';
+} from '../../redux/Assessments/AssessmentSelectors';
 import Swal from 'sweetalert2';
-import RenderHomeModalTable from './RenderHomeModalTable';
-import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAction';
-import CustomModal from '../../../../../components/UI/CustomModal';
+import AssessmentFormRender from './AssessmentFormRender';
+import { getSection3Questions } from '../../redux/Questions/QuestionsAction';
+import CustomModal from '../../components/UI/CustomModal';
 import CloseIcon from '@mui/icons-material/Close';
-import { getLanguageFormat, isJsonString } from '../../../../../utils/helper';
-import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
-import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
+import { getLanguageFormat, isJsonString } from '../../utils/helper';
+import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
 
-const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
+const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
   // Page history and query
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
@@ -589,7 +588,7 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
             </div>
           </div>
         )}
-        <RenderHomeModalTable
+        <AssessmentFormRender
           s1FailObj={s1FailObj}
           questionsInfo={questionsInfo}
           setShowMoreSection={setShowMoreSection}
@@ -635,7 +634,7 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
       width={1080}
       onClose={handleClose}
     >
-      <RenderHomeModalTable
+      <AssessmentFormRender
         s1FailObj={s1FailObj}
         questionsInfo={questionsInfo}
         setShowMoreSection={setShowMoreSection}
@@ -676,4 +675,4 @@ const HomeTableModal = ({ isModal: contentTypeModal = false, activeData = {}, is
   );
 };
 
-export default HomeTableModal;
+export default AssessmentFormView;

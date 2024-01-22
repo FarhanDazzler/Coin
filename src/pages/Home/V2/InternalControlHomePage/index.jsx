@@ -3,13 +3,12 @@ import './homeStyles.scss';
 import NumberWithText from './NumberWithText';
 import { useMsal } from '@azure/msal-react';
 import { useHistory, useLocation } from 'react-router-dom';
-import HomeTableModal from './HomeTableModal';
 import { useSelector } from 'react-redux';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import ProgressBar from './HomePageTable/ProgressBar/ProgressBar';
 import InternalControlTable from '../../Tables/InternalControlTable/InternalControlTable';
 import { getInternalControlDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
-import SummaryView from '../../../../components/SummaryView/SummaryView';
+import AssessmentFormView from '../../../AssessmentForm/AssessmentFormView';
 
 const InternalControlHomePage = () => {
   const history = useHistory();
@@ -176,7 +175,7 @@ const InternalControlHomePage = () => {
           controlIdValue={controlIdValue}
           setControlIdValue={setControlIdValue}
         />
-        {Control_ID && <HomeTableModal isModal={true} activeData={state} />}
+        {Control_ID && <AssessmentFormView isModal={true} activeData={state} />}
         {/*<SummaryView />*/}
       </PageWrapper>
     </div>

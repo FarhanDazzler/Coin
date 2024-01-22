@@ -11,12 +11,11 @@ import {
   kpiResultSelector,
   getResponseSelector,
   getLatestDraftSelector,
-} from '../../../../../redux/Assessments/AssessmentSelectors';
-import { getCsvTampredDataAction } from '../../../../../redux/CsvTampred/CsvTampredAction';
-import CollapseFrame from '../../../../../components/UI/CollapseFrame';
+} from '../../../redux/Assessments/AssessmentSelectors';
+import { getCsvTampredDataAction } from '../../../redux/CsvTampred/CsvTampredAction';
+import CollapseFrame from '../../../components/UI/CollapseFrame';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
-import ControlSection2Chart from './ControlSection2Chart';
 import { Loader } from '@mantine/core';
 import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 

@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import CollapseFrame from '../../../../../components/UI/CollapseFrame';
+import CollapseFrame from '../../../components/UI/CollapseFrame';
 import { useTranslation } from 'react-i18next';
-import CustomTextarea from '../../../../../components/UI/CustomTextarea';
-import DatePickers from '../../../../../components/UI/DatePickers';
-import Button from '../../../../../components/UI/Button';
+import CustomTextarea from '../../../components/UI/CustomTextarea';
+import DatePickers from '../../../components/UI/DatePickers';
+import Button from '../../../components/UI/Button';
 import dayjs from 'dayjs';
 import cs from 'classnames';
 
-const ControlSection = ({
-  setShowControlSection,
-  loadingSubmit,
-  handleSubmit,
-  info = {},
-  setInfo,
-  isModal,
-}) => {
+const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) => {
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
 

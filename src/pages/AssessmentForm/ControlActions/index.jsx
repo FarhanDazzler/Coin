@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import Button from '../../../../../components/UI/Button';
+import Button from '../../../components/UI/Button';
 import { useTranslation } from 'react-i18next';
 
 const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {

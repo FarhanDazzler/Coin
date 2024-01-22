@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getQuestionsSelector } from '../../../../../redux/Assessments/AssessmentSelectors';
-import { getFormatQuestions, getLanguageFormat, validateEmail } from '../../../../../utils/helper';
-import { getUserFromAD } from '../../../../../redux/AzureAD/AD_Action';
-import { getUserFromADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
-import useDebounce from '../../../../../hooks/useDebounce';
-import blockType from '../../../../../components/RenderBlock/constant';
-import RenderBlock from '../../../../../components/RenderBlock';
-import CollapseFrame from '../../../../../components/UI/CollapseFrame';
+import { getQuestionsSelector } from '../../../redux/Assessments/AssessmentSelectors';
+import { getFormatQuestions, getLanguageFormat, validateEmail } from '../../../utils/helper';
+import { getUserFromAD } from '../../../redux/AzureAD/AD_Action';
+import { getUserFromADSelector } from '../../../redux/AzureAD/AD_Selectors';
+import useDebounce from '../../../hooks/useDebounce';
+import blockType from '../../../components/RenderBlock/constant';
+import RenderBlock from '../../../components/RenderBlock';
+import CollapseFrame from '../../../components/UI/CollapseFrame';
 import { useTranslation } from 'react-i18next';
-import { updateLastAccess } from '../../../../../redux/Assessments/AssessmentAction';
 
 const ControlSection1 = ({
   setShowMoreSection,

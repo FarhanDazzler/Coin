@@ -1,19 +1,19 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
+import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
 import { Loader } from 'semantic-ui-react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import RenderBlock from '../../../../../components/RenderBlock';
-import RenderBlockWrapper from '../../../../../components/RenderBlock/RenderBlockWrapper';
-import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAction';
-import CollapseFrame from '../../../../../components/UI/CollapseFrame';
+import RenderBlock from '../../../components/RenderBlock';
+import RenderBlockWrapper from '../../../components/RenderBlock/RenderBlockWrapper';
+import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
+import CollapseFrame from '../../../components/UI/CollapseFrame';
 import {
   getFormatQuestions,
   getLanguageFormat,
   getQuestionsFormatData,
   isJsonString,
-} from '../../../../../utils/helper';
+} from '../../../utils/helper';
 import { useTranslation } from 'react-i18next';
 
 const ControlSection3 = ({
@@ -24,7 +24,6 @@ const ControlSection3 = ({
   setShowNoQuestionAns,
   setStartEdit,
   isModal,
-  showMoreSection,
   loadingLevel,
   setLoadingLevel,
   loadingRef,

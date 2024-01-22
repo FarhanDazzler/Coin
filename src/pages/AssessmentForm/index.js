@@ -12,9 +12,9 @@ import {
   getControlDataGcdAction,
 } from '../../redux/ControlData/ControlDataAction';
 import './AssessmentForm.scss';
-import HomeTableModal from '../../pages/Home/V2/InternalControlHomePage/HomeTableModal';
 import PageWrapper from '../../components/wrappers/PageWrapper';
 import { getControlOwnerDataSelector } from '../../redux/DashBoard/DashBoardSelectors';
+import AssessmentFormView from './AssessmentFormView';
 
 const AssessmentForm = (props) => {
   // Get URL parms
@@ -68,7 +68,7 @@ const AssessmentForm = (props) => {
     <PageWrapper>
       <div className="text-left container-fluid">
         {/*Assessment form page Component here isModal props show inside modal view*/}
-        <HomeTableModal isModal={false} activeData={state} />
+        <AssessmentFormView isModal={false} activeData={state} />
       </div>
     </PageWrapper>
   );

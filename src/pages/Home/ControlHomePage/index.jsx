@@ -4,12 +4,12 @@ import { useMsal } from '@azure/msal-react';
 import ControlOwnerTable from './ControlOwnerTable/ControlOwnerTable';
 import { useSelector } from 'react-redux';
 import PageWrapper from '../../../components/wrappers/PageWrapper';
-import HomeTableModal from '../V2/InternalControlHomePage/HomeTableModal';
 import './styles.scss';
 import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
 import { submitAssessmentResponseSelector } from '../../../redux/Assessments/AssessmentSelectors.js';
 import { useTranslation } from 'react-i18next';
 import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
+import AssessmentFormView from '../../AssessmentForm/AssessmentFormView';
 
 const ControlHomePage = () => {
   const { t } = useTranslation();
@@ -189,7 +189,7 @@ const ControlHomePage = () => {
           />
         )}
 
-        {Control_ID && <HomeTableModal isModal={true} activeData={state} />}
+        {Control_ID && <AssessmentFormView isModal={true} activeData={state} />}
       </PageWrapper>
     </div>
   );
