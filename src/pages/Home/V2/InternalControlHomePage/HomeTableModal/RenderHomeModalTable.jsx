@@ -48,7 +48,10 @@ const RenderHomeModalTable = ({
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const kpiResultData = useSelector(kpiResultSelector);
+  // check useEffect if user select section 1 Terminating then this state true
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
+
+  // If user select any no ans in section 3 then this var true
   const isSection3Failed = Object.keys(ansSection3)?.find((i) => {
     const value = ansSection3[i] && Object.values(ansSection3[i]);
     if (value?.length > 0) return value[0]?.includes('no');
@@ -67,12 +70,16 @@ const RenderHomeModalTable = ({
     }
     return false;
   }, [actionPlanInfo]);
+
   useEffect(() => {
     if (JSON.stringify(actionPlanInfo) === JSON.stringify({})) return setShowControlSection(true);
     if (!!actionPlanInfo?.isEscalationRequired) return setShowControlSection(true);
     if (actionPlanInfo?.issueResolved === 'no') return setShowControlSection(false);
     setShowControlSection(!!actionPlanInfo?.issueResolved);
   }, [actionPlanInfo]);
+
+  // Here condition foe section Terminating or not.
+  // Check if user select question 6 'No' option and question 5 this 2 option selected then section 1 is terminated
   useEffect(() => {
     let sectionTerminating = false;
     if (Object.keys(ansSection3).length !== 0) {
@@ -107,7 +114,7 @@ const RenderHomeModalTable = ({
   }, [ansSection3]);
 
   useEffect(() => {
-    dispatch(resetSection3());
+    dispatch(resetSection3()); // Reset section 3
   }, []);
 
   return (
@@ -158,7 +165,7 @@ const RenderHomeModalTable = ({
                   isReview={isReview}
                 />
               )}
-              {showMoreSection && !s1FailObj&&!isNotEscalationRequired && (
+              {showMoreSection && !s1FailObj && !isNotEscalationRequired && (
                 <>
                   <ControlSection3
                     setTerminating={setTerminating}

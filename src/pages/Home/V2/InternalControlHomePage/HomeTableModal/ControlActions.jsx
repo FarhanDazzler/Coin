@@ -23,6 +23,7 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
     'control_oversight',
   ].includes(role);
 
+  // Render Assessment Cycle message with year
   const renderPeriodOfAssessment = () => {
     const year = activeData?.Year;
     switch (activeData?.Assessment_Cycle) {
@@ -69,6 +70,7 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
           >
             {t('selfAssessment.assessmentForm.localControlDescriptionBtn')}
           </Button>
+          {/*// check user role not -> 'Control owner', 'control_owner', 'Control oversight', 'control_oversight' then show edit button*/}
           {isReview && !isHideOverride && (
             <Button
               // disabled={activeTab && activeTab !== 'LCD'}

@@ -1,10 +1,11 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 
+// Components import
 import { getAssessmentAns } from '../../redux/Assessments/AssessmentAction';
 import {
   getControlDataAction,
@@ -16,6 +17,7 @@ import PageWrapper from '../../components/wrappers/PageWrapper';
 import { getControlOwnerDataSelector } from '../../redux/DashBoard/DashBoardSelectors';
 
 const AssessmentForm = (props) => {
+  // Get URL parms
   const { Assessment_id } = useParams();
   const history = useHistory();
   const query = new URLSearchParams(history.location.pathname);
@@ -40,7 +42,6 @@ const AssessmentForm = (props) => {
     KPI_From,
     KPI_To,
   };
-  console.log('statestate@@@@@@@', Provider);
 
   useEffect(() => {
     const ownerData = (getControlOwnerData.data[0]?.cOwnerData || []).find(
@@ -56,15 +57,17 @@ const AssessmentForm = (props) => {
     let gcdPayload = {
       controlId: Id,
     };
+    // GET Assessment and ans API call
     dispatch(getControlDataAction(payload));
-    console.log('@@@@ -> 3');
     dispatch(getControlDataGcdAction(gcdPayload));
     dispatch(getAssessmentAns({ COwner: state?.Control_Owner, Control_ID: state.id }));
   }, []);
 
   return (
+    // PageWrapper Component to create automatically dark background
     <PageWrapper>
       <div className="text-left container-fluid">
+        {/*Assessment form page Component here isModal props show inside modal view*/}
         <HomeTableModal isModal={false} activeData={state} />
       </div>
     </PageWrapper>
