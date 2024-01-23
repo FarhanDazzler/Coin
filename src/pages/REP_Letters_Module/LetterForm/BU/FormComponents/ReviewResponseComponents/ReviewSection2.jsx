@@ -60,6 +60,11 @@ const ReviewSection2 = (props) => {
                         <div className="rep-letter-form-bottom-btn">
                           <h5>
                             Approval Email attached by Local Internal Control For Finance Director
+                            at{' '}
+                            {
+                              getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                ?.submitted_at
+                            }
                           </h5>
 
                           <Button
@@ -84,7 +89,13 @@ const ReviewSection2 = (props) => {
                               <p>
                                 <b>Finance Director</b>
                               </p>
-                              <h5>Finance Director has Approved by Auto Authenticator</h5>
+                              <h5>
+                                Finance Director has Approved by Auto Authenticator at{' '}
+                                {
+                                  getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                    ?.submitted_at
+                                }
+                              </h5>
                               {getBUSection2SignatureResponseState?.data?.signatures?.fd
                                 ?.comment && (
                                 <h6>
@@ -106,7 +117,13 @@ const ReviewSection2 = (props) => {
                           <b>Zone VP</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
-                          <h5>Approval Email attached by Local Internal Control For Zone VP</h5>
+                          <h5>
+                            Approval Email attached by Local Internal Control For Zone VP at{' '}
+                            {
+                              getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                ?.submitted_at
+                            }
+                          </h5>
 
                           <Button
                             startIcon={<PictureAsPdfIcon />}
@@ -130,7 +147,13 @@ const ReviewSection2 = (props) => {
                               <p>
                                 <b>Zone VP</b>
                               </p>
-                              <h5>Zone VP has Approved by Auto Authenticator</h5>
+                              <h5>
+                                Zone VP has Approved by Auto Authenticator at{' '}
+                                {
+                                  getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                    ?.submitted_at
+                                }
+                              </h5>
                               {getBUSection2SignatureResponseState?.data?.signatures?.zv
                                 ?.comment && (
                                 <h6>
@@ -152,7 +175,13 @@ const ReviewSection2 = (props) => {
                           <b>BU Head</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
-                          <h5>Approval Email attached by Local Internal Control For BU Head</h5>
+                          <h5>
+                            Approval Email attached by Local Internal Control For BU Head at{' '}
+                            {
+                              getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                ?.submitted_at
+                            }
+                          </h5>
 
                           <Button
                             startIcon={<PictureAsPdfIcon />}
@@ -176,7 +205,13 @@ const ReviewSection2 = (props) => {
                               <p>
                                 <b>BU Head</b>
                               </p>
-                              <h5>BU Head has Approved by Auto Authenticator</h5>
+                              <h5>
+                                BU Head has Approved by Auto Authenticator at{' '}
+                                {
+                                  getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                    ?.submitted_at
+                                }
+                              </h5>
                               {getBUSection2SignatureResponseState?.data?.signatures?.buh
                                 ?.comment && (
                                 <h6>
@@ -199,7 +234,11 @@ const ReviewSection2 = (props) => {
                         </p>
                         <div className="rep-letter-form-bottom-btn">
                           <h5>
-                            Approval Email attached by Local Internal Control For Zone Control
+                            Approval Email attached by Local Internal Control For Zone Control at{' '}
+                            {
+                              getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                ?.submitted_at
+                            }
                           </h5>
 
                           <Button
@@ -224,7 +263,13 @@ const ReviewSection2 = (props) => {
                               <p>
                                 <b>Zone Control</b>
                               </p>
-                              <h5>Zone Control has Approved by Auto Authenticator</h5>
+                              <h5>
+                                Zone Control has Approved by Auto Authenticator at{' '}
+                                {
+                                  getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                    ?.submitted_at
+                                }
+                              </h5>
                               {getBUSection2SignatureResponseState?.data?.signatures?.zc
                                 ?.comment && (
                                 <h6>
