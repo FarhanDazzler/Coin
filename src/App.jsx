@@ -29,8 +29,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import QuestionBank from './pages/QuestionBank/QuestionBankLandingPage';
 import NotAuthorized from './pages/NotAuthorized/NotAuthorizedPage';
 import { useDispatch, useSelector } from 'react-redux';
-import ControlHomePage from './pages/Home/ControlHomePage';
-import InternalControlHomePage from './pages/Home/V2/InternalControlHomePage';
+//import ControlHomePage from './pages/Home/ControlHomePage';
+import ControlHomePage from './pages/HomePage/ControlOwnerAndOversight/ControlHomePage.jsx'
+import InternalControlHomePage from './pages/HomePage/InternalControlPage/InternalControlHomePage.jsx'
+//import InternalControlHomePage from './pages/Home/V2/InternalControlHomePage';
 import REP_Letters_HomePage from './pages/REP_Letters_Module/Home';
 import POC from './pages/TestPages_For_POC_only/POC.jsx';
 import { setRoles } from './redux/Auth/AuthAction';
@@ -242,13 +244,13 @@ const Pages = () => {
           )}
           <Route exact path="/review" component={Review} />
 
-          {user_role === 'organizational persona' ? (
+          {/* {user_role === 'organizational persona' ? (
             <Route exact path="/home" component={Home_controlOwner} />
           ) : user_role === 'administrational persona' ? (
             <Route exact path="/home" component={InternalControlHomePage} />
           ) : (
             <Route exact path="/home" component={Home_controlOwner} />
-          )}
+          )} */}
           {module === 'Assessment Module' && (
             <Route exact path="/Assessments/:Assessment_id" component={AssessmentForm} />
           )}
