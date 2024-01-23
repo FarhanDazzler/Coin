@@ -271,7 +271,7 @@ const Section1 = ({ questions, scopeData }) => {
   };
 
   return (
-    <CollapseFrame title="Section 1 : BU Representation Letter" active>
+    <CollapseFrame title="Section 1 : Zone Representation Letter" active>
       {questions?.map((question, index) => {
         const response = responses[question.id] || { response: '' };
 
