@@ -11,7 +11,7 @@ import { getInternalControlDataSelector } from '../../../redux/DashBoard/DashBoa
 import { ReactComponent as InfoIcon } from '../../../assets/images/InfoCircle.svg';
 
 // TODO: import HomeTableModal model from refectored code
-import HomeTableModal from '../../Home/V2/InternalControlHomePage/HomeTableModal';
+import AssessmentFormView from '../../AssessmentForm/AssessmentFormView';
 
 const NumberWithText = ({ number, tooltip, subTitle }) => {
   return (
@@ -192,7 +192,7 @@ const InternalControlHomePage = () => {
           controlIdValue={controlIdValue}
           setControlIdValue={setControlIdValue}
         />
-        {Control_ID && <HomeTableModal isModal={true} activeData={state} />}
+        {Control_ID && <AssessmentFormView isModal={true} activeData={state} />}
         {/*<SummaryView />*/}
       </PageWrapper>
     </div>
