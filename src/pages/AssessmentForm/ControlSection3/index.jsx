@@ -1,20 +1,19 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { question3Selector } from '../../../../../redux/Questions/QuestionsSelectors';
+import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
 import { Loader } from 'semantic-ui-react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import RenderBlock from '../../../../../components/RenderBlock';
-import RenderBlockWrapper from '../../../../../components/RenderBlock/RenderBlockWrapper';
-import { getSection3Questions } from '../../../../../redux/Questions/QuestionsAction';
-import CollapseFrame from '../../../../../components/UI/CollapseFrame';
+import RenderBlock from '../../../components/RenderBlock';
+import RenderBlockWrapper from '../../../components/RenderBlock/RenderBlockWrapper';
+import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
+import CollapseFrame from '../../../components/UI/CollapseFrame';
 import {
   getFormatQuestions,
   getLanguageFormat,
   getQuestionsFormatData,
   isJsonString,
-} from '../../../../../utils/helper';
-import { useLocation } from 'react-router';
+} from '../../../utils/helper';
 import { useTranslation } from 'react-i18next';
 
 const ControlSection3 = ({
@@ -25,7 +24,6 @@ const ControlSection3 = ({
   setShowNoQuestionAns,
   setStartEdit,
   isModal,
-  showMoreSection,
   loadingLevel,
   setLoadingLevel,
   loadingRef,
@@ -49,7 +47,9 @@ const ControlSection3 = ({
   const isSameLang = useMemo(() => {
     return languageVal === language;
   }, [language, languageVal]);
+  const [lastAns, setLastAns] = useState('');
 
+  // Convert api data to chart readable structure
   const setSelectedQuestionAns = (question, ansObj) => {
     return question.map((q1) => {
       const updateInnerQ = q1.renderOption.map((innerQ) => {
@@ -65,8 +65,6 @@ const ControlSection3 = ({
     });
   };
 
-  const [lastAns, setLastAns] = useState('');
-
   const handleChange = (value, block, parentBlock) => {
     setStartEdit(true);
     setLastAns(value);
@@ -76,6 +74,7 @@ const ControlSection3 = ({
       updateAns.noQueAns = false;
     }
     if (parentBlock) {
+      // Store data for selected level block value
       updateAns[parentBlock.Level] = { ...updateAns[parentBlock.Level], [block.q_id]: value };
     } else {
       updateAns[block.q_id] = value;
@@ -94,6 +93,7 @@ const ControlSection3 = ({
   useEffect(() => {
     if (showNoQuestion) {
       setShowNoQuestionAns('');
+      // if user select any option then automatically scroll bottom
       const div = document.getElementById('noOptionInput');
       if (div) div.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -120,9 +120,12 @@ const ControlSection3 = ({
 
   useEffect(() => {
     if (question2Api) return;
+    // Check condition for section 1 and selected question not inner question
     const isFirstSectionWithNoQuestion =
       isJsonString(questionData.Level?.L1?.Inner_Questions) &&
       !JSON.parse(questionData.Level?.L1?.Inner_Questions).length;
+
+    //Check if first section any one 'No' option selected then not section 2 api call make
     if (isFirstSectionWithNoQuestion) {
       if (!loadingRef?.current?.L2) {
         setLoadingLevel({ ...loadingLevel, L2: true });
@@ -143,6 +146,7 @@ const ControlSection3 = ({
       setQuestion2Api(true);
     }
 
+    //Same for s3
     if (question3Api) return;
     const isSecondSectionWithNoQuestion =
       isJsonString(questionData.Level?.L2?.Inner_Questions) &&
@@ -158,6 +162,7 @@ const ControlSection3 = ({
       const updateAns = {};
       if (ans.L1 && questionData.Level?.L1) {
         const ansObjectL1 = Object.keys(ans.L1);
+        // Check condition for selected ans and all question length same or not
         if (ansObjectL1.length === questionL1[0]?.innerOptions?.length) {
           let allYesFilterData1 = Object.keys(ans.L1).filter((key) => {
             return ans.L1[key].includes('yes');
@@ -172,7 +177,6 @@ const ControlSection3 = ({
           if (ansObjectL1.length !== allYesFilterData1.length) {
             setQuestionL2([]);
             setQuestionL3([]);
-            // setTerminating(true);
             setShowNoQuestion(true);
             return;
           } else {
@@ -185,6 +189,7 @@ const ControlSection3 = ({
           }
         }
       }
+      //Same for section 2
       if (ans.L2 && questionData.Level?.L2) {
         const ansObjectL2 = Object.keys(ans.L2);
         if (ansObjectL2.length === questionL2[0]?.innerOptions?.length) {
@@ -214,6 +219,7 @@ const ControlSection3 = ({
           setAns(updateAns);
         }
       }
+      //Same for section 3
       if (ans.L3) {
         const ansObjectL3 = Object.keys(ans.L3);
         if (ansObjectL3.length === questionL3[0]?.innerOptions?.length) {
@@ -242,6 +248,7 @@ const ControlSection3 = ({
     setTimeout(() => {
       setRender(!render);
       if (questionData.Level?.L1) {
+        //getQuestionsFormatData function getting api questions and getting new formeted array
         const apiQuestionL1 = getQuestionsFormatData([questionData.Level?.L1]);
         if (!questionL1.length > 0 || !isSameLang) {
           const questionsVal = getFormatQuestions(apiQuestionL1, null, 'L1');
@@ -397,16 +404,6 @@ const ControlSection3 = ({
 
           {showNoQuestion && (
             <RenderBlockWrapper id="noOptionInput">
-              {/* <Input
-                autoFocus
-                formControlProps={{ className: 'input-wrapper full-input' }}
-                label="Based on above response, action plans needs to be created on the failed control. Request you to elaborate the action Plan?
-(Hint: Action plan is a time bound proposition designed to remediate the control breakdown with the objective of ensuring MICS compliance)"
-                value={showNoQuestionAns}
-                required
-                handleChange={handleChangeNoQuestion}
-              />
-              */}
               <Form.Label>
                 {t('selfAssessment.assessmentForm.section3FailedText')}{' '}
                 <span className="text-danger">*</span>

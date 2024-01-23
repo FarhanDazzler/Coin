@@ -36,7 +36,7 @@ import InternalControlHomePage from './pages/HomePage/InternalControlPage/Intern
 import REP_Letters_HomePage from './pages/REP_Letters_Module/Home';
 import POC from './pages/TestPages_For_POC_only/POC.jsx';
 import { setRoles } from './redux/Auth/AuthAction';
-import AssessmentForm from './pages/AssessmentForm/AssessmentForm';
+import AssessmentForm from './pages/AssessmentForm';
 import ErrorNotification from './common/ErrorNotification';
 import { RepLettersRoutes } from './routes/RepLettersRoutes/RepLetterRoutes';
 import { AssessmentModuleRoutes } from './routes/AssessmentModuleRoutes/AssessmentModuleRoutes';
@@ -193,7 +193,7 @@ const Pages = () => {
       }
       // logic for getting NPS api auth token
       if (accounts) {
-        console.log('accounts',accounts);
+        console.log('accounts', accounts);
         instance
           .acquireTokenSilent({
             scopes: [process.env.REACT_APP_NPS_AUTH_API],
@@ -201,7 +201,7 @@ const Pages = () => {
           })
           .then((response) => {
             if (response) {
-              console.log('response.accessToken',response);
+              console.log('response.accessToken', response);
               //setToken(response.accessToken);
               localStorage.setItem('nps-auth-token', response.accessToken);
             }
@@ -212,7 +212,9 @@ const Pages = () => {
       }
       if (redirect) history.push(redirect);
       else if (location.pathname == '/login') history.push('/');
-      else history.push(location.pathname);
+      else {
+        history.push(`${location.pathname}${location.search ? location.search : ''}`);
+      }
     } else if (accounts && accounts.length === 0 && inProgress === InteractionStatus.None) {
       if (redirect) history.push(`/login?redirect=${redirect}`);
       else history.push('/login');
@@ -240,7 +242,7 @@ const Pages = () => {
           ) : (
             <Route exact path="/" component={InternalControlHomePage} />
           )}
-          {state && <Route exact path="/review" component={Review} />}
+          <Route exact path="/review" component={Review} />
 
           {/* {user_role === 'organizational persona' ? (
             <Route exact path="/home" component={Home_controlOwner} />

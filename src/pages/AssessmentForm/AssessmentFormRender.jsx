@@ -4,15 +4,15 @@ import { Loader } from '@mantine/core';
 import ControlSection1 from './ControlSection1';
 import ControlSection2 from './ControlSection2';
 import ControlSection3 from './ControlSection3';
-import Button from '../../../../../components/UI/Button';
+import Button from '../../components/UI/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetSection3 } from '../../../../../redux/Questions/QuestionsAction';
+import { resetSection3 } from '../../redux/Questions/QuestionsAction';
 import { useTranslation } from 'react-i18next';
 import ControlSection from './ControlSection';
 import cs from 'classnames';
-import { kpiResultSelector } from '../../../../../redux/Assessments/AssessmentSelectors';
+import { kpiResultSelector } from '../../redux/Assessments/AssessmentSelectors';
 
-const RenderHomeModalTable = ({
+const AssessmentFormRender = ({
   s1FailObj,
   questionsInfo,
   setShowMoreSection,
@@ -48,7 +48,10 @@ const RenderHomeModalTable = ({
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const kpiResultData = useSelector(kpiResultSelector);
+  // check useEffect if user select section 1 Terminating then this state true
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
+
+  // If user select any no ans in section 3 then this var true
   const isSection3Failed = Object.keys(ansSection3)?.find((i) => {
     const value = ansSection3[i] && Object.values(ansSection3[i]);
     if (value?.length > 0) return value[0]?.includes('no');
@@ -67,12 +70,16 @@ const RenderHomeModalTable = ({
     }
     return false;
   }, [actionPlanInfo]);
+
   useEffect(() => {
     if (JSON.stringify(actionPlanInfo) === JSON.stringify({})) return setShowControlSection(true);
     if (!!actionPlanInfo?.isEscalationRequired) return setShowControlSection(true);
     if (actionPlanInfo?.issueResolved === 'no') return setShowControlSection(false);
     setShowControlSection(!!actionPlanInfo?.issueResolved);
   }, [actionPlanInfo]);
+
+  // Here condition foe section Terminating or not.
+  // Check if user select question 6 'No' option and question 5 this 2 option selected then section 1 is terminated
   useEffect(() => {
     let sectionTerminating = false;
     if (Object.keys(ansSection3).length !== 0) {
@@ -107,7 +114,7 @@ const RenderHomeModalTable = ({
   }, [ansSection3]);
 
   useEffect(() => {
-    dispatch(resetSection3());
+    dispatch(resetSection3()); // Reset section 3
   }, []);
 
   return (
@@ -128,8 +135,6 @@ const RenderHomeModalTable = ({
           {!!actionPlanInfo?.Action_Plan && (
             <ControlSection
               setShowControlSection={setShowControlSection}
-              loadingSubmit={loadingSubmit}
-              handleSubmit={handleSubmit}
               info={actionPlanInfo}
               setInfo={setActionPlanInfo}
               isModal={isModal}
@@ -158,7 +163,7 @@ const RenderHomeModalTable = ({
                   isReview={isReview}
                 />
               )}
-              {showMoreSection && !s1FailObj&&!isNotEscalationRequired && (
+              {showMoreSection && !s1FailObj && !isNotEscalationRequired && (
                 <>
                   <ControlSection3
                     setTerminating={setTerminating}
@@ -168,7 +173,6 @@ const RenderHomeModalTable = ({
                     setShowNoQuestionAns={setShowNoQuestionAns}
                     setStartEdit={setStartEdit}
                     isModal={!isModal}
-                    showMoreSection={showMoreSection}
                     loadingLevel={loadingLevel}
                     setLoadingLevel={setLoadingLevel}
                     loadingRef={loadingRef}
@@ -226,4 +230,4 @@ const RenderHomeModalTable = ({
   );
 };
 
-export default RenderHomeModalTable;
+export default AssessmentFormRender;

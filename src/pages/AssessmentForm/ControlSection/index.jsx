@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import CollapseFrame from '../../../../../components/UI/CollapseFrame';
+import CollapseFrame from '../../../components/UI/CollapseFrame';
 import { useTranslation } from 'react-i18next';
-import CustomTextarea from '../../../../../components/UI/CustomTextarea';
-import DatePickers from '../../../../../components/UI/DatePickers';
-import Button from '../../../../../components/UI/Button';
+import CustomTextarea from '../../../components/UI/CustomTextarea';
+import DatePickers from '../../../components/UI/DatePickers';
+import Button from '../../../components/UI/Button';
 import dayjs from 'dayjs';
 import cs from 'classnames';
 
-const ControlSection = ({
-  setShowControlSection,
-  loadingSubmit,
-  handleSubmit,
-  info = {},
-  setInfo,
-  isModal,
-}) => {
+const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) => {
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
 
@@ -31,20 +24,21 @@ const ControlSection = ({
     setShowControlSection(false);
   };
 
+  //Set textarea value
   useEffect(() => {
     const Action_Plan_Dom = document.getElementById('Action_Plan');
     if (Action_Plan_Dom) {
       Action_Plan_Dom.innerHTML = info.Action_Plan;
     }
   }, [info.Action_Plan]);
-
+  //Set textarea value
   useEffect(() => {
     const Issue_Description_Dom = document.getElementById('Issue_Description');
     if (Issue_Description_Dom) {
       Issue_Description_Dom.innerHTML = info.Action_Plan;
     }
   }, [info.Issue_Description]);
-
+  //Set textarea value
   useEffect(() => {
     const detailsInfoDom = document.getElementById('detailsInfo');
     if (detailsInfoDom) {
@@ -99,13 +93,9 @@ const ControlSection = ({
                 >
                   Issue resolved?
                 </div>
-                {/* <Button color="neutral" style={{ minWidth: 'calc(100% - 190px)' }}>
-                  ISSUE RESOLVED?
-                </Button> */}
                 <div className="d-flex">
                   <Button
                     className={cs({ ['active-btn']: info.issueResolved === 'yes' })}
-                    //color="silver"
                     style={{ height: '100%' }}
                     variant="outlined"
                     disabled={isModal}
@@ -120,7 +110,6 @@ const ControlSection = ({
                   <div className="pl-5">
                     <Button
                       className={cs({ ['active-btn']: info.issueResolved === 'no' })}
-                      //color="silver"
                       disabled={isModal}
                       style={{ height: '100%' }}
                       variant="outlined"
@@ -145,13 +134,9 @@ const ControlSection = ({
                   >
                     Are you still the Owner of Action ?
                   </div>
-                  {/* <Button color="neutral" style={{ minWidth: 'calc(100% - 190px)' }}>
-                    Are you still the Owner of Action ?
-                  </Button> */}
                   <div className="d-flex">
                     <Button
                       className={cs({ ['active-btn']: info.ownerAction === 'yes' })}
-                      //color="silver"
                       style={{ height: '100%' }}
                       disabled={isModal}
                       variant="outlined"
@@ -164,7 +149,6 @@ const ControlSection = ({
                     <div className="pl-5">
                       <Button
                         className={cs({ ['active-btn']: info.ownerAction === 'no' })}
-                        //color="silver"
                         style={{ height: '100%' }}
                         disabled={isModal}
                         variant="outlined"
@@ -190,11 +174,6 @@ const ControlSection = ({
                   the further action plan proposed. Also is there any change in Action plan?
                   (Mandatory)
                 </div>
-                {/* <Button color="neutral" style={{ minWidth: '100%', textAlign: 'left' }}>
-                  Provide details on what was the actions taken in the last 3 months and what are
-                  the further action plan proposed. Also is there any change in Action plan? (Can
-                  even provide Examples)
-                </Button> */}
                 <CustomTextarea
                   name="detailsInfo"
                   className="mt-3"
@@ -204,7 +183,7 @@ const ControlSection = ({
                   id="detailsInfo"
                   readOnly={isModal}
                 >
-                  {info.detailsInfo || ""}
+                  {info.detailsInfo || ''}
                 </CustomTextarea>
               </div>
             )}
@@ -218,9 +197,6 @@ const ControlSection = ({
                   >
                     Is escalation required?
                   </div>
-                  {/* <Button color="neutral" style={{ minWidth: 'calc(100% - 190px)' }}>
-                    Is escalation required?
-                  </Button> */}
                   <div className="d-flex">
                     <Button
                       className={cs({ ['active-btn']: info.isEscalationRequired === 'yes' })}
@@ -239,7 +215,6 @@ const ControlSection = ({
                       <Button
                         className={cs({ ['active-btn']: info.isEscalationRequired === 'no' })}
                         style={{ height: '100%' }}
-                        //color="silver"
                         disabled={isModal}
                         variant="outlined"
                         onClick={() => {
