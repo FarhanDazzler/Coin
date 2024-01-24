@@ -145,6 +145,11 @@ const ReviewSection3 = () => {
             )}
             <Row>
               <Divider color="gray" className="section3-divider" size="xs" />
+              <Row>
+                <h5>
+                  <span className="golden-text">Finance Director has Approved the above RBAs.</span>
+                </h5>
+              </Row>
               {getBUSection3ResponseState?.data?.DP_Comment && (
                 <>
                   <Row>
