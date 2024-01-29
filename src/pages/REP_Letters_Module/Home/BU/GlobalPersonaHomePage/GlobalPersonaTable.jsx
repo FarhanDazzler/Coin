@@ -75,7 +75,7 @@ const GlobalPersonaTable = ({
       Cell: (row) => {
         return (
           <div>
-            {row.row.original.Status === 'Completed' && (
+            {['Prepared', 'Signed', 'Completed'].includes(row.row.original.Status) && (
               <Button
                 className="mr-2"
                 onClick={() => {

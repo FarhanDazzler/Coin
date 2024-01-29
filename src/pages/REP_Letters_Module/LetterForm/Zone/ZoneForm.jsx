@@ -38,6 +38,7 @@ const ReviewSubmittedResponses = ({
   letterType,
   getBUZoneSubmitResponseState,
   getBUZoneSection2SignatureResponseState,
+  modalType,
 }) => {
   const history = useHistory();
   const exportResponseToExcel = (info, responses, Last_Saved_At) => {
@@ -123,7 +124,7 @@ const ReviewSubmittedResponses = ({
         />
       )}
 
-      {scopeData?.Status === 'Completed' && (
+      {modalType === 'Review' && (
         <div className="d-flex align-items-center justify-content-end">
           <Button
             //color="secondary"
@@ -251,6 +252,7 @@ const ZoneForm = (props) => {
                   letterType={letterType}
                   getBUZoneSubmitResponseState={getBUZoneSubmitResponseState}
                   getBUZoneSection2SignatureResponseState={getBUZoneSection2SignatureResponseState}
+                  modalType={modalType}
                 />
                 <Section2 scopeData={getBUZoneScopeDataState?.data} />
               </div>
@@ -276,6 +278,7 @@ const ZoneForm = (props) => {
                   letterType={letterType}
                   getBUZoneSubmitResponseState={getBUZoneSubmitResponseState}
                   getBUZoneSection2SignatureResponseState={getBUZoneSection2SignatureResponseState}
+                  modalType={modalType}
                 />
               </div>
             )}
