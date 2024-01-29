@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { DotSpinner } from '@uiball/loaders';
 import * as XLSX from 'xlsx';
@@ -142,9 +142,9 @@ const ReviewSubmittedResponses = ({
 const ZoneForm = (props) => {
   const dispatch = useDispatch();
 
-  const scopeData = props.location.state?.data?.scopeData;
-  const modalType = props.location.state?.data?.modalType;
-  const letterType = props.location.state?.data?.letterType;
+  const { modalType, id } = useParams();
+
+  const letterType = 'Zone';
 
   console.log('modalType', modalType);
   const questionState = useSelector(get_BU_QuestionsSelector);
@@ -164,7 +164,7 @@ const ZoneForm = (props) => {
     dispatch(getInstructions(payloadForGettingInstructions));
 
     const payloadForGettingScopeData = {
-      id: scopeData.id,
+      id: id,
     };
 
     dispatch(getBUZoneScopeData(payloadForGettingScopeData));
@@ -175,31 +175,31 @@ const ZoneForm = (props) => {
       dispatch(get_BU_Questions(payload));
 
       let payloadForGettingDraftResp = {
-        assessment_id: scopeData?.id,
+        assessment_id: id,
       };
       dispatch(getLatestBUZoneDraftResponse(payloadForGettingDraftResp));
     } else if (modalType === 'attemptSection2') {
       let payloadForGettingSubmittedResp = {
-        assessment_id: scopeData?.id,
+        assessment_id: id,
       };
 
       dispatch(getBUZoneSubmitResponse(payloadForGettingSubmittedResp));
       let payloadForBuSection2Response = {
-        id: scopeData.id,
+        id: id,
       };
       dispatch(getBUZoneSection2SignatureResponseAction(payloadForBuSection2Response));
     } else {
       let payloadForGettingSubmittedResp = {
-        assessment_id: scopeData?.id,
+        assessment_id: id,
       };
 
       dispatch(getBUZoneSubmitResponse(payloadForGettingSubmittedResp));
       let payloadForBuSection2Response = {
-        id: scopeData.id,
+        id: id,
       };
       dispatch(getBUZoneSection2SignatureResponseAction(payloadForBuSection2Response));
     }
-  }, []);
+  }, [id]);
 
   // clear all the states on page leave or refresh page or change url path or change module or change role
   useEffect(() => {
@@ -224,7 +224,10 @@ const ZoneForm = (props) => {
             ) : (
               <div className="col-lg-12">
                 <Section0 scopeData={getBUZoneScopeDataState?.data} letterType={letterType} />
-                <Section1 questions={questionState.data} scopeData={scopeData} />
+                <Section1
+                  questions={questionState.data}
+                  scopeData={getBUZoneScopeDataState?.data}
+                />
               </div>
             )}
           </div>
@@ -249,7 +252,7 @@ const ZoneForm = (props) => {
                   getBUZoneSubmitResponseState={getBUZoneSubmitResponseState}
                   getBUZoneSection2SignatureResponseState={getBUZoneSection2SignatureResponseState}
                 />
-                <Section2 scopeData={scopeData} />
+                <Section2 scopeData={getBUZoneScopeDataState?.data} />
               </div>
             )}
           </div>
