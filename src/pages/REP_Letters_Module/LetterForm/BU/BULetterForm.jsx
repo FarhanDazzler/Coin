@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { DotSpinner } from '@uiball/loaders';
 import * as XLSX from 'xlsx';
@@ -46,6 +46,7 @@ const ReviewSubmittedResponses = ({
   letterType,
   getBUSubmitResponseState,
   getBUSection2SignatureResponseState,
+  modalType,
 }) => {
   const history = useHistory();
   const exportResponseToExcel = (info, responses, Last_Saved_At) => {
@@ -132,7 +133,7 @@ const ReviewSubmittedResponses = ({
         scopeData?.RBA_Status === 'RBA Approved' &&
         scopeData?.s2_submitted && <ReviewSection3 />}
 
-      {scopeData?.Status === 'Completed' && (
+      {modalType === 'Review' && (
         <div className="d-flex align-items-center justify-content-end">
           <Button
             //color="secondary"
@@ -151,11 +152,10 @@ const ReviewSubmittedResponses = ({
 const BULetterForm = (props) => {
   const dispatch = useDispatch();
 
-  const scopeData = props.location.state?.data?.scopeData;
-  const modalType = props.location.state?.data?.modalType;
-  const letterType = props.location.state?.data?.letterType;
+  const { modalType, id } = useParams();
 
-  console.log('modalType', modalType);
+  const letterType = 'BU';
+
   const questionState = useSelector(get_BU_QuestionsSelector);
   const instructionState = useSelector(getInstructionsSelector);
   const getLatestBUDraftResponseState = useSelector(getLatestBUDraftResponseSelector);
@@ -165,6 +165,9 @@ const BULetterForm = (props) => {
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
   const getBUScopeDataState = useSelector(getBUScopeDataSelector);
 
+  //const scopeData = getBUScopeDataState?.data;
+  console.log('@@@@', modalType, id, getBUScopeDataState?.data);
+
   useEffect(() => {
     const payloadForGettingInstructions = {
       module: letterType,
@@ -173,10 +176,11 @@ const BULetterForm = (props) => {
     dispatch(getInstructions(payloadForGettingInstructions));
 
     const payloadForGettingScopeData = {
-      id: scopeData.id,
+      id: id,
     };
 
     dispatch(getBUScopeData(payloadForGettingScopeData));
+
     if (modalType === 'attemptSection1') {
       let payload = {
         type: letterType,
@@ -184,17 +188,17 @@ const BULetterForm = (props) => {
       dispatch(get_BU_Questions(payload));
 
       let payloadForGettingDraftResp = {
-        assessment_id: scopeData?.id,
+        assessment_id: id,
       };
       dispatch(getLatestBUDraftResponse(payloadForGettingDraftResp));
     } else if (modalType === 'attemptSection2') {
       let payloadForGettingSubmittedResp = {
-        assessment_id: scopeData?.id,
+        assessment_id: id,
       };
 
       dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
       let payloadForBuSection2Response = {
-        id: scopeData.id,
+        id: id,
       };
       dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
       // const payloadForGettingSection3Response = {
@@ -204,50 +208,50 @@ const BULetterForm = (props) => {
       // dispatch(getBUSection3Response(payloadForGettingSection3Response));
     } else if (modalType === 'attemptSection3') {
       let payloadForGettingSubmittedResp = {
-        assessment_id: scopeData?.id,
+        assessment_id: id,
       };
 
       dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
       let payloadForBuSection2Response = {
-        id: scopeData.id,
+        id: id,
       };
       dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
       const payloadForGettingSection3RBA_Data = {
-        assessment_id: scopeData?.id,
+        assessment_id: id,
       };
       dispatch(getBUSection3RBA_Data(payloadForGettingSection3RBA_Data));
     } else if (modalType === 'approveSection3') {
       let payloadForGettingSubmittedResp = {
-        assessment_id: scopeData?.id,
+        assessment_id: id,
       };
 
       dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
       let payloadForBuSection2Response = {
-        id: scopeData.id,
+        id: id,
       };
       dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
 
       const payloadForGettingSection3Response = {
-        assessment_id: scopeData?.id,
+        assessment_id: id,
       };
       dispatch(getBUSection3Response(payloadForGettingSection3Response));
     } else {
       let payloadForGettingSubmittedResp = {
-        assessment_id: scopeData?.id,
+        assessment_id: id,
       };
 
       dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
       let payloadForBuSection2Response = {
-        id: scopeData.id,
+        id: id,
       };
       dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
       const payloadForGettingSection3Response = {
-        assessment_id: scopeData?.id,
+        assessment_id: id,
       };
 
       dispatch(getBUSection3Response(payloadForGettingSection3Response));
     }
-  }, []);
+  }, [id]);
 
   // clear all the states on page leave or refresh page or change url path or change module or change role
   useEffect(() => {
@@ -272,7 +276,7 @@ const BULetterForm = (props) => {
             ) : (
               <div className="col-lg-12">
                 <Section0 scopeData={getBUScopeDataState?.data} letterType={letterType} />
-                <Section1 questions={questionState.data} scopeData={scopeData} />
+                <Section1 questions={questionState.data} scopeData={getBUScopeDataState?.data} />
               </div>
             )}
           </div>
@@ -296,8 +300,9 @@ const BULetterForm = (props) => {
                   letterType={letterType}
                   getBUSubmitResponseState={getBUSubmitResponseState}
                   getBUSection2SignatureResponseState={getBUSection2SignatureResponseState}
+                  modalType={modalType}
                 />
-                <Section2 scopeData={scopeData} />
+                <Section2 scopeData={getBUScopeDataState?.data} />
               </div>
             )}
           </div>
@@ -322,8 +327,9 @@ const BULetterForm = (props) => {
                   letterType={letterType}
                   getBUSubmitResponseState={getBUSubmitResponseState}
                   getBUSection2SignatureResponseState={getBUSection2SignatureResponseState}
+                  modalType={modalType}
                 />
-                <AttemptSection3 scopeData={scopeData} />
+                <AttemptSection3 scopeData={getBUScopeDataState?.data} />
               </div>
             )}
           </div>
@@ -348,8 +354,9 @@ const BULetterForm = (props) => {
                   letterType={letterType}
                   getBUSubmitResponseState={getBUSubmitResponseState}
                   getBUSection2SignatureResponseState={getBUSection2SignatureResponseState}
+                  modalType={modalType}
                 />
-                <ApprovalPageSection3 scopeData={scopeData} />
+                <ApprovalPageSection3 scopeData={getBUScopeDataState?.data} />
               </div>
             )}
           </div>
@@ -374,6 +381,7 @@ const BULetterForm = (props) => {
                   letterType={letterType}
                   getBUSubmitResponseState={getBUSubmitResponseState}
                   getBUSection2SignatureResponseState={getBUSection2SignatureResponseState}
+                  modalType={modalType}
                 />
               </div>
             )}
