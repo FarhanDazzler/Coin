@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import Button from '../../../../../components/UI/Button';
+import Button from '../../../components/UI/Button';
 import { useTranslation } from 'react-i18next';
 
 const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
@@ -23,6 +23,7 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
     'control_oversight',
   ].includes(role);
 
+  // Render Assessment Cycle message with year
   const renderPeriodOfAssessment = () => {
     const year = activeData?.Year;
     switch (activeData?.Assessment_Cycle) {
@@ -69,6 +70,7 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
           >
             {t('selfAssessment.assessmentForm.localControlDescriptionBtn')}
           </Button>
+          {/*// check user role not -> 'Control owner', 'control_owner', 'Control oversight', 'control_oversight' then show edit button*/}
           {isReview && !isHideOverride && (
             <Button
               // disabled={activeTab && activeTab !== 'LCD'}

@@ -1,14 +1,31 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import './homeStyles.scss';
-import NumberWithText from './NumberWithText';
 import { useMsal } from '@azure/msal-react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import PageWrapper from '../../../../components/wrappers/PageWrapper';
-import ProgressBar from './HomePageTable/ProgressBar/ProgressBar';
-import InternalControlTable from '../../Tables/InternalControlTable/InternalControlTable';
-import { getInternalControlDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
-import AssessmentFormView from '../../../AssessmentForm/AssessmentFormView';
+import Tooltip from '@mui/material/Tooltip';
+import ProgressBar from './ProgressBar/ProgressBar';
+import './homeStyles.scss';
+import PageWrapper from '../../../components/wrappers/PageWrapper';
+import InternalControlTable from './InternalControlTable';
+import { getInternalControlDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
+import { ReactComponent as InfoIcon } from '../../../assets/images/InfoCircle.svg';
+
+// TODO: import HomeTableModal model from refectored code
+import AssessmentFormView from '../../AssessmentForm/AssessmentFormView';
+
+const NumberWithText = ({ number, tooltip, subTitle }) => {
+  return (
+    <div className="d-flex justify-content-between bg-black mb-2 p-1 px-4 rounded-3">
+      <div className="d-flex align-items-center">
+        <Tooltip title={tooltip} arrow>
+          <InfoIcon />
+        </Tooltip>
+        {subTitle}
+      </div>
+      <h3 className="largeNumber yellow-gradient-text mb-0">{number}</h3>
+    </div>
+  );
+};
 
 const InternalControlHomePage = () => {
   const history = useHistory();

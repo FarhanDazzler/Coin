@@ -1,27 +1,74 @@
+//ControlOwnerTable
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { Group, MultiSelect, Badge } from '@mantine/core';
+import Cookies from 'js-cookie';
+import { useTranslation } from 'react-i18next';
+import Table2 from '../../../components/UI/Table/Table2';
+import TableLoader from '../../../components/UI/TableLoader';
+import Button from '../../../components/UI/Button';
 import {
   getControlDataGcdAction,
   getControlDataAction,
-} from '../../../../redux/ControlData/ControlDataAction';
-import {
-  class_to_apply,
-  Badge_apply,
-} from '../../V2/InternalControlHomePage/HomePageTable/constant';
-import Table from '../../../../components/UI/Table';
-import Table2 from '../../../../components/UI/Table/Table2';
-import { getControlOwnerTableData } from '../../../../redux/DashBoard/DashBoardAction';
-import { getControlOwnerDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
-import TableLoader from '../../../../components/UI/TableLoader';
-import Button from '../../../../components/UI/Button';
-import { Group, MultiSelect } from '@mantine/core';
-//  import FilterButtons from '../../../../components/FilterButtons';
-import Cookies from 'js-cookie';
-import { useTranslation } from 'react-i18next';
-import { clearLatestDraftResponse } from '../../../../redux/Assessments/AssessmentAction';
+} from '../../../redux/ControlData/ControlDataAction';
+import { getControlOwnerTableData } from '../../../redux/DashBoard/DashBoardAction';
+import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
+import { clearLatestDraftResponse } from '../../../redux/Assessments/AssessmentAction';
+
+const Badge_apply = ({ data }) => {
+  if (data.toUpperCase() === 'PASS') {
+    return (
+      <Badge color="green" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'COMPLETE' || data === 'UNDER REVIEW') {
+    return (
+      <Badge color="green" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'SUBMITED' || data === 'UNDER REVIEWS') {
+    return (
+      <Badge color="green" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'FAIL') {
+    return (
+      <Badge color="red" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'IN PROGRESS') {
+    return (
+      <Badge color="orange" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'NOT STARTED' || data === 'UNDER REVIEW') {
+    return (
+      <Badge color="gray" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'N/A' || data.toUpperCase() === 'NA') {
+    return (
+      <Badge color="gray" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+};
 
 // Filter buttons
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
@@ -195,19 +242,11 @@ const ControlOwnerTable = ({
                   onClick={() => {
                     dispatch(clearLatestDraftResponse());
                     const data = { row: row.row.original };
-                    console.log('datadata', data);
                     history.push(
-                      `/Assessments/${row.row.original.Control_ID}?Provider=${encodeURIComponent(
-                        row.row.original.Provider,
-                      )}&Control_Owner=${encodeURIComponent(
-                        data.row.Control_Owner,
-                      )}&Question_Bank=${encodeURIComponent(
-                        data.row.Question_Bank,
-                      )}&Receiver=${encodeURIComponent(
-                        data.row.Receiver,
-                      )}&KPI_From=${encodeURIComponent(
-                        data.row.KPI_From,
-                      )}&KPI_To=${encodeURIComponent(data.row.KPI_To)}`,
+                      `/Assessments/${row.row.original.Control_ID}?Provider=${row.row.original.Provider}`,
+                      {
+                        data,
+                      },
                     );
                   }}
                 >
@@ -359,17 +398,7 @@ const ControlOwnerTable = ({
       };
       dispatch(getControlDataAction(payload));
       dispatch(getControlDataGcdAction(gcdPayload));
-      history.push(
-        `/review?Control_ID=${id}&Provider=${encodeURIComponent(
-          row.Provider,
-        )}&Control_Owner=${encodeURIComponent(
-          row.Control_Owner,
-        )}&Question_Bank=${encodeURIComponent(row.Question_Bank)}&Receiver=${encodeURIComponent(
-          row.Receiver,
-        )}&KPI_From=${encodeURIComponent(row.KPI_From)}&KPI_To=${encodeURIComponent(
-          row.KPI_To,
-        )}&id=${encodeURIComponent(row.id)}`,
-      );
+      history.push(`/review?Control_ID=${id}`, row);
     },
     [dispatch, history],
   );
