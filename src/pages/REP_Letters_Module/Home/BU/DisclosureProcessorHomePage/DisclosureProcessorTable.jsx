@@ -102,12 +102,9 @@ const DisclosureProcessorTable = ({
               <Button
                 className="mr-2"
                 onClick={() => {
-                  const data = {
-                    scopeData: row.row.original,
-                    modalType: 'Review',
-                    letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                  };
-                  history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
+                  history.push(
+                    `/REP-Letters/attempt-letter/BU-letter-form/${row.row.original.id}/Review`,
+                  );
                 }}
               >
                 Review
@@ -117,12 +114,9 @@ const DisclosureProcessorTable = ({
               <Button
                 className="mr-2"
                 onClick={() => {
-                  const data = {
-                    scopeData: row.row.original,
-                    modalType: 'attemptSection1',
-                    letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                  };
-                  history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
+                  history.push(
+                    `/REP-Letters/attempt-letter/BU-letter-form/${row.row.original.id}/attemptSection1`,
+                  );
                 }}
               >
                 Letter
@@ -132,12 +126,9 @@ const DisclosureProcessorTable = ({
               <Button
                 className="mr-2"
                 onClick={() => {
-                  const data = {
-                    scopeData: row.row.original,
-                    modalType: 'attemptSection2',
-                    letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                  };
-                  history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
+                  history.push(
+                    `/REP-Letters/attempt-letter/BU-letter-form/${row.row.original.id}/attemptSection2`,
+                  );
                 }}
               >
                 Signature
@@ -148,12 +139,9 @@ const DisclosureProcessorTable = ({
                 <Button
                   className="mr-2"
                   onClick={() => {
-                    const data = {
-                      scopeData: row.row.original,
-                      modalType: 'attemptSection3',
-                      letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                    };
-                    history.push('/REP-Letters/attempt-letter/BU-letter-form', { data });
+                    history.push(
+                      `/REP-Letters/attempt-letter/BU-letter-form/${row.row.original.id}/attemptSection3`,
+                    );
                   }}
                 >
                   RBA

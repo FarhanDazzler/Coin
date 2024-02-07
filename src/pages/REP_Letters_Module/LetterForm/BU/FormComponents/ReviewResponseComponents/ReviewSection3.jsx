@@ -29,7 +29,7 @@ const ReviewSection3 = () => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 90,
+      size: 70,
     },
     {
       accessorKey: 'Reporting_Entity_COGNOS_Entity',
@@ -38,7 +38,7 @@ const ReviewSection3 = () => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 90,
+      size: 70,
     },
     {
       accessorKey: 'Type_Of_Reconciliation_Error',
@@ -47,7 +47,7 @@ const ReviewSection3 = () => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 250,
+      size: 200,
     },
     {
       accessorKey: 'Accounts_Of_The_Reconciliation',
@@ -74,7 +74,7 @@ const ReviewSection3 = () => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 90,
+      size: 70,
     },
     {
       accessorKey: 'Account2',
@@ -83,7 +83,7 @@ const ReviewSection3 = () => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 90,
+      size: 70,
     },
     {
       accessorKey: 'Reconciliation_Local_Currency',
@@ -122,8 +122,15 @@ const ReviewSection3 = () => {
             <Row>
               <Row>
                 <h5>
-                  Please find the list of existing RBAs. Request you to review the same and kindly
-                  provide an approval with comments (if required).
+                  Please find the list of existing RBAs submitted by{' '}
+                  <span className="golden-text">
+                    {getBUSection3ResponseState?.data?.submitted_by}{' '}
+                  </span>
+                  (user object ID:{' '}
+                  <span className="golden-text">
+                    {getBUSection3ResponseState?.data?.submitted_by_oid}
+                  </span>
+                  )
                 </h5>
               </Row>
               <Divider color="gray" className="section3-divider" size="xs" />
@@ -145,17 +152,32 @@ const ReviewSection3 = () => {
             )}
             <Row>
               <Divider color="gray" className="section3-divider" size="xs" />
+              <Row>
+                <h5>
+                  <span className="golden-text">Approval provided by Finance Director</span> (
+                  {getBUSection3ResponseState?.data?.approved_by}){' '}
+                  <span className="golden-text">via Application Authenticator </span>
+                  (user object ID: {getBUSection3ResponseState?.data?.approved_by_oid})
+                </h5>
+              </Row>
+              <Divider className="section3-divider" size="xs" />
               {getBUSection3ResponseState?.data?.DP_Comment && (
                 <>
                   <Row>
                     <h5>
+                      Comment provided for RBA by{' '}
                       <span className="golden-text">
-                        Comment provided by the Local Internal Control :
-                      </span>
+                        {getBUSection3ResponseState?.data?.submitted_by}{' '}
+                      </span>{' '}
+                      :
                     </h5>
                   </Row>
                   <Row>
-                    <h5>{getBUSection3ResponseState?.data?.DP_Comment}</h5>
+                    <h5>
+                      <span className="golden-text">
+                        {getBUSection3ResponseState?.data?.DP_Comment}
+                      </span>
+                    </h5>
                   </Row>
                 </>
               )}
@@ -163,13 +185,19 @@ const ReviewSection3 = () => {
                 <>
                   <Row>
                     <h5>
+                      Comment provided for RBA by{' '}
                       <span className="golden-text">
-                        Comment provided by the Finance Director :
-                      </span>
+                        {getBUSection3ResponseState?.data?.approved_by}{' '}
+                      </span>{' '}
+                      :
                     </h5>
                   </Row>
                   <Row>
-                    <h5>{getBUSection3ResponseState?.data?.FD_Comment}</h5>
+                    <h5>
+                      <span className="golden-text">
+                        {getBUSection3ResponseState?.data?.FD_Comment}
+                      </span>
+                    </h5>
                   </Row>
                 </>
               )}

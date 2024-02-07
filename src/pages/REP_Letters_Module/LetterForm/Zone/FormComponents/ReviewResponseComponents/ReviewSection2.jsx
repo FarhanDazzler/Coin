@@ -54,18 +54,42 @@ const ReviewSection2 = (props) => {
                     {getBUSection2SignatureResponseState?.data?.signatures?.zlr?.submitted &&
                     getBUSection2SignatureResponseState?.data?.signatures?.zlr?.finame ? (
                       <div className="col-lg-12">
-                        <p>
-                          <b>Zone Legal Representative</b>
+                        <p className="golden-text">
+                          <b>Zone Legal Representative :</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
-                          <h5>
-                            Approval Email attached by Local Internal Control For Zone Legal
-                            Representative at{' '}
-                            {
-                              getBUSection2SignatureResponseState?.data?.signatures?.zlr
-                                ?.submitted_at
-                            }
-                          </h5>
+                          <h6>
+                            E-mail approval of{' '}
+                            <span className="golden-text">
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.zlr
+                                  ?.submitted_for
+                              }
+                            </span>{' '}
+                            uploaded by{' '}
+                            <span className="golden-text">
+                              {' '}
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.zlr
+                                  ?.submitted_by
+                              }
+                            </span>{' '}
+                            on{' '}
+                            <span className="golden-text">
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.zlr
+                                  ?.submitted_at
+                              }
+                            </span>{' '}
+                            (User Object ID:{' '}
+                            <span className="golden-text">
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.zlr
+                                  ?.submitted_by_oid
+                              }
+                            </span>
+                            )
+                          </h6>
 
                           <Button
                             startIcon={<PictureAsPdfIcon />}
@@ -86,16 +110,36 @@ const ReviewSection2 = (props) => {
                           getBUSection2SignatureResponseState?.data?.signatures?.zlr?.finame ===
                             '' && (
                             <div className="col-lg-12 auto-auth">
-                              <p>
-                                <b>Zone Legal Representative</b>
+                              <p className="golden-text">
+                                <b>Zone Legal Representative :</b>
                               </p>
-                              <h5>
-                                Zone Legal Representative has Approved by Auto Authenticator at{' '}
-                                {
-                                  getBUSection2SignatureResponseState?.data?.signatures?.zlr
-                                    ?.submitted_at
-                                }
-                              </h5>
+                              <h6>
+                                “I hereby certify that the above representation letter reflects my
+                                understanding of the accuracy of the financial reporting package and
+                                the effectiveness of the internal controls and financial reporting
+                                controls of Cognos Company Code.” - Signed by{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zlr
+                                      ?.submitted_by
+                                  }
+                                </span>{' '}
+                                on{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zlr
+                                      ?.submitted_at
+                                  }
+                                </span>{' '}
+                                via Application Authenticator (User Object ID:{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zlr
+                                      ?.submitted_by_oid
+                                  }
+                                </span>
+                                )
+                              </h6>
                               {getBUSection2SignatureResponseState?.data?.signatures?.zlr
                                 ?.comment && (
                                 <h6>
@@ -110,20 +154,46 @@ const ReviewSection2 = (props) => {
                           )}
                       </>
                     )}
+                    <Divider className="renderBlockWrapper_divider" size="xs" />
                     {getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted &&
                     getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ? (
                       <div className="col-lg-12">
-                        <p>
-                          <b>Zone VP</b>
+                        <p className="golden-text">
+                          <b>Zone VP :</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
-                          <h5>
-                            Approval Email attached by Local Internal Control For Zone VP at{' '}
-                            {
-                              getBUSection2SignatureResponseState?.data?.signatures?.zv
-                                ?.submitted_at
-                            }
-                          </h5>
+                          <h6>
+                            E-mail approval of{' '}
+                            <span className="golden-text">
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                  ?.submitted_for
+                              }
+                            </span>{' '}
+                            uploaded by{' '}
+                            <span className="golden-text">
+                              {' '}
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                  ?.submitted_by
+                              }
+                            </span>{' '}
+                            on{' '}
+                            <span className="golden-text">
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                  ?.submitted_at
+                              }
+                            </span>{' '}
+                            (User Object ID:{' '}
+                            <span className="golden-text">
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                  ?.submitted_by_oid
+                              }
+                            </span>
+                            )
+                          </h6>
 
                           <Button
                             startIcon={<PictureAsPdfIcon />}
@@ -144,16 +214,36 @@ const ReviewSection2 = (props) => {
                           getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ===
                             '' && (
                             <div className="col-lg-12 auto-auth">
-                              <p>
-                                <b>Zone VP</b>
+                              <p className="golden-text">
+                                <b>Zone VP :</b>
                               </p>
-                              <h5>
-                                Zone VP has Approved by Auto Authenticator at{' '}
-                                {
-                                  getBUSection2SignatureResponseState?.data?.signatures?.zv
-                                    ?.submitted_at
-                                }
-                              </h5>
+                              <h6>
+                                “I hereby certify that the above representation letter reflects my
+                                understanding of the accuracy of the financial reporting package and
+                                the effectiveness of the internal controls and financial reporting
+                                controls of Cognos Company Code.” - Signed by{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                      ?.submitted_by
+                                  }
+                                </span>{' '}
+                                on{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                      ?.submitted_at
+                                  }
+                                </span>{' '}
+                                via Application Authenticator (User Object ID:{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                      ?.submitted_by_oid
+                                  }
+                                </span>
+                                )
+                              </h6>
                               {getBUSection2SignatureResponseState?.data?.signatures?.zv
                                 ?.comment && (
                                 <h6>
@@ -168,20 +258,46 @@ const ReviewSection2 = (props) => {
                           )}
                       </>
                     )}
+                    <Divider className="renderBlockWrapper_divider" size="xs" />
                     {getBUSection2SignatureResponseState?.data?.signatures?.exc?.submitted &&
                     getBUSection2SignatureResponseState?.data?.signatures?.exc?.finame ? (
                       <div className="col-lg-12">
-                        <p>
-                          <b>Excom Member</b>
+                        <p className="golden-text">
+                          <b>Excom Member :</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
-                          <h5>
-                            Approval Email attached by Local Internal Control For Excom Member at{' '}
-                            {
-                              getBUSection2SignatureResponseState?.data?.signatures?.exc
-                                ?.submitted_at
-                            }
-                          </h5>
+                          <h6>
+                            E-mail approval of{' '}
+                            <span className="golden-text">
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.exc
+                                  ?.submitted_for
+                              }
+                            </span>{' '}
+                            uploaded by{' '}
+                            <span className="golden-text">
+                              {' '}
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.exc
+                                  ?.submitted_by
+                              }
+                            </span>{' '}
+                            on{' '}
+                            <span className="golden-text">
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.exc
+                                  ?.submitted_at
+                              }
+                            </span>{' '}
+                            (User Object ID:{' '}
+                            <span className="golden-text">
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.exc
+                                  ?.submitted_by_oid
+                              }
+                            </span>
+                            )
+                          </h6>
 
                           <Button
                             startIcon={<PictureAsPdfIcon />}
@@ -202,16 +318,36 @@ const ReviewSection2 = (props) => {
                           getBUSection2SignatureResponseState?.data?.signatures?.exc?.finame ===
                             '' && (
                             <div className="col-lg-12 auto-auth">
-                              <p>
-                                <b>Excom Member</b>
+                              <p className="golden-text">
+                                <b>Excom Member :</b>
                               </p>
-                              <h5>
-                                Excom Member has Approved by Auto Authenticator at{' '}
-                                {
-                                  getBUSection2SignatureResponseState?.data?.signatures?.exc
-                                    ?.submitted_at
-                                }
-                              </h5>
+                              <h6>
+                                “I hereby certify that the above representation letter reflects my
+                                understanding of the accuracy of the financial reporting package and
+                                the effectiveness of the internal controls and financial reporting
+                                controls of Cognos Company Code.” - Signed by{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.exc
+                                      ?.submitted_by
+                                  }
+                                </span>{' '}
+                                on{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.exc
+                                      ?.submitted_at
+                                  }
+                                </span>{' '}
+                                via Application Authenticator (User Object ID:{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.exc
+                                      ?.submitted_by_oid
+                                  }
+                                </span>
+                                )
+                              </h6>
                               {getBUSection2SignatureResponseState?.data?.signatures?.exc
                                 ?.comment && (
                                 <h6>
@@ -226,20 +362,46 @@ const ReviewSection2 = (props) => {
                           )}
                       </>
                     )}
+                    <Divider className="renderBlockWrapper_divider" size="xs" />
                     {getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted &&
                     getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ? (
                       <div className="col-lg-12">
-                        <p>
-                          <b>Zone Control</b>
+                        <p className="golden-text">
+                          <b>Zone Control :</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
-                          <h5>
-                            Approval Email attached by Local Internal Control For Zone Control at{' '}
-                            {
-                              getBUSection2SignatureResponseState?.data?.signatures?.zc
-                                ?.submitted_at
-                            }
-                          </h5>
+                          <h6>
+                            E-mail approval of{' '}
+                            <span className="golden-text">
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                  ?.submitted_for
+                              }
+                            </span>{' '}
+                            uploaded by{' '}
+                            <span className="golden-text">
+                              {' '}
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                  ?.submitted_by
+                              }
+                            </span>{' '}
+                            on{' '}
+                            <span className="golden-text">
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                  ?.submitted_at
+                              }
+                            </span>{' '}
+                            (User Object ID:{' '}
+                            <span className="golden-text">
+                              {
+                                getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                  ?.submitted_by_oid
+                              }
+                            </span>
+                            )
+                          </h6>
 
                           <Button
                             startIcon={<PictureAsPdfIcon />}
@@ -260,16 +422,36 @@ const ReviewSection2 = (props) => {
                           getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ===
                             '' && (
                             <div className="col-lg-12 auto-auth">
-                              <p>
-                                <b>Zone Control</b>
+                              <p className="golden-text">
+                                <b>Zone Control :</b>
                               </p>
-                              <h5>
-                                Zone Control has Approved by Auto Authenticator at{' '}
-                                {
-                                  getBUSection2SignatureResponseState?.data?.signatures?.zc
-                                    ?.submitted_at
-                                }
-                              </h5>
+                              <h6>
+                                “I hereby certify that the above representation letter reflects my
+                                understanding of the accuracy of the financial reporting package and
+                                the effectiveness of the internal controls and financial reporting
+                                controls of Cognos Company Code.” - Signed by{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                      ?.submitted_by
+                                  }
+                                </span>{' '}
+                                on{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                      ?.submitted_at
+                                  }
+                                </span>{' '}
+                                via Application Authenticator (User Object ID:{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                      ?.submitted_by_oid
+                                  }
+                                </span>
+                                )
+                              </h6>
                               {getBUSection2SignatureResponseState?.data?.signatures?.zc
                                 ?.comment && (
                                 <h6>

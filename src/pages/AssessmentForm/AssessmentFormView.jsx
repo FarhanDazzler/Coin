@@ -571,69 +571,19 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       }
     });
   };
-  if (!contentTypeModal || isReview)
-    return (
-      <>
-        {Control_ID && (
-          <div className="homeTableModalTop">
-            <div className="topBar d-flex justify-content-between">
-              <div className="d-flex justify-content-between align-items-center w-100">
-                <div>
-                  <div className="mb-2">{Control_ID}</div>
-                  <span className="font-weight-bold">Control Name: </span>
-                  <span>{stateControlData.control_name}</span>
-                </div>
-              </div>
-              <CloseIcon className="close-modal-icon" onClick={() => handleCloseAssessment()} />
+  return (
+    <>
+      <div className="homeTableModalTop">
+        <div className="topBar d-flex justify-content-between">
+          <div className="d-flex justify-content-between align-items-center w-100">
+            <div>
+              <div className="mb-2">{Control_ID}</div>
+              <span className="font-weight-bold">Control Name: </span>
+              <span>{stateControlData.control_name}</span>
             </div>
           </div>
-        )}
-        <AssessmentFormRender
-          s1FailObj={s1FailObj}
-          questionsInfo={questionsInfo}
-          setShowMoreSection={setShowMoreSection}
-          ansSection1={ansSection1}
-          setAnsSection1={setAnsSection1}
-          showMoreSection={showMoreSection}
-          tableData={tableData}
-          setTableData={setTableData}
-          setTerminating={setTerminating}
-          ansSection3={ansSection3}
-          setAnsSection3={setAnsSection3}
-          showNoQuestionAns={showNoQuestionAns}
-          setShowNoQuestionAns={setShowNoQuestionAns}
-          terminating={terminating}
-          handleSubmit={handleSubmit}
-          activeData={activeData}
-          handleSaveDraft={handleSaveDraft}
-          loadingSubmit={loading}
-          actionPlanInfo={actionPlanInfo}
-          setActionPlanInfo={setActionPlanInfo}
-          getMicsOpenActionPlanVal={getMicsOpenActionPlanVal}
-          handleSaveDraftProps={{
-            disabled: responseData?.data?.Attempt_no >= 5,
-            style: { width: 128 },
-            loading: addOrEditUpdateDraft.loading,
-          }}
-          isReview={isReview}
-          isModal={isModal}
-          setIsModal={setIsModal}
-          setStartEdit={setStartEdit}
-          language={language}
-          loadingLevel={loadingLevel}
-          setLoadingLevel={setLoadingLevel}
-          loadingRef={loadingRef}
-        />
-      </>
-    );
-  return (
-    <CustomModal
-      bodyClassName="p-0"
-      open={!!Control_ID}
-      title={Control_ID}
-      width={1080}
-      onClose={handleClose}
-    >
+        </div>
+      </div>
       <AssessmentFormRender
         s1FailObj={s1FailObj}
         questionsInfo={questionsInfo}
@@ -642,7 +592,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         setAnsSection1={setAnsSection1}
         showMoreSection={showMoreSection}
         tableData={tableData}
-        activeData={activeData}
         setTableData={setTableData}
         setTerminating={setTerminating}
         ansSection3={ansSection3}
@@ -651,7 +600,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         setShowNoQuestionAns={setShowNoQuestionAns}
         terminating={terminating}
         handleSubmit={handleSubmit}
-        controlId={Control_ID}
+        activeData={activeData}
         handleSaveDraft={handleSaveDraft}
         loadingSubmit={loading}
         actionPlanInfo={actionPlanInfo}
@@ -671,7 +620,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         setLoadingLevel={setLoadingLevel}
         loadingRef={loadingRef}
       />
-    </CustomModal>
+    </>
   );
 };
 

@@ -94,12 +94,12 @@ export const RepLettersRoutes = [
     component: FunctionalLetterForm,
   },
   {
-    path: '/REP-Letters/attempt-letter/BU-letter-form',
+    path: '/REP-Letters/attempt-letter/BU-letter-form/:id/:modalType',
     exact: true,
     component: BULetterForm,
   },
   {
-    path: '/REP-Letters/attempt-letter/Zone-letter-form',
+    path: '/REP-Letters/attempt-letter/Zone-letter-form/:id/:modalType',
     exact: true,
     component: ZoneForm,
   },
