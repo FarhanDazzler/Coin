@@ -28,7 +28,13 @@ const ReviewSection1 = ({ submittedResponses = [] }) => {
                 {['Yes', 'No', 'N/A'].map((value) => (
                   <label key={value}>
                     <input type="radio" value={value} checked={item.response === value} readOnly />
-                    <label className="radio-option-label">{value}</label>
+                    <label className="radio-option-label">
+                      {value === 'Yes'
+                        ? 'I have nothing to disclose'
+                        : value === 'No'
+                        ? 'I want to disclose'
+                        : value}
+                    </label>
                   </label>
                 ))}
               </Group>
