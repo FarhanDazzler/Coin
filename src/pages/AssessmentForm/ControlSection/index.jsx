@@ -49,7 +49,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section0_Standard')} active>
-        <div className="mt-5">
+        <div className="mt-5 action-plan-wrapper">
           <div className="renderBlockWrapper">
             <CustomTextarea
               id="Issue_Description"
@@ -89,7 +89,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
               <div className="d-flex justify-content-between">
                 <div
                   className="ActionPlanQuestionSection"
-                  style={{ minWidth: 'calc(100% - 190px)' }}
+                  style={{ minWidth: 'calc(100% - 330px)' }}
                 >
                   Issue resolved?
                 </div>
@@ -105,7 +105,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                       setInfo({ ...info, issueResolved: 'yes' });
                     }}
                   >
-                    Yes
+                    Resolved
                   </Button>
                   <div className="pl-5">
                     <Button
@@ -118,7 +118,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                         setInfo({ ...info, issueResolved: 'no', step: 3 });
                       }}
                     >
-                      No
+                      Not Yet Resolved
                     </Button>
                   </div>
                 </div>
@@ -130,7 +130,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                 <div className="d-flex justify-content-between">
                   <div
                     className="ActionPlanQuestionSection"
-                    style={{ minWidth: 'calc(100% - 190px)' }}
+                    style={{ minWidth: 'calc(100% - 330px)' }}
                   >
                     Are you still the Owner of Action ?
                   </div>
@@ -144,7 +144,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                         setInfo({ ...info, ownerAction: 'yes' });
                       }}
                     >
-                      Yes
+                      Resolved
                     </Button>
                     <div className="pl-5">
                       <Button
@@ -156,7 +156,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                           setInfo({ ...info, ownerAction: 'no' });
                         }}
                       >
-                        No
+                        Not Yet Resolved
                       </Button>
                     </div>
                   </div>
@@ -193,7 +193,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                 <div className="d-flex justify-content-between">
                   <div
                     className="ActionPlanQuestionSection"
-                    style={{ minWidth: 'calc(100% - 190px)' }}
+                    style={{ minWidth: 'calc(100% - 330px)' }}
                   >
                     Is escalation required?
                   </div>
@@ -209,7 +209,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                         setInfo({ ...info, isEscalationRequired: 'yes' });
                       }}
                     >
-                      Yes
+                      Resolved
                     </Button>
                     <div className="pl-5">
                       <Button
@@ -222,7 +222,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                           setInfo({ ...info, isEscalationRequired: 'no' });
                         }}
                       >
-                        No
+                        Not Yet Resolved
                       </Button>
                     </div>
                   </div>
