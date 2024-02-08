@@ -18,18 +18,6 @@ export function PageNotFound() {
                 height: 300,
               })}
             >
-              <Title className={classes.title}>This module switch</Title>
-              <Text
-                c="dimmed"
-                size="lg"
-                ta="center"
-                className={classes.description}
-                style={{ fontSize: '26px', fontWeight: '600' }}
-              >
-                Page you are trying to open does not exist. You may have mistyped the address, or
-                the page has been moved to another URL. If you think this is an error contact
-                support.
-              </Text>
               <Group justify="center">
                 <Button
                   variant="grey"

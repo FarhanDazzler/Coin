@@ -1,6 +1,10 @@
 .root {
   padding-top: 80px;
   padding-bottom: 80px;
+  height: calc(100vh - 218px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .inner {
@@ -11,7 +15,7 @@
   position: absolute;
   inset: 0;
   opacity: 0.75;
-  color: '#999999';
+  color: #999999;
 }
 
 .content {
