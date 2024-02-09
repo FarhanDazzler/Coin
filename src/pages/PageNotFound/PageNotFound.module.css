@@ -1,0 +1,36 @@
+.root {
+  padding-top: 80px;
+  padding-bottom: 80px;
+  height: calc(100vh - 218px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inner {
+  position: relative;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  opacity: 0.75;
+  color: #999999;
+}
+
+.content {
+  padding-top: rem(220px);
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  text-align: center;
+  font-weight: 900;
+  font-size: rem(38px);
+}
+
+.description {
+  max-width: rem(540px);
+  margin: auto;
+}

@@ -166,6 +166,7 @@
   position: relative;
   padding-left: 10px;
   padding-bottom: 10px;
+  background: #fff;
 
   //&:before {
   //  content: '';
@@ -241,6 +242,11 @@
     .x-axis {
       background: #fff;
     }
+  }
+}
+.action-plan-wrapper {
+  button {
+    width: max-content !important;
   }
 }
 .top-order {
