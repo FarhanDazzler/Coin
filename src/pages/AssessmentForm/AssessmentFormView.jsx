@@ -26,18 +26,19 @@ import {
 import Swal from 'sweetalert2';
 import AssessmentFormRender from './AssessmentFormRender';
 import { getSection3Questions } from '../../redux/Questions/QuestionsAction';
-import CustomModal from '../../components/UI/CustomModal';
-import CloseIcon from '@mui/icons-material/Close';
 import { getLanguageFormat, isJsonString } from '../../utils/helper';
 import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
+import { useMsal } from '@azure/msal-react';
 
 const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
   // Page history and query
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const param = useParams();
-  const { Assessment_id = '' } = param;
-  const Control_ID = Assessment_id || query.get('Control_ID');
+  const { Assessment_id = '', assessment_id = '' } = param;
+  const Control_ID = Assessment_id || assessment_id || query.get('Control_ID');
+  const { accounts } = useMsal();
+  const assessment_id_val = assessment_id || query.get('assessment_id');
 
   // selected language getting here
   const { t, i18n } = useTranslation();
@@ -173,20 +174,27 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   //API useEffect
   useEffect(() => {
     // get question API
+    // dispatch(
+    //   getQuestions({
+    //     Control_ID: activeData.Question_Bank === 'Template1' ? 'Standard' : activeData.Control_ID,
+    //   }),
+    // );
     dispatch(
       getQuestions({
-        Control_ID: activeData.Question_Bank === 'Template1' ? 'Standard' : activeData.Control_ID,
+        Control_ID: 'Standard',
       }),
     );
     setTimeout(() => {
       if (!isModal) {
         // Draft data API
-        dispatch(getLatestDraft({ assessment_id: activeData.id || Control_ID }));
+        dispatch(
+          getLatestDraft({ assessment_id: assessment_id_val || activeData.id || Control_ID }),
+        );
       } else {
         // Assessment ans API
         dispatch(
           getAssessmentAns({
-            assessment_id: activeData.id,
+            assessment_id: assessment_id_val || activeData.id,
             cowner: activeData?.Control_Owner,
           }),
         );
@@ -438,6 +446,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             showTable: showMoreSection,
             actionPlanInfo,
           },
+          is_override: isModal,
+          submitted_by: accounts.length > 0 ? accounts[0].username : '',
           kpis: isupdated ? [] : tableData,
           event: {
             onSuccess: () => {
@@ -487,6 +497,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             kpis: tableData.length > 0 ? tableData : null,
             showTable: showMoreSection,
             actionPlanInfo,
+            is_override: isModal,
+            submitted_by: accounts.length > 0 ? accounts[0].username : '',
           },
           events: {
             onSuccess: () => {

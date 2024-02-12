@@ -195,7 +195,7 @@ const InternalControlTable = ({
     history.push(
       `/review?Control_ID=${id}&coOwner=${encodeURIComponent(
         row.Control_Owner,
-      )}&provider=${encodeURIComponent(row?.Provider)}`,
+      )}&provider=${encodeURIComponent(row?.Provider)}&assessment_id=${row.id}`,
       row,
     );
   };
