@@ -18,23 +18,23 @@ const MDM = () => {
             description="Assign Provider Organizations to applicable Control IDs."
             url="/master-data-management/applicability-assignment-of-provider-organization"
           />
+        </div>
+        <div className="col-lg-6 py-4 MDMBoxWrapper">
           <MDMBox
             title="Control Owner & Oversight"
             description="Assign new or modify existing Control Owner & Oversight."
             url="/master-data-management/co-owner-oversight"
           />
-        </div>
-        <div className="col-lg-6 py-4 MDMBoxWrapper">
           <MDMBox
             title="MICS Framework"
             description="Create or modify MICS in the MICS Framework table."
             url="/master-data-management/mics-framework"
           />
-          <MDMBox
-            title="Mega Process & Sub-Process"
-            description="Create or modify Mega Process & Sub-Process names."
-            url="/master-data-management/mega-process-sub-Process"
-          />
+          {/*<MDMBox*/}
+          {/*  title="Mega Process & Sub-Process"*/}
+          {/*  description="Create or modify Mega Process & Sub-Process names."*/}
+          {/*  url="/master-data-management/mega-process-sub-Process"*/}
+          {/*/>*/}
         </div>
       </div>
     </PageWrapper>

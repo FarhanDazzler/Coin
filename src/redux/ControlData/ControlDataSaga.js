@@ -11,7 +11,7 @@ import { Axios } from '../../api/axios';
 import { getSimplifiedError } from '../../utils/error';
 
 function getControlDataApiCall(data) {
-  let params = data.payload.data;
+  let params = data?.payload?.data || {};
 
   const encodedControlId = encodeURIComponent(params.controlId);
   const encodedCoOwner = encodeURIComponent(params.coOwner);

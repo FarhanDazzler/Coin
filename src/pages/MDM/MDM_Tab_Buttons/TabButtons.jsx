@@ -83,19 +83,19 @@ function NavTabsMDM() {
               >
                 MICS Framework
               </Button>
-              <Button
-                variant="outlined"
-                size="small"
-                startIcon={<ActiveTool number={5} text="Free Text" />}
-                className={
-                  location.pathname === '/master-data-management/mega-process-sub-Process'
-                    ? 'active-tab-button'
-                    : 'mr-4 tabButton'
-                }
-                onClick={handleClick('/master-data-management/mega-process-sub-Process', 5)}
-              >
-                Mega Process & Sub-Process
-              </Button>
+              {/*<Button*/}
+              {/*  variant="outlined"*/}
+              {/*  size="small"*/}
+              {/*  startIcon={<ActiveTool number={5} text="Free Text" />}*/}
+              {/*  className={*/}
+              {/*    location.pathname === '/master-data-management/mega-process-sub-Process'*/}
+              {/*      ? 'active-tab-button'*/}
+              {/*      : 'mr-4 tabButton'*/}
+              {/*  }*/}
+              {/*  onClick={handleClick('/master-data-management/mega-process-sub-Process', 5)}*/}
+              {/*>*/}
+              {/*  Mega Process & Sub-Process*/}
+              {/*</Button>*/}
             </div>
           </div>
         </div>
