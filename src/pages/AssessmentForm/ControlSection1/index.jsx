@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getQuestionsSelector } from '../../../../../redux/Assessments/AssessmentSelectors';
-import { getFormatQuestions, getLanguageFormat, validateEmail } from '../../../../../utils/helper';
-import { getUserFromAD } from '../../../../../redux/AzureAD/AD_Action';
-import { getUserFromADSelector } from '../../../../../redux/AzureAD/AD_Selectors';
-import useDebounce from '../../../../../hooks/useDebounce';
-import blockType from '../../../../../components/RenderBlock/constant';
-import RenderBlock from '../../../../../components/RenderBlock';
-import CollapseFrame from '../../../../../components/UI/CollapseFrame';
+import { getQuestionsSelector } from '../../../redux/Assessments/AssessmentSelectors';
+import { getFormatQuestions, getLanguageFormat, validateEmail } from '../../../utils/helper';
+import { getUserFromAD } from '../../../redux/AzureAD/AD_Action';
+import { getUserFromADSelector } from '../../../redux/AzureAD/AD_Selectors';
+import useDebounce from '../../../hooks/useDebounce';
+import blockType from '../../../components/RenderBlock/constant';
+import RenderBlock from '../../../components/RenderBlock';
+import CollapseFrame from '../../../components/UI/CollapseFrame';
 import { useTranslation } from 'react-i18next';
-import { updateLastAccess } from '../../../../../redux/Assessments/AssessmentAction';
 
 const ControlSection1 = ({
   setShowMoreSection,
@@ -61,6 +60,8 @@ const ControlSection1 = ({
   }, [userFromAD.data]);
 
   const handleChange = (value, block) => {
+    // Check if IS_AD question then run this condition
+    // All logic for IS_AD question
     if (block.question_type === blockType.IS_AD) {
       setIsStart(true);
       setQId2Value(value);
@@ -76,6 +77,8 @@ const ControlSection1 = ({
       }
       return { ...q };
     });
+
+    //Check condition to store data like , TEXT, EMAIL_WIDTH_SELECT. IS_AD, EMAIL_WIDTH_SELECT, RADIO, DROPDOWN all input on change here
     switch (true) {
       case block.question_type === blockType.TEXT:
         if (block.options[0].is_Terminating === 1) {
@@ -97,7 +100,6 @@ const ControlSection1 = ({
               }
             });
           }
-          // dispatch(updateLastAccess({ s1: updateCurrentAns }));
           setAns(updateCurrentAns);
           return;
         }
@@ -109,7 +111,6 @@ const ControlSection1 = ({
         const matchQuestion = block.question_options.find((o) => o.option_id === value);
         if (matchQuestion.is_Terminating) {
           setTerminating(true);
-          // dispatch(updateLastAccess({ s1: updateCurrentAns }));
           setAns(updateCurrentAns);
           return;
         }
@@ -137,11 +138,9 @@ const ControlSection1 = ({
 
     if (selectedChildQuestion) {
       setShowMoreSection(false);
-      // dispatch(updateLastAccess({ s1: [...updateCurrentAns, selectedChildQuestion] }));
       setAns([...updateCurrentAns, selectedChildQuestion]);
     } else {
       setShowMoreSection(true);
-      // dispatch(updateLastAccess({ s1: updateCurrentAns }));
       setAns(updateCurrentAns);
     }
 
@@ -162,6 +161,7 @@ const ControlSection1 = ({
 
   useEffect(() => {
     setTimeout(() => {
+      // When user select any question ans then show next option  and scroll to display which place render new options
       const div = document.getElementById('lastShow');
       if (div) div.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
     }, 200);

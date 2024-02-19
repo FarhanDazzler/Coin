@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import {
   getResponseSelector,
   kpiResultSelector,
-} from '../../../../../redux/Assessments/AssessmentSelectors';
+} from '../../../redux/Assessments/AssessmentSelectors';
 
 const ControlSection2Chart = ({ isModal }) => {
   const kpiResultData = useSelector(kpiResultSelector);
@@ -20,6 +20,7 @@ const ControlSection2Chart = ({ isModal }) => {
 
   useEffect(() => {
     if (kpiResult) {
+      // if kpiResult exist then store data to local state
       setKPIList(Object.keys(kpiResult));
       const activeIdVal = Object.keys(kpiResult)[0];
       setActiveKPI(activeIdVal);

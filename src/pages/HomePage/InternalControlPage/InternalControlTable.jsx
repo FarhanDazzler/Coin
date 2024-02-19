@@ -3,25 +3,71 @@ import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
-import { Group, MultiSelect } from '@mantine/core';
+import { Group, MultiSelect, Badge } from '@mantine/core';
 import { toast } from 'react-toastify';
-import Table from '../../../../components/UI/Table';
-import Table2 from '../../../../components/UI/Table/Table2';
-import NoDataPlaceholder from '../../../../components/NoDataPlaceholder';
-import { getInternalControlTableData } from '../../../../redux/DashBoard/DashBoardAction';
-import { getInternalControlDataSelector } from '../../../../redux/DashBoard/DashBoardSelectors';
-import TableLoader from '../../../../components/UI/TableLoader';
-import {
-  class_to_apply,
-  Badge_apply,
-} from '../../V2/InternalControlHomePage/HomePageTable/constant';
-//import FilterButtons from '../../../../components/FilterButtons';
-import Button from '../../../../components/UI/Button';
+import Cookies from 'js-cookie';
+import Button from '../../../components/UI/Button';
+import TableLoader from '../../../components/UI/TableLoader';
+import Table2 from '../../../components/UI/Table/Table2';
+import NoDataPlaceholder from '../../../components/NoDataPlaceholder';
+import { getInternalControlTableData } from '../../../redux/DashBoard/DashBoardAction';
+import { getInternalControlDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
 import {
   getControlDataAction,
   getControlDataGcdAction,
-} from '../../../../redux/ControlData/ControlDataAction';
-import Cookies from 'js-cookie';
+} from '../../../redux/ControlData/ControlDataAction';
+
+const Badge_apply = ({ data }) => {
+  if (data.toUpperCase() === 'PASS') {
+    return (
+      <Badge color="green" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'COMPLETE' || data === 'UNDER REVIEW') {
+    return (
+      <Badge color="green" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'SUBMITED' || data === 'UNDER REVIEWS') {
+    return (
+      <Badge color="green" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'FAIL') {
+    return (
+      <Badge color="red" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'IN PROGRESS') {
+    return (
+      <Badge color="orange" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'NOT STARTED' || data === 'UNDER REVIEW') {
+    return (
+      <Badge color="gray" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+  if (data.toUpperCase() === 'N/A' || data.toUpperCase() === 'NA') {
+    return (
+      <Badge color="gray" size="lg" radius="lg" variant="outline">
+        {data.toUpperCase()}
+      </Badge>
+    );
+  }
+};
 
 // Filter buttons
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
@@ -147,18 +193,12 @@ const InternalControlTable = ({
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
     history.push(
-      `/review?Control_ID=${id}&Provider=${encodeURIComponent(
-        row.Provider,
-      )}&Control_Owner=${encodeURIComponent(row.Control_Owner)}&Question_Bank=${encodeURIComponent(
-        row.Question_Bank,
-      )}&Receiver=${encodeURIComponent(row.Receiver)}&KPI_From=${encodeURIComponent(
-        row.KPI_From,
-      )}&KPI_To=${encodeURIComponent(row.KPI_To)}&id=${encodeURIComponent(row.id)}`,
+      `/review?Control_ID=${id}&coOwner=${encodeURIComponent(
+        row.Control_Owner,
+      )}&provider=${encodeURIComponent(row?.Provider)}&assessment_id=${row.id}`,
+      row,
     );
-
-    // history.push(`${history.location.pathname}?Control_ID=${id}`, row);
   };
-  console.log('rowrow');
 
   const getDashBoardDataState = useSelector(getInternalControlDataSelector);
 

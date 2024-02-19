@@ -312,15 +312,15 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
                       </span>
                     </div>
                     <div>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        startIcon={<ActiveToolEdit text="Free Text" />}
-                        className="edit-button-mdm-table"
-                        onClick={handleOnclickEdit}
-                      >
-                        Edit
-                      </Button>
+                      {/*<Button*/}
+                      {/*  variant="outlined"*/}
+                      {/*  size="small"*/}
+                      {/*  startIcon={<ActiveToolEdit text="Free Text" />}*/}
+                      {/*  className="edit-button-mdm-table"*/}
+                      {/*  onClick={handleOnclickEdit}*/}
+                      {/*>*/}
+                      {/*  Edit*/}
+                      {/*</Button>*/}
                       <Button
                         variant="outlined"
                         size="small"

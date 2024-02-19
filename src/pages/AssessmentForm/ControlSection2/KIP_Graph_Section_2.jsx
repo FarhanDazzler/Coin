@@ -1,37 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import {
-  ComposedChart,
-  Line,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
+import { ComposedChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { useSelector } from 'react-redux';
 import {
   getResponseSelector,
   kpiResultSelector,
-} from '../../../../../redux/Assessments/AssessmentSelectors';
-import useWindowDimensions from '../../../../../hooks/useWindowDimensions';
+} from '../../../redux/Assessments/AssessmentSelectors';
+import useWindowDimensions from '../../../hooks/useWindowDimensions';
 
 function convertData(key, data) {
   if (!data) return [];
   const kpiData = data[key];
   if (!kpiData) return [];
-  const receivers = kpiData.receivers;
-  const thresholds = kpiData.thresholds;
   const data_2 = kpiData;
-  //  Object.keys(receivers.Argentina).map((date) => ({
-  //   name: date,
-  //   Argentina: convertToInteger(receivers.Argentina[date]),
-  //   Botswana: convertToInteger(receivers.Botswana[date]),
-  //   L1_Threshold: convertToInteger(thresholds.L1_Threshold),
-  //   L2_Threshold: convertToInteger(thresholds.L2_Threshold),
-  //   L3_Threshold: convertToInteger(thresholds.L3_Threshold),
-  // }));
+
   // Sort the array by year and month
   if (data_2?.length > 0)
     data_2?.sort((a, b) => {
@@ -43,13 +24,6 @@ function convertData(key, data) {
   return data_2;
 }
 
-function convertToInteger(value) {
-  if (value === 'nan' || value === '-' || value === '') {
-    return null;
-  }
-  return parseInt(value, 10);
-}
-
 const KIP_Graph_Section_2 = ({ isModal, isReview }) => {
   const kpiResultData = useSelector(kpiResultSelector);
   const getKPIResponse = useSelector(getResponseSelector);
@@ -59,11 +33,9 @@ const KIP_Graph_Section_2 = ({ isModal, isReview }) => {
       : kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
   const [KPIList, setKPIList] = useState(null);
   const [activeKPI, setActiveKPI] = useState();
-  const [activeKPIObj, setActiveKPIObj] = useState(null);
   const { width } = useWindowDimensions();
   const handleKPIClick = (id) => {
     setActiveKPI(id);
-    if (kpiResult) setActiveKPIObj(kpiResult[id]);
   };
 
   useEffect(() => {
@@ -71,7 +43,6 @@ const KIP_Graph_Section_2 = ({ isModal, isReview }) => {
       setKPIList(Object.keys(kpiResult));
       const activeIdVal = Object.keys(kpiResult)[0];
       setActiveKPI(activeIdVal);
-      setActiveKPIObj(kpiResult[activeIdVal]);
     }
   }, [kpiResultData?.data]);
 
@@ -82,7 +53,7 @@ const KIP_Graph_Section_2 = ({ isModal, isReview }) => {
           return !['L1_Threshold', 'L2_Threshold', 'L3_Threshold', 'name'].includes(i);
         })
       : [];
-  console.log('datadatadatadata', data);
+
   return (
     <>
       <div className="d-flex">

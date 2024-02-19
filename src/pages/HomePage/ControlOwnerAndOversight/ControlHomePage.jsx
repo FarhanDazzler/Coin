@@ -1,14 +1,17 @@
+//ControlHomePage
 import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
-import ControlOwnerTable from './ControlOwnerTable/ControlOwnerTable';
 import { useSelector } from 'react-redux';
-import PageWrapper from '../../../components/wrappers/PageWrapper';
-import './styles.scss';
-import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
-import { submitAssessmentResponseSelector } from '../../../redux/Assessments/AssessmentSelectors.js';
 import { useTranslation } from 'react-i18next';
 import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
+import './styles.scss';
+import ControlOwnerTable from './ControlOwnerTable.jsx';
+import PageWrapper from '../../../components/wrappers/PageWrapper';
+import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
+import { submitAssessmentResponseSelector } from '../../../redux/Assessments/AssessmentSelectors.js';
+
+// TODO: import HomeTableModal model from refectored code
 import AssessmentFormView from '../../AssessmentForm/AssessmentFormView';
 
 const ControlHomePage = () => {
@@ -24,6 +27,7 @@ const ControlHomePage = () => {
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
   const [openNPS, setOpenNPS] = useState(false);
   const submitAssessmentResponseState = useSelector(submitAssessmentResponseSelector);
+  console.log('statestate', state);
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
   const [receiverValue, setReceiverValue] = useState([]);

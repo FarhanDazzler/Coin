@@ -29,12 +29,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import QuestionBank from './pages/QuestionBank/QuestionBankLandingPage';
 import NotAuthorized from './pages/NotAuthorized/NotAuthorizedPage';
 import { useDispatch, useSelector } from 'react-redux';
-import ControlHomePage from './pages/Home/ControlHomePage';
-import InternalControlHomePage from './pages/Home/V2/InternalControlHomePage';
+//import ControlHomePage from './pages/Home/ControlHomePage';
+import ControlHomePage from './pages/HomePage/ControlOwnerAndOversight/ControlHomePage.jsx';
+import InternalControlHomePage from './pages/HomePage/InternalControlPage/InternalControlHomePage.jsx';
+//import InternalControlHomePage from './pages/Home/V2/InternalControlHomePage';
 import REP_Letters_HomePage from './pages/REP_Letters_Module/Home';
 import POC from './pages/TestPages_For_POC_only/POC.jsx';
 import { setRoles } from './redux/Auth/AuthAction';
-import AssessmentForm from './pages/AssessmentForm/AssessmentForm';
+import AssessmentForm from './pages/AssessmentForm';
 import ErrorNotification from './common/ErrorNotification';
 import { RepLettersRoutes } from './routes/RepLettersRoutes/RepLetterRoutes';
 import { AssessmentModuleRoutes } from './routes/AssessmentModuleRoutes/AssessmentModuleRoutes';
@@ -47,6 +49,7 @@ import BU_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterFor
 import BU_Zone_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterForm/Zone/FormComponents/LazyApprovalSection2/BU_Zone_Letter_LazyApprovalSection2.jsx';
 import Review from './pages/Review';
 import { Redirect } from 'react-router';
+import { PageNotFound } from './pages/PageNotFound';
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -191,7 +194,7 @@ const Pages = () => {
       }
       // logic for getting NPS api auth token
       if (accounts) {
-        console.log('accounts',accounts);
+        console.log('accounts', accounts);
         instance
           .acquireTokenSilent({
             scopes: [process.env.REACT_APP_NPS_AUTH_API],
@@ -199,7 +202,7 @@ const Pages = () => {
           })
           .then((response) => {
             if (response) {
-              console.log('response.accessToken',response);
+              console.log('response.accessToken', response);
               //setToken(response.accessToken);
               localStorage.setItem('nps-auth-token', response.accessToken);
             }
@@ -210,7 +213,9 @@ const Pages = () => {
       }
       if (redirect) history.push(redirect);
       else if (location.pathname == '/login') history.push('/');
-      else history.push(location.pathname);
+      else {
+        history.push(`${location.pathname}${location.search ? location.search : ''}`);
+      }
     } else if (accounts && accounts.length === 0 && inProgress === InteractionStatus.None) {
       if (redirect) history.push(`/login?redirect=${redirect}`);
       else history.push('/login');
@@ -238,15 +243,15 @@ const Pages = () => {
           ) : (
             <Route exact path="/" component={InternalControlHomePage} />
           )}
-          {state && <Route exact path="/review" component={Review} />}
+          <Route exact path="/review" component={Review} />
 
-          {user_role === 'organizational persona' ? (
+          {/* {user_role === 'organizational persona' ? (
             <Route exact path="/home" component={Home_controlOwner} />
           ) : user_role === 'administrational persona' ? (
             <Route exact path="/home" component={InternalControlHomePage} />
           ) : (
             <Route exact path="/home" component={Home_controlOwner} />
-          )}
+          )} */}
           {module === 'Assessment Module' && (
             <Route exact path="/Assessments/:Assessment_id" component={AssessmentForm} />
           )}
@@ -271,7 +276,7 @@ const Pages = () => {
           <Route exact path="/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
           <Route exact path="/POC" component={POC} />
-          <Route path="*" component={NoMatch} />
+          <Route path="*" component={PageNotFound} />
         </Switch>
       </div>
     </div>
