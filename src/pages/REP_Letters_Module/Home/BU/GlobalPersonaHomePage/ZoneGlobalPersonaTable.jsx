@@ -73,16 +73,13 @@ const ZoneGlobalPersonaTable = ({
       Cell: (row) => {
         return (
           <div>
-            {row.row.original.Status === 'Completed' && (
+            {['Prepared', 'Signed', 'Completed'].includes(row.row.original.Status) && (
               <Button
                 className="mr-2"
                 onClick={() => {
-                  const data = {
-                    scopeData: row.row.original,
-                    modalType: 'Review',
-                    letterType: row.row.original.Letter_Type === 'BU Letter' ? 'BU' : 'Zone',
-                  };
-                  history.push('/REP-Letters/attempt-letter/Zone-letter-form', { data });
+                  history.push(
+                    `/REP-Letters/attempt-letter/Zone-letter-form/${row.row.original.id}/Review`,
+                  );
                 }}
               >
                 Review

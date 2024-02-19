@@ -26,18 +26,19 @@ import {
 import Swal from 'sweetalert2';
 import AssessmentFormRender from './AssessmentFormRender';
 import { getSection3Questions } from '../../redux/Questions/QuestionsAction';
-import CustomModal from '../../components/UI/CustomModal';
-import CloseIcon from '@mui/icons-material/Close';
 import { getLanguageFormat, isJsonString } from '../../utils/helper';
 import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
+import { useMsal } from '@azure/msal-react';
 
 const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
   // Page history and query
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   const param = useParams();
-  const { Assessment_id = '' } = param;
-  const Control_ID = Assessment_id || query.get('Control_ID');
+  const { Assessment_id = '', assessment_id = '' } = param;
+  const Control_ID = Assessment_id || assessment_id || query.get('Control_ID');
+  const { accounts } = useMsal();
+  const assessment_id_val = assessment_id || query.get('assessment_id');
 
   // selected language getting here
   const { t, i18n } = useTranslation();
@@ -173,20 +174,27 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   //API useEffect
   useEffect(() => {
     // get question API
+    // dispatch(
+    //   getQuestions({
+    //     Control_ID: activeData.Question_Bank === 'Template1' ? 'Standard' : activeData.Control_ID,
+    //   }),
+    // );
     dispatch(
       getQuestions({
-        Control_ID: activeData.Question_Bank === 'Template1' ? 'Standard' : activeData.Control_ID,
+        Control_ID: 'Standard',
       }),
     );
     setTimeout(() => {
       if (!isModal) {
         // Draft data API
-        dispatch(getLatestDraft({ assessment_id: activeData.id || Control_ID }));
+        dispatch(
+          getLatestDraft({ assessment_id: assessment_id_val || activeData.id || Control_ID }),
+        );
       } else {
         // Assessment ans API
         dispatch(
           getAssessmentAns({
-            assessment_id: activeData.id,
+            assessment_id: assessment_id_val || activeData.id,
             cowner: activeData?.Control_Owner,
           }),
         );
@@ -329,7 +337,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                 getSection3Questions({
                   Level: 'L2',
                   Control_ID: Control_ID,
-                  Assessment_ID: activeData.id,
+                  Assessment_ID: assessment_id_val || activeData.id,
                   events: {
                     onSuccess: () => {
                       setTimeout(() => {
@@ -357,7 +365,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                 getSection3Questions({
                   Level: 'L3',
                   Control_ID: Control_ID,
-                  Assessment_ID: activeData.id,
+                  Assessment_ID: assessment_id_val || activeData.id,
                   events: {
                     onSuccess: () => {
                       setTimeout(() => {
@@ -422,7 +430,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
         // Assessment_result: check condition for S1 S3 fail then show Fail alert otherwise Pass result condition
         const payload = {
-          Assessment_ID: activeData.id,
+          Assessment_ID: assessment_id_val || activeData.id,
           Assessment_result: isupdated
             ? 'NA'
             : isS3FailedData || s1FailObj || actionPlanInfo.issueResolved === 'no'
@@ -438,6 +446,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             showTable: showMoreSection,
             actionPlanInfo,
           },
+          is_override: !isModal,
+          submitted_by: accounts.length > 0 ? accounts[0].username : '',
           kpis: isupdated ? [] : tableData,
           event: {
             onSuccess: () => {
@@ -487,6 +497,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             kpis: tableData.length > 0 ? tableData : null,
             showTable: showMoreSection,
             actionPlanInfo,
+            is_override: !isModal,
+            submitted_by: accounts.length > 0 ? accounts[0].username : '',
           },
           events: {
             onSuccess: () => {
@@ -527,8 +539,10 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     }).then((result) => {
       if (result.isConfirmed) {
         const payload = {
-          Assessment_ID: activeData.id,
+          Assessment_ID: assessment_id_val || activeData.id,
           Latest_response: {
+            is_override: !isModal,
+            submitted_by: accounts.length > 0 ? accounts[0].username : '',
             s1: ansSection1,
             s3: isNotEscalationRequired
               ? null
@@ -539,6 +553,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             actionPlanInfo,
           },
           actionPlanInfo,
+          is_override: !isModal,
+          submitted_by: accounts.length > 0 ? accounts[0].username : '',
           events: {
             onSuccess: () => {
               Swal.fire(t('selfAssessment.assessmentForm.saveDraftSuccessText'), '', 'success');
@@ -571,69 +587,19 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       }
     });
   };
-  if (!contentTypeModal || isReview)
-    return (
-      <>
-        {Control_ID && (
-          <div className="homeTableModalTop">
-            <div className="topBar d-flex justify-content-between">
-              <div className="d-flex justify-content-between align-items-center w-100">
-                <div>
-                  <div className="mb-2">{Control_ID}</div>
-                  <span className="font-weight-bold">Control Name: </span>
-                  <span>{stateControlData.control_name}</span>
-                </div>
-              </div>
-              <CloseIcon className="close-modal-icon" onClick={() => handleCloseAssessment()} />
+  return (
+    <>
+      <div className="homeTableModalTop">
+        <div className="topBar d-flex justify-content-between">
+          <div className="d-flex justify-content-between align-items-center w-100">
+            <div>
+              <div className="mb-2">{Control_ID}</div>
+              <span className="font-weight-bold">Control Name: </span>
+              <span>{stateControlData.control_name}</span>
             </div>
           </div>
-        )}
-        <AssessmentFormRender
-          s1FailObj={s1FailObj}
-          questionsInfo={questionsInfo}
-          setShowMoreSection={setShowMoreSection}
-          ansSection1={ansSection1}
-          setAnsSection1={setAnsSection1}
-          showMoreSection={showMoreSection}
-          tableData={tableData}
-          setTableData={setTableData}
-          setTerminating={setTerminating}
-          ansSection3={ansSection3}
-          setAnsSection3={setAnsSection3}
-          showNoQuestionAns={showNoQuestionAns}
-          setShowNoQuestionAns={setShowNoQuestionAns}
-          terminating={terminating}
-          handleSubmit={handleSubmit}
-          activeData={activeData}
-          handleSaveDraft={handleSaveDraft}
-          loadingSubmit={loading}
-          actionPlanInfo={actionPlanInfo}
-          setActionPlanInfo={setActionPlanInfo}
-          getMicsOpenActionPlanVal={getMicsOpenActionPlanVal}
-          handleSaveDraftProps={{
-            disabled: responseData?.data?.Attempt_no >= 5,
-            style: { width: 128 },
-            loading: addOrEditUpdateDraft.loading,
-          }}
-          isReview={isReview}
-          isModal={isModal}
-          setIsModal={setIsModal}
-          setStartEdit={setStartEdit}
-          language={language}
-          loadingLevel={loadingLevel}
-          setLoadingLevel={setLoadingLevel}
-          loadingRef={loadingRef}
-        />
-      </>
-    );
-  return (
-    <CustomModal
-      bodyClassName="p-0"
-      open={!!Control_ID}
-      title={Control_ID}
-      width={1080}
-      onClose={handleClose}
-    >
+        </div>
+      </div>
       <AssessmentFormRender
         s1FailObj={s1FailObj}
         questionsInfo={questionsInfo}
@@ -642,7 +608,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         setAnsSection1={setAnsSection1}
         showMoreSection={showMoreSection}
         tableData={tableData}
-        activeData={activeData}
         setTableData={setTableData}
         setTerminating={setTerminating}
         ansSection3={ansSection3}
@@ -651,7 +616,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         setShowNoQuestionAns={setShowNoQuestionAns}
         terminating={terminating}
         handleSubmit={handleSubmit}
-        controlId={Control_ID}
+        activeData={activeData}
         handleSaveDraft={handleSaveDraft}
         loadingSubmit={loading}
         actionPlanInfo={actionPlanInfo}
@@ -671,7 +636,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         setLoadingLevel={setLoadingLevel}
         loadingRef={loadingRef}
       />
-    </CustomModal>
+    </>
   );
 };
 

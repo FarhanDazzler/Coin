@@ -187,24 +187,24 @@ const OrgStructuresTable = () => {
                 </div>
                 <div>
                   <>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      startIcon={<ActiveToolEdit text="Free Text" />}
-                      className="edit-button-mdm-table"
-                      onClick={handleOnclickEdit}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      startIcon={<ActiveToolADD text="Free Text" />}
-                      className="add-button-mdm-table"
-                      onClick={handleOnclickAdd}
-                    >
-                      Add New
-                    </Button>
+                    {/*<Button*/}
+                    {/*  variant="outlined"*/}
+                    {/*  size="small"*/}
+                    {/*  startIcon={<ActiveToolEdit text="Free Text" />}*/}
+                    {/*  className="edit-button-mdm-table"*/}
+                    {/*  onClick={handleOnclickEdit}*/}
+                    {/*>*/}
+                    {/*  Edit*/}
+                    {/*</Button>*/}
+                    {/*<Button*/}
+                    {/*  variant="outlined"*/}
+                    {/*  size="small"*/}
+                    {/*  startIcon={<ActiveToolADD text="Free Text" />}*/}
+                    {/*  className="add-button-mdm-table"*/}
+                    {/*  onClick={handleOnclickAdd}*/}
+                    {/*>*/}
+                    {/*  Add New*/}
+                    {/*</Button>*/}
                   </>
                 </div>
               </div>

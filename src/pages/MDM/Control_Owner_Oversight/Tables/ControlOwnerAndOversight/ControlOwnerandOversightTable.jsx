@@ -39,7 +39,7 @@ const FilterButtons = ({
   setValueCowner,
   setValueProvider_entity,
   setValueControl_ID,
-  setValueZone
+  setValueZone,
 }) => {
   const [searchValue, onSearchChange] = useState('');
 
@@ -66,7 +66,7 @@ const FilterButtons = ({
           variant="filled"
           size="xs"
         />
-         <MultiSelect
+        <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={Zone}
           label={<span className="mantine-MultiSelect-label">{'Zone'}</span>}
@@ -86,7 +86,7 @@ const FilterButtons = ({
           variant="filled"
           size="xs"
         />
-       
+
         <MultiSelect
           className="mantine-MultiSelect-wrapper"
           data={provider_entity}
@@ -189,7 +189,7 @@ const ControlOwnerAndOversightTable = () => {
       !valueControl_ID.length &&
       !valueProvider_entity.length &&
       !valueCowner.length &&
-      !valueCoversight.length&&
+      !valueCoversight.length &&
       !valueZone.length
     ) {
       return setTableData(tableDataArray);
@@ -441,15 +441,15 @@ const ControlOwnerAndOversightTable = () => {
                       <span style={{ paddingLeft: '16px' }}>Control Owner And Oversight Table</span>
                     </div>
                     <div>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        startIcon={<ActiveToolEdit text="Free Text" />}
-                        className="edit-button-mdm-table"
-                        onClick={handleOnclickEdit}
-                      >
-                        Edit/Add LCD
-                      </Button>
+                      {/*<Button*/}
+                      {/*  variant="outlined"*/}
+                      {/*  size="small"*/}
+                      {/*  startIcon={<ActiveToolEdit text="Free Text" />}*/}
+                      {/*  className="edit-button-mdm-table"*/}
+                      {/*  onClick={handleOnclickEdit}*/}
+                      {/*>*/}
+                      {/*  Edit/Add LCD*/}
+                      {/*</Button>*/}
                       <Button
                         variant="outlined"
                         size="small"

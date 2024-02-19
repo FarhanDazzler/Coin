@@ -242,8 +242,15 @@ const ControlOwnerTable = ({
                   onClick={() => {
                     dispatch(clearLatestDraftResponse());
                     const data = { row: row.row.original };
+                    const original = row.row.original;
                     history.push(
-                      `/Assessments/${row.row.original.Control_ID}?Provider=${row.row.original.Provider}`,
+                      `/Assessments/${original.Control_ID}?Provider=${encodeURIComponent(
+                        original.Provider,
+                      )}&coOwner=${encodeURIComponent(
+                        original.Control_Owner,
+                      )}&KPI_To=${encodeURIComponent(original.KPI_To)}&KPI_From=${
+                        original.KPI_From
+                      }&Entity_ID=${encodeURIComponent(original.Entity_ID)}`,
                       {
                         data,
                       },
@@ -398,7 +405,12 @@ const ControlOwnerTable = ({
       };
       dispatch(getControlDataAction(payload));
       dispatch(getControlDataGcdAction(gcdPayload));
-      history.push(`/review?Control_ID=${id}`, row);
+      history.push(
+        `/review?Control_ID=${id}&coOwner=${encodeURIComponent(
+          row?.Control_Owner,
+        )}&provider=${encodeURIComponent(row?.Provider)}`,
+        row,
+      );
     },
     [dispatch, history],
   );

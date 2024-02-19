@@ -7,12 +7,12 @@ import { useTranslation } from 'react-i18next';
 import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
 import './styles.scss';
 import ControlOwnerTable from './ControlOwnerTable.jsx';
-import PageWrapper from '../../../components/wrappers/PageWrapper'
-import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardSelectors'
+import PageWrapper from '../../../components/wrappers/PageWrapper';
+import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
 import { submitAssessmentResponseSelector } from '../../../redux/Assessments/AssessmentSelectors.js';
 
 // TODO: import HomeTableModal model from refectored code
-import HomeTableModal from '../../Home/V2/InternalControlHomePage/HomeTableModal'
+import AssessmentFormView from '../../AssessmentForm/AssessmentFormView';
 
 const ControlHomePage = () => {
   const { t } = useTranslation();
@@ -193,7 +193,7 @@ const ControlHomePage = () => {
           />
         )}
 
-        {Control_ID && <HomeTableModal isModal={true} activeData={state} />}
+        {Control_ID && <AssessmentFormView isModal={true} activeData={state} />}
       </PageWrapper>
     </div>
   );

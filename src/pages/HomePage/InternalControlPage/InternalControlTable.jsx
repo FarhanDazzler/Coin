@@ -192,8 +192,12 @@ const InternalControlTable = ({
     };
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
-    history.push(`/review?Control_ID=${id}`, row);
-    // history.push(`${history.location.pathname}?Control_ID=${id}`, row);
+    history.push(
+      `/review?Control_ID=${id}&coOwner=${encodeURIComponent(
+        row.Control_Owner,
+      )}&provider=${encodeURIComponent(row?.Provider)}&assessment_id=${row.id}`,
+      row,
+    );
   };
 
   const getDashBoardDataState = useSelector(getInternalControlDataSelector);
