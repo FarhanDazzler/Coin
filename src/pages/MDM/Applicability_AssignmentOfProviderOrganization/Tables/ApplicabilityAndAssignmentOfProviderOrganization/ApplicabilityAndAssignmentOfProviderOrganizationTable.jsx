@@ -321,7 +321,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
                       {/*>*/}
                       {/*  Edit*/}
                       {/*</Button>*/}
-                      <Button
+                      {/* <Button
                         variant="outlined"
                         size="small"
                         startIcon={<ActiveToolAssign text="Free Text" />}
@@ -340,7 +340,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
                         >
                           Global Approved
                         </Button>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
