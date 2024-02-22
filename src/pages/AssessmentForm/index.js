@@ -20,7 +20,6 @@ const AssessmentForm = (props) => {
   const history = useHistory();
   const query = new URLSearchParams(history.location.search);
   // const Assessment_id = 'ATR_MJE_01a-K';
-  const { accounts } = useMsal();
   const dispatch = useDispatch();
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
   const id = query.get('id');
