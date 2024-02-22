@@ -15,15 +15,8 @@ import { getControlOwnerDataSelector } from '../../redux/DashBoard/DashBoardSele
 import AssessmentFormView from './AssessmentFormView';
 
 const AssessmentForm = (props) => {
-  // Get URL parms
-  const { Assessment_id } = useParams();
-  const history = useHistory();
-  const query = new URLSearchParams(history.location.search);
-  // const Assessment_id = 'ATR_MJE_01a-K';
   const dispatch = useDispatch();
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
-  const id = query.get('id');
-  const Id = id || Assessment_id || query.get('Assessment_id');
   const params = new URL(document.location).searchParams;
 
   const { control_id } = useParams();
@@ -38,7 +31,6 @@ const AssessmentForm = (props) => {
   const Assessment_Cycle = decodeURIComponent(params.get('Assessment_Cycle'));
   const Year = decodeURIComponent(params.get('Year'));
   const Question_Bank = decodeURIComponent(params.get('Question_Bank'));
-
 
   const state = {
     assessment_id: assessment_id,
@@ -80,7 +72,7 @@ const AssessmentForm = (props) => {
     <PageWrapper>
       <div className="text-left container-fluid">
         {/*Assessment form page Component here isModal props show inside modal view*/}
-        <AssessmentFormView isModal={true} activeData={state} />
+        <AssessmentFormView isModal={false} activeData={state} />
       </div>
     </PageWrapper>
   );

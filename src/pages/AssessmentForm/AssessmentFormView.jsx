@@ -32,16 +32,7 @@ import { useMsal } from '@azure/msal-react';
 
 const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
   const history = useHistory();
-  const query = new URLSearchParams(history.location.search);
-  const param = useParams();
-  const { Assessment_id = '', assessment_id = '' } = param;
-  const id = query.get('id');
-  const coOwner = query.get('coOwner');
-  const Control_ID = Assessment_id || assessment_id || query.get('Control_ID');
   const { accounts } = useMsal();
-  const assessment_id_val = id || assessment_id || query.get('assessment_id');
-
-
   // selected language getting here
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language; // Selected user language
@@ -65,7 +56,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
   // Local state for assessment form
   const [isModal, setIsModal] = useState(isReview || contentTypeModal);
-  console.log('isModalisModalisModal', isModal);
   const [ansSection1, setAnsSection1] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [ansSection3, setAnsSection3] = useState({});
