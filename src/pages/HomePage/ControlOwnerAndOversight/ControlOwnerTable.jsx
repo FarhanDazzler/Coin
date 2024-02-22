@@ -181,7 +181,6 @@ const ControlOwnerTable = ({
         year: yearValue,
       };
       //toast.error('Please select year in filter.');
-      console.log('payload', payload);
       dispatch(getControlOwnerTableData(payload));
     } else {
       toast.error('Please select Year in filter.');
@@ -254,7 +253,7 @@ const ControlOwnerTable = ({
                         original.Entity_ID,
                       )}&Year=${encodeURIComponent(original.Year)}&Receiver=${encodeURIComponent(
                         original.Receiver,
-                      )}`,
+                      )}&id=${encodeURIComponent(original.id)}`,
                       {
                         data,
                       },
