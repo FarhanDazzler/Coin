@@ -180,26 +180,6 @@ const InternalControlTable = ({
     }
   }, [assessmentCycleValue, yearValue, token]);
 
-  const handleControlIDClick = (id, row) => {
-    //TODO: modal redirect
-    let payload = {
-      controlId: id,
-      coOwner: row.Control_Owner,
-      provider: row?.Provider,
-    };
-    let gcdPayload = {
-      controlId: id,
-    };
-    dispatch(getControlDataAction(payload));
-    dispatch(getControlDataGcdAction(gcdPayload));
-    history.push(
-      `/review?Control_ID=${id}&coOwner=${encodeURIComponent(
-        row.Control_Owner,
-      )}&provider=${encodeURIComponent(row?.Provider)}&assessment_id=${row.id}`,
-      row,
-    );
-  };
-
   const getDashBoardDataState = useSelector(getInternalControlDataSelector);
 
   useEffect(() => {
@@ -242,8 +222,28 @@ const InternalControlTable = ({
               row.row.original.Status === 'Incorrect Owner') && (
               <Button
                 className="mr-2"
-                // onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
-                onClick={() => handleControlIDClick(row.row.original.Control_ID, row.row.original)}
+                onClick={() => {
+                  const original = row.row.original;
+                  history.push(
+                    `/review/${original.Control_ID}?id=${encodeURIComponent(
+                      original.id,
+                    )}&Provider=${encodeURIComponent(
+                      original.Provider,
+                    )}&Receiver=${encodeURIComponent(
+                      original.Receiver,
+                    )}&coOwner=${encodeURIComponent(
+                      original.Control_Owner,
+                    )}&Control_Oversight=${encodeURIComponent(
+                      original.Control_Oversight,
+                    )}&KPI_To=${encodeURIComponent(original.KPI_To)}&KPI_From=${
+                      original.KPI_From
+                    }&BU=${encodeURIComponent(original.BU)}&Year=${encodeURIComponent(
+                      original.Year,
+                    )}&Assessment_Cycle=${encodeURIComponent(
+                      original.Assessment_Cycle,
+                    )}&Question_Bank=${encodeURIComponent(original.Question_Bank)}`,
+                  );
+                }}
               >
                 Review
               </Button>

@@ -10,10 +10,6 @@ import { useTranslation } from 'react-i18next';
 import Table2 from '../../../components/UI/Table/Table2';
 import TableLoader from '../../../components/UI/TableLoader';
 import Button from '../../../components/UI/Button';
-import {
-  getControlDataGcdAction,
-  getControlDataAction,
-} from '../../../redux/ControlData/ControlDataAction';
 import { getControlOwnerTableData } from '../../../redux/DashBoard/DashBoardAction';
 import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
 import { clearLatestDraftResponse } from '../../../redux/Assessments/AssessmentAction';
@@ -226,10 +222,28 @@ const ControlOwnerTable = ({
             {row.row.original.Status === 'Completed' && (
               <Button
                 className="mr-2"
-                // onClick={() => history.push(`/Assessments/${row.row.Control_ID}`)}
                 onClick={() => {
                   dispatch(clearLatestDraftResponse());
-                  handleControlIDClick(row.row.original.Control_ID, row.row.original);
+                  const original = row.row.original;
+                  history.push(
+                    `/review/${original.Control_ID}?id=${encodeURIComponent(
+                      original.id,
+                    )}&Provider=${encodeURIComponent(
+                      original.Provider,
+                    )}&Receiver=${encodeURIComponent(
+                      original.Receiver,
+                    )}&coOwner=${encodeURIComponent(
+                      original.Control_Owner,
+                    )}&Control_Oversight=${encodeURIComponent(
+                      original.Control_Oversight,
+                    )}&KPI_To=${encodeURIComponent(original.KPI_To)}&KPI_From=${
+                      original.KPI_From
+                    }&BU=${encodeURIComponent(original.BU)}&Year=${encodeURIComponent(
+                      original.Year,
+                    )}&Assessment_Cycle=${encodeURIComponent(
+                      original.Assessment_Cycle,
+                    )}&Question_Bank=${encodeURIComponent(original.Question_Bank)}`,
+                  );
                 }}
               >
                 {t('selfAssessment.homePage.controleOwner.Table.review_button')}
@@ -240,23 +254,25 @@ const ControlOwnerTable = ({
                 <Button
                   onClick={() => {
                     dispatch(clearLatestDraftResponse());
-                    const data = { row: row.row.original };
                     const original = row.row.original;
                     history.push(
-                      `/Assessments/${original.Control_ID}?Provider=${encodeURIComponent(
+                      `/Assessments/${original.Control_ID}?id=${encodeURIComponent(
+                        original.id,
+                      )}&Provider=${encodeURIComponent(
                         original.Provider,
+                      )}&Receiver=${encodeURIComponent(
+                        original.Receiver,
                       )}&coOwner=${encodeURIComponent(
                         original.Control_Owner,
+                      )}&Control_Oversight=${encodeURIComponent(
+                        original.Control_Oversight,
                       )}&KPI_To=${encodeURIComponent(original.KPI_To)}&KPI_From=${
                         original.KPI_From
-                      }&Entity_ID=${encodeURIComponent(
-                        original.Entity_ID,
-                      )}&Year=${encodeURIComponent(original.Year)}&Receiver=${encodeURIComponent(
-                        original.Receiver,
-                      )}&id=${encodeURIComponent(original.id)}`,
-                      {
-                        data,
-                      },
+                      }&BU=${encodeURIComponent(original.BU)}&Year=${encodeURIComponent(
+                        original.Year,
+                      )}&Assessment_Cycle=${encodeURIComponent(
+                        original.Assessment_Cycle,
+                      )}&Question_Bank=${encodeURIComponent(original.Question_Bank)}`,
                     );
                   }}
                 >
@@ -285,14 +301,7 @@ const ControlOwnerTable = ({
       cellClassName: 'dashboardCell',
       size: 140,
       Cell: (row) => {
-        return (
-          <span
-            className={'text-yellow'}
-            // onClick={() => handleControlIDClick(row.row.Control_ID)}
-          >
-            {row.row.original.Control_ID}
-          </span>
-        );
+        return <span className={'text-yellow'}>{row.row.original.Control_ID}</span>;
       },
     },
     {
@@ -394,29 +403,6 @@ const ControlOwnerTable = ({
   const Zone = useMemo(() => controlOwnerData?.map((i) => i.Zone), [controlOwnerData]);
   const BU = useMemo(() => controlOwnerData?.map((i) => i.BU), [controlOwnerData]);
   const Provider = useMemo(() => controlOwnerData?.map((i) => i.Provider), [controlOwnerData]);
-
-  // Memoize the function to prevent re-creation on every render
-  const handleControlIDClick = useCallback(
-    (id, row) => {
-      let payload = {
-        controlId: id,
-        coOwner: row?.Control_Owner,
-        provider: row?.Provider,
-      };
-      let gcdPayload = {
-        controlId: id,
-      };
-      dispatch(getControlDataAction(payload));
-      dispatch(getControlDataGcdAction(gcdPayload));
-      history.push(
-        `/review?Control_ID=${id}&coOwner=${encodeURIComponent(
-          row?.Control_Owner,
-        )}&provider=${encodeURIComponent(row?.Provider)}`,
-        row,
-      );
-    },
-    [dispatch, history],
-  );
 
   function removeDuplicates(arr) {
     return [...new Set(arr)];

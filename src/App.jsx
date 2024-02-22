@@ -243,7 +243,7 @@ const Pages = () => {
           ) : (
             <Route exact path="/" component={InternalControlHomePage} />
           )}
-          <Route exact path="/review" component={Review} />
+          <Route exact path="/review/:control_id" component={Review} />
 
           {/* {user_role === 'organizational persona' ? (
             <Route exact path="/home" component={Home_controlOwner} />
@@ -253,7 +253,7 @@ const Pages = () => {
             <Route exact path="/home" component={Home_controlOwner} />
           )} */}
           {module === 'Assessment Module' && (
-            <Route exact path="/Assessments/:Assessment_id" component={AssessmentForm} />
+            <Route exact path="/Assessments/:control_id" component={AssessmentForm} />
           )}
 
           {userRole === 'Global internal control' || userRole === 'Zonal internal control'
