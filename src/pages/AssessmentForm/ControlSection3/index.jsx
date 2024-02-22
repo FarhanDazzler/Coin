@@ -17,6 +17,7 @@ import {
 import { useTranslation } from 'react-i18next';
 
 const ControlSection3 = ({
+  activeData = {},
   setTerminating,
   ans,
   setAns,
@@ -29,9 +30,7 @@ const ControlSection3 = ({
   loadingRef,
 }) => {
   const history = useHistory();
-  const { Assessment_id = '' } = useParams();
-  const query = new URLSearchParams(history.location.search);
-  const Control_ID = Assessment_id || query.get('Control_ID');
+  const Control_ID = activeData?.control_id;
   const questionData = useSelector(question3Selector);
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
@@ -250,7 +249,7 @@ const ControlSection3 = ({
       if (questionData.Level?.L1) {
         //getQuestionsFormatData function getting api questions and getting new formeted array
         const apiQuestionL1 = getQuestionsFormatData([questionData.Level?.L1]);
-        if (!questionL1.length > 0 || !isSameLang) {
+        if (!(questionL1.length > 0) || !isSameLang) {
           const questionsVal = getFormatQuestions(apiQuestionL1, null, 'L1');
           const data = getLanguageFormat(questionsVal, languageVal, null, true);
           if (ans.L1) {
@@ -365,7 +364,7 @@ const ControlSection3 = ({
     }
   }, [questionData.loadingLevel]);
 
-  const isEmptySection = !questionL1.length > 0 && !questionL2.length > 0 && !questionL3.length;
+  const isEmptySection = !(questionL1.length > 0) && !(questionL2.length > 0) && !questionL3.length;
   useEffect(() => {
     setTimeout(() => {
       const ansLength = Object.keys(ans?.L3 || {}).length;
