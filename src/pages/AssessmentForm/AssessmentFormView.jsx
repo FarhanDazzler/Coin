@@ -37,9 +37,10 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   const param = useParams();
   const { Assessment_id = '', assessment_id = '' } = param;
   const id = query.get('id');
+  const coOwner = query.get('coOwner');
   const Control_ID = Assessment_id || assessment_id || query.get('Control_ID');
   const { accounts } = useMsal();
-  const assessment_id_val = assessment_id || query.get('assessment_id');
+  const assessment_id_val = id || assessment_id || query.get('assessment_id');
 
   // selected language getting here
   const { t, i18n } = useTranslation();
@@ -196,8 +197,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         // Assessment ans API
         dispatch(
           getAssessmentAns({
-            assessment_id: assessment_id_val || activeData.id,
-            cowner: activeData?.Control_Owner,
+            assessment_id: id || assessment_id_val || activeData.id,
+            cowner: coOwner || activeData?.Control_Owner,
           }),
         );
       }

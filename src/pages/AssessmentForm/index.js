@@ -25,10 +25,14 @@ const AssessmentForm = (props) => {
   const { accounts } = useMsal();
   const dispatch = useDispatch();
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
-  const Id = Assessment_id || query.get('Assessment_id');
+  const id = query.get('id');
+  const Id = id || Assessment_id || query.get('Assessment_id');
   const params = new URL(document.location).searchParams;
   const Provider = decodeURIComponent(params.get('Provider'));
-  const Control_Owner = decodeURIComponent(params.get('Control_Owner'));
+  const Control_Owner =
+    query.get('coOwner') ||
+    decodeURIComponent(params.get('Control_Owner')) ||
+    decodeURIComponent(params.get('coOwner'));
   const Question_Bank = decodeURIComponent(params.get('Question_Bank'));
   const Receiver = decodeURIComponent(params.get('Receiver'));
   const KPI_From = decodeURIComponent(params.get('KPI_From'));
@@ -61,7 +65,9 @@ const AssessmentForm = (props) => {
     // GET Assessment and ans API call
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
-    dispatch(getAssessmentAns({ COwner: state?.Control_Owner, Control_ID: state.id }));
+    dispatch(
+      getAssessmentAns({ cowner: state?.Control_Owner || Control_Owner, assessment_id: Id }),
+    );
   }, []);
 
   return (
