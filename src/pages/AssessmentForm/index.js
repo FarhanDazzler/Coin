@@ -1,9 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
-import { useParams } from 'react-router-dom';
-import { useMsal } from '@azure/msal-react';
+import { useHistory, useParams } from 'react-router';
 
 // Components import
 import { getAssessmentAns } from '../../redux/Assessments/AssessmentAction';
@@ -28,52 +26,54 @@ const AssessmentForm = (props) => {
   const id = query.get('id');
   const Id = id || Assessment_id || query.get('Assessment_id');
   const params = new URL(document.location).searchParams;
-  const Provider = decodeURIComponent(params.get('Provider'));
-  const Control_Owner =
-    query.get('coOwner') ||
-    decodeURIComponent(params.get('Control_Owner')) ||
-    decodeURIComponent(params.get('coOwner'));
 
-  console.log(
-    'Control_Owner',
-    query.get('coOwner'),
-    decodeURIComponent(params.get('Control_Owner')),
-  );
-  const Question_Bank = decodeURIComponent(params.get('Question_Bank'));
+  const { control_id } = useParams();
+  const assessment_id = decodeURIComponent(params.get('id'));
+  const Provider = decodeURIComponent(params.get('Provider'));
   const Receiver = decodeURIComponent(params.get('Receiver'));
+  const Control_Owner = decodeURIComponent(params.get('coOwner'));
+  const Control_Oversight = decodeURIComponent(params.get('Control_Oversight'));
   const KPI_From = decodeURIComponent(params.get('KPI_From'));
   const KPI_To = decodeURIComponent(params.get('KPI_To'));
+  const BU = decodeURIComponent(params.get('BU'));
+  const Assessment_Cycle = decodeURIComponent(params.get('Assessment_Cycle'));
   const Year = decodeURIComponent(params.get('Year'));
+  const Question_Bank = decodeURIComponent(params.get('Question_Bank'));
+
+
   const state = {
-    id: Assessment_id,
+    assessment_id: assessment_id,
+    control_id: control_id,
     Provider,
-    Control_Owner,
-    Question_Bank,
     Receiver,
+    Control_Owner,
+    Control_Oversight,
     KPI_From,
     KPI_To,
+    BU,
+    Year,
+    Assessment_Cycle,
+    Question_Bank,
   };
 
   useEffect(() => {
     const ownerData = (getControlOwnerData.data[0]?.cOwnerData || []).find(
-      (d) => d.Control_ID === Id,
+      (d) => d.id === assessment_id,
     );
     if (!ownerData && !state) return;
     let payload = {
-      controlId: Id,
-      coOwner: ownerData?.Control_Owner || state.Control_Owner,
-      provider: ownerData?.Provider || state.Provider,
+      controlId: control_id,
+      coOwner: Control_Owner,
+      provider: Provider,
       ownerData,
     };
     let gcdPayload = {
-      controlId: Id,
+      controlId: control_id,
     };
     // GET Assessment and ans API call
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
-    dispatch(
-      getAssessmentAns({ cowner: state?.Control_Owner || Control_Owner, assessment_id: Id }),
-    );
+    dispatch(getAssessmentAns({ assessment_id: assessment_id }));
   }, []);
 
   return (

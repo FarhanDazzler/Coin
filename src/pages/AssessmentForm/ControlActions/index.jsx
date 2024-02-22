@@ -153,7 +153,7 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
             <p className="mb-2">
               <span className="font-weight-bold">Assessment Cycle: </span>
               <span>
-                {stateControlData?.Assessment_Cycle || activeData?.Assessment_Cycle || Year}
+                {stateControlData?.Assessment_Cycle || activeData?.Assessment_Cycle}
               </span>
             </p>
             <p className="mb-2">
