@@ -69,7 +69,7 @@ const AssessmentForm = (props) => {
     <PageWrapper>
       <div className="text-left container-fluid">
         {/*Assessment form page Component here isModal props show inside modal view*/}
-        <AssessmentFormView isModal={false} activeData={state} />
+        <AssessmentFormView isModal={true} activeData={state} />
       </div>
     </PageWrapper>
   );

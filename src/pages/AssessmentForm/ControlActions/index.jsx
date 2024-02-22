@@ -74,15 +74,15 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
             {t('selfAssessment.assessmentForm.localControlDescriptionBtn')}
           </Button>
           {/*// check user role not -> 'Control owner', 'control_owner', 'Control oversight', 'control_oversight' then show edit button*/}
-          {isReview && !isHideOverride && (
-            <Button
-              // disabled={activeTab && activeTab !== 'LCD'}
-              className={!isModal ? 'mr-4 active' : 'mr-4'}
-              onClick={() => setIsModal(!isModal)}
-            >
-              {t('selfAssessment.assessmentForm.edit')}
-            </Button>
-          )}
+          {/*{isReview && !isHideOverride && (*/}
+          <Button
+            // disabled={activeTab && activeTab !== 'LCD'}
+            className={!isModal ? 'mr-4 active' : 'mr-4'}
+            onClick={() => setIsModal(!isModal)}
+          >
+            {t('selfAssessment.assessmentForm.edit')}
+          </Button>
+          {/*)}*/}
         </div>
       </div>
       <div className="control-actions-collapse">

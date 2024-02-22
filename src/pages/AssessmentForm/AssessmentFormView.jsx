@@ -64,6 +64,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
   // Local state for assessment form
   const [isModal, setIsModal] = useState(isReview || contentTypeModal);
+  console.log('isModalisModalisModal', isModal);
   const [ansSection1, setAnsSection1] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [ansSection3, setAnsSection3] = useState({});
