@@ -5,6 +5,9 @@ import { useTranslation } from 'react-i18next';
 
 const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
   const { t } = useTranslation();
+  const params = new URL(document.location).searchParams;
+  const Year = decodeURIComponent(params.get('Year'));
+
   const [activeTab, setActiveTab] = useState('Scope');
   const [isReadMore, setIsReadMore] = useState(true);
   const toggleReadMore = () => {
@@ -149,7 +152,9 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Assessment Cycle: </span>
-              <span>{stateControlData?.Assessment_Cycle || activeData?.Assessment_Cycle}</span>
+              <span>
+                {stateControlData?.Assessment_Cycle || activeData?.Assessment_Cycle || Year}
+              </span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Frequency of control: </span>
