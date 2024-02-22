@@ -31,15 +31,8 @@ import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
 import { useMsal } from '@azure/msal-react';
 
 const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
-  // Page history and query
   const history = useHistory();
-  // const query = new URLSearchParams(history.location.search);
-  //const param = useParams();
-  // const { Assessment_id = '', assessment_id = '' } = param;
-  // const id = query.get('id');
-  // const Control_ID = Assessment_id || assessment_id || query.get('Control_ID');
   const { accounts } = useMsal();
-  // const assessment_id_val = assessment_id || query.get('assessment_id');
 
   // selected language getting here
   const { t, i18n } = useTranslation();
@@ -174,7 +167,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
   //API useEffect
   useEffect(() => {
-    console.log(activeData, '@@@');
+    //console.log(activeData, '@@@');
     // get question API
     dispatch(
       getQuestions({
