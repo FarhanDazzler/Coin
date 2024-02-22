@@ -250,7 +250,11 @@ const ControlOwnerTable = ({
                         original.Control_Owner,
                       )}&KPI_To=${encodeURIComponent(original.KPI_To)}&KPI_From=${
                         original.KPI_From
-                      }&Entity_ID=${encodeURIComponent(original.Entity_ID)}`,
+                      }&Entity_ID=${encodeURIComponent(
+                        original.Entity_ID,
+                      )}&Year=${encodeURIComponent(original.Year)}&Receiver=${encodeURIComponent(
+                        original.Receiver,
+                      )}`,
                       {
                         data,
                       },

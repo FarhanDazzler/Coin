@@ -33,6 +33,7 @@ const AssessmentForm = (props) => {
   const Receiver = decodeURIComponent(params.get('Receiver'));
   const KPI_From = decodeURIComponent(params.get('KPI_From'));
   const KPI_To = decodeURIComponent(params.get('KPI_To'));
+  const Year = decodeURIComponent(params.get('Year'));
   const state = {
     id: Assessment_id,
     Provider,
