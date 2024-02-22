@@ -43,7 +43,7 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
         return 'As on December / ' + year;
 
       default:
-        return '';
+        return Year || '';
     }
   };
 
