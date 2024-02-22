@@ -236,7 +236,7 @@ const ControlOwnerTable = ({
                 {t('selfAssessment.homePage.controleOwner.Table.review_button')}
               </Button>
             )}
-            {isFormAccessible(row.row.original.Assessment_Cycle, row.row.original.Year) &&
+            {!isFormAccessible(row.row.original.Assessment_Cycle, row.row.original.Year) &&
               ['Not started', 'Re-assessed', 'Drafted'].includes(row.row.original.Status) && (
                 <Button
                   onClick={() => {

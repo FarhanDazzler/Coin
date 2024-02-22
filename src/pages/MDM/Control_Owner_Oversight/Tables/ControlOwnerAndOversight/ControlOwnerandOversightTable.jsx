@@ -450,7 +450,7 @@ const ControlOwnerAndOversightTable = () => {
                       {/*>*/}
                       {/*  Edit/Add LCD*/}
                       {/*</Button>*/}
-                      <Button
+                      {/* <Button
                         variant="outlined"
                         size="small"
                         startIcon={<ActiveToolADD text="Free Text" />}
@@ -458,7 +458,7 @@ const ControlOwnerAndOversightTable = () => {
                         onClick={handleOnclickAdd}
                       >
                         Assign
-                      </Button>
+                      </Button> */}
                     </div>
                   </div>
                 </div>
