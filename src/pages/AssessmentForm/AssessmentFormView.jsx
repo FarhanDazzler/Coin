@@ -36,6 +36,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   const query = new URLSearchParams(history.location.search);
   const param = useParams();
   const { Assessment_id = '', assessment_id = '' } = param;
+  const id = query.get('id');
   const Control_ID = Assessment_id || assessment_id || query.get('Control_ID');
   const { accounts } = useMsal();
   const assessment_id_val = assessment_id || query.get('assessment_id');
@@ -430,7 +431,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
         // Assessment_result: check condition for S1 S3 fail then show Fail alert otherwise Pass result condition
         const payload = {
-          Assessment_ID: assessment_id_val || activeData.id,
+          Assessment_ID: id || assessment_id_val || activeData.id,
           Assessment_result: isupdated
             ? 'NA'
             : isS3FailedData || s1FailObj || actionPlanInfo.issueResolved === 'no'
@@ -487,7 +488,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           return;
         }
         const payload = {
-          Assessment_ID: activeData?.id,
+          Assessment_ID: id || activeData?.id,
           Latest_response: {
             s1: ansSection1,
             s3: isNotEscalationRequired
@@ -539,7 +540,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     }).then((result) => {
       if (result.isConfirmed) {
         const payload = {
-          Assessment_ID: assessment_id_val || activeData.id,
+          Assessment_ID: id || assessment_id_val || activeData.id,
           Latest_response: {
             is_override: !isModal,
             submitted_by: accounts.length > 0 ? accounts[0].username : '',

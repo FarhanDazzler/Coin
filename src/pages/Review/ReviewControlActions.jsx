@@ -28,7 +28,7 @@ const ReviewControlActions = ({ activeData }) => {
         return 'As on December / ' + year;
 
       default:
-        return '';
+        return year || '';
     }
   };
 
