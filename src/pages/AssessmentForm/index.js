@@ -20,7 +20,7 @@ const AssessmentForm = (props) => {
   // Get URL parms
   const { Assessment_id } = useParams();
   const history = useHistory();
-  const query = new URLSearchParams(history.location.pathname);
+  const query = new URLSearchParams(history.location.search);
   // const Assessment_id = 'ATR_MJE_01a-K';
   const { accounts } = useMsal();
   const dispatch = useDispatch();
@@ -33,6 +33,12 @@ const AssessmentForm = (props) => {
     query.get('coOwner') ||
     decodeURIComponent(params.get('Control_Owner')) ||
     decodeURIComponent(params.get('coOwner'));
+
+  console.log(
+    'Control_Owner',
+    query.get('coOwner'),
+    decodeURIComponent(params.get('Control_Owner')),
+  );
   const Question_Bank = decodeURIComponent(params.get('Question_Bank'));
   const Receiver = decodeURIComponent(params.get('Receiver'));
   const KPI_From = decodeURIComponent(params.get('KPI_From'));
