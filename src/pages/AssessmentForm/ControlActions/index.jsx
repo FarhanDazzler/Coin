@@ -84,8 +84,11 @@ const ControlActions = ({
           {isReview && !isHideOverride && (
             <Button
               // disabled={activeTab && activeTab !== 'LCD'}
-              className={isOverride ? 'mr-4 active' : 'mr-4'}
-              onClick={() => setIsOverride(!isOverride)}
+              className={!isModal ? 'mr-4 active' : 'mr-4'}
+              onClick={() => {
+                setIsOverride(!isOverride);
+                setIsModal(!isModal);
+              }}
             >
               {t('selfAssessment.assessmentForm.edit')}
             </Button>
