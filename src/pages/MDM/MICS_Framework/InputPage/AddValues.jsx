@@ -16,7 +16,6 @@ import {
   getMegaProcessMicsFrameworkSelector,
   getSubProcessMicsFrameworkSelector,
 } from '../../../../redux/MDM/MDM_Selectors';
-import { TextEditor } from '../../../../components/FormInputs/RichTextEditor/RichTextEditor';
 import './InputPageStyle.scss';
 import RichTextEditor from '@mantine/rte';
 

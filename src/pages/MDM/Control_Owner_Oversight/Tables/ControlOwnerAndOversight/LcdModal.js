@@ -5,7 +5,6 @@ import { Form } from 'react-bootstrap';
 import Button from '../../../MDM_Tab_Buttons/Button';
 import { useDispatch } from 'react-redux';
 import useDebounce from '../../../../../hooks/useDebounce';
-import { TextEditor } from '../../../../../components/FormInputs/RichTextEditor/RichTextEditor';
 import { modifyControlOwnerAndOversight } from '../../../../../redux/MDM/MDM_Action';
 import RichTextEditor from '@mantine/rte';
 
