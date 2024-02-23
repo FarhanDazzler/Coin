@@ -31,15 +31,8 @@ import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
 import { useMsal } from '@azure/msal-react';
 
 const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
-  // Page history and query
   const history = useHistory();
-  const query = new URLSearchParams(history.location.search);
-  const param = useParams();
-  const { Assessment_id = '', assessment_id = '' } = param;
-  const id = query.get('id');
-  const Control_ID = Assessment_id || assessment_id || query.get('Control_ID');
   const { accounts } = useMsal();
-  const assessment_id_val = assessment_id || query.get('assessment_id');
 
   // selected language getting here
   const { t, i18n } = useTranslation();
@@ -150,7 +143,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             return;
           }
           const payload = {
-            Assessment_ID: Control_ID,
+            Assessment_ID: activeData?.assessment_id,
             Latest_response: {
               s1: ansSection1,
               s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
@@ -174,40 +167,33 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
   //API useEffect
   useEffect(() => {
+    //console.log(activeData, '@@@');
     // get question API
-    // dispatch(
-    //   getQuestions({
-    //     Control_ID: activeData.Question_Bank === 'Template1' ? 'Standard' : activeData.Control_ID,
-    //   }),
-    // );
     dispatch(
       getQuestions({
-        Control_ID: 'Standard',
+        Control_ID: activeData?.Question_Bank == 'Template1' ? 'Standard' : activeData?.control_id,
       }),
     );
     setTimeout(() => {
       if (!isModal) {
-        // Draft data API
-        dispatch(
-          getLatestDraft({ assessment_id: assessment_id_val || activeData.id || Control_ID }),
-        );
+        // Get Drafted response API
+        dispatch(getLatestDraft({ assessment_id: activeData?.assessment_id }));
       } else {
-        // Assessment ans API
+        // Get submitted response API
         dispatch(
           getAssessmentAns({
-            assessment_id: assessment_id_val || activeData.id,
-            cowner: activeData?.Control_Owner,
+            assessment_id: activeData?.assessment_id,
           }),
         );
       }
       if (!isModal) {
-        // Section 2 data API
+        // Get KPI Section 2 data API
         dispatch(
           getAssessmentSection2Ans({
-            MICS_code: activeData.Control_ID || Control_ID,
-            Entity_ID: activeData.Receiver,
-            KPI_From: activeData.KPI_From || '',
-            KPI_To: activeData.KPI_To || '',
+            MICS_code: activeData?.control_id,
+            Entity_ID: activeData?.Receiver,
+            KPI_From: activeData?.KPI_From,
+            KPI_To: activeData?.KPI_To,
             // MICS_code: 'INV_REP_06' || Control_ID,
             // Entity_ID: 'Argentina, Botswana',
             // KPI_From: '2023-09-01' || '',
@@ -216,7 +202,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         );
       }
     }, 400);
-  }, [Control_ID]);
+  }, [activeData]);
 
   useEffect(() => {
     if (ansSection1?.length > 0) {
@@ -239,11 +225,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   }, [terminating]);
 
   useEffect(() => {
-    // Action plan API call
+    // Get MICS Open Action plan API call
     dispatch(
       getMicsOpenActionPlan({
-        Control_ID: activeData.Control_ID || Control_ID,
-        Provider: activeData.Provider,
+        Control_ID: activeData?.control_id,
+        Provider: activeData?.Provider,
         // Control_ID: 'OTC_AR_04',
         // Provider: 'SSC_ZCC_MAZ_GUA_CO_ECUADOR',
       }),
@@ -337,8 +323,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               dispatch(
                 getSection3Questions({
                   Level: 'L2',
-                  Control_ID: Control_ID,
-                  Assessment_ID: assessment_id_val || activeData.id,
+                  Control_ID: activeData?.control_id,
+                  Assessment_ID: activeData?.assessment_id,
                   events: {
                     onSuccess: () => {
                       setTimeout(() => {
@@ -365,8 +351,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               dispatch(
                 getSection3Questions({
                   Level: 'L3',
-                  Control_ID: Control_ID,
-                  Assessment_ID: assessment_id_val || activeData.id,
+                  Control_ID: activeData?.control_id,
+                  Assessment_ID: activeData?.assessment_id,
                   events: {
                     onSuccess: () => {
                       setTimeout(() => {
@@ -383,7 +369,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         }
       }
     }
-  }, [responseData.data, questionData, Control_ID]);
+  }, [responseData.data, questionData, activeData]);
 
   // check if section 1 fail or not
   const s1FailObj = useMemo(() => {
@@ -431,7 +417,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
         // Assessment_result: check condition for S1 S3 fail then show Fail alert otherwise Pass result condition
         const payload = {
-          Assessment_ID: id || assessment_id_val || activeData.id,
+          Assessment_ID: activeData?.assessment_id,
           Assessment_result: isupdated
             ? 'NA'
             : isS3FailedData || s1FailObj || actionPlanInfo.issueResolved === 'no'
@@ -488,7 +474,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           return;
         }
         const payload = {
-          Assessment_ID: id || activeData?.id,
+          Assessment_ID: activeData?.assessment_id,
           Latest_response: {
             s1: ansSection1,
             s3: isNotEscalationRequired
@@ -540,7 +526,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     }).then((result) => {
       if (result.isConfirmed) {
         const payload = {
-          Assessment_ID: id || assessment_id_val || activeData.id,
+          Assessment_ID: activeData?.assessment_id,
           Latest_response: {
             is_override: !isModal,
             submitted_by: accounts.length > 0 ? accounts[0].username : '',
@@ -594,7 +580,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         <div className="topBar d-flex justify-content-between">
           <div className="d-flex justify-content-between align-items-center w-100">
             <div>
-              <div className="mb-2">{Control_ID}</div>
+              <div className="mb-2">{activeData?.control_id}</div>
               <span className="font-weight-bold">Control Name: </span>
               <span>{stateControlData.control_name}</span>
             </div>

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import './review.scss';
-import { useTranslation } from 'react-i18next';
 import AssessmentFormView from '../AssessmentForm/AssessmentFormView';
 import {
   getControlDataAction,
@@ -10,38 +9,45 @@ import {
 import { useDispatch } from 'react-redux';
 
 const Review = () => {
-  const { t } = useTranslation();
-  const history = useHistory();
-  const query = new URLSearchParams(history.location.search);
-  const Control_ID = query.get('Control_ID');
-  const id = query.get('id');
-  const Provider = query.get('Provider') || query.get('provider');
-  const Control_Owner = query.get('Control_Owner') || query.get('coOwner');
-  const Question_Bank = query.get('Question_Bank');
-  const Receiver = query.get('Receiver');
-  const KPI_From = query.get('KPI_From');
-  const KPI_To = query.get('KPI_To');
   const dispatch = useDispatch();
+  const params = new URL(document.location).searchParams;
+
+  const { control_id } = useParams();
+  const assessment_id = decodeURIComponent(params.get('id'));
+  const Provider = decodeURIComponent(params.get('Provider'));
+  const Receiver = decodeURIComponent(params.get('Receiver'));
+  const Control_Owner = decodeURIComponent(params.get('coOwner'));
+  const Control_Oversight = decodeURIComponent(params.get('Control_Oversight'));
+  const KPI_From = decodeURIComponent(params.get('KPI_From'));
+  const KPI_To = decodeURIComponent(params.get('KPI_To'));
+  const BU = decodeURIComponent(params.get('BU'));
+  const Assessment_Cycle = decodeURIComponent(params.get('Assessment_Cycle'));
+  const Year = decodeURIComponent(params.get('Year'));
+  const Question_Bank = decodeURIComponent(params.get('Question_Bank'));
 
   const state = {
-    id,
+    assessment_id: assessment_id,
+    control_id: control_id,
     Provider,
-    Control_Owner,
-    Question_Bank,
     Receiver,
+    Control_Owner,
+    Control_Oversight,
     KPI_From,
     KPI_To,
-    Control_ID,
+    BU,
+    Year,
+    Assessment_Cycle,
+    Question_Bank,
   };
 
   useEffect(() => {
     let payload = {
-      controlId: Control_ID || id,
+      controlId: control_id,
       coOwner: Control_Owner,
       provider: Provider,
     };
     let gcdPayload = {
-      controlId: Control_ID || id,
+      controlId: control_id,
     };
 
     dispatch(getControlDataAction(payload));
@@ -51,7 +57,7 @@ const Review = () => {
   return (
     <div className="page-wrapper">
       <div className="container-fluid">
-        {Control_ID && <AssessmentFormView isReview={true} activeData={state} />}
+        {control_id && <AssessmentFormView isReview={true} activeData={state} />}
       </div>
     </div>
   );

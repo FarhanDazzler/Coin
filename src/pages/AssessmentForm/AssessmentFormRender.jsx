@@ -166,6 +166,7 @@ const AssessmentFormRender = ({
               {showMoreSection && !s1FailObj && !isNotEscalationRequired && (
                 <>
                   <ControlSection3
+                    activeData={activeData}
                     setTerminating={setTerminating}
                     ans={ansSection3}
                     setAns={setAnsSection3}
