@@ -303,13 +303,7 @@ const EditZoneSection1 = (props) => {
                                   })
                                 }
                               />
-                              <label className="radio-option-label">
-                                {value === 'Yes'
-                                  ? 'I have nothing to disclose'
-                                  : value === 'No'
-                                  ? 'I want to disclose'
-                                  : value}
-                              </label>
+                              <label className="radio-option-label">{value}</label>
                             </label>
                           ))}
                         </Group>
