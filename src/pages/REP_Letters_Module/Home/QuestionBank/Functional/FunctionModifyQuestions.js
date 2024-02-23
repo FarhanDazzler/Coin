@@ -88,8 +88,8 @@ const Options = ({
 
         <div>
           <Group position="right" spacing="sm">
-            <Radio disabled label="Yes" value="Yes" size="md" />
-            <Radio disabled label="No" value="No" size="md" />
+            <Radio disabled label="I have nothing to disclose" value="Yes" size="md" />
+            <Radio disabled label="I want to disclose" value="No" size="md" />
             {/* <Radio disabled label="NA (Not Applicable)" value="NA" size="md" /> */}
           </Group>
         </div>
