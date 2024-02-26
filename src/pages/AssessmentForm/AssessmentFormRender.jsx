@@ -44,6 +44,8 @@ const AssessmentFormRender = ({
   loadingRef,
   setIsModal,
   isReview,
+  isOverride,
+  setIsOverride,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -124,6 +126,8 @@ const AssessmentFormRender = ({
         activeData={activeData}
         setIsModal={setIsModal}
         isModal={isModal}
+        isOverride={isOverride}
+        setIsOverride={setIsOverride}
       />
 
       {questionsInfo.loading || getMicsOpenActionPlanVal.loading || actionPlanInfo?.loading ? (
@@ -149,7 +153,7 @@ const AssessmentFormRender = ({
                 ans={ansSection1}
                 setAns={setAnsSection1}
                 setStartEdit={setStartEdit}
-                isModal={!isModal}
+                isModal={!isModal||isOverride}
                 language={language}
                 isDisabled={isNotEscalationRequired}
               />
@@ -214,7 +218,7 @@ const AssessmentFormRender = ({
                     </Button>
                   )}
                 </>
-              ) : handleSaveDraft && !isModal ? (
+              ) : handleSaveDraft && !isOverride && !isReview ? (
                 <div className="save-draft-btn-wrapper">
                   <Button onClick={handleSaveDraft} {...handleSaveDraftProps}>
                     {t('selfAssessment.assessmentForm.saveDraftBtn')}

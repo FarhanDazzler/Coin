@@ -3,7 +3,14 @@ import { useSelector } from 'react-redux';
 import Button from '../../../components/UI/Button';
 import { useTranslation } from 'react-i18next';
 
-const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
+const ControlActions = ({
+  activeData,
+  setIsModal,
+  isModal,
+  isReview,
+  isOverride,
+  setIsOverride,
+}) => {
   const { t } = useTranslation();
   const params = new URL(document.location).searchParams;
   const Year = decodeURIComponent(params.get('Year'));
@@ -78,7 +85,10 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
             <Button
               // disabled={activeTab && activeTab !== 'LCD'}
               className={!isModal ? 'mr-4 active' : 'mr-4'}
-              onClick={() => setIsModal(!isModal)}
+              onClick={() => {
+                setIsOverride(!isOverride);
+                setIsModal(!isModal);
+              }}
             >
               {t('selfAssessment.assessmentForm.edit')}
             </Button>
@@ -152,9 +162,7 @@ const ControlActions = ({ activeData, setIsModal, isModal, isReview }) => {
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Assessment Cycle: </span>
-              <span>
-                {stateControlData?.Assessment_Cycle || activeData?.Assessment_Cycle}
-              </span>
+              <span>{stateControlData?.Assessment_Cycle || activeData?.Assessment_Cycle}</span>
             </p>
             <p className="mb-2">
               <span className="font-weight-bold">Frequency of control: </span>
