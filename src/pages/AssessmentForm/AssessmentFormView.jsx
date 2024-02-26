@@ -33,7 +33,6 @@ import { useMsal } from '@azure/msal-react';
 const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
   const history = useHistory();
   const { accounts } = useMsal();
-
   // selected language getting here
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language; // Selected user language
@@ -57,6 +56,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
   // Local state for assessment form
   const [isModal, setIsModal] = useState(isReview || contentTypeModal);
+  const [isOverride, setIsOverride] = useState(false);
   const [ansSection1, setAnsSection1] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [ansSection3, setAnsSection3] = useState({});
@@ -377,7 +377,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       return !!i?.question_options?.find((d) => d?.option_id === i.selectVal)?.is_Failing;
     });
   }, [ansSection1]);
-
+  console.log('isModalisModal', isModal);
   // assessment submit action
   const handleSubmit = () => {
     let isS3FailedData;
@@ -433,7 +433,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             showTable: showMoreSection,
             actionPlanInfo,
           },
-          is_override: !isModal,
+          is_override: isOverride,
           submitted_by: accounts.length > 0 ? accounts[0].username : '',
           kpis: isupdated ? [] : tableData,
           event: {
@@ -473,6 +473,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           Swal.fire(t('selfAssessment.assessmentForm.saveDraftNoLimiteText'), '', 'error');
           return;
         }
+        debugger;
         const payload = {
           Assessment_ID: activeData?.assessment_id,
           Latest_response: {
@@ -484,7 +485,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             kpis: tableData.length > 0 ? tableData : null,
             showTable: showMoreSection,
             actionPlanInfo,
-            is_override: !isModal,
+            is_override: isOverride,
             submitted_by: accounts.length > 0 ? accounts[0].username : '',
           },
           events: {
@@ -540,7 +541,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             actionPlanInfo,
           },
           actionPlanInfo,
-          is_override: !isModal,
+          is_override: isOverride,
           submitted_by: accounts.length > 0 ? accounts[0].username : '',
           events: {
             onSuccess: () => {
@@ -614,6 +615,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           style: { width: 128 },
           loading: addOrEditUpdateDraft.loading,
         }}
+        isOverride={isOverride}
+        setIsOverride={setIsOverride}
         isReview={isReview}
         isModal={isModal}
         setIsModal={setIsModal}

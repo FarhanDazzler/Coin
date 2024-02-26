@@ -16,6 +16,7 @@ import AssessmentFormView from './AssessmentFormView';
 
 const AssessmentForm = (props) => {
   const dispatch = useDispatch();
+  const getControlOwnerData = useSelector(getControlOwnerDataSelector);
   const params = new URL(document.location).searchParams;
 
   const { control_id } = useParams();
@@ -30,8 +31,6 @@ const AssessmentForm = (props) => {
   const Assessment_Cycle = decodeURIComponent(params.get('Assessment_Cycle'));
   const Year = decodeURIComponent(params.get('Year'));
   const Question_Bank = decodeURIComponent(params.get('Question_Bank'));
-
-  const getControlOwnerData = useSelector(getControlOwnerDataSelector);
 
   const state = {
     assessment_id: assessment_id,
