@@ -7,6 +7,7 @@ import { useMsal } from '@azure/msal-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Divider, Group, SimpleGrid, Text } from '@mantine/core';
+import CryptoJS from 'crypto-js';
 import CollapseFrame from '../../../../../../components/UI/CollapseFrame';
 import Button from '../../../../../../components/UI/Button';
 import '../../../LetterFormStyle.scss';
@@ -33,9 +34,24 @@ const ApprovalPageSection3 = ({ scopeData }) => {
   }, []);
 
   const handleSave = (value, resetForm) => {
+    // Retrieve the encrypted data from localStorage
+    const encryptedData = localStorage.getItem('encryptedData');
+
+    // Get the decryption key from environment variable
+    const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
+
+    // Decrypt the data
+    const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
+    const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+    // Extract the individual pieces of information
+    const [ip, city, region, country_name] = decryptedData.split(',');
+
     const payload = {
       assessment_id: scopeData?.id,
       FD_Comment: value.Comment,
+      ip: ip,
+      location: `${city}, ${region}, ${country_name}`,
     };
 
     //console.log('payload', payload);

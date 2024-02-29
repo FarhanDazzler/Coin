@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Divider, Box } from '@mantine/core';
+import CryptoJS from 'crypto-js';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import { Form, Container, Row, Col, Card } from 'react-bootstrap';
@@ -26,13 +27,6 @@ const Section2 = ({ scopeData }) => {
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
 
   const [toggleData, setToggleData] = useState(false);
-
-  // useEffect(() => {
-  //   let payload = {
-  //     id: scopeData.id,
-  //   };
-  //   dispatch(getBUSection2SignatureResponseAction(payload));
-  // }, []);
 
   useEffect(() => {
     if (localStorage.getItem('selected_Role') === 'Zone Control') {
@@ -85,11 +79,27 @@ const Section2 = ({ scopeData }) => {
   const handleAutoAuth = (value, resetForm) => {
     const formData = new FormData();
     let signatures = [];
+
+    // Retrieve the encrypted data from localStorage
+    const encryptedData = localStorage.getItem('encryptedData');
+
+    // Get the decryption key from environment variable
+    const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
+
+    // Decrypt the data
+    const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
+    const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+    // Extract the individual pieces of information
+    const [ip, city, region, country_name] = decryptedData.split(',');
+
     if (localStorage.getItem('selected_Role') === 'Zone Control') {
       signatures.push({
         role: 'ZC',
         type: 'checkbox',
         comment: value.Comments,
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
     if (localStorage.getItem('selected_Role') === 'BU Head') {
@@ -97,6 +107,8 @@ const Section2 = ({ scopeData }) => {
         role: 'BUH',
         type: 'checkbox',
         comment: value.Comments,
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
     if (localStorage.getItem('selected_Role') === 'Zone VP') {
@@ -104,6 +116,8 @@ const Section2 = ({ scopeData }) => {
         role: 'ZV',
         type: 'checkbox',
         comment: value.Comments,
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
     if (localStorage.getItem('selected_Role') === 'Finance Director') {
@@ -111,6 +125,8 @@ const Section2 = ({ scopeData }) => {
         role: 'FD',
         type: 'checkbox',
         comment: value.Comments,
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
     const data = JSON.stringify({
@@ -135,6 +151,19 @@ const Section2 = ({ scopeData }) => {
     const formData = new FormData();
     let signatures = [];
 
+    // Retrieve the encrypted data from localStorage
+    const encryptedData = localStorage.getItem('encryptedData');
+
+    // Get the decryption key from environment variable
+    const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
+
+    // Decrypt the data
+    const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
+    const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+    // Extract the individual pieces of information
+    const [ip, city, region, country_name] = decryptedData.split(',');
+
     if (
       !getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted &&
       values.FinanceDirectorSignature
@@ -143,6 +172,8 @@ const Section2 = ({ scopeData }) => {
       signatures.push({
         role: 'FD',
         type: 'support doc',
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
 
@@ -154,6 +185,8 @@ const Section2 = ({ scopeData }) => {
       signatures.push({
         role: 'BUH',
         type: 'support doc',
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
 
@@ -165,6 +198,8 @@ const Section2 = ({ scopeData }) => {
       signatures.push({
         role: 'ZC',
         type: 'support doc',
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
 
@@ -176,6 +211,8 @@ const Section2 = ({ scopeData }) => {
       signatures.push({
         role: 'ZV',
         type: 'support doc',
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
     const data = JSON.stringify({
@@ -216,7 +253,6 @@ const Section2 = ({ scopeData }) => {
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {
               handleSave(values, resetForm);
-              //history.push('/master-data-management/mics-framework');
             } catch (error) {
               const message = error.message || 'Something went wrong';
               setStatus({ success: false });
