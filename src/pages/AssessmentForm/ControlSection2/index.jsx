@@ -634,10 +634,28 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
                   </div>
                   {!isModal && (
                     <form onSubmit={handleSubmit} id="combine_btn">
-                      <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
-                      <button type="submit" className="submit_btn black-text">
-                        <strong>{t('selfAssessment.assessmentForm.section2UploadExcelBtn')}</strong>
-                      </button>
+                      <div className="d-flex align-items-center">
+                        <div className="mr-2">
+                          <label htmlFor="uploadfile" className="file-input-wrapper">
+                            <input
+                              type="file"
+                              placeholder="Name"
+                              id="uploadfile"
+                              onChange={handleFile}
+                            />
+                          </label>
+                        </div>
+
+                        <button
+                          type="submit"
+                          className="submit_btn black-text"
+                          disabled={!excelFile}
+                        >
+                          <strong>
+                            {t('selfAssessment.assessmentForm.section2UploadExcelBtn')}
+                          </strong>
+                        </button>
+                      </div>
                     </form>
                   )}
                 </div>
