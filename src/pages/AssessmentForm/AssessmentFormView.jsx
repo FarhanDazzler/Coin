@@ -377,7 +377,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       return !!i?.question_options?.find((d) => d?.option_id === i.selectVal)?.is_Failing;
     });
   }, [ansSection1]);
-  console.log('isModalisModal', isModal);
+
   // assessment submit action
   const handleSubmit = () => {
     let isS3FailedData;
@@ -427,7 +427,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             s1: ansSection1,
             data: isReview ? responseUpdatedData.data : kpiResultData?.data?.data,
             kpis: tableData.length > 0 ? tableData : null,
-            s3: isNotEscalationRequired
+            s3: !(showMoreSection && !s1FailObj && !isNotEscalationRequired)
               ? null
               : Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
             showTable: showMoreSection,
@@ -473,7 +473,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           Swal.fire(t('selfAssessment.assessmentForm.saveDraftNoLimiteText'), '', 'error');
           return;
         }
-        debugger;
         const payload = {
           Assessment_ID: activeData?.assessment_id,
           Latest_response: {
