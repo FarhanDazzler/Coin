@@ -15,9 +15,9 @@ function getCsvTampredApiCall(payload) {
 function* getCsvTampredData({ payload }) {
   try {
     const response = yield getCsvTampredApiCall(payload?.data);
-    if (response.data) {
-      Swal.fire('Oops...', 'Please dont change the existing values from excel file!!', 'error');
-    }
+    // if (response.data) {
+    //   Swal.fire('Oops...', 'Please dont change the existing values from excel file!!', 'error');
+    // }
     if (response?.success === true) {
       yield put({
         type: ACTION_GET_CSV_TAMPRED_DATA_SUCCESS,
