@@ -194,7 +194,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             Entity_ID: activeData?.Receiver,
             KPI_From: activeData?.KPI_From,
             KPI_To: activeData?.KPI_To,
-            // MICS_code: 'INV_REP_06' || Control_ID,
+            // MICS_code: 'INV_REP_06',
             // Entity_ID: 'Argentina, Botswana',
             // KPI_From: '2023-09-01' || '',
             // KPI_To: '2023-11-30' || '',
@@ -481,7 +481,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               ? null
               : Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
             data: kpiResultData?.data?.data,
-            kpis: tableData.length > 0 ? tableData : null,
+            kpis: null,
             showTable: showMoreSection,
             actionPlanInfo,
             is_override: isOverride,
@@ -535,7 +535,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               ? null
               : Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
             data: kpiResultData?.data?.data,
-            kpis: tableData.length > 0 ? tableData : null,
+            kpis: null,
             showTable: showMoreSection,
             actionPlanInfo,
           },
@@ -556,24 +556,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     });
   };
 
-  // if show in modal view then close icon action
-  const handleCloseAssessment = () => {
-    // Conform popup for assessment changes
-    Swal.fire({
-      title: t('selfAssessment.assessmentForm.closePopupBtnTitle'),
-      text: t('selfAssessment.assessmentForm.closePopupBtnText'),
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: 'golden',
-      cancelButtonColor: 'black',
-      confirmButtonText: t('selfAssessment.assessmentForm.closePopupBtnConfirmBtn'),
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(clearAssessmentResponse());
-        history.push('/');
-      }
-    });
-  };
   return (
     <>
       <div className="homeTableModalTop">

@@ -10,7 +10,6 @@ import cs from 'classnames';
 const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) => {
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
-
   const handleSave = () => {
     setShowControlSection(true);
   };
