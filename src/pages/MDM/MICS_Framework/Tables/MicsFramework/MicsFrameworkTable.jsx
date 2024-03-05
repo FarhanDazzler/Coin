@@ -40,7 +40,7 @@ const MicsFrameworkTable = () => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 190,
+      size: 250,
     },
     {
       accessorKey: 'Previous_MICS1',
@@ -49,7 +49,7 @@ const MicsFrameworkTable = () => {
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 190,
+      size: 250,
     },
     {
       accessorKey: 'Control_ID',
@@ -76,15 +76,6 @@ const MicsFrameworkTable = () => {
       flex: 1,
       //filterFn: 'arrIncludesSome',
       size: 140,
-      //filterVariant: 'multi-select',
-    },
-    {
-      accessorKey: 'Sub_Process',
-      id: 'Sub_Process',
-      header: 'Sub Process',
-      flex: 1,
-      //filterFn: 'arrIncludesSome',
-      size: 230,
       //filterVariant: 'multi-select',
     },
     {
@@ -162,10 +153,18 @@ const MicsFrameworkTable = () => {
     {
       accessorKey: 'mics_weight',
       id: 'mics_weight',
-      header: 'MICS Weight',
+      header: 'Weighting',
       flex: 1,
       //filterVariant: 'range',
       size: 120,
+    },
+    {
+      accessorKey: 'Weighting_Simulation',
+      id: 'Weighting_Simulation',
+      header: 'Weighting Simulation',
+      flex: 1,
+      //filterVariant: 'range',
+      size: 220,
     },
     {
       accessorKey: 'Recommended_Standardization',
@@ -195,6 +194,14 @@ const MicsFrameworkTable = () => {
       size: 90,
     },
     {
+      accessorKey: 'KPIs_L1_L2_L3',
+      id: 'KPIs_L1_L2_L3',
+      header: 'KPIs @L1/L2/L3?',
+      flex: 1,
+      //filterVariant: 'range',
+      size: 120,
+    },
+    {
       accessorKey: 'B2B',
       id: 'B2B',
       header: 'B2B',
@@ -222,6 +229,15 @@ const MicsFrameworkTable = () => {
       size: 140,
     },
     {
+      accessorKey: 'ESG',
+      id: 'ESG',
+      header: 'ESG',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 140,
+    },
+    {
       accessorKey: 'Control_Split',
       id: 'Control_Split',
       header: 'Control Split',
@@ -229,6 +245,33 @@ const MicsFrameworkTable = () => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 120,
+    },
+    {
+      accessorKey: 'Sub_Process',
+      id: 'Sub_Process',
+      header: 'Sub Process',
+      flex: 1,
+      //filterFn: 'arrIncludesSome',
+      size: 230,
+      //filterVariant: 'multi-select',
+    },
+    {
+      accessorKey: 'GRM_Risk_ID',
+      id: 'GRM_Risk_ID',
+      header: 'GRM Risk ID',
+      flex: 1,
+      //filterFn: 'arrIncludesSome',
+      size: 230,
+      //filterVariant: 'multi-select',
+    },
+    {
+      accessorKey: 'Risk_Domain',
+      id: 'Risk_Domain',
+      header: 'Risk Domain for Risk Report',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 400,
     },
     {
       accessorKey: 'Risk',
@@ -249,45 +292,99 @@ const MicsFrameworkTable = () => {
       size: 350,
     },
     {
+      accessorKey: 'mics_L1desc',
+      id: 'mics_L1desc',
+      header: 'MICS L1 - Minimal Requirements To Protect Financial Statement From Material Mistakes (External Compliance)',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      minSize: 100, //min size enforced during resizing
+      maxSize: 500, //max size enforced during resizing
+      size: 300, //medium column
+      // Cell: (row) => {
+      //   return (
+      //     <span>
+      //       <p dangerouslySetInnerHTML={{ __html: row.row.original.mics_L1desc }} />
+      //     </span>
+      //   );
+      // },
+    },
+    {
+      accessorKey: 'mics_L2desc',
+      id: 'mics_L2desc',
+      header: 'MICS L2 - Minimal Requirements To Avoid Surprises (Internal Compliance)',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      minSize: 100, //min size enforced during resizing
+      maxSize: 500, //max size enforced during resizing
+      size: 300, //medium column
+      // Cell: (row) => {
+      //   return (
+      //     <span>
+      //       <p dangerouslySetInnerHTML={{ __html: row.row.original.mics_L2desc }} />
+      //     </span>
+      //   );
+      // },
+    },
+    {
+      accessorKey: 'mics_L3desc',
+      id: 'mics_L3desc',
+      header: 'MICS L3 - Best in Class (Excellence)',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      minSize: 100, //min size enforced during resizing
+      maxSize: 500, //max size enforced during resizing
+      size: 300, //medium column
+      // Cell: (row) => {
+      //   return (
+      //     <span>
+      //       <p dangerouslySetInnerHTML={{ __html: row.row.original.mics_L3desc }} />
+      //     </span>
+      //   );
+      // },
+    },
+    {
       accessorKey: 'Kpi_status',
       id: 'Kpi_status',
-      header: 'Kpi Status',
+      header: 'Kpi Status / Key Performance and Risk Indicator Status',
       flex: 1,
       //filterFn: 'arrIncludesSome',
-      size: 190,
+      size: 450,
       //filterVariant: 'multi-select',
     },
-    {
-      accessorKey: 'L1_KPI',
-      id: 'L1_KPI',
-      header: 'L1 KPI',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
-    },
-    {
-      accessorKey: 'L2_KPI',
-      id: 'L2_KPI',
-      header: 'L2 KPI',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
-    },
-    {
-      accessorKey: 'L3_KPI',
-      id: 'L3_KPI',
-      header: 'L3 KPI',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
-    },
+    // {
+    //   accessorKey: 'L1_KPI',
+    //   id: 'L1_KPI',
+    //   header: 'L1 KPI',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 90,
+    // },
+    // {
+    //   accessorKey: 'L2_KPI',
+    //   id: 'L2_KPI',
+    //   header: 'L2 KPI',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 90,
+    // },
+    // {
+    //   accessorKey: 'L3_KPI',
+    //   id: 'L3_KPI',
+    //   header: 'L3 KPI',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 90,
+    // },
     {
       accessorKey: 'BS_impact',
       id: 'BS_impact',
-      header: 'Balance Sheet Impact',
+      header: 'Balance Sheet Financial Statement line Item (main impact)',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -296,7 +393,7 @@ const MicsFrameworkTable = () => {
     {
       accessorKey: 'PnL_impact',
       id: 'PnL_impact',
-      header: 'P&L Impact',
+      header: 'PnL Financial Statement line Item (main impact)',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -305,11 +402,20 @@ const MicsFrameworkTable = () => {
     {
       accessorKey: 'Cash_flow_impact',
       id: 'Cash_flow_impact',
-      header: 'Cash Flow Impact',
+      header: 'Cash Flow Statement line Item',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 160,
+      size: 300,
+    },
+    {
+      accessorKey: 'ESG_KPI_Code',
+      id: 'ESG_KPI_Code',
+      header: 'ESG KPI code',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 120,
     },
     {
       accessorKey: 'testing_approach',
@@ -321,95 +427,50 @@ const MicsFrameworkTable = () => {
       size: 300,
     },
     {
-      accessorKey: 'change_comment',
-      id: 'change_comment',
-      header: 'Change Comment',
+      accessorKey: 'Minimal_Test_Steps_To_Review',
+      id: 'Minimal_Test_Steps_To_Review',
+      header: 'Minimal test steps to review',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 300,
+      size: 400,
     },
-    {
-      accessorKey: 'Change_Size',
-      id: 'Change_Size',
-      header: 'Change Size',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 130,
-    },
-    {
-      accessorKey: 'Reviewed',
-      id: 'Reviewed',
-      header: 'Reviewed',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 100,
-    },
-    {
-      accessorKey: 'Status',
-      id: 'Status',
-      header: 'Status',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 100,
-    },
-    {
-      accessorKey: 'mics_L1desc',
-      id: 'mics_L1desc',
-      header: 'L1 Description ',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      minSize: 100, //min size enforced during resizing
-      maxSize: 500, //max size enforced during resizing
-      size: 300, //medium column
-      Cell: (row) => {
-        return (
-          <span>
-            <p dangerouslySetInnerHTML={{ __html: row.row.original.mics_L1desc }} />
-          </span>
-        );
-      },
-    },
-    {
-      accessorKey: 'mics_L2desc',
-      id: 'mics_L2desc',
-      header: 'L2 Description ',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      minSize: 100, //min size enforced during resizing
-      maxSize: 500, //max size enforced during resizing
-      size: 300, //medium column
-      Cell: (row) => {
-        return (
-          <span>
-            <p dangerouslySetInnerHTML={{ __html: row.row.original.mics_L2desc }} />
-          </span>
-        );
-      },
-    },
-    {
-      accessorKey: 'mics_L3desc',
-      id: 'mics_L3desc',
-      header: 'L3 Description ',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      minSize: 100, //min size enforced during resizing
-      maxSize: 500, //max size enforced during resizing
-      size: 300, //medium column
-      Cell: (row) => {
-        return (
-          <span>
-            <p dangerouslySetInnerHTML={{ __html: row.row.original.mics_L3desc }} />
-          </span>
-        );
-      },
-    },
+    // {
+    //   accessorKey: 'change_comment',
+    //   id: 'change_comment',
+    //   header: 'Change Comment',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 300,
+    // },
+    // {
+    //   accessorKey: 'Change_Size',
+    //   id: 'Change_Size',
+    //   header: 'Change Size',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 130,
+    // },
+    // {
+    //   accessorKey: 'Reviewed',
+    //   id: 'Reviewed',
+    //   header: 'Reviewed',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 100,
+    // },
+    // {
+    //   accessorKey: 'Status',
+    //   id: 'Status',
+    //   header: 'Status',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 100,
+    // },
   ];
 
   useEffect(() => {
