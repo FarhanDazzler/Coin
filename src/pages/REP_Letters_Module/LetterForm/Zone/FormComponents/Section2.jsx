@@ -8,6 +8,7 @@ import { Form, Container, Row, Col, Card } from 'react-bootstrap';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import * as Yup from 'yup';
 import { useFormikContext, Field, Formik, ErrorMessage } from 'formik';
+import CryptoJS from 'crypto-js';
 import {
   getBUZoneSection2SignatureResponseAction,
   addBUZoneSection2CheckboxAction,
@@ -28,13 +29,6 @@ const Section2 = ({ scopeData }) => {
   );
 
   const [toggleData, setToggleData] = useState(false);
-
-  // useEffect(() => {
-  //   let payload = {
-  //     id: scopeData.id,
-  //   };
-  //   dispatch(getBUSection2SignatureResponseAction(payload));
-  // }, []);
 
   useEffect(() => {
     if (localStorage.getItem('selected_Role') === 'Zone Control') {
@@ -87,11 +81,26 @@ const Section2 = ({ scopeData }) => {
   const handleAutoAuth = (value, resetForm) => {
     const formData = new FormData();
     let signatures = [];
+    // Retrieve the encrypted data from localStorage
+    const encryptedData = localStorage.getItem('encryptedData');
+
+    // Get the decryption key from environment variable
+    const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
+
+    // Decrypt the data
+    const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
+    const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+    // Extract the individual pieces of information
+    const [ip, city, region, country_name] = decryptedData.split(',');
+
     if (localStorage.getItem('selected_Role') === 'Zone Control') {
       signatures.push({
         role: 'ZC',
         type: 'checkbox',
         comment: value.Comments,
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
     if (localStorage.getItem('selected_Role') === 'Excom Member') {
@@ -99,6 +108,8 @@ const Section2 = ({ scopeData }) => {
         role: 'EXC',
         type: 'checkbox',
         comment: value.Comments,
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
     if (localStorage.getItem('selected_Role') === 'Zone VP') {
@@ -106,6 +117,8 @@ const Section2 = ({ scopeData }) => {
         role: 'ZV',
         type: 'checkbox',
         comment: value.Comments,
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
     if (localStorage.getItem('selected_Role') === 'Zone Legal Representative') {
@@ -113,6 +126,8 @@ const Section2 = ({ scopeData }) => {
         role: 'ZLR',
         type: 'checkbox',
         comment: value.Comments,
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
     const data = JSON.stringify({
@@ -137,6 +152,19 @@ const Section2 = ({ scopeData }) => {
     const formData = new FormData();
     let signatures = [];
 
+    // Retrieve the encrypted data from localStorage
+    const encryptedData = localStorage.getItem('encryptedData');
+
+    // Get the decryption key from environment variable
+    const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
+
+    // Decrypt the data
+    const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
+    const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+    // Extract the individual pieces of information
+    const [ip, city, region, country_name] = decryptedData.split(',');
+
     if (
       !getBUSection2SignatureResponseState?.data?.signatures?.zlr?.submitted &&
       values.ZoneLegalRepresentativeSignature
@@ -145,6 +173,8 @@ const Section2 = ({ scopeData }) => {
       signatures.push({
         role: 'ZLR',
         type: 'support doc',
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
 
@@ -156,6 +186,8 @@ const Section2 = ({ scopeData }) => {
       signatures.push({
         role: 'EXC',
         type: 'support doc',
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
 
@@ -167,6 +199,8 @@ const Section2 = ({ scopeData }) => {
       signatures.push({
         role: 'ZC',
         type: 'support doc',
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
 
@@ -178,6 +212,8 @@ const Section2 = ({ scopeData }) => {
       signatures.push({
         role: 'ZV',
         type: 'support doc',
+        ip: ip,
+        location: `${city}, ${region}, ${country_name}`,
       });
     }
     const data = JSON.stringify({
@@ -251,7 +287,10 @@ const Section2 = ({ scopeData }) => {
                           //onChange={handleChange}
                           accept="application/vnd.ms-outlook, .eml, .msg"
                           onChange={(event) => {
-                            setFieldValue('ZoneLegalRepresentativeSignature', event.currentTarget.files[0]);
+                            setFieldValue(
+                              'ZoneLegalRepresentativeSignature',
+                              event.currentTarget.files[0],
+                            );
                           }}
                           disabled={
                             getBUSection2SignatureResponseState?.data?.signatures?.zlr?.submitted
@@ -510,7 +549,8 @@ const Section2 = ({ scopeData }) => {
                           </p>
                           <div className="rep-letter-form-bottom-btn">
                             <h5>
-                              Approval Email attached by Local Internal Control For Zone Legal Representative
+                              Approval Email attached by Local Internal Control For Zone Legal
+                              Representative
                             </h5>
 
                             <Button
@@ -605,7 +645,9 @@ const Section2 = ({ scopeData }) => {
                             <b>Excom Member</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>Approval Email attached by Local Internal Control For Excom Member</h5>
+                            <h5>
+                              Approval Email attached by Local Internal Control For Excom Member
+                            </h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
