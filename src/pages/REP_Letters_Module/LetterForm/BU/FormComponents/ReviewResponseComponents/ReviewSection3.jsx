@@ -156,8 +156,13 @@ const ReviewSection3 = () => {
                 <h5>
                   <span className="golden-text">Approval provided by Finance Director</span> (
                   {getBUSection3ResponseState?.data?.approved_by}){' '}
-                  <span className="golden-text">via Application Authenticator </span>
-                  (user object ID: {getBUSection3ResponseState?.data?.approved_by_oid})
+                  <span className="golden-text">via Application Authenticator on </span>
+                  {getBUSection3ResponseState?.data?.approved_at}{' '}
+                  <span className="golden-text">from IP Address </span>
+                  {getBUSection3ResponseState?.data?.approver_ip}{' '}
+                  <span className="golden-text">and location </span>
+                  {getBUSection3ResponseState?.data?.approver_location} (user object ID:{' '}
+                  {getBUSection3ResponseState?.data?.approved_by_oid})
                 </h5>
               </Row>
               <Divider className="section3-divider" size="xs" />

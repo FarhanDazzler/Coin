@@ -131,7 +131,18 @@ const ReviewSection2 = (props) => {
                                       ?.submitted_at
                                   }
                                 </span>{' '}
-                                via Application Authenticator (User Object ID:{' '}
+                                via Application Authenticator from IP Address{' '}
+                                <span className="golden-text">
+                                  {getBUSection2SignatureResponseState?.data?.signatures?.zlr?.ip}
+                                </span>{' '}
+                                And location{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zlr
+                                      ?.location
+                                  }
+                                </span>{' '}
+                                (User Object ID:{' '}
                                 <span className="golden-text">
                                   {
                                     getBUSection2SignatureResponseState?.data?.signatures?.zlr
@@ -235,7 +246,18 @@ const ReviewSection2 = (props) => {
                                       ?.submitted_at
                                   }
                                 </span>{' '}
-                                via Application Authenticator (User Object ID:{' '}
+                                via Application Authenticator from IP Address{' '}
+                                <span className="golden-text">
+                                  {getBUSection2SignatureResponseState?.data?.signatures?.zv?.ip}
+                                </span>{' '}
+                                And location{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                      ?.location
+                                  }
+                                </span>{' '}
+                                (User Object ID:{' '}
                                 <span className="golden-text">
                                   {
                                     getBUSection2SignatureResponseState?.data?.signatures?.zv
@@ -339,7 +361,18 @@ const ReviewSection2 = (props) => {
                                       ?.submitted_at
                                   }
                                 </span>{' '}
-                                via Application Authenticator (User Object ID:{' '}
+                                via Application Authenticator from IP Address{' '}
+                                <span className="golden-text">
+                                  {getBUSection2SignatureResponseState?.data?.signatures?.exc?.ip}
+                                </span>{' '}
+                                And location{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.exc
+                                      ?.location
+                                  }
+                                </span>{' '}
+                                (User Object ID:{' '}
                                 <span className="golden-text">
                                   {
                                     getBUSection2SignatureResponseState?.data?.signatures?.exc
@@ -443,7 +476,18 @@ const ReviewSection2 = (props) => {
                                       ?.submitted_at
                                   }
                                 </span>{' '}
-                                via Application Authenticator (User Object ID:{' '}
+                                via Application Authenticator from IP Address{' '}
+                                <span className="golden-text">
+                                  {getBUSection2SignatureResponseState?.data?.signatures?.zc?.ip}
+                                </span>{' '}
+                                And location{' '}
+                                <span className="golden-text">
+                                  {
+                                    getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                      ?.location
+                                  }
+                                </span>{' '}
+                                (User Object ID:{' '}
                                 <span className="golden-text">
                                   {
                                     getBUSection2SignatureResponseState?.data?.signatures?.zc
