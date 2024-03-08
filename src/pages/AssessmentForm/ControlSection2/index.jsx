@@ -39,9 +39,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
   const kpiResponseData = latestDraftData?.data?.Latest_response?.kpis || kpiResultData?.data?.kpis;
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();
-  const [editProductIds, setEditProductIds] = useState([
-    { idNumeratorList: [], idDenominatorList: [] },
-  ]);
 
   const [excelFile, setExcelFile] = useState(null);
   const [csvUpdateData, setScvUpdateData] = useState(0);
@@ -379,12 +376,6 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         tData['Type_of_KPI'] = tData.isManual ? 'Manual' : 'Automated';
       });
 
-      const idNumeratorList = table_data.filter((d) => d.Numerator === 'NA').map((v) => v.id);
-      const idDenominatorList = table_data.filter((d) => d.Denominator === 'NA').map((v) => v.id);
-      setEditProductIds({
-        idNumeratorList: idNumeratorList,
-        idDenominatorList: idDenominatorList,
-      });
       setTableData(table_data);
     }
   }, [kpiResultData]);
@@ -512,29 +503,22 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       };
 
       dispatch(getCsvTampredDataAction(apiBody));
-      if (stateCsvTampred?.data === false) {
-        let newDataArray = tableData?.map((data, i) => {
-          //console.log(excelFile[i], '***');
-          return {
-            ...data,
-            Numerator: excelFile[i]?.Numerator,
-            Denominator: excelFile[i]?.Denominator,
-            Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
-            Source_System: excelFile[i]['Link to data'],
-          };
-        });
-        console.log(newDataArray, 'newDataArray');
-        setTableData([...newDataArray]);
-        setScvUpdateData(csvUpdateData + 1);
-      } else {
-        setScvUpdateData(0);
-      }
-
-      var requestParameters = {
-        method: 'POST',
-        headers: myHeaders,
-        body: apiBody,
-      };
+      // if (stateCsvTampred?.data === false) {
+      let newDataArray = tableData?.map((data, i) => {
+        return {
+          ...data,
+          Numerator: excelFile[i]?.Numerator,
+          Denominator: excelFile[i]?.Denominator,
+          Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
+          Source_System: excelFile[i]['Link to data'],
+        };
+      });
+      console.log(newDataArray, 'newDataArray');
+      setTableData([...newDataArray]);
+      setScvUpdateData(csvUpdateData + 1);
+      // } else {
+      //   setScvUpdateData(0);
+      // }
     } else {
       setTableData(null);
     }

@@ -15,6 +15,7 @@ import {
   isJsonString,
 } from '../../../utils/helper';
 import { useTranslation } from 'react-i18next';
+import Radio from '../../../components/UI/Radio';
 
 const ControlSection3 = ({
   activeData = {},
@@ -385,6 +386,30 @@ const ControlSection3 = ({
   const isL1NoAnsSelect = ans?.L1 ? JSON.stringify(ans?.L1).includes('_no') : false;
   const isL2NoAnsSelect = ans?.L2 ? JSON.stringify(ans?.L2).includes('_no') : false;
 
+  const dummyData = {
+    options: [
+      {
+        value: '1692690264868_option_id_yes',
+        label:
+          '"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium',
+      },
+      {
+        value: '1692120260068_option_id_no',
+        label:
+          '"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain ',
+      },
+      {
+        value: '1662690264348_option_id_no',
+        label:
+          '""At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum',
+      },
+    ],
+    q_id: 'new-id',
+    question_text: 'The standard Lorem Ipsum passage, used since the 1500s',
+    question_type: 'Radio',
+    label: 'The standard Lorem Ipsum passage, used since the 1500s',
+  };
+  console.log('questionL3', questionL2);
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section3_MICS')} active>
@@ -402,24 +427,36 @@ const ControlSection3 = ({
           </>
 
           {showNoQuestion && (
-            <RenderBlockWrapper id="noOptionInput">
-              <Form.Label>
-                {t('selfAssessment.assessmentForm.section3FailedText')}{' '}
-                <span className="text-danger">*</span>
-              </Form.Label>
-              <Form.Group className="input-group mb-3">
-                <Form.Control
-                  type="text"
-                  name=""
-                  placeholder=""
-                  className="form-control"
-                  maxLength="2500"
-                  value={showNoQuestionAns}
-                  onChange={(e) => handleChangeNoQuestion(e.target.value)}
-                  disabled={!isModal}
-                />
-              </Form.Group>
-            </RenderBlockWrapper>
+            <>
+              <RenderBlockWrapper id="noOptionInput">
+                <Form.Label>
+                  {t('selfAssessment.assessmentForm.section3FailedText')}{' '}
+                  <span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Group className="input-group mb-3">
+                  <Form.Control
+                    type="text"
+                    name=""
+                    placeholder=""
+                    className="form-control"
+                    maxLength="2500"
+                    value={showNoQuestionAns}
+                    onChange={(e) => handleChangeNoQuestion(e.target.value)}
+                    disabled={!isModal}
+                  />
+                </Form.Group>
+              </RenderBlockWrapper>
+
+              {/*<RenderBlockWrapper id="noOptionInput">*/}
+              {/*  <Form.Label>*/}
+              {/*    "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur,*/}
+              {/*    adipisci velit..." "There is no one who loves pain itself, who seeks after it and*/}
+              {/*    wants to have it, simply because it is pain..."*/}
+              {/*    <span className="text-danger">*</span>*/}
+              {/*  </Form.Label>*/}
+              {/*  <Radio {...dummyData} />*/}
+              {/*</RenderBlockWrapper>*/}
+            </>
           )}
 
           {questionData.loadingLevel && (
