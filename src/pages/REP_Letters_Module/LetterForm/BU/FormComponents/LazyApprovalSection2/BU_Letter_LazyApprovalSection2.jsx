@@ -13,6 +13,7 @@ import * as Yup from 'yup';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Container, Title, Text, Group, Stack } from '@mantine/core';
 import { useFormikContext, Field, Formik, ErrorMessage } from 'formik';
+import CryptoJS from 'crypto-js';
 import CollapseFrame from '../../../../../../components/UI/CollapseFrame';
 // import Button from '../../../../../../components/UI/Button';
 import Button from '../../../../../MDM/MDM_Tab_Buttons/Button';
@@ -96,9 +97,28 @@ const Section2 = ({ id }) => {
   ]);
 
   const handleAutoAuth = (value, resetForm) => {
+    // Retrieve the encrypted data from localStorage
+    const encryptedData = localStorage.getItem('encryptedData');
+
+    // Get the decryption key from environment variable
+    const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
+
+    // Decrypt the data
+    const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
+    const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+    // Extract the individual pieces of information
+    const [ip, city, region, country_name] = decryptedData.split(',');
+
+    // Now you can use the decrypted information as needed
+    // console.log('Decrypted IP:', ip);
+    // console.log('Decrypted Location:', `${city}, ${region}, ${country_name}`);
+
     const payload = {
       id: id,
       comment: value.Comments,
+      ip: ip,
+      location: `${city}, ${region}, ${country_name}`,
     };
 
     //console.log('payload', payload);

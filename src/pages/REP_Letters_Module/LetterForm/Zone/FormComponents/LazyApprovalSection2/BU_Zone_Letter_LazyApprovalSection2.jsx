@@ -13,6 +13,7 @@ import * as Yup from 'yup';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { Container, Title, Text, Group, Stack } from '@mantine/core';
 import { useFormikContext, Field, Formik, ErrorMessage } from 'formik';
+import CryptoJS from 'crypto-js';
 import CollapseFrame from '../../../../../../components/UI/CollapseFrame';
 // import Button from '../../../../../../components/UI/Button';
 import Button from '../../../../../MDM/MDM_Tab_Buttons/Button';
@@ -98,9 +99,24 @@ const Section2 = ({ id }) => {
   ]);
 
   const handleAutoAuth = (value, resetForm) => {
+    // Retrieve the encrypted data from localStorage
+    const encryptedData = localStorage.getItem('encryptedData');
+
+    // Get the decryption key from environment variable
+    const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
+
+    // Decrypt the data
+    const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
+    const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+    // Extract the individual pieces of information
+    const [ip, city, region, country_name] = decryptedData.split(',');
+
     const payload = {
       id: id,
       comment: value.Comments,
+      ip: ip,
+      location: `${city}, ${region}, ${country_name}`,
     };
 
     //console.log('payload', payload);
@@ -234,7 +250,8 @@ const Section2 = ({ id }) => {
                           </p>
                           <div className="rep-letter-form-bottom-btn">
                             <h5>
-                              Approval Email attached by Local Internal Control For Zone Legal Representative
+                              Approval Email attached by Local Internal Control For Zone Legal
+                              Representative
                             </h5>
 
                             <Button
@@ -329,7 +346,9 @@ const Section2 = ({ id }) => {
                             <b>Excom Member</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>Approval Email attached by Local Internal Control For Excom Member</h5>
+                            <h5>
+                              Approval Email attached by Local Internal Control For Excom Member
+                            </h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
