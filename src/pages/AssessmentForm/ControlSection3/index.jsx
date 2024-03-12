@@ -29,6 +29,8 @@ const ControlSection3 = ({
   loadingLevel,
   setLoadingLevel,
   loadingRef,
+  L1AndL2NoQuestionsAns,
+  setL1AndL2NoQuestionsAns,
 }) => {
   const history = useHistory();
   const Control_ID = activeData?.control_id;
@@ -102,6 +104,10 @@ const ControlSection3 = ({
   useEffect(() => {
     setTerminating(showNoQuestionAns.length > 0);
   }, [showNoQuestionAns]);
+
+  useEffect(() => {
+    setTerminating(L1AndL2NoQuestionsAns.failingDue && L1AndL2NoQuestionsAns.reasonsForFailing);
+  }, [L1AndL2NoQuestionsAns]);
 
   useEffect(() => {
     if (questionL1.length > 0 && ans.L1) {
@@ -386,30 +392,63 @@ const ControlSection3 = ({
   const isL1NoAnsSelect = ans?.L1 ? JSON.stringify(ans?.L1).includes('_no') : false;
   const isL2NoAnsSelect = ans?.L2 ? JSON.stringify(ans?.L2).includes('_no') : false;
 
-  const dummyData = {
+  const handleChangeFailingFirstOption = (value) => {
+    setL1AndL2NoQuestionsAns({
+      failingDue: value,
+      reasonsForFailing: null,
+    });
+    setShowNoQuestionAns('');
+  };
+
+  const handleChangeFailingResponseOption = (value) => {
+    setL1AndL2NoQuestionsAns({ ...L1AndL2NoQuestionsAns, reasonsForFailing: value });
+    setShowNoQuestionAns('');
+  };
+
+  const controlFailingQuestion = {
     options: [
       {
-        value: '1692690264868_option_id_yes',
-        label:
-          '"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium',
+        value: 'Yes',
+        label: 'Yes',
       },
       {
-        value: '1692120260068_option_id_no',
-        label:
-          '"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain ',
-      },
-      {
-        value: '1662690264348_option_id_no',
-        label:
-          '""At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum',
+        value: 'No',
+        label: 'No',
       },
     ],
-    q_id: 'new-id',
-    question_text: 'The standard Lorem Ipsum passage, used since the 1500s',
-    question_type: 'Radio',
-    label: 'The standard Lorem Ipsum passage, used since the 1500s',
+    label: 'Is the control failing due to changes in 2024 MICS Framework? ',
+    value: L1AndL2NoQuestionsAns.failingDue,
+    handleChange: handleChangeFailingFirstOption,
   };
-  console.log('questionL3', questionL2);
+
+  const controlFailingResponse = {
+    options: [
+      {
+        value: '11111111_option',
+        label:
+          'Process is in place, but control is failing due to new KPI(s) not yet being tracked',
+      },
+      {
+        value: '22222222_option',
+        label:
+          'Process is in place, but control is failing due to new KPI(s) not meeting threshold',
+      },
+      {
+        value: '33333333_option',
+        label: 'Process is not in place due to new control requirements',
+      },
+      {
+        value: '44444444_option',
+        label: 'Existing Process or KPI(s) failed',
+      },
+    ],
+    handleChange: handleChangeFailingResponseOption,
+    value: L1AndL2NoQuestionsAns.reasonsForFailing,
+    label:
+      'As per your response above, please select one of the reasons for the control failing from the following:',
+  };
+
+  console.log('@@@@@@@', isL1NoAnsSelect || isL2NoAnsSelect);
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section3_MICS')} active>
@@ -426,36 +465,44 @@ const ControlSection3 = ({
             )}
           </>
 
-          {showNoQuestion && (
+          {(showNoQuestion || isL1NoAnsSelect || isL2NoAnsSelect) && (
             <>
-              <RenderBlockWrapper id="noOptionInput">
-                <Form.Label>
-                  {t('selfAssessment.assessmentForm.section3FailedText')}{' '}
-                  <span className="text-danger">*</span>
-                </Form.Label>
-                <Form.Group className="input-group mb-3">
-                  <Form.Control
-                    type="text"
-                    name=""
-                    placeholder=""
-                    className="form-control"
-                    maxLength="2500"
-                    value={showNoQuestionAns}
-                    onChange={(e) => handleChangeNoQuestion(e.target.value)}
-                    disabled={!isModal}
-                  />
-                </Form.Group>
-              </RenderBlockWrapper>
+              {(isL1NoAnsSelect || isL2NoAnsSelect) && (
+                <>
+                  <RenderBlockWrapper id="noOptionInput">
+                    <Radio {...controlFailingQuestion} />
+                  </RenderBlockWrapper>
 
-              {/*<RenderBlockWrapper id="noOptionInput">*/}
-              {/*  <Form.Label>*/}
-              {/*    "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur,*/}
-              {/*    adipisci velit..." "There is no one who loves pain itself, who seeks after it and*/}
-              {/*    wants to have it, simply because it is pain..."*/}
-              {/*    <span className="text-danger">*</span>*/}
-              {/*  </Form.Label>*/}
-              {/*  <Radio {...dummyData} />*/}
-              {/*</RenderBlockWrapper>*/}
+                  {L1AndL2NoQuestionsAns.failingDue &&
+                    L1AndL2NoQuestionsAns.failingDue === 'Yes' && (
+                      <RenderBlockWrapper id="noOptionInput">
+                        <Radio {...controlFailingResponse} />
+                      </RenderBlockWrapper>
+                    )}
+                </>
+              )}
+
+              {((questionL3.length > 0 && !isL1NoAnsSelect && !isL2NoAnsSelect) ||
+                L1AndL2NoQuestionsAns.failingDue === 'No') && (
+                <RenderBlockWrapper id="noOptionInput">
+                  <Form.Label>
+                    {t('selfAssessment.assessmentForm.section3FailedText')}{' '}
+                    <span className="text-danger">*</span>
+                  </Form.Label>
+                  <Form.Group className="input-group mb-3">
+                    <Form.Control
+                      type="text"
+                      name=""
+                      placeholder=""
+                      className="form-control"
+                      maxLength="2500"
+                      value={showNoQuestionAns}
+                      onChange={(e) => handleChangeNoQuestion(e.target.value)}
+                      disabled={!isModal}
+                    />
+                  </Form.Group>
+                </RenderBlockWrapper>
+              )}
             </>
           )}
 

@@ -61,6 +61,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   const [tableData, setTableData] = useState([]);
   const [ansSection3, setAnsSection3] = useState({});
   const [showNoQuestionAns, setShowNoQuestionAns] = useState('');
+  // Section3 - L1 & L2 select no option then next question ans store here
+  const [L1AndL2NoQuestionsAns, setL1AndL2NoQuestionsAns] = useState({
+    failingDue: null,
+    reasonsForFailing: null,
+  });
   const [showMoreSection, setShowMoreSection] = useState(false);
   const [terminating, setTerminating] = useState(false);
   const [startEdit, setStartEdit] = useState(false);
@@ -146,7 +151,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             Assessment_ID: activeData?.assessment_id,
             Latest_response: {
               s1: ansSection1,
-              s3: Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+              s3: Object.entries({
+                ...ansSection3,
+                noQueAns: showNoQuestionAns,
+                L1AndL2NoQuestionsAns,
+              }),
             },
           };
           dispatch(addOrUpdateDraft(payload)); // Draft api call
@@ -162,6 +171,9 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   useEffect(() => {
     if (ansSection3?.noQueAns) {
       setShowNoQuestionAns(ansSection3?.noQueAns);
+    }
+    if (ansSection3?.L1AndL2NoQuestionsAns?.failingDue) {
+      setL1AndL2NoQuestionsAns(ansSection3?.L1AndL2NoQuestionsAns);
     }
   }, [ansSection3]);
 
@@ -429,7 +441,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             kpis: tableData.length > 0 ? tableData : null,
             s3: !(showMoreSection && !s1FailObj && !isNotEscalationRequired)
               ? null
-              : Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+              : Object.entries({
+                  ...ansSection3,
+                  noQueAns: showNoQuestionAns,
+                  L1AndL2NoQuestionsAns,
+                }),
             showTable: showMoreSection,
             actionPlanInfo,
           },
@@ -479,7 +495,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             s1: ansSection1,
             s3: isNotEscalationRequired
               ? null
-              : Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+              : Object.entries({
+                  ...ansSection3,
+                  noQueAns: showNoQuestionAns,
+                  L1AndL2NoQuestionsAns,
+                }),
             data: kpiResultData?.data?.data,
             kpis: null,
             showTable: showMoreSection,
@@ -533,7 +553,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             s1: ansSection1,
             s3: isNotEscalationRequired
               ? null
-              : Object.entries({ ...ansSection3, noQueAns: showNoQuestionAns }),
+              : Object.entries({
+                  ...ansSection3,
+                  noQueAns: showNoQuestionAns,
+                  L1AndL2NoQuestionsAns,
+                }),
             data: kpiResultData?.data?.data,
             kpis: null,
             showTable: showMoreSection,
@@ -606,6 +630,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         loadingLevel={loadingLevel}
         setLoadingLevel={setLoadingLevel}
         loadingRef={loadingRef}
+        L1AndL2NoQuestionsAns={L1AndL2NoQuestionsAns}
+        setL1AndL2NoQuestionsAns={setL1AndL2NoQuestionsAns}
       />
     </>
   );
