@@ -401,8 +401,8 @@ const InternalControlTable = ({
       size: 90,
     },
     {
-      accessorKey: 'Modified_By',
-      id: 'Modified_By',
+      accessorKey: 'assessment_submitted_by',
+      id: 'assessment_submitted_by',
       header: 'Assessment submitted by',
       flex: 1,
       columnDefType: 'data',
