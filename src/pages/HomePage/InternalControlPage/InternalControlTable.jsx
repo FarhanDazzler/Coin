@@ -281,6 +281,15 @@ const InternalControlTable = ({
       },
     },
     {
+      accessorKey: 'Control_name',
+      id: 'Control_name',
+      header: 'Control Name',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 90,
+    },
+    {
       accessorKey: 'Provider',
       id: 'Provider',
       header: 'Provider Organization',
