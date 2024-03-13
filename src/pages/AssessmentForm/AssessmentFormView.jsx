@@ -88,6 +88,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   const isNotEscalationRequired =
     actionPlanInfo.issueResolved === 'no' && !!actionPlanInfo.isEscalationRequired;
 
+  console.log('isNotEscalationRequired', isNotEscalationRequired);
+
   const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
     ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
     : [];
@@ -113,61 +115,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     setActionPlanInfo({ ...getMicsOpenActionPlanVal.data });
   }, [getMicsOpenActionPlanVal.data]);
 
-  // If user open assessment form inside modal then close handler
-  const handleClose = () => {
-    // A dialog will open if the user has not saved the draft more than 5 times
-    if (startEdit && responseData?.data?.Attempt_no <= 5) {
-      Swal.fire({
-        title: t('selfAssessment.assessmentForm.saveDraftText'),
-        text: `${
-          responseData?.data?.Attempt_no
-            ? responseData?.data?.Attempt_no < 5
-              ? 4 - responseData?.data?.Attempt_no
-              : 0
-            : responseData?.data?.Attempt_no === 0
-            ? '4'
-            : '5'
-        } ${t('selfAssessment.assessmentForm.saveDraftRemainingResponseText')}`,
-        icon: 'warning',
-        showConfirmButton: false,
-        showCancelButton: true,
-        showDenyButton: true,
-        denyButtonColor: 'silver',
-        denyButtonText: t('selfAssessment.assessmentForm.saveDraftBtn'),
-      }).then((result) => {
-        // if user select cancel then modal close and go back
-        if (result.isDismissed) {
-          dispatch(clearAssessmentResponse());
-          history.push('/');
-        }
-        // is user save change then this action work
-        if (result.isDenied) {
-          if (responseData?.data?.Attempt_no >= 5) {
-            dispatch(clearAssessmentResponse());
-            history.push('/');
-            return;
-          }
-          const payload = {
-            Assessment_ID: activeData?.assessment_id,
-            Latest_response: {
-              s1: ansSection1,
-              s3: Object.entries({
-                ...ansSection3,
-                noQueAns: showNoQuestionAns,
-                L1AndL2NoQuestionsAns,
-              }),
-            },
-          };
-          dispatch(addOrUpdateDraft(payload)); // Draft api call
-          setStartEdit(false);
-        }
-      });
-      return;
-    }
-    // for clearing the assessment response after closing the modal
-    dispatch(clearAssessmentResponse());
-    history.push('/');
-  };
   useEffect(() => {
     if (ansSection3?.noQueAns) {
       setShowNoQuestionAns(ansSection3?.noQueAns);
@@ -435,11 +382,18 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             : isS3FailedData || s1FailObj || actionPlanInfo.issueResolved === 'no'
             ? 'Fail'
             : 'Pass',
+          // isNotEscalationRequired if action plane (not yet resolved) button select then s1 s2 s3 set null
           Latest_response: {
-            s1: ansSection1,
-            data: isReview ? responseUpdatedData.data : kpiResultData?.data?.data,
-            kpis: tableData.length > 0 ? tableData : null,
-            s3: !(showMoreSection && !s1FailObj && !isNotEscalationRequired)
+            s1: isNotEscalationRequired ? null : ansSection1,
+            data: isNotEscalationRequired
+              ? null
+              : isReview
+              ? responseUpdatedData.data
+              : kpiResultData?.data?.data,
+            kpis: isNotEscalationRequired ? null : tableData.length > 0 ? tableData : null,
+            s3: isNotEscalationRequired
+              ? null
+              : !(showMoreSection && !s1FailObj && !isNotEscalationRequired)
               ? null
               : Object.entries({
                   ...ansSection3,
@@ -451,7 +405,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           },
           is_override: isOverride,
           submitted_by: accounts.length > 0 ? accounts[0].username : '',
-          kpis: isupdated ? [] : tableData,
+          kpis: isNotEscalationRequired ? [] : isupdated ? [] : tableData,
           event: {
             onSuccess: () => {
               setLoading(false);
@@ -492,7 +446,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         const payload = {
           Assessment_ID: activeData?.assessment_id,
           Latest_response: {
-            s1: ansSection1,
+            s1: isNotEscalationRequired ? null : ansSection1,
             s3: isNotEscalationRequired
               ? null
               : Object.entries({
@@ -500,7 +454,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                   noQueAns: showNoQuestionAns,
                   L1AndL2NoQuestionsAns,
                 }),
-            data: kpiResultData?.data?.data,
+            data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
             kpis: null,
             showTable: showMoreSection,
             actionPlanInfo,
@@ -550,7 +504,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           Latest_response: {
             is_override: !isModal,
             submitted_by: accounts.length > 0 ? accounts[0].username : '',
-            s1: ansSection1,
+            s1: isNotEscalationRequired ? null : ansSection1,
             s3: isNotEscalationRequired
               ? null
               : Object.entries({
@@ -558,7 +512,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                   noQueAns: showNoQuestionAns,
                   L1AndL2NoQuestionsAns,
                 }),
-            data: kpiResultData?.data?.data,
+            data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
             kpis: null,
             showTable: showMoreSection,
             actionPlanInfo,

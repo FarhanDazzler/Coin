@@ -387,10 +387,14 @@ const ControlSection3 = ({
     }, 10);
   }, [questionL1.length, questionData.loadingLevel, ans.L3]);
 
-  if (isEmptySection) return <div />;
-
   const isL1NoAnsSelect = ans?.L1 ? JSON.stringify(ans?.L1).includes('_no') : false;
   const isL2NoAnsSelect = ans?.L2 ? JSON.stringify(ans?.L2).includes('_no') : false;
+
+  useEffect(() => {
+    if (!(showNoQuestion || isL1NoAnsSelect || isL2NoAnsSelect)) {
+      setL1AndL2NoQuestionsAns({ failingDue: null, reasonsForFailing: null });
+    }
+  }, [showNoQuestion, isL1NoAnsSelect, isL2NoAnsSelect]);
 
   const handleChangeFailingFirstOption = (value) => {
     setL1AndL2NoQuestionsAns({
@@ -448,7 +452,8 @@ const ControlSection3 = ({
       'As per your response above, please select one of the reasons for the control failing from the following:',
   };
 
-  console.log('@@@@@@@', isL1NoAnsSelect || isL2NoAnsSelect);
+  if (isEmptySection) return <div />;
+
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section3_MICS')} active>
