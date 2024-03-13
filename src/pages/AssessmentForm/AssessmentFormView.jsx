@@ -236,6 +236,10 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         setShowMoreSection(true);
       }
 
+      if (responseUpdatedData?.L1AndL2NoQuestionsAns) {
+        setL1AndL2NoQuestionsAns(responseUpdatedData?.L1AndL2NoQuestionsAns);
+      }
+
       if (responseUpdatedData?.s3?.length > 0 || condition) {
         //convert section 3 data to preview formate
         const section3Data = responseUpdatedData?.s3?.reduce(
@@ -398,8 +402,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               : Object.entries({
                   ...ansSection3,
                   noQueAns: showNoQuestionAns,
-                  L1AndL2NoQuestionsAns,
                 }),
+            L1AndL2NoQuestionsAns,
             showTable: showMoreSection,
             actionPlanInfo,
           },
@@ -452,8 +456,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               : Object.entries({
                   ...ansSection3,
                   noQueAns: showNoQuestionAns,
-                  L1AndL2NoQuestionsAns,
                 }),
+            L1AndL2NoQuestionsAns,
             data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
             kpis: null,
             showTable: showMoreSection,
@@ -510,8 +514,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               : Object.entries({
                   ...ansSection3,
                   noQueAns: showNoQuestionAns,
-                  L1AndL2NoQuestionsAns,
                 }),
+            L1AndL2NoQuestionsAns,
             data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
             kpis: null,
             showTable: showMoreSection,
