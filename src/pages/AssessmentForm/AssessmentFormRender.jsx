@@ -46,6 +46,8 @@ const AssessmentFormRender = ({
   isReview,
   isOverride,
   setIsOverride,
+  L1AndL2NoQuestionsAns,
+  setL1AndL2NoQuestionsAns,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -181,6 +183,8 @@ const AssessmentFormRender = ({
                     loadingLevel={loadingLevel}
                     setLoadingLevel={setLoadingLevel}
                     loadingRef={loadingRef}
+                    L1AndL2NoQuestionsAns={L1AndL2NoQuestionsAns}
+                    setL1AndL2NoQuestionsAns={setL1AndL2NoQuestionsAns}
                   />
                 </>
               )}

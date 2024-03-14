@@ -15,6 +15,7 @@ import {
   isJsonString,
 } from '../../../utils/helper';
 import { useTranslation } from 'react-i18next';
+import Radio from '../../../components/UI/Radio';
 
 const ControlSection3 = ({
   activeData = {},
@@ -28,6 +29,8 @@ const ControlSection3 = ({
   loadingLevel,
   setLoadingLevel,
   loadingRef,
+  L1AndL2NoQuestionsAns,
+  setL1AndL2NoQuestionsAns,
 }) => {
   const history = useHistory();
   const Control_ID = activeData?.control_id;
@@ -101,6 +104,10 @@ const ControlSection3 = ({
   useEffect(() => {
     setTerminating(showNoQuestionAns.length > 0);
   }, [showNoQuestionAns]);
+
+  useEffect(() => {
+    setTerminating(L1AndL2NoQuestionsAns.failingDue && L1AndL2NoQuestionsAns.reasonsForFailing);
+  }, [L1AndL2NoQuestionsAns]);
 
   useEffect(() => {
     if (questionL1.length > 0 && ans.L1) {
@@ -380,10 +387,72 @@ const ControlSection3 = ({
     }, 10);
   }, [questionL1.length, questionData.loadingLevel, ans.L3]);
 
-  if (isEmptySection) return <div />;
-
   const isL1NoAnsSelect = ans?.L1 ? JSON.stringify(ans?.L1).includes('_no') : false;
   const isL2NoAnsSelect = ans?.L2 ? JSON.stringify(ans?.L2).includes('_no') : false;
+
+  useEffect(() => {
+    if (!(showNoQuestion || isL1NoAnsSelect || isL2NoAnsSelect)) {
+      setL1AndL2NoQuestionsAns({ failingDue: null, reasonsForFailing: null });
+    }
+  }, [showNoQuestion, isL1NoAnsSelect, isL2NoAnsSelect]);
+
+  const handleChangeFailingFirstOption = (value) => {
+    setL1AndL2NoQuestionsAns({
+      failingDue: value,
+      reasonsForFailing: null,
+    });
+    setShowNoQuestionAns('');
+  };
+
+  const handleChangeFailingResponseOption = (value) => {
+    setL1AndL2NoQuestionsAns({ ...L1AndL2NoQuestionsAns, reasonsForFailing: value });
+    setShowNoQuestionAns('');
+  };
+
+  const controlFailingQuestion = {
+    options: [
+      {
+        value: 'Yes',
+        label: 'Yes',
+      },
+      {
+        value: 'No',
+        label: 'No',
+      },
+    ],
+    label: 'Is the control failing due to changes in 2024 MICS Framework? ',
+    value: L1AndL2NoQuestionsAns.failingDue,
+    handleChange: handleChangeFailingFirstOption,
+  };
+
+  const controlFailingResponse = {
+    options: [
+      {
+        value: '11111111_option',
+        label:
+          'Process is in place, but control is failing due to new KPI(s) not yet being tracked',
+      },
+      {
+        value: '22222222_option',
+        label:
+          'Process is in place, but control is failing due to new KPI(s) not meeting threshold',
+      },
+      {
+        value: '33333333_option',
+        label: 'Process is not in place due to new control requirements',
+      },
+      {
+        value: '44444444_option',
+        label: 'Existing Process or KPI(s) failed',
+      },
+    ],
+    handleChange: handleChangeFailingResponseOption,
+    value: L1AndL2NoQuestionsAns.reasonsForFailing,
+    label:
+      'As per your response above, please select one of the reasons for the control failing from the following:',
+  };
+
+  if (isEmptySection) return <div />;
 
   return (
     <div>
@@ -401,25 +470,45 @@ const ControlSection3 = ({
             )}
           </>
 
-          {showNoQuestion && (
-            <RenderBlockWrapper id="noOptionInput">
-              <Form.Label>
-                {t('selfAssessment.assessmentForm.section3FailedText')}{' '}
-                <span className="text-danger">*</span>
-              </Form.Label>
-              <Form.Group className="input-group mb-3">
-                <Form.Control
-                  type="text"
-                  name=""
-                  placeholder=""
-                  className="form-control"
-                  maxLength="2500"
-                  value={showNoQuestionAns}
-                  onChange={(e) => handleChangeNoQuestion(e.target.value)}
-                  disabled={!isModal}
-                />
-              </Form.Group>
-            </RenderBlockWrapper>
+          {(showNoQuestion || isL1NoAnsSelect || isL2NoAnsSelect) && (
+            <>
+              {(isL1NoAnsSelect || isL2NoAnsSelect) && (
+                <>
+                  <RenderBlockWrapper id="noOptionInput">
+                    <Radio {...controlFailingQuestion} />
+                  </RenderBlockWrapper>
+
+                  {L1AndL2NoQuestionsAns.failingDue &&
+                    L1AndL2NoQuestionsAns.failingDue === 'Yes' && (
+                      <RenderBlockWrapper id="noOptionInput">
+                        <Radio {...controlFailingResponse} />
+                      </RenderBlockWrapper>
+                    )}
+                </>
+              )}
+
+              {((questionL3.length > 0 && !isL1NoAnsSelect && !isL2NoAnsSelect) ||
+                L1AndL2NoQuestionsAns.failingDue === 'No') && (
+                <RenderBlockWrapper id="noOptionInput">
+                  <Form.Label>
+                    {t('selfAssessment.assessmentForm.section3FailedText')}{' '}
+                    <span className="text-danger">*</span>
+                  </Form.Label>
+                  <Form.Group className="input-group mb-3">
+                    <Form.Control
+                      type="text"
+                      name=""
+                      placeholder=""
+                      className="form-control"
+                      maxLength="2500"
+                      value={showNoQuestionAns}
+                      onChange={(e) => handleChangeNoQuestion(e.target.value)}
+                      disabled={!isModal}
+                    />
+                  </Form.Group>
+                </RenderBlockWrapper>
+              )}
+            </>
           )}
 
           {questionData.loadingLevel && (
