@@ -423,26 +423,29 @@ const ControlSection3 = ({
     label: 'Is the control failing due to changes in 2024 MICS Framework? ',
     value: L1AndL2NoQuestionsAns.failingDue,
     handleChange: handleChangeFailingFirstOption,
+    disabled: !isModal,
   };
 
   const controlFailingResponse = {
     options: [
       {
-        value: '11111111_option',
+        value:
+          'Process is in place, but control is failing due to new KPI(s) not yet being tracked',
         label:
           'Process is in place, but control is failing due to new KPI(s) not yet being tracked',
       },
       {
-        value: '22222222_option',
+        value:
+          'Process is in place, but control is failing due to new KPI(s) not meeting threshold',
         label:
           'Process is in place, but control is failing due to new KPI(s) not meeting threshold',
       },
       {
-        value: '33333333_option',
+        value: 'Process is not in place due to new control requirements',
         label: 'Process is not in place due to new control requirements',
       },
       {
-        value: '44444444_option',
+        value: 'Existing Process or KPI(s) failed',
         label: 'Existing Process or KPI(s) failed',
       },
     ],
@@ -450,6 +453,7 @@ const ControlSection3 = ({
     value: L1AndL2NoQuestionsAns.reasonsForFailing,
     label:
       'As per your response above, please select one of the reasons for the control failing from the following:',
+    disabled: !isModal,
   };
 
   if (isEmptySection) return <div />;
