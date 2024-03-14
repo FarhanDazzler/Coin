@@ -101,7 +101,14 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                     onClick={() => {
                       handleSave();
                       setStep(1);
-                      setInfo({ ...info, issueResolved: 'yes' });
+                      setInfo({
+                        ...info,
+                        ownerAction: null,
+                        detailsInfo: '',
+                        isEscalationRequired: null,
+                        issueResolved: 'yes',
+                        step: 1,
+                      });
                     }}
                   >
                     Resolved
@@ -114,7 +121,14 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                       variant="outlined"
                       onClick={() => {
                         handleNo();
-                        setInfo({ ...info, issueResolved: 'no', step: 3 });
+                        setInfo({
+                          ...info,
+                          ownerAction: null,
+                          detailsInfo: '',
+                          isEscalationRequired: null,
+                          issueResolved: 'no',
+                          step: 3,
+                        });
                       }}
                     >
                       Not Yet Resolved
