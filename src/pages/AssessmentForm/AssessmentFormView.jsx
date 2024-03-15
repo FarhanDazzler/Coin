@@ -397,7 +397,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               : isReview
               ? responseUpdatedData.data
               : kpiResultData?.data?.data,
-            kpis: isNotEscalationRequired ? null : tableData.length > 0 ? tableData : null,
+            kpis: isNotEscalationRequired ? [] : tableData.length > 0 ? tableData : [],
             s3: isNotEscalationRequired
               ? null
               : !(showMoreSection && !s1FailObj && !isNotEscalationRequired)
