@@ -12,7 +12,10 @@ import TableLoader from '../../../components/UI/TableLoader';
 import Button from '../../../components/UI/Button';
 import { getControlOwnerTableData } from '../../../redux/DashBoard/DashBoardAction';
 import { getControlOwnerDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
-import { clearLatestDraftResponse } from '../../../redux/Assessments/AssessmentAction';
+import {
+  clearLatestDraftResponse,
+  resetBlockAssessment,
+} from '../../../redux/Assessments/AssessmentAction';
 
 const Badge_apply = ({ data }) => {
   if (data.toUpperCase() === 'PASS') {
@@ -224,6 +227,9 @@ const ControlOwnerTable = ({
                 className="mr-2"
                 onClick={() => {
                   dispatch(clearLatestDraftResponse());
+                  dispatch(resetBlockAssessment({ blockType: 'getResponse' }));
+                  dispatch(resetBlockAssessment({ blockType: 'getLatestDraft' }));
+
                   const original = row.row.original;
                   history.push(
                     `/review/${original.Control_ID}?id=${encodeURIComponent(
@@ -254,6 +260,8 @@ const ControlOwnerTable = ({
                 <Button
                   onClick={() => {
                     dispatch(clearLatestDraftResponse());
+                    dispatch(resetBlockAssessment({ blockType: 'getResponse' }));
+                    dispatch(resetBlockAssessment({ blockType: 'getLatestDraft' }));
                     const original = row.row.original;
                     history.push(
                       `/Assessments/${original.Control_ID}?id=${encodeURIComponent(
