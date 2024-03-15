@@ -412,7 +412,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           },
           is_override: isOverride,
           submitted_by: accounts.length > 0 ? accounts[0].username : '',
-          kpis: isNotEscalationRequired ? [] : isupdated ? [] : tableData,
+          // kpis: isNotEscalationRequired ? [] : isupdated ? [] : tableData,
           event: {
             onSuccess: () => {
               setLoading(false);
