@@ -413,14 +413,14 @@ const ControlSection3 = ({
     options: [
       {
         value: 'Yes',
-        label: 'Yes',
+        label: t('selfAssessment.assessmentForm.Section3_failing_question_failingDue_Yes'),
       },
       {
         value: 'No',
-        label: 'No',
+        label: t('selfAssessment.assessmentForm.Section3_failing_question_failingDue_No'),
       },
     ],
-    label: 'Is the control failing due to changes in 2024 MICS Framework? ',
+    label: t('selfAssessment.assessmentForm.Section3_failing_question_failingDue'),
     value: L1AndL2NoQuestionsAns.failingDue,
     handleChange: handleChangeFailingFirstOption,
     disabled: !isModal,
@@ -432,27 +432,26 @@ const ControlSection3 = ({
         value:
           'Process is in place, but control is failing due to new KPI(s) not yet being tracked',
         label:
-          'Process is in place, but control is failing due to new KPI(s) not yet being tracked',
+        t('selfAssessment.assessmentForm.Section3_failing_question_failingDue_yes_subQuestion_option1'),
       },
       {
         value:
           'Process is in place, but control is failing due to new KPI(s) not meeting threshold',
         label:
-          'Process is in place, but control is failing due to new KPI(s) not meeting threshold',
+        t('selfAssessment.assessmentForm.Section3_failing_question_failingDue'),
       },
       {
         value: 'Process is not in place due to new control requirements',
-        label: 'Process is not in place due to new control requirements',
+        label: t('selfAssessment.assessmentForm.Section3_failing_question_failingDue'),
       },
       {
         value: 'Existing Process or KPI(s) failed',
-        label: 'Existing Process or KPI(s) failed',
+        label: t('selfAssessment.assessmentForm.Section3_failing_question_failingDue'),
       },
     ],
     handleChange: handleChangeFailingResponseOption,
     value: L1AndL2NoQuestionsAns.reasonsForFailing,
-    label:
-      'As per your response above, please select one of the reasons for the control failing from the following:',
+    label: t('selfAssessment.assessmentForm.Section3_failing_question_failingDue_yes_subQuestion'),
     disabled: !isModal,
   };
 
