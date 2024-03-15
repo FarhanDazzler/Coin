@@ -14,6 +14,7 @@ import {
   clearLatestDraftResponse,
   updateLastAccess,
   getMicsOpenActionPlan,
+  resetBlockAssessment,
 } from '../../redux/Assessments/AssessmentAction';
 import {
   addOrEditUpdateDraftSelector,
@@ -196,6 +197,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     return () => {
       // When user componentdidmount then clear all response
       dispatch(clearLatestDraftResponse());
+      dispatch(resetBlockAssessment());
+      dispatch(resetBlockAssessment());
       setAnsSection1([]);
       setAnsSection3([]);
     };
@@ -402,8 +405,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               : Object.entries({
                   ...ansSection3,
                   noQueAns: showNoQuestionAns,
+                  L1AndL2NoQuestionsAns,
                 }),
-            L1AndL2NoQuestionsAns,
             showTable: showMoreSection,
             actionPlanInfo,
           },
@@ -456,8 +459,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               : Object.entries({
                   ...ansSection3,
                   noQueAns: showNoQuestionAns,
+                  L1AndL2NoQuestionsAns,
                 }),
-            L1AndL2NoQuestionsAns,
             data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
             kpis: null,
             showTable: showMoreSection,
@@ -514,8 +517,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               : Object.entries({
                   ...ansSection3,
                   noQueAns: showNoQuestionAns,
+                  L1AndL2NoQuestionsAns,
                 }),
-            L1AndL2NoQuestionsAns,
             data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
             kpis: null,
             showTable: showMoreSection,

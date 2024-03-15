@@ -1,6 +1,6 @@
 import { getMicsOpenActionPlan } from './AssessmentAction';
 
-export const SAVE_ANS = 'RESET_BLOCK_ASSESSMENT';
+export const SAVE_ANS = 'RESET_BLOCK_ASSESSMENTS';
 export const SAVE_ANS_SUCCESS = 'SAVE_ANS_SUCCESS';
 export const SAVE_ANS_ERROR = 'SAVE_ANS_ERROR';
 
@@ -214,7 +214,6 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
         getResponse: { ...state.getResponse, loading: false },
       };
     case CLEAR_GET_ASSESSMENT_RESPONSE:
-      // @@@@@@@@
       return {
         ...state,
         getResponse: {
