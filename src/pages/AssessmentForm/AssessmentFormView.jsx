@@ -397,7 +397,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               : isReview
               ? responseUpdatedData.data
               : kpiResultData?.data?.data,
-            kpis: isNotEscalationRequired ? null : tableData.length > 0 ? tableData : null,
+            kpis: isNotEscalationRequired ? [] : tableData.length > 0 ? tableData : [],
             s3: isNotEscalationRequired
               ? null
               : !(showMoreSection && !s1FailObj && !isNotEscalationRequired)
@@ -412,7 +412,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           },
           is_override: isOverride,
           submitted_by: accounts.length > 0 ? accounts[0].username : '',
-          kpis: isNotEscalationRequired ? [] : isupdated ? [] : tableData,
+          // kpis: isNotEscalationRequired ? [] : isupdated ? [] : tableData,
           event: {
             onSuccess: () => {
               setLoading(false);
