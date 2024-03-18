@@ -2355,6 +2355,10 @@ textarea.form-control {
   height: auto;
 }
 
+.input-group.mb-3 .form-control {
+  background: transparent;
+  border: 1px solid;
+}
 .form-group {
   margin-bottom: 1rem;
 }

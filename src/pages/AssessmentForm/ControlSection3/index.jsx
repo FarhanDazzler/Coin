@@ -500,8 +500,10 @@ const ControlSection3 = ({
                   </Form.Label>
                   <Form.Group className="input-group mb-3">
                     <Form.Control
-                      type="text"
+                      type="textarea"
                       name=""
+                      rows={3}
+                      as="textarea"
                       placeholder=""
                       className="form-control"
                       maxLength="2500"

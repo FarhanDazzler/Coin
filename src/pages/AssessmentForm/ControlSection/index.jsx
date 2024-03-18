@@ -143,7 +143,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                 <div className="d-flex justify-content-between">
                   <div
                     className="ActionPlanQuestionSection"
-                    style={{ minWidth: 'calc(100% - 330px)' }}
+                    style={{ minWidth: 'calc(100% - 180px)' }}
                   >
                     Are you still the Owner of Action ?
                   </div>
@@ -157,7 +157,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                         setInfo({ ...info, ownerAction: 'yes' });
                       }}
                     >
-                      Resolved
+                      YES
                     </Button>
                     <div className="pl-5">
                       <Button
@@ -169,7 +169,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                           setInfo({ ...info, ownerAction: 'no' });
                         }}
                       >
-                        Not Yet Resolved
+                        NO
                       </Button>
                     </div>
                   </div>
@@ -206,7 +206,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                 <div className="d-flex justify-content-between">
                   <div
                     className="ActionPlanQuestionSection"
-                    style={{ minWidth: 'calc(100% - 330px)' }}
+                    style={{ minWidth: 'calc(100% - 180px)' }}
                   >
                     Is escalation required?
                   </div>
@@ -222,7 +222,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                         setInfo({ ...info, isEscalationRequired: 'yes' });
                       }}
                     >
-                      Resolved
+                      YES
                     </Button>
                     <div className="pl-5">
                       <Button
@@ -235,7 +235,7 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                           setInfo({ ...info, isEscalationRequired: 'no' });
                         }}
                       >
-                        Not Yet Resolved
+                        NO
                       </Button>
                     </div>
                   </div>
