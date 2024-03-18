@@ -31,7 +31,15 @@
       "closePopupBtnTitle": "Você tem certeza?",
       "closePopupBtnText": "Você deseja fechar a Avaliação?",
       "closePopupBtnConfirmBtn": "Fechar Avaliação",
-      "section2UploadExcelBtn": "Carregar"
+      "section2UploadExcelBtn": "Carregar",
+      "Section3_failing_question_failingDue": "O controle está falhando devido a mudanças no Framework MICS de 2024?",
+      "Section3_failing_question_failingDue_Yes": "Sim",
+      "Section3_failing_question_failingDue_No": "Não",
+      "Section3_failing_question_failingDue_yes_subQuestion": "Conforme sua resposta acima, selecione uma das razões para a falha no controle entre as seguintes:",
+      "Section3_failing_question_failingDue_yes_subQuestion_option1": "O processo está em vigor, mas o controle está falhando porque os novos KPI(s) ainda não estão sendo monitorados.",
+      "Section3_failing_question_failingDue_yes_subQuestion_option2": "O processo está em vigor, mas o controle está falhando porque os novos KPI(s) não atendem ao limite.",
+      "Section3_failing_question_failingDue_yes_subQuestion_option3": "O processo não está em vigor devido a novos requisitos de controle.",
+      "Section3_failing_question_failingDue_yes_subQuestion_option4": " O processo existente ou os KPI(s) falharam."
     },
     "multi_select_filter_placeHolder": "selecione sua opção",
     "homePage": {

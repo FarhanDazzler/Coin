@@ -31,7 +31,15 @@
       "closePopupBtnTitle": "Êtes-vous sûr ?",
       "closePopupBtnText": "Voulez-vous fermer l'évaluation ?",
       "closePopupBtnConfirmBtn": "Fermer l'évaluation",
-      "section2UploadExcelBtn": "Télécharger"
+      "section2UploadExcelBtn": "Télécharger",
+      "Section3_failing_question_failingDue": "Le contrôle échoue-t-il en raison des changements dans la structure MICS 2024 ?",
+      "Section3_failing_question_failingDue_Yes": "Oui",
+      "Section3_failing_question_failingDue_No": "Non",
+      "Section3_failing_question_failingDue_yes_subQuestion": "Selon votre réponse, parmi les suivantes, veuillez sélectionner l'une des raisons pour lesquelles le contrôle échoue parmi les suivantes :",
+      "Section3_failing_question_failingDue_yes_subQuestion_option1": "Le processus est en place, mais le contrôle échoue car les nouveaux KPI(s) ne sont pas encore suivis.",
+      "Section3_failing_question_failingDue_yes_subQuestion_option2": "Le processus est en place, mais le contrôle échoue car le seuil du nouveaux KPI(s) n'est pas atteint.",
+      "Section3_failing_question_failingDue_yes_subQuestion_option3": "Le processus n'est pas en place en raison de nouvelles exigences de contrôle.",
+      "Section3_failing_question_failingDue_yes_subQuestion_option4": "Les processus existant ou les KPI(s) ont échoué."
     },
     "multi_select_filter_placeHolder": "sélectionnez votre option",
     "homePage": {

@@ -31,7 +31,15 @@
       "closePopupBtnTitle": "확실합니까?",
       "closePopupBtnText": "평가를 닫으시겠습니까?",
       "closePopupBtnConfirmBtn": "평가 닫기",
-      "section2UploadExcelBtn": "업로드"
+      "section2UploadExcelBtn": "업로드",
+      "Section3_failing_question_failingDue": "2024 MICS 프레임워크의 변경이 해당 control이 fail된 이유입니까?",
+      "Section3_failing_question_failingDue_Yes": "예",
+      "Section3_failing_question_failingDue_No": "아니요",
+      "Section3_failing_question_failingDue_yes_subQuestion": "위의 답변에 따라 제어가 fail된 이유 중 하나를 선택하십시오:",
+      "Section3_failing_question_failingDue_yes_subQuestion_option1": "프로세스가 진행 중이지만 새로운 KPI(s)가 아직 후속조치 되지 않아 fail됨",
+      "Section3_failing_question_failingDue_yes_subQuestion_option2": "프로세스가 진행 중이지만 새로운 KPI(s)가 기준에 미치지 못해 fail됨",
+      "Section3_failing_question_failingDue_yes_subQuestion_option3": " 새로운 요구 사항으로 인해 프로세스가 진행 중이지 않음",
+      "Section3_failing_question_failingDue_yes_subQuestion_option4": "기존 프로세스 또는 KPI(s)가 실패함"
     },
     "multi_select_filter_placeHolder": "옵션을 선택하십시오",
     "homePage": {

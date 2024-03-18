@@ -31,7 +31,15 @@
       "closePopupBtnTitle": "¿Estás seguro?",
       "closePopupBtnText": "¿Desea cerrar la Evaluación?",
       "closePopupBtnConfirmBtn": "Cerrar Evaluación",
-      "section2UploadExcelBtn": "Subir"
+      "section2UploadExcelBtn": "Subir",
+      "Section3_failing_question_failingDue": "¿Falla el control debido a los cambios en el Marco MICS 2024?",
+      "Section3_failing_question_failingDue_Yes": "Sí",
+      "Section3_failing_question_failingDue_No": "No",
+      "Section3_failing_question_failingDue_yes_subQuestion": "De acuerdo con su respuesta anterior, seleccione una de las siguientes razones del fallo del control:",
+      "Section3_failing_question_failingDue_yes_subQuestion_option1": "El proceso está en marcha, pero el control falla porque aún no se supervisan los nuevos indicadores clave de rendimiento.",
+      "Section3_failing_question_failingDue_yes_subQuestion_option2": "El proceso está en marcha, pero el control falla porque los nuevos KPI no alcanzan el umbral.",
+      "Section3_failing_question_failingDue_yes_subQuestion_option3": "El proceso no está implantado debido a nuevos requisitos de control.",
+      "Section3_failing_question_failingDue_yes_subQuestion_option4": "El proceso o los KPI existentes han fallado."
     },
     "multi_select_filter_placeHolder": "seleccione su opción",
     "homePage": {

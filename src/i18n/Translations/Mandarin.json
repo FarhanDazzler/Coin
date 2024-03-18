@@ -31,7 +31,15 @@
       "closePopupBtnTitle": "您确定吗？",
       "closePopupBtnText": "您是否要关闭评估？",
       "closePopupBtnConfirmBtn": "关闭评估",
-      "section2UploadExcelBtn": "上传"
+      "section2UploadExcelBtn": "上传",
+      "Section3_failing_question_failingDue": "控制失效是否是因为2024年MICS框架的变化？",
+      "Section3_failing_question_failingDue_Yes": "是",
+      "Section3_failing_question_failingDue_No": "否",
+      "Section3_failing_question_failingDue_yes_subQuestion": "根据您上面的回答，请从以下原因中选择一个控制失效的原因:",
+      "Section3_failing_question_failingDue_yes_subQuestion_option1": "流程已经建立，但由于新的关键绩效指标（KPI）尚未被跟踪，控制失效",
+      "Section3_failing_question_failingDue_yes_subQuestion_option2": "流程已经建立，但由于新的关键绩效指标（KPI）未达到阈值，控制失效",
+      "Section3_failing_question_failingDue_yes_subQuestion_option3": "由于新的控制要求，流程尚未建立",
+      "Section3_failing_question_failingDue_yes_subQuestion_option4": "现有流程或关键绩效指标（KPI）失效"
     },
     "multi_select_filter_placeHolder": "选择您的选项",
     "homePage": {
