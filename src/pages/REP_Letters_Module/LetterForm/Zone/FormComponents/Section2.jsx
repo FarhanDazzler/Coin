@@ -19,10 +19,12 @@ import {
   addBUZoneSection2CheckboxSelector,
   addBUZoneSection2UploadMailApprovalSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import useIPandGeoLocation from '../../../../../hooks/useIPandGeoLocation';
 
 const Section2 = ({ scopeData }) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { ipAddress, location } = useIPandGeoLocation();
 
   const getBUSection2SignatureResponseState = useSelector(
     getBUZoneSection2SignatureResponseSelector,
@@ -81,26 +83,29 @@ const Section2 = ({ scopeData }) => {
   const handleAutoAuth = (value, resetForm) => {
     const formData = new FormData();
     let signatures = [];
-    // Retrieve the encrypted data from localStorage
-    const encryptedData = localStorage.getItem('encryptedData');
 
-    // Get the decryption key from environment variable
-    const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
+    // // Retrieve the encrypted data from localStorage
+    // const encryptedData = localStorage.getItem('encryptedData');
 
-    // Decrypt the data
-    const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
-    const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+    // // Get the decryption key from environment variable
+    // const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
 
-    // Extract the individual pieces of information
-    const [ip, city, region, country_name] = decryptedData.split(',');
+    // // Decrypt the data
+    // const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
+    // const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+    // // Extract the individual pieces of information
+    // const [ip, city, region, country_name] = decryptedData.split(',');
 
     if (localStorage.getItem('selected_Role') === 'Zone Control') {
       signatures.push({
         role: 'ZC',
         type: 'checkbox',
         comment: value.Comments,
-        ip: ip,
-        location: `${city}, ${region}, ${country_name}`,
+        ip: ipAddress,
+        location: !location.error
+          ? `Latitude: ${location.coordinates.lat}, Longitude: ${location.coordinates.lng}`
+          : location.error.message,
       });
     }
     if (localStorage.getItem('selected_Role') === 'Excom Member') {
@@ -108,8 +113,10 @@ const Section2 = ({ scopeData }) => {
         role: 'EXC',
         type: 'checkbox',
         comment: value.Comments,
-        ip: ip,
-        location: `${city}, ${region}, ${country_name}`,
+        ip: ipAddress,
+        location: !location.error
+          ? `Latitude: ${location.coordinates.lat}, Longitude: ${location.coordinates.lng}`
+          : location.error.message,
       });
     }
     if (localStorage.getItem('selected_Role') === 'Zone VP') {
@@ -117,8 +124,10 @@ const Section2 = ({ scopeData }) => {
         role: 'ZV',
         type: 'checkbox',
         comment: value.Comments,
-        ip: ip,
-        location: `${city}, ${region}, ${country_name}`,
+        ip: ipAddress,
+        location: !location.error
+          ? `Latitude: ${location.coordinates.lat}, Longitude: ${location.coordinates.lng}`
+          : location.error.message,
       });
     }
     if (localStorage.getItem('selected_Role') === 'Zone Legal Representative') {
@@ -126,8 +135,10 @@ const Section2 = ({ scopeData }) => {
         role: 'ZLR',
         type: 'checkbox',
         comment: value.Comments,
-        ip: ip,
-        location: `${city}, ${region}, ${country_name}`,
+        ip: ipAddress,
+        location: !location.error
+          ? `Latitude: ${location.coordinates.lat}, Longitude: ${location.coordinates.lng}`
+          : location.error.message,
       });
     }
     const data = JSON.stringify({
@@ -152,18 +163,18 @@ const Section2 = ({ scopeData }) => {
     const formData = new FormData();
     let signatures = [];
 
-    // Retrieve the encrypted data from localStorage
-    const encryptedData = localStorage.getItem('encryptedData');
+    // // Retrieve the encrypted data from localStorage
+    // const encryptedData = localStorage.getItem('encryptedData');
 
-    // Get the decryption key from environment variable
-    const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
+    // // Get the decryption key from environment variable
+    // const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
 
-    // Decrypt the data
-    const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
-    const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+    // // Decrypt the data
+    // const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
+    // const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
-    // Extract the individual pieces of information
-    const [ip, city, region, country_name] = decryptedData.split(',');
+    // // Extract the individual pieces of information
+    // const [ip, city, region, country_name] = decryptedData.split(',');
 
     if (
       !getBUSection2SignatureResponseState?.data?.signatures?.zlr?.submitted &&
@@ -173,8 +184,10 @@ const Section2 = ({ scopeData }) => {
       signatures.push({
         role: 'ZLR',
         type: 'support doc',
-        ip: ip,
-        location: `${city}, ${region}, ${country_name}`,
+        ip: ipAddress,
+        location: !location.error
+          ? `Latitude: ${location.coordinates.lat}, Longitude: ${location.coordinates.lng}`
+          : location.error.message,
       });
     }
 
@@ -186,8 +199,10 @@ const Section2 = ({ scopeData }) => {
       signatures.push({
         role: 'EXC',
         type: 'support doc',
-        ip: ip,
-        location: `${city}, ${region}, ${country_name}`,
+        ip: ipAddress,
+        location: !location.error
+          ? `Latitude: ${location.coordinates.lat}, Longitude: ${location.coordinates.lng}`
+          : location.error.message,
       });
     }
 
@@ -199,8 +214,10 @@ const Section2 = ({ scopeData }) => {
       signatures.push({
         role: 'ZC',
         type: 'support doc',
-        ip: ip,
-        location: `${city}, ${region}, ${country_name}`,
+        ip: ipAddress,
+        location: !location.error
+          ? `Latitude: ${location.coordinates.lat}, Longitude: ${location.coordinates.lng}`
+          : location.error.message,
       });
     }
 
@@ -212,8 +229,10 @@ const Section2 = ({ scopeData }) => {
       signatures.push({
         role: 'ZV',
         type: 'support doc',
-        ip: ip,
-        location: `${city}, ${region}, ${country_name}`,
+        ip: ipAddress,
+        location: !location.error
+          ? `Latitude: ${location.coordinates.lat}, Longitude: ${location.coordinates.lng}`
+          : location.error.message,
       });
     }
     const data = JSON.stringify({

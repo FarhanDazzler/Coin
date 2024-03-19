@@ -50,6 +50,7 @@
     "moment-business-days": "^1.2.0",
     "msal": "^1.4.12",
     "powerbi-client-react": "^1.4.0",
+    "public-ip": "^6.0.2",
     "react": "^17.0.2",
     "react-aad-msal": "^2.3.5",
     "react-apexcharts": "^1.4.1",
