@@ -48,7 +48,8 @@ function* getControlData(payload) {
 
 function getControlDataGcdApiCall(data) {
   let params = data.payload.data;
-  return Axios.get('/get_gcd?ControlID=' + params.controlId);
+  let encodedControlId = encodeURIComponent(params.controlId);
+  return Axios.get('/get_gcd?ControlID=' + encodedControlId);
 }
 
 function* getControlDataGcd(payload) {
