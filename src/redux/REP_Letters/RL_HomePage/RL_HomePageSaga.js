@@ -757,7 +757,7 @@ function* updateAddBUSection2LazyApproval({ payload }) {
     yield put({
       type: ADD_BU_SECTION2_LAZY_APPROVAL_ERROR,
     });
-    if (error?.response?.status === 400) {
+    if (error?.response?.status === 401) {
       Swal.fire('Oops...', error?.response?.data?.data, 'error');
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
@@ -1089,7 +1089,7 @@ function* updateAddBUZoneSection2LazyApproval({ payload }) {
     yield put({
       type: ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_ERROR,
     });
-    if (error?.response?.status === 400) {
+    if (error?.response?.status === 401) {
       Swal.fire('Oops...', error?.response?.data?.data, 'error');
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
