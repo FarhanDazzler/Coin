@@ -38,10 +38,13 @@ import {
   getBUZoneScopeDataSelector,
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../../../LetterFormStyle.scss';
+import useIPandGeoLocation from '../../../../../../hooks/useIPandGeoLocation';
 
 const Section2 = ({ id }) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { ipAddress, location } = useIPandGeoLocation();
+
   const { instance, accounts, inProgress } = useMsal();
 
   const getBUSection2SignatureResponseState = useSelector(
@@ -99,24 +102,26 @@ const Section2 = ({ id }) => {
   ]);
 
   const handleAutoAuth = (value, resetForm) => {
-    // Retrieve the encrypted data from localStorage
-    const encryptedData = localStorage.getItem('encryptedData');
+    // // Retrieve the encrypted data from localStorage
+    // const encryptedData = localStorage.getItem('encryptedData');
 
-    // Get the decryption key from environment variable
-    const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
+    // // Get the decryption key from environment variable
+    // const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
 
-    // Decrypt the data
-    const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
-    const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+    // // Decrypt the data
+    // const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
+    // const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
-    // Extract the individual pieces of information
-    const [ip, city, region, country_name] = decryptedData.split(',');
+    // // Extract the individual pieces of information
+    // const [ip, city, region, country_name] = decryptedData.split(',');
 
     const payload = {
       id: id,
       comment: value.Comments,
-      ip: ip,
-      location: `${city}, ${region}, ${country_name}`,
+      ip: ipAddress,
+      location: !location.error
+        ? `Latitude: ${location.coordinates.lat}, Longitude: ${location.coordinates.lng}`
+        : location.error.message,
     };
 
     //console.log('payload', payload);

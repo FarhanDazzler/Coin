@@ -17,10 +17,13 @@ import {
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import { getBUSection3ResponseSelector } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import Table2 from '../../../../../../components/UI/Table/Table2';
+import useIPandGeoLocation from '../../../../../../hooks/useIPandGeoLocation';
 
 const ApprovalPageSection3 = ({ scopeData }) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { ipAddress, location } = useIPandGeoLocation();
+
   const { accounts } = useMsal();
   const { Formik } = formik;
 
@@ -34,24 +37,26 @@ const ApprovalPageSection3 = ({ scopeData }) => {
   }, []);
 
   const handleSave = (value, resetForm) => {
-    // Retrieve the encrypted data from localStorage
-    const encryptedData = localStorage.getItem('encryptedData');
+    // // Retrieve the encrypted data from localStorage
+    // const encryptedData = localStorage.getItem('encryptedData');
 
-    // Get the decryption key from environment variable
-    const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
+    // // Get the decryption key from environment variable
+    // const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
 
-    // Decrypt the data
-    const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
-    const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+    // // Decrypt the data
+    // const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, encryptionKey);
+    // const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
-    // Extract the individual pieces of information
-    const [ip, city, region, country_name] = decryptedData.split(',');
+    // // Extract the individual pieces of information
+    // const [ip, city, region, country_name] = decryptedData.split(',');
 
     const payload = {
       assessment_id: scopeData?.id,
       FD_Comment: value.Comment,
-      ip: ip,
-      location: `${city}, ${region}, ${country_name}`,
+      ip: ipAddress,
+      location: !location.error
+        ? `Latitude: ${location.coordinates.lat}, Longitude: ${location.coordinates.lng}`
+        : location.error.message,
     };
 
     //console.log('payload', payload);

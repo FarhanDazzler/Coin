@@ -431,22 +431,28 @@ const ControlSection3 = ({
       {
         value:
           'Process is in place, but control is failing due to new KPI(s) not yet being tracked',
-        label:
-        t('selfAssessment.assessmentForm.Section3_failing_question_failingDue_yes_subQuestion_option1'),
+        label: t(
+          'selfAssessment.assessmentForm.Section3_failing_question_failingDue_yes_subQuestion_option1',
+        ),
       },
       {
         value:
           'Process is in place, but control is failing due to new KPI(s) not meeting threshold',
-        label:
-        t('selfAssessment.assessmentForm.Section3_failing_question_failingDue'),
+        label: t(
+          'selfAssessment.assessmentForm.Section3_failing_question_failingDue_yes_subQuestion_option2',
+        ),
       },
       {
         value: 'Process is not in place due to new control requirements',
-        label: t('selfAssessment.assessmentForm.Section3_failing_question_failingDue'),
+        label: t(
+          'selfAssessment.assessmentForm.Section3_failing_question_failingDue_yes_subQuestion_option3',
+        ),
       },
       {
         value: 'Existing Process or KPI(s) failed',
-        label: t('selfAssessment.assessmentForm.Section3_failing_question_failingDue'),
+        label: t(
+          'selfAssessment.assessmentForm.Section3_failing_question_failingDue_yes_subQuestion_option4',
+        ),
       },
     ],
     handleChange: handleChangeFailingResponseOption,

@@ -154,15 +154,24 @@ const ReviewSection3 = () => {
               <Divider color="gray" className="section3-divider" size="xs" />
               <Row>
                 <h5>
-                  <span className="golden-text">Approval provided by Finance Director</span> (
-                  {getBUSection3ResponseState?.data?.approved_by}){' '}
-                  <span className="golden-text">via Application Authenticator on </span>
-                  {getBUSection3ResponseState?.data?.approved_at}{' '}
-                  <span className="golden-text">from IP Address </span>
-                  {getBUSection3ResponseState?.data?.approver_ip}{' '}
-                  <span className="golden-text">and location </span>
-                  {getBUSection3ResponseState?.data?.approver_location} (user object ID:{' '}
-                  {getBUSection3ResponseState?.data?.approved_by_oid})
+                  Approval provided by Finance Director{' '}
+                  <span className="golden-text">
+                    ({getBUSection3ResponseState?.data?.approved_by})
+                  </span>{' '}
+                  via Application Authenticator on{' '}
+                  <span className="golden-text">
+                    {getBUSection3ResponseState?.data?.approved_at}
+                  </span>{' '}
+                  from IP Address
+                  {' '}
+                  <span className="golden-text">
+                    {getBUSection3ResponseState?.data?.approver_ip}
+                  </span>{' '}
+                  and location{' '}
+                  <span className="golden-text">
+                    {getBUSection3ResponseState?.data?.approver_location} (user object ID:{' '}
+                    {getBUSection3ResponseState?.data?.approved_by_oid})
+                  </span>
                 </h5>
               </Row>
               <Divider className="section3-divider" size="xs" />

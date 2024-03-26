@@ -110,15 +110,6 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
       size: 200,
     },
     {
-      accessorKey: 'BU_Head',
-      id: 'BU_Head',
-      header: 'BU Head',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 200,
-    },
-    {
       accessorKey: 'Applicability',
       id: 'Applicability',
       header: 'Applicability',
@@ -144,6 +135,15 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 150,
+    },
+    {
+      accessorKey: 'BU_Head',
+      id: 'BU_Head',
+      header: 'BU Head',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 200,
     },
     {
       accessorKey: 'Zone_VP',
