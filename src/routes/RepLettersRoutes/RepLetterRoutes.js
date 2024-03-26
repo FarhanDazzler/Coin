@@ -34,6 +34,11 @@ export const RepLettersRoutes = [
     component: RL_MDM_OrganizationHierarchyLandingPage,
   },
   {
+    path: '/REP-Letters/master-data-management/site-and-plant-masterdata-management',
+    exact: true,
+    component: RL_MDM_OrganizationHierarchyLandingPage,
+  },
+  {
     path: '/REP-Letters/master-data-management/bu-masterdata-management',
     exact: true,
     component: RL_MDM_BUMasterdataManagementLandingPage,
