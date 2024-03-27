@@ -269,6 +269,13 @@ export const GET_BU_SCOPE_DATA_ERROR = 'GET_BU_SCOPE_DATA_ERROR';
 export const CLEAR_BU_SCOPE_DATA = 'CLEAR_BU_SCOPE_DATA';
 // ============== Get BU Scope Data ==================//
 
+// ============== Get Functional Scope Data ==================//
+export const GET_FUNCTIONAL_SCOPE_DATA_REQUEST = 'GET_FUNCTIONAL_SCOPE_DATA_REQUEST';
+export const GET_FUNCTIONAL_SCOPE_DATA_SUCCESS = 'GET_FUNCTIONAL_SCOPE_DATA_SUCCESS';
+export const GET_FUNCTIONAL_SCOPE_DATA_ERROR = 'GET_FUNCTIONAL_SCOPE_DATA_ERROR';
+export const CLEAR_FUNCTIONAL_SCOPE_DATA = 'CLEAR_FUNCTIONAL_SCOPE_DATA';
+// ============== Get Functional Scope Data ==================//
+
 // ============= ADD OR UPDATE BUZone DRAFT RESPONSE data ===============//
 export const ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_REQUEST =
   'ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_REQUEST';
@@ -384,6 +391,7 @@ const initialState = {
   addBUSection3Response: { ...block, data: [] },
   approveBUSection3Response: { ...block, data: [] },
   getBUScopeData: { ...block, data: [] },
+  getFunctionalScopeData: { ...block, data: [] },
   addOrUpdateBUZoneDraftResponse: { ...block, data: [] },
   getLatestBUZoneDraftResponse: { ...block, data: [] },
   getBUZoneSubmitResponse: { ...block, data: [] },
@@ -1350,6 +1358,42 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         },
       };
     case CLEAR_BU_SCOPE_DATA:
+      return {
+        ...state,
+        getBUScopeData: {
+          ...state.getBUScopeData,
+          data: {},
+          loading: false,
+        },
+      };
+
+    // GET Functional Scope Data
+    case GET_FUNCTIONAL_SCOPE_DATA_REQUEST:
+      return {
+        ...state,
+        getFunctionalScopeData: {
+          ...state.getFunctionalScopeData,
+          loading: true,
+        },
+      };
+    case GET_FUNCTIONAL_SCOPE_DATA_SUCCESS:
+      return {
+        ...state,
+        getFunctionalScopeData: {
+          ...state.getFunctionalScopeData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_FUNCTIONAL_SCOPE_DATA_ERROR:
+      return {
+        ...state,
+        getFunctionalScopeData: {
+          ...state.getFunctionalScopeData,
+          loading: false,
+        },
+      };
+    case CLEAR_FUNCTIONAL_SCOPE_DATA:
       return {
         ...state,
         getBUScopeData: {

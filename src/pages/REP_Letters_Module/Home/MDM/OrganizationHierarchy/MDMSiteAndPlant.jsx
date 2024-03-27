@@ -57,15 +57,6 @@ const MDMSiteAndPlant = () => {
       size: 90,
     },
     {
-      accessorKey: 'Plant_Code',
-      id: 'Plant_Code',
-      header: 'Plant Code',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
-    },
-    {
       accessorKey: 'Plant_Name',
       id: 'Plant_Name',
       header: 'Plant Name',

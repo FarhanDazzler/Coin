@@ -129,6 +129,9 @@ import {
   GET_BU_ZONE_SCOPE_DATA_REQUEST,
   GET_BU_ZONE_SCOPE_DATA_SUCCESS,
   GET_BU_ZONE_SCOPE_DATA_ERROR,
+  GET_FUNCTIONAL_SCOPE_DATA_REQUEST,
+  GET_FUNCTIONAL_SCOPE_DATA_SUCCESS,
+  GET_FUNCTIONAL_SCOPE_DATA_ERROR,
 } from './RL_HomePageReducer';
 import Swal from 'sweetalert2';
 
@@ -885,6 +888,26 @@ function* handle_GetBUScopeData({ payload }) {
   }
 }
 
+// get handle_GetFunctionalScopeData Scope Data
+async function getFunctionalScopeDataAPI(params) {
+  return await Axios.get('/get_functional_assessment_scope', { params });
+}
+function* handle_GetFunctionalScopeData({ payload }) {
+  try {
+    const response = yield call(getFunctionalScopeDataAPI, payload);
+    if (response.success) {
+      yield put({
+        type: GET_FUNCTIONAL_SCOPE_DATA_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_FUNCTIONAL_SCOPE_DATA_ERROR,
+    });
+  }
+}
+
 // add Or Update BU Zone Draft Response
 async function addOrUpdateBUZoneDraftResponseApi(payload) {
   return await Axios.post('/save_zone_assessment_draft', payload);
@@ -1196,6 +1219,7 @@ export default all([
   takeLatest(ADD_BU_SECTION_3_RESPONSE_REQUEST, updateAddBUSection3Response),
   takeLatest(APPROVE_BU_SECTION_3_RESPONSE_REQUEST, updateApproveBUSection3Response),
   takeLatest(GET_BU_SCOPE_DATA_REQUEST, handle_GetBUScopeData),
+  takeLatest(GET_FUNCTIONAL_SCOPE_DATA_REQUEST, handle_GetFunctionalScopeData),
   takeLatest(ADD_OR_UPDATE_BU_ZONE_DRAFT_RESPONSE_REQUEST, updateAddOrUpdateBUZoneDraftResponse),
   takeLatest(GET_LATEST_BU_ZONE_DRAFT_RESPONSE_REQUEST, handle_GetLatestBUZoneDraftResponse),
   takeLatest(GET_BU_ZONE_SUBMIT_RESPONSE_REQUEST, handle_GetBUZoneSubmitResponse),
