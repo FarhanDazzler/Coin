@@ -57,6 +57,7 @@ export const addBUSection3ResponseSelector = (state) => state?.RL_HomePage?.addB
 export const approveBUSection3ResponseSelector = (state) =>
   state?.RL_HomePage?.approveBUSection3Response;
 export const getBUScopeDataSelector = (state) => state?.RL_HomePage?.getBUScopeData;
+export const getFunctionalScopeDataSelector = (state) => state?.RL_HomePage?.getFunctionalScopeData;
 export const addOrUpdateBUZoneDraftResponseSelector = (state) =>
   state?.RL_HomePage?.addOrUpdateBUZoneDraftResponse;
 export const getLatestBUZoneDraftResponseSelector = (state) =>
