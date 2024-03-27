@@ -171,6 +171,12 @@ export const GET_ALL_PROVIDER_ENTITIES_ERROR = 'GET_ALL_PROVIDER_ENTITIES_ERROR'
 
 // =================== GET All Provider Entities Data ========================//
 
+// =================== GET All get_sites_and_plants_master_data MDM ========================//
+export const GET_SITES_AND_PLANTS_MASTER_REQUEST = 'GET_SITES_AND_PLANTS_MASTER_REQUEST';
+export const GET_SITES_AND_PLANTS_MASTER_SUCCESS = 'GET_SITES_AND_PLANTS_MASTER_SUCCESS';
+export const GET_SITES_AND_PLANTS_MASTER_ERROR = 'GET_SITES_AND_PLANTS_MASTER_ERROR';
+// =================== End GET All get_sites_and_plants_master_data MDM ========================//
+
 const block = {
   loading: false,
   error: '',
@@ -182,6 +188,7 @@ const initialState = {
   addOrgStructureData: { ...block, data: [] },
   updateOrgStructureData: { ...block, data: [] },
   getParentEntityData: { ...block, data: [] },
+  getSitesAndPlantData: { ...block, data: [] },
   orgHierarchy: { ...block, data: [] },
   micsFramework: { ...block, data: [] },
   addMicsFramework: { ...block, data: [] },
@@ -712,6 +719,33 @@ export const MDMReducer = (state = initialState, { type, payload = {} }) => {
       return {
         ...state,
         getParentEntityData: {
+          loading: false,
+        },
+      };
+
+    // Get Parent Entity
+    case GET_SITES_AND_PLANTS_MASTER_REQUEST:
+      return {
+        ...state,
+        getSitesAndPlantData: {
+          ...state.getSitesAndPlantData,
+          loading: true,
+        },
+      };
+    case GET_SITES_AND_PLANTS_MASTER_SUCCESS:
+      return {
+        ...state,
+        getSitesAndPlantData: {
+          ...state.getSitesAndPlantData,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_SITES_AND_PLANTS_MASTER_ERROR:
+      return {
+        ...state,
+        getSitesAndPlantData: {
+          ...state.getSitesAndPlantData,
           loading: false,
         },
       };

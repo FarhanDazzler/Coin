@@ -73,6 +73,9 @@ import {
   ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA,
   ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_FAILED,
   ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA_SUCCESS,
+  GET_SITES_AND_PLANTS_MASTER_REQUEST,
+  GET_SITES_AND_PLANTS_MASTER_SUCCESS,
+  GET_SITES_AND_PLANTS_MASTER_ERROR,
 } from './MDM_Reducer';
 import Swal from 'sweetalert2';
 import { ACTION_ADD_ERROR_NOTIFICATION_DATA } from '../ErrorNotification/ErrorNotificationReducer';
@@ -651,6 +654,26 @@ function* handleGet_AllProviderEntities({ payload }) {
   }
 }
 
+async function getSitesAndPlantApi(params) {
+  return await Axios.get('/get_sites_and_plants_master_data', { params });
+}
+function* handleGetSitesAndPlantData({ payload }) {
+  try {
+    const response = yield call(getSitesAndPlantApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_SITES_AND_PLANTS_MASTER_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_SITES_AND_PLANTS_MASTER_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 export default all([
   takeLatest(GET_ORG_STRUCTURES_REQUEST, handleGet_org_structures),
   takeLatest(ACTION_ADD_ORG_STRUCTURE_DATA, addOrgStructureData),
@@ -670,6 +693,7 @@ export default all([
   takeLatest(GET_SUBPROCESS_PREFIX_REQUEST, getSubprocessPrefixData),
   takeLatest(UPDATE_MEGA_AND_SUBPROCESS_REQUEST, updateMegaAndSubprocessData),
   takeLatest(GET_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, handleGet_ControlOwnerAndOversight),
+  takeLatest(GET_SITES_AND_PLANTS_MASTER_REQUEST, handleGetSitesAndPlantData),
   takeLatest(ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA, handleGet_ControlInstanceHistory),
   takeLatest(MODIFY_CONTROL_OWNER_AND_OVERSIGHT_REQUEST, modifyControlOwnerAndOversightData),
   takeLatest(
