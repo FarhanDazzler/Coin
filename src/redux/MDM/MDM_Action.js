@@ -23,7 +23,8 @@ import {
   UPDATE_MEGA_AND_SUBPROCESS_REQUEST,
   ASSIGN_APPLICABILITY_AND_ASSIGNMENT_OF_PROVIDER_ORGANIZATION_REQUEST,
   GET_ALL_PROVIDER_ENTITIES_REQUEST,
-  ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA
+  ACTION_GET_CONTROL_INSTANCE_HISTORY_DATA,
+  GET_SITES_AND_PLANTS_MASTER_REQUEST,
 } from './MDM_Reducer';
 
 export const getOrgStructures = (payload) => ({ type: GET_ORG_STRUCTURES_REQUEST, payload });
@@ -110,5 +111,10 @@ export const getAllProviderEntities = (payload) => ({
 export const orgManageButton = (payload) => ({ type: ORG_OPEN_TABLE_REQUEST, payload });
 export const megaAndSubprocessManageButton = (payload) => ({
   type: MEGA_AND_SUBPROCESS_OPEN_TABLE_REQUEST,
+  payload,
+});
+
+export const getSiteAndPlant = (payload) => ({
+  type: GET_SITES_AND_PLANTS_MASTER_REQUEST,
   payload,
 });

@@ -28,3 +28,4 @@ export const updateMegaAndSubprocessSelector = (state) => state.mdm.updateMegaAn
 export const assignApplicabilityAndAssignmentOfProviderOrganizationSelector = (state) =>
   state.mdm.assignApplicabilityAndAssignmentOfProviderOrganization;
 export const getAllProviderEntitiesSelector = (state) => state.mdm.getAllProviderEntities;
+export const sitesAndPlantDataSelector = (state) => state.mdm.getSitesAndPlantData;
