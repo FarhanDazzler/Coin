@@ -11,7 +11,6 @@ import ScheduleSurveyBUPage from '../../pages/REP_Letters_Module/SchedulingAndTr
 import ScheduleSurveyFunctionalPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/ScheduleLetter/ScheduleSurveyFunctionalLandingPage';
 import FunctionalDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/Table/FunctionalDetailsTableData';
 import BUDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/BU/Table/BUDetailsTableData';
-import FunctionalLetterForm from '../../pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm';
 import BULetterForm from '../../pages/REP_Letters_Module/LetterForm/BU/BULetterForm';
 import ZoneForm from '../../pages/REP_Letters_Module/LetterForm/Zone/ZoneForm';
 import RepLetterReporting from '../../pages/REP_Letters_Module/Reporting/RepLetterReporting';
@@ -93,11 +92,6 @@ export const RepLettersRoutes = [
     path: '/REP-Letters/scheduling-and-triggering/bu-letter-details',
     exact: true,
     component: BUDetailsTableData,
-  },
-  {
-    path: '/REP-Letters/attempt-letter/functional-letter-form',
-    exact: true,
-    component: FunctionalLetterForm,
   },
   {
     path: '/REP-Letters/attempt-letter/BU-letter-form/:id/:modalType',
