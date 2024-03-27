@@ -53,6 +53,8 @@ import {
   CLEAR_GET_BU_ZONE_SECTION2_SIGNATURE_RESPONSE_REQUEST,
   GET_BU_ZONE_SCOPE_DATA_REQUEST,
   CLEAR_BU_ZONE_SCOPE_DATA,
+  GET_FUNCTIONAL_SCOPE_DATA_REQUEST,
+  CLEAR_FUNCTIONAL_SCOPE_DATA,
 } from './RL_HomePageReducer';
 
 export const getFunctionRecipientHomePageData = (payload) => ({
@@ -238,6 +240,14 @@ export const getBUScopeData = (payload) => ({
 
 export const clearGetBUScopeData = () => ({
   type: CLEAR_BU_SCOPE_DATA,
+});
+export const getFunctionalScopeData = (payload) => ({
+  type: GET_FUNCTIONAL_SCOPE_DATA_REQUEST,
+  payload,
+});
+
+export const clearGetFunctionalScopeData = () => ({
+  type: CLEAR_FUNCTIONAL_SCOPE_DATA,
 });
 
 export const addOrUpdateBUZoneDraftResponse = (payload) => ({
