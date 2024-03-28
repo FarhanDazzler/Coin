@@ -16,6 +16,11 @@ const RLMDM = () => {
                 description="Create or modify a Organization within the Organization Hierarchy"
                 url="/REP-Letters/master-data-management/organization-hierarchy"
               />
+              <MDMBox
+                title="Site & Plant Masterdata management"
+                description="Master Data Table for Sites and Plants."
+                url="/REP-Letters/master-data-management/site-and-plant-masterdata-management"
+              />
             </div>
           </div>
           {localStorage.getItem('selected_module_Role') == 'BU' ? (
@@ -48,16 +53,6 @@ const RLMDM = () => {
               </div>
             </>
           )}
-
-          <div className="col-lg-6 p-4">
-            <div className="MDMBoxWrapper">
-              <MDMBox
-                title="Site & Plant Masterdata management"
-                description="Master Data Table for Sites and Plants."
-                url="/REP-Letters/master-data-management/site-and-plant-masterdata-management"
-              />
-            </div>
-          </div>
         </div>
       </div>
     </PageWrapper>
