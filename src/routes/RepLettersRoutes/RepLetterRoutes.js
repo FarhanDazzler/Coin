@@ -20,7 +20,7 @@ import ZoneDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTr
 import ScheduleSurveyZonePage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Zone/ScheduleLetter/ScheduleSurveyZoneLandingPage';
 import EditSection1 from '../../pages/REP_Letters_Module/LetterForm/BU/FormComponents/EditSection1';
 import EditZoneSection1 from '../../pages/REP_Letters_Module/LetterForm/Zone/FormComponents/EditZoneSection1';
-import MDMSiteAndPlant from '../../pages/REP_Letters_Module/Home/MDM/OrganizationHierarchy/MDMSiteAndPlant';
+import MDMSiteAndPlant from '../../pages/REP_Letters_Module/Home/MDM/SitesAndPlants/MDMSiteAndPlant';
 
 export const RepLettersRoutes = [
   {
