@@ -475,8 +475,8 @@ const Page3 = ({ handleNext, setStep }) => {
                 className="mantine-MultiSelect-wrapper-AssessmentBank"
                 data={[
                   'Annually',
-                  'Semi-Annaually',
-                  'Quaterly',
+                  'Semi-Annually',
+                  'Quarterly',
                   'Monthly',
                   'Weekly',
                   'Daily',
