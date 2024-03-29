@@ -5,6 +5,8 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
+import Swal from 'sweetalert2';
+
 import Workbook from 'react-excel-workbook';
 import readXlsxFile from 'read-excel-file';
 import {
@@ -529,6 +531,35 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
     }, 100);
   }
 
+  useEffect(() => {
+    if (stateCsvTampred?.data === false && !stateCsvTampred.loading) {
+      const isupated = excelFile.find((i) => i.Denominator == 0);
+      if (isupated) return Swal.fire('Oops...', 'Denominator cannot be Zero !!', 'error');
+      let newDataArray = tableData?.map((data, i) => {
+        const Numerator =
+          excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
+            ? excelFile[i]?.Numerator
+            : data.Numerator;
+        const Denominator =
+          excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
+            ? excelFile[i]?.Denominator
+            : data.Denominator || '';
+        return {
+          ...data,
+          Numerator,
+          Denominator,
+          Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
+          Source_System: excelFile[i]['Link to data'],
+        };
+      });
+      console.log(newDataArray, 'newDataArray');
+      setTableData([...newDataArray]);
+      setScvUpdateData(csvUpdateData + 1);
+    } else {
+      setScvUpdateData(0);
+    }
+  }, [stateCsvTampred.loading, stateCsvTampred.data]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (excelFile !== null) {
@@ -544,22 +575,22 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       };
 
       dispatch(getCsvTampredDataAction(apiBody));
-      // if (stateCsvTampred?.data === false) {
-      let newDataArray = tableData?.map((data, i) => {
-        return {
-          ...data,
-          Numerator: excelFile[i]?.Numerator,
-          Denominator: excelFile[i]?.Denominator,
-          Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
-          Source_System: excelFile[i]['Link to data'],
-        };
-      });
-      console.log(newDataArray, 'newDataArray');
-      setTableData([...newDataArray]);
-      setScvUpdateData(csvUpdateData + 1);
-      // } else {
-      //   setScvUpdateData(0);
-      // }
+      if (stateCsvTampred?.data === false) {
+        // let newDataArray = tableData?.map((data, i) => {
+        //   return {
+        //     ...data,
+        //     Numerator: excelFile[i]?.Numerator,
+        //     Denominator: excelFile[i]?.Denominator,
+        //     Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
+        //     Source_System: excelFile[i]['Link to data'],
+        //   };
+        // });
+        // console.log(newDataArray, 'newDataArray');
+        // setTableData([...newDataArray]);
+        // setScvUpdateData(csvUpdateData + 1);
+      } else {
+        setScvUpdateData(0);
+      }
     } else {
       setTableData(null);
     }
