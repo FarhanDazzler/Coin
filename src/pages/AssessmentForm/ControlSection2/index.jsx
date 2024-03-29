@@ -192,6 +192,22 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
           };
         }
       },
+      validator: (newValue, row, column) => {
+        if (isNaN(newValue) || newValue <= 0) {
+          row.Numerator = '';
+          return {
+            valid: false,
+            message: 'Numerator can be positive values only',
+          };
+        }
+        if (+row.Denominator < 0 || !row.Denominator) {
+          handleChange(row.Numerator, newValue, row, column);
+          return {
+            valid: false,
+            message: 'Denominator is required when Numerator is filled',
+          };
+        }
+      },
     },
     {
       dataField: 'Expected_Denominator',
@@ -226,6 +242,13 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
           return {
             valid: false,
             message: 'Denominator can be positive values only',
+          };
+        }
+        if (+row.Numerator < 0 || !row.Numerator) {
+          handleChange(row.Denominator, newValue, row, column);
+          return {
+            valid: false,
+            message: 'Numerator is required when Denominator is filled',
           };
         }
       },
@@ -390,9 +413,23 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
           row['Upload_Approach'] = newValue;
         }
         //If user Denominator change value then update existing value
-        if (column.dataField === 'Denominator' && newValue < 1) {
-          row['Denominator'] = '';
+        if (column.dataField === 'Denominator') {
+          if (newValue < 1) {
+            row['Denominator'] = '';
+          } else {
+            row['Denominator'] = newValue;
+          }
         }
+
+        //If user Numerator change value then update existing value
+        if (column.dataField === 'Numerator') {
+          if (newValue < 0) {
+            row['Numerator'] = '';
+          } else {
+            row['Numerator'] = newValue;
+          }
+        }
+
         row.KPI_Value = (row.Numerator / row.Denominator).toFixed(5);
         //If user Lower is better change value then update existing value
         if (row.Positive_direction === 'Lower is better') {
@@ -485,7 +522,11 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       }
       return d;
     });
+
     setTableData(updateProduct);
+    setTimeout(() => {
+      document.activeElement.blur();
+    }, 100);
   }
 
   const handleSubmit = (e) => {
