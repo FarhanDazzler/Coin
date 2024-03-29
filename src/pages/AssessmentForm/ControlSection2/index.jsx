@@ -5,6 +5,8 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
+import Swal from 'sweetalert2';
+
 import Workbook from 'react-excel-workbook';
 import readXlsxFile from 'read-excel-file';
 import {
@@ -192,6 +194,22 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
           };
         }
       },
+      validator: (newValue, row, column) => {
+        if (isNaN(newValue) || newValue <= 0) {
+          row.Numerator = '';
+          return {
+            valid: false,
+            message: 'Numerator can be positive values only',
+          };
+        }
+        if (+row.Denominator < 0 || !row.Denominator) {
+          handleChange(row.Numerator, newValue, row, column);
+          return {
+            valid: false,
+            message: 'Denominator is required when Numerator is filled',
+          };
+        }
+      },
     },
     {
       dataField: 'Expected_Denominator',
@@ -226,6 +244,13 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
           return {
             valid: false,
             message: 'Denominator can be positive values only',
+          };
+        }
+        if (+row.Numerator < 0 || !row.Numerator) {
+          handleChange(row.Denominator, newValue, row, column);
+          return {
+            valid: false,
+            message: 'Numerator is required when Denominator is filled',
           };
         }
       },
@@ -390,9 +415,23 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
           row['Upload_Approach'] = newValue;
         }
         //If user Denominator change value then update existing value
-        if (column.dataField === 'Denominator' && newValue < 1) {
-          row['Denominator'] = '';
+        if (column.dataField === 'Denominator') {
+          if (newValue < 1) {
+            row['Denominator'] = '';
+          } else {
+            row['Denominator'] = newValue;
+          }
         }
+
+        //If user Numerator change value then update existing value
+        if (column.dataField === 'Numerator') {
+          if (newValue < 0) {
+            row['Numerator'] = '';
+          } else {
+            row['Numerator'] = newValue;
+          }
+        }
+
         row.KPI_Value = (row.Numerator / row.Denominator).toFixed(5);
         //If user Lower is better change value then update existing value
         if (row.Positive_direction === 'Lower is better') {
@@ -485,8 +524,41 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       }
       return d;
     });
+
     setTableData(updateProduct);
+    setTimeout(() => {
+      document.activeElement.blur();
+    }, 100);
   }
+
+  useEffect(() => {
+    if (stateCsvTampred?.data === false && !stateCsvTampred.loading) {
+      const isupated = excelFile.find((i) => i.Denominator == 0);
+      if (isupated) return Swal.fire('Oops...', 'Denominator cannot be Zero !!', 'error');
+      let newDataArray = tableData?.map((data, i) => {
+        const Numerator =
+          excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
+            ? excelFile[i]?.Numerator
+            : data.Numerator;
+        const Denominator =
+          excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
+            ? excelFile[i]?.Denominator
+            : data.Denominator || '';
+        return {
+          ...data,
+          Numerator,
+          Denominator,
+          Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
+          Source_System: excelFile[i]['Link to data'],
+        };
+      });
+      console.log(newDataArray, 'newDataArray');
+      setTableData([...newDataArray]);
+      setScvUpdateData(csvUpdateData + 1);
+    } else {
+      setScvUpdateData(0);
+    }
+  }, [stateCsvTampred.loading, stateCsvTampred.data]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -503,22 +575,22 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       };
 
       dispatch(getCsvTampredDataAction(apiBody));
-      // if (stateCsvTampred?.data === false) {
-      let newDataArray = tableData?.map((data, i) => {
-        return {
-          ...data,
-          Numerator: excelFile[i]?.Numerator,
-          Denominator: excelFile[i]?.Denominator,
-          Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
-          Source_System: excelFile[i]['Link to data'],
-        };
-      });
-      console.log(newDataArray, 'newDataArray');
-      setTableData([...newDataArray]);
-      setScvUpdateData(csvUpdateData + 1);
-      // } else {
-      //   setScvUpdateData(0);
-      // }
+      if (stateCsvTampred?.data === false) {
+        // let newDataArray = tableData?.map((data, i) => {
+        //   return {
+        //     ...data,
+        //     Numerator: excelFile[i]?.Numerator,
+        //     Denominator: excelFile[i]?.Denominator,
+        //     Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
+        //     Source_System: excelFile[i]['Link to data'],
+        //   };
+        // });
+        // console.log(newDataArray, 'newDataArray');
+        // setTableData([...newDataArray]);
+        // setScvUpdateData(csvUpdateData + 1);
+      } else {
+        setScvUpdateData(0);
+      }
     } else {
       setTableData(null);
     }

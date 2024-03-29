@@ -53,11 +53,13 @@ const FunctionalLetterForm = (props) => {
       dispatch(getFunctionalScopeData(payloadForGettingScopeData));
 
       if (modalType === 'attempt') {
-        let payload = {
-          function: getFunctionScopeDataState?.data?.Function,
-        };
+        if (getFunctionScopeDataState?.data?.Function) {
+          let payload = {
+            function: getFunctionScopeDataState?.data?.Function,
+          };
 
-        dispatch(get_Function_Questions(payload));
+          dispatch(get_Function_Questions(payload));
+        }
 
         let payloadForGettingDraftResp = {
           assessment_id: id,
@@ -70,7 +72,7 @@ const FunctionalLetterForm = (props) => {
         dispatch(getFunctionSubmitResponse(payloadForGettingSubmittedResp));
       }
     }
-  }, [token]);
+  }, [token, getFunctionScopeDataState?.data?.Function]);
 
   const exportResponseToExcel = (info, responses, Last_Saved_At) => {
     // Create a new workbook
