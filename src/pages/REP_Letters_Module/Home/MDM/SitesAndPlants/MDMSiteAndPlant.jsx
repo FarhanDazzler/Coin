@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { FloatRight } from 'tabler-icons-react';
 import PageWrapper from '../../../../../components/wrappers/PageWrapper';
 import NavTabsMDM from '../MDM_Tab_Buttons/TabButtons';
 import { getSiteAndPlant } from '../../../../../redux/MDM/MDM_Action';
@@ -88,6 +89,14 @@ const MDMSiteAndPlant = () => {
         <div className="container-fluid mt-5">
           <div className="row pt-5">
             <div className="col-12 col-lg-12">
+              <div className="mdm-table-button">
+                <div className="table-heading" style={{ justifyContent: 'space-between' }}>
+                  <div>
+                    <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
+                    <span style={{ paddingLeft: '16px' }}>Sites & Plants Masterdata</span>
+                  </div>
+                </div>
+              </div>
               <Table2
                 tableData={sitesAndPlantData?.data || []}
                 loading={sitesAndPlantData.loading}
