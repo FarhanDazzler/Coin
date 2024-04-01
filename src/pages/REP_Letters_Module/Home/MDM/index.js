@@ -46,18 +46,17 @@ const RLMDM = () => {
                   />
                 </div>
               </div>
+              <div className="col-lg-6 p-4">
+                <div className="MDMBoxWrapper">
+                  <MDMBox
+                    title="Site & Plant Masterdata management"
+                    description="Master Data Table for Sites and Plants."
+                    url="/REP-Letters/master-data-management/site-and-plant-masterdata-management"
+                  />
+                </div>
+              </div>
             </>
           )}
-
-          <div className="col-lg-6 p-4">
-            <div className="MDMBoxWrapper">
-              <MDMBox
-                title="Site & Plant Masterdata management"
-                description="Master Data Table for Sites and Plants."
-                url="/REP-Letters/master-data-management/site-and-plant-masterdata-management"
-              />
-            </div>
-          </div>
         </div>
       </div>
     </PageWrapper>
