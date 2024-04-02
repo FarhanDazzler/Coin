@@ -48,6 +48,8 @@ const AssessmentFormRender = ({
   setIsOverride,
   L1AndL2NoQuestionsAns,
   setL1AndL2NoQuestionsAns,
+  question3Api,
+  setQuestion3Api,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -185,6 +187,8 @@ const AssessmentFormRender = ({
                     loadingRef={loadingRef}
                     L1AndL2NoQuestionsAns={L1AndL2NoQuestionsAns}
                     setL1AndL2NoQuestionsAns={setL1AndL2NoQuestionsAns}
+                    question3Api={question3Api}
+                    setQuestion3Api={setQuestion3Api}
                   />
                 </>
               )}
