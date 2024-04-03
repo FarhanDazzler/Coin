@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
-import { Loader } from 'semantic-ui-react';
+import { Loader } from '@mantine/core';
 import { useHistory, useParams } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import RenderBlock from '../../../components/RenderBlock';
@@ -31,6 +31,8 @@ const ControlSection3 = ({
   loadingRef,
   L1AndL2NoQuestionsAns,
   setL1AndL2NoQuestionsAns,
+  question3Api,
+  setQuestion3Api,
 }) => {
   const history = useHistory();
   const Control_ID = activeData?.control_id;
@@ -44,7 +46,7 @@ const ControlSection3 = ({
   const [questionL2, setQuestionL2] = useState([]);
   const [questionL3, setQuestionL3] = useState([]);
   const [question2Api, setQuestion2Api] = useState(false);
-  const [question3Api, setQuestion3Api] = useState(false);
+
   const [showNoQuestion, setShowNoQuestion] = useState(false);
   const isSameLang = useMemo(() => {
     return languageVal === language;
@@ -82,6 +84,8 @@ const ControlSection3 = ({
       updateAns[block.q_id] = value;
     }
     setAns(updateAns);
+    setQuestion2Api(false);
+    setQuestion3Api(!noQueAns);
   };
 
   const handleChangeNoQuestion = (val) => {
@@ -132,7 +136,7 @@ const ControlSection3 = ({
       !JSON.parse(questionData.Level?.L1?.Inner_Questions).length;
 
     //Check if first section any one 'No' option selected then not section 2 api call make
-    if (isFirstSectionWithNoQuestion) {
+    if (isFirstSectionWithNoQuestion && !question2Api && !question3Api) {
       if (!loadingRef?.current?.L2) {
         setLoadingLevel({ ...loadingLevel, L2: true });
         dispatch(
@@ -157,7 +161,7 @@ const ControlSection3 = ({
     const isSecondSectionWithNoQuestion =
       isJsonString(questionData.Level?.L2?.Inner_Questions) &&
       !JSON.parse(questionData.Level?.L2?.Inner_Questions).length;
-    if (isSecondSectionWithNoQuestion) {
+    if (isSecondSectionWithNoQuestion && !question3Api) {
       dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
       setQuestion3Api(true);
     }
@@ -174,8 +178,13 @@ const ControlSection3 = ({
             return ans.L1[key].includes('yes');
           });
 
-          if (ansObjectL1.length === allYesFilterData1.length && !questionL2.length) {
+          if (
+            ansObjectL1.length === allYesFilterData1.length &&
+            !questionL2.length &&
+            !question2Api
+          ) {
             dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
+            setQuestion2Api(true);
           }
           updateAns.L1 = ans.L1;
           setAns(updateAns);
@@ -202,8 +211,13 @@ const ControlSection3 = ({
           let allYesFilterData2 = Object.keys(ans.L2).filter((key) => {
             return ans.L2[key].includes('yes');
           });
-          if (ansObjectL2.length === allYesFilterData2.length && !questionL3.length) {
+          if (
+            ansObjectL2.length === allYesFilterData2.length &&
+            !questionL3.length &&
+            !question2Api
+          ) {
             dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
+            setQuestion3Api(true);
           }
           updateAns.L2 = ans.L2;
           setAns(updateAns);
@@ -522,9 +536,9 @@ const ControlSection3 = ({
             </>
           )}
 
-          {questionData.loadingLevel && (
+          {(questionData.loadingLevel || questionData.loading) && (
             <div className="d-flex w-100 justify-content-center pt-4" id="loader">
-              <Loader />
+              <Loader color="#e7c55d" />
             </div>
           )}
         </div>
