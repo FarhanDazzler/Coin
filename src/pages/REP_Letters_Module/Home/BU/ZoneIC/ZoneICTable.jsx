@@ -306,6 +306,18 @@ const ZoneICTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) => {
             <div className="col-12 col-lg-12">
               <Group spacing="xs" className="actions-button-wrapper">
                 <FilterMultiSelect
+                  data={getYearsData() || []}
+                  label="Year"
+                  value={yearValue}
+                  onChange={setYearValue}
+                />
+                <FilterMultiSelect
+                  data={getZICHomePageData?.data[0]?.distinct_assesment_cycle || []}
+                  label="Assessment Cycle"
+                  value={assessmentCycleValue}
+                  onChange={setAssessmentCycleValue}
+                />
+                <FilterMultiSelect
                   data={getZICHomePageData?.data[0]?.distinct_zone || []}
                   label="Zone"
                   value={zoneValue}
@@ -316,12 +328,6 @@ const ZoneICTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) => {
                   label="BU"
                   value={buValue}
                   onChange={setBUValue}
-                />
-                <FilterMultiSelect
-                  data={getZICHomePageData?.data[0]?.distinct_assesment_cycle || []}
-                  label="Assessment Cycle"
-                  value={assessmentCycleValue}
-                  onChange={setAssessmentCycleValue}
                 />
               </Group>
             </div>

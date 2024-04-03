@@ -352,16 +352,16 @@ const DisclosureProcessorTable = ({ zoneValue, setZoneValue, buValue, setBUValue
             <div className="col-12 col-lg-12">
               <Group spacing="xs" className="actions-button-wrapper">
                 <FilterMultiSelect
-                  data={getHomePageData?.data[0]?.distinct_assesment_cycle || []}
-                  label="Assessment Cycle"
-                  value={assessmentCycleValue}
-                  onChange={setAssessmentCycleValue}
-                />
-                <FilterMultiSelect
                   data={getYearsData() || []}
                   label="Year"
                   value={yearValue}
                   onChange={setYearValue}
+                />
+                <FilterMultiSelect
+                  data={getHomePageData?.data[0]?.distinct_assesment_cycle || []}
+                  label="Assessment Cycle"
+                  value={assessmentCycleValue}
+                  onChange={setAssessmentCycleValue}
                 />
                 <FilterMultiSelect
                   data={getHomePageData?.data[0]?.distinct_zone || []}
