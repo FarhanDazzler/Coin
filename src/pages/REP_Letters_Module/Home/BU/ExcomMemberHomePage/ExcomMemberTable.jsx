@@ -106,6 +106,17 @@ const ExcomMemberTable = ({ zoneValue, setZoneValue }) => {
   );
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
 
+  const history = useHistory();
+
+  const { accounts } = useMsal();
+  const dispatch = useDispatch();
+
+  const getHomePageData = useSelector(get_BUZone_ExcomMemberHomePageDataSelector);
+  const addBUZoneSection2UploadMailApprovalState = useSelector(
+    addBUZoneSection2UploadMailApprovalSelector,
+  );
+  const addBUZoneSection2CheckboxState = useSelector(addBUZoneSection2CheckboxSelector);
+
   useEffect(() => {
     if (yearValue.length > 0) {
       const payload = {
@@ -125,17 +136,6 @@ const ExcomMemberTable = ({ zoneValue, setZoneValue }) => {
     assessmentCycleValue,
     dispatch,
   ]);
-
-  const history = useHistory();
-
-  const { accounts } = useMsal();
-  const dispatch = useDispatch();
-
-  const getHomePageData = useSelector(get_BUZone_ExcomMemberHomePageDataSelector);
-  const addBUZoneSection2UploadMailApprovalState = useSelector(
-    addBUZoneSection2UploadMailApprovalSelector,
-  );
-  const addBUZoneSection2CheckboxState = useSelector(addBUZoneSection2CheckboxSelector);
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const HomePageData = useMemo(() => {

@@ -106,6 +106,16 @@ const FinanceDirectorTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) 
   );
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
 
+  const history = useHistory();
+
+  const { accounts } = useMsal();
+  const dispatch = useDispatch();
+
+  const getHomePageData = useSelector(get_BU_Finance_DirectorHomePageDataSelector);
+  const approveBUSection3ResponseState = useSelector(approveBUSection3ResponseSelector);
+  const addBUSection2UploadMailApprovalState = useSelector(addBUSection2UploadMailApprovalSelector);
+  const addBUSection2CheckboxState = useSelector(addBUSection2CheckboxSelector);
+
   useEffect(() => {
     if (yearValue.length > 0) {
       const payload = {
@@ -126,16 +136,6 @@ const FinanceDirectorTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) 
     assessmentCycleValue,
     dispatch,
   ]);
-
-  const history = useHistory();
-
-  const { accounts } = useMsal();
-  const dispatch = useDispatch();
-
-  const getHomePageData = useSelector(get_BU_Finance_DirectorHomePageDataSelector);
-  const approveBUSection3ResponseState = useSelector(approveBUSection3ResponseSelector);
-  const addBUSection2UploadMailApprovalState = useSelector(addBUSection2UploadMailApprovalSelector);
-  const addBUSection2CheckboxState = useSelector(addBUSection2CheckboxSelector);
 
   //getRecipientHomePageData?.data[0]?.recipientData
   const HomePageData = useMemo(() => {
