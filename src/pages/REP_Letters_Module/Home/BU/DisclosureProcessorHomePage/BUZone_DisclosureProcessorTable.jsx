@@ -4,6 +4,7 @@ import { useMsal } from '@azure/msal-react';
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { Group, MultiSelect } from '@mantine/core';
+import { toast } from 'react-toastify';
 import Table2 from '../../../../../components/UI/Table/Table2';
 import TableLoader from '../../../../../components/UI/TableLoader';
 import Button from '../../../../../components/UI/Button';
@@ -42,16 +43,71 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const BUZone_DisclosureProcessorTable = ({
-  assessmentCycleValue,
-  setAssessmentCycleValue,
-  zoneValue,
-  setZoneValue,
-}) => {
+const BUZone_DisclosureProcessorTable = ({ zoneValue, setZoneValue }) => {
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
 
   const history = useHistory();
+
+  function getCurrentAssessmentCycle() {
+    const today = new Date();
+    const todayDatetime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+    if (
+      new Date(today.getFullYear(), 2, 1) <= todayDatetime &&
+      todayDatetime <= new Date(today.getFullYear(), 4, 31)
+    ) {
+      return 'Assessment Cycle 1';
+    } else if (
+      new Date(today.getFullYear(), 5, 1) <= todayDatetime &&
+      todayDatetime <= new Date(today.getFullYear(), 7, 31)
+    ) {
+      return 'Assessment Cycle 2';
+    } else if (
+      new Date(today.getFullYear(), 8, 1) <= todayDatetime &&
+      todayDatetime <= new Date(today.getFullYear(), 10, 30)
+    ) {
+      return 'Assessment Cycle 3';
+    } else {
+      // For December 1 to February 28, and accounting for leap year (February 29)
+      if (
+        (new Date(today.getFullYear(), 11, 1) <= todayDatetime &&
+          todayDatetime <= new Date(today.getFullYear(), 11, 31)) ||
+        (new Date(today.getFullYear(), 0, 1) <= todayDatetime &&
+          todayDatetime <= new Date(today.getFullYear(), 1, 28))
+      ) {
+        return 'Assessment Cycle 4';
+      } else if (
+        today.getFullYear() % 4 === 0 &&
+        todayDatetime.toDateString() === new Date(today.getFullYear(), 1, 29).toDateString()
+      ) {
+        return 'Assessment Cycle 4';
+      } else {
+        return 'Invalid date';
+      }
+    }
+  }
+
+  function getYearsData() {
+    var currentYear = new Date().getFullYear();
+    var previousYear = currentYear - 1;
+    var yearBeforePrevious = previousYear - 1;
+
+    var yearsArray = [
+      { value: currentYear.toString(), label: currentYear.toString() },
+      { value: previousYear.toString(), label: previousYear.toString() },
+      { value: yearBeforePrevious.toString(), label: yearBeforePrevious.toString() },
+    ];
+
+    return yearsArray;
+  }
+
+  const [yearValue, setYearValue] = useState(
+    new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
+      ? [String(new Date().getFullYear() - 1)]
+      : [String(new Date().getFullYear())],
+  );
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
 
   const { accounts } = useMsal();
   const dispatch = useDispatch();
@@ -72,12 +128,24 @@ const BUZone_DisclosureProcessorTable = ({
   }, [getDisclosureProcessorHomePageData?.data[0]]);
 
   useEffect(() => {
-    dispatch(get_BUZone_Disclosure_ProcessorHomePageData());
+    if (yearValue.length > 0) {
+      const payload = {
+        assessmentCycle: assessmentCycleValue,
+        year: yearValue,
+      };
+      //toast.error('Please select year in filter.');
+      //console.log('payload', payload);
+      dispatch(get_BUZone_Disclosure_ProcessorHomePageData(payload));
+    } else {
+      toast.error('Please select Year in filter.');
+    }
   }, [
     addOrUpdateBUZoneDraftResponseState?.data,
     addBUZoneSubmitResponseState?.data,
     addBUZoneSection2UploadMailApprovalState?.data,
     addBUZoneSection2CheckboxState?.data,
+    yearValue,
+    assessmentCycleValue,
   ]);
 
   const TABLE_COLUMNS = [
@@ -252,16 +320,22 @@ const BUZone_DisclosureProcessorTable = ({
             <div className="col-12 col-lg-12">
               <Group spacing="xs" className="actions-button-wrapper">
                 <FilterMultiSelect
-                  data={getDisclosureProcessorHomePageData?.data[0]?.distinct_zone || []}
-                  label="Zone"
-                  value={zoneValue}
-                  onChange={setZoneValue}
+                  data={getYearsData() || []}
+                  label="Year"
+                  value={yearValue}
+                  onChange={setYearValue}
                 />
                 <FilterMultiSelect
                   data={getDisclosureProcessorHomePageData?.data[0]?.distinct_assesment_cycle || []}
                   label="Assessment Cycle"
                   value={assessmentCycleValue}
                   onChange={setAssessmentCycleValue}
+                />
+                <FilterMultiSelect
+                  data={getDisclosureProcessorHomePageData?.data[0]?.distinct_zone || []}
+                  label="Zone"
+                  value={zoneValue}
+                  onChange={setZoneValue}
                 />
               </Group>
             </div>
