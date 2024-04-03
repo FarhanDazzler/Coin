@@ -195,7 +195,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         }
       },
       validator: (newValue, row, column) => {
-        if (isNaN(newValue) || newValue <= 0) {
+        if (isNaN(newValue) || newValue < 0) {
           row.Numerator = '';
           return {
             valid: false,
