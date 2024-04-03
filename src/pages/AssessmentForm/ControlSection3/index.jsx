@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
-import { Loader } from 'semantic-ui-react';
+import { Loader } from '@mantine/core';
 import { useHistory, useParams } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import RenderBlock from '../../../components/RenderBlock';
@@ -84,6 +84,8 @@ const ControlSection3 = ({
       updateAns[block.q_id] = value;
     }
     setAns(updateAns);
+    setQuestion2Api(false);
+    setQuestion3Api(!noQueAns);
   };
 
   const handleChangeNoQuestion = (val) => {
@@ -534,9 +536,9 @@ const ControlSection3 = ({
             </>
           )}
 
-          {questionData.loadingLevel && (
+          {(questionData.loadingLevel || questionData.loading) && (
             <div className="d-flex w-100 justify-content-center pt-4" id="loader">
-              <Loader />
+              <Loader color="#e7c55d" />
             </div>
           )}
         </div>
