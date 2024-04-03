@@ -71,14 +71,12 @@ const ControlSection1 = ({
 
     // Block contains all the data about the question and options
     // Value contains the answer selected
-    console.log(value)
-    console.log(block)
     if (block.question_type === blockType.IS_AD) {
       setIsStart(true);
       setQId2Value(value);
     }
     setStartEdit(true);
-    console.log(ans)
+
     // Updating the answer
     let updateCurrentAns = ans.map((q) => {
       if (q.q_id === block.q_id) {
