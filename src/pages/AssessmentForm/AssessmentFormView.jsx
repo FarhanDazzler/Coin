@@ -80,6 +80,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     ...getMicsOpenActionPlanVal.data,
     loading: !!getMicsOpenActionPlanVal?.loading,
   });
+  const [isQuestion3Api, setIsQuestion3Api] = useState(false);
   const [loadingLevel, setLoadingLevel] = useState({
     L2: false,
     L3: false,
@@ -88,8 +89,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   // User choose no option in Section plan value true, then we are clear older data
   const isNotEscalationRequired =
     actionPlanInfo.issueResolved === 'no' && !!actionPlanInfo.isEscalationRequired;
-
-  console.log('isNotEscalationRequired', isNotEscalationRequired);
 
   const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
     ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
@@ -375,7 +374,13 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         const dataArray = Object.keys(ansSection3) || [];
         for (const key in ansSection3) {
           if (key !== 'L3') {
-            if (key !== 'noQueAns' && Object.values(ansSection3[key])[0].includes('no')) {
+            if (
+              key !== 'noQueAns' &&
+              key !== 'L1AndL2NoQuestionsAns' &&
+              ansSection3[key] &&
+              Object.values(ansSection3[key]).length > 0 &&
+              Object.values(ansSection3[key])[0].includes('no')
+            ) {
               isS3FailedData = true;
             }
           }
@@ -593,6 +598,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         loadingRef={loadingRef}
         L1AndL2NoQuestionsAns={L1AndL2NoQuestionsAns}
         setL1AndL2NoQuestionsAns={setL1AndL2NoQuestionsAns}
+        question3Api={isQuestion3Api}
+        setQuestion3Api={setIsQuestion3Api}
       />
     </>
   );

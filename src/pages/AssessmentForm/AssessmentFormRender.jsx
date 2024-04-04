@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import ControlSection from './ControlSection';
 import cs from 'classnames';
 import { kpiResultSelector } from '../../redux/Assessments/AssessmentSelectors';
+import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
 
 const AssessmentFormRender = ({
   s1FailObj,
@@ -48,10 +49,13 @@ const AssessmentFormRender = ({
   setIsOverride,
   L1AndL2NoQuestionsAns,
   setL1AndL2NoQuestionsAns,
+  question3Api,
+  setQuestion3Api,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const kpiResultData = useSelector(kpiResultSelector);
+  const question3 = useSelector(question3Selector);
   // check useEffect if user select section 1 Terminating then this state true
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
 
@@ -185,54 +189,60 @@ const AssessmentFormRender = ({
                     loadingRef={loadingRef}
                     L1AndL2NoQuestionsAns={L1AndL2NoQuestionsAns}
                     setL1AndL2NoQuestionsAns={setL1AndL2NoQuestionsAns}
+                    question3Api={question3Api}
+                    setQuestion3Api={setQuestion3Api}
                   />
                 </>
               )}
-              {(!isModal && terminating) ||
-              (s1FailObj && showMoreSection && !isModal) ||
-              (isNotEscalationRequired && !isModal) ? (
+              {!question3?.loading && (
                 <>
-                  {(section1TerminatingLogicValue || !!isSection3Failed) &&
-                  showMoreSection &&
-                  !s1FailObj &&
-                  !isNotEscalationRequired ? (
-                    <div style={{ color: 'red', marginBottom: '10px' }}>
-                      Based on above response, the control is assessed as failed because of{' '}
-                      {Object.keys(ansSection3).includes('L1') &&
-                      !!Object.values(ansSection3?.L1)[0].includes('no')
-                        ? 'L1'
-                        : Object.keys(ansSection3).includes('L2')
-                        ? 'L2'
-                        : ''}{' '}
-                      {'  '}
-                      {section1TerminatingLogicValue &&
-                        Object.keys(ansSection3).length !== 0 &&
-                        Object.keys(ansSection3).length !== 3 &&
-                        '/'}
-                      {section1TerminatingLogicValue &&
-                        ' inadequate Documentation or inadequate frequency'}
+                  {(!isModal && terminating) ||
+                  (s1FailObj && showMoreSection && !isModal) ||
+                  (isNotEscalationRequired && !isModal) ? (
+                    <>
+                      {(section1TerminatingLogicValue || !!isSection3Failed) &&
+                      showMoreSection &&
+                      !s1FailObj &&
+                      !isNotEscalationRequired ? (
+                        <div style={{ color: 'red', marginBottom: '10px' }}>
+                          Based on above response, the control is assessed as failed because of{' '}
+                          {Object.keys(ansSection3).includes('L1') &&
+                          !!Object.values(ansSection3?.L1)[0].includes('no')
+                            ? 'L1'
+                            : Object.keys(ansSection3).includes('L2')
+                            ? 'L2'
+                            : ''}{' '}
+                          {'  '}
+                          {section1TerminatingLogicValue &&
+                            Object.keys(ansSection3).length !== 0 &&
+                            Object.keys(ansSection3).length !== 3 &&
+                            '/'}
+                          {section1TerminatingLogicValue &&
+                            ' inadequate Documentation or inadequate frequency'}
+                        </div>
+                      ) : null}
+                      {!kpiResultData.loading && (
+                        <Button
+                          color="neutral"
+                          className={cs('w-100', { ['isDisabledButton']: isDisabledButton })}
+                          id="submit-button"
+                          loading={loadingSubmit}
+                          onClick={handleSubmit}
+                        >
+                          {t('selfAssessment.assessmentForm.submitBtn')}
+                        </Button>
+                      )}
+                    </>
+                  ) : handleSaveDraft && !isOverride && !isReview ? (
+                    <div className="save-draft-btn-wrapper">
+                      <Button onClick={handleSaveDraft} {...handleSaveDraftProps}>
+                        {t('selfAssessment.assessmentForm.saveDraftBtn')}
+                      </Button>
                     </div>
-                  ) : null}
-                  {!kpiResultData.loading && (
-                    <Button
-                      color="neutral"
-                      className={cs('w-100', { ['isDisabledButton']: isDisabledButton })}
-                      id="submit-button"
-                      loading={loadingSubmit}
-                      onClick={handleSubmit}
-                    >
-                      {t('selfAssessment.assessmentForm.submitBtn')}
-                    </Button>
-                  )}
+                  ) : (
+                    <div />
+                  )}{' '}
                 </>
-              ) : handleSaveDraft && !isOverride && !isReview ? (
-                <div className="save-draft-btn-wrapper">
-                  <Button onClick={handleSaveDraft} {...handleSaveDraftProps}>
-                    {t('selfAssessment.assessmentForm.saveDraftBtn')}
-                  </Button>
-                </div>
-              ) : (
-                <div />
               )}
             </>
           )}
