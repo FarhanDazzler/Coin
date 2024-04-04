@@ -22,8 +22,6 @@ const BUZone_ZoneVPHomePage = () => {
   const selectedUserRole = localStorage.getItem('selected_Role');
   const getHomePageData = useSelector(get_BUZone_Zone_VPHomePageDataSelector);
 
-  const [yearValue, setYearValue] = useState([]);
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
@@ -32,7 +30,7 @@ const BUZone_ZoneVPHomePage = () => {
 
   const statusInfo = useMemo(() => {
     const tableData = getHomePageData?.data[0]?.zoneVPHeadData || [];
-    if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length) {
+    if (!zoneValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);
       return {
@@ -46,11 +44,7 @@ const BUZone_ZoneVPHomePage = () => {
     }
 
     const updatedData = tableData?.filter((i) => {
-      return (
-        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
-        (zoneValue?.length ? zoneValue.includes(i.Zone) : true)
-      );
+      return zoneValue?.length ? zoneValue.includes(i.Zone) : true;
     });
 
     const allUpdatestatus = updatedData?.map((d) => d?.Status);
@@ -63,7 +57,7 @@ const BUZone_ZoneVPHomePage = () => {
       completed: getNumberOfItem(allUpdatestatus, 'Completed'),
       total: allUpdatestatus?.length,
     };
-  }, [getHomePageData?.data[0], yearValue, assessmentCycleValue, zoneValue, getNumberOfItem]);
+  }, [getHomePageData?.data[0], zoneValue, getNumberOfItem]);
 
   return (
     <div>
@@ -88,14 +82,7 @@ const BUZone_ZoneVPHomePage = () => {
         </div>
       </div> */}
 
-      <BUZone_ZoneVPTable
-        yearValue={yearValue}
-        setYearValue={setYearValue}
-        assessmentCycleValue={assessmentCycleValue}
-        setAssessmentCycleValue={setAssessmentCycleValue}
-        zoneValue={zoneValue}
-        setZoneValue={setZoneValue}
-      />
+      <BUZone_ZoneVPTable zoneValue={zoneValue} setZoneValue={setZoneValue} />
     </div>
   );
 };
