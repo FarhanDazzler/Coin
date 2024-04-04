@@ -174,11 +174,11 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
     {
       accessorKey: 'BU',
       id: 'BU',
-      header: 'BU / Entity',
+      header: 'BU / Entity / Plants',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 200,
+      size: 220,
     },
     {
       accessorKey: 'Functional',
