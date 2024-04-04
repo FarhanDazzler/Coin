@@ -184,6 +184,15 @@ const ZoneICTable = ({
       size: 150,
     },
     {
+      accessorKey: 'BU',
+      id: 'BU',
+      header: 'BU / Entity / Plants',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 150,
+    },
+    {
       accessorKey: 'Status',
       id: 'Status',
       header: 'Status',
