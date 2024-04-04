@@ -293,7 +293,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
       }).then((res) => {
         if (res.isConfirmed) {
           const cloneData = tableData?.map((data, i) => {
-            const clone = (({ id, Functional, ...o }) => o)(data);
+            const clone = (({ id, ...o }) => o)(data);
             return clone;
           });
 
@@ -322,7 +322,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
       console.log(editTableIndex, 'editTableIndex');
       const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
       const cloneData = data?.map((data, i) => {
-        const clone = (({ id, Functional, ...o }) => o)(data);
+        const clone = (({ id, ...o }) => o)(data);
         return clone;
       });
       let payload = {
