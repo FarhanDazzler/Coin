@@ -196,7 +196,6 @@ const AssessmentFormRender = ({
               )}
               {!question3?.loading && (
                 <>
-                  {' '}
                   {(!isModal && terminating) ||
                   (s1FailObj && showMoreSection && !isModal) ||
                   (isNotEscalationRequired && !isModal) ? (
@@ -230,7 +229,7 @@ const AssessmentFormRender = ({
                           loading={loadingSubmit}
                           onClick={handleSubmit}
                         >
-                          {t('selfAssessment.assessmentForm.submitBtn')} 123312
+                          {t('selfAssessment.assessmentForm.submitBtn')} 231231
                         </Button>
                       )}
                     </>
