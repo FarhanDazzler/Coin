@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { DotSpinner } from '@uiball/loaders';
 import * as XLSX from 'xlsx';
@@ -16,18 +18,24 @@ import {
 import {
   getLatestFunctionDraftResponse,
   getFunctionSubmitResponse,
+  clearGetFunctionalScopeData,
+  getFunctionalScopeData,
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import {
   addOrUpdateFunctionDraftResponseSelector,
   getLatestFunctionDraftResponseSelector,
   getFunctionSubmitResponseSelector,
+  getFunctionalScopeDataSelector,
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../LetterFormStyle.scss';
 
 const FunctionalLetterForm = (props) => {
   const dispatch = useDispatch();
-  const scopeData = props.location.state?.data?.scopeData;
-  const modalType = props.location.state?.data?.modalType;
+  const token = Cookies.get('token');
+  const { modalType, id } = useParams();
+
+  //const scopeData = props.location.state?.data?.scopeData;
+  const getFunctionScopeDataState = useSelector(getFunctionalScopeDataSelector);
 
   const questionState = useSelector(get_Function_QuestionsSelector);
   const instructionState = useSelector(getFunctionalInstructionsSelector);
@@ -35,25 +43,36 @@ const FunctionalLetterForm = (props) => {
   const getFunctionSubmitResponseState = useSelector(getFunctionSubmitResponseSelector);
 
   useEffect(() => {
-    dispatch(getFunctionalInstructions());
+    if (token) {
+      dispatch(getFunctionalInstructions());
 
-    if (modalType === 'attempt') {
-      let payload = {
-        function: scopeData?.Function,
+      const payloadForGettingScopeData = {
+        assessment_id: id,
       };
 
-      dispatch(get_Function_Questions(payload));
-      let payloadForGettingDraftResp = {
-        assessment_id: scopeData?.id,
-      };
-      dispatch(getLatestFunctionDraftResponse(payloadForGettingDraftResp));
-    } else {
-      let payloadForGettingSubmittedResp = {
-        assessment_id: scopeData?.id,
-      };
-      dispatch(getFunctionSubmitResponse(payloadForGettingSubmittedResp));
+      dispatch(getFunctionalScopeData(payloadForGettingScopeData));
+
+      if (modalType === 'attempt') {
+        if (getFunctionScopeDataState?.data?.Function) {
+          let payload = {
+            function: getFunctionScopeDataState?.data?.Function,
+          };
+
+          dispatch(get_Function_Questions(payload));
+        }
+
+        let payloadForGettingDraftResp = {
+          assessment_id: id,
+        };
+        dispatch(getLatestFunctionDraftResponse(payloadForGettingDraftResp));
+      } else {
+        let payloadForGettingSubmittedResp = {
+          assessment_id: id,
+        };
+        dispatch(getFunctionSubmitResponse(payloadForGettingSubmittedResp));
+      }
     }
-  }, []);
+  }, [token, getFunctionScopeDataState?.data?.Function]);
 
   const exportResponseToExcel = (info, responses, Last_Saved_At) => {
     // Create a new workbook
@@ -85,9 +104,16 @@ const FunctionalLetterForm = (props) => {
     XLSX.utils.book_append_sheet(wb, responsesSheet, 'Responses');
 
     // Save the workbook to an Excel file
-    const fileName = `${scopeData?.Function} - ${scopeData?.Recipient} - Submitted-Responses - ${scopeData?.Title} - ${scopeData?.Assessment_Cycle} - ${scopeData?.Year}`;
+    const fileName = `${getFunctionScopeDataState?.data?.Function} - ${getFunctionScopeDataState?.data?.Recipient} - Submitted-Responses - ${getFunctionScopeDataState?.data?.Title} - ${getFunctionScopeDataState?.data?.Assessment_Cycle} - ${getFunctionScopeDataState?.data?.Year}`;
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
+
+  // clear all the states on page leave or refresh page or change url path or change module or change role
+  useEffect(() => {
+    return () => {
+      dispatch(clearGetFunctionalScopeData());
+    };
+  }, []);
 
   return (
     <div>
@@ -95,6 +121,7 @@ const FunctionalLetterForm = (props) => {
         {modalType === 'attempt' ? (
           <div className="container-fluid">
             {instructionState.loading ||
+            getFunctionScopeDataState.loading ||
             questionState.loading ||
             getLatestFunctionDraftResponseState.loading ? (
               <div className="loader-animation">
@@ -103,14 +130,16 @@ const FunctionalLetterForm = (props) => {
               </div>
             ) : (
               <div className="col-lg-12">
-                <Section0 scopeData={scopeData} />
-                <Section1 questions={questionState.data} scopeData={scopeData} />
+                <Section0 scopeData={getFunctionScopeDataState?.data} />
+                <Section1 questions={questionState.data} assessment_id={id} />
               </div>
             )}
           </div>
         ) : (
           <div className="container-fluid">
-            {instructionState.loading || getFunctionSubmitResponseState.loading ? (
+            {instructionState.loading ||
+            getFunctionScopeDataState.loading ||
+            getFunctionSubmitResponseState.loading ? (
               <div className="loader-animation">
                 <DotSpinner size={100} speed={0.9} color="#e3af32" />
                 <p className="loader-Desc ml-3">
@@ -126,14 +155,14 @@ const FunctionalLetterForm = (props) => {
                       className="export_excel_button"
                       onClick={() => {
                         const info = {
-                          Title: scopeData?.Title,
-                          Assessment_Cycle: scopeData?.Assessment_Cycle,
-                          Year: scopeData?.Year,
-                          Zone: scopeData?.Zone,
-                          BU: scopeData?.BU,
-                          Function: scopeData?.Function,
-                          Recipient: scopeData?.Recipient,
-                          Zone_Control: scopeData?.Zone_Control,
+                          Title: getFunctionScopeDataState?.data?.Title,
+                          Assessment_Cycle: getFunctionScopeDataState?.data?.Assessment_Cycle,
+                          Year: getFunctionScopeDataState?.data?.Year,
+                          Zone: getFunctionScopeDataState?.data?.Zone,
+                          BU: getFunctionScopeDataState?.data?.BU,
+                          Function: getFunctionScopeDataState?.data?.Function,
+                          Recipient: getFunctionScopeDataState?.data?.Recipient,
+                          Zone_Control: getFunctionScopeDataState?.data?.Zone_Control,
                         };
                         exportResponseToExcel(
                           info,
@@ -146,7 +175,7 @@ const FunctionalLetterForm = (props) => {
                     </button>
                   </div>
                 </div>
-                <Section0 scopeData={scopeData} />
+                <Section0 scopeData={getFunctionScopeDataState?.data} />
                 <ReviewResponsePage
                   submittedResponses={getFunctionSubmitResponseState?.data?.Latest_Response}
                 />

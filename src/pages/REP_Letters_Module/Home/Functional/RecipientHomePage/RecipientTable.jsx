@@ -177,11 +177,9 @@ const RecipientTable = ({
               <Button
                 className="mr-2"
                 onClick={() => {
-                  const data = {
-                    scopeData: row.row.original,
-                    modalType: 'review',
-                  };
-                  history.push('/REP-Letters/attempt-letter/functional-letter-form', { data });
+                  history.push(
+                    `/REP-Letters/attempt-letter/functional-letter-form/${row.row.original.id}/review`,
+                  );
                 }}
               >
                 Review
@@ -191,11 +189,9 @@ const RecipientTable = ({
               ['Not started', 'Drafted'].includes(row.row.original.Status) && (
                 <Button
                   onClick={() => {
-                    const data = {
-                      scopeData: row.row.original,
-                      modalType: 'attempt',
-                    };
-                    history.push('/REP-Letters/attempt-letter/functional-letter-form', { data });
+                    history.push(
+                      `/REP-Letters/attempt-letter/functional-letter-form/${row.row.original.id}/attempt`,
+                    );
                   }}
                 >
                   Letter

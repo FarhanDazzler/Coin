@@ -195,11 +195,11 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         }
       },
       validator: (newValue, row, column) => {
-        if (isNaN(newValue) || newValue <= 0) {
+        if (isNaN(newValue) || newValue < 0) {
           row.Numerator = '';
           return {
             valid: false,
-            message: 'Numerator can be positive values only',
+            message: 'Numerator cannot be negative values only',
           };
         }
         if (+row.Denominator < 0 || !row.Denominator) {

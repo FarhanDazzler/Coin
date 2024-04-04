@@ -51,6 +51,7 @@ import Review from './pages/Review';
 import { Redirect } from 'react-router';
 import { PageNotFound } from './pages/PageNotFound';
 import CryptoJS from 'crypto-js';
+import FunctionalLetterForm from './pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm.jsx';
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -299,6 +300,11 @@ const Pages = () => {
           {userRole === 'Global internal control' || module === 'Functional' || module === 'BU'
             ? AdminRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
+          <Route
+            exact
+            path="/REP-Letters/attempt-letter/functional-letter-form/:id/:modalType"
+            component={FunctionalLetterForm}
+          />
           <Route exact path="/BU-Letter-approve/:id" component={BU_Letter_LazyApprovalSection2} />
           <Route
             exact

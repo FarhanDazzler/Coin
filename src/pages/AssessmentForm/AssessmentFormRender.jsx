@@ -229,7 +229,7 @@ const AssessmentFormRender = ({
                           loading={loadingSubmit}
                           onClick={handleSubmit}
                         >
-                          {t('selfAssessment.assessmentForm.submitBtn')} 231231
+                          {t('selfAssessment.assessmentForm.submitBtn')}
                         </Button>
                       )}
                     </>

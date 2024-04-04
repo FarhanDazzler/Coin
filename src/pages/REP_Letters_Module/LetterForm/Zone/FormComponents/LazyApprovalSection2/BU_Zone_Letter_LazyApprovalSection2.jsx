@@ -169,7 +169,9 @@ const Section2 = ({ id }) => {
                     &nbsp;&nbsp;I hereby certify that the above representation letter reflects my
                     understanding of the accuracy of the financial reporting package and the
                     effectiveness of the internal controls and financial reporting controls of
-                    Cognos Company Code.
+                    Cognos Company Code. I hereby allow the capturing of the following data in order
+                    to verify my identity: Location, Object Identifier, IP Address, Email, Timestamp
+                    and Persona.
                   </span>
                   {/* <p>
                     with this selection, I agree to let COIN collect my information - (ie. Timestamp
