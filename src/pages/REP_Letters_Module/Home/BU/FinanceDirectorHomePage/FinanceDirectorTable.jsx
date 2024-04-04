@@ -368,7 +368,12 @@ const FinanceDirectorTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) 
                   onChange={setYearValue}
                 />
                 <FilterMultiSelect
-                  data={getHomePageData?.data[0]?.distinct_assesment_cycle || []}
+                  data={[
+                    { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
+                    { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
+                    { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
+                    { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
+                  ]}
                   label="Assessment Cycle"
                   value={assessmentCycleValue}
                   onChange={setAssessmentCycleValue}
