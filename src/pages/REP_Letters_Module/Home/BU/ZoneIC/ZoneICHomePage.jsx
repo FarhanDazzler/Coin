@@ -28,8 +28,6 @@ const ZoneICHomePage = () => {
   const selectedUserRole = localStorage.getItem('selected_Role');
   const getZICHomePageData = useSelector(get_BU_ZIC_PersonaHomePageDataSelector);
 
-  const [yearValue, setYearValue] = useState([]);
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
 
@@ -41,8 +39,6 @@ const ZoneICHomePage = () => {
     const tableData = getZICHomePageData?.data[0]?.home_page_table_global || [];
     const updatedData = tableData.filter((i) => {
       return (
-        (!yearValue.length || yearValue.includes(i.Year)) &&
-        (!assessmentCycleValue.length || assessmentCycleValue.includes(i.Assessment_Cycle)) &&
         (!zoneValue.length || zoneValue.includes(i.Zone)) &&
         (!buValue.length || buValue.includes(i.BU))
       );
@@ -63,8 +59,6 @@ const ZoneICHomePage = () => {
     };
   }, [
     getZICHomePageData?.data[0],
-    yearValue,
-    assessmentCycleValue,
     zoneValue,
     buValue,
     getNumberOfItem,
@@ -163,10 +157,6 @@ const ZoneICHomePage = () => {
         </div>
       </div>
       <ZoneICTable
-        yearValue={yearValue}
-        setYearValue={setYearValue}
-        assessmentCycleValue={assessmentCycleValue}
-        setAssessmentCycleValue={setAssessmentCycleValue}
         zoneValue={zoneValue}
         setZoneValue={setZoneValue}
         buValue={buValue}

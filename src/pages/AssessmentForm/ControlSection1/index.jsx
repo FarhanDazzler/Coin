@@ -30,6 +30,8 @@ const ControlSection1 = ({
   const userFromAD = useSelector(getUserFromADSelector);
   const isValidEmail = validateEmail(qId2Value);
 
+  // Call the API for checking if the user is in AD
+  // Dependency is debounce, is user has finished typing the only hit the API
   useEffect(() => {
     if (isStart) {
       dispatch(getUserFromAD({ username: qId2Value, isValidEmail }));
@@ -37,6 +39,8 @@ const ControlSection1 = ({
   }, [q_id_2_debounce]);
 
   useEffect(() => {
+
+    // If user is available then store in userData array with email and display name
     if (userFromAD.loading) return;
     let userData = [];
     if (userFromAD.emailCheck) {
@@ -45,6 +49,7 @@ const ControlSection1 = ({
       const apiUserData = userFromAD.data || [];
       userData = apiUserData.map((d) => ({ value: d.mail, label: d.displayName }));
     }
+    // Checking if userData is there then use it to fill the dropdown
     const updateAnsObj = ans.map((val) => {
       if (val.question_type === blockType.IS_AD) {
         return {
@@ -56,17 +61,23 @@ const ControlSection1 = ({
       }
       return { ...val };
     });
+    // setting the options
     setAns(updateAnsObj);
   }, [userFromAD.data]);
 
   const handleChange = (value, block) => {
     // Check if IS_AD question then run this condition
     // All logic for IS_AD question
+
+    // Block contains all the data about the question and options
+    // Value contains the answer selected
     if (block.question_type === blockType.IS_AD) {
       setIsStart(true);
       setQId2Value(value);
     }
     setStartEdit(true);
+
+    // Updating the answer
     let updateCurrentAns = ans.map((q) => {
       if (q.q_id === block.q_id) {
         if (block.question_type === blockType.IS_AD && !block.optionSelect) {

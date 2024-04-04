@@ -28,8 +28,6 @@ const ZoneGlobalPersonaHomePage = () => {
   const selectedUserRole = localStorage.getItem('selected_Role');
   const getGlobalPersonaHomePageData = useSelector(get_BUZone_GlobalPersonaHomePageDataSelector);
 
-  const [yearValue, setYearValue] = useState([]);
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
@@ -40,8 +38,6 @@ const ZoneGlobalPersonaHomePage = () => {
     const tableData = getGlobalPersonaHomePageData?.data[0]?.home_page_table_global || [];
     const updatedData = tableData.filter((i) => {
       return (
-        (!yearValue.length || yearValue.includes(i.Year)) &&
-        (!assessmentCycleValue.length || assessmentCycleValue.includes(i.Assessment_Cycle)) &&
         (!zoneValue.length || zoneValue.includes(i.Zone))
       );
     });
@@ -59,8 +55,6 @@ const ZoneGlobalPersonaHomePage = () => {
     };
   }, [
     getGlobalPersonaHomePageData?.data[0],
-    yearValue,
-    assessmentCycleValue,
     zoneValue,
     getNumberOfItem,
   ]);
@@ -147,10 +141,6 @@ const ZoneGlobalPersonaHomePage = () => {
         </div>
       </div>
       <ZoneGlobalPersonaTable
-        yearValue={yearValue}
-        setYearValue={setYearValue}
-        assessmentCycleValue={assessmentCycleValue}
-        setAssessmentCycleValue={setAssessmentCycleValue}
         zoneValue={zoneValue}
         setZoneValue={setZoneValue}
       />

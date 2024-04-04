@@ -22,8 +22,6 @@ const FinanceDirectorHomePage = () => {
   const selectedUserRole = localStorage.getItem('selected_Role');
   const getHomePageData = useSelector(get_BU_Finance_DirectorHomePageDataSelector);
 
-  const [yearValue, setYearValue] = useState([]);
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
 
@@ -33,7 +31,7 @@ const FinanceDirectorHomePage = () => {
 
   const statusInfo = useMemo(() => {
     const tableData = getHomePageData?.data[0]?.financeDirectorData || [];
-    if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length && !buValue.length) {
+    if (!zoneValue.length && !buValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);
       return {
@@ -48,8 +46,6 @@ const FinanceDirectorHomePage = () => {
 
     const updatedData = tableData?.filter((i) => {
       return (
-        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true)
       );
@@ -67,8 +63,6 @@ const FinanceDirectorHomePage = () => {
     };
   }, [
     getHomePageData?.data[0],
-    yearValue,
-    assessmentCycleValue,
     zoneValue,
     buValue,
     getNumberOfItem,
@@ -98,10 +92,6 @@ const FinanceDirectorHomePage = () => {
       </div> */}
 
       <FinanceDirectorTable
-        yearValue={yearValue}
-        setYearValue={setYearValue}
-        assessmentCycleValue={assessmentCycleValue}
-        setAssessmentCycleValue={setAssessmentCycleValue}
         zoneValue={zoneValue}
         setZoneValue={setZoneValue}
         buValue={buValue}
