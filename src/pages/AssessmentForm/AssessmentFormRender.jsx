@@ -196,7 +196,6 @@ const AssessmentFormRender = ({
               )}
               {!question3?.loading && (
                 <>
-                  {' '}
                   {(!isModal && terminating) ||
                   (s1FailObj && showMoreSection && !isModal) ||
                   (isNotEscalationRequired && !isModal) ? (

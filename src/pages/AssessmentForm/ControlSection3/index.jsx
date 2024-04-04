@@ -124,6 +124,13 @@ const ControlSection3 = ({
     }
     if (questionL3.length > 0 && ans.L3) {
       const updateAnsL3 = setSelectedQuestionAns(questionL3, ans.L3);
+      updateAnsL3.forEach((l3) => {
+        l3?.renderOption?.forEach((option) => {
+          if (option.value) {
+            setTerminating(true);
+          }
+        });
+      });
       setQuestionL3(updateAnsL3);
     }
   }, [ans, render, questionData]);
