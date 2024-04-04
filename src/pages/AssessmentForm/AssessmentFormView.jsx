@@ -374,7 +374,13 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         const dataArray = Object.keys(ansSection3) || [];
         for (const key in ansSection3) {
           if (key !== 'L3') {
-            if (key !== 'noQueAns' && Object.values(ansSection3[key])[0].includes('no')) {
+            if (
+              key !== 'noQueAns' &&
+              key !== 'L1AndL2NoQuestionsAns' &&
+              ansSection3[key] &&
+              Object.values(ansSection3[key]).length > 0 &&
+              Object.values(ansSection3[key])[0].includes('no')
+            ) {
               isS3FailedData = true;
             }
           }
