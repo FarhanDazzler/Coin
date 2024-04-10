@@ -244,9 +244,9 @@ const Section1 = ({ questions, assessment_id }) => {
                       />
                       <label className="radio-option-label">
                         {value === 'Yes'
-                          ? 'I have nothing to disclose'
+                          ? 'I comply'
                           : value === 'No'
-                          ? 'I want to disclose'
+                          ? "I do not comply / I don't know"
                           : value}
                       </label>
                     </label>
