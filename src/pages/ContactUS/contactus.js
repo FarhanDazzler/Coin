@@ -12,6 +12,7 @@ import '../../assets/styles/custom.css';
 import './contactus.css';
 import { toast } from 'react-toastify';
 import { Delete } from '@mui/icons-material';
+import PageWrapper from '../../components/wrappers/PageWrapper';
 
 let INC_NUM;
 
@@ -138,9 +139,7 @@ const ContactUs = () => {
         module: module === '' ? true : false,
       });
       return;
-    } else if (
-      value.shortDescription.length >= 5000 ||
-      value.issueDescription.length >= 5000) {
+    } else if (value.shortDescription.length >= 5000 || value.issueDescription.length >= 5000) {
       toast.error('Only 5000 character allow');
       setErrors({
         shortDescription: value.shortDescription.length >= 5000 ? true : false,
@@ -237,7 +236,7 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="contactus-dark-wrapper">
+    <PageWrapper>
       {!loading ? (
         <div className="contactUs">
           <Container
@@ -248,23 +247,14 @@ const ContactUs = () => {
             <Row>
               <Col md={10} lg={10} sm={10} xs={11} style={{ margin: 'auto' }}>
                 <form onSubmit={onSubmit}>
-                  <Card
-                    className="customCard"
-                    style={{
-                      border: '0.5px solid gray',
-                      borderRadius: '10px',
-                    }}
-                  >
+                  <Card className="customCard">
                     <div>
                       <Text
-                        size="xl"
-                        weight={780}
+                        weight={600}
                         color="goldenrod"
                         align="left"
                         style={{
                           fontSize: '30px',
-                          paddingLeft: '10px',
-                          fontFamily: 'Avantt-Bold',
                         }}
                       >{`Contact Us`}</Text>
                     </div>
@@ -276,7 +266,7 @@ const ContactUs = () => {
                       }}
                     />
                     <div className="cardNote">
-                      <p style={{ fontFamily: 'Avantt-SemiBold' }}>
+                      <p style={{ color: '#fff' }}>
                         Please fill the following details to create a support ticket on your
                         queries. The team will get back to you shortly.
                       </p>
@@ -284,7 +274,7 @@ const ContactUs = () => {
 
                     <Row className="cardInputGroup">
                       <Col md={3} sm={6} xs={12} className="cardInput">
-                        <Text size="md" weight={500} color="black" align="left">
+                        <Text size="md" weight={500} color="white" align="left">
                           {`Type of Issue `}
                           {<span style={{ color: 'red' }}>*</span>}
                         </Text>
@@ -301,8 +291,8 @@ const ContactUs = () => {
                         />
                       </Col>
                       <Col md={3} sm={6} xs={12} className="cardInput">
-                        <Text size="md" weight={500} color="black" align="left">
-                          {`Module`}
+                        <Text size="md" weight={500} color="White" align="left">
+                          {`Module `}
                           {<span style={{ color: 'red' }}>*</span>}
                         </Text>
                         <Select
@@ -336,7 +326,7 @@ const ContactUs = () => {
                       <Col>
                         <Row>
                           <Col md={12}>
-                            <Text size="md" weight={500} color="black" align="left">
+                            <Text size="md" weight={500} color="white" align="left">
                               {`Subject `}
                               {<span style={{ color: 'red' }}>*</span>}
                             </Text>
@@ -352,7 +342,7 @@ const ContactUs = () => {
                             />
                           </Col>
                           <Col md={12} style={{ marginTop: '10px' }}>
-                            <Text size="md" weight={500} color="black" align="left">
+                            <Text size="md" weight={500} color="white" align="left">
                               {`Issue Description `}
                               {<span style={{ color: 'red' }}>*</span>}
                             </Text>
@@ -377,12 +367,12 @@ const ContactUs = () => {
                             <Text
                               size="md"
                               weight={500}
-                              color="black"
+                              color="white"
                               align="left"
                             >{`Attachment (If Any)`}</Text>
                           </Col>
                           <Col md={12} className="cardNote">
-                            <p style={{ margin: '0' }}>
+                            <p style={{ margin: '0', color: 'white', fontSize: 10 }}>
                               (Strictly allowed File types : .zip, .png , .jpeg, .jpg, .docx, .xlsx,
                               .csv)
                             </p>
@@ -399,13 +389,16 @@ const ContactUs = () => {
                                 onChange={handleFileSelect}
                               />
                               <div style={{ paddingRight: '15px' }}>
-                                <label style={{ marginBottom: '0.2rem' }}>Choose Files</label>
+                                <label style={{ marginBottom: '0.2rem', color: 'white' }}>
+                                  Choose Files
+                                </label>
                                 <div
                                   style={{
                                     maxWidth: 150,
                                     fontWeight: 600,
                                     fontSize: 10,
                                     paddingBottom: '3px',
+                                    color: 'white',
                                   }}
                                 >
                                   {' '}
@@ -469,40 +462,11 @@ const ContactUs = () => {
 
                     <Group position="right" mt="xl">
                       <Link to="/">
-                        <button
-                          size="md"
-                          radius="xl"
-                          style={{
-                            height: '36px',
-                            borderRadius: '10px',
-                            backgroundColor: 'red',
-                            fontFamily: 'Avantt-SemiBold',
-                            fontSize: '14px',
-                            backgroundColor: 'lightgray',
-                            color: 'black',
-                            border: 'none',
-                            width: '100px',
-                          }}
-                        >
+                        <button size="md" radius="xl" className="cancel-btn-contact-us">
                           Cancel
                         </button>
                       </Link>
-                      <button
-                        type="submit"
-                        size="md"
-                        radius="xl"
-                        style={{
-                          height: '36px',
-                          borderRadius: '10px',
-                          backgroundColor: 'red',
-                          fontFamily: 'Avantt-SemiBold',
-                          fontSize: '14px',
-                          backgroundColor: 'black',
-                          color: 'white',
-                          border: 'none',
-                          width: '100px',
-                        }}
-                      >
+                      <button type="submit" size="md" radius="xl" className="submit-btn-contact-us">
                         Submit
                       </button>
                     </Group>
@@ -549,7 +513,7 @@ const ContactUs = () => {
       ) : (
         <div className="loader"> </div>
       )}
-    </div>
+    </PageWrapper>
   );
 };
 

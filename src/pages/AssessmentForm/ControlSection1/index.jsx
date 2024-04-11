@@ -130,14 +130,16 @@ const ControlSection1 = ({
       default:
         setTerminating(false);
     }
-
+    // Checking if the block has the answer value of question
     if (block.value) {
+      // if ans present, check the index of the question
       const findSelectedIndex = updateCurrentAns.findIndex((data) => data.q_id === block.q_id);
       if (findSelectedIndex !== -1) {
+        // if question found, update the ans
         updateCurrentAns = updateCurrentAns.filter((d, i) => i <= findSelectedIndex);
       }
     }
-
+    
     const matchQuestion = [blockType.TEXT, blockType.EMAIL_WIDTH_SELECT, blockType.IS_AD].includes(
       block.question_type,
     )

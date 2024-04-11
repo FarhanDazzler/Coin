@@ -24,8 +24,10 @@
 }
 
 .cardContainer .customCard {
-  padding: 4% 5%;
-  /* width: '100%'; */
+  background: rgba(92, 92, 92, 0.2);
+  backdrop-filter: blur(20px);
+  padding: 30px;
+  border-radius: 24px;
 }
 
 .cardContainer .customCard .cardNote {
@@ -50,4 +52,48 @@
   background-color: #000;
   color: #fff;
   height: 100vh;
+}
+.mantine-Select-input {
+  margin-top: 5px;
+  background: #1a1b1e;
+  border: none;
+}
+.mantine-TextInput-input {
+  margin-top: 5px;
+  background: #1a1b1e;
+  border: none;
+}
+.mantine-Textarea-input {
+  margin-top: 5px;
+  background: #1a1b1e;
+  border: none;
+}
+.submit-btn-contact-us {
+  height: 36px;
+  border-radius: 10px;
+  background-color: black;
+  font-size: 14px;
+  color: white;
+  border: none;
+  width: 100px;
+  height: 38px;
+  line-height: 38px;
+}
+.submit-btn-contact-us:hover {
+  background-color: rgba(211, 163, 6, 0.04);
+  border: 1px solid #d3a306;
+}
+.cancel-btn-contact-us:hover {
+  background-color: rgba(211, 163, 6, 0.04);
+  border: 1px solid white;
+  color: #d3a306;
+}
+.cancel-btn-contact-us {
+  height: 36px;
+  border-radius: 10px;
+  font-size: 14px;
+  background-color: lightgray;
+  color: black;
+  border: none;
+  width: 100px;
 }
