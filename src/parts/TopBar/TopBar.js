@@ -407,7 +407,8 @@ const TopBar = (props) => {
               history.push('/contact-us');
             }}
           >
-            Report a Bug
+            <FeatherIcon icon="pocket" size={14} />
+            {' Report Bug'}
           </a>
         </div>
       </div>
@@ -546,7 +547,8 @@ const TopBar = (props) => {
               history.push('/contact-us');
             }}
           >
-            {'Report a Bug'}
+            <FeatherIcon icon="pocket" size={14} />
+            {' Report Bug'}
           </a>
         </div>
       </div>
