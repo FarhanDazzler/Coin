@@ -153,6 +153,16 @@ const DisclosureProcessorTable = ({ zoneValue, setZoneValue, buValue, setBUValue
     dispatch,
   ]);
 
+  // Function to check if RBA is accessible or not. If RBA is accessible, then only RBA button will be enabled.
+  // RBA will be applicable on work day 11 from the start date of the assessment cycle.
+  const isRBA_Accessible = (startDate) => {
+    const today = new Date();
+    const startDateObj = new Date(startDate);
+    const diffTime = Math.abs(today - startDateObj);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays >= 11;
+  };
+
   const TABLE_COLUMNS = [
     {
       accessorKey: 'Action',
@@ -201,7 +211,8 @@ const DisclosureProcessorTable = ({ zoneValue, setZoneValue, buValue, setBUValue
                 Signature
               </Button>
             )}
-            {['Prepared', 'Signed', 'Approval Pending'].includes(row.row.original.Status) &&
+            {isRBA_Accessible(row.row.original.Start_Date) &&
+              ['Prepared', 'Signed', 'Approval Pending'].includes(row.row.original.Status) &&
               ['Not Started'].includes(row.row.original.RBA_Status) && (
                 <Button
                   className="mr-2"
