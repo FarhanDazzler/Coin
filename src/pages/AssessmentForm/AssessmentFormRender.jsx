@@ -121,6 +121,24 @@ const AssessmentFormRender = ({
     setSection1TerminatingLogicValue(sectionTerminating);
   }, [ansSection3]);
 
+  const checkL3Validation = useMemo(() => {
+    // check section 3 yes select then show submit
+    if (ansSection3?.L3) return true;
+
+    // check user l1 and l2 no question but next both yes then this return true
+    if (!!L1AndL2NoQuestionsAns.failingDue && !!L1AndL2NoQuestionsAns.reasonsForFailing) {
+      return true;
+    }
+
+    // Check if user submit last no question then show submit btn
+    if (!!showNoQuestionAns) {
+      debugger;
+      return true;
+    }
+  }, [showNoQuestionAns, L1AndL2NoQuestionsAns, ansSection3?.L3]);
+
+  console.log('@@@@@@', checkL3Validation, terminating);
+
   useEffect(() => {
     dispatch(resetSection3()); // Reset section 3
   }, []);
@@ -196,7 +214,7 @@ const AssessmentFormRender = ({
               )}
               {!question3?.loading && (
                 <>
-                  {(!isModal && terminating) ||
+                  {(!isModal && (terminating || checkL3Validation)) ||
                   (s1FailObj && showMoreSection && !isModal) ||
                   (isNotEscalationRequired && !isModal) ? (
                     <>

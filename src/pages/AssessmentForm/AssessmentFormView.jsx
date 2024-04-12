@@ -67,6 +67,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     failingDue: null,
     reasonsForFailing: null,
   });
+
   const [showMoreSection, setShowMoreSection] = useState(false);
   const [terminating, setTerminating] = useState(false);
   const [startEdit, setStartEdit] = useState(false);
@@ -120,6 +121,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       setShowNoQuestionAns(ansSection3?.noQueAns);
     }
     if (ansSection3?.L1AndL2NoQuestionsAns?.failingDue) {
+      console.log('@@@@@@@@ ----11');
       setL1AndL2NoQuestionsAns(ansSection3?.L1AndL2NoQuestionsAns);
     }
   }, [ansSection3]);
@@ -239,6 +241,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       }
 
       if (responseUpdatedData?.L1AndL2NoQuestionsAns) {
+        console.log('@@@@@@@---2222');
         setL1AndL2NoQuestionsAns(responseUpdatedData?.L1AndL2NoQuestionsAns);
       }
 
@@ -329,7 +332,10 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               );
             }
 
-            if (!showMoreSection) setTerminating(true);
+            if (!showMoreSection) {
+              console.log('1111111111');
+              setTerminating(true);
+            }
           }, 2000);
         }
       }
