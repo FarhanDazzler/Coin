@@ -132,12 +132,9 @@ const AssessmentFormRender = ({
 
     // Check if user submit last no question then show submit btn
     if (!!showNoQuestionAns) {
-      debugger;
       return true;
     }
   }, [showNoQuestionAns, L1AndL2NoQuestionsAns, ansSection3?.L3]);
-
-  console.log('@@@@@@', checkL3Validation, terminating);
 
   useEffect(() => {
     dispatch(resetSection3()); // Reset section 3

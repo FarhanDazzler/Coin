@@ -80,7 +80,8 @@ const ControlSection3 = ({
     });
   };
 
-  const handleChange = (value, block, parentBlock) => {
+  const handleChange = (inputValue, block, parentBlock) => {
+    const value = inputValue.trimStart();
     setStartEdit(true);
     setLastAns(value);
     const noQueAns = value.includes('yes');
@@ -271,11 +272,9 @@ const ControlSection3 = ({
             return ans.L3[key].includes('yes');
           });
           if (ansObjectL3.length === allYesFilterData3.length) {
-            console.log('@@@@@@@ 111111');
             setTerminating(true);
             setShowNoQuestion(false);
           } else {
-            console.log('@@@@@@@ 22222');
             setTerminating(true);
           }
         }
@@ -548,7 +547,7 @@ const ControlSection3 = ({
                       className="form-control"
                       maxLength="2500"
                       value={showNoQuestionAns}
-                      onChange={(e) => handleChangeNoQuestion(e.target.value)}
+                      onChange={(e) => handleChangeNoQuestion(e.target.value.trimStart())}
                       disabled={!isModal}
                     />
                   </Form.Group>

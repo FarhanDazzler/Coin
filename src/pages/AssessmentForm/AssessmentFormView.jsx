@@ -121,7 +121,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       setShowNoQuestionAns(ansSection3?.noQueAns);
     }
     if (ansSection3?.L1AndL2NoQuestionsAns?.failingDue) {
-      console.log('@@@@@@@@ ----11');
       setL1AndL2NoQuestionsAns(ansSection3?.L1AndL2NoQuestionsAns);
     }
   }, [ansSection3]);
