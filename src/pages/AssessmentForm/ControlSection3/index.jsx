@@ -48,6 +48,17 @@ const ControlSection3 = ({
   const [question2Api, setQuestion2Api] = useState(false);
 
   const [showNoQuestion, setShowNoQuestion] = useState(false);
+
+  const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
+    ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
+    : [];
+  const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions || '[]')
+    ? JSON.parse(questionData.Level?.L2?.Inner_Questions || '[]')
+    : [];
+  const L3InnerQuestion = isJsonString(questionData.Level?.L3?.Inner_Questions || '[]')
+    ? JSON.parse(questionData.Level?.L3?.Inner_Questions || '[]')
+    : [];
+
   const isSameLang = useMemo(() => {
     return languageVal === language;
   }, [language, languageVal]);
@@ -69,13 +80,21 @@ const ControlSection3 = ({
     });
   };
 
-  const handleChange = (value, block, parentBlock) => {
+  const handleChange = (inputValue, block, parentBlock) => {
+    const value = inputValue.trimStart();
     setStartEdit(true);
     setLastAns(value);
     const noQueAns = value.includes('yes');
     let updateAns = { ...ans };
     if (noQueAns) {
       updateAns.noQueAns = false;
+      if (ans?.L1AndL2NoQuestionsAns && ans?.L1AndL2NoQuestionsAns?.failingDue) {
+        updateAns.L1AndL2NoQuestionsAns = { failingDue: null, reasonsForFailing: null };
+      }
+      setL1AndL2NoQuestionsAns({
+        failingDue: null,
+        reasonsForFailing: null,
+      });
     }
     if (parentBlock) {
       // Store data for selected level block value
@@ -232,7 +251,6 @@ const ControlSection3 = ({
           if (ansObjectL2.length !== allYesFilterData2.length) {
             setQuestionL3([]);
             setShowNoQuestion(true);
-            // setTerminating(true);
             return;
           } else {
             setShowNoQuestion(false);
@@ -293,15 +311,6 @@ const ControlSection3 = ({
           setLanguage(languageVal);
         }
       }
-      const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
-        ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
-        : [];
-      const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions || '[]')
-        ? JSON.parse(questionData.Level?.L2?.Inner_Questions || '[]')
-        : [];
-      const L3InnerQuestion = isJsonString(questionData.Level?.L3?.Inner_Questions || '[]')
-        ? JSON.parse(questionData.Level?.L3?.Inner_Questions || '[]')
-        : [];
 
       const isLevel1NoInnerQuestion = questionData.Level?.L1 && !L1InnerQuestion.length;
       const isLevel2NoInnerQuestion =
@@ -368,10 +377,6 @@ const ControlSection3 = ({
               setQuestionL3([]);
             }
           }
-
-          if (!(L3InnerQuestion.length > 0)) {
-            setTerminating(true);
-          }
         } else {
           if (
             apiQuestionL3 &&
@@ -399,8 +404,10 @@ const ControlSection3 = ({
 
       if (
         (isEmptySection && !questionData.loadingLevel) ||
-        (ansLength > 0 && questionL3[0]?.innerOptions?.length === ansLength)
+        (ansLength > 0 && questionL3[0]?.innerOptions?.length === ansLength) ||
+        showNoQuestionAns
       ) {
+        console.log('21312312312331212312322');
         setTerminating(true);
       } else {
         setTerminating(false);
@@ -410,6 +417,12 @@ const ControlSection3 = ({
 
   const isL1NoAnsSelect = ans?.L1 ? JSON.stringify(ans?.L1).includes('_no') : false;
   const isL2NoAnsSelect = ans?.L2 ? JSON.stringify(ans?.L2).includes('_no') : false;
+
+  useEffect(() => {
+    if (questionL3.length > 0 && !isL1NoAnsSelect && !isL2NoAnsSelect) {
+      setTerminating(!(L3InnerQuestion.length > 0));
+    }
+  }, [L3InnerQuestion, isL1NoAnsSelect, isL2NoAnsSelect, questionL3]);
 
   useEffect(() => {
     if (!(showNoQuestion || isL1NoAnsSelect || isL2NoAnsSelect)) {
@@ -534,7 +547,7 @@ const ControlSection3 = ({
                       className="form-control"
                       maxLength="2500"
                       value={showNoQuestionAns}
-                      onChange={(e) => handleChangeNoQuestion(e.target.value)}
+                      onChange={(e) => handleChangeNoQuestion(e.target.value.trimStart())}
                       disabled={!isModal}
                     />
                   </Form.Group>

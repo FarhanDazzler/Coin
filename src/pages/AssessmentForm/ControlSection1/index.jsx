@@ -66,6 +66,7 @@ const ControlSection1 = ({
   }, [userFromAD.data]);
 
   const handleChange = (value, block) => {
+    if (value === block.value) return;
     // Check if IS_AD question then run this condition
     // All logic for IS_AD question
 
