@@ -177,6 +177,7 @@ const AssessmentFormRender = ({
                 isModal={!isModal || isOverride}
                 language={language}
                 isDisabled={isNotEscalationRequired}
+                setAnsSection3={setAnsSection3}
               />
               {(showMoreSection || isNotEscalationRequired) && (
                 <ControlSection2

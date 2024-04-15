@@ -19,6 +19,7 @@ const ControlSection1 = ({
   isModal,
   language,
   isDisabled,
+  setAnsSection3,
 }) => {
   const { t } = useTranslation();
   const getQuestions = useSelector(getQuestionsSelector);
@@ -161,6 +162,8 @@ const ControlSection1 = ({
     if (selectChildQuestionId === 0) {
       setShowMoreSection(true);
     }
+    setAnsSection3({});
+    if (!value) setShowMoreSection(false);
   };
 
   useEffect(() => {

@@ -102,6 +102,12 @@ const ControlSection3 = ({
     } else {
       updateAns[block.q_id] = value;
     }
+    if (['L1', 'L2'].includes(parentBlock.Level)) {
+      if (parentBlock.Level === 'L1' && updateAns['L2']) delete updateAns['L2'];
+      if (updateAns['L3']) delete updateAns['L3'];
+      setTerminating(false);
+    }
+
     setAns(updateAns);
     setQuestion2Api(false);
     setQuestion3Api(!noQueAns);
@@ -272,11 +278,9 @@ const ControlSection3 = ({
             return ans.L3[key].includes('yes');
           });
           if (ansObjectL3.length === allYesFilterData3.length) {
-            setTerminating(true);
             setShowNoQuestion(false);
-          } else {
-            setTerminating(true);
           }
+          setTerminating(true);
         }
         updateAns.L3 = ans.L3;
         setAns(updateAns);
@@ -407,7 +411,6 @@ const ControlSection3 = ({
         (ansLength > 0 && questionL3[0]?.innerOptions?.length === ansLength) ||
         showNoQuestionAns
       ) {
-        console.log('21312312312331212312322');
         setTerminating(true);
       } else {
         setTerminating(false);
