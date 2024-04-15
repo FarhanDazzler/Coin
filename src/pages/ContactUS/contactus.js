@@ -256,7 +256,7 @@ const ContactUs = () => {
                         style={{
                           fontSize: '30px',
                         }}
-                      >{`Contact Us`}</Text>
+                      >{`Report a Bug`}</Text>
                     </div>
                     <hr
                       style={{
@@ -477,9 +477,9 @@ const ContactUs = () => {
 
             <Modal show={showProgress} backdrop="static" keyboard={false} position="center">
               <Modal.Header>
-                <Modal.Title style={{ fontFamily: 'Avantt-Bold' }}>Thank You!</Modal.Title>
+                <Modal.Title>Thank You!</Modal.Title>
               </Modal.Header>
-              <Modal.Body text-align="center" style={{ fontFamily: 'Avantt-SemiBold' }}>
+              <Modal.Body text-align="center">
                 Please wait we are communicating your query to the support team.
                 <div className="loader" style={{ margin: 'auto' }}></div>
               </Modal.Body>
@@ -494,18 +494,16 @@ const ContactUs = () => {
             >
               <Modal.Header>
                 <Modal.Title>
-                  <span style={{ color: 'green', fontFamily: 'Avantt-Bold' }}>
-                    Ticket Created Successfully
-                  </span>
+                  <span className="golden-text">Ticket Created Successfully</span>
                 </Modal.Title>
                 <Link to="/">
                   <FeatherIcon icon="x" size={20} />
                 </Link>
               </Modal.Header>
-              <Modal.Body text-align="center" style={{ fontFamily: 'Avantt-SemiBold' }}>
+              <Modal.Body text-align="center">
                 Your ticket has been raised with Incident Number:{' '}
-                <span className="golden-text">{INC_NUM}</span>. On Clicking Close, you will be
-                redirected to Home page.
+                <span className="golden-text">{INC_NUM}</span>. On clicking close, you will be
+                redirected to the home page.
               </Modal.Body>
             </Modal>
           </Container>

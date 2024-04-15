@@ -408,7 +408,7 @@ const TopBar = (props) => {
             }}
           >
             <FeatherIcon icon="pocket" size={14} />
-            {' Report Bug'}
+            {' Report a Bug'}
           </a>
         </div>
       </div>
@@ -548,7 +548,7 @@ const TopBar = (props) => {
             }}
           >
             <FeatherIcon icon="pocket" size={14} />
-            {' Report Bug'}
+            {' Report a Bug'}
           </a>
         </div>
       </div>
