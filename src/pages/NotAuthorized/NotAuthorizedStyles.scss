@@ -1,14 +1,15 @@
-.welcome-text {
+.welcome-text-no-access {
     font-style: normal;
-    font-weight: 600;
-    font-size: 32px;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 7px;
     line-height: 87.52%;
-    color: rgba(255, 255, 255, 0.92);
+    color: rgba(237, 237, 237, 0.92);
   }
   
-  .user-name-home {
+  .no-access-heading {
     font-weight: 700;
-    font-size: 52px;
+    font-size: 40px;
     line-height: 85px;
   }
   
@@ -16,6 +17,7 @@
     background: rgba(140, 140, 140, 0.14);
     border-radius: 18px;
     padding: 30px;
+    backdrop-filter: blur(10px);
   }
   
   .yellow-gradient-text {
@@ -51,10 +53,29 @@
     letter-spacing: -0.04em;
     margin-bottom: 0;
   }
+  .not-authorized-btn:hover{
+    border: 2px solid #deb529;
+    background-color: transparent;
+    color: #d7a833;
+  }
+
+  .not-authorized-btn{
+    font-size: 18px;
+    width: 200px;
+    height: 50px;
+    border-radius: 5px;
+    align-items: "center";
+    justify-content: "center";
+    color: black;
+    background-color: #deb529;
+    font-weight: 500;
+    border: none;
+    margin-top: 20px;
+  }
   
   @media only screen and (max-width: 1279px) {
     .user-name-home {
-      font-size: 45px;
+      font-size: 24px;
     }
   
     .graph-value {
