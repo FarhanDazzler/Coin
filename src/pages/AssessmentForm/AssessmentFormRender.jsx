@@ -51,6 +51,7 @@ const AssessmentFormRender = ({
   setL1AndL2NoQuestionsAns,
   question3Api,
   setQuestion3Api,
+  attemptNo,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -122,8 +123,10 @@ const AssessmentFormRender = ({
   }, [ansSection3]);
 
   const checkL3Validation = useMemo(() => {
-    // check section 3 yes select then show submit
-    if (ansSection3?.L3) return true;
+    if (ansSection3 && !(Object.keys(ansSection3).length > 0)) return false;
+    if (ansSection3?.L3)
+      // check section 3 yes select then show submit
+      return true;
 
     // check user l1 and l2 no question but next both yes then this return true
     if (!!L1AndL2NoQuestionsAns.failingDue && !!L1AndL2NoQuestionsAns.reasonsForFailing) {
@@ -134,7 +137,7 @@ const AssessmentFormRender = ({
     if (!!showNoQuestionAns) {
       return true;
     }
-  }, [showNoQuestionAns, L1AndL2NoQuestionsAns, ansSection3?.L3]);
+  }, [showNoQuestionAns, L1AndL2NoQuestionsAns, ansSection3]);
 
   useEffect(() => {
     dispatch(resetSection3()); // Reset section 3
@@ -252,7 +255,7 @@ const AssessmentFormRender = ({
                   ) : handleSaveDraft && !isOverride && !isReview ? (
                     <div className="save-draft-btn-wrapper">
                       <Button onClick={handleSaveDraft} {...handleSaveDraftProps}>
-                        {t('selfAssessment.assessmentForm.saveDraftBtn')}
+                        {attemptNo} {t('selfAssessment.assessmentForm.submitRemainingResponseText')}
                       </Button>
                     </div>
                   ) : (
