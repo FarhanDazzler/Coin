@@ -40,7 +40,6 @@ const ControlSection1 = ({
   }, [q_id_2_debounce]);
 
   useEffect(() => {
-
     // If user is available then store in userData array with email and display name
     if (userFromAD.loading) return;
     let userData = [];
@@ -68,6 +67,7 @@ const ControlSection1 = ({
 
   const handleChange = (value, block) => {
     if (value === block.value) return;
+    setAnsSection3({});
     // Check if IS_AD question then run this condition
     // All logic for IS_AD question
 
@@ -141,7 +141,7 @@ const ControlSection1 = ({
         updateCurrentAns = updateCurrentAns.filter((d, i) => i <= findSelectedIndex);
       }
     }
-    
+
     const matchQuestion = [blockType.TEXT, blockType.EMAIL_WIDTH_SELECT, blockType.IS_AD].includes(
       block.question_type,
     )
@@ -162,7 +162,7 @@ const ControlSection1 = ({
     if (selectChildQuestionId === 0) {
       setShowMoreSection(true);
     }
-    setAnsSection3({});
+
     if (!value) setShowMoreSection(false);
   };
 
