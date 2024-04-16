@@ -23,7 +23,7 @@ const Input = ({
   const isMaxValueEnter = maxLength === value?.length;
   const onChange = ({ target: { value } }) => {
     if (handleChange && value.length <= maxLength) {
-      handleChange(value, block);
+      handleChange(value.trimStart(), block);
     }
   };
 

@@ -19,6 +19,7 @@ const ControlSection1 = ({
   isModal,
   language,
   isDisabled,
+  setAnsSection3,
 }) => {
   const { t } = useTranslation();
   const getQuestions = useSelector(getQuestionsSelector);
@@ -66,6 +67,7 @@ const ControlSection1 = ({
   }, [userFromAD.data]);
 
   const handleChange = (value, block) => {
+    if (value === block.value) return;
     // Check if IS_AD question then run this condition
     // All logic for IS_AD question
 
@@ -160,6 +162,8 @@ const ControlSection1 = ({
     if (selectChildQuestionId === 0) {
       setShowMoreSection(true);
     }
+    setAnsSection3({});
+    if (!value) setShowMoreSection(false);
   };
 
   useEffect(() => {
