@@ -98,6 +98,16 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     ? JSON.parse(questionData.Level?.L2?.Inner_Questions || '[]')
     : [];
 
+  const attemptNo = useMemo(() => {
+    return responseData?.data?.Attempt_no
+      ? responseData?.data?.Attempt_no < 5
+        ? 4 - responseData?.data?.Attempt_no
+        : 0
+      : responseData?.data?.Attempt_no === 0
+      ? '4'
+      : '5';
+  }, [responseData?.data]);
+
   useEffect(() => {
     loadingRef.current = loadingLevel;
   }, [loadingLevel]);
@@ -113,7 +123,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   }, [currentLanguage]);
 
   useEffect(() => {
-    setActionPlanInfo({ ...getMicsOpenActionPlanVal.data });
+    if (!responseUpdatedData?.actionPlanInfo?.Action_Plan)
+      setActionPlanInfo({ ...getMicsOpenActionPlanVal.data });
   }, [getMicsOpenActionPlanVal.data]);
 
   useEffect(() => {
@@ -240,18 +251,18 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       }
 
       if (responseUpdatedData?.L1AndL2NoQuestionsAns) {
-        console.log('@@@@@@@---2222');
         setL1AndL2NoQuestionsAns(responseUpdatedData?.L1AndL2NoQuestionsAns);
       }
 
       if (responseUpdatedData?.s3?.length > 0 || condition) {
         //convert section 3 data to preview formate
-        const section3Data = responseUpdatedData?.s3?.reduce(
-          (acc, [k, v]) => ((acc[k] = v), acc),
-          {},
-        );
+        const section3Data = responseUpdatedData?.s3?.reduce((acc, [k, v]) => {
+          if (!v) return acc;
+          return (acc[k] = v), acc;
+        }, {});
 
-        if (!startEdit && !isNoQueAns) {
+        const isValidSection3Data = section3Data && Object.keys(section3Data).length !== 1;
+        if (!startEdit && !isNoQueAns && isValidSection3Data) {
           // save section 3 to local state
           setAnsSection3(section3Data);
           setShowMoreSection(true);
@@ -355,15 +366,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     //Text key check condition how many attempt remaining
     Swal.fire({
       title: t('selfAssessment.assessmentForm.submitText'),
-      text: `${
-        responseData?.data?.Attempt_no
-          ? responseData?.data?.Attempt_no < 5
-            ? 4 - responseData?.data?.Attempt_no
-            : 0
-          : responseData?.data?.Attempt_no === 0
-          ? '4'
-          : '5'
-      } ${t('selfAssessment.assessmentForm.submitRemainingResponseText')}`,
+      text: '',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
@@ -500,15 +503,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     }
     Swal.fire({
       title: t('selfAssessment.assessmentForm.saveDraftText'),
-      text: `${
-        responseData?.data?.Attempt_no
-          ? responseData?.data?.Attempt_no < 5
-            ? 4 - responseData?.data?.Attempt_no
-            : 0
-          : responseData?.data?.Attempt_no === 0
-          ? '4'
-          : '5'
-      } ${t('selfAssessment.assessmentForm.saveDraftRemainingResponseText')}`,
+      text: '',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
@@ -588,7 +583,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         getMicsOpenActionPlanVal={getMicsOpenActionPlanVal}
         handleSaveDraftProps={{
           disabled: responseData?.data?.Attempt_no >= 5,
-          style: { width: 128 },
+          style: { width: 300 },
           loading: addOrEditUpdateDraft.loading,
         }}
         isOverride={isOverride}
@@ -605,6 +600,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         setL1AndL2NoQuestionsAns={setL1AndL2NoQuestionsAns}
         question3Api={isQuestion3Api}
         setQuestion3Api={setIsQuestion3Api}
+        attemptNo={attemptNo}
       />
     </>
   );
