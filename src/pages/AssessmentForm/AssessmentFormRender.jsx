@@ -156,6 +156,14 @@ const AssessmentFormRender = ({
     }
   };
 
+  const section3NoSelectErrorMessage = useMemo(() => {
+    const s1NoSelect =
+      Object.keys(ansSection3).includes('L1') && !!Object.values(ansSection3?.L1)[0].includes('no');
+    const s2NoSelect =
+      Object.keys(ansSection3).includes('L2') && !!Object.values(ansSection3?.L2)[0].includes('no');
+    return showMoreSection && !s1FailObj && !isNotEscalationRequired && (s1NoSelect || s2NoSelect);
+  });
+
   return (
     <div className="modal-form-body">
       <ControlActions
@@ -232,14 +240,21 @@ const AssessmentFormRender = ({
                   (s1FailObj && showMoreSection && !isModal) ||
                   (isNotEscalationRequired && !isModal) ? (
                     <>
-                      {section1TerminatingLogicValue ||
-                      (showMoreSection && !s1FailObj && !isNotEscalationRequired) ? (
+                      {/* Section 1 Terminating then show error  */}
+                      {section1TerminatingLogicValue && (
+                        <div style={{ color: 'red', marginBottom: '10px' }}>
+                          Based on above response, the control is assessed as failed because of
+                          inadequate Documentation or inadequate frequency
+                        </div>
+                      )}
+                      {section3NoSelectErrorMessage ? (
                         <div style={{ color: 'red', marginBottom: '10px' }}>
                           Based on above response, the control is assessed as failed because of{' '}
                           {Object.keys(ansSection3).includes('L1') &&
                           !!Object.values(ansSection3?.L1)[0].includes('no')
                             ? 'L1'
-                            : Object.keys(ansSection3).includes('L2')
+                            : Object.keys(ansSection3).includes('L2') &&
+                              !!Object.values(ansSection3?.L1)[0].includes('no')
                             ? 'L2'
                             : ''}{' '}
                           {'  '}
@@ -247,8 +262,6 @@ const AssessmentFormRender = ({
                             Object.keys(ansSection3).length !== 0 &&
                             Object.keys(ansSection3).length !== 3 &&
                             '/'}
-                          {section1TerminatingLogicValue &&
-                            ' inadequate Documentation or inadequate frequency'}
                         </div>
                       ) : null}
                       {!kpiResultData.loading && (

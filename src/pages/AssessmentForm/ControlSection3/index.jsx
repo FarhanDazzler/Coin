@@ -34,7 +34,6 @@ const ControlSection3 = ({
   question3Api,
   setQuestion3Api,
 }) => {
-  const history = useHistory();
   const Control_ID = activeData?.control_id;
   const questionData = useSelector(question3Selector);
   const dispatch = useDispatch();
@@ -87,6 +86,7 @@ const ControlSection3 = ({
     const noQueAns = value.includes('yes');
     let updateAns = { ...ans };
     if (noQueAns) {
+      setShowNoQuestion(false);
       updateAns.noQueAns = false;
       if (ans?.L1AndL2NoQuestionsAns && ans?.L1AndL2NoQuestionsAns?.failingDue) {
         updateAns.L1AndL2NoQuestionsAns = { failingDue: null, reasonsForFailing: null };
