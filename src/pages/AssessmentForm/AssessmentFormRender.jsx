@@ -123,10 +123,13 @@ const AssessmentFormRender = ({
   }, [ansSection3]);
 
   const checkL3Validation = useMemo(() => {
-    if (ansSection3 && !(Object.keys(ansSection3).length > 0)) return false;
-    if (ansSection3?.L3)
-      // check section 3 yes select then show submit
+    if (ansSection3 && !(Object.keys(ansSection3).length > 0)) {
+      return false;
+    }
+    // check section 3 yes select then show submit
+    if (ansSection3?.L3) {
       return true;
+    }
 
     // check user l1 and l2 no question but next both yes then this return true
     if (!!L1AndL2NoQuestionsAns.failingDue && !!L1AndL2NoQuestionsAns.reasonsForFailing) {
@@ -137,11 +140,21 @@ const AssessmentFormRender = ({
     if (!!showNoQuestionAns) {
       return true;
     }
-  }, [showNoQuestionAns, L1AndL2NoQuestionsAns, ansSection3]);
+  }, [showNoQuestionAns, L1AndL2NoQuestionsAns, ansSection3, ansSection3?.L3]);
 
   useEffect(() => {
     dispatch(resetSection3()); // Reset section 3
   }, []);
+
+  const handleValidation = (type) => () => {
+    // const find
+    if (type === 'submit' && handleSubmit) {
+      if (handleSubmit) handleSubmit();
+    }
+    if (type === 'draft' && handleSaveDraft) {
+      if (handleSaveDraft) handleSaveDraft();
+    }
+  };
 
   return (
     <div className="modal-form-body">
@@ -246,7 +259,7 @@ const AssessmentFormRender = ({
                           className={cs('w-100', { ['isDisabledButton']: isDisabledButton })}
                           id="submit-button"
                           loading={loadingSubmit}
-                          onClick={handleSubmit}
+                          onClick={handleValidation('submit')}
                         >
                           {t('selfAssessment.assessmentForm.submitBtn')}
                         </Button>
@@ -254,8 +267,8 @@ const AssessmentFormRender = ({
                     </>
                   ) : handleSaveDraft && !isOverride && !isReview ? (
                     <div className="save-draft-btn-wrapper">
-                      <Button onClick={handleSaveDraft} {...handleSaveDraftProps}>
-                        {attemptNo} {t('selfAssessment.assessmentForm.submitRemainingResponseText')}
+                      <Button onClick={handleValidation('draft')} {...handleSaveDraftProps}>
+                        {attemptNo} {t('selfAssessment.assessmentForm.saveDraftBtn')}
                       </Button>
                     </div>
                   ) : (
