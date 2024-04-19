@@ -293,27 +293,29 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             !questionData.Level?.L2)
         ) {
           // if section 3 level 1 show then API to get section 3 L2 level api call condition
-          if (timeOutSection2) clearTimeout(timeOutSection2);
-          timeOutSection2 = setTimeout(() => {
-            if (!loadingRef?.current?.L2) {
-              setLoadingLevel({ ...loadingLevel, L2: true });
-              // Section 3 - L2 level api call
-              dispatch(
-                getSection3Questions({
-                  Level: 'L2',
-                  Control_ID: activeData?.control_id,
-                  Assessment_ID: activeData?.assessment_id,
-                  events: {
-                    onSuccess: () => {
-                      setTimeout(() => {
-                        setLoadingLevel({ ...loadingLevel, L2: false });
-                      }, 1500);
+          if (!questionData?.data?.L2) {
+            if (timeOutSection2) clearTimeout(timeOutSection2);
+            timeOutSection2 = setTimeout(() => {
+              if (!loadingRef?.current?.L2) {
+                setLoadingLevel({ ...loadingLevel, L2: true });
+                // Section 3 - L2 level api call
+                dispatch(
+                  getSection3Questions({
+                    Level: 'L2',
+                    Control_ID: activeData?.control_id,
+                    Assessment_ID: activeData?.assessment_id,
+                    events: {
+                      onSuccess: () => {
+                        setTimeout(() => {
+                          setLoadingLevel({ ...loadingLevel, L2: false });
+                        }, 1500);
+                      },
                     },
-                  },
-                }),
-              );
-            }
-          }, 1000);
+                  }),
+                );
+              }
+            }, 1000);
+          }
         }
 
         // Check section 3 L2 and L3 level fill or not
@@ -321,32 +323,33 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           (section3Data?.L3 && questionData.Level?.L2 && !questionData.Level?.L3) ||
           (isLevel2NoInnerQuestion && !questionData.Level?.L3)
         ) {
-          if (timeOutSection3) clearTimeout(timeOutSection3);
-          timeOutSection3 = setTimeout(() => {
-            if (!loadingRef?.current?.L3) {
-              setLoadingLevel({ ...loadingLevel, L3: true });
-              // Section 3 - L3 level api call
-              dispatch(
-                getSection3Questions({
-                  Level: 'L3',
-                  Control_ID: activeData?.control_id,
-                  Assessment_ID: activeData?.assessment_id,
-                  events: {
-                    onSuccess: () => {
-                      setTimeout(() => {
-                        setLoadingLevel({ ...loadingLevel, L3: false });
-                      }, 1500);
+          if (!questionData?.data?.L3) {
+            if (timeOutSection3) clearTimeout(timeOutSection3);
+            timeOutSection3 = setTimeout(() => {
+              if (!loadingRef?.current?.L3) {
+                setLoadingLevel({ ...loadingLevel, L3: true });
+                // Section 3 - L3 level api call
+                dispatch(
+                  getSection3Questions({
+                    Level: 'L3',
+                    Control_ID: activeData?.control_id,
+                    Assessment_ID: activeData?.assessment_id,
+                    events: {
+                      onSuccess: () => {
+                        setTimeout(() => {
+                          setLoadingLevel({ ...loadingLevel, L3: false });
+                        }, 1500);
+                      },
                     },
-                  },
-                }),
-              );
-            }
+                  }),
+                );
+              }
 
-            if (!showMoreSection) {
-              console.log('1111111111');
-              setTerminating(true);
-            }
-          }, 2000);
+              if (!showMoreSection) {
+                setTerminating(true);
+              }
+            }, 2000);
+          }
         }
       }
     }
@@ -373,7 +376,15 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       cancelButtonColor: 'black',
       confirmButtonText: t('selfAssessment.assessmentForm.submitConfirmBtn'),
       showDenyButton: !(responseData?.data?.Attempt_no >= 5),
-      denyButtonText: t('selfAssessment.assessmentForm.saveDraftBtn'),
+      denyButtonText: `(${
+        responseData?.data?.Attempt_no
+          ? responseData?.data?.Attempt_no < 5
+            ? 4 - responseData?.data?.Attempt_no
+            : 0
+          : responseData?.data?.Attempt_no === 0
+          ? '4'
+          : '5'
+      }) ${t('selfAssessment.assessmentForm.saveDraftBtn')}`,
       denyButtonColor: 'silver',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -410,7 +421,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               : isReview
               ? responseUpdatedData.data
               : kpiResultData?.data?.data,
-            kpis: isNotEscalationRequired ? [] : tableData.length > 0 ? tableData : [],
+            kpis: isNotEscalationRequired
+              ? []
+              : tableData.length > 0 && showMoreSection
+              ? tableData
+              : [],
             s3: isNotEscalationRequired
               ? null
               : !(showMoreSection && !s1FailObj && !isNotEscalationRequired)
@@ -475,7 +490,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                   L1AndL2NoQuestionsAns,
                 }),
             data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
-            kpis: null,
+            kpis: isNotEscalationRequired
+              ? []
+              : tableData.length > 0 && showMoreSection
+              ? tableData
+              : [],
             showTable: showMoreSection,
             actionPlanInfo,
             is_override: isOverride,
@@ -503,12 +522,28 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     }
     Swal.fire({
       title: t('selfAssessment.assessmentForm.saveDraftText'),
-      text: '',
+      // html: `<p class='draft-btn'>${
+      //   responseData?.data?.Attempt_no
+      //     ? responseData?.data?.Attempt_no < 5
+      //       ? 4 - responseData?.data?.Attempt_no
+      //       : 0
+      //     : responseData?.data?.Attempt_no === 0
+      //     ? '4'
+      //     : '5'
+      // } ${t('selfAssessment.assessmentForm.saveDraftBtn')}</p>`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
       cancelButtonColor: 'black',
-      confirmButtonText: t('selfAssessment.assessmentForm.saveDraftBtn'),
+      confirmButtonText: `(${
+        responseData?.data?.Attempt_no
+          ? responseData?.data?.Attempt_no < 5
+            ? 4 - responseData?.data?.Attempt_no
+            : 0
+          : responseData?.data?.Attempt_no === 0
+          ? '4'
+          : '5'
+      }) ${t('selfAssessment.assessmentForm.saveDraftBtn')}`,
     }).then((result) => {
       if (result.isConfirmed) {
         const payload = {
@@ -525,7 +560,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                   L1AndL2NoQuestionsAns,
                 }),
             data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
-            kpis: null,
+            kpis: isNotEscalationRequired
+              ? []
+              : tableData.length > 0 && showMoreSection
+              ? tableData
+              : [],
             showTable: showMoreSection,
             actionPlanInfo,
           },
@@ -583,7 +622,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         getMicsOpenActionPlanVal={getMicsOpenActionPlanVal}
         handleSaveDraftProps={{
           disabled: responseData?.data?.Attempt_no >= 5,
-          style: { width: 300 },
+          style: { width: 140 },
           loading: addOrEditUpdateDraft.loading,
         }}
         isOverride={isOverride}

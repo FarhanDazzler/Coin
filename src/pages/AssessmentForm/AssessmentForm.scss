@@ -1,10 +1,20 @@
-.ass-header{
-    background: #212121;
-    color: #fff;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 87.52%;
-    padding: 30px 40px;
-    margin-top: 20px;
-    border-radius: 8px 8px 0 0;
+.ass-header {
+  background: #212121;
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 87.52%;
+  padding: 30px 40px;
+  margin-top: 20px;
+  border-radius: 8px 8px 0 0;
+}
+
+.draft-btn {
+  background: #323232;
+  color: #fff;
+  border-radius: 8px;
+  width: 140px;
+  margin: 5px auto 0;
+  padding: 6px 16px;
+  line-height: 1.75;
 }

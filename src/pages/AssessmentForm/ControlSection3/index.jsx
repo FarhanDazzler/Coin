@@ -34,7 +34,6 @@ const ControlSection3 = ({
   question3Api,
   setQuestion3Api,
 }) => {
-  const history = useHistory();
   const Control_ID = activeData?.control_id;
   const questionData = useSelector(question3Selector);
   const dispatch = useDispatch();
@@ -87,6 +86,7 @@ const ControlSection3 = ({
     const noQueAns = value.includes('yes');
     let updateAns = { ...ans };
     if (noQueAns) {
+      setShowNoQuestion(false);
       updateAns.noQueAns = false;
       if (ans?.L1AndL2NoQuestionsAns && ans?.L1AndL2NoQuestionsAns?.failingDue) {
         updateAns.L1AndL2NoQuestionsAns = { failingDue: null, reasonsForFailing: null };
@@ -168,7 +168,7 @@ const ControlSection3 = ({
       !JSON.parse(questionData.Level?.L1?.Inner_Questions).length;
 
     //Check if first section any one 'No' option selected then not section 2 api call make
-    if (isFirstSectionWithNoQuestion && !question2Api && !question3Api) {
+    if (isFirstSectionWithNoQuestion && !question2Api && !question3Api && !questionData?.data?.L2) {
       if (!loadingRef?.current?.L2) {
         setLoadingLevel({ ...loadingLevel, L2: true });
         dispatch(
@@ -193,7 +193,7 @@ const ControlSection3 = ({
     const isSecondSectionWithNoQuestion =
       isJsonString(questionData.Level?.L2?.Inner_Questions) &&
       !JSON.parse(questionData.Level?.L2?.Inner_Questions).length;
-    if (isSecondSectionWithNoQuestion && !question3Api) {
+    if (isSecondSectionWithNoQuestion && !question3Api && !questionData?.data?.L3) {
       dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
       setQuestion3Api(true);
     }
@@ -213,7 +213,8 @@ const ControlSection3 = ({
           if (
             ansObjectL1.length === allYesFilterData1.length &&
             !questionL2.length &&
-            !question2Api
+            !question2Api &&
+            !questionData?.data?.L2
           ) {
             dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
             setQuestion2Api(true);
@@ -246,7 +247,8 @@ const ControlSection3 = ({
           if (
             ansObjectL2.length === allYesFilterData2.length &&
             !questionL3.length &&
-            !question2Api
+            !question2Api &&
+            !questionData?.data?.L3
           ) {
             dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
             setQuestion3Api(true);
@@ -305,7 +307,7 @@ const ControlSection3 = ({
           if (ans.L1) {
             const updateAnsL1 = setSelectedQuestionAns(data, ans.L1);
             setQuestionL1(updateAnsL1);
-            if (!question2Api) {
+            if (!question2Api && !questionData?.data?.L2) {
               dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
               setQuestion2Api(true);
             }
@@ -332,7 +334,7 @@ const ControlSection3 = ({
           if (ans.L2) {
             const updateAnsL2 = setSelectedQuestionAns(data2, ans.L2);
             setQuestionL2(updateAnsL2);
-            if (!question3Api) {
+            if (!question3Api && !questionData?.data?.L3) {
               if (!loadingRef?.current?.L3) {
                 setLoadingLevel({ ...loadingLevel, L3: true });
                 dispatch(

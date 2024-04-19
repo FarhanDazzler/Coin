@@ -123,10 +123,13 @@ const AssessmentFormRender = ({
   }, [ansSection3]);
 
   const checkL3Validation = useMemo(() => {
-    if (ansSection3 && !(Object.keys(ansSection3).length > 0)) return false;
-    if (ansSection3?.L3)
-      // check section 3 yes select then show submit
+    if (ansSection3 && !(Object.keys(ansSection3).length > 0)) {
+      return false;
+    }
+    // check section 3 yes select then show submit
+    if (ansSection3?.L3) {
       return true;
+    }
 
     // check user l1 and l2 no question but next both yes then this return true
     if (!!L1AndL2NoQuestionsAns.failingDue && !!L1AndL2NoQuestionsAns.reasonsForFailing) {
@@ -137,11 +140,29 @@ const AssessmentFormRender = ({
     if (!!showNoQuestionAns) {
       return true;
     }
-  }, [showNoQuestionAns, L1AndL2NoQuestionsAns, ansSection3]);
+  }, [showNoQuestionAns, L1AndL2NoQuestionsAns, ansSection3, ansSection3?.L3]);
 
   useEffect(() => {
     dispatch(resetSection3()); // Reset section 3
   }, []);
+
+  const handleValidation = (type) => () => {
+    // const find
+    if (type === 'submit' && handleSubmit) {
+      if (handleSubmit) handleSubmit();
+    }
+    if (type === 'draft' && handleSaveDraft) {
+      if (handleSaveDraft) handleSaveDraft();
+    }
+  };
+
+  const section3NoSelectErrorMessage = useMemo(() => {
+    const s1NoSelect =
+      Object.keys(ansSection3).includes('L1') && !!Object.values(ansSection3?.L1)[0].includes('no');
+    const s2NoSelect =
+      Object.keys(ansSection3).includes('L2') && !!Object.values(ansSection3?.L2)[0].includes('no');
+    return showMoreSection && !s1FailObj && !isNotEscalationRequired && (s1NoSelect || s2NoSelect);
+  });
 
   return (
     <div className="modal-form-body">
@@ -219,16 +240,21 @@ const AssessmentFormRender = ({
                   (s1FailObj && showMoreSection && !isModal) ||
                   (isNotEscalationRequired && !isModal) ? (
                     <>
-                      {(section1TerminatingLogicValue || !!isSection3Failed) &&
-                      showMoreSection &&
-                      !s1FailObj &&
-                      !isNotEscalationRequired ? (
+                      {/* Section 1 Terminating then show error  */}
+                      {section1TerminatingLogicValue && (
+                        <div style={{ color: 'red', marginBottom: '10px' }}>
+                          Based on above response, the control is assessed as failed because of
+                          inadequate Documentation or inadequate frequency
+                        </div>
+                      )}
+                      {section3NoSelectErrorMessage ? (
                         <div style={{ color: 'red', marginBottom: '10px' }}>
                           Based on above response, the control is assessed as failed because of{' '}
                           {Object.keys(ansSection3).includes('L1') &&
                           !!Object.values(ansSection3?.L1)[0].includes('no')
                             ? 'L1'
-                            : Object.keys(ansSection3).includes('L2')
+                            : Object.keys(ansSection3).includes('L2') &&
+                              !!Object.values(ansSection3?.L1)[0].includes('no')
                             ? 'L2'
                             : ''}{' '}
                           {'  '}
@@ -236,8 +262,6 @@ const AssessmentFormRender = ({
                             Object.keys(ansSection3).length !== 0 &&
                             Object.keys(ansSection3).length !== 3 &&
                             '/'}
-                          {section1TerminatingLogicValue &&
-                            ' inadequate Documentation or inadequate frequency'}
                         </div>
                       ) : null}
                       {!kpiResultData.loading && (
@@ -246,7 +270,7 @@ const AssessmentFormRender = ({
                           className={cs('w-100', { ['isDisabledButton']: isDisabledButton })}
                           id="submit-button"
                           loading={loadingSubmit}
-                          onClick={handleSubmit}
+                          onClick={handleValidation('submit')}
                         >
                           {t('selfAssessment.assessmentForm.submitBtn')}
                         </Button>
@@ -254,8 +278,8 @@ const AssessmentFormRender = ({
                     </>
                   ) : handleSaveDraft && !isOverride && !isReview ? (
                     <div className="save-draft-btn-wrapper">
-                      <Button onClick={handleSaveDraft} {...handleSaveDraftProps}>
-                        {attemptNo} {t('selfAssessment.assessmentForm.submitRemainingResponseText')}
+                      <Button onClick={handleValidation('draft')} {...handleSaveDraftProps}>
+                        {t('selfAssessment.assessmentForm.saveDraftBtn')}
                       </Button>
                     </div>
                   ) : (
