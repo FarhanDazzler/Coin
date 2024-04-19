@@ -130,17 +130,17 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
       if (typeof payload.data === 'string') {
         return {
           ...state,
-          getLatestDraft: { ...state.getLatestDraft, data: {}, loading: true },
+          getLatestDraft: { ...state.getLatestDraft, data: {}, loading: false },
         };
       }
       return {
         ...state,
-        getLatestDraft: { ...state.getLatestDraft, data: payload.data, loading: true },
+        getLatestDraft: { ...state.getLatestDraft, data: payload.data, loading: false },
       };
     case GET_LATEST_DRAFT_ERROR:
       return {
         ...state,
-        getLatestDraft: { ...state.getLatestDraft, loading: true },
+        getLatestDraft: { ...state.getLatestDraft, loading: false },
       };
 
     case UPDATE_LATEST_DRAFT:

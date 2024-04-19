@@ -210,6 +210,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       dispatch(clearLatestDraftResponse());
       dispatch(resetBlockAssessment());
       dispatch(resetBlockAssessment());
+      dispatch(clearAssessmentResponse());
       setAnsSection1([]);
       setAnsSection3([]);
     };
