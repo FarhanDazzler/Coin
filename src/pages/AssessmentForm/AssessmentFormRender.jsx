@@ -232,10 +232,8 @@ const AssessmentFormRender = ({
                   (s1FailObj && showMoreSection && !isModal) ||
                   (isNotEscalationRequired && !isModal) ? (
                     <>
-                      {(section1TerminatingLogicValue || !!isSection3Failed) &&
-                      showMoreSection &&
-                      !s1FailObj &&
-                      !isNotEscalationRequired ? (
+                      {section1TerminatingLogicValue ||
+                      (showMoreSection && !s1FailObj && !isNotEscalationRequired) ? (
                         <div style={{ color: 'red', marginBottom: '10px' }}>
                           Based on above response, the control is assessed as failed because of{' '}
                           {Object.keys(ansSection3).includes('L1') &&
