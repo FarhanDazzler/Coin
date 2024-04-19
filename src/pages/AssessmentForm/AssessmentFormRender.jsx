@@ -254,7 +254,7 @@ const AssessmentFormRender = ({
                           !!Object.values(ansSection3?.L1)[0].includes('no')
                             ? 'L1'
                             : Object.keys(ansSection3).includes('L2') &&
-                              !!Object.values(ansSection3?.L1)[0].includes('no')
+                              !!Object.values(ansSection3?.L2)[0].includes('no')
                             ? 'L2'
                             : ''}{' '}
                           {'  '}
