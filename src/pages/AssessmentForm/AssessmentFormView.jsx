@@ -376,7 +376,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       cancelButtonColor: 'black',
       confirmButtonText: t('selfAssessment.assessmentForm.submitConfirmBtn'),
       showDenyButton: !(responseData?.data?.Attempt_no >= 5),
-      denyButtonText: `${
+      denyButtonText: `(${
         responseData?.data?.Attempt_no
           ? responseData?.data?.Attempt_no < 5
             ? 4 - responseData?.data?.Attempt_no
@@ -384,7 +384,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
-      } ${t('selfAssessment.assessmentForm.saveDraftBtn')}`,
+      }) ${t('selfAssessment.assessmentForm.saveDraftBtn')}`,
       denyButtonColor: 'silver',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -522,7 +522,20 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     }
     Swal.fire({
       title: t('selfAssessment.assessmentForm.saveDraftText'),
-      html: `<p class='draft-btn'>${
+      // html: `<p class='draft-btn'>${
+      //   responseData?.data?.Attempt_no
+      //     ? responseData?.data?.Attempt_no < 5
+      //       ? 4 - responseData?.data?.Attempt_no
+      //       : 0
+      //     : responseData?.data?.Attempt_no === 0
+      //     ? '4'
+      //     : '5'
+      // } ${t('selfAssessment.assessmentForm.saveDraftBtn')}</p>`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'golden',
+      cancelButtonColor: 'black',
+      confirmButtonText: `(${
         responseData?.data?.Attempt_no
           ? responseData?.data?.Attempt_no < 5
             ? 4 - responseData?.data?.Attempt_no
@@ -530,12 +543,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
-      } ${t('selfAssessment.assessmentForm.saveDraftBtn')}</p>`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: 'golden',
-      cancelButtonColor: 'black',
-      confirmButtonText: t('selfAssessment.assessmentForm.saveDraftBtn'),
+      }) ${t('selfAssessment.assessmentForm.saveDraftBtn')}`,
     }).then((result) => {
       if (result.isConfirmed) {
         const payload = {
