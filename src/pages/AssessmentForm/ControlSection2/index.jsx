@@ -186,7 +186,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
       editor: { type: 'number' },
       formatter: (cellContent, row) => {
-        if (!row.Numerator) {
+        if (!row.Numerator && row.Denominator) {
           return (
             <div>
               {row.Numerator}
@@ -252,7 +252,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         ...headerStyles,
       },
       formatter: (cellContent, row) => {
-        if (!row.Denominator) {
+        if (!row.Denominator && row.Numerator) {
           return (
             <div>
               {row.Denominator}
