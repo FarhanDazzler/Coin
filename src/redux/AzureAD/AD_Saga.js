@@ -9,7 +9,7 @@ import {
   ID_EMAIL_VALID_AD_REQUEST,
   ID_EMAIL_VALID_AD_SUCCESS,
   ID_EMAIL_VALID_AD_ERROR,
-  RESET_FLAGS_ASSESSMENT,
+  RESET_FLAGS_AD,
 } from './AD_Reducer';
 
 // Azure get user from AD data
@@ -30,7 +30,7 @@ function* handleGet_UserFromAD({ payload }) {
         payload: { users: response.users, emailCheck: response.isValid },
       });
       yield put({
-        type: RESET_FLAGS_ASSESSMENT,
+        type: RESET_FLAGS_AD,
         payload: { blockType: 'userFromAD' },
       });
     }

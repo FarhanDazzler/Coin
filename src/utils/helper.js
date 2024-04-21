@@ -5,6 +5,10 @@ export const validateEmail = (email) => {
   return regexEmail.test(email);
 };
 
+export const getUniqueListBy = (arr = [], key) => {
+  return [...new Map(arr.map((item) => [item[key], item])).values()];
+};
+
 export const getFormatQuestions = (questions, action, startStr, handOverUser) => {
   const isQuestionLabelEdit = action === 'isQuestionEdit';
   return questions?.map((d, i) => {
@@ -70,7 +74,7 @@ export const getFormatQuestions = (questions, action, startStr, handOverUser) =>
 };
 
 export const getLanguageFormat = (data = [], lang = 'en', startStr, isValid, recarsive) => {
-  return data?.map((d, i) => {
+  return [...new Map(data.map((item) => [item['q_id'], item])).values()]?.map((d, i) => {
     const language = lang === 'en' || !lang ? '' : lang + '_';
     const keyHeader_Question = language + 'Header_Question';
     const innerOption = language + 'Inner_Questions';

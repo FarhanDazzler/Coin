@@ -19,7 +19,6 @@ const BU_HomePage = () => {
   const selected_Role = localStorage.getItem('selected_Role');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
 
-  // console.log('@@@@@@@', localStorage.getItem('selected_Role'));
   return (
     <div>
       {(loginRole || selected_Role) === 'Local Internal Control' ? (
