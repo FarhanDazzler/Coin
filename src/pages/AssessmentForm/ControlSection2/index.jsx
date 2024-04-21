@@ -22,7 +22,7 @@ import { Loader } from '@mantine/core';
 import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
-const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview }) => {
+const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isReview }) => {
   const { t } = useTranslation();
   let headerStyles;
   if (isModal) {
@@ -48,7 +48,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
     tableData.map((data, i) => {
       handleChange('', '', data, i);
     });
-  }, [csvUpdateData, tableData.length]);
+  }, [csvUpdateData, tableData.lengthlength]);
 
   //All fixed table schema
   const columns = [
@@ -185,6 +185,29 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       },
       editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
       editor: { type: 'number' },
+      formatter: (cellContent, row) => {
+        if (!row.Numerator) {
+          return (
+            <div>
+              {row.Numerator}
+              <div className="alert alert-danger in" role="alert">
+                <strong>Numerator is required when Denominator is filled</strong>
+              </div>
+            </div>
+          );
+        }
+        if (row.Numerator < 0) {
+          return (
+            <div>
+              {row.Numerator}
+              <div className="alert alert-danger in" role="alert">
+                <strong>Numerator can be positive values only</strong>
+              </div>
+            </div>
+          );
+        }
+        return cellContent;
+      },
       style: (cell, row, rowIndex, colIndex) => {
         if (row.isManual) {
           return {
@@ -227,6 +250,30 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       editor: { type: 'number' },
       headerStyle: {
         ...headerStyles,
+      },
+      formatter: (cellContent, row) => {
+        if (!row.Denominator) {
+          return (
+            <div>
+              {row.Denominator}
+              <div className="alert alert-danger in" role="alert">
+                <strong>Denominator is required when Numerator is filled</strong>
+              </div>
+            </div>
+          );
+        }
+        if (row.Denominator <= 0) {
+          return (
+            <div>
+              {row.Denominator}
+              <div className="alert alert-danger in" role="alert">
+                <strong>Denominator can be positive values only</strong>
+              </div>
+            </div>
+          );
+        }
+
+        return cellContent;
       },
       style: (cell, row, rowIndex, colIndex) => {
         if (row.isManual) {
