@@ -151,10 +151,10 @@ const AssessmentFormRender = ({
     const findErrorTableRow = tableData.find(
       (row) => !row.Numerator || row.Numerator < 0 || !row.Denominator || row.Denominator <= 0,
     );
-    debugger;
+
     if (findErrorTableRow) {
       Swal.fire({
-        title: 'Section2: KPI',
+        title: 'Section2: KPI (Invalid)',
         text: 'Table Data invalid. Please verify every row since some row Numerator and Denominator value not velid.',
         icon: 'error',
       });
