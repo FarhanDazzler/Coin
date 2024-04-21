@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getQuestionsSelector } from '../../../redux/Assessments/AssessmentSelectors';
-import { getFormatQuestions, getLanguageFormat, validateEmail } from '../../../utils/helper';
+import {
+  getFormatQuestions,
+  getLanguageFormat,
+  getUniqueListBy,
+  validateEmail,
+} from '../../../utils/helper';
 import { getUserFromAD } from '../../../redux/AzureAD/AD_Action';
 import { getUserFromADSelector } from '../../../redux/AzureAD/AD_Selectors';
 import useDebounce from '../../../hooks/useDebounce';
@@ -97,7 +102,7 @@ const ControlSection1 = ({
         if (block.options[0].is_Terminating === 1) {
           setTerminating(true);
           // dispatch(updateLastAccess({ s1: updateCurrentAns }));
-          setAns(updateCurrentAns);
+          setAns(getUniqueListBy(updateCurrentAns, 'q_id'));
           return;
         }
         setTerminating(false);
@@ -113,7 +118,7 @@ const ControlSection1 = ({
               }
             });
           }
-          setAns(updateCurrentAns);
+          setAns(getUniqueListBy(updateCurrentAns, 'q_id'));
           return;
         }
         setTerminating(false);
@@ -124,7 +129,7 @@ const ControlSection1 = ({
         const matchQuestion = block.question_options.find((o) => o.option_id === value);
         if (matchQuestion.is_Terminating) {
           setTerminating(true);
-          setAns(updateCurrentAns);
+          setAns(getUniqueListBy(updateCurrentAns, 'q_id'));
           return;
         }
         setTerminating(false);
@@ -132,14 +137,12 @@ const ControlSection1 = ({
       default:
         setTerminating(false);
     }
-    // Checking if the block has the answer value of question
-    if (block.value) {
-      // if ans present, check the index of the question
-      const findSelectedIndex = updateCurrentAns.findIndex((data) => data.q_id === block.q_id);
-      if (findSelectedIndex !== -1) {
-        // if question found, update the ans
-        updateCurrentAns = updateCurrentAns.filter((d, i) => i <= findSelectedIndex);
-      }
+
+    // if ans present, check the index of the question
+    const findSelectedIndex = updateCurrentAns.findIndex((data) => data.q_id === block.q_id);
+    if (findSelectedIndex !== -1) {
+      // if question found, update the ans
+      updateCurrentAns = updateCurrentAns.filter((d, i) => i <= findSelectedIndex);
     }
 
     const matchQuestion = [blockType.TEXT, blockType.EMAIL_WIDTH_SELECT, blockType.IS_AD].includes(
@@ -151,12 +154,12 @@ const ControlSection1 = ({
 
     const selectedChildQuestion = data.find((d) => d.q_id === selectChildQuestionId);
 
-    if (selectedChildQuestion) {
+    if (selectedChildQuestion && value) {
       setShowMoreSection(false);
-      setAns([...updateCurrentAns, selectedChildQuestion]);
+      setAns(getUniqueListBy([...updateCurrentAns, selectedChildQuestion], 'q_id'));
     } else {
       setShowMoreSection(true);
-      setAns(updateCurrentAns);
+      setAns(getUniqueListBy(updateCurrentAns, 'q_id'));
     }
 
     if (selectChildQuestionId === 0) {
@@ -172,7 +175,7 @@ const ControlSection1 = ({
       const updateLang = getLanguageFormat(allData, language, null);
       setData(updateLang);
       const showData = updateLang.filter((d) => d.show);
-      setAns(showData);
+      setAns(getUniqueListBy(showData, 'q_id'));
     }
   }, [getQuestions.data, language]);
 

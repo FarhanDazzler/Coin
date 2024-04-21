@@ -166,7 +166,6 @@ const BULetterForm = (props) => {
   const getBUScopeDataState = useSelector(getBUScopeDataSelector);
 
   //const scopeData = getBUScopeDataState?.data;
-  console.log('@@@@', modalType, id, getBUScopeDataState?.data);
 
   useEffect(() => {
     const payloadForGettingInstructions = {

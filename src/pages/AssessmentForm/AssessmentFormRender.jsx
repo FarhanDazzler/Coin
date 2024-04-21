@@ -205,7 +205,6 @@ const AssessmentFormRender = ({
               />
               {(showMoreSection || isNotEscalationRequired) && (
                 <ControlSection2
-                  tableData={tableData}
                   setTableData={setTableData}
                   controlId={controlId}
                   setStartEdit={setStartEdit}
