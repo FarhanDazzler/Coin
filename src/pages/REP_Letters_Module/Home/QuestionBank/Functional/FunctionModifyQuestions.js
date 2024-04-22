@@ -26,6 +26,7 @@ import {
   getLetterNameFromFunctionSelector,
 } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
 import RemoveWarningModal from '../../../../../components/UI/AttributesRemoveModal';
+import { useParams } from 'react-router';
 
 const Options = ({
   setEditableData,
@@ -117,7 +118,8 @@ const FunctionModifyQuestions = (props) => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const selectedFunction = props.location.state.data?.function;
+  const {selectedFunction} =  useParams()
+
   const [ShowBUModifyModal, setShowBUModifyModal] = useState(false);
   const [editableData, setEditableData] = useState();
   const [isEdit, setIsEdit] = useState(false);
