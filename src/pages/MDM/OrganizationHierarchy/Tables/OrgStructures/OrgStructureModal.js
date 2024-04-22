@@ -150,7 +150,6 @@ const OrgStructureModal = ({ setShowModal, ediatbleData, setEditTableData, modal
       ...payload,
     };
 
-    //console.log(payload, '@@@@@@');
     if (modalType === 'add') {
       dispatch(addOrgStructureAction(payload));
     } else {

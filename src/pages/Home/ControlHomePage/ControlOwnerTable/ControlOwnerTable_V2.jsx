@@ -252,7 +252,6 @@ const ControlOwnerTable = ({ tableName }) => {
     let gcdPayload = {
       controlId: id,
     };
-    console.log('@@@@ -> 1');
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
     history.push(`${history.location.pathname}?Control_ID=${id}`);

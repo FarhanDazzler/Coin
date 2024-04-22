@@ -12,6 +12,7 @@ import ControlSection from './ControlSection';
 import cs from 'classnames';
 import { kpiResultSelector } from '../../redux/Assessments/AssessmentSelectors';
 import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
+import Swal from 'sweetalert2';
 
 const AssessmentFormRender = ({
   s1FailObj,
@@ -147,7 +148,18 @@ const AssessmentFormRender = ({
   }, []);
 
   const handleValidation = (type) => () => {
-    // const find
+    const findErrorTableRow = tableData.find(
+      (row) => !row.Numerator || row.Numerator < 0 || !row.Denominator || row.Denominator <= 0,
+    );
+
+    if (findErrorTableRow) {
+      Swal.fire({
+        title: 'Section2: KPI (Invalid)',
+        text: 'Table Data invalid. Please verify every row since some row Numerator and Denominator value not velid.',
+        icon: 'error',
+      });
+      return;
+    }
     if (type === 'submit' && handleSubmit) {
       if (handleSubmit) handleSubmit();
     }
@@ -162,7 +174,7 @@ const AssessmentFormRender = ({
     const s2NoSelect =
       Object.keys(ansSection3).includes('L2') && !!Object.values(ansSection3?.L2)[0].includes('no');
     return showMoreSection && !s1FailObj && !isNotEscalationRequired && (s1NoSelect || s2NoSelect);
-  });
+  }, [ansSection3, s1FailObj, isNotEscalationRequired]);
 
   return (
     <div className="modal-form-body">

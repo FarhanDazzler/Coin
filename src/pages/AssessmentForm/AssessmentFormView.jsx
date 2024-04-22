@@ -30,6 +30,7 @@ import { getSection3Questions } from '../../redux/Questions/QuestionsAction';
 import { getLanguageFormat, isJsonString } from '../../utils/helper';
 import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
 import { useMsal } from '@azure/msal-react';
+import { resetBlockAD } from '../../redux/AzureAD/AD_Action';
 
 const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
   const history = useHistory();
@@ -67,7 +68,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     failingDue: null,
     reasonsForFailing: null,
   });
-
+  console.log('ansSection1', ansSection1);
   const [showMoreSection, setShowMoreSection] = useState(false);
   const [terminating, setTerminating] = useState(false);
   const [startEdit, setStartEdit] = useState(false);
@@ -211,6 +212,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       dispatch(resetBlockAssessment());
       dispatch(resetBlockAssessment());
       dispatch(clearAssessmentResponse());
+      dispatch(resetBlockAD({ blockType: 'userFromAD' }));
+      dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
       setAnsSection1([]);
       setAnsSection3([]);
     };
@@ -452,6 +455,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                   'success',
                 );
                 dispatch(clearAssessmentResponse());
+                dispatch(resetBlockAD({ blockType: 'userFromAD' }));
+                dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
                 history.push('/');
               } else {
                 if (
@@ -462,6 +467,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                 } else {
                   Swal.fire(t('selfAssessment.assessmentForm.assessmentPassText'), '', 'success');
                 }
+                dispatch(resetBlockAD({ blockType: 'userFromAD' }));
+                dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
                 dispatch(clearAssessmentResponse());
                 history.push('/');
               }
@@ -503,6 +510,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           },
           events: {
             onSuccess: () => {
+              dispatch(resetBlockAD({ blockType: 'userFromAD' }));
+              dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
               dispatch(clearAssessmentResponse()); // Assessment clear action
               history.push('/');
             },
@@ -575,6 +584,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           events: {
             onSuccess: () => {
               Swal.fire(t('selfAssessment.assessmentForm.saveDraftSuccessText'), '', 'success');
+              dispatch(resetBlockAD({ blockType: 'userFromAD' }));
+              dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
               dispatch(clearAssessmentResponse());
               history.push('/');
             },
