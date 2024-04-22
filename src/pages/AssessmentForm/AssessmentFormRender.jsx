@@ -21,7 +21,7 @@ const AssessmentFormRender = ({
   ansSection1,
   setAnsSection1,
   showMoreSection,
-  tableData,
+  tableData = [],
   setTableData,
   setTerminating,
   ansSection3 = {},
@@ -148,7 +148,7 @@ const AssessmentFormRender = ({
   }, []);
 
   const handleValidation = (type) => () => {
-    const findErrorTableRow = tableData.find(
+    const findErrorTableRow = tableData?.find(
       (row) => !row.Numerator || row.Numerator < 0 || !row.Denominator || row.Denominator <= 0,
     );
 
