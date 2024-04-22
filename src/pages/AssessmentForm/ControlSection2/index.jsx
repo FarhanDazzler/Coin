@@ -599,7 +599,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
           Source_System: excelFile[i]['Link to data'],
         };
       });
-      console.log(newDataArray, 'newDataArray');
+
       setTableData([...newDataArray]);
       setScvUpdateData(csvUpdateData + 1);
     } else {
