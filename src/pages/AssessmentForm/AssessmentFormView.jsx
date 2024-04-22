@@ -378,9 +378,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       showCancelButton: true,
       confirmButtonColor: 'golden',
       cancelButtonColor: 'black',
-      confirmButtonText: t('selfAssessment.assessmentForm.submitConfirmBtn'),
+      confirmButtonText: ` ${t('selfAssessment.assessmentForm.submitConfirmBtn')} <br/>`,
       showDenyButton: !(responseData?.data?.Attempt_no >= 5),
-      denyButtonText: `(${
+      denyButtonText: `${t('selfAssessment.assessmentForm.saveDraftBtn')}
+      
+      (${
         responseData?.data?.Attempt_no
           ? responseData?.data?.Attempt_no < 5
             ? 4 - responseData?.data?.Attempt_no
@@ -388,7 +390,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
-      }) ${t('selfAssessment.assessmentForm.saveDraftBtn')}`,
+      } remaining)`,
       denyButtonColor: 'silver',
     }).then((result) => {
       if (result.isConfirmed) {
