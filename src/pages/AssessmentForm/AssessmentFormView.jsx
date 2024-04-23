@@ -68,7 +68,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     failingDue: null,
     reasonsForFailing: null,
   });
-  console.log('ansSection1', ansSection1);
+
   const [showMoreSection, setShowMoreSection] = useState(false);
   const [terminating, setTerminating] = useState(false);
   const [startEdit, setStartEdit] = useState(false);
@@ -139,7 +139,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
   //API useEffect
   useEffect(() => {
-    //console.log(activeData, '@@@');
     // get question API
     dispatch(
       getQuestions({
