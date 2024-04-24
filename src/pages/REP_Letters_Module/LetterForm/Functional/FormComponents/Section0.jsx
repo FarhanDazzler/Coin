@@ -62,7 +62,7 @@ const Section0 = ({ scopeData }) => {
           <span>{scopeData?.Function}</span>
         </p>
         <p className="mb-2">
-          <span className="renderBlockWrapper_title">BU : </span>
+          <span className="renderBlockWrapper_title">BU / Entity / Plants : </span>
           <span>{scopeData?.BU}</span>
         </p>
         <p className="mb-2">
