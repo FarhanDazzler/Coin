@@ -168,10 +168,10 @@ const ReviewSection2 = (props) => {
                           )}
                       </>
                     )}
-                    <Divider className="renderBlockWrapper_divider" size="xs" />
                     {getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted &&
                     getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ? (
                       <div className="col-lg-12">
+                        <Divider className="renderBlockWrapper_divider" size="xs" />
                         <p className="golden-text">
                           <b>Zone VP :</b>
                         </p>
@@ -228,6 +228,7 @@ const ReviewSection2 = (props) => {
                           getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ===
                             '' && (
                             <div className="col-lg-12 auto-auth">
+                              <Divider className="renderBlockWrapper_divider" size="xs" />
                               <p className="golden-text">
                                 <b>Zone VP :</b>
                               </p>
@@ -286,10 +287,10 @@ const ReviewSection2 = (props) => {
                           )}
                       </>
                     )}
-                    <Divider className="renderBlockWrapper_divider" size="xs" />
                     {getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted &&
                     getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ? (
                       <div className="col-lg-12">
+                        <Divider className="renderBlockWrapper_divider" size="xs" />
                         <p className="golden-text">
                           <b>BU Head :</b>
                         </p>
@@ -346,6 +347,7 @@ const ReviewSection2 = (props) => {
                           getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ===
                             '' && (
                             <div className="col-lg-12 auto-auth">
+                              <Divider className="renderBlockWrapper_divider" size="xs" />
                               <p className="golden-text">
                                 <b>BU Head :</b>
                               </p>
@@ -404,10 +406,10 @@ const ReviewSection2 = (props) => {
                           )}
                       </>
                     )}
-                    <Divider className="renderBlockWrapper_divider" size="xs" />
                     {getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted &&
                     getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ? (
                       <div className="col-lg-12">
+                        <Divider className="renderBlockWrapper_divider" size="xs" />
                         <p className="golden-text">
                           <b>Zone Control :</b>
                         </p>
@@ -464,6 +466,7 @@ const ReviewSection2 = (props) => {
                           getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ===
                             '' && (
                             <div className="col-lg-12 auto-auth">
+                              <Divider className="renderBlockWrapper_divider" size="xs" />
                               <p className="golden-text">
                                 <b>Zone Control :</b>
                               </p>
