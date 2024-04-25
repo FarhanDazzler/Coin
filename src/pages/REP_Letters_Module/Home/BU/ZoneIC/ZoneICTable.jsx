@@ -139,7 +139,7 @@ const ZoneICTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) => {
       Cell: (row) => {
         return (
           <div>
-            {['Prepared', 'Signed', 'Completed'].includes(row.row.original.Status) && (
+            {['Prepared','Approval Pending' ,'Signed', 'Completed'].includes(row.row.original.Status) && (
               <Button
                 className="mr-2"
                 onClick={() => {
