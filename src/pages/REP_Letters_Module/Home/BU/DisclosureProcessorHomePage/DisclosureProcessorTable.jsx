@@ -175,7 +175,9 @@ const DisclosureProcessorTable = ({ zoneValue, setZoneValue, buValue, setBUValue
       Cell: (row) => {
         return (
           <div>
-            {row.row.original.Status === 'Completed' && (
+            {['Approval Pending', 'Prepared', 'Signed', 'Completed'].includes(
+              row.row.original.Status,
+            ) && (
               <Button
                 className="mr-2"
                 onClick={() => {
