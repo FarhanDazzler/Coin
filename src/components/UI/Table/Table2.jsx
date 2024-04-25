@@ -69,7 +69,7 @@ const Table2 = ({
       head: [tableHeaders],
       body: data,
     });
-    doc.save('exportedPDF.pdf');
+    doc.save('COIN-exported-PDF.pdf');
   };
 
   const exportToExcel = (rows) => {
@@ -275,28 +275,19 @@ const Table2 = ({
                         )}
                       </Button>
                     </div>
-                    <div>
-                      <Button
-                        disabled={table.getPrePaginationRowModel().rows.length === 0}
-                        //only export selected rows
-                        onClick={() => exportToPDF(table.getPrePaginationRowModel().rows)}
-                        startIcon={<FileDownloadIcon />}
-                        variant="contained"
-                      >
-                        Export to PDF
-                      </Button>
-                    </div>
-                    <div>
-                      <Button
-                        disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
-                        //only export selected rows
-                        onClick={() => exportToPDF(table.getSelectedRowModel().rows)}
-                        startIcon={<FileDownloadIcon />}
-                        variant="contained"
-                      >
-                        Export Selected Rows to PDF
-                      </Button>
-                    </div>
+                    {isSimpleTable && (
+                      <div>
+                        <Button
+                          disabled={table.getPrePaginationRowModel().rows.length === 0}
+                          //only export selected rows
+                          onClick={() => exportToPDF(table.getPrePaginationRowModel().rows)}
+                          startIcon={<FileDownloadIcon />}
+                          variant="contained"
+                        >
+                          Export to PDF
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </Box>
               </>
