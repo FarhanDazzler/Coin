@@ -4,6 +4,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { FloatRight } from 'tabler-icons-react';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { Box, Button, Typography } from '@mui/material';
+import autoTable from 'jspdf-autotable';
+import { jsPDF } from 'jspdf';
 import * as XLSX from 'xlsx';
 import './tableStyles.scss';
 import { useTranslation } from 'react-i18next';
@@ -39,6 +41,36 @@ const Table2 = ({
     //console.info({ rowSelection }, Object.keys(rowSelection));
     setEditTableIndex && setEditTableIndex(Object.keys(rowSelection));
   }, [rowSelection]);
+
+  const exportToPDF = (rows) => {
+    const doc = new jsPDF();
+
+    // For all row data
+    const data = rows.map((row) => {
+      const rowData = {};
+      var count = 0;
+      // Looping over the columns to match is column header and row value both are there then insert value
+      // If only column header is there and no row value, insert N/A
+      // We are doing this bcoz we have more row data(say for 14 columns we have data) but column header
+      // is only 12, so to save only 12 columns we need this logic
+      tableColumns.forEach((column) => {
+        const accessorKey = column.accessorKey;
+        if (row.original[accessorKey]) {
+          // count variable is there to make the data in the form acceptable to the library
+          rowData[count++] = row.original[accessorKey];
+        } else {
+          rowData[count++] = 'N/A';
+        }
+      });
+      return rowData;
+    });
+    const tableHeaders = tableColumns.map((c) => c.header);
+    autoTable(doc, {
+      head: [tableHeaders],
+      body: data,
+    });
+    doc.save('COIN-exported-PDF.pdf');
+  };
 
   const exportToExcel = (rows) => {
     // Prepare data for export
@@ -243,6 +275,19 @@ const Table2 = ({
                         )}
                       </Button>
                     </div>
+                    {isSimpleTable && (
+                      <div>
+                        <Button
+                          disabled={table.getPrePaginationRowModel().rows.length === 0}
+                          //only export selected rows
+                          onClick={() => exportToPDF(table.getPrePaginationRowModel().rows)}
+                          startIcon={<FileDownloadIcon />}
+                          variant="contained"
+                        >
+                          Export to PDF
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </Box>
               </>

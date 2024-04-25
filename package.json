@@ -44,6 +44,8 @@
     "html-to-text": "^9.0.5",
     "i18next": "^23.2.8",
     "js-cookie": "^3.0.1",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
     "material-react-table": "^2.0.4",
     "mdb-react-ui-kit": "^3.0.0",
     "moment": "^2.29.4",
