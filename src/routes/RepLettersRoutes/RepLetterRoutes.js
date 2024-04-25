@@ -64,7 +64,7 @@ export const RepLettersRoutes = [
     component: BUModifyQuestions,
   },
   {
-    path: '/REP-Letters/questionbank/Function-modify',
+    path: '/REP-Letters/questionbank/Function-modify/:selectedFunction',
     exact: true,
     component: FunctionModifyQuestions,
   },

@@ -78,7 +78,7 @@ const RLQuestionBank = () => {
     const data = {
       function: selectedFunction.value,
     };
-    history.push('/REP-Letters/questionbank/Function-modify', { data });
+    history.push(`/REP-Letters/questionbank/Function-modify/${selectedFunction.value}`, { data });
   };
   return (
     <>
