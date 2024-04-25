@@ -21,7 +21,7 @@ const AssessmentFormRender = ({
   ansSection1,
   setAnsSection1,
   showMoreSection,
-  tableData,
+  tableData = [],
   setTableData,
   setTerminating,
   ansSection3 = {},
@@ -148,7 +148,7 @@ const AssessmentFormRender = ({
   }, []);
 
   const handleValidation = (type) => () => {
-    const findErrorTableRow = tableData.find(
+    const findErrorTableRow = tableData?.find(
       (row) => !row.Numerator || row.Numerator < 0 || !row.Denominator || row.Denominator <= 0,
     );
 
@@ -174,7 +174,7 @@ const AssessmentFormRender = ({
     const s2NoSelect =
       Object.keys(ansSection3).includes('L2') && !!Object.values(ansSection3?.L2)[0].includes('no');
     return showMoreSection && !s1FailObj && !isNotEscalationRequired && (s1NoSelect || s2NoSelect);
-  }, [ansSection3, s1FailObj, isNotEscalationRequired]);
+  }, [ansSection3, s1FailObj, isNotEscalationRequired, showNoQuestionAns, L1AndL2NoQuestionsAns]);
 
   return (
     <div className="modal-form-body">

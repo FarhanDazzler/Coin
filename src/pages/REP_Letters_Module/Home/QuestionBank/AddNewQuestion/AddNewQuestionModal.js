@@ -113,6 +113,11 @@ const AddNewQuestionModal = ({
                         Question Text is not allowed more than 5000 characters
                       </span>
                     )}
+                    {values.questionText.match(/<([a-zA-Z0-9]+)\s*>(\s*<br>\s*|\s*)*<\/\1>/) && (
+                      <span className="error">
+                        Blank spaces or empty Question Text are not allowed
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -131,7 +136,15 @@ const AddNewQuestionModal = ({
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" color="neutral" disabled={values.questionText.length >= 5000} className="ml-4">
+                  <Button
+                    type="submit"
+                    color="neutral"
+                    disabled={
+                      values.questionText.length >= 5000 ||
+                      values.questionText.match(/<([a-zA-Z0-9]+)\s*>(\s*<br>\s*|\s*)*<\/\1>/)
+                    }
+                    className="ml-4"
+                  >
                     Confirm
                   </Button>
                 </div>
