@@ -63,9 +63,10 @@
   background: #1a1b1e;
   border: none;
 }
-.mantine-Textarea-input {
+
+.contactUs .mantine-Textarea-input {
   margin-top: 5px;
-  background: #1a1b1e;
+  background: #242527;
   border: none;
 }
 .submit-btn-contact-us {
