@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import '../RepLetterQuestionBank.scss';
 import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import { RichTextEditor } from '@mantine/rte';
 import './Instructions.scss';
 import { modifyInstructions } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import {
