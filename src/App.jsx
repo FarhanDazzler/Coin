@@ -117,17 +117,7 @@ const Pages = () => {
         if (res?.data.data?.rl_roles?.Functional)
           updatedParam.Functional = res?.data.data?.rl_roles?.Functional;
 
-        dispatch(
-          setRoles({
-            rl_roles: updatedParam || [],
-            sa_roles: saRoles,
-          }),
-        );
-
-        // TODO: When BE change user role then update reducer
-        // dispatch(
-        //   setRoles(res?.data.data),
-        // );
+        dispatch(setRoles(res?.data.data));
         Cookies.set('token', res?.data.token);
       })
       .catch((err) => {

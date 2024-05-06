@@ -20,14 +20,10 @@ import {
 } from '../../redux/Auth/AuthAction';
 import { Form } from 'react-bootstrap';
 import FormControl from '@mui/material/FormControl';
-import MultiDropdown from '../../components/UI/MultiDropdown';
-import Button from '../../components/UI/Button';
-import NestedMenuItem from '../../components/UI/MultiDropdown/NestedMenuItem';
-import MenuItem from '@mui/material/MenuItem';
 import Select from '../../components/UI/Select/Select';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import i18n from '../../i18n/i18n';
 import { useTranslation } from 'react-i18next';
+import { authAPIRolesSelector } from '../../redux/Auth/AuthSelectors';
 
 const TopBar = (props) => {
   const history = useHistory();
@@ -39,71 +35,7 @@ const TopBar = (props) => {
   const selected_module_role = localStorage.getItem('selected_module_Role');
   const { instance, accounts, inProgress } = useMsal();
   const [isDropDownOpen, setisDropDownOpen] = useState(false);
-
-  const dummyRole = {
-    'Assessment Module': [
-      {
-        label: 'Control Owner',
-        value: 'Control Owner',
-      },
-      {
-        label: 'Control Oversight',
-        value: 'Control Oversight',
-      },
-      {
-        label: 'Global Internal Control',
-        value: 'Global Internal Control',
-      },
-    ],
-    'BU Representation Letter': [
-      {
-        label: 'Finance Director',
-        value: 'Finance Director',
-      },
-      {
-        label: 'BU Zone Internal Control',
-        value: 'BU Zone Internal Control',
-      },
-      {
-        label: 'Zone Legal Representative',
-        value: 'Zone Legal Representative',
-      },
-      {
-        label: 'Zone VP',
-        value: 'Zone VP',
-      },
-      {
-        label: 'Zone Control',
-        value: 'Zone Control',
-      },
-      {
-        label: 'BU Head',
-        value: 'BU Head',
-      },
-      {
-        label: 'Local Internal Control',
-        value: 'Local Internal Control',
-      },
-      {
-        label: 'Excom Member',
-        value: 'Excom Member',
-      },
-      {
-        label: 'Global Persona',
-        value: 'Global Persona',
-      },
-    ],
-    'Functional Representation Letter': [
-      {
-        label: 'Global Persona',
-        value: 'Global Persona',
-      },
-      {
-        label: 'Functional Zone Internal Control',
-        value: 'Functional Zone Internal Control',
-      },
-    ],
-  };
+  const authAPIRoles = useSelector(authAPIRolesSelector);
 
   const [userState, userDispatch] = useContext(UserContext);
 
@@ -151,9 +83,9 @@ const TopBar = (props) => {
 
   useEffect(() => {
     setLan(i18n.language);
-    if (!dummyRole) return;
+    if (!authAPIRoles || (authAPIRoles && !Object.keys(authAPIRoles).length)) return;
 
-    const moduleOptionData = Object.keys(dummyRole).map((d) => ({ label: d, value: d }));
+    const moduleOptionData = Object.keys(authAPIRoles).map((d) => ({ label: d, value: d }));
     if (!moduleOptionData?.length) return;
     setModule(moduleOptionData);
     let activeModuleVal = activeModule || moduleOptionData[0].value;
@@ -167,7 +99,7 @@ const TopBar = (props) => {
     dispatch(setSelectedModuleRoles(activeModuleVal));
     localStorage.setItem('selected_module_Role', activeModuleVal);
     setActiveModule(activeModuleVal);
-    const roleOptionData = dummyRole[activeModuleVal];
+    const roleOptionData = authAPIRoles[activeModuleVal];
     if (!roleOptionData) return;
 
     setRolesOption(roleOptionData);
@@ -182,7 +114,7 @@ const TopBar = (props) => {
       localStorage.setItem('selected_Role', roleOptionData[0]?.value);
     }
     //TODO: set deps here
-  }, []);
+  }, [authAPIRoles]);
 
   const TopBar_SA = () => {
     // TOP BAR Buttons/ Tabs for Seld Assessment Module
