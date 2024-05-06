@@ -625,7 +625,8 @@ const TopBar = (props) => {
                   !location.pathname.includes('/BU-Zone-Letter-approve') &&
                   !location.pathname.includes(
                     '/REP-Letters/attempt-letter/functional-letter-form/',
-                  ) && (
+                  ) &&
+                  !location.pathname.includes('/not-authorized') && (
                     <div>
                       <div>
                         <span className={'text-yellow ml-2'}>Select Module :</span>
@@ -656,9 +657,8 @@ const TopBar = (props) => {
               {roleValue.length > 0 &&
                 !location.pathname.includes('/BU-Letter-approve') &&
                 !location.pathname.includes('/BU-Zone-Letter-approve') &&
-                !location.pathname.includes(
-                  '/REP-Letters/attempt-letter/functional-letter-form',
-                ) && (
+                !location.pathname.includes('/REP-Letters/attempt-letter/functional-letter-form') &&
+                !location.pathname.includes('/not-authorized') && (
                   <div className="mr-4">
                     <div>
                       <span className={'text-yellow ml-2'}>
