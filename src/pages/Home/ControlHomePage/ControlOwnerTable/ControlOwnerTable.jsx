@@ -122,7 +122,7 @@ const ControlOwnerTable = ({
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
 
   const controlOwnerData = useMemo(() => {
-    return loginUserRole === 'Control owner'
+    return loginUserRole === 'Control Owner'
       ? getControlOwnerData.data[0]?.cOwnerData || []
       : getControlOwnerData.data[1]?.cOverSightData || [];
   }, [getControlOwnerData.data, loginUserRole]);

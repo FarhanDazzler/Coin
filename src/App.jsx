@@ -95,9 +95,14 @@ const Pages = () => {
 
   const isControlPage = useMemo(() => {
     return (
-      ['Control owner', 'Control oversight', 'control_owner', 'control_oversight']?.includes(
-        role,
-      ) || false
+      [
+        'Control owner',
+        'Control oversight',
+        'control_owner',
+        'control_oversight',
+        'Control Owner',
+        'Control Oversight',
+      ]?.includes(role) || false
     );
   }, [loginRole, userRole]);
   // eslint-disable-next-line no-unused-vars
@@ -226,37 +231,6 @@ const Pages = () => {
       else history.push('/login');
     }
   }, [accounts, inProgress]);
-
-  // useEffect(() => {
-  //   axios
-  //     .get('https://api.ipify.org?format=json')
-  //     .then((res) => {
-  //       const ip = res?.data?.ip;
-  //       axios
-  //         .get(`https://ipapi.co/${ip}/json/`)
-  //         .then((res) => {
-  //           const { city, country_name, region } = res?.data;
-
-  //           // Combine IP and location information
-  //           const dataToEncrypt = `${ip},${city},${region},${country_name}`;
-
-  //           // Get encryption key from environment variable
-  //           const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
-
-  //           // Encrypt the data
-  //           const encryptedData = CryptoJS.AES.encrypt(dataToEncrypt, encryptionKey).toString();
-
-  //           // Store the encrypted data in localStorage
-  //           localStorage.setItem('encryptedData', encryptedData);
-  //         })
-  //         .catch((err) => {
-  //           console.log(err);
-  //         });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
 
   return (
     <div className="page">
