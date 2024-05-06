@@ -88,9 +88,9 @@ const TopBar = (props) => {
     const moduleOptionData = Object.keys(authAPIRoles).map((d) => ({ label: d, value: d }));
     if (!moduleOptionData?.length) return;
     setModule(moduleOptionData);
-    let activeModuleVal = activeModule || moduleOptionData[0].value;
+    let activeModuleVal = activeModule ?? moduleOptionData[0].value;
 
-    const findModule = moduleOptionData.find((d) => d === activeModuleVal);
+    const findModule = moduleOptionData.find((d) => d.label === activeModuleVal);
 
     if (!findModule) {
       activeModuleVal = moduleOptionData[0].value;
