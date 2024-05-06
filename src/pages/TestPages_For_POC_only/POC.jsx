@@ -32,7 +32,7 @@ const ControlOwnerTable = ({ tableName }) => {
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
 
   let controlOwnerData = ([] = []);
-  if (loginUserRole === 'Control owner') {
+  if (loginUserRole === 'Control Owner') {
     controlOwnerData = getControlOwnerData.data[0]?.cOwnerData || [];
   } else {
     controlOwnerData = getControlOwnerData.data[1]?.cOverSightData || [];
@@ -258,7 +258,7 @@ const ControlOwnerTable = ({ tableName }) => {
   }
 
   useEffect(() => {
-    if (loginUserRole === 'Control owner') {
+    if (loginUserRole === 'Control Owner') {
       setTableData(getControlOwnerData.data[0]?.cOwnerData || []);
     } else {
       setTableData(getControlOwnerData.data[1]?.cOverSightData || []);
