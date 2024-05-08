@@ -148,14 +148,9 @@ const AssessmentFormRender = ({
   }, []);
 
   const handleValidation = (type) => () => {
-    var findErrorTableRow
-    if (type === 'submit') {
-      findErrorTableRow = tableData?.find(
-        (row) => !row.Numerator || row.Numerator < 0 || !row.Denominator || row.Denominator <= 0,
-      );
-    } else {
-      findErrorTableRow = tableData?.find((row) => row.Numerator < 0 || row.Denominator <= 0);
-    }
+    const findErrorTableRow = tableData?.find(
+      (row) => !row.Numerator || row.Numerator < 0 || !row.Denominator || row.Denominator <= 0,
+    );
 
     if (findErrorTableRow) {
       Swal.fire({
