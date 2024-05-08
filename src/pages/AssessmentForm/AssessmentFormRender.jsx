@@ -6,7 +6,7 @@ import ControlSection2 from './ControlSection2';
 import ControlSection3 from './ControlSection3';
 import Button from '../../components/UI/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetSection3 } from '../../redux/Questions/QuestionsAction';
+import { getSection3Questions, resetSection3 } from '../../redux/Questions/QuestionsAction';
 import { useTranslation } from 'react-i18next';
 import ControlSection from './ControlSection';
 import cs from 'classnames';
@@ -54,6 +54,7 @@ const AssessmentFormRender = ({
   setQuestion3Api,
   attemptNo,
 }) => {
+  const Control_ID = activeData?.control_id;
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const kpiResultData = useSelector(kpiResultSelector);
@@ -144,6 +145,7 @@ const AssessmentFormRender = ({
   }, [showNoQuestionAns, L1AndL2NoQuestionsAns, ansSection3, ansSection3?.L3]);
 
   useEffect(() => {
+    dispatch(getSection3Questions({ Level: 'L1', Control_ID: Control_ID }));
     dispatch(resetSection3()); // Reset section 3
   }, []);
 

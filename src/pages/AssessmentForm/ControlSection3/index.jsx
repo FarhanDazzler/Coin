@@ -118,10 +118,6 @@ const ControlSection3 = ({
   };
 
   useEffect(() => {
-    dispatch(getSection3Questions({ Level: 'L1', Control_ID: Control_ID }));
-  }, []);
-
-  useEffect(() => {
     if (showNoQuestion) {
       setShowNoQuestionAns('');
       // if user select any option then automatically scroll bottom
