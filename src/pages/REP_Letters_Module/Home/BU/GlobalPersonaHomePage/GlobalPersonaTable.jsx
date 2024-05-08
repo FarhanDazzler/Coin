@@ -113,19 +113,19 @@ const GlobalPersonaTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) =>
     return getGlobalPersonaHomePageData?.data[0]?.home_page_table_global || [];
   }, [getGlobalPersonaHomePageData?.data[0]]);
 
-  useEffect(() => {
-    if (yearValue.length > 0) {
-      const payload = {
-        assessmentCycle: assessmentCycleValue,
-        year: yearValue,
-      };
-      //toast.error('Please select year in filter.');
-      //console.log('payload', payload);
-      dispatch(get_BU_GlobalPersonaHomePageData(payload));
-    } else {
-      toast.error('Please select Year in filter.');
-    }
-  }, [yearValue, assessmentCycleValue, dispatch]);
+  // useEffect(() => {
+  //   if (yearValue.length > 0) {
+  //     const payload = {
+  //       assessmentCycle: assessmentCycleValue,
+  //       year: yearValue,
+  //     };
+  //     //toast.error('Please select year in filter.');
+  //     //console.log('payload', payload);
+  //     dispatch(get_BU_GlobalPersonaHomePageData(payload));
+  //   } else {
+  //     toast.error('Please select Year in filter.');
+  //   }
+  // }, [yearValue, assessmentCycleValue, dispatch]);
 
   const TABLE_COLUMNS = [
     {
@@ -139,7 +139,9 @@ const GlobalPersonaTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) =>
       Cell: (row) => {
         return (
           <div>
-            {['Approval Pending', 'Prepared', 'Signed', 'Completed'].includes(row.row.original.Status) && (
+            {['Approval Pending', 'Prepared', 'Signed', 'Completed'].includes(
+              row.row.original.Status,
+            ) && (
               <Button
                 className="mr-2"
                 onClick={() => {
