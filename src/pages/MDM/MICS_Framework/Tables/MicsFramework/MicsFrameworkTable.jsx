@@ -581,7 +581,7 @@ const MicsFrameworkTable = () => {
                   <FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />
                   <span style={{ paddingLeft: '16px' }}>MICS Framework Table</span>
                 </div>
-                {localStorage.getItem('selected_Role') === 'Global internal control' && (
+                {localStorage.getItem('selected_Role') === 'Global Internal Control' && (
                   <div>
                     {/*<Button*/}
                     {/*  variant="outlined"*/}

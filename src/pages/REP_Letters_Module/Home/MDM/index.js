@@ -18,7 +18,7 @@ const RLMDM = () => {
               />
             </div>
           </div>
-          {localStorage.getItem('selected_module_Role') == 'BU' ? (
+          {localStorage.getItem('selected_module_Role') == 'BU Representation Letter' ? (
             <>
               <div className="col-lg-6 p-4">
                 <div className="MDMBoxWrapper">
