@@ -38,7 +38,7 @@ const SchedulingAndTriggering = () => {
   }, [rlAddFunctionalAssessmentDataState, rlAddBuLetterDataState]);
 
   const handleSheduleSurvey = () => {
-    if (localStorage.getItem('selected_module_Role') == 'BU') {
+    if (localStorage.getItem('selected_module_Role') == 'BU Representation Letter') {
       history.push('/REP-Letters/scheduling-and-triggering/schedule-survey-bu');
     } else {
       history.push('/REP-Letters/scheduling-and-triggering/schedule-survey-functional');
@@ -55,7 +55,7 @@ const SchedulingAndTriggering = () => {
           feedbackMetadata={{
             Activity: 'IC has scheduled a Rep letter survey',
             Rep_letter:
-              localStorage.getItem('selected_module_Role') == 'BU'
+              localStorage.getItem('selected_module_Role') == 'BU Representation Letter'
                 ? 'BU Letter'
                 : 'Functional Letter',
             Created_By: {
@@ -78,7 +78,7 @@ const SchedulingAndTriggering = () => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
-              {localStorage.getItem('selected_module_Role') == 'BU' ? (
+              {localStorage.getItem('selected_module_Role') == 'BU Representation Letter' ? (
                 <BuSchedulingAndTriggeringLandingPage />
               ) : (
                 <>

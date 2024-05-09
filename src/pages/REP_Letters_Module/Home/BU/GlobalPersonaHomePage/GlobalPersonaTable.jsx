@@ -139,7 +139,9 @@ const GlobalPersonaTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) =>
       Cell: (row) => {
         return (
           <div>
-            {['Approval Pending', 'Prepared', 'Signed', 'Completed'].includes(row.row.original.Status) && (
+            {['Approval Pending', 'Prepared', 'Signed', 'Completed'].includes(
+              row.row.original.Status,
+            ) && (
               <Button
                 className="mr-2"
                 onClick={() => {

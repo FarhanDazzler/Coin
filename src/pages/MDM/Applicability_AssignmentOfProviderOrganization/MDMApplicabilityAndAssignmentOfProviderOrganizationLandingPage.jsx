@@ -30,7 +30,7 @@ const MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage = () => {
       }));
       setZoneList(zoneArray);
 
-      if (localStorage.getItem('selected_Role') !== 'Global internal control') {
+      if (localStorage.getItem('selected_Role') !== 'Global Internal Control') {
         const payload = {
           zone: zoneArray[0]?.value,
         };
@@ -51,7 +51,7 @@ const MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage = () => {
     <PageWrapper>
       <div className="col-12 col-lg-12">
         <NavTabsMDM />
-        {localStorage.getItem('selected_Role') === 'Global internal control' ? (
+        {localStorage.getItem('selected_Role') === 'Global Internal Control' ? (
           getAllZoneLoading ? (
             <div className="loader-animation">
               <DotSpinner size={100} speed={0.9} color="#e3af32" />

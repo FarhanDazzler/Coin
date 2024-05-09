@@ -27,8 +27,10 @@ const ControlActions = ({
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const role = loginRole || selected_Role;
   const isHideOverride = [
+    'Control Owner',
     'Control owner',
     'control_owner',
+    'Control Oversight',
     'Control oversight',
     'control_oversight',
   ].includes(role);

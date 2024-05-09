@@ -20,14 +20,10 @@ import {
 } from '../../redux/Auth/AuthAction';
 import { Form } from 'react-bootstrap';
 import FormControl from '@mui/material/FormControl';
-import MultiDropdown from '../../components/UI/MultiDropdown';
-import Button from '../../components/UI/Button';
-import NestedMenuItem from '../../components/UI/MultiDropdown/NestedMenuItem';
-import MenuItem from '@mui/material/MenuItem';
 import Select from '../../components/UI/Select/Select';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import i18n from '../../i18n/i18n';
 import { useTranslation } from 'react-i18next';
+import { authAPIRolesSelector } from '../../redux/Auth/AuthSelectors';
 
 const TopBar = (props) => {
   const history = useHistory();
@@ -39,8 +35,8 @@ const TopBar = (props) => {
   const selected_module_role = localStorage.getItem('selected_module_Role');
   const { instance, accounts, inProgress } = useMsal();
   const [isDropDownOpen, setisDropDownOpen] = useState(false);
+  const authAPIRoles = useSelector(authAPIRolesSelector);
 
-  const apiRoles = useSelector((state) => state?.auth?.apiRoles);
   const [userState, userDispatch] = useContext(UserContext);
 
   const languages = [
@@ -77,216 +73,49 @@ const TopBar = (props) => {
     dispatch(setLoginInfo(accounts));
   }, [accounts]);
 
-  //RBAC
-  const roles = localStorage.getItem('Roles')?.split(',') || [];
-  const [roleValue, setRoleValue] = useState([]);
-  const initModule = [
-    { label: 'Assessment Module', value: 'Assessment Module' },
-    { label: 'Representation Letter', value: 'Representation Letter', isDisabled: true },
-  ];
+  const [rolesOption, setRolesOption] = useState([]);
+  const [rolesVal, setRolesVal] = useState(loginRole || selected_Role);
   const [module, setModule] = useState([]);
-  const [activeModule, setActiveModule] = useState(selected_module_role);
+  const [activeModule, setActiveModule] = useState(
+    selected_module_role === 'null' ? '' : selected_module_role,
+  );
   const [lan, setLan] = useState(i18n.language);
 
   useEffect(() => {
-    localStorage.setItem('selected_module_Role', activeModule);
-    dispatch(setSelectedModuleRoles(activeModule));
-    const rl_roles = localStorage.getItem('rl_roles')
-      ? JSON.parse(localStorage.getItem('rl_roles'))
-      : {};
-    switch (true) {
-      case activeModule === 'Assessment Module':
-        const sa_roles_data = localStorage.getItem('sa_roles')?.split(',') || [];
-        const data = sa_roles_data.filter((d) => d);
-        if (data.length > 0) {
-          localStorage.setItem('selected_Role', data[0]);
-          setRole(data[0]);
-        }
-        const userRoles = data?.map((data) => {
-          const str = data.split('_').join(' ');
-          return str.charAt(0).toUpperCase() + str.slice(1);
-        });
-        setRoleValue(userRoles);
-        // history.push('/');
-        break;
-      case activeModule === 'BU':
-        if (rl_roles.BU) {
-          if (rl_roles.BU.length > 0) {
-            localStorage.setItem('selected_Role', rl_roles.BU[0]);
-            setRole(rl_roles.BU[0]);
-          }
-          const userBURoles = rl_roles.BU?.map((data) => {
-            const str = data.split('_').join(' ');
-            return str.charAt(0).toUpperCase() + str.slice(1);
-          });
-          localStorage.setItem('Roles', userBURoles);
-          setRoleValue(userBURoles);
-        } else {
-          localStorage.setItem('Roles', '');
-        }
-        // history.push('/');
-        break;
-      case activeModule === 'Functional':
-        if (rl_roles.Functional) {
-          if (rl_roles.Functional.length > 0) {
-            localStorage.setItem('selected_Role', rl_roles.Functional[0]);
-            setRole(rl_roles.Functional[0]);
-          }
-          localStorage.setItem('Roles', rl_roles.Functional);
-          setRoleValue(rl_roles.Functional);
-        } else {
-          localStorage.setItem('Roles', '');
-        }
-        // history.push('/');
-        break;
-      default:
-        break;
-    }
-  }, [activeModule, selected_module_role, roles.length]);
-
-  const setRole = (data) => {
-    if (!data) return;
-    const str = data.split('_').join(' ');
-    dispatch(setLoginRole(str.charAt(0).toUpperCase() + str.slice(1)));
-  };
-
-  useEffect(() => {
     setLan(i18n.language);
-    setTimeout(() => {
-      if (roles[0] === 'undefined') return;
-      const userRoles = roles.map((data) => {
-        const str = data.split('_').join(' ');
-        return str.charAt(0).toUpperCase() + str.slice(1);
-      });
-      if (userRoles?.length > 0) {
-        const value = selected_Role?.split('_')?.join(' ');
-        const val = value ? value.charAt(0).toUpperCase() + value.slice(1) : '';
-        const userRoleVal = userRoles[0]
-          ? userRoles[0].charAt(0).toUpperCase() + userRoles[0].slice(1)
-          : '';
-        dispatch(setLoginRole(val ?? userRoleVal));
-        localStorage.setItem('selected_Role', val ?? userRoleVal);
-      }
-    }, 500);
-  }, [roles.length]);
+    if (!authAPIRoles || (authAPIRoles && !Object.keys(authAPIRoles).length)) return;
 
-  const rl_roles = localStorage.getItem('rl_roles')
-    ? JSON.parse(localStorage.getItem('rl_roles'))
-    : {};
+    const moduleOptionData = Object.keys(authAPIRoles).map((d) => ({ label: d, value: d }));
+    if (!moduleOptionData?.length) return;
+    setModule(moduleOptionData);
+    let activeModuleVal = activeModule ?? moduleOptionData[0].value;
 
-  useEffect(
-    (callbackfn, thisArg) => {
-      if (Object.keys(apiRoles).length > 0) {
-        let isSetVal = !!selected_module_role && selected_module_role !== 'null';
-        const newArray = initModule.map((val) => {
-          if (val.value === 'Representation Letter' && apiRoles.rl_roles) {
-            const newObj = Object.keys(apiRoles.rl_roles).map((r) => {
-              return { value: r, label: r };
-            });
-            val.subVal = newObj.filter((d) => {
-              let isValid = false;
-              switch (true) {
-                case d.value === 'BU':
-                  if (rl_roles.BU) {
-                    if (rl_roles.BU.length > 0) {
-                      isValid = true;
-                    }
-                  }
-                  break;
-                case d.value === 'Functional':
-                  if (rl_roles.Functional) {
-                    if (rl_roles.Functional.length > 0) {
-                      isValid = true;
-                    }
-                  }
-                  break;
-                default:
-                  break;
-              }
-              return d.value !== 'is_admin' && isValid;
-            });
-          }
-          return val;
-        });
+    const findModule = moduleOptionData.find((d) => d.label === activeModuleVal);
 
-        const newDataArray = newArray.filter((d) => {
-          let isValid = false;
-          const rl_roles = apiRoles?.rl_roles;
-          switch (true) {
-            case d.value === 'Assessment Module':
-              const sa_roles_data = apiRoles?.sa_roles || [];
-              const data = sa_roles_data.filter((d) => d);
-              if (data.length > 0) {
-                isValid = true;
-              }
-              return isValid;
+    if (!findModule) {
+      activeModuleVal = moduleOptionData[0].value;
+    }
 
-            case d.value === 'Representation Letter':
-              d.subVal.forEach((vl) => {
-                switch (true) {
-                  case vl.value === 'BU':
-                    if (rl_roles.BU) {
-                      if (rl_roles.BU.length > 0) {
-                        isValid = true;
-                      }
-                    }
-                    break;
-                  case vl.value === 'Functional':
-                    if (rl_roles.Functional) {
-                      if (rl_roles.Functional.length > 0) {
-                        isValid = true;
-                      }
-                    }
-                    break;
-                  default:
-                    break;
-                }
-              });
-              isValid = true;
-              break;
+    dispatch(setSelectedModuleRoles(activeModuleVal));
+    localStorage.setItem('selected_module_Role', activeModuleVal);
+    setActiveModule(activeModuleVal);
+    const roleOptionData = authAPIRoles[activeModuleVal];
+    if (!roleOptionData) return;
 
-            default:
-              break;
-          }
+    setRolesOption(roleOptionData);
+    const findRole = roleOptionData.find((v) => v.value === rolesVal);
+    if (rolesVal && findRole && rolesVal !== 'null') {
+      dispatch(setLoginRole(rolesVal));
+      localStorage.setItem('selected_Role', rolesVal);
+    } else {
+      dispatch(setLoginRole(roleOptionData[0]?.value));
+      setRolesOption(roleOptionData);
+      setRolesVal(roleOptionData[0]?.value);
+      localStorage.setItem('selected_Role', roleOptionData[0]?.value);
+    }
+    //TODO: set deps here
+  }, [authAPIRoles]);
 
-          return isValid;
-        });
-
-        if (!isSetVal) {
-          let isSet = false;
-          newDataArray.forEach((arrVal, i) => {
-            if (isSet) return;
-            if (!arrVal?.subVal && !arrVal?.subVal?.length) {
-              localStorage.setItem('selected_module_Role', arrVal?.value);
-              setActiveModule(arrVal?.value);
-              isSet = true;
-              // window.location.href = '/';
-            } else {
-              if (arrVal?.subVal?.length > 0) {
-                localStorage.setItem('selected_module_Role', arrVal?.subVal[0].value);
-                setActiveModule(arrVal?.subVal[0].value);
-                isSet = true;
-                // window.location.href = '/';
-              }
-            }
-          });
-        }
-
-        const newOptions = [];
-        newDataArray.forEach((val) => {
-          if (val.subVal) {
-            val.subVal.forEach((subVal) => {
-              newOptions.push({ ...subVal, label: subVal.label + ' ' + val.label });
-            });
-            return;
-          }
-          newOptions.push(val);
-        });
-        setModule(newOptions);
-      }
-    },
-    [apiRoles],
-  );
   const TopBar_SA = () => {
     // TOP BAR Buttons/ Tabs for Seld Assessment Module
     return (
@@ -377,7 +206,7 @@ const TopBar = (props) => {
                 </li>
               }
 
-              {localStorage.getItem('selected_Role') == 'Global internal control' && (
+              {localStorage.getItem('selected_Role') == 'Global Internal Control' && (
                 <li className="nav-item">
                   <a
                     className={`navbar-link ${
@@ -555,13 +384,13 @@ const TopBar = (props) => {
     );
   };
 
-  useEffect(() => {
-    if (!(loginRole || selected_Role) && roleValue?.length > 0) {
-      localStorage.setItem('selected_Role', roleValue[0]);
-      dispatch(setLoginRole(roleValue[0]));
-      window.location.reload();
-    }
-  }, [roleValue, loginRole, selected_Role]);
+  // useEffect(() => {
+  //   if (!(loginRole || selected_Role) && rolesOption?.length > 0) {
+  //     localStorage.setItem('selected_Role', rolesOption[0]);
+  //     dispatch(setLoginRole(rolesOption[0]));
+  //     window.location.reload();
+  //   }
+  // }, [rolesOption, loginRole, selected_Role]);
 
   const handleHardRefresh = () => {
     history.push('/');
@@ -638,8 +467,9 @@ const TopBar = (props) => {
                           classes={{ root: `select-options inputLook-text user-role-input` }}
                           inputProps={{ 'aria-label': 'Without label' }}
                           options={module}
-                          onChange={(e) => {
-                            setActiveModule(e.target.value);
+                          onChange={({ target: { value } }) => {
+                            setActiveModule(value);
+                            localStorage.setItem('selected_module_Role', value);
                             window.location.href = '/';
                           }}
                           value={activeModule}
@@ -653,7 +483,7 @@ const TopBar = (props) => {
               className="d-flex order-lg-2 ml-auto  user-info-wrapper"
               style={{ marginTop: 'auto', marginBottom: 'auto' }}
             >
-              {roleValue.length > 0 &&
+              {rolesOption.length > 0 &&
                 !location.pathname.includes('/BU-Letter-approve') &&
                 !location.pathname.includes('/BU-Zone-Letter-approve') &&
                 !location.pathname.includes(
@@ -672,18 +502,14 @@ const TopBar = (props) => {
                         inputLook
                         classes={{ root: `select-options inputLook-text user-role-input` }}
                         inputProps={{ 'aria-label': 'Without label' }}
-                        options={roleValue}
-                        onChange={(e) => {
-                          dispatch(setLoginRole(e.target.value));
-                          localStorage.setItem('selected_Role', e.target.value);
-                          history.push('/');
-                          // window.location.href = '/';
+                        options={rolesOption}
+                        onChange={({ target: { value } }) => {
+                          dispatch(setLoginRole(value));
+                          localStorage.setItem('selected_Role', value);
+                          setRolesVal(value);
+                          window.location.href = '/';
                         }}
-                        value={
-                          (loginRole || selected_Role) === 'control_oversight'
-                            ? 'Control oversight'
-                            : loginRole || selected_Role
-                        }
+                        value={rolesVal}
                       />
                     </FormControl>
                   </div>
