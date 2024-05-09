@@ -52,6 +52,8 @@ import { Redirect } from 'react-router';
 import { PageNotFound } from './pages/PageNotFound';
 import CryptoJS from 'crypto-js';
 import FunctionalLetterForm from './pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm.jsx';
+import KpiModule from './pages/KPIModule/KpiModuleLandingPage.jsx';
+
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -313,6 +315,7 @@ const Pages = () => {
           />
           <Route exact path="/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
+          <Route exact path="/kpi" component={KpiModule} />
           <Route exact path="/POC" component={POC} />
           <Route path="*" component={PageNotFound} />
         </Switch>
