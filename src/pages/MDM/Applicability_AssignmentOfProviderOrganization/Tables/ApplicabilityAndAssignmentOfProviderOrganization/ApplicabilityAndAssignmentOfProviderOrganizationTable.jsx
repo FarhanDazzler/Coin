@@ -108,6 +108,15 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
       //filterVariant: 'multi-select',
     },
     {
+      accessorKey: 'Control_Name',
+      id: 'Control_Name',
+      header: 'Control_Name',
+      flex: 1,
+      //filterFn: 'arrIncludesSome',
+      size: 200,
+      //filterVariant: 'multi-select',
+    },
+    {
       accessorKey: 'Entity_Control_ID_IsApplicable',
       id: 'Entity_Control_ID_IsApplicable',
       header: 'Entity + Control ID',

@@ -250,6 +250,15 @@ const ControlOwnerAndOversightTable = () => {
       size: 160,
     },
     {
+      accessorKey: 'Control_Name',
+      id: 'Control_Name',
+      header: 'Control_Name',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 200,
+    },
+    {
       accessorKey: 'control_id_provider_entity',
       id: 'control_id_provider_entity',
       header: 'Provider Organization + Control ID',
