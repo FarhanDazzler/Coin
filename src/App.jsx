@@ -16,17 +16,14 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './assets/styles/App.css';
 import './assets/styles/mixins.scss';
 import TopBar from './parts/TopBar/TopBar';
-import ServiceWorkerWrapper from './parts/ServiceWorkerWrapper/ServiceWorkerWrapper';
 import Footer from './parts/Footer/Footer';
 import Login from './pages/Login/Login';
 import Cookies from 'js-cookie';
-import Home_controlOwner from './pages/Home/Home_controlOwner';
 import { UserContext, UserContextProvider } from './context/userContext';
 import dataService from './services/dataService';
 //import QuestionBank from './components/QuestionBank';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import QuestionBank from './pages/QuestionBank/QuestionBankLandingPage';
 import NotAuthorized from './pages/NotAuthorized/NotAuthorizedPage';
 import { useDispatch, useSelector } from 'react-redux';
 //import ControlHomePage from './pages/Home/ControlHomePage';
@@ -42,22 +39,13 @@ import { RepLettersRoutes } from './routes/RepLettersRoutes/RepLetterRoutes';
 import { AssessmentModuleRoutes } from './routes/AssessmentModuleRoutes/AssessmentModuleRoutes';
 import { AdminRoutes } from './routes/AdminRoutes/AdminRoutes';
 import ContactUs from './pages/ContactUS/contactus';
-import { NoMatch } from './pages/NoMatch/NoMatch';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/i18n';
 import BU_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterForm/BU/FormComponents/LazyApprovalSection2/BU_Letter_LazyApprovalSection2.jsx';
 import BU_Zone_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterForm/Zone/FormComponents/LazyApprovalSection2/BU_Zone_Letter_LazyApprovalSection2.jsx';
 import Review from './pages/Review';
-import { Redirect } from 'react-router';
 import { PageNotFound } from './pages/PageNotFound';
-import CryptoJS from 'crypto-js';
 import FunctionalLetterForm from './pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm.jsx';
-
-// User categories --> User Role
-// const userRole = 'Global Internal Control';
-// const userRole="Zonal Internal Control";
-// const userRole="Control Owner";
-const userRole = 'Control Oversight';
 
 const theme = createTheme({
   palette: {
@@ -80,10 +68,8 @@ const theme = createTheme({
 
 const Pages = () => {
   const location = useLocation();
-  const { state } = location;
   const history = useHistory();
   const dispatch = useDispatch();
-  const isAuthenticated = useIsAuthenticated();
   const { instance, accounts, inProgress } = useMsal();
   const params = new URLSearchParams(location.search);
   const redirect = params.get('redirect');
@@ -131,7 +117,6 @@ const Pages = () => {
     // main RBAC API Call
     if (accounts.length > 0) getUserData();
   }, [accounts]);
-  const user_role = localStorage.getItem('user_Role');
 
   // useEffect(() => {
   //   if (!isAuthenticated && inProgress === InteractionStatus.None) {
@@ -259,15 +244,17 @@ const Pages = () => {
             <Route exact path="/Assessments/:control_id" component={AssessmentForm} />
           )}
 
-          {userRole === 'Global internal control' || userRole === 'Zonal internal control'
+          {userRole === 'Global Internal Control' || userRole === 'Zonal Internal Control'
             ? AssessmentModuleRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
 
-          {module === 'Functional' || module === 'BU'
+          {module === 'Functional Representation Letter' || module === 'BU Representation Letter'
             ? RepLettersRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
 
-          {userRole === 'Global internal control' || module === 'Functional' || module === 'BU'
+          {userRole === 'Global Internal Control' ||
+          module === 'Functional Representation Letter' ||
+          module === 'BU Representation Letter'
             ? AdminRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
           <Route

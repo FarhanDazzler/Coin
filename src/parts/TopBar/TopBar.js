@@ -206,7 +206,7 @@ const TopBar = (props) => {
                 </li>
               }
 
-              {localStorage.getItem('selected_Role') == 'Global internal control' && (
+              {localStorage.getItem('selected_Role') == 'Global Internal Control' && (
                 <li className="nav-item">
                   <a
                     className={`navbar-link ${
