@@ -88,14 +88,14 @@ const RLQuestionBank = () => {
             <h3>Create or Modify Letters</h3>
             <p>
               Enhanced Panel for Creating and Modifying Instructions and Questions for{' '}
-              {localStorage.getItem('selected_module_Role') == 'BU'
+              {localStorage.getItem('selected_module_Role') == 'BU Representation Letter'
                 ? 'Business Unit '
                 : 'Functions '}
               Representation Letter
             </p>
           </div>
 
-          {localStorage.getItem('selected_module_Role') == 'BU' ? (
+          {localStorage.getItem('selected_module_Role') == 'BU Representation Letter' ? (
             <div className="row">
               <div className="col-lg-5 py-4 mr-2 RlQuestionBankBoxWrapper">
                 <div id="admin-panel" className="content">

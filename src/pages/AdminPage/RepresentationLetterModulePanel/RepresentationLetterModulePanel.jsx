@@ -17,7 +17,7 @@ const RepresentationLetterModulePanel = () => {
       <div className="container">
         <div className="row">
           <div className="col-12 mt-5">
-            {localStorage.getItem('selected_module_Role') == 'BU' ? (
+            {localStorage.getItem('selected_module_Role') == 'BU Representation Letter' ? (
               <>
                 <BU_AdminTable />
                 <BU_Zone_AdminTable />

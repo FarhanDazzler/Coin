@@ -16,17 +16,14 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './assets/styles/App.css';
 import './assets/styles/mixins.scss';
 import TopBar from './parts/TopBar/TopBar';
-import ServiceWorkerWrapper from './parts/ServiceWorkerWrapper/ServiceWorkerWrapper';
 import Footer from './parts/Footer/Footer';
 import Login from './pages/Login/Login';
 import Cookies from 'js-cookie';
-import Home_controlOwner from './pages/Home/Home_controlOwner';
 import { UserContext, UserContextProvider } from './context/userContext';
 import dataService from './services/dataService';
 //import QuestionBank from './components/QuestionBank';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import QuestionBank from './pages/QuestionBank/QuestionBankLandingPage';
 import NotAuthorized from './pages/NotAuthorized/NotAuthorizedPage';
 import { useDispatch, useSelector } from 'react-redux';
 //import ControlHomePage from './pages/Home/ControlHomePage';
@@ -42,22 +39,13 @@ import { RepLettersRoutes } from './routes/RepLettersRoutes/RepLetterRoutes';
 import { AssessmentModuleRoutes } from './routes/AssessmentModuleRoutes/AssessmentModuleRoutes';
 import { AdminRoutes } from './routes/AdminRoutes/AdminRoutes';
 import ContactUs from './pages/ContactUS/contactus';
-import { NoMatch } from './pages/NoMatch/NoMatch';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/i18n';
 import BU_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterForm/BU/FormComponents/LazyApprovalSection2/BU_Letter_LazyApprovalSection2.jsx';
 import BU_Zone_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterForm/Zone/FormComponents/LazyApprovalSection2/BU_Zone_Letter_LazyApprovalSection2.jsx';
 import Review from './pages/Review';
-import { Redirect } from 'react-router';
 import { PageNotFound } from './pages/PageNotFound';
-import CryptoJS from 'crypto-js';
 import FunctionalLetterForm from './pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm.jsx';
-
-// User categories --> User Role
-// const userRole = 'Global Internal Control';
-// const userRole="Zonal Internal Control";
-// const userRole="Control Owner";
-const userRole = 'Control Oversight';
 
 const theme = createTheme({
   palette: {
@@ -80,10 +68,8 @@ const theme = createTheme({
 
 const Pages = () => {
   const location = useLocation();
-  const { state } = location;
   const history = useHistory();
   const dispatch = useDispatch();
-  const isAuthenticated = useIsAuthenticated();
   const { instance, accounts, inProgress } = useMsal();
   const params = new URLSearchParams(location.search);
   const redirect = params.get('redirect');
@@ -95,9 +81,14 @@ const Pages = () => {
 
   const isControlPage = useMemo(() => {
     return (
-      ['Control owner', 'Control oversight', 'control_owner', 'control_oversight']?.includes(
-        role,
-      ) || false
+      [
+        'Control owner',
+        'Control oversight',
+        'control_owner',
+        'control_oversight',
+        'Control Owner',
+        'Control Oversight',
+      ]?.includes(role) || false
     );
   }, [loginRole, userRole]);
   // eslint-disable-next-line no-unused-vars
@@ -106,20 +97,12 @@ const Pages = () => {
     axios
       .get(`${process.env.REACT_APP_API_BASE_URL}/login?User_oid=${accounts[0]?.idTokenClaims.oid}`)
       .then(async (res) => {
-        const saRoles = res?.data.data?.sa_roles || [];
-        if (!localStorage.getItem('Roles')) localStorage.setItem('Roles', saRoles);
         const updatedParam = {};
         if (res?.data.data?.rl_roles?.BU) updatedParam.BU = res?.data.data?.rl_roles?.BU;
         if (res?.data.data?.rl_roles?.Functional)
           updatedParam.Functional = res?.data.data?.rl_roles?.Functional;
-        localStorage.setItem('rl_roles', JSON.stringify(updatedParam || []));
-        localStorage.setItem('sa_roles', saRoles);
-        dispatch(
-          setRoles({
-            rl_roles: updatedParam || [],
-            sa_roles: saRoles,
-          }),
-        );
+
+        dispatch(setRoles(res?.data.data));
         Cookies.set('token', res?.data.token);
       })
       .catch((err) => {
@@ -130,7 +113,6 @@ const Pages = () => {
     // main RBAC API Call
     if (accounts.length > 0) getUserData();
   }, [accounts]);
-  const user_role = localStorage.getItem('user_Role');
 
   // useEffect(() => {
   //   if (!isAuthenticated && inProgress === InteractionStatus.None) {
@@ -224,37 +206,6 @@ const Pages = () => {
     }
   }, [accounts, inProgress]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get('https://api.ipify.org?format=json')
-  //     .then((res) => {
-  //       const ip = res?.data?.ip;
-  //       axios
-  //         .get(`https://ipapi.co/${ip}/json/`)
-  //         .then((res) => {
-  //           const { city, country_name, region } = res?.data;
-
-  //           // Combine IP and location information
-  //           const dataToEncrypt = `${ip},${city},${region},${country_name}`;
-
-  //           // Get encryption key from environment variable
-  //           const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
-
-  //           // Encrypt the data
-  //           const encryptedData = CryptoJS.AES.encrypt(dataToEncrypt, encryptionKey).toString();
-
-  //           // Store the encrypted data in localStorage
-  //           localStorage.setItem('encryptedData', encryptedData);
-  //         })
-  //         .catch((err) => {
-  //           console.log(err);
-  //         });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
   return (
     <div className="page">
       <ToastContainer autoClose={15000} />
@@ -289,15 +240,17 @@ const Pages = () => {
             <Route exact path="/Assessments/:control_id" component={AssessmentForm} />
           )}
 
-          {userRole === 'Global internal control' || userRole === 'Zonal internal control'
+          {userRole === 'Global Internal Control' || userRole === 'Zonal Internal Control'
             ? AssessmentModuleRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
 
-          {module === 'Functional' || module === 'BU'
+          {module === 'Functional Representation Letter' || module === 'BU Representation Letter'
             ? RepLettersRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
 
-          {userRole === 'Global internal control' || module === 'Functional' || module === 'BU'
+          {userRole === 'Global Internal Control' ||
+          module === 'Functional Representation Letter' ||
+          module === 'BU Representation Letter'
             ? AdminRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
           <Route

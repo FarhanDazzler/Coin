@@ -682,8 +682,9 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         if (row.Positive_direction === 'Lower is better') {
           if (
             row.MICS_L1_Threshold === '-' ||
-            row.L1_Result === '' ||
-            row.MICS_L1_Threshold == null
+            row.MICS_L1_Threshold === '' ||
+            row.MICS_L1_Threshold == null ||
+            row.L1_Result == 'N/A'
           ) {
             row.L1_Result = 'N/A';
           } else {
@@ -697,8 +698,9 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
           // store L2_Result when KPI value lessthen MICS L2 thresshold value then pass L2 result
           if (
             row.MICS_L2_Threshold === '-' ||
-            row.L2_Result === '' ||
-            row.MICS_L2_Threshold == null
+            row.MICS_L2_Threshold === '' ||
+            row.MICS_L2_Threshold == null ||
+            row.L2_Result == 'N/A'
           ) {
             row.L2_Result = 'N/A';
           } else if (+row.KPI_Value <= +row.MICS_L2_Threshold && row.MICS_L2_Threshold !== '') {
@@ -707,11 +709,11 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
             row.L2_Result = 'Fail';
           }
 
-          // when KPI value lessthen MICS L3 threshold then result is pass othervise faild
           if (
             row.MICS_L3_Threshold === '-' ||
-            row.L3_Result === '' ||
-            row.MICS_L3_Threshold == null
+            row.MICS_L3_Threshold === '' ||
+            row.MICS_L3_Threshold == null ||
+            row.L3_Result == 'N/A'
           ) {
             row.L3_Result = 'N/A';
           } else {
@@ -724,8 +726,9 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         } else if (row.Positive_direction === 'Higher is better') {
           if (
             row.MICS_L1_Threshold === '-' ||
-            row.L1_Result === '' ||
-            row.MICS_L1_Threshold === null
+            row.MICS_L1_Threshold === '' ||
+            row.MICS_L1_Threshold === null ||
+            row.L1_Result == 'N/A'
           ) {
             row.L1_Result = 'N/A';
           } else {
@@ -738,8 +741,9 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
           if (
             row.MICS_L2_Threshold === '-' ||
-            row.L2_Result === '' ||
-            row.MICS_L2_Threshold === null
+            row.MICS_L2_Threshold === '' ||
+            row.MICS_L2_Threshold === null ||
+            row.L2_Result == 'N/A'
           ) {
             row.L2_Result = 'N/A';
           } else {
@@ -752,8 +756,9 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
           if (
             row.MICS_L3_Threshold === '-' ||
-            row.L3_Result === '' ||
-            row.MICS_L3_Threshold === null
+            row.MICS_L3_Threshold === '' ||
+            row.MICS_L3_Threshold === null ||
+            row.L3_Result == 'N/A'
           ) {
             row.L3_Result = 'N/A';
           } else {
