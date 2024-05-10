@@ -10,7 +10,10 @@ import { getSection3Questions, resetSection3 } from '../../redux/Questions/Quest
 import { useTranslation } from 'react-i18next';
 import ControlSection from './ControlSection';
 import cs from 'classnames';
-import { kpiResultSelector } from '../../redux/Assessments/AssessmentSelectors';
+import {
+  getLatestDraftSelector,
+  kpiResultSelector,
+} from '../../redux/Assessments/AssessmentSelectors';
 import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
 import Swal from 'sweetalert2';
 
@@ -59,6 +62,7 @@ const AssessmentFormRender = ({
   const dispatch = useDispatch();
   const kpiResultData = useSelector(kpiResultSelector);
   const question3 = useSelector(question3Selector);
+  const latestDraftData = useSelector(getLatestDraftSelector);
   // check useEffect if user select section 1 Terminating then this state true
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
 
@@ -170,6 +174,15 @@ const AssessmentFormRender = ({
     }
   };
 
+  const loader = useMemo(() => {
+    return (
+      questionsInfo.loading ||
+      getMicsOpenActionPlanVal.loading ||
+      actionPlanInfo?.loading ||
+      latestDraftData.loading
+    );
+  }, [questionsInfo, getMicsOpenActionPlanVal, actionPlanInfo, latestDraftData]);
+
   const section3NoSelectErrorMessage = useMemo(() => {
     const s1NoSelect =
       Object.keys(ansSection3).includes('L1') && !!Object.values(ansSection3?.L1)[0].includes('no');
@@ -189,7 +202,7 @@ const AssessmentFormRender = ({
         setIsOverride={setIsOverride}
       />
 
-      {questionsInfo.loading || getMicsOpenActionPlanVal.loading || actionPlanInfo?.loading ? (
+      {loader ? (
         <div className="d-flex w-100 align-items-center justify-content-center py-5 my-5">
           <Loader color="#d3a306" />
         </div>
