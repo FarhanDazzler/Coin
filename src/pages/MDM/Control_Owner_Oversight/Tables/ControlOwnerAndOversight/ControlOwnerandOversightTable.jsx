@@ -252,7 +252,7 @@ const ControlOwnerAndOversightTable = () => {
     {
       accessorKey: 'Control_Name',
       id: 'Control_Name',
-      header: 'Control_Name',
+      header: 'Control Name',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
