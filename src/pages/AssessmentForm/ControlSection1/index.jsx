@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getQuestionsSelector } from '../../../redux/Assessments/AssessmentSelectors';
-import { getFormatQuestions, getLanguageFormat, validateEmail } from '../../../utils/helper';
+import {
+  getLatestDraftSelector,
+  getQuestionsSelector,
+} from '../../../redux/Assessments/AssessmentSelectors';
+import {
+  getFormatQuestions,
+  getLanguageFormat,
+  getUniqueListBy,
+  validateEmail,
+} from '../../../utils/helper';
 import { getUserFromAD } from '../../../redux/AzureAD/AD_Action';
 import { getUserFromADSelector } from '../../../redux/AzureAD/AD_Selectors';
 import useDebounce from '../../../hooks/useDebounce';
@@ -19,6 +27,7 @@ const ControlSection1 = ({
   isModal,
   language,
   isDisabled,
+  setAnsSection3,
 }) => {
   const { t } = useTranslation();
   const getQuestions = useSelector(getQuestionsSelector);
@@ -29,7 +38,10 @@ const ControlSection1 = ({
   const dispatch = useDispatch();
   const userFromAD = useSelector(getUserFromADSelector);
   const isValidEmail = validateEmail(qId2Value);
+  const latestDraftData = useSelector(getLatestDraftSelector);
 
+  // Call the API for checking if the user is in AD
+  // Dependency is debounce, is user has finished typing the only hit the API
   useEffect(() => {
     if (isStart) {
       dispatch(getUserFromAD({ username: qId2Value, isValidEmail }));
@@ -37,6 +49,7 @@ const ControlSection1 = ({
   }, [q_id_2_debounce]);
 
   useEffect(() => {
+    // If user is available then store in userData array with email and display name
     if (userFromAD.loading) return;
     let userData = [];
     if (userFromAD.emailCheck) {
@@ -45,6 +58,7 @@ const ControlSection1 = ({
       const apiUserData = userFromAD.data || [];
       userData = apiUserData.map((d) => ({ value: d.mail, label: d.displayName }));
     }
+    // Checking if userData is there then use it to fill the dropdown
     const updateAnsObj = ans.map((val) => {
       if (val.question_type === blockType.IS_AD) {
         return {
@@ -56,17 +70,25 @@ const ControlSection1 = ({
       }
       return { ...val };
     });
+    // setting the options
     setAns(updateAnsObj);
   }, [userFromAD.data]);
 
   const handleChange = (value, block) => {
+    if (value === block.value) return;
+    setAnsSection3({});
     // Check if IS_AD question then run this condition
     // All logic for IS_AD question
+
+    // Block contains all the data about the question and options
+    // Value contains the answer selected
     if (block.question_type === blockType.IS_AD) {
       setIsStart(true);
       setQId2Value(value);
     }
     setStartEdit(true);
+
+    // Updating the answer
     let updateCurrentAns = ans.map((q) => {
       if (q.q_id === block.q_id) {
         if (block.question_type === blockType.IS_AD && !block.optionSelect) {
@@ -84,7 +106,7 @@ const ControlSection1 = ({
         if (block.options[0].is_Terminating === 1) {
           setTerminating(true);
           // dispatch(updateLastAccess({ s1: updateCurrentAns }));
-          setAns(updateCurrentAns);
+          setAns(getUniqueListBy(updateCurrentAns, 'q_id'));
           return;
         }
         setTerminating(false);
@@ -100,7 +122,7 @@ const ControlSection1 = ({
               }
             });
           }
-          setAns(updateCurrentAns);
+          setAns(getUniqueListBy(updateCurrentAns, 'q_id'));
           return;
         }
         setTerminating(false);
@@ -111,7 +133,7 @@ const ControlSection1 = ({
         const matchQuestion = block.question_options.find((o) => o.option_id === value);
         if (matchQuestion.is_Terminating) {
           setTerminating(true);
-          setAns(updateCurrentAns);
+          setAns(getUniqueListBy(updateCurrentAns, 'q_id'));
           return;
         }
         setTerminating(false);
@@ -120,11 +142,11 @@ const ControlSection1 = ({
         setTerminating(false);
     }
 
-    if (block.value) {
-      const findSelectedIndex = updateCurrentAns.findIndex((data) => data.q_id === block.q_id);
-      if (findSelectedIndex !== -1) {
-        updateCurrentAns = updateCurrentAns.filter((d, i) => i <= findSelectedIndex);
-      }
+    // if ans present, check the index of the question
+    const findSelectedIndex = updateCurrentAns.findIndex((data) => data.q_id === block.q_id);
+    if (findSelectedIndex !== -1) {
+      // if question found, update the ans
+      updateCurrentAns = updateCurrentAns.filter((d, i) => i <= findSelectedIndex);
     }
 
     const matchQuestion = [blockType.TEXT, blockType.EMAIL_WIDTH_SELECT, blockType.IS_AD].includes(
@@ -136,26 +158,28 @@ const ControlSection1 = ({
 
     const selectedChildQuestion = data.find((d) => d.q_id === selectChildQuestionId);
 
-    if (selectedChildQuestion) {
+    if (selectedChildQuestion && value) {
       setShowMoreSection(false);
-      setAns([...updateCurrentAns, selectedChildQuestion]);
+      setAns(getUniqueListBy([...updateCurrentAns, selectedChildQuestion], 'q_id'));
     } else {
       setShowMoreSection(true);
-      setAns(updateCurrentAns);
+      setAns(getUniqueListBy(updateCurrentAns, 'q_id'));
     }
 
     if (selectChildQuestionId === 0) {
       setShowMoreSection(true);
     }
+
+    if (!value) setShowMoreSection(false);
   };
 
   useEffect(() => {
-    if (getQuestions?.data?.length > 0) {
+    if (getQuestions?.data?.length > 0 && !latestDraftData?.data?.Latest_response) {
       const allData = getFormatQuestions(getQuestions?.data, false, null, true);
       const updateLang = getLanguageFormat(allData, language, null);
       setData(updateLang);
       const showData = updateLang.filter((d) => d.show);
-      setAns(showData);
+      setAns(getUniqueListBy(showData, 'q_id'));
     }
   }, [getQuestions.data, language]);
 

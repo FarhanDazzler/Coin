@@ -22,7 +22,7 @@ import { Loader } from '@mantine/core';
 import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
-const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview }) => {
+const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isReview }) => {
   const { t } = useTranslation();
   let headerStyles;
   if (isModal) {
@@ -48,7 +48,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
     tableData.map((data, i) => {
       handleChange('', '', data, i);
     });
-  }, [csvUpdateData, tableData.length]);
+  }, [csvUpdateData, tableData.lengthlength]);
 
   //All fixed table schema
   const columns = [
@@ -60,6 +60,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         ...headerStyles,
       },
       hidden: true,
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
     {
       dataField: 'sep',
@@ -69,6 +78,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         ...headerStyles,
       },
       hidden: true,
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
     {
       dataField: 'Global_KPI_Code',
@@ -76,6 +94,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       editable: false,
       headerStyle: {
         ...headerStyles,
+      },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
       },
       // filter: textFilter(),
     },
@@ -85,6 +112,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       editable: false,
       headerStyle: {
         ...headerStyles,
+      },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
       },
       // filter: textFilter(),
     },
@@ -97,6 +133,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         width: '1000px',
       },
       hidden: true,
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
     {
       dataField: 'MICS_L1_Threshold',
@@ -106,6 +151,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         ...headerStyles,
       },
       hidden: true,
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
     {
       dataField: 'MICS_L2_Threshold',
@@ -115,6 +169,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         ...headerStyles,
       },
       hidden: true,
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
     {
       dataField: 'MICS_L3_Threshold',
@@ -124,6 +187,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         ...headerStyles,
       },
       hidden: true,
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
     {
       dataField: 'Positive_direction',
@@ -133,6 +205,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         ...headerStyles,
       },
       hidden: true,
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
     {
       dataField: 'Entity_ID',
@@ -140,6 +221,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       editable: false,
       headerStyle: {
         ...headerStyles,
+      },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
       },
     },
     {
@@ -150,6 +240,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       headerStyle: {
         ...headerStyles,
       },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
     {
       dataField: 'Period_From',
@@ -159,6 +258,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         ...headerStyles,
       },
       hidden: true,
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
     {
       dataField: 'Period_To',
@@ -168,6 +276,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         ...headerStyles,
       },
       hidden: true,
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
     {
       dataField: 'Expected_Numerator',
@@ -176,6 +293,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         ...headerStyles,
       },
       editable: false,
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
     {
       dataField: 'Numerator',
@@ -185,11 +311,40 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       },
       editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
       editor: { type: 'number' },
+      formatter: (cellContent, row) => {
+        if (!row.Numerator && row.Denominator) {
+          return (
+            <div>
+              {row.Numerator}
+              <div className="alert alert-danger in" role="alert">
+                <strong>Numerator is required when Denominator is filled</strong>
+              </div>
+            </div>
+          );
+        }
+        if (row.Numerator < 0) {
+          return (
+            <div>
+              {row.Numerator}
+              <div className="alert alert-danger in" role="alert">
+                <strong>Numerator can be positive values only</strong>
+              </div>
+            </div>
+          );
+        }
+        return cellContent;
+      },
       style: (cell, row, rowIndex, colIndex) => {
         if (row.isManual) {
           return {
             backgroundColor: 'white',
             border: '2px solid gold',
+            color: 'black',
+          };
+        } else {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
             color: 'black',
           };
         }
@@ -199,7 +354,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
           row.Numerator = '';
           return {
             valid: false,
-            message: 'Numerator can be positive values only',
+            message: 'Numerator cannot be negative values only',
           };
         }
         if (+row.Denominator < 0 || !row.Denominator) {
@@ -218,6 +373,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         ...headerStyles,
       },
       editable: false,
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
     {
       // ddasd
@@ -228,11 +392,41 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       headerStyle: {
         ...headerStyles,
       },
+      formatter: (cellContent, row) => {
+        if (!row.Denominator && row.Numerator) {
+          return (
+            <div>
+              {row.Denominator}
+              <div className="alert alert-danger in" role="alert">
+                <strong>Denominator is required when Numerator is filled</strong>
+              </div>
+            </div>
+          );
+        }
+        if (row.Denominator <= 0) {
+          return (
+            <div>
+              {row.Denominator}
+              <div className="alert alert-danger in" role="alert">
+                <strong>Denominator can be positive values only</strong>
+              </div>
+            </div>
+          );
+        }
+
+        return cellContent;
+      },
       style: (cell, row, rowIndex, colIndex) => {
         if (row.isManual) {
           return {
             backgroundColor: 'white',
             border: '2px solid gold',
+            color: 'black',
+          };
+        } else {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
             color: 'black',
           };
         }
@@ -264,6 +458,13 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       },
       formatter: (cellContent, row) => (!row.Numerator || !row.Denominator ? '' : row.KPI_Value),
       style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
         if (!row.Numerator || !row.Denominator) {
           return {
             backgroundColor: 'white',
@@ -307,6 +508,12 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
             border: '2px solid gold',
             color: 'black',
           };
+        } else {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
         }
       },
     },
@@ -327,6 +534,8 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
           };
         } else {
           return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
             color: 'black',
           };
         }
@@ -339,6 +548,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       headerStyle: {
         ...headerStyles,
       },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
     {
       dataField: 'L1_Result',
@@ -346,6 +564,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       editable: false,
       headerStyle: {
         ...headerStyles,
+      },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
       },
     },
     {
@@ -355,6 +582,15 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       headerStyle: {
         ...headerStyles,
       },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
     {
       dataField: 'L3_Result',
@@ -363,13 +599,22 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
       headerStyle: {
         ...headerStyles,
       },
+      style: (cell, row, rowIndex, colIndex) => {
+        if (!row.isManual) {
+          return {
+            backgroundColor: '#d4d4d4',
+            border: '2px solid gray',
+            color: 'black',
+          };
+        }
+      },
     },
   ];
 
   const rowStyle2 = (row, rowIndex) => {
     const style = {};
     if (row.L3_Result === 'Fail' || row.L3_Result === 'Fail' || row.L3_Result === 'Fail') {
-      style.backgroundColor = '#f8dbe0 ';
+      style.backgroundColor = '#f8dbe0';
       style.color = '#000';
     }
     return style;
@@ -437,8 +682,9 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         if (row.Positive_direction === 'Lower is better') {
           if (
             row.MICS_L1_Threshold === '-' ||
-            row.L1_Result === '' ||
-            row.MICS_L1_Threshold == null
+            row.MICS_L1_Threshold === '' ||
+            row.MICS_L1_Threshold == null ||
+            row.L1_Result == 'N/A'
           ) {
             row.L1_Result = 'N/A';
           } else {
@@ -452,8 +698,9 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
           // store L2_Result when KPI value lessthen MICS L2 thresshold value then pass L2 result
           if (
             row.MICS_L2_Threshold === '-' ||
-            row.L2_Result === '' ||
-            row.MICS_L2_Threshold == null
+            row.MICS_L2_Threshold === '' ||
+            row.MICS_L2_Threshold == null ||
+            row.L2_Result == 'N/A'
           ) {
             row.L2_Result = 'N/A';
           } else if (+row.KPI_Value <= +row.MICS_L2_Threshold && row.MICS_L2_Threshold !== '') {
@@ -462,11 +709,11 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
             row.L2_Result = 'Fail';
           }
 
-          // when KPI value lessthen MICS L3 threshold then result is pass othervise faild
           if (
             row.MICS_L3_Threshold === '-' ||
-            row.L3_Result === '' ||
-            row.MICS_L3_Threshold == null
+            row.MICS_L3_Threshold === '' ||
+            row.MICS_L3_Threshold == null ||
+            row.L3_Result == 'N/A'
           ) {
             row.L3_Result = 'N/A';
           } else {
@@ -479,8 +726,9 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
         } else if (row.Positive_direction === 'Higher is better') {
           if (
             row.MICS_L1_Threshold === '-' ||
-            row.L1_Result === '' ||
-            row.MICS_L1_Threshold === null
+            row.MICS_L1_Threshold === '' ||
+            row.MICS_L1_Threshold === null ||
+            row.L1_Result == 'N/A'
           ) {
             row.L1_Result = 'N/A';
           } else {
@@ -493,8 +741,9 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
 
           if (
             row.MICS_L2_Threshold === '-' ||
-            row.L2_Result === '' ||
-            row.MICS_L2_Threshold === null
+            row.MICS_L2_Threshold === '' ||
+            row.MICS_L2_Threshold === null ||
+            row.L2_Result == 'N/A'
           ) {
             row.L2_Result = 'N/A';
           } else {
@@ -507,8 +756,9 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
 
           if (
             row.MICS_L3_Threshold === '-' ||
-            row.L3_Result === '' ||
-            row.MICS_L3_Threshold === null
+            row.MICS_L3_Threshold === '' ||
+            row.MICS_L3_Threshold === null ||
+            row.L3_Result == 'N/A'
           ) {
             row.L3_Result = 'N/A';
           } else {
@@ -552,7 +802,7 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
           Source_System: excelFile[i]['Link to data'],
         };
       });
-      console.log(newDataArray, 'newDataArray');
+
       setTableData([...newDataArray]);
       setScvUpdateData(csvUpdateData + 1);
     } else {
@@ -681,6 +931,9 @@ const ControlSection2 = ({ tableData, setTableData, controlId, isModal, isReview
                             value="Upload_Approach"
                           />
                           <Workbook.Column label="Link to data" value="Source_System" />
+                          <Workbook.Column label="L1_Result" value="L1_Result" />
+                          <Workbook.Column label="L2_Result" value="L2_Result" />
+                          <Workbook.Column label="L3_Result" value="L3_Result" />
                         </Workbook.Sheet>
                       </Workbook>
                     </div>

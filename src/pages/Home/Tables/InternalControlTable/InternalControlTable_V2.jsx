@@ -39,14 +39,14 @@ const InternalControlTable = (props) => {
   const [receiverValue, setReceiverValue] = useState([]);
   const [providerValue, setProviderValue] = useState([]);
 
-  useEffect(() => {
-    //code for getting Internal Control Home Page table data
-    dispatch(
-      getInternalControlTableData({
-        email: accounts[0]?.username,
-      }),
-    );
-  }, [token]);
+  // useEffect(() => {
+  //   //code for getting Internal Control Home Page table data
+  //   dispatch(
+  //     getInternalControlTableData({
+  //       email: accounts[0]?.username,
+  //     }),
+  //   );
+  // }, [token]);
 
   const handleControlIDClick = (id) => {
     //TODO: modal redirect
@@ -58,7 +58,6 @@ const InternalControlTable = (props) => {
       controlId: id,
     };
     dispatch(getControlDataAction(payload));
-    console.log('@@@@ ->71');
     dispatch(getControlDataGcdAction(gcdPayload));
     history.push(`${history.location.pathname}?Control_ID=${id}`);
   };

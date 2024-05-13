@@ -30,6 +30,7 @@ import { getSection3Questions } from '../../redux/Questions/QuestionsAction';
 import { getLanguageFormat, isJsonString } from '../../utils/helper';
 import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
 import { useMsal } from '@azure/msal-react';
+import { resetBlockAD } from '../../redux/AzureAD/AD_Action';
 
 const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
   const history = useHistory();
@@ -67,6 +68,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     failingDue: null,
     reasonsForFailing: null,
   });
+
   const [showMoreSection, setShowMoreSection] = useState(false);
   const [terminating, setTerminating] = useState(false);
   const [startEdit, setStartEdit] = useState(false);
@@ -97,6 +99,16 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     ? JSON.parse(questionData.Level?.L2?.Inner_Questions || '[]')
     : [];
 
+  const attemptNo = useMemo(() => {
+    return responseData?.data?.Attempt_no
+      ? responseData?.data?.Attempt_no < 5
+        ? 4 - responseData?.data?.Attempt_no
+        : 0
+      : responseData?.data?.Attempt_no === 0
+      ? '4'
+      : '5';
+  }, [responseData?.data]);
+
   useEffect(() => {
     loadingRef.current = loadingLevel;
   }, [loadingLevel]);
@@ -112,7 +124,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   }, [currentLanguage]);
 
   useEffect(() => {
-    setActionPlanInfo({ ...getMicsOpenActionPlanVal.data });
+    if (!responseUpdatedData?.actionPlanInfo?.Action_Plan)
+      setActionPlanInfo({ ...getMicsOpenActionPlanVal.data });
   }, [getMicsOpenActionPlanVal.data]);
 
   useEffect(() => {
@@ -126,7 +139,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
   //API useEffect
   useEffect(() => {
-    //console.log(activeData, '@@@');
     // get question API
     dispatch(
       getQuestions({
@@ -198,6 +210,9 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       dispatch(clearLatestDraftResponse());
       dispatch(resetBlockAssessment());
       dispatch(resetBlockAssessment());
+      dispatch(clearAssessmentResponse());
+      dispatch(resetBlockAD({ blockType: 'userFromAD' }));
+      dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
       setAnsSection1([]);
       setAnsSection3([]);
     };
@@ -244,12 +259,13 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
       if (responseUpdatedData?.s3?.length > 0 || condition) {
         //convert section 3 data to preview formate
-        const section3Data = responseUpdatedData?.s3?.reduce(
-          (acc, [k, v]) => ((acc[k] = v), acc),
-          {},
-        );
+        const section3Data = responseUpdatedData?.s3?.reduce((acc, [k, v]) => {
+          if (!v) return acc;
+          return (acc[k] = v), acc;
+        }, {});
 
-        if (!startEdit && !isNoQueAns) {
+        const isValidSection3Data = section3Data && Object.keys(section3Data).length !== 1;
+        if (!startEdit && !isNoQueAns && isValidSection3Data) {
           // save section 3 to local state
           setAnsSection3(section3Data);
           setShowMoreSection(true);
@@ -280,27 +296,29 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             !questionData.Level?.L2)
         ) {
           // if section 3 level 1 show then API to get section 3 L2 level api call condition
-          if (timeOutSection2) clearTimeout(timeOutSection2);
-          timeOutSection2 = setTimeout(() => {
-            if (!loadingRef?.current?.L2) {
-              setLoadingLevel({ ...loadingLevel, L2: true });
-              // Section 3 - L2 level api call
-              dispatch(
-                getSection3Questions({
-                  Level: 'L2',
-                  Control_ID: activeData?.control_id,
-                  Assessment_ID: activeData?.assessment_id,
-                  events: {
-                    onSuccess: () => {
-                      setTimeout(() => {
-                        setLoadingLevel({ ...loadingLevel, L2: false });
-                      }, 1500);
+          if (!questionData?.data?.L2) {
+            if (timeOutSection2) clearTimeout(timeOutSection2);
+            timeOutSection2 = setTimeout(() => {
+              if (!loadingRef?.current?.L2) {
+                setLoadingLevel({ ...loadingLevel, L2: true });
+                // Section 3 - L2 level api call
+                dispatch(
+                  getSection3Questions({
+                    Level: 'L2',
+                    Control_ID: activeData?.control_id,
+                    Assessment_ID: activeData?.assessment_id,
+                    events: {
+                      onSuccess: () => {
+                        setTimeout(() => {
+                          setLoadingLevel({ ...loadingLevel, L2: false });
+                        }, 1500);
+                      },
                     },
-                  },
-                }),
-              );
-            }
-          }, 1000);
+                  }),
+                );
+              }
+            }, 1000);
+          }
         }
 
         // Check section 3 L2 and L3 level fill or not
@@ -308,29 +326,33 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           (section3Data?.L3 && questionData.Level?.L2 && !questionData.Level?.L3) ||
           (isLevel2NoInnerQuestion && !questionData.Level?.L3)
         ) {
-          if (timeOutSection3) clearTimeout(timeOutSection3);
-          timeOutSection3 = setTimeout(() => {
-            if (!loadingRef?.current?.L3) {
-              setLoadingLevel({ ...loadingLevel, L3: true });
-              // Section 3 - L3 level api call
-              dispatch(
-                getSection3Questions({
-                  Level: 'L3',
-                  Control_ID: activeData?.control_id,
-                  Assessment_ID: activeData?.assessment_id,
-                  events: {
-                    onSuccess: () => {
-                      setTimeout(() => {
-                        setLoadingLevel({ ...loadingLevel, L3: false });
-                      }, 1500);
+          if (!questionData?.data?.L3) {
+            if (timeOutSection3) clearTimeout(timeOutSection3);
+            timeOutSection3 = setTimeout(() => {
+              if (!loadingRef?.current?.L3) {
+                setLoadingLevel({ ...loadingLevel, L3: true });
+                // Section 3 - L3 level api call
+                dispatch(
+                  getSection3Questions({
+                    Level: 'L3',
+                    Control_ID: activeData?.control_id,
+                    Assessment_ID: activeData?.assessment_id,
+                    events: {
+                      onSuccess: () => {
+                        setTimeout(() => {
+                          setLoadingLevel({ ...loadingLevel, L3: false });
+                        }, 1500);
+                      },
                     },
-                  },
-                }),
-              );
-            }
+                  }),
+                );
+              }
 
-            if (!showMoreSection) setTerminating(true);
-          }, 2000);
+              if (!showMoreSection) {
+                setTerminating(true);
+              }
+            }, 2000);
+          }
         }
       }
     }
@@ -350,7 +372,16 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     //Text key check condition how many attempt remaining
     Swal.fire({
       title: t('selfAssessment.assessmentForm.submitText'),
-      text: `${
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'golden',
+      cancelButtonColor: 'black',
+      confirmButtonText: ` ${t('selfAssessment.assessmentForm.submitConfirmBtn')} <br/>`,
+      showDenyButton: !(responseData?.data?.Attempt_no >= 5),
+      denyButtonText: `${t('selfAssessment.assessmentForm.saveDraftBtn')}
+      
+      (${
         responseData?.data?.Attempt_no
           ? responseData?.data?.Attempt_no < 5
             ? 4 - responseData?.data?.Attempt_no
@@ -358,14 +389,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
-      } ${t('selfAssessment.assessmentForm.submitRemainingResponseText')}`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: 'golden',
-      cancelButtonColor: 'black',
-      confirmButtonText: t('selfAssessment.assessmentForm.submitConfirmBtn'),
-      showDenyButton: !(responseData?.data?.Attempt_no >= 5),
-      denyButtonText: t('selfAssessment.assessmentForm.saveDraftBtn'),
+      } remaining)`,
       denyButtonColor: 'silver',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -374,7 +398,13 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         const dataArray = Object.keys(ansSection3) || [];
         for (const key in ansSection3) {
           if (key !== 'L3') {
-            if (key !== 'noQueAns' && Object.values(ansSection3[key])[0].includes('no')) {
+            if (
+              key !== 'noQueAns' &&
+              key !== 'L1AndL2NoQuestionsAns' &&
+              ansSection3[key] &&
+              Object.values(ansSection3[key]).length > 0 &&
+              Object.values(ansSection3[key])[0].includes('no')
+            ) {
               isS3FailedData = true;
             }
           }
@@ -396,7 +426,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               : isReview
               ? responseUpdatedData.data
               : kpiResultData?.data?.data,
-            kpis: isNotEscalationRequired ? [] : tableData.length > 0 ? tableData : [],
+            kpis: isNotEscalationRequired
+              ? []
+              : tableData.length > 0 && showMoreSection
+              ? tableData
+              : [],
             s3: isNotEscalationRequired
               ? null
               : !(showMoreSection && !s1FailObj && !isNotEscalationRequired)
@@ -422,6 +456,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                   'success',
                 );
                 dispatch(clearAssessmentResponse());
+                dispatch(resetBlockAD({ blockType: 'userFromAD' }));
+                dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
                 history.push('/');
               } else {
                 if (
@@ -432,6 +468,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                 } else {
                   Swal.fire(t('selfAssessment.assessmentForm.assessmentPassText'), '', 'success');
                 }
+                dispatch(resetBlockAD({ blockType: 'userFromAD' }));
+                dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
                 dispatch(clearAssessmentResponse());
                 history.push('/');
               }
@@ -461,7 +499,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                   L1AndL2NoQuestionsAns,
                 }),
             data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
-            kpis: null,
+            kpis: isNotEscalationRequired
+              ? []
+              : tableData.length > 0 && showMoreSection
+              ? tableData
+              : [],
             showTable: showMoreSection,
             actionPlanInfo,
             is_override: isOverride,
@@ -469,6 +511,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           },
           events: {
             onSuccess: () => {
+              dispatch(resetBlockAD({ blockType: 'userFromAD' }));
+              dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
               dispatch(clearAssessmentResponse()); // Assessment clear action
               history.push('/');
             },
@@ -489,7 +533,20 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     }
     Swal.fire({
       title: t('selfAssessment.assessmentForm.saveDraftText'),
-      text: `${
+      // html: `<p class='draft-btn'>${
+      //   responseData?.data?.Attempt_no
+      //     ? responseData?.data?.Attempt_no < 5
+      //       ? 4 - responseData?.data?.Attempt_no
+      //       : 0
+      //     : responseData?.data?.Attempt_no === 0
+      //     ? '4'
+      //     : '5'
+      // } ${t('selfAssessment.assessmentForm.saveDraftBtn')}</p>`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'golden',
+      cancelButtonColor: 'black',
+      confirmButtonText: `(${
         responseData?.data?.Attempt_no
           ? responseData?.data?.Attempt_no < 5
             ? 4 - responseData?.data?.Attempt_no
@@ -497,12 +554,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           : responseData?.data?.Attempt_no === 0
           ? '4'
           : '5'
-      } ${t('selfAssessment.assessmentForm.saveDraftRemainingResponseText')}`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: 'golden',
-      cancelButtonColor: 'black',
-      confirmButtonText: t('selfAssessment.assessmentForm.saveDraftBtn'),
+      }) ${t('selfAssessment.assessmentForm.saveDraftBtn')}`,
     }).then((result) => {
       if (result.isConfirmed) {
         const payload = {
@@ -519,7 +571,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                   L1AndL2NoQuestionsAns,
                 }),
             data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
-            kpis: null,
+            kpis: isNotEscalationRequired
+              ? []
+              : tableData.length > 0 && showMoreSection
+              ? tableData
+              : [],
             showTable: showMoreSection,
             actionPlanInfo,
           },
@@ -529,6 +585,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           events: {
             onSuccess: () => {
               Swal.fire(t('selfAssessment.assessmentForm.saveDraftSuccessText'), '', 'success');
+              dispatch(resetBlockAD({ blockType: 'userFromAD' }));
+              dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
               dispatch(clearAssessmentResponse());
               history.push('/');
             },
@@ -577,7 +635,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         getMicsOpenActionPlanVal={getMicsOpenActionPlanVal}
         handleSaveDraftProps={{
           disabled: responseData?.data?.Attempt_no >= 5,
-          style: { width: 128 },
+          style: { width: 140 },
           loading: addOrEditUpdateDraft.loading,
         }}
         isOverride={isOverride}
@@ -594,6 +652,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         setL1AndL2NoQuestionsAns={setL1AndL2NoQuestionsAns}
         question3Api={isQuestion3Api}
         setQuestion3Api={setIsQuestion3Api}
+        attemptNo={attemptNo}
       />
     </>
   );

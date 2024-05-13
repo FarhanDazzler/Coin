@@ -197,7 +197,7 @@ function* handle_GetFunctionZIC_PersonaHomePageData({ payload }) {
 
 // GET BU Global PErsona home page table data
 async function get_BU_GlobalPersonaHomePageDataApi(params) {
-  return await Axios.get('/get_bu_home_page_data_for_global', { params });
+  return await Axios.post('/get_bu_home_page_data_for_global', params);
 }
 function* handle_Get_BU_GlobalPersonaHomePageData({ payload }) {
   try {
@@ -217,7 +217,7 @@ function* handle_Get_BU_GlobalPersonaHomePageData({ payload }) {
 
 // GET BU ZIC PErsona home page table data
 async function get_BU_ZIC_PersonaHomePageDataApi(params) {
-  return await Axios.get('/get_bu_home_page_data_for_zonal_ic', { params });
+  return await Axios.post('/get_bu_home_page_data_for_zonal_ic', params);
 }
 function* handle_Get_BU_ZIC_PersonaHomePageData({ payload }) {
   try {
@@ -237,7 +237,7 @@ function* handle_Get_BU_ZIC_PersonaHomePageData({ payload }) {
 
 // GET BU BU HEAD home page table data
 async function get_BU_BU_HeadHomePageDataApi(params) {
-  return await Axios.get('/get_bu_home_page_data_for_bu_head', { params });
+  return await Axios.post('/get_bu_home_page_data_for_bu_head', params);
 }
 function* handle_Get_BU_BU_HeadHomePageData({ payload }) {
   try {
@@ -257,7 +257,7 @@ function* handle_Get_BU_BU_HeadHomePageData({ payload }) {
 
 // GET BU Local Internal Control home page table data
 async function get_BU_Disclosure_ProcessorHomePageDataApi(params) {
-  return await Axios.get('/get_bu_home_page_data_for_disclosure_processor', { params });
+  return await Axios.post('/get_bu_home_page_data_for_disclosure_processor', params);
 }
 function* handle_Get_BU_Disclosure_ProcessorHomePageData({ payload }) {
   try {
@@ -277,7 +277,7 @@ function* handle_Get_BU_Disclosure_ProcessorHomePageData({ payload }) {
 
 // GET BU Finance Director home page table data
 async function get_BU_Finance_DirectorHomePageDataApi(params) {
-  return await Axios.get('/get_bu_home_page_data_for_finance_director', { params });
+  return await Axios.post('/get_bu_home_page_data_for_finance_director', params);
 }
 function* handle_Get_BU_Finance_DirectorHomePageData({ payload }) {
   try {
@@ -297,7 +297,7 @@ function* handle_Get_BU_Finance_DirectorHomePageData({ payload }) {
 
 // GET BU ZONE CONTROL home page table data
 async function get_BU_Zone_ControlHomePageDataApi(params) {
-  return await Axios.get('/get_bu_home_page_data_for_zone_control', { params });
+  return await Axios.post('/get_bu_home_page_data_for_zone_control', params);
 }
 function* handle_Get_BU_Zone_ControlHomePageData({ payload }) {
   try {
@@ -317,7 +317,7 @@ function* handle_Get_BU_Zone_ControlHomePageData({ payload }) {
 
 // GET BU Zone VP home page table data
 async function get_BU_Zone_VPHomePageDataApi(params) {
-  return await Axios.get('/get_bu_home_page_data_for_zone_vp', { params });
+  return await Axios.post('/get_bu_home_page_data_for_zone_vp', params);
 }
 function* handle_Get_BU_Zone_VPHomePageData({ payload }) {
   try {
@@ -337,7 +337,7 @@ function* handle_Get_BU_Zone_VPHomePageData({ payload }) {
 
 // GET BU-Zone Local Internal Control home page table data
 async function get_BUZone_Disclosure_ProcessorHomePageDataApi(params) {
-  return await Axios.get('/get_zone_home_page_data_for_disclosure_processor', { params });
+  return await Axios.post('/get_zone_home_page_data_for_disclosure_processor', params);
 }
 function* handle_Get_BUZone_Disclosure_ProcessorHomePageData({ payload }) {
   try {
@@ -357,7 +357,7 @@ function* handle_Get_BUZone_Disclosure_ProcessorHomePageData({ payload }) {
 
 // Get BU-Zone Excom Member Home Page Data
 async function get_BUZone_ExcomMemberHomePageDataApi(params) {
-  return await Axios.get('/get_zone_home_page_data_for_excom_member', { params });
+  return await Axios.post('/get_zone_home_page_data_for_excom_member', params);
 }
 function* handle_Get_BUZone_ExcomMemberHomePageData({ payload }) {
   try {
@@ -377,7 +377,7 @@ function* handle_Get_BUZone_ExcomMemberHomePageData({ payload }) {
 
 //  GET BU-Zone Zone Legal Representative Home Page Data
 async function get_BUZone_ZoneLegalRepresentativeHomePageDataApi(params) {
-  return await Axios.get('/get_zone_home_page_data_for_zone_legal_rep', { params });
+  return await Axios.post('/get_zone_home_page_data_for_zone_legal_rep', params);
 }
 function* handle_Get_BUZone_ZoneLegalRepresentativeHomePageData({ payload }) {
   try {
@@ -397,7 +397,7 @@ function* handle_Get_BUZone_ZoneLegalRepresentativeHomePageData({ payload }) {
 
 //  GET BU-Zone Zone VP Home Page Data
 async function get_BUZone_Zone_VPHomePageDataApi(params) {
-  return await Axios.get('/get_zone_home_page_data_for_zone_vp', { params });
+  return await Axios.post('/get_zone_home_page_data_for_zone_vp', params);
 }
 function* handle_Get_BUZone_Zone_VPHomePageData({ payload }) {
   try {
@@ -417,7 +417,7 @@ function* handle_Get_BUZone_Zone_VPHomePageData({ payload }) {
 
 //  GET BU-Zone Zone Control Home Page Data
 async function get_BUZone_Zone_ControlHomePageDataApi(params) {
-  return await Axios.get('/get_zone_home_page_data_for_zone_control', { params });
+  return await Axios.post('/get_zone_home_page_data_for_zone_control', params);
 }
 function* handle_Get_BUZone_Zone_ControlHomePageData({ payload }) {
   try {
@@ -437,7 +437,7 @@ function* handle_Get_BUZone_Zone_ControlHomePageData({ payload }) {
 
 //  GET BU-Zone Global Persona Home Page Data
 async function get_BUZone_GlobalPersonaHomePageDataApi(params) {
-  return await Axios.get('/get_zone_home_page_data_for_global', { params });
+  return await Axios.post('/get_zone_home_page_data_for_global', params);
 }
 function* handle_Get_BUZone_GlobalPersonaHomePageData({ payload }) {
   try {
@@ -760,7 +760,7 @@ function* updateAddBUSection2LazyApproval({ payload }) {
     yield put({
       type: ADD_BU_SECTION2_LAZY_APPROVAL_ERROR,
     });
-    if (error?.response?.status === 400) {
+    if (error?.response?.status === 401) {
       Swal.fire('Oops...', error?.response?.data?.data, 'error');
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');
@@ -1112,7 +1112,7 @@ function* updateAddBUZoneSection2LazyApproval({ payload }) {
     yield put({
       type: ADD_BU_ZONE_SECTION2_LAZY_APPROVAL_ERROR,
     });
-    if (error?.response?.status === 400) {
+    if (error?.response?.status === 401) {
       Swal.fire('Oops...', error?.response?.data?.data, 'error');
     } else {
       Swal.fire('Oops...', 'Something Went Wrong', 'error');

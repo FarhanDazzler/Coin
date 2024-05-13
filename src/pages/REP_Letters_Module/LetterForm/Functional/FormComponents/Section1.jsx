@@ -19,7 +19,7 @@ import {
   getLatestFunctionDraftResponseSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 
-const Section1 = ({ questions, scopeData }) => {
+const Section1 = ({ questions, assessment_id }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const newFormat = [];
@@ -111,7 +111,7 @@ const Section1 = ({ questions, scopeData }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         const payload = {
-          Assessment_ID: scopeData?.id,
+          Assessment_ID: assessment_id,
           Latest_response: responses,
         };
         //localStorage.setItem('storedResponses', JSON.stringify(responses));
@@ -179,7 +179,7 @@ const Section1 = ({ questions, scopeData }) => {
             }
           }
           const payload = {
-            Assessment_ID: scopeData?.id,
+            Assessment_ID: assessment_id,
             Latest_response: newFormat?.sort((a, b) => a.questionNumber - b.questionNumber),
           };
           //localStorage.setItem('storedResponses', JSON.stringify(responses));
@@ -197,7 +197,7 @@ const Section1 = ({ questions, scopeData }) => {
             return;
           }
           const payload = {
-            Assessment_ID: scopeData?.id,
+            Assessment_ID: assessment_id,
             Latest_response: responses,
           };
           //localStorage.setItem('storedResponses', JSON.stringify(responses));
@@ -244,9 +244,9 @@ const Section1 = ({ questions, scopeData }) => {
                       />
                       <label className="radio-option-label">
                         {value === 'Yes'
-                          ? 'I have nothing to disclose'
+                          ? 'I comply'
                           : value === 'No'
-                          ? 'I want to disclose'
+                          ? "I do not comply / I don't know"
                           : value}
                       </label>
                     </label>

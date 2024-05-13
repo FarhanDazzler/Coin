@@ -24,8 +24,6 @@ const BUZone_DisclosureProcessorHomePage = () => {
     get_BUZone_Disclosure_ProcessorHomePageDataSelector,
   );
 
-  const [yearValue, setYearValue] = useState([]);
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
@@ -34,7 +32,7 @@ const BUZone_DisclosureProcessorHomePage = () => {
 
   const statusInfo = useMemo(() => {
     const tableData = getDisclosureProcessorHomePageData?.data[0]?.disclosureProcessorData || [];
-    if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length) {
+    if (!zoneValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       return {
         notStarted: getNumberOfItem(allstatus, 'Not Started'),
@@ -47,8 +45,6 @@ const BUZone_DisclosureProcessorHomePage = () => {
 
     const updatedData = tableData?.filter((i) => {
       return (
-        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true)
       );
     });
@@ -63,8 +59,6 @@ const BUZone_DisclosureProcessorHomePage = () => {
     };
   }, [
     getDisclosureProcessorHomePageData?.data[0],
-    yearValue,
-    assessmentCycleValue,
     zoneValue,
     getNumberOfItem,
   ]);
@@ -93,10 +87,6 @@ const BUZone_DisclosureProcessorHomePage = () => {
       </div>
 
       <BUZone_DisclosureProcessorTable
-        yearValue={yearValue}
-        setYearValue={setYearValue}
-        assessmentCycleValue={assessmentCycleValue}
-        setAssessmentCycleValue={setAssessmentCycleValue}
         zoneValue={zoneValue}
         setZoneValue={setZoneValue}
       />

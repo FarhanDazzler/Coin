@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
-import { Loader } from 'semantic-ui-react';
-import { useHistory, useParams } from 'react-router-dom';
+import { Loader } from '@mantine/core';
 import { Form } from 'react-bootstrap';
 import RenderBlock from '../../../components/RenderBlock';
 import RenderBlockWrapper from '../../../components/RenderBlock/RenderBlockWrapper';
@@ -34,7 +33,6 @@ const ControlSection3 = ({
   question3Api,
   setQuestion3Api,
 }) => {
-  const history = useHistory();
   const Control_ID = activeData?.control_id;
   const questionData = useSelector(question3Selector);
   const dispatch = useDispatch();
@@ -48,6 +46,17 @@ const ControlSection3 = ({
   const [question2Api, setQuestion2Api] = useState(false);
 
   const [showNoQuestion, setShowNoQuestion] = useState(false);
+
+  const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
+    ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
+    : [];
+  const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions || '[]')
+    ? JSON.parse(questionData.Level?.L2?.Inner_Questions || '[]')
+    : [];
+  const L3InnerQuestion = isJsonString(questionData.Level?.L3?.Inner_Questions || '[]')
+    ? JSON.parse(questionData.Level?.L3?.Inner_Questions || '[]')
+    : [];
+
   const isSameLang = useMemo(() => {
     return languageVal === language;
   }, [language, languageVal]);
@@ -69,13 +78,22 @@ const ControlSection3 = ({
     });
   };
 
-  const handleChange = (value, block, parentBlock) => {
+  const handleChange = (inputValue, block, parentBlock) => {
+    const value = inputValue.trimStart();
     setStartEdit(true);
     setLastAns(value);
     const noQueAns = value.includes('yes');
     let updateAns = { ...ans };
     if (noQueAns) {
+      setShowNoQuestion(false);
       updateAns.noQueAns = false;
+      if (ans?.L1AndL2NoQuestionsAns && ans?.L1AndL2NoQuestionsAns?.failingDue) {
+        updateAns.L1AndL2NoQuestionsAns = { failingDue: null, reasonsForFailing: null };
+      }
+      setL1AndL2NoQuestionsAns({
+        failingDue: null,
+        reasonsForFailing: null,
+      });
     }
     if (parentBlock) {
       // Store data for selected level block value
@@ -83,16 +101,20 @@ const ControlSection3 = ({
     } else {
       updateAns[block.q_id] = value;
     }
+    if (['L1', 'L2'].includes(parentBlock.Level)) {
+      if (parentBlock.Level === 'L1' && updateAns['L2']) delete updateAns['L2'];
+      if (updateAns['L3']) delete updateAns['L3'];
+      setTerminating(false);
+    }
+
     setAns(updateAns);
+    setQuestion2Api(false);
+    setQuestion3Api(!noQueAns);
   };
 
   const handleChangeNoQuestion = (val) => {
     setShowNoQuestionAns(val);
   };
-
-  useEffect(() => {
-    dispatch(getSection3Questions({ Level: 'L1', Control_ID: Control_ID }));
-  }, []);
 
   useEffect(() => {
     if (showNoQuestion) {
@@ -122,6 +144,13 @@ const ControlSection3 = ({
     }
     if (questionL3.length > 0 && ans.L3) {
       const updateAnsL3 = setSelectedQuestionAns(questionL3, ans.L3);
+      updateAnsL3.forEach((l3) => {
+        l3?.renderOption?.forEach((option) => {
+          if (option.value) {
+            setTerminating(true);
+          }
+        });
+      });
       setQuestionL3(updateAnsL3);
     }
   }, [ans, render, questionData]);
@@ -134,7 +163,7 @@ const ControlSection3 = ({
       !JSON.parse(questionData.Level?.L1?.Inner_Questions).length;
 
     //Check if first section any one 'No' option selected then not section 2 api call make
-    if (isFirstSectionWithNoQuestion && !question2Api && !question3Api) {
+    if (isFirstSectionWithNoQuestion && !question2Api && !question3Api && !questionData?.data?.L2) {
       if (!loadingRef?.current?.L2) {
         setLoadingLevel({ ...loadingLevel, L2: true });
         dispatch(
@@ -159,107 +188,106 @@ const ControlSection3 = ({
     const isSecondSectionWithNoQuestion =
       isJsonString(questionData.Level?.L2?.Inner_Questions) &&
       !JSON.parse(questionData.Level?.L2?.Inner_Questions).length;
-    if (isSecondSectionWithNoQuestion && !question3Api) {
+    if (isSecondSectionWithNoQuestion && !question3Api && !questionData?.data?.L3) {
       dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
       setQuestion3Api(true);
     }
   }, [questionData.Level]);
 
   useEffect(() => {
-    setTimeout(() => {
-      const updateAns = {};
-      if (ans.L1 && questionData.Level?.L1) {
-        const ansObjectL1 = Object.keys(ans.L1);
-        // Check condition for selected ans and all question length same or not
-        if (ansObjectL1.length === questionL1[0]?.innerOptions?.length) {
-          let allYesFilterData1 = Object.keys(ans.L1).filter((key) => {
-            return ans.L1[key].includes('yes');
-          });
+    if (!lastAns) return;
 
-          if (
-            ansObjectL1.length === allYesFilterData1.length &&
-            !questionL2.length &&
-            !question2Api
-          ) {
-            dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
-            setQuestion2Api(true);
-          }
+    const updateAns = {};
+    if (ans.L1 && questionData.Level?.L1) {
+      const ansObjectL1 = Object.keys(ans.L1);
+      // Check condition for selected ans and all question length same or not
+      if (ansObjectL1.length === questionL1[0]?.innerOptions?.length) {
+        let allYesFilterData1 = Object.keys(ans.L1).filter((key) => {
+          return ans.L1[key].includes('yes');
+        });
+
+        if (
+          ansObjectL1.length === allYesFilterData1.length &&
+          !questionL2.length &&
+          !question2Api &&
+          !questionData?.data?.L2
+        ) {
+          dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
+          setQuestion2Api(true);
+        }
+        updateAns.L1 = ans.L1;
+        setAns(updateAns);
+        setTerminating(false);
+        if (ansObjectL1.length !== allYesFilterData1.length) {
+          setQuestionL2([]);
+          setQuestionL3([]);
+          setShowNoQuestion(true);
+          return;
+        } else {
+          setShowNoQuestion(false);
+        }
+      } else {
+        if (ans.L1) {
           updateAns.L1 = ans.L1;
           setAns(updateAns);
-          setTerminating(false);
-          if (ansObjectL1.length !== allYesFilterData1.length) {
-            setQuestionL2([]);
-            setQuestionL3([]);
-            setShowNoQuestion(true);
-            return;
-          } else {
-            setShowNoQuestion(false);
-          }
-        } else {
-          if (ans.L1) {
-            updateAns.L1 = ans.L1;
-            setAns(updateAns);
-          }
         }
       }
-      //Same for section 2
-      if (ans.L2 && questionData.Level?.L2) {
-        const ansObjectL2 = Object.keys(ans.L2);
-        if (ansObjectL2.length === questionL2[0]?.innerOptions?.length) {
-          let allYesFilterData2 = Object.keys(ans.L2).filter((key) => {
-            return ans.L2[key].includes('yes');
-          });
-          if (
-            ansObjectL2.length === allYesFilterData2.length &&
-            !questionL3.length &&
-            !question2Api
-          ) {
-            dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
-            setQuestion3Api(true);
-          }
-          updateAns.L2 = ans.L2;
-          setAns(updateAns);
-          setTerminating(false);
-          if (ansObjectL2.length !== allYesFilterData2.length) {
-            setQuestionL3([]);
-            setShowNoQuestion(true);
-            // setTerminating(true);
-            return;
-          } else {
-            setShowNoQuestion(false);
-          }
+    }
+    //Same for section 2
+    if (ans.L2 && questionData.Level?.L2) {
+      const ansObjectL2 = Object.keys(ans.L2);
+      if (ansObjectL2.length === questionL2[0]?.innerOptions?.length) {
+        let allYesFilterData2 = Object.keys(ans.L2).filter((key) => {
+          return ans.L2[key].includes('yes');
+        });
+        if (
+          ansObjectL2.length === allYesFilterData2.length &&
+          !questionL3.length &&
+          !question2Api &&
+          !questionData?.data?.L3
+        ) {
+          dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
+          setQuestion3Api(true);
+        }
+        updateAns.L2 = ans.L2;
+        setAns(updateAns);
+        setTerminating(false);
+        if (ansObjectL2.length !== allYesFilterData2.length) {
+          setQuestionL3([]);
+          setShowNoQuestion(true);
+          return;
         } else {
-          if (ans.L2) {
-            updateAns.L2 = ans.L2;
-            setAns(updateAns);
-          }
+          setShowNoQuestion(false);
+        }
+      } else {
+        if (ans.L2) {
           updateAns.L2 = ans.L2;
           setAns(updateAns);
         }
-      }
-      //Same for section 3
-      if (ans.L3) {
-        const ansObjectL3 = Object.keys(ans.L3);
-        if (ansObjectL3.length === questionL3[0]?.innerOptions?.length) {
-          let allYesFilterData3 = Object.keys(ans.L3).filter((key) => {
-            return ans.L3[key].includes('yes');
-          });
-          if (ansObjectL3.length === allYesFilterData3.length) {
-            setTerminating(true);
-            setShowNoQuestion(false);
-          } else {
-            setTerminating(true);
-          }
-        }
-        updateAns.L3 = ans.L3;
+        updateAns.L2 = ans.L2;
         setAns(updateAns);
       }
-      if (ans.noQueAns) {
-        setShowNoQuestion(true);
-      } else {
-        setShowNoQuestion(false);
+    }
+    //Same for section 3
+    if (ans.L3) {
+      const ansObjectL3 = Object.keys(ans.L3);
+      if (ansObjectL3.length === questionL3[0]?.innerOptions?.length) {
+        let allYesFilterData3 = Object.keys(ans.L3).filter((key) => {
+          return ans.L3[key].includes('yes');
+        });
+        if (ansObjectL3.length === allYesFilterData3.length) {
+          setShowNoQuestion(false);
+        }
+        setTerminating(true);
       }
-    }, 300);
+      updateAns.L3 = ans.L3;
+      setAns(updateAns);
+    }
+    if (ans.noQueAns) {
+      setShowNoQuestion(true);
+    } else {
+      setShowNoQuestion(false);
+    }
   }, [lastAns]);
 
   useEffect(() => {
@@ -274,7 +302,7 @@ const ControlSection3 = ({
           if (ans.L1) {
             const updateAnsL1 = setSelectedQuestionAns(data, ans.L1);
             setQuestionL1(updateAnsL1);
-            if (!question2Api) {
+            if (!question2Api && !questionData?.data?.L2) {
               dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
               setQuestion2Api(true);
             }
@@ -284,15 +312,6 @@ const ControlSection3 = ({
           setLanguage(languageVal);
         }
       }
-      const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
-        ? JSON.parse(questionData.Level?.L1?.Inner_Questions || '[]')
-        : [];
-      const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions || '[]')
-        ? JSON.parse(questionData.Level?.L2?.Inner_Questions || '[]')
-        : [];
-      const L3InnerQuestion = isJsonString(questionData.Level?.L3?.Inner_Questions || '[]')
-        ? JSON.parse(questionData.Level?.L3?.Inner_Questions || '[]')
-        : [];
 
       const isLevel1NoInnerQuestion = questionData.Level?.L1 && !L1InnerQuestion.length;
       const isLevel2NoInnerQuestion =
@@ -310,7 +329,7 @@ const ControlSection3 = ({
           if (ans.L2) {
             const updateAnsL2 = setSelectedQuestionAns(data2, ans.L2);
             setQuestionL2(updateAnsL2);
-            if (!question3Api) {
+            if (!question3Api && !questionData?.data?.L3) {
               if (!loadingRef?.current?.L3) {
                 setLoadingLevel({ ...loadingLevel, L3: true });
                 dispatch(
@@ -359,10 +378,6 @@ const ControlSection3 = ({
               setQuestionL3([]);
             }
           }
-
-          if (!(L3InnerQuestion.length > 0)) {
-            setTerminating(true);
-          }
         } else {
           if (
             apiQuestionL3 &&
@@ -373,7 +388,7 @@ const ControlSection3 = ({
           }
         }
       }
-    }, 600);
+    }, 100);
   }, [questionData.Level, ans, languageVal]);
 
   useEffect(() => {
@@ -390,7 +405,8 @@ const ControlSection3 = ({
 
       if (
         (isEmptySection && !questionData.loadingLevel) ||
-        (ansLength > 0 && questionL3[0]?.innerOptions?.length === ansLength)
+        (ansLength > 0 && questionL3[0]?.innerOptions?.length === ansLength) ||
+        showNoQuestionAns
       ) {
         setTerminating(true);
       } else {
@@ -401,6 +417,12 @@ const ControlSection3 = ({
 
   const isL1NoAnsSelect = ans?.L1 ? JSON.stringify(ans?.L1).includes('_no') : false;
   const isL2NoAnsSelect = ans?.L2 ? JSON.stringify(ans?.L2).includes('_no') : false;
+
+  useEffect(() => {
+    if (questionL3.length > 0 && !isL1NoAnsSelect && !isL2NoAnsSelect) {
+      setTerminating(!(L3InnerQuestion.length > 0));
+    }
+  }, [L3InnerQuestion, isL1NoAnsSelect, isL2NoAnsSelect, questionL3]);
 
   useEffect(() => {
     if (!(showNoQuestion || isL1NoAnsSelect || isL2NoAnsSelect)) {
@@ -525,7 +547,7 @@ const ControlSection3 = ({
                       className="form-control"
                       maxLength="2500"
                       value={showNoQuestionAns}
-                      onChange={(e) => handleChangeNoQuestion(e.target.value)}
+                      onChange={(e) => handleChangeNoQuestion(e.target.value.trimStart())}
                       disabled={!isModal}
                     />
                   </Form.Group>
@@ -534,9 +556,9 @@ const ControlSection3 = ({
             </>
           )}
 
-          {questionData.loadingLevel && (
+          {(questionData.loadingLevel || questionData.loading) && (
             <div className="d-flex w-100 justify-content-center pt-4" id="loader">
-              <Loader />
+              <Loader color="#e7c55d" />
             </div>
           )}
         </div>

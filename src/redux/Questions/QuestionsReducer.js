@@ -287,7 +287,7 @@ export const QuestionsReducer = (state = initialState, { type, payload = {} }) =
         question3: {
           ...state.question3,
           data: payload.data,
-          Level: { ...state.question3.Level, ...payload.Level },
+          Level: payload.data,
           loading: false,
         },
       };

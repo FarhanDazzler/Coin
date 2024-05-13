@@ -30,7 +30,7 @@ const ControlOwnerTable = ({ tableName }) => {
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
 
   let controlOwnerData = ([] = []);
-  if (loginUserRole === 'Control owner') {
+  if (loginUserRole === 'Control Owner') {
     controlOwnerData = getControlOwnerData.data[0]?.cOwnerData || [];
   } else {
     controlOwnerData = getControlOwnerData.data[1]?.cOverSightData || [];
@@ -252,7 +252,6 @@ const ControlOwnerTable = ({ tableName }) => {
     let gcdPayload = {
       controlId: id,
     };
-    console.log('@@@@ -> 1');
     dispatch(getControlDataAction(payload));
     dispatch(getControlDataGcdAction(gcdPayload));
     history.push(`${history.location.pathname}?Control_ID=${id}`);
@@ -263,7 +262,7 @@ const ControlOwnerTable = ({ tableName }) => {
   }
 
   useEffect(() => {
-    if (loginUserRole === 'Control owner') {
+    if (loginUserRole === 'Control Owner') {
       setTableData(getControlOwnerData.data[0]?.cOwnerData || []);
     } else {
       setTableData(getControlOwnerData.data[1]?.cOverSightData || []);

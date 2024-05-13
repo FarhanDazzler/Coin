@@ -149,6 +149,109 @@ const ReviewSubmittedResponses = ({
   );
 };
 
+const ReviewResponsesAtAllTime = ({
+  scopeData,
+  letterType,
+  getBUSubmitResponseState,
+  getBUSection2SignatureResponseState,
+  modalType,
+}) => {
+  const history = useHistory();
+  const exportResponseToExcel = (info, responses, Last_Saved_At) => {
+    // Create a new workbook
+    const wb = XLSX.utils.book_new();
+
+    // Create a worksheet for the info data
+    const infoSheet = XLSX.utils.json_to_sheet([
+      { Key: 'Title', Value: info.Title },
+      { Key: 'Letter Type', Value: info.Letter_Type },
+      { Key: 'Assessment Cycle', Value: info.Assessment_Cycle },
+      { Key: 'Year', Value: info.Year },
+      { Key: 'Zone', Value: info.Zone },
+      { Key: 'BU', Value: info.BU },
+      { Key: 'Entity', Value: info.Entity },
+      { Key: 'Local Internal Control', Value: info.Disclosure_Processor },
+      { Key: 'Finance Director', Value: info.Finance_Director },
+      { Key: 'BU Head', Value: info.BU_Head },
+      { Key: 'Zone Control', Value: info.Zone_Control },
+      { Key: 'Zone VP', Value: info.Zone_VP },
+      { Key: 'Submitted on', Value: Last_Saved_At },
+    ]);
+    XLSX.utils.book_append_sheet(wb, infoSheet, 'Information');
+
+    // Create a worksheet for the responses data with questionText converted to plain text
+    const responsesSheet = XLSX.utils.json_to_sheet(
+      responses.map((response) => ({
+        'Question Number': response.questionNumber,
+        'Question Text': convert(response.questionText),
+        Response: response.response,
+        Comment: response.comment,
+        'Action plan due date - Month': response.month,
+        'Action plan due date - Year': response.year,
+      })),
+    );
+    XLSX.utils.book_append_sheet(wb, responsesSheet, 'Responses');
+
+    // Save the workbook to an Excel file
+    const fileName = `${scopeData?.Letter_Type} - ${scopeData?.Disclosure_Processor} - Submitted-Responses - ${scopeData?.Title} - ${scopeData?.Assessment_Cycle} - ${scopeData?.Year}`;
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
+  };
+
+  return (
+    <>
+      <div>
+        <div className="d-flex align-items-center" style={{ paddingTop: '14px' }}>
+          <span className="review-response-page-title">Review Responses</span>
+          <button
+            className="export_excel_button"
+            onClick={() => {
+              const info = {
+                Title: scopeData?.Title,
+                Letter_Type: scopeData?.Letter_Type,
+                Assessment_Cycle: scopeData?.Assessment_Cycle,
+                Year: scopeData?.Year,
+                Zone: scopeData?.Zone,
+                BU: scopeData?.BU,
+                Entity: scopeData?.Entity,
+                Disclosure_Processor: scopeData?.Disclosure_Processor,
+                Finance_Director: scopeData?.Finance_Director,
+                BU_Head: scopeData?.BU_Head,
+                Zone_Control: scopeData?.Zone_Control,
+                Zone_VP: scopeData?.Zone_VP,
+              };
+              exportResponseToExcel(
+                info,
+                getBUSubmitResponseState?.data?.Latest_Response,
+                getBUSubmitResponseState?.data?.Last_Saved_At,
+              );
+            }}
+          >
+            <strong>Export</strong>
+          </button>
+        </div>
+      </div>
+      <Section0 scopeData={scopeData} letterType={letterType} isReview={true} />
+
+      <ReviewSection1 submittedResponses={getBUSubmitResponseState?.data?.Latest_Response} />
+
+      <ReviewSection2 getBUSection2SignatureResponseState={getBUSection2SignatureResponseState} />
+
+      {scopeData?.s3_submitted && <ReviewSection3 />}
+
+      <div className="d-flex align-items-center justify-content-end">
+        <Button
+          //color="secondary"
+          color="neutral"
+          className="w-100"
+          onClick={() => history.push('/')}
+        >
+          Go Back
+        </Button>
+      </div>
+    </>
+  );
+};
+
 const BULetterForm = (props) => {
   const dispatch = useDispatch();
 
@@ -166,7 +269,6 @@ const BULetterForm = (props) => {
   const getBUScopeDataState = useSelector(getBUScopeDataSelector);
 
   //const scopeData = getBUScopeDataState?.data;
-  console.log('@@@@', modalType, id, getBUScopeDataState?.data);
 
   useEffect(() => {
     const payloadForGettingInstructions = {
@@ -376,7 +478,7 @@ const BULetterForm = (props) => {
               </div>
             ) : (
               <div className="col-lg-12">
-                <ReviewSubmittedResponses
+                <ReviewResponsesAtAllTime
                   scopeData={getBUScopeDataState?.data}
                   letterType={letterType}
                   getBUSubmitResponseState={getBUSubmitResponseState}

@@ -51,6 +51,7 @@ import Review from './pages/Review';
 import { Redirect } from 'react-router';
 import { PageNotFound } from './pages/PageNotFound';
 import CryptoJS from 'crypto-js';
+import FunctionalLetterForm from './pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm.jsx';
 
 // User categories --> User Role
 // const userRole = 'Global Internal Control';
@@ -94,9 +95,14 @@ const Pages = () => {
 
   const isControlPage = useMemo(() => {
     return (
-      ['Control owner', 'Control oversight', 'control_owner', 'control_oversight']?.includes(
-        role,
-      ) || false
+      [
+        'Control owner',
+        'Control oversight',
+        'control_owner',
+        'control_oversight',
+        'Control Owner',
+        'Control Oversight',
+      ]?.includes(role) || false
     );
   }, [loginRole, userRole]);
   // eslint-disable-next-line no-unused-vars
@@ -106,19 +112,12 @@ const Pages = () => {
       .get(`${process.env.REACT_APP_API_BASE_URL}/login?User_oid=${accounts[0]?.idTokenClaims.oid}`)
       .then(async (res) => {
         const saRoles = res?.data.data?.sa_roles || [];
-        if (!localStorage.getItem('Roles')) localStorage.setItem('Roles', saRoles);
         const updatedParam = {};
         if (res?.data.data?.rl_roles?.BU) updatedParam.BU = res?.data.data?.rl_roles?.BU;
         if (res?.data.data?.rl_roles?.Functional)
           updatedParam.Functional = res?.data.data?.rl_roles?.Functional;
-        localStorage.setItem('rl_roles', JSON.stringify(updatedParam || []));
-        localStorage.setItem('sa_roles', saRoles);
-        dispatch(
-          setRoles({
-            rl_roles: updatedParam || [],
-            sa_roles: saRoles,
-          }),
-        );
+
+        dispatch(setRoles(res?.data.data));
         Cookies.set('token', res?.data.token);
       })
       .catch((err) => {
@@ -223,37 +222,6 @@ const Pages = () => {
     }
   }, [accounts, inProgress]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get('https://api.ipify.org?format=json')
-  //     .then((res) => {
-  //       const ip = res?.data?.ip;
-  //       axios
-  //         .get(`https://ipapi.co/${ip}/json/`)
-  //         .then((res) => {
-  //           const { city, country_name, region } = res?.data;
-
-  //           // Combine IP and location information
-  //           const dataToEncrypt = `${ip},${city},${region},${country_name}`;
-
-  //           // Get encryption key from environment variable
-  //           const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
-
-  //           // Encrypt the data
-  //           const encryptedData = CryptoJS.AES.encrypt(dataToEncrypt, encryptionKey).toString();
-
-  //           // Store the encrypted data in localStorage
-  //           localStorage.setItem('encryptedData', encryptedData);
-  //         })
-  //         .catch((err) => {
-  //           console.log(err);
-  //         });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
   return (
     <div className="page">
       <ToastContainer autoClose={15000} />
@@ -299,6 +267,11 @@ const Pages = () => {
           {userRole === 'Global internal control' || module === 'Functional' || module === 'BU'
             ? AdminRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
+          <Route
+            exact
+            path="/REP-Letters/attempt-letter/functional-letter-form/:id/:modalType"
+            component={FunctionalLetterForm}
+          />
           <Route exact path="/BU-Letter-approve/:id" component={BU_Letter_LazyApprovalSection2} />
           <Route
             exact

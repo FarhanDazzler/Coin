@@ -11,7 +11,6 @@ import ScheduleSurveyBUPage from '../../pages/REP_Letters_Module/SchedulingAndTr
 import ScheduleSurveyFunctionalPage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/ScheduleLetter/ScheduleSurveyFunctionalLandingPage';
 import FunctionalDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/Functional/Table/FunctionalDetailsTableData';
 import BUDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/BU/Table/BUDetailsTableData';
-import FunctionalLetterForm from '../../pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm';
 import BULetterForm from '../../pages/REP_Letters_Module/LetterForm/BU/BULetterForm';
 import ZoneForm from '../../pages/REP_Letters_Module/LetterForm/Zone/ZoneForm';
 import RepLetterReporting from '../../pages/REP_Letters_Module/Reporting/RepLetterReporting';
@@ -21,7 +20,7 @@ import ZoneDetailsTableData from '../../pages/REP_Letters_Module/SchedulingAndTr
 import ScheduleSurveyZonePage from '../../pages/REP_Letters_Module/SchedulingAndTriggering/BU/Zone/ScheduleLetter/ScheduleSurveyZoneLandingPage';
 import EditSection1 from '../../pages/REP_Letters_Module/LetterForm/BU/FormComponents/EditSection1';
 import EditZoneSection1 from '../../pages/REP_Letters_Module/LetterForm/Zone/FormComponents/EditZoneSection1';
-import MDMSiteAndPlant from '../../pages/REP_Letters_Module/Home/MDM/OrganizationHierarchy/MDMSiteAndPlant';
+import MDMSiteAndPlant from '../../pages/REP_Letters_Module/Home/MDM/SitesAndPlants/MDMSiteAndPlant';
 
 export const RepLettersRoutes = [
   {
@@ -65,7 +64,7 @@ export const RepLettersRoutes = [
     component: BUModifyQuestions,
   },
   {
-    path: '/REP-Letters/questionbank/Function-modify',
+    path: '/REP-Letters/questionbank/Function-modify/:selectedFunction',
     exact: true,
     component: FunctionModifyQuestions,
   },
@@ -93,11 +92,6 @@ export const RepLettersRoutes = [
     path: '/REP-Letters/scheduling-and-triggering/bu-letter-details',
     exact: true,
     component: BUDetailsTableData,
-  },
-  {
-    path: '/REP-Letters/attempt-letter/functional-letter-form',
-    exact: true,
-    component: FunctionalLetterForm,
   },
   {
     path: '/REP-Letters/attempt-letter/BU-letter-form/:id/:modalType',

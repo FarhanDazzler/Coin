@@ -22,8 +22,6 @@ const ZoneLegalRepresentativeHomePage = () => {
   const selectedUserRole = localStorage.getItem('selected_Role');
   const getHomePageData = useSelector(get_BUZone_ZoneLegalRepresentativeHomePageDataSelector);
 
-  const [yearValue, setYearValue] = useState([]);
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
@@ -32,7 +30,7 @@ const ZoneLegalRepresentativeHomePage = () => {
 
   const statusInfo = useMemo(() => {
     const tableData = getHomePageData?.data[0]?.zonelegaRepData || [];
-    if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length) {
+    if (!zoneValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);
       return {
@@ -47,8 +45,6 @@ const ZoneLegalRepresentativeHomePage = () => {
 
     const updatedData = tableData?.filter((i) => {
       return (
-        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true)
       );
     });
@@ -63,7 +59,7 @@ const ZoneLegalRepresentativeHomePage = () => {
       completed: getNumberOfItem(allUpdatestatus, 'Completed'),
       total: allUpdatestatus?.length,
     };
-  }, [getHomePageData?.data[0], yearValue, assessmentCycleValue, zoneValue, getNumberOfItem]);
+  }, [getHomePageData?.data[0], zoneValue, getNumberOfItem]);
 
   return (
     <div>
@@ -89,10 +85,6 @@ const ZoneLegalRepresentativeHomePage = () => {
       </div> */}
 
       <ZoneLegalRepresentativeTable
-        yearValue={yearValue}
-        setYearValue={setYearValue}
-        assessmentCycleValue={assessmentCycleValue}
-        setAssessmentCycleValue={setAssessmentCycleValue}
         zoneValue={zoneValue}
         setZoneValue={setZoneValue}
       />

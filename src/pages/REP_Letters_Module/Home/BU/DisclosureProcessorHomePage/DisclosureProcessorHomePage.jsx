@@ -24,8 +24,6 @@ const DisclosureProcessorHomePage = () => {
     get_BU_Disclosure_ProcessorHomePageDataSelector,
   );
 
-  const [yearValue, setYearValue] = useState([]);
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([]);
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
 
@@ -35,7 +33,7 @@ const DisclosureProcessorHomePage = () => {
 
   const statusInfo = useMemo(() => {
     const tableData = getDisclosureProcessorHomePageData?.data[0]?.dpData || [];
-    if (!yearValue.length && !assessmentCycleValue.length && !zoneValue.length && !buValue.length) {
+    if (!zoneValue.length && !buValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);
       return {
@@ -50,8 +48,6 @@ const DisclosureProcessorHomePage = () => {
 
     const updatedData = tableData?.filter((i) => {
       return (
-        (yearValue?.length ? yearValue.includes(i.Year) : true) &&
-        (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true)
       );
@@ -69,8 +65,6 @@ const DisclosureProcessorHomePage = () => {
     };
   }, [
     getDisclosureProcessorHomePageData?.data[0],
-    yearValue,
-    assessmentCycleValue,
     zoneValue,
     buValue,
     getNumberOfItem,
@@ -101,10 +95,6 @@ const DisclosureProcessorHomePage = () => {
       </div>
 
       <DisclosureProcessorTable
-        yearValue={yearValue}
-        setYearValue={setYearValue}
-        assessmentCycleValue={assessmentCycleValue}
-        setAssessmentCycleValue={setAssessmentCycleValue}
         zoneValue={zoneValue}
         setZoneValue={setZoneValue}
         buValue={buValue}

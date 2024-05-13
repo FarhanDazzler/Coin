@@ -174,11 +174,11 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
     {
       accessorKey: 'BU',
       id: 'BU',
-      header: 'BU / Entity',
+      header: 'BU / Entity / Plants',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
-      size: 200,
+      size: 220,
     },
     {
       accessorKey: 'Functional',
@@ -189,15 +189,15 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
       cellClassName: 'dashboardCell',
       size: 200,
     },
-    {
-      accessorKey: 'Applicability',
-      id: 'Applicability',
-      header: 'Applicability',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 100,
-    },
+    // {
+    //   accessorKey: 'Applicability',
+    //   id: 'Applicability',
+    //   header: 'Applicability',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 100,
+    // },
     {
       accessorKey: 'Recipient',
       id: 'Recipient',
@@ -293,7 +293,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
       }).then((res) => {
         if (res.isConfirmed) {
           const cloneData = tableData?.map((data, i) => {
-            const clone = (({ id, Functional, ...o }) => o)(data);
+            const clone = (({ id, ...o }) => o)(data);
             return clone;
           });
 
@@ -322,7 +322,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
       console.log(editTableIndex, 'editTableIndex');
       const data = tableData.filter((data, i) => editTableIndex.includes(data.id));
       const cloneData = data?.map((data, i) => {
-        const clone = (({ id, Functional, ...o }) => o)(data);
+        const clone = (({ id, ...o }) => o)(data);
         return clone;
       });
       let payload = {

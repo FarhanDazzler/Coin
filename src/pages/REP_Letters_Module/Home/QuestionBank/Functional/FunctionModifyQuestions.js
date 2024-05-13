@@ -26,6 +26,7 @@ import {
   getLetterNameFromFunctionSelector,
 } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
 import RemoveWarningModal from '../../../../../components/UI/AttributesRemoveModal';
+import { useParams } from 'react-router';
 
 const Options = ({
   setEditableData,
@@ -88,8 +89,8 @@ const Options = ({
 
         <div>
           <Group position="right" spacing="sm">
-            <Radio disabled label="I have nothing to disclose" value="Yes" size="md" />
-            <Radio disabled label="I want to disclose" value="No" size="md" />
+            <Radio disabled label="I comply" value="Yes" size="md" />
+            <Radio disabled label="I do not comply / I don't know" value="No" size="md" />
             {/* <Radio disabled label="NA (Not Applicable)" value="NA" size="md" /> */}
           </Group>
         </div>
@@ -117,7 +118,8 @@ const FunctionModifyQuestions = (props) => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const selectedFunction = props.location.state.data?.function;
+  const {selectedFunction} =  useParams()
+
   const [ShowBUModifyModal, setShowBUModifyModal] = useState(false);
   const [editableData, setEditableData] = useState();
   const [isEdit, setIsEdit] = useState(false);

@@ -135,12 +135,15 @@ const ReviewSection2 = (props) => {
                                 <span className="golden-text">
                                   {getBUSection2SignatureResponseState?.data?.signatures?.fd?.ip}
                                 </span>{' '}
-                                And location{' '}
+                                and location{' '}
                                 <span className="golden-text">
-                                  {
-                                    getBUSection2SignatureResponseState?.data?.signatures?.fd
-                                      ?.location
-                                  }
+                                  {getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                    ?.location == 'Latitude: , Longitude: ' ||
+                                  getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                    ?.location == 'User denied Geolocation'
+                                    ? 'was not available'
+                                    : getBUSection2SignatureResponseState?.data?.signatures?.fd
+                                        ?.location}
                                 </span>{' '}
                                 (User Object ID:{' '}
                                 <span className="golden-text">
@@ -165,10 +168,10 @@ const ReviewSection2 = (props) => {
                           )}
                       </>
                     )}
-                    <Divider className="renderBlockWrapper_divider" size="xs" />
                     {getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted &&
                     getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ? (
                       <div className="col-lg-12">
+                        <Divider className="renderBlockWrapper_divider" size="xs" />
                         <p className="golden-text">
                           <b>Zone VP :</b>
                         </p>
@@ -225,6 +228,7 @@ const ReviewSection2 = (props) => {
                           getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ===
                             '' && (
                             <div className="col-lg-12 auto-auth">
+                              <Divider className="renderBlockWrapper_divider" size="xs" />
                               <p className="golden-text">
                                 <b>Zone VP :</b>
                               </p>
@@ -250,12 +254,15 @@ const ReviewSection2 = (props) => {
                                 <span className="golden-text">
                                   {getBUSection2SignatureResponseState?.data?.signatures?.zv?.ip}
                                 </span>{' '}
-                                And location{' '}
+                                and location{' '}
                                 <span className="golden-text">
-                                  {
-                                    getBUSection2SignatureResponseState?.data?.signatures?.zv
-                                      ?.location
-                                  }
+                                  {getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                    ?.location == 'Latitude: , Longitude: ' ||
+                                  getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                    ?.location == 'User denied Geolocation'
+                                    ? 'was not available'
+                                    : getBUSection2SignatureResponseState?.data?.signatures?.zv
+                                        ?.location}
                                 </span>{' '}
                                 (User Object ID:{' '}
                                 <span className="golden-text">
@@ -280,10 +287,10 @@ const ReviewSection2 = (props) => {
                           )}
                       </>
                     )}
-                    <Divider className="renderBlockWrapper_divider" size="xs" />
                     {getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted &&
                     getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ? (
                       <div className="col-lg-12">
+                        <Divider className="renderBlockWrapper_divider" size="xs" />
                         <p className="golden-text">
                           <b>BU Head :</b>
                         </p>
@@ -340,6 +347,7 @@ const ReviewSection2 = (props) => {
                           getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ===
                             '' && (
                             <div className="col-lg-12 auto-auth">
+                              <Divider className="renderBlockWrapper_divider" size="xs" />
                               <p className="golden-text">
                                 <b>BU Head :</b>
                               </p>
@@ -365,12 +373,15 @@ const ReviewSection2 = (props) => {
                                 <span className="golden-text">
                                   {getBUSection2SignatureResponseState?.data?.signatures?.buh?.ip}
                                 </span>{' '}
-                                And location{' '}
+                                and location{' '}
                                 <span className="golden-text">
-                                  {
-                                    getBUSection2SignatureResponseState?.data?.signatures?.buh
-                                      ?.location
-                                  }
+                                  {getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                    ?.location == 'Latitude: , Longitude: ' ||
+                                  getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                    ?.location == 'User denied Geolocation'
+                                    ? 'was not available'
+                                    : getBUSection2SignatureResponseState?.data?.signatures?.buh
+                                        ?.location}
                                 </span>{' '}
                                 (User Object ID:{' '}
                                 <span className="golden-text">
@@ -395,10 +406,10 @@ const ReviewSection2 = (props) => {
                           )}
                       </>
                     )}
-                    <Divider className="renderBlockWrapper_divider" size="xs" />
                     {getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted &&
                     getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ? (
                       <div className="col-lg-12">
+                        <Divider className="renderBlockWrapper_divider" size="xs" />
                         <p className="golden-text">
                           <b>Zone Control :</b>
                         </p>
@@ -455,6 +466,7 @@ const ReviewSection2 = (props) => {
                           getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ===
                             '' && (
                             <div className="col-lg-12 auto-auth">
+                              <Divider className="renderBlockWrapper_divider" size="xs" />
                               <p className="golden-text">
                                 <b>Zone Control :</b>
                               </p>
@@ -480,12 +492,15 @@ const ReviewSection2 = (props) => {
                                 <span className="golden-text">
                                   {getBUSection2SignatureResponseState?.data?.signatures?.zc?.ip}
                                 </span>{' '}
-                                And location{' '}
+                                and location{' '}
                                 <span className="golden-text">
-                                  {
-                                    getBUSection2SignatureResponseState?.data?.signatures?.zc
-                                      ?.location
-                                  }
+                                  {getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                    ?.location == 'Latitude: , Longitude: ' ||
+                                  getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                    ?.location == 'User denied Geolocation'
+                                    ? 'was not available'
+                                    : getBUSection2SignatureResponseState?.data?.signatures?.zc
+                                        ?.location}
                                 </span>{' '}
                                 (User Object ID:{' '}
                                 <span className="golden-text">

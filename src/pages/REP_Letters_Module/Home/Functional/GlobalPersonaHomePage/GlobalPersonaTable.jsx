@@ -153,11 +153,9 @@ const GlobalPersonaTable = ({
               <Button
                 className="mr-2"
                 onClick={() => {
-                  const data = {
-                    scopeData: row.row.original,
-                    modalType: 'review',
-                  };
-                  history.push('/REP-Letters/attempt-letter/functional-letter-form', { data });
+                  history.push(
+                    `/REP-Letters/attempt-letter/functional-letter-form/${row.row.original.id}/review`,
+                  );
                 }}
               >
                 Review
@@ -180,6 +178,15 @@ const GlobalPersonaTable = ({
       accessorKey: 'Function',
       id: 'Function',
       header: 'Function',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 150,
+    },
+    {
+      accessorKey: 'BU',
+      id: 'BU',
+      header: 'BU / Entity / Plants',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',

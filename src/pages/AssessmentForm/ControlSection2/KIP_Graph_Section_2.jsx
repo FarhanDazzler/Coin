@@ -6,6 +6,7 @@ import {
   kpiResultSelector,
 } from '../../../redux/Assessments/AssessmentSelectors';
 import useWindowDimensions from '../../../hooks/useWindowDimensions';
+import { randomColor } from './color';
 
 function convertData(key, data) {
   if (!data) return [];
@@ -54,6 +55,9 @@ const KIP_Graph_Section_2 = ({ isModal, isReview }) => {
         })
       : [];
 
+  // Get colors using randomColor function
+  const colors = randomColor(renderData.length);
+
   return (
     <>
       <div className="d-flex">
@@ -84,8 +88,8 @@ const KIP_Graph_Section_2 = ({ isModal, isReview }) => {
             <YAxis label={{ value: 'KPI', angle: -90, position: 'insideLeft' }} />
             <Tooltip />
             <Legend />
-            {renderData?.map((i) => (
-              <Bar dataKey={i} barSize={20} fill="#413ea0" />
+            {renderData?.map((i, index) => (
+              <Bar key={i} dataKey={i} barSize={20} fill={colors[index]?.hex || '#413ea0'} />
             ))}
             <Line type="monotone" dataKey="L1_Threshold" stroke="#ff7300" />
             <Line type="monotone" dataKey="L2_Threshold" stroke="#00FF00" />

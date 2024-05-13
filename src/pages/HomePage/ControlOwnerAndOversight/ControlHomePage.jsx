@@ -27,7 +27,7 @@ const ControlHomePage = () => {
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
   const [openNPS, setOpenNPS] = useState(false);
   const submitAssessmentResponseState = useSelector(submitAssessmentResponseSelector);
-  console.log('statestate', state);
+
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
   const [receiverValue, setReceiverValue] = useState([]);
@@ -58,7 +58,7 @@ const ControlHomePage = () => {
 
   const statusInfo = useMemo(() => {
     const tableData =
-      loginUserRole === 'Control owner'
+      loginUserRole === 'Control Owner'
         ? getControlOwnerData.data[0]?.cOwnerData || []
         : getControlOwnerData.data[1]?.cOverSightData || [];
     if (!zoneValue.length && !buValue.length && !receiverValue.length && !providerValue.length) {
@@ -167,7 +167,7 @@ const ControlHomePage = () => {
           </div>
         </div>
 
-        {loginUserRole === 'Control owner' ? (
+        {loginUserRole === 'Control Owner' ? (
           <ControlOwnerTable
             tableName="Control Owner"
             zoneValue={zoneValue}
