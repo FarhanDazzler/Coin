@@ -315,7 +315,7 @@ const Section1 = ({ questions, scopeData }) => {
                       as="textarea"
                       placeholder="Enter your comment..."
                       required
-                      onChange={(e) => handleCommentChange(question.id, e.target.value)}
+                      onChange={(e) => handleCommentChange(question.id, e.target.value.trimStart())}
                       name="comment"
                       value={response.comment || ''}
                       rows={4}
@@ -329,7 +329,7 @@ const Section1 = ({ questions, scopeData }) => {
                       as="textarea"
                       placeholder="Enter your action plan..."
                       required
-                      onChange={(e) => handleCommentChange(question.id, e.target.value)}
+                      onChange={(e) => handleCommentChange(question.id, e.target.value.trimStart())}
                       name="comment"
                       value={response.comment || ''}
                       rows={4}

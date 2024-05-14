@@ -256,7 +256,7 @@ const Pages = () => {
             <Route exact path="/Assessments/:control_id" component={AssessmentForm} />
           )}
 
-          {userRole === 'Global internal control' || userRole === 'Zonal internal control'
+          {userRole === 'Global Internal Control' || userRole === 'Zonal Internal Control'
             ? AssessmentModuleRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
 
@@ -264,7 +264,7 @@ const Pages = () => {
             ? RepLettersRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
 
-          {userRole === 'Global internal control' ||
+          {userRole === 'Global Internal Control' ||
           module === 'Functional Representation Letter' ||
           module === 'BU Representation Letter'
             ? AdminRoutes.map((routes, i) => <Route key={i} {...routes} />)
