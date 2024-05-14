@@ -1,3 +1,55 @@
-.mantine-table-custom{
-    opacity: 0.9;
+.mantine-table-custom {
+  opacity: 0.9;
+}
+
+.kpi_table_row {
+  .export_button {
+    width: auto;
+    font-size: 14px;
+  }
+}
+
+.kpi_module_buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .submit-btn {
+    margin-right: 30px;
+  }
+  .custom-btn {
+    height: 36px;
+    background-color: #ffd700;
+    padding: 2px 20px;
+    border: none;
+    border-radius: 8px;
+    color: black;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .choose-file {
+    padding-top: 5px;
+    border-radius: 8px 0px 0px 8px;
+    border-right: 1px solid black;
+  }
+  .upload-btn {
+    border-radius: 0px 8px 8px 0px;
+  }
+  .choose-file:hover {
+    cursor: pointer;
+  }
+}
+.file-input {
+  input[type='file'] {
+    display: none;
+  }
+}
+.kpi_ic_table_select_zone_section {
+  display: flex;
+  justify-content: center;
+}
+.kpi_ic_table_select_zone_section_label {
+  color: #fff !important;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
 }

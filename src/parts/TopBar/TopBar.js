@@ -24,6 +24,7 @@ import Select from '../../components/UI/Select/Select';
 import i18n from '../../i18n/i18n';
 import { useTranslation } from 'react-i18next';
 import { authAPIRolesSelector } from '../../redux/Auth/AuthSelectors';
+import { AlignCenter } from 'tabler-icons-react';
 
 const TopBar = (props) => {
   const history = useHistory();
@@ -144,6 +145,21 @@ const TopBar = (props) => {
                 <li className="nav-item">
                   <a
                     className={`navbar-link ${
+                      ['/kpi', '/register'].includes(location?.pathname) ? ' active' : ''
+                    }`}
+                    onClick={() => {
+                      history.push('/kpi');
+                    }}
+                  >
+                    <FeatherIcon icon="grid" size={14} />
+                    &nbsp;{'KPI Module'}
+                  </a>
+                </li>
+              }
+              {
+                <li className="nav-item">
+                  <a
+                    className={`navbar-link ${
                       ['/master-data-management', '/register'].includes(location?.pathname)
                         ? ' active'
                         : ''
@@ -237,7 +253,7 @@ const TopBar = (props) => {
             }}
           >
             <FeatherIcon icon="pocket" size={14} />
-            {' Report a Bug'}
+            &nbsp;{'Report a Bug'}
           </a>
         </div>
       </div>

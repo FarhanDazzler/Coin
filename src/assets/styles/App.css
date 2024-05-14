@@ -19477,6 +19477,9 @@ a.btn.btn-primary {
   margin-top: 3px;
   margin-bottom: 3px;
   padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .nav-tabs .navbar-link.active {

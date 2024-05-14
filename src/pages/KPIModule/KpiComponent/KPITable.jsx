@@ -1,16 +1,26 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   MRT_GlobalFilterTextInput,
   MRT_ToggleFiltersButton,
   MantineReactTable,
   useMantineReactTable,
 } from 'mantine-react-table';
+import readXlsxFile from 'read-excel-file';
+import { getCsvTampredDataAction } from '../../../redux/CsvTampred/CsvTampredAction';
 import { Box, Button, Flex, Menu, Text, Title, MantineProvider } from '@mantine/core';
-import { IconUserCircle, IconSend } from '@tabler/icons-react';
+import Workbook from 'react-excel-workbook';
 import { data } from './data';
 import '../KpiModule.scss';
+import { useTranslation } from 'react-i18next';
 
-const KPITable = ({ tableData, tableColumns }) => {
+const KPITable = () => {
+  const { t } = useTranslation();
+  const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
+  const [excelFile, setExcelFile] = useState(null);
+  const [csvUpdateData, setScvUpdateData] = useState(0);
+  const dispatch = useDispatch();
+  const [tableData, setTableData] = useState([]);
   const columns = useMemo(
     () => [
       {
@@ -40,6 +50,7 @@ const KPITable = ({ tableData, tableColumns }) => {
       {
         accessorKey: 'email', //accessorKey used to define `data` column. `id` gets set to accessorKey automatically
         enableClickToCopy: true,
+        filterVariant: 'autocomplete',
         header: 'Email',
         size: 300,
       },
@@ -107,7 +118,63 @@ const KPITable = ({ tableData, tableColumns }) => {
     ],
     [],
   );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (excelFile !== null) {
+      document.getElementById('combine_btn').reset();
 
+      var myHeaders = new Headers();
+      myHeaders.append('Authorization', 'Basic Q09JTjpDT0lOX1NlY3VyZUAxMjM=');
+      myHeaders.append('Content-Type', 'application/json');
+
+      var apiBody = {
+        input_table: tableData,
+        output_table: excelFile,
+      };
+      console.log(excelFile);
+      dispatch(getCsvTampredDataAction(apiBody));
+      if (stateCsvTampred?.data === false) {
+        // let newDataArray = tableData?.map((data, i) => {
+        //   return {
+        //     ...data,
+        //     Numerator: excelFile[i]?.Numerator,
+        //     Denominator: excelFile[i]?.Denominator,
+        //     Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
+        //     Source_System: excelFile[i]['Link to data'],
+        //   };
+        // });
+        // console.log(newDataArray, 'newDataArray');
+        // setTableData([...newDataArray]);
+        // setScvUpdateData(csvUpdateData + 1);
+      } else {
+        setScvUpdateData(0);
+      }
+    } else {
+      setTableData(null);
+    }
+  };
+  const handleFile = (e) => {
+    let selectedFile = e.target.files[0];
+    if (selectedFile) {
+      if (selectedFile) {
+        readXlsxFile(selectedFile).then((data) => {
+          setExcelFile(
+            data.slice(1).map((d) => {
+              let obj = {};
+              d.map((v, i) => {
+                obj[data[0][i]] = v;
+              });
+              return obj;
+            }),
+          );
+        });
+      } else {
+        setExcelFile(null);
+      }
+    } else {
+      // console.log('plz select your file');
+    }
+  };
   const table = useMantineReactTable({
     columns,
     data, //must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
@@ -168,37 +235,58 @@ const KPITable = ({ tableData, tableColumns }) => {
       };
 
       return (
-        <Flex p="md" justify="space-between">
+        <Flex p="md" justify="space-between" className="kpi_module_buttons">
+          <Flex sx={{ gap: '8px' }}>
+            <button className="custom-btn mt-2 submit-btn">Submit</button>
+            <div className="row kpi_table_row" id="export_button_right">
+              <Workbook
+                filename={`data.xlsx`}
+                element={
+                  <button className="custom-btn mt-2">
+                    {t('selfAssessment.assessmentForm.exportToExcel')}
+                  </button>
+                }
+              >
+                <Workbook.Sheet data={data} name="Sheet A">
+                  <Workbook.Column label="Global_KPI_Code" value="firstName" />
+                  <Workbook.Column label="Applicability" value="Applicability" />
+                  <Workbook.Column label="Entity_ID" value="Entity_ID" />
+                  <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />
+                  <Workbook.Column label="Numerator" value="Numerator" />
+                  <Workbook.Column label="Expected_Denominator" value="Expected_Denominator" />
+                  <Workbook.Column label="Denominator" value="Denominator" />
+                  <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
+                  <Workbook.Column label="Month" value="Month" />
+                  <Workbook.Column
+                    label="KPI Data source (Select from Excel/PBI/Celonis/Others)"
+                    value="Upload_Approach"
+                  />
+                  <Workbook.Column label="Link to data" value="Source_System" />
+                  <Workbook.Column label="L1_Result" value="L1_Result" />
+                  <Workbook.Column label="L2_Result" value="L2_Result" />
+                  <Workbook.Column label="L3_Result" value="L3_Result" />
+                </Workbook.Sheet>
+              </Workbook>
+            </div>
+
+            <form onSubmit={handleSubmit} id="combine_btn" className="kpi_module_form">
+              <div className="d-flex align-items-center">
+                <div className="mt-2">
+                  <label htmlFor="uploadfile" className="file-input">
+                    <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
+                    <div className="custom-btn choose-file">Choose File</div>
+                  </label>
+                </div>
+
+                <button type="submit" className="custom-btn upload-btn" disabled={!excelFile}>
+                  Upload
+                </button>
+              </div>
+            </form>
+          </Flex>
           <Flex gap="xs">
-            {/* import MRT sub-components */}
             <MRT_GlobalFilterTextInput table={table} />
             <MRT_ToggleFiltersButton table={table} />
-          </Flex>
-          <Flex sx={{ gap: '8px' }}>
-            <Button
-              color="red"
-              disabled={!table.getIsSomeRowsSelected()}
-              onClick={handleDeactivate}
-              variant="filled"
-            >
-              Deactivate
-            </Button>
-            <Button
-              color="green"
-              disabled={!table.getIsSomeRowsSelected()}
-              onClick={handleActivate}
-              variant="filled"
-            >
-              Activate
-            </Button>
-            <Button
-              color="blue"
-              disabled={!table.getIsSomeRowsSelected()}
-              onClick={handleContact}
-              variant="filled"
-            >
-              Contact
-            </Button>
           </Flex>
         </Flex>
       );
@@ -206,7 +294,7 @@ const KPITable = ({ tableData, tableColumns }) => {
   });
   return (
     <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
-      <MantineReactTable table={table} theme={{}} />
+      <MantineReactTable table={table} />
     </MantineProvider>
   );
 };
