@@ -484,6 +484,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
                           onBlur={handleBlur}
                           onChange={handleChange}
                           readOnly={false}
+                          min={values.Recipient_Reminder_2}
                           className="form-control"
                         />
 
@@ -531,6 +532,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
                           onBlur={handleBlur}
                           onChange={handleChange}
                           readOnly={false}
+                          min={values.Start_Date}
                           className="form-control"
                         />
 
@@ -562,6 +564,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
                           onBlur={handleBlur}
                           onChange={handleChange}
                           readOnly={false}
+                          min={values.Recipient_Reminder_1}
                           className="form-control"
                         />
 
