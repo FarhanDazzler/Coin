@@ -24,7 +24,7 @@ const NotAuthorized = (props) => {
                 <button
                   className="not-authorized-btn"
                   onClick={() => {
-                    history.push('/contact-us', { from: 'not-authorized' });
+                    history.push('/not-authorized/contact-us', { from: 'not-authorized' });
                   }}
                 >
                   <FeatherIcon icon="pocket" size={16} style={{ marginRight: 5 }} /> {'Contact Us'}

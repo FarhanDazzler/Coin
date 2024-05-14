@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
 import { Loader } from '@mantine/core';
-import { useHistory, useParams } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import RenderBlock from '../../../components/RenderBlock';
 import RenderBlockWrapper from '../../../components/RenderBlock/RenderBlockWrapper';
@@ -118,10 +117,6 @@ const ControlSection3 = ({
   };
 
   useEffect(() => {
-    dispatch(getSection3Questions({ Level: 'L1', Control_ID: Control_ID }));
-  }, []);
-
-  useEffect(() => {
     if (showNoQuestion) {
       setShowNoQuestionAns('');
       // if user select any option then automatically scroll bottom
@@ -200,99 +195,99 @@ const ControlSection3 = ({
   }, [questionData.Level]);
 
   useEffect(() => {
-    setTimeout(() => {
-      const updateAns = {};
-      if (ans.L1 && questionData.Level?.L1) {
-        const ansObjectL1 = Object.keys(ans.L1);
-        // Check condition for selected ans and all question length same or not
-        if (ansObjectL1.length === questionL1[0]?.innerOptions?.length) {
-          let allYesFilterData1 = Object.keys(ans.L1).filter((key) => {
-            return ans.L1[key].includes('yes');
-          });
+    if (!lastAns) return;
 
-          if (
-            ansObjectL1.length === allYesFilterData1.length &&
-            !questionL2.length &&
-            !question2Api &&
-            !questionData?.data?.L2
-          ) {
-            dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
-            setQuestion2Api(true);
-          }
+    const updateAns = {};
+    if (ans.L1 && questionData.Level?.L1) {
+      const ansObjectL1 = Object.keys(ans.L1);
+      // Check condition for selected ans and all question length same or not
+      if (ansObjectL1.length === questionL1[0]?.innerOptions?.length) {
+        let allYesFilterData1 = Object.keys(ans.L1).filter((key) => {
+          return ans.L1[key].includes('yes');
+        });
+
+        if (
+          ansObjectL1.length === allYesFilterData1.length &&
+          !questionL2.length &&
+          !question2Api &&
+          !questionData?.data?.L2
+        ) {
+          dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
+          setQuestion2Api(true);
+        }
+        updateAns.L1 = ans.L1;
+        setAns(updateAns);
+        setTerminating(false);
+        if (ansObjectL1.length !== allYesFilterData1.length) {
+          setQuestionL2([]);
+          setQuestionL3([]);
+          setShowNoQuestion(true);
+          return;
+        } else {
+          setShowNoQuestion(false);
+        }
+      } else {
+        if (ans.L1) {
           updateAns.L1 = ans.L1;
           setAns(updateAns);
-          setTerminating(false);
-          if (ansObjectL1.length !== allYesFilterData1.length) {
-            setQuestionL2([]);
-            setQuestionL3([]);
-            setShowNoQuestion(true);
-            return;
-          } else {
-            setShowNoQuestion(false);
-          }
-        } else {
-          if (ans.L1) {
-            updateAns.L1 = ans.L1;
-            setAns(updateAns);
-          }
         }
       }
-      //Same for section 2
-      if (ans.L2 && questionData.Level?.L2) {
-        const ansObjectL2 = Object.keys(ans.L2);
-        if (ansObjectL2.length === questionL2[0]?.innerOptions?.length) {
-          let allYesFilterData2 = Object.keys(ans.L2).filter((key) => {
-            return ans.L2[key].includes('yes');
-          });
-          if (
-            ansObjectL2.length === allYesFilterData2.length &&
-            !questionL3.length &&
-            !question2Api &&
-            !questionData?.data?.L3
-          ) {
-            dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
-            setQuestion3Api(true);
-          }
-          updateAns.L2 = ans.L2;
-          setAns(updateAns);
-          setTerminating(false);
-          if (ansObjectL2.length !== allYesFilterData2.length) {
-            setQuestionL3([]);
-            setShowNoQuestion(true);
-            return;
-          } else {
-            setShowNoQuestion(false);
-          }
+    }
+    //Same for section 2
+    if (ans.L2 && questionData.Level?.L2) {
+      const ansObjectL2 = Object.keys(ans.L2);
+      if (ansObjectL2.length === questionL2[0]?.innerOptions?.length) {
+        let allYesFilterData2 = Object.keys(ans.L2).filter((key) => {
+          return ans.L2[key].includes('yes');
+        });
+        if (
+          ansObjectL2.length === allYesFilterData2.length &&
+          !questionL3.length &&
+          !question2Api &&
+          !questionData?.data?.L3
+        ) {
+          dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
+          setQuestion3Api(true);
+        }
+        updateAns.L2 = ans.L2;
+        setAns(updateAns);
+        setTerminating(false);
+        if (ansObjectL2.length !== allYesFilterData2.length) {
+          setQuestionL3([]);
+          setShowNoQuestion(true);
+          return;
         } else {
-          if (ans.L2) {
-            updateAns.L2 = ans.L2;
-            setAns(updateAns);
-          }
+          setShowNoQuestion(false);
+        }
+      } else {
+        if (ans.L2) {
           updateAns.L2 = ans.L2;
           setAns(updateAns);
         }
-      }
-      //Same for section 3
-      if (ans.L3) {
-        const ansObjectL3 = Object.keys(ans.L3);
-        if (ansObjectL3.length === questionL3[0]?.innerOptions?.length) {
-          let allYesFilterData3 = Object.keys(ans.L3).filter((key) => {
-            return ans.L3[key].includes('yes');
-          });
-          if (ansObjectL3.length === allYesFilterData3.length) {
-            setShowNoQuestion(false);
-          }
-          setTerminating(true);
-        }
-        updateAns.L3 = ans.L3;
+        updateAns.L2 = ans.L2;
         setAns(updateAns);
       }
-      if (ans.noQueAns) {
-        setShowNoQuestion(true);
-      } else {
-        setShowNoQuestion(false);
+    }
+    //Same for section 3
+    if (ans.L3) {
+      const ansObjectL3 = Object.keys(ans.L3);
+      if (ansObjectL3.length === questionL3[0]?.innerOptions?.length) {
+        let allYesFilterData3 = Object.keys(ans.L3).filter((key) => {
+          return ans.L3[key].includes('yes');
+        });
+        if (ansObjectL3.length === allYesFilterData3.length) {
+          setShowNoQuestion(false);
+        }
+        setTerminating(true);
       }
-    }, 300);
+      updateAns.L3 = ans.L3;
+      setAns(updateAns);
+    }
+    if (ans.noQueAns) {
+      setShowNoQuestion(true);
+    } else {
+      setShowNoQuestion(false);
+    }
   }, [lastAns]);
 
   useEffect(() => {
@@ -393,7 +388,7 @@ const ControlSection3 = ({
           }
         }
       }
-    }, 600);
+    }, 100);
   }, [questionData.Level, ans, languageVal]);
 
   useEffect(() => {
