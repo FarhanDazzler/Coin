@@ -260,11 +260,13 @@ const Pages = () => {
             ? AssessmentModuleRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
 
-          {module === 'Functional' || module === 'BU'
+          {module === 'Functional Representation Letter' || module === 'BU Representation Letter'
             ? RepLettersRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
 
-          {userRole === 'Global internal control' || module === 'Functional' || module === 'BU'
+          {userRole === 'Global internal control' ||
+          module === 'Functional Representation Letter' ||
+          module === 'BU Representation Letter'
             ? AdminRoutes.map((routes, i) => <Route key={i} {...routes} />)
             : null}
           <Route
