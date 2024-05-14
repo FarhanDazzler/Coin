@@ -99,6 +99,10 @@ const Pages = () => {
     axios
       .get(`${process.env.REACT_APP_API_BASE_URL}/login?User_oid=${accounts[0]?.idTokenClaims.oid}`)
       .then(async (res) => {
+        if(res.data.data[0]=='user does not exist'){
+          history.push('/not-authorized')
+        }
+        const saRoles = res?.data.data?.sa_roles || [];
         const updatedParam = {};
         if (res?.data.data?.rl_roles?.BU) updatedParam.BU = res?.data.data?.rl_roles?.BU;
         if (res?.data.data?.rl_roles?.Functional)
@@ -267,6 +271,7 @@ const Pages = () => {
             component={BU_Zone_Letter_LazyApprovalSection2}
           />
           <Route exact path="/contact-us" component={ContactUs} />
+          <Route exact path="/not-authorized/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
           <Route exact path="/kpi" component={KpiModule} />
           <Route exact path="/POC" component={POC} />
