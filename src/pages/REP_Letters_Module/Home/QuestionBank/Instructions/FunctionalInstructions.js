@@ -107,7 +107,10 @@ const FunctionalInstructions = ({ setShowModal, modalType }) => {
                       as="textarea"
                       placeholder="Instructions"
                       required
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        e.target.value = e.target.value.trimStart();
+                        handleChange(e);
+                      }}
                       isInvalid={!!errors.Instructions}
                       maxLength={5001}
                       name="Instructions"

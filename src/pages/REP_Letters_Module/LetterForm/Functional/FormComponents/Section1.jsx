@@ -260,7 +260,7 @@ const Section1 = ({ questions, assessment_id }) => {
                       as="textarea"
                       placeholder="Enter your comment..."
                       required
-                      onChange={(e) => handleCommentChange(question.id, e.target.value)}
+                      onChange={(e) => handleCommentChange(question.id, e.target.value.trimStart())}
                       name="comment"
                       value={response.comment || ''}
                       rows={2}

@@ -133,9 +133,14 @@ const GIC_Model = ({ setShowModal, ediatbleData, setEditTableData, modalType }) 
                               isInvalid={Boolean(touched.Email && errors.Email)}
                               onBlur={handleBlur}
                               onChange={(e) => {
-                                setFieldValue('Email', e.target.value);
-                                setEmailValue(e.target.value);
-                                handleChangeAd(e.target.value, 'Email');
+                                const {
+                                  target: { value },
+                                } = e;
+                                const newValue = value.trimStart();
+
+                                setFieldValue('Email', newValue);
+                                setEmailValue(newValue);
+                                handleChangeAd(newValue, 'Email');
                               }}
                               readOnly={false}
                               className="form-control"

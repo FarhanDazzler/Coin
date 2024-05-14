@@ -85,6 +85,7 @@ const ControlSection3 = ({
     const noQueAns = value.includes('yes');
     let updateAns = { ...ans };
     if (noQueAns) {
+      setShowNoQuestionAns('');
       setShowNoQuestion(false);
       updateAns.noQueAns = false;
       if (ans?.L1AndL2NoQuestionsAns && ans?.L1AndL2NoQuestionsAns?.failingDue) {
