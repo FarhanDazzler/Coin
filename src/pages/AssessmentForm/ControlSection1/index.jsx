@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getQuestionsSelector } from '../../../redux/Assessments/AssessmentSelectors';
+import {
+  getLatestDraftSelector,
+  getQuestionsSelector,
+} from '../../../redux/Assessments/AssessmentSelectors';
 import {
   getFormatQuestions,
   getLanguageFormat,
@@ -35,6 +38,7 @@ const ControlSection1 = ({
   const dispatch = useDispatch();
   const userFromAD = useSelector(getUserFromADSelector);
   const isValidEmail = validateEmail(qId2Value);
+  const latestDraftData = useSelector(getLatestDraftSelector);
 
   // Call the API for checking if the user is in AD
   // Dependency is debounce, is user has finished typing the only hit the API
@@ -170,7 +174,7 @@ const ControlSection1 = ({
   };
 
   useEffect(() => {
-    if (getQuestions?.data?.length > 0) {
+    if (getQuestions?.data?.length > 0 && !latestDraftData?.data?.Latest_response) {
       const allData = getFormatQuestions(getQuestions?.data, false, null, true);
       const updateLang = getLanguageFormat(allData, language, null);
       setData(updateLang);
