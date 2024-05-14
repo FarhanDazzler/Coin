@@ -1,14 +1,25 @@
+import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
+import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
+import { DotSpinner } from '@uiball/loaders';
+import { MultiSelect } from '@mantine/core';
+import { toast } from 'react-toastify';
 import { Form } from 'react-bootstrap';
 import Select from 'react-select';
-import { DotSpinner } from '@uiball/loaders';
-import { useDispatch, useSelector } from 'react-redux';
 import { getAllZoneSelector } from '../../redux/AssessmentBank/AssessmentBankSelectors';
 import { getAllZone } from '../../redux/AssessmentBank/AssessmentBankAction';
 import PageWrapper from '../../components/wrappers/PageWrapper';
 import KPITable from './KpiComponent/KPITable';
-import { MultiSelect } from '@mantine/core';
-import { toast } from 'react-toastify';
+import {
+  clear_ControlOwner_KPIOwner_ControlOversight_KPI_data,
+  get_ControlOwner_KPIOwner_ControlOversight_KPI_data,
+  clear_ic_KPI_data,
+  get_ic_KPI_data,
+} from '../../redux/KPI_Module/KPI_Action';
+import {
+  get_ControlOwner_KPIOwner_ControlOversight_KPI_dataSelector,
+  get_ic_KPI_dataSelector,
+} from '../../redux/KPI_Module/KPI_Selectors';
 
 function getCurrentYearAndQuarter() {
   const today = new Date();
@@ -41,15 +52,20 @@ const ICTable = () => {
   const currentQuarter = getCurrentYearAndQuarter();
   const previousQuarter = getPreviousYearAndQuarter();
 
+  // API to fetch respective zone of IC user
   useEffect(() => {
     dispatch(getAllZone());
   }, []);
+
   const yearQuarterOption = [currentQuarter, previousQuarter];
   const [yearAndQuarter, setYearAndQuarter] = useState([getCurrentYearAndQuarter()]);
   const { data: getAllZone_State, loading: getAllZoneLoading } = useSelector(getAllZoneSelector);
   const [selectedZone, setSelectedZone] = useState();
   const [zoneValue, setZoneValue] = useState();
-  console.log(getAllZone_State);
+  // State to store api data
+  const KpiDataForIC = useSelector(get_ic_KPI_dataSelector);
+
+  // Converting get all zone data into select dropdown format
   useEffect(() => {
     if (getAllZone_State?.length > 0) {
       const formattedData = getAllZone_State.map((zone) => ({
@@ -64,14 +80,16 @@ const ICTable = () => {
   }, [getAllZone_State]);
 
   useEffect(() => {
-    if (yearAndQuarter?.length > 0) {
-      const payload = {
-        zone: selectedZone,
-        year_and_quarter: yearAndQuarter,
-      };
-      // TODO:REdux Dispatch API
-    } else {
-      toast.error('Please select Year in filter.');
+    if (selectedZone?.value) {
+      if (yearAndQuarter?.length > 0) {
+        const payload = {
+          zone: selectedZone.value,
+          year_and_quarter: yearAndQuarter,
+        };
+        dispatch(get_ic_KPI_data(payload));
+      } else {
+        toast.error('Please select Year in filter.');
+      }
     }
   }, [yearAndQuarter, selectedZone]);
 
@@ -117,41 +135,52 @@ const ICTable = () => {
                 </Form.Group>
               </div>
             </div>
-            {selectedZone && (
-              <>
-                <div className="mt-5">
-                  <div className="col-lg-2 flex">
-                    <Form.Group className="input-group mb-3">
-                      <div style={{ width: '100%' }}>
-                        <MultiSelect
-                          className="mantine-MultiSelect-wrapper"
-                          data={yearQuarterOption}
-                          label={
-                            <span className="mantine-MultiSelect-label">Year and Quarter</span>
-                          }
-                          placeholder="Select your option"
-                          limit={20}
-                          nothingFound="Nothing found"
-                          clearButtonLabel="Clear selection"
-                          clearable
-                          value={yearAndQuarter}
-                          onChange={setYearAndQuarter}
-                          radius="xl"
-                          variant="filled"
-                          size="xs"
-                        />
-                      </div>
-                    </Form.Group>
-                  </div>
-                  <KPITable />
+            {selectedZone &&
+              (KpiDataForIC?.loading ? (
+                <div className="loader-animation">
+                  <DotSpinner size={100} speed={0.9} color="#e3af32" />
+                  <p className="loader-Desc ml-3">Please wait a moment while we fetch the data</p>
                 </div>
-              </>
-            )}
+              ) : (
+                <>
+                  <div className="mt-5">
+                    <div className="col-lg-4 flex">
+                      <Form.Group className="input-group mb-3">
+                        <div style={{ width: '100%' }}>
+                          <MultiSelect
+                            className="mantine-MultiSelect-wrapper"
+                            data={yearQuarterOption}
+                            label={
+                              <span className="mantine-MultiSelect-label">Year and Quarter</span>
+                            }
+                            placeholder="Select your option"
+                            limit={20}
+                            nothingFound="Nothing found"
+                            clearButtonLabel="Clear selection"
+                            clearable
+                            value={yearAndQuarter}
+                            onChange={setYearAndQuarter}
+                            radius="xl"
+                            variant="filled"
+                            size="xs"
+                          />
+                        </div>
+                      </Form.Group>
+                    </div>
+                    <KPITable tableData={KpiDataForIC?.data} />
+                  </div>
+                </>
+              ))}
           </>
         )
+      ) : KpiDataForIC?.loading ? (
+        <div className="loader-animation">
+          <DotSpinner size={100} speed={0.9} color="#e3af32" />
+          <p className="loader-Desc ml-3">Please wait a moment while we fetch the data</p>
+        </div>
       ) : (
         <>
-          <div className="col-lg-2">
+          <div className="col-lg-4">
             <Form.Group className="input-group mb-3">
               <div style={{ width: '100%' }}>
                 <MultiSelect
@@ -172,7 +201,72 @@ const ICTable = () => {
               </div>
             </Form.Group>
           </div>
-          <KPITable />
+          <KPITable tableData={KpiDataForIC?.data} />
+        </>
+      )}
+    </div>
+  );
+};
+
+const ControlOwner_KPIOwner_ControlOversight_Table = () => {
+  const dispatch = useDispatch();
+
+  const { instance, accounts, inProgress } = useMsal();
+
+  const currentQuarter = getCurrentYearAndQuarter();
+  const previousQuarter = getPreviousYearAndQuarter();
+
+  const yearQuarterOption = [currentQuarter, previousQuarter];
+  const [yearAndQuarter, setYearAndQuarter] = useState([getCurrentYearAndQuarter()]);
+  // State to store api data
+  const KpiDataForControlOwner_KPIOwner_ControlOversight = useSelector(
+    get_ControlOwner_KPIOwner_ControlOversight_KPI_dataSelector,
+  );
+
+  useEffect(() => {
+    if (yearAndQuarter?.length > 0) {
+      const payload = {
+        year_and_quarter: yearAndQuarter,
+        oid: accounts[0]?.idTokenClaims.oid,
+        role: localStorage.getItem('selected_Role'),
+      };
+      dispatch(get_ControlOwner_KPIOwner_ControlOversight_KPI_data(payload));
+    } else {
+      toast.error('Please select Year in filter.');
+    }
+  }, [yearAndQuarter]);
+
+  return (
+    <div>
+      {KpiDataForControlOwner_KPIOwner_ControlOversight?.loading ? (
+        <div className="loader-animation">
+          <DotSpinner size={100} speed={0.9} color="#e3af32" />
+          <p className="loader-Desc ml-3">Please wait a moment while we fetch the data</p>
+        </div>
+      ) : (
+        <>
+          <div className="col-lg-4">
+            <Form.Group className="input-group mb-3">
+              <div style={{ width: '100%' }}>
+                <MultiSelect
+                  className="mantine-MultiSelect-wrapper"
+                  data={yearQuarterOption}
+                  label={<span className="mantine-MultiSelect-label">Year and Quarter</span>}
+                  placeholder="Select your option"
+                  limit={20}
+                  nothingFound="Nothing found"
+                  clearButtonLabel="Clear selection"
+                  clearable
+                  value={yearAndQuarter}
+                  onChange={setYearAndQuarter}
+                  radius="xl"
+                  variant="filled"
+                  size="xs"
+                />
+              </div>
+            </Form.Group>
+          </div>
+          <KPITable tableData={KpiDataForControlOwner_KPIOwner_ControlOversight?.data} />
         </>
       )}
     </div>
@@ -180,6 +274,17 @@ const ICTable = () => {
 };
 
 const KpiModule = () => {
+  const dispatch = useDispatch();
+  //Clear all getKpiData API response when leaving/Refreshing the Page
+
+  useEffect(() => {
+    // Define the cleanup function
+    return () => {
+      dispatch(clear_ControlOwner_KPIOwner_ControlOversight_KPI_data());
+      dispatch(clear_ic_KPI_data());
+    };
+  }, []);
+
   return (
     <>
       <PageWrapper>
@@ -197,7 +302,12 @@ const KpiModule = () => {
             </div>
           </div>
           <div>
-            <ICTable />
+            {localStorage.getItem('selected_Role') === 'Global Internal Control' ||
+            localStorage.getItem('selected_Role') === 'Zonal Internal Control' ? (
+              <ICTable />
+            ) : (
+              <ControlOwner_KPIOwner_ControlOversight_Table />
+            )}
           </div>
         </div>
       </PageWrapper>
