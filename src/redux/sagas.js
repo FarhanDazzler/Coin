@@ -14,6 +14,7 @@ import AdminPageSaga from './AdminPage/AdminPageSaga';
 import RL_QuestionBankSaga from './REP_Letters/RL_QuestionBank/RL_QuestionBankSaga';
 import RL_SchedulingAndTriggeringSaga from './REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringSaga';
 import RL_HomePageSaga from './REP_Letters/RL_HomePage/RL_HomePageSaga';
+import KPI_Saga from './KPI_Module/KPI_Saga';
 
 export function* sagas() {
   yield all([
@@ -32,5 +33,6 @@ export function* sagas() {
     RL_QuestionBankSaga,
     RL_SchedulingAndTriggeringSaga,
     RL_HomePageSaga,
+    KPI_Saga,
   ]);
 }

@@ -154,6 +154,21 @@ const AssessmentFormRender = ({
   }, []);
 
   const handleValidation = (type) => () => {
+<<<<<<< HEAD
+=======
+    const findErrorTableRow = tableData?.find(
+      (row) => !row.Numerator || row.Numerator < 0 || !row.Denominator || row.Denominator <= 0,
+    );
+
+    if (findErrorTableRow) {
+      Swal.fire({
+        title: 'Section2: KPI (Invalid)',
+        text: 'Table Data invalid. Please verify every row since some row Numerator and Denominator value not valid.',
+        icon: 'error',
+      });
+      return;
+    }
+>>>>>>> ed78cd036a79ca57c3af1419f831b8c428ef30fe
     if (type === 'submit' && handleSubmit) {
       const findErrorTableRow = tableData?.find(
         (row) => !row.Numerator || row.Numerator < 0 || !row.Denominator || row.Denominator <= 0,

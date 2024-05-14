@@ -206,7 +206,7 @@ const TopBar = (props) => {
                 </li>
               }
 
-              {localStorage.getItem('selected_Role') == 'Global internal control' && (
+              {localStorage.getItem('selected_Role') == 'Global Internal Control' && (
                 <li className="nav-item">
                   <a
                     className={`navbar-link ${
@@ -454,7 +454,8 @@ const TopBar = (props) => {
                   !location.pathname.includes('/BU-Zone-Letter-approve') &&
                   !location.pathname.includes(
                     '/REP-Letters/attempt-letter/functional-letter-form/',
-                  ) && (
+                  ) &&
+                  !location.pathname.includes('/not-authorized') && (
                     <div>
                       <div>
                         <span className={'text-yellow ml-2'}>Select Module :</span>
@@ -486,9 +487,8 @@ const TopBar = (props) => {
               {rolesOption.length > 0 &&
                 !location.pathname.includes('/BU-Letter-approve') &&
                 !location.pathname.includes('/BU-Zone-Letter-approve') &&
-                !location.pathname.includes(
-                  '/REP-Letters/attempt-letter/functional-letter-form',
-                ) && (
+                !location.pathname.includes('/REP-Letters/attempt-letter/functional-letter-form') &&
+                !location.pathname.includes('/not-authorized') && (
                   <div className="mr-4">
                     <div>
                       <span className={'text-yellow ml-2'}>

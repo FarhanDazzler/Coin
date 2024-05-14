@@ -42,7 +42,7 @@ function NavTabsMDM() {
               >
                 Organization Hierarchy
               </Button>
-              {localStorage.getItem('selected_module_Role') == 'BU' ? (
+              {localStorage.getItem('selected_module_Role') == 'BU Representation Letter' ? (
                 <>
                   <Button
                     variant="outlined"

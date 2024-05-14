@@ -616,6 +616,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
                               name="Due_Date"
                               placeholder=""
                               value={values.Due_Date}
+                              min={values.Recipient_Reminder_2}
                               isInvalid={Boolean(touched.Due_Date && errors.Due_Date)}
                               onBlur={handleBlur}
                               onChange={handleChange}
@@ -664,6 +665,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
                               )}
                               onBlur={handleBlur}
                               onChange={handleChange}
+                              min={values.Start_Date}
                               readOnly={false}
                               className="form-control"
                             />
@@ -696,6 +698,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
+                              min={values.Recipient_Reminder_1}
                               className="form-control"
                             />
 
