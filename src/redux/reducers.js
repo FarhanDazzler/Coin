@@ -16,6 +16,7 @@ import { RL_QuestionBankReducer } from './REP_Letters/RL_QuestionBank/RL_Questio
 import { ErrorNotificationReducer } from './ErrorNotification/ErrorNotificationReducer';
 import { RLSchedulingAndTriggeringReducer } from './REP_Letters/RL_SchedulingAndTriggering/RL_SchedulingAndTriggeringReducer';
 import { RL_HomePageReducer } from './REP_Letters/RL_HomePage/RL_HomePageReducer';
+import { KPI_ModuleReducer } from './KPI_Module/KPI_Reducer';
 // we will connect our reducers here
 
 const appReducer = (history) =>
@@ -37,6 +38,7 @@ const appReducer = (history) =>
     ErrorNotification: ErrorNotificationReducer,
     RLSchedulingAndTriggering: RLSchedulingAndTriggeringReducer,
     RL_HomePage: RL_HomePageReducer,
+    KPI_Module: KPI_ModuleReducer,
   });
 
 const createRootReducer = (history) => (state, action) => {
