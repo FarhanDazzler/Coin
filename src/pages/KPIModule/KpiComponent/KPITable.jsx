@@ -193,7 +193,7 @@ const KPITable = ({ data }) => {
       //   filterVariant: 'autocomplete',
       header: 'KPI Num',
       size: 100,
-      mantineEditTextInputProps: {
+      mantineEditTextInputProps: ({ cell, row }) => ({
         required: true,
         type: 'number',
         variant: 'filled',
@@ -208,12 +208,14 @@ const KPITable = ({ data }) => {
               ...validationErrors,
               KPI_Num: 'Numerator can be positive values only',
             });
+          } else if (!row.original.KPI_Den) {
+            setValidationErrors({ ...validationErrors, KPI_Num: 'Denominator is required' });
           } else {
             delete validationErrors.KPI_Num;
             setValidationErrors({ ...validationErrors });
           }
         },
-      },
+      }),
     },
     {
       accessorKey: 'expected_den',
@@ -229,7 +231,7 @@ const KPITable = ({ data }) => {
       //   filterVariant: 'autocomplete',
       header: 'KPI Den',
       size: 100,
-      mantineEditTextInputProps: {
+      mantineEditTextInputProps: ({ cell, row }) => ({
         required: true,
         type: 'number',
         variant: 'filled',
@@ -244,12 +246,14 @@ const KPITable = ({ data }) => {
               ...validationErrors,
               KPI_Den: 'Denominator can be positive values only',
             });
+          } else if (!row.original.KPI_Num) {
+            setValidationErrors({ ...validationErrors, KPI_Den: 'Numerator is required' });
           } else {
             delete validationErrors.KPI_Den;
             setValidationErrors({ ...validationErrors });
           }
         },
-      },
+      }),
     },
     {
       accessorKey: 'KPI_Value',
@@ -601,6 +605,15 @@ const KPITable = ({ data }) => {
     setTableData([...tableData]); //re-render with new data
   };
 
+  const handleSaveKPIData = () => {
+    //send/receive api updates here
+    // console.log('tableData', tableData);
+    // console.log('validationErrors', validationErrors);
+  };
+
+  console.log('tableData', tableData);
+  console.log('validationErrors', validationErrors);
+
   return (
     <div className="kpi_table">
       <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
@@ -671,7 +684,21 @@ const KPITable = ({ data }) => {
             return (
               <Flex p="md" justify="space-between" className="kpi_module_buttons">
                 <Flex sx={{ gap: '8px' }}>
-                  <button className="custom-btn mt-2 submit-btn">Submit</button>
+                  <Flex align="center" gap="md">
+                    <button
+                      className="custom-btn mt-2 submit-btn"
+                      onClick={handleSaveKPIData}
+                      disabled={
+                        Object.keys(tableData).length === 0 ||
+                        Object.values(validationErrors).some((error) => !!error)
+                      }
+                    >
+                      Submit
+                    </button>
+                    {Object.values(validationErrors).some((error) => !!error) && (
+                      <Text color="red">Fix errors before submitting</Text>
+                    )}
+                  </Flex>
                   {/* <div className="row kpi_table_row" id="export_button_right">
               <Workbook
               filename={`data.xlsx`}
