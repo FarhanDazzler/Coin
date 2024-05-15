@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
-import { MsalProvider, useIsAuthenticated, useMsal } from '@azure/msal-react';
+import { useMsal } from '@azure/msal-react';
 import { DotSpinner } from '@uiball/loaders';
 import { MultiSelect } from '@mantine/core';
 import { toast } from 'react-toastify';
@@ -167,7 +167,7 @@ const ICTable = () => {
                         </div>
                       </Form.Group>
                     </div>
-                    <KPITable tableData={KpiDataForIC?.data} />
+                    <KPITable data={KpiDataForIC?.data} />
                   </div>
                 </>
               ))}
@@ -201,7 +201,7 @@ const ICTable = () => {
               </div>
             </Form.Group>
           </div>
-          <KPITable tableData={KpiDataForIC?.data} />
+          <KPITable data={KpiDataForIC?.data} />
         </>
       )}
     </div>
@@ -211,7 +211,7 @@ const ICTable = () => {
 const ControlOwner_KPIOwner_ControlOversight_Table = () => {
   const dispatch = useDispatch();
 
-  const { instance, accounts, inProgress } = useMsal();
+  const { accounts } = useMsal();
 
   const currentQuarter = getCurrentYearAndQuarter();
   const previousQuarter = getPreviousYearAndQuarter();
@@ -266,7 +266,7 @@ const ControlOwner_KPIOwner_ControlOversight_Table = () => {
               </div>
             </Form.Group>
           </div>
-          <KPITable tableData={KpiDataForControlOwner_KPIOwner_ControlOversight?.data} />
+          <KPITable data={KpiDataForControlOwner_KPIOwner_ControlOversight?.data} />
         </>
       )}
     </div>
