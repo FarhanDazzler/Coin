@@ -97,34 +97,32 @@ const AssessmentFormRender = ({
   // Check if user select question 6 'No' option and question 5 this 2 option selected then section 1 is terminated
   useEffect(() => {
     let sectionTerminating = false;
-    if (Object.keys(ansSection3).length !== 0) {
-      ansSection1.forEach((data) => {
-        if (data.q_id == '6') {
-          data.options.forEach((option) => {
-            if (data.value === option.value) {
-              if (option.label == 'No') {
-                sectionTerminating = true;
-                // setSection1TerminatingLogicValue(true);
-              }
+    ansSection1.forEach((data) => {
+      if (data.q_id == '6') {
+        data.options.forEach((option) => {
+          if (data.value === option.value) {
+            if (option.label == 'No') {
+              sectionTerminating = true;
+              // setSection1TerminatingLogicValue(true);
             }
-          });
-        }
+          }
+        });
+      }
 
-        if (data.q_id == '5') {
-          data.options.forEach((option) => {
-            if (data.value === option.value) {
-              if (
-                option.label == 'Yes - In e-mail box / on my personal laptop' ||
-                option.label == 'No - Evidence of Control Execution is not Stored'
-              ) {
-                sectionTerminating = true;
-                // setSection1TerminatingLogicValue(true);
-              }
+      if (data.q_id == '5') {
+        data.options.forEach((option) => {
+          if (data.value === option.value) {
+            if (
+              option.label == 'Yes - In e-mail box / on my personal laptop' ||
+              option.label == 'No - Evidence of Control Execution is not Stored'
+            ) {
+              sectionTerminating = true;
+              // setSection1TerminatingLogicValue(true);
             }
-          });
-        }
-      });
-    }
+          }
+        });
+      }
+    });
     setSection1TerminatingLogicValue(sectionTerminating);
   }, [ansSection3]);
 
@@ -284,12 +282,7 @@ const AssessmentFormRender = ({
                             : Object.keys(ansSection3).includes('L2') &&
                               !!Object.values(ansSection3?.L2)[0].includes('no')
                             ? 'L2'
-                            : ''}{' '}
-                          {'  '}
-                          {section1TerminatingLogicValue &&
-                            Object.keys(ansSection3).length !== 0 &&
-                            Object.keys(ansSection3).length !== 3 &&
-                            '/'}
+                            : ''}
                         </div>
                       ) : null}
                       {!kpiResultData.loading && (
