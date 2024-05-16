@@ -3,7 +3,7 @@
 }
 
 .kpi_table td input {
-  color: #ffffff !important; 
+  color: #ffffff !important;
 }
 .kpi_table_row {
   .export_button {
@@ -18,6 +18,12 @@
   align-items: center;
   .submit-btn {
     margin-right: 30px;
+  }
+  .submit-btn:hover {
+    cursor: pointer;
+    background-color: rgba(211, 163, 6, 0.04);
+    border: 1px solid #d3a306;
+    color: white;
   }
   .custom-btn {
     height: 36px;
