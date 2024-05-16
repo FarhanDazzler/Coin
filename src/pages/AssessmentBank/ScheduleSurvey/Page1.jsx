@@ -167,143 +167,154 @@ const Page1 = ({ handleNext }) => {
           touched,
           values,
           setFieldValue,
-        }) => (
-          <Form onSubmit={handleSubmit}>
-            <div className="row">
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Survey Name</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="text"
-                        name="Survey_Name"
-                        placeholder=""
-                        value={values.Survey_Name}
-                        isInvalid={Boolean(touched.Survey_Name && errors.Survey_Name)}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        maxLength={255}
-                        readOnly={false}
-                        className="form-control"
-                      />
-
-                      {!!touched.Survey_Name && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Survey_Name}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Template</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        as="select"
-                        name="Question_Bank"
-                        defaultValue={'Template1'}
-                        placeholder=""
-                        value={values.Question_Bank}
-                        isInvalid={Boolean(touched.Question_Bank && errors.Question_Bank)}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-select"
-                      >
-                        <option value="">Select Template</option>
-                        <option value="Template1">Default Template</option>
-                        <option value="Template2">Custom Template</option>
-                      </Form.Control>
-
-                      {!!touched.Question_Bank && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Question_Bank}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group>
+        }) => {
+          const onChange = (e) => {
+            const {
+              target: { value },
+            } = e;
+            if (handleChange) {
+              e.target.value = value.trimStart();
+              handleChange(e);
+            }
+          };
+          return (
+            <Form onSubmit={handleSubmit}>
+              <div className="row">
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Survey Name</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          type="text"
+                          name="Survey_Name"
+                          placeholder=""
+                          value={values.Survey_Name}
+                          isInvalid={Boolean(touched.Survey_Name && errors.Survey_Name)}
+                          onBlur={handleBlur}
+                          onChange={onChange}
+                          maxLength={255}
+                          readOnly={false}
+                          className="form-control"
+                        />
+                        {!!touched.Survey_Name && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Survey_Name}
+                          </Form.Control.Feedback>
+                        )}
+                      </Form.Group>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Assessment Cycle</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        as="select"
-                        name="Assessment_Cycle"
-                        placeholder=""
-                        value={values.Assessment_Cycle}
-                        isInvalid={Boolean(touched.Assessment_Cycle && errors.Assessment_Cycle)}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-select"
-                      >
-                        <option value="">Select Assessment Cycle</option>
-                        <option value="Assessment Cycle 1">Assessment Cycle 1</option>
-                        <option value="Assessment Cycle 2">Assessment Cycle 2</option>
-                        <option value="Assessment Cycle 3">Assessment Cycle 3</option>
-                        <option value="Assessment Cycle 4">Assessment Cycle 4</option>
-                      </Form.Control>
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Template</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          as="select"
+                          name="Question_Bank"
+                          defaultValue={'Template1'}
+                          placeholder=""
+                          value={values.Question_Bank}
+                          isInvalid={Boolean(touched.Question_Bank && errors.Question_Bank)}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          readOnly={false}
+                          className="form-select"
+                        >
+                          <option value="">Select Template</option>
+                          <option value="Template1">Default Template</option>
+                          <option value="Template2">Custom Template</option>
+                        </Form.Control>
 
-                      {!!touched.Assessment_Cycle && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Assessment_Cycle}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Year</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        as="select"
-                        name="Year"
-                        placeholder=""
-                        value={values.Year}
-                        isInvalid={Boolean(touched.Year && errors.Year)}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-select"
-                      >
-                        <option value="">Select a year</option>
-                        {years.map((Year) => (
-                          <option key={Year} value={Year}>
-                            {Year}
-                          </option>
-                        ))}
-                      </Form.Control>
-
-                      {!!touched.Year && (
-                        <Form.Control.Feedback type="invalid">{errors.Year}</Form.Control.Feedback>
-                      )}
-                    </Form.Group>
+                        {!!touched.Question_Bank && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Question_Bank}
+                          </Form.Control.Feedback>
+                        )}
+                      </Form.Group>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* <div className="col-lg-6">
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Assessment Cycle</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          as="select"
+                          name="Assessment_Cycle"
+                          placeholder=""
+                          value={values.Assessment_Cycle}
+                          isInvalid={Boolean(touched.Assessment_Cycle && errors.Assessment_Cycle)}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          readOnly={false}
+                          className="form-select"
+                        >
+                          <option value="">Select Assessment Cycle</option>
+                          <option value="Assessment Cycle 1">Assessment Cycle 1</option>
+                          <option value="Assessment Cycle 2">Assessment Cycle 2</option>
+                          <option value="Assessment Cycle 3">Assessment Cycle 3</option>
+                          <option value="Assessment Cycle 4">Assessment Cycle 4</option>
+                        </Form.Control>
+
+                        {!!touched.Assessment_Cycle && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Assessment_Cycle}
+                          </Form.Control.Feedback>
+                        )}
+                      </Form.Group>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Year</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          as="select"
+                          name="Year"
+                          placeholder=""
+                          value={values.Year}
+                          isInvalid={Boolean(touched.Year && errors.Year)}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          readOnly={false}
+                          className="form-select"
+                        >
+                          <option value="">Select a year</option>
+                          {years.map((Year) => (
+                            <option key={Year} value={Year}>
+                              {Year}
+                            </option>
+                          ))}
+                        </Form.Control>
+
+                        {!!touched.Year && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Year}
+                          </Form.Control.Feedback>
+                        )}
+                      </Form.Group>
+                    </div>
+                  </div>
+                </div>
+
+                {/* <div className="col-lg-6">
                 <div className="row mb-4">
                   <div className="col-lg-4">
                     <Form.Label>Year</Form.Label>
@@ -317,7 +328,7 @@ const Page1 = ({ handleNext }) => {
                         value={values.Year}
                         isInvalid={Boolean(touched.Year && errors.Year)}
                         onBlur={handleBlur}
-                        onChange={handleChange}
+                        onChange={onChange}
                         readOnly={false}
                         className="form-control"
                       />
@@ -331,352 +342,352 @@ const Page1 = ({ handleNext }) => {
               </div>
             */}
 
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>KPI From</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <div className="row">
-                      <div className="col-lg-6">
-                        <Form.Group className="input-group mb-3">
-                          <Form.Control
-                            as="select"
-                            name="KPI_From_month"
-                            defaultValue={values.KPI_From_month}
-                            placeholder=""
-                            value={values.KPI_From_month}
-                            onChange={handleChange}
-                            readOnly={false}
-                            className="form-select"
-                          >
-                            {months.map((data, i) => (
-                              <option key={i} value={data.label}>
-                                {data.value}
-                              </option>
-                            ))}
-                          </Form.Control>
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>KPI From</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <div className="row">
+                        <div className="col-lg-6">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="KPI_From_month"
+                              defaultValue={values.KPI_From_month}
+                              placeholder=""
+                              value={values.KPI_From_month}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              {months.map((data, i) => (
+                                <option key={i} value={data.label}>
+                                  {data.value}
+                                </option>
+                              ))}
+                            </Form.Control>
 
-                          {!!touched.KPI_From_month && (
-                            <Form.Control.Feedback type="invalid">
-                              {errors.KPI_From_month}
-                            </Form.Control.Feedback>
-                          )}
-                        </Form.Group>
-                      </div>
-                      <div className="col-lg-6">
-                        <Form.Group className="input-group mb-3">
-                          <Form.Control
-                            as="select"
-                            name="KPI_From_Year"
-                            defaultValue={values.KPI_From_Year}
-                            placeholder=""
-                            value={values.KPI_From_Year}
-                            onChange={handleChange}
-                            readOnly={false}
-                            className="form-select"
-                          >
-                            <option value="">Select a year</option>
-                            {years.map((Year) => (
-                              <option key={Year} value={Year}>
-                                {Year}
-                              </option>
-                            ))}
-                          </Form.Control>
+                            {!!touched.KPI_From_month && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.KPI_From_month}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                        <div className="col-lg-6">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="KPI_From_Year"
+                              defaultValue={values.KPI_From_Year}
+                              placeholder=""
+                              value={values.KPI_From_Year}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Select a year</option>
+                              {years.map((Year) => (
+                                <option key={Year} value={Year}>
+                                  {Year}
+                                </option>
+                              ))}
+                            </Form.Control>
 
-                          {!!touched.KPI_From_Year && (
-                            <Form.Control.Feedback type="invalid">
-                              {errors.KPI_From_Year}
-                            </Form.Control.Feedback>
-                          )}
-                        </Form.Group>
+                            {!!touched.KPI_From_Year && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.KPI_From_Year}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>KPI To</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <div className="row">
-                      <div className="col-lg-6">
-                        <Form.Group className="input-group mb-3">
-                          <Form.Control
-                            as="select"
-                            name="KPI_To_Month"
-                            defaultValue={values.KPI_To_Month}
-                            placeholder=""
-                            value={values.KPI_To_Month}
-                            onChange={handleChange}
-                            readOnly={false}
-                            className="form-select"
-                          >
-                            {months.map((data, i) => (
-                              <option key={i} value={data.label}>
-                                {data.value}
-                              </option>
-                            ))}
-                          </Form.Control>
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>KPI To</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <div className="row">
+                        <div className="col-lg-6">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="KPI_To_Month"
+                              defaultValue={values.KPI_To_Month}
+                              placeholder=""
+                              value={values.KPI_To_Month}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              {months.map((data, i) => (
+                                <option key={i} value={data.label}>
+                                  {data.value}
+                                </option>
+                              ))}
+                            </Form.Control>
 
-                          {!!touched.KPI_To_Month && (
-                            <Form.Control.Feedback type="invalid">
-                              {errors.KPI_To_Month}
-                            </Form.Control.Feedback>
-                          )}
-                        </Form.Group>
-                      </div>
-                      <div className="col-lg-6">
-                        <Form.Group className="input-group mb-3">
-                          <Form.Control
-                            as="select"
-                            name="KPI_To_Year"
-                            defaultValue={values.KPI_To_Year}
-                            placeholder=""
-                            value={values.KPI_To_Year}
-                            onChange={handleChange}
-                            readOnly={false}
-                            className="form-select"
-                          >
-                            <option value="">Select a year</option>
-                            {years.map((Year) => (
-                              <option key={Year} value={Year}>
-                                {Year}
-                              </option>
-                            ))}
-                          </Form.Control>
+                            {!!touched.KPI_To_Month && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.KPI_To_Month}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                        <div className="col-lg-6">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              as="select"
+                              name="KPI_To_Year"
+                              defaultValue={values.KPI_To_Year}
+                              placeholder=""
+                              value={values.KPI_To_Year}
+                              onChange={handleChange}
+                              readOnly={false}
+                              className="form-select"
+                            >
+                              <option value="">Select a year</option>
+                              {years.map((Year) => (
+                                <option key={Year} value={Year}>
+                                  {Year}
+                                </option>
+                              ))}
+                            </Form.Control>
 
-                          {!!touched.KPI_To_Year && (
-                            <Form.Control.Feedback type="invalid">
-                              {errors.KPI_To_Year}
-                            </Form.Control.Feedback>
-                          )}
-                        </Form.Group>
+                            {!!touched.KPI_To_Year && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.KPI_To_Year}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Start Date</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="date"
-                        name="Start_Date"
-                        placeholder=""
-                        value={values.Start_Date}
-                        isInvalid={Boolean(touched.Start_Date && errors.Start_Date)}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-control"
-                      />
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Start Date</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          type="date"
+                          name="Start_Date"
+                          placeholder=""
+                          value={values.Start_Date}
+                          isInvalid={Boolean(touched.Start_Date && errors.Start_Date)}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          readOnly={false}
+                          className="form-control"
+                        />
 
-                      {!!touched.Start_Date && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Start_Date}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Due Date</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="date"
-                        name="Due_Date"
-                        placeholder=""
-                        value={values.Due_Date}
-                        isInvalid={Boolean(touched.Due_Date && errors.Due_Date)}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-control"
-                      />
-
-                      {!!touched.Due_Date && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Due_Date}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row">
-                <Divider
-                  className="divider"
-                  size="md"
-                  my="xs"
-                  labelPosition="center"
-                  label={
-                    <>
-                      <Box ml={5}>
-                        <Form.Label>Control Owner:</Form.Label>
-                      </Box>
-                    </>
-                  }
-                />
-              </div>
-
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Reminder - 1</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="date"
-                        name="Control_Owner_Reminder_1"
-                        placeholder=""
-                        value={values.Control_Owner_Reminder_1}
-                        isInvalid={Boolean(
-                          touched.Control_Owner_Reminder_1 && errors.Control_Owner_Reminder_1,
+                        {!!touched.Start_Date && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Start_Date}
+                          </Form.Control.Feedback>
                         )}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-control"
-                      />
-
-                      {!!touched.Control_Owner_Reminder_1 && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Control_Owner_Reminder_1}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group>
+                      </Form.Group>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Reminder - 2</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="date"
-                        name="Control_Owner_Reminder_2"
-                        placeholder=""
-                        value={values.Control_Owner_Reminder_2}
-                        isInvalid={Boolean(
-                          touched.Control_Owner_Reminder_2 && errors.Control_Owner_Reminder_2,
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Due Date</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          type="date"
+                          name="Due_Date"
+                          placeholder=""
+                          value={values.Due_Date}
+                          isInvalid={Boolean(touched.Due_Date && errors.Due_Date)}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          readOnly={false}
+                          className="form-control"
+                        />
+
+                        {!!touched.Due_Date && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Due_Date}
+                          </Form.Control.Feedback>
                         )}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-control"
-                      />
-
-                      {!!touched.Control_Owner_Reminder_2 && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Control_Owner_Reminder_2}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group>
+                      </Form.Group>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="row">
-                <Divider
-                  className="divider"
-                  size="md"
-                  my="xs"
-                  labelPosition="center"
-                  label={
-                    <>
-                      <Box ml={5}>
-                        <Form.Label>Control Oversight</Form.Label>
-                      </Box>
-                    </>
-                  }
-                />
-              </div>
+                <div className="row">
+                  <Divider
+                    className="divider"
+                    size="md"
+                    my="xs"
+                    labelPosition="center"
+                    label={
+                      <>
+                        <Box ml={5}>
+                          <Form.Label>Control Owner:</Form.Label>
+                        </Box>
+                      </>
+                    }
+                  />
+                </div>
 
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Notification - 1</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="date"
-                        name="Control_Oversight_Pending_Notification_1"
-                        placeholder=""
-                        value={values.Control_Oversight_Pending_Notification_1}
-                        isInvalid={Boolean(
-                          touched.Control_Oversight_Pending_Notification_1 &&
-                            errors.Control_Oversight_Pending_Notification_1,
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Reminder - 1</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          type="date"
+                          name="Control_Owner_Reminder_1"
+                          placeholder=""
+                          value={values.Control_Owner_Reminder_1}
+                          isInvalid={Boolean(
+                            touched.Control_Owner_Reminder_1 && errors.Control_Owner_Reminder_1,
+                          )}
+                          onBlur={handleBlur}
+                          onChange={onChange}
+                          readOnly={false}
+                          className="form-control"
+                        />
+
+                        {!!touched.Control_Owner_Reminder_1 && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Control_Owner_Reminder_1}
+                          </Form.Control.Feedback>
                         )}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-control"
-                      />
-
-                      {!!touched.Control_Oversight_Pending_Notification_1 && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Control_Oversight_Pending_Notification_1}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group>
+                      </Form.Group>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-lg-6">
-                <div className="row mb-4">
-                  <div className="col-lg-4">
-                    <Form.Label>Notification - 2</Form.Label>
-                  </div>
-                  <div className="col-lg-6">
-                    <Form.Group className="input-group mb-3">
-                      <Form.Control
-                        type="date"
-                        name="Control_Oversight_Pending_Notification_2"
-                        placeholder=""
-                        value={values.Control_Oversight_Pending_Notification_2}
-                        isInvalid={Boolean(
-                          touched.Control_Oversight_Pending_Notification_2 &&
-                            errors.Control_Oversight_Pending_Notification_2,
+
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Reminder - 2</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          type="date"
+                          name="Control_Owner_Reminder_2"
+                          placeholder=""
+                          value={values.Control_Owner_Reminder_2}
+                          isInvalid={Boolean(
+                            touched.Control_Owner_Reminder_2 && errors.Control_Owner_Reminder_2,
+                          )}
+                          onBlur={handleBlur}
+                          onChange={onChange}
+                          readOnly={false}
+                          className="form-control"
+                        />
+
+                        {!!touched.Control_Owner_Reminder_2 && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Control_Owner_Reminder_2}
+                          </Form.Control.Feedback>
                         )}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        readOnly={false}
-                        className="form-control"
-                      />
-
-                      {!!touched.Control_Oversight_Pending_Notification_2 && (
-                        <Form.Control.Feedback type="invalid">
-                          {errors.Control_Oversight_Pending_Notification_2}
-                        </Form.Control.Feedback>
-                      )}
-                    </Form.Group>
+                      </Form.Group>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* <div className="col-lg-6">
+                <div className="row">
+                  <Divider
+                    className="divider"
+                    size="md"
+                    my="xs"
+                    labelPosition="center"
+                    label={
+                      <>
+                        <Box ml={5}>
+                          <Form.Label>Control Oversight</Form.Label>
+                        </Box>
+                      </>
+                    }
+                  />
+                </div>
+
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Notification - 1</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          type="date"
+                          name="Control_Oversight_Pending_Notification_1"
+                          placeholder=""
+                          value={values.Control_Oversight_Pending_Notification_1}
+                          isInvalid={Boolean(
+                            touched.Control_Oversight_Pending_Notification_1 &&
+                              errors.Control_Oversight_Pending_Notification_1,
+                          )}
+                          onBlur={handleBlur}
+                          onChange={onChange}
+                          readOnly={false}
+                          className="form-control"
+                        />
+
+                        {!!touched.Control_Oversight_Pending_Notification_1 && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Control_Oversight_Pending_Notification_1}
+                          </Form.Control.Feedback>
+                        )}
+                      </Form.Group>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Notification - 2</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          type="date"
+                          name="Control_Oversight_Pending_Notification_2"
+                          placeholder=""
+                          value={values.Control_Oversight_Pending_Notification_2}
+                          isInvalid={Boolean(
+                            touched.Control_Oversight_Pending_Notification_2 &&
+                              errors.Control_Oversight_Pending_Notification_2,
+                          )}
+                          onBlur={handleBlur}
+                          onChange={onChange}
+                          readOnly={false}
+                          className="form-control"
+                        />
+
+                        {!!touched.Control_Oversight_Pending_Notification_2 && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Control_Oversight_Pending_Notification_2}
+                          </Form.Control.Feedback>
+                        )}
+                      </Form.Group>
+                    </div>
+                  </div>
+                </div>
+
+                {/* <div className="col-lg-6">
                   <div className="row mb-4">
                     <div className="row mb-4">
                       <Form.Label>Notification for Submmited Assessment :</Form.Label>
@@ -697,7 +708,7 @@ const Page1 = ({ handleNext }) => {
                                 errors.Control_Oversight_Review_Notification_1,
                             )}
                             onBlur={handleBlur}
-                            onChange={handleChange}
+                            onChange={onChange}
                             readOnly={false}
                             className="form-control"
                           />
@@ -726,7 +737,7 @@ const Page1 = ({ handleNext }) => {
                                 errors.Control_Oversight_Review_Notification_2,
                             )}
                             onBlur={handleBlur}
-                            onChange={handleChange}
+                            onChange={onChange}
                             readOnly={false}
                             className="form-control"
                           />
@@ -741,29 +752,30 @@ const Page1 = ({ handleNext }) => {
                     </div>
                   </div>
                 </div> */}
-            </div>
-            <div className="footer-action-AssessmentBank">
-              <div className="d-flex align-items-center justify-content-end">
-                <div>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    onClick={() => {
-                      handleOnclickCancel();
-                      dispatch(ScheduleSurveyPage_1({}));
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button color="neutral" className="ml-4" onClick={handleSubmit}>
-                    Next {'>'}
-                  </Button>
+              </div>
+              <div className="footer-action-AssessmentBank">
+                <div className="d-flex align-items-center justify-content-end">
+                  <div>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      onClick={() => {
+                        handleOnclickCancel();
+                        dispatch(ScheduleSurveyPage_1({}));
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button color="neutral" className="ml-4" onClick={handleSubmit}>
+                      Next {'>'}
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <GetFormikFieldValue setPage1Value={setPage1Value} />
-          </Form>
-        )}
+              <GetFormikFieldValue setPage1Value={setPage1Value} />
+            </Form>
+          );
+        }}
       </Formik>
     </div>
   );

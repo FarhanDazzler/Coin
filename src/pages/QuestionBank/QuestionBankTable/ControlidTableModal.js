@@ -49,7 +49,7 @@ const ControlidTableModal = ({ open, handleClose, type = 'Standard', selectedCon
     setActiveType(type);
   }, [type]);
   const handleChange = (event) => {
-    setFinalTemplate_ID(event.target.value);
+    setFinalTemplate_ID(event.target.value.trimStart());
     // if (event.target.value === 'Standard') {
     //   setFinalTemplate_ID(event.target.value);
     // //   setSelectControlId(false);

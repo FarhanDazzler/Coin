@@ -521,7 +521,12 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       dataField: 'Source_System',
       text: 'Source of Data - Link',
       editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
-      // formatter: (cellContent, row) => '',
+      formatter: (cell, row) => {
+        if (typeof cell === 'string') {
+          return cell.trimStart(); // Trim leading spaces from string
+        }
+        return cell;
+      },
       headerStyle: {
         ...headerStyles,
       },
@@ -651,7 +656,8 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
   }, [kpiResultData]);
 
   //Table on change function
-  function handleChange(oldValue, newValue, row, column) {
+  function handleChange(oldValue, newInputValue, row, column) {
+    const newValue = newInputValue.trimStart();
     const updateProduct = tableData.map((d) => {
       // Check user change row id match or not
       if (d.id === row.id) {
@@ -666,6 +672,10 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
           } else {
             row['Denominator'] = newValue;
           }
+        }
+
+        if (column.dataField === 'Source_System') {
+          row['Source_System'] = newValue;
         }
 
         //If user Numerator change value then update existing value
