@@ -521,12 +521,12 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       dataField: 'Source_System',
       text: 'Source of Data - Link',
       editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
-      // formatter: (cell, row) => {
-      //   if (typeof cell === 'string') {
-      //     return cell.trimStart(); // Trim leading spaces from string
-      //   }
-      //   return cell;
-      // },
+      formatter: (cell, row) => {
+        if (typeof cell === 'string') {
+          return cell.trimStart(); // Trim leading spaces from string
+        }
+        return cell;
+      },
       headerStyle: {
         ...headerStyles,
       },
