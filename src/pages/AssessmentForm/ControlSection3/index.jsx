@@ -5,7 +5,6 @@ import { Loader } from '@mantine/core';
 import { Form } from 'react-bootstrap';
 import RenderBlock from '../../../components/RenderBlock';
 import RenderBlockWrapper from '../../../components/RenderBlock/RenderBlockWrapper';
-import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
 import CollapseFrame from '../../../components/UI/CollapseFrame';
 import {
   getFormatQuestions,
@@ -83,18 +82,18 @@ const ControlSection3 = ({
     setStartEdit(true);
     setLastAns(value);
     const noQueAns = value.includes('yes');
+    setShowNoQuestionAns('');
+    setL1AndL2NoQuestionsAns({
+      failingDue: null,
+      reasonsForFailing: null,
+    });
     let updateAns = { ...ans };
     if (noQueAns) {
-      setShowNoQuestionAns('');
       setShowNoQuestion(false);
       updateAns.noQueAns = false;
       if (ans?.L1AndL2NoQuestionsAns && ans?.L1AndL2NoQuestionsAns?.failingDue) {
         updateAns.L1AndL2NoQuestionsAns = { failingDue: null, reasonsForFailing: null };
       }
-      setL1AndL2NoQuestionsAns({
-        failingDue: null,
-        reasonsForFailing: null,
-      });
     }
     if (parentBlock) {
       // Store data for selected level block value
@@ -157,45 +156,6 @@ const ControlSection3 = ({
   }, [ans, render, questionData]);
 
   useEffect(() => {
-    if (question2Api) return;
-    // Check condition for section 1 and selected question not inner question
-    const isFirstSectionWithNoQuestion =
-      isJsonString(questionData.Level?.L1?.Inner_Questions) &&
-      !JSON.parse(questionData.Level?.L1?.Inner_Questions).length;
-
-    //Check if first section any one 'No' option selected then not section 2 api call make
-    if (isFirstSectionWithNoQuestion && !question2Api && !question3Api && !questionData?.data?.L2) {
-      if (!loadingRef?.current?.L2) {
-        setLoadingLevel({ ...loadingLevel, L2: true });
-        dispatch(
-          getSection3Questions({
-            Level: 'L2',
-            Control_ID: Control_ID,
-            events: {
-              onSuccess: () => {
-                setTimeout(() => {
-                  setLoadingLevel({ ...loadingLevel, L2: false });
-                }, 1500);
-              },
-            },
-          }),
-        );
-      }
-      setQuestion2Api(true);
-    }
-
-    //Same for s3
-    if (question3Api) return;
-    const isSecondSectionWithNoQuestion =
-      isJsonString(questionData.Level?.L2?.Inner_Questions) &&
-      !JSON.parse(questionData.Level?.L2?.Inner_Questions).length;
-    if (isSecondSectionWithNoQuestion && !question3Api && !questionData?.data?.L3) {
-      dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
-      setQuestion3Api(true);
-    }
-  }, [questionData.Level]);
-
-  useEffect(() => {
     if (!lastAns) return;
 
     const updateAns = {};
@@ -207,15 +167,6 @@ const ControlSection3 = ({
           return ans.L1[key].includes('yes');
         });
 
-        if (
-          ansObjectL1.length === allYesFilterData1.length &&
-          !questionL2.length &&
-          !question2Api &&
-          !questionData?.data?.L2
-        ) {
-          dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
-          setQuestion2Api(true);
-        }
         updateAns.L1 = ans.L1;
         setAns(updateAns);
         setTerminating(false);
@@ -241,15 +192,7 @@ const ControlSection3 = ({
         let allYesFilterData2 = Object.keys(ans.L2).filter((key) => {
           return ans.L2[key].includes('yes');
         });
-        if (
-          ansObjectL2.length === allYesFilterData2.length &&
-          !questionL3.length &&
-          !question2Api &&
-          !questionData?.data?.L3
-        ) {
-          dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
-          setQuestion3Api(true);
-        }
+
         updateAns.L2 = ans.L2;
         setAns(updateAns);
         setTerminating(false);
@@ -303,10 +246,6 @@ const ControlSection3 = ({
           if (ans.L1) {
             const updateAnsL1 = setSelectedQuestionAns(data, ans.L1);
             setQuestionL1(updateAnsL1);
-            if (!question2Api && !questionData?.data?.L2) {
-              dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
-              setQuestion2Api(true);
-            }
           } else {
             setQuestionL1(data);
           }
@@ -330,25 +269,6 @@ const ControlSection3 = ({
           if (ans.L2) {
             const updateAnsL2 = setSelectedQuestionAns(data2, ans.L2);
             setQuestionL2(updateAnsL2);
-            if (!question3Api && !questionData?.data?.L3) {
-              if (!loadingRef?.current?.L3) {
-                setLoadingLevel({ ...loadingLevel, L3: true });
-                dispatch(
-                  getSection3Questions({
-                    Level: 'L3',
-                    Control_ID: Control_ID,
-                    events: {
-                      onSuccess: () => {
-                        setTimeout(() => {
-                          setLoadingLevel({ ...loadingLevel, L3: false });
-                        }, 1500);
-                      },
-                    },
-                  }),
-                );
-              }
-              setQuestion3Api(true);
-            }
           } else {
             setQuestionL2(data2);
           }
