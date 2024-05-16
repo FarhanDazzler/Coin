@@ -15,27 +15,20 @@ import '../KpiModule.scss';
 import { useTranslation } from 'react-i18next';
 
 const Badge_apply = ({ data }) => {
-  if (data.toUpperCase() === 'PASS') {
-    return (
-      <Badge color="green" size="lg" radius="lg" variant="outline">
-        {data.toUpperCase()}
-      </Badge>
-    );
-  }
-  if (data.toUpperCase() === 'FAIL') {
-    return (
-      <Badge color="red" size="lg" radius="lg" variant="outline">
-        {data.toUpperCase()}
-      </Badge>
-    );
-  }
-  if (data.toUpperCase() === 'N/A' || data.toUpperCase() === 'NA') {
-    return (
-      <Badge color="gray" size="lg" radius="lg" variant="outline">
-        {data.toUpperCase()}
-      </Badge>
-    );
-  }
+  const colorMap = {
+    PASS: 'green',
+    FAIL: 'red',
+    'N/A': 'gray',
+    NA: 'gray',
+  };
+
+  const color = colorMap[data.toUpperCase()] || 'gray';
+
+  return (
+    <Badge color={color} size="lg" radius="lg" variant="outline">
+      {data.toUpperCase()}
+    </Badge>
+  );
 };
 
 const KPITable = ({ data }) => {
@@ -186,7 +179,9 @@ const KPITable = ({ data }) => {
           type: 'number',
           variant: 'filled',
           error: validationErrors[row.original.id]?.KPI_Num,
+          helperText: validationErrors[row.original.id]?.KPI_Num,
           onBlur: (event) => {
+            // console.log('@@', row.original.id);
             const value = event.target.value;
             tableData[cell.row.index][cell.column.id] = value;
             setTableData([...tableData]);
@@ -209,7 +204,7 @@ const KPITable = ({ data }) => {
                 },
               }));
             } else if (!row.original.KPI_Den) {
-              console.log('@@', row);
+              // console.log('@@', row);
               setValidationErrors((prev) => ({
                 ...prev,
                 [row.original.id]: {
@@ -227,21 +222,6 @@ const KPITable = ({ data }) => {
                 delete validationErrors[row.original.id]?.KPI_Den;
                 setValidationErrors({ ...validationErrors });
               }
-              // setValidationErrors((prevErrors) => ({
-              //   ...prevErrors,
-              //   [row.original.id]: {
-              //     ...prevErrors[row.original.id],
-              //     KPI_Num: undefined,
-              //   },
-              // }));
-
-              // setValidationErrors((prevErrors) => {
-              //   const { KPI_Num, ...rest } = prevErrors[row.original.id] || {};
-              //   return {
-              //     ...prevErrors,
-              //     [row.original.id]: rest,
-              //   };
-              // });
             }
           },
         }),
@@ -257,6 +237,7 @@ const KPITable = ({ data }) => {
           type: 'number',
           variant: 'filled',
           error: validationErrors[row.original.id]?.KPI_Den,
+          helperText: validationErrors[row.original.id]?.KPI_Den,
           onBlur: (event) => {
             const value = event.target.value;
 
@@ -479,7 +460,7 @@ const KPITable = ({ data }) => {
         },
       },
     ],
-    [],
+    [validationErrors, tableData],
   );
 
   const handleSubmit = (e) => {
@@ -553,6 +534,8 @@ const KPITable = ({ data }) => {
     // console.log('validationErrors', validationErrors);
   };
 
+  console.log('tableData', tableData);
+  console.log('validationErrors', validationErrors);
 
   return (
     <div className="kpi_table">
@@ -629,16 +612,23 @@ const KPITable = ({ data }) => {
                     <button
                       className="custom-btn mt-2 submit-btn"
                       onClick={handleSaveKPIData}
+                      // disabled={
+                      //   Object.keys(tableData).length === 0 ||
+                      //   Object.values(validationErrors).some((error) => !!error)
+                      // }
                       disabled={
                         Object.keys(tableData).length === 0 ||
-                        Object.values(validationErrors).some((error) => !!error)
+                        Object.values(validationErrors).some(
+                          (error) =>
+                            error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
+                        )
                       }
                     >
                       Submit
                     </button>
-                    {Object.values(validationErrors).some((error) => !!error) && (
-                      <Text color="red">Fix errors before submitting</Text>
-                    )}
+                    {Object.values(validationErrors).some(
+                      (error) => error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
+                    ) && <Text color="red">Fix errors before submitting</Text>}
                   </Flex>
                   {/* <div className="row kpi_table_row" id="export_button_right">
               <Workbook
