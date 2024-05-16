@@ -53,12 +53,12 @@
   color: #fff;
   height: 100vh;
 }
-.mantine-Select-input {
+.contactUs .mantine-Select-input {
   margin-top: 5px;
   background: #1a1b1e;
   border: none;
 }
-.mantine-TextInput-input {
+.contactUs .mantine-TextInput-input {
   margin-top: 5px;
   background: #1a1b1e;
   border: none;
