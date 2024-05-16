@@ -122,7 +122,7 @@ const TopBar = (props) => {
     return (
       <div
         className="nav nav-tabs border-0 flex-column flex-lg-row"
-        style={{ marginRight: '20px' }}
+        style={{ marginRight: '10px' }}
       >
         <ul className="nav nav-tabs border-0 flex-wrap">
           <li className="nav-item">
