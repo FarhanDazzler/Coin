@@ -77,7 +77,7 @@ const OrgHierarchyTable = () => {
     {
       accessorKey: 'sap_company_code',
       id: 'sap_company_code',
-      header: 'SAP / ERP',
+      header: 'Company Code',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
