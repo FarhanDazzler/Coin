@@ -44,8 +44,6 @@ const KPITable = ({ data }) => {
 
   const [tableData, setTableData] = useState(() => data);
   const [validationErrors, setValidationErrors] = useState({});
-  //keep track of rows that have been edited
-  const [editedUsers, setEditedUsers] = useState({});
 
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const [excelFile, setExcelFile] = useState(null);
@@ -187,22 +185,63 @@ const KPITable = ({ data }) => {
           required: true,
           type: 'number',
           variant: 'filled',
-          error: validationErrors.KPI_Num,
-          onChange: (event) => {
+          error: validationErrors[row.original.id]?.KPI_Num,
+          onBlur: (event) => {
             const value = event.target.value;
+            tableData[cell.row.index][cell.column.id] = value;
+            setTableData([...tableData]);
+
             //validation logic
             if (!value) {
-              setValidationErrors((prev) => ({ ...prev, KPI_Num: 'Numerator is required' }));
+              setValidationErrors((prev) => ({
+                ...prev,
+                [row.original.id]: {
+                  ...prev[row.original.id],
+                  KPI_Num: 'Numerator is required',
+                },
+              }));
             } else if (value < 0) {
-              setValidationErrors({
-                ...validationErrors,
-                KPI_Num: 'Numerator can be positive values only',
-              });
+              setValidationErrors((prev) => ({
+                ...prev,
+                [row.original.id]: {
+                  ...prev[row.original.id],
+                  KPI_Num: 'Numerator can be positive values only',
+                },
+              }));
             } else if (!row.original.KPI_Den) {
-              setValidationErrors({ ...validationErrors, KPI_Num: 'Denominator is required' });
+              console.log('@@', row);
+              setValidationErrors((prev) => ({
+                ...prev,
+                [row.original.id]: {
+                  ...prev[row.original.id],
+                  KPI_Num: 'Denominator is required',
+                },
+              }));
             } else {
-              delete validationErrors.KPI_Num;
+              delete validationErrors[row.original.id]?.KPI_Num;
               setValidationErrors({ ...validationErrors });
+              if (
+                row.original.KPI_Den &&
+                validationErrors[row.original.id]?.KPI_Den == 'Numerator is required'
+              ) {
+                delete validationErrors[row.original.id]?.KPI_Den;
+                setValidationErrors({ ...validationErrors });
+              }
+              // setValidationErrors((prevErrors) => ({
+              //   ...prevErrors,
+              //   [row.original.id]: {
+              //     ...prevErrors[row.original.id],
+              //     KPI_Num: undefined,
+              //   },
+              // }));
+
+              // setValidationErrors((prevErrors) => {
+              //   const { KPI_Num, ...rest } = prevErrors[row.original.id] || {};
+              //   return {
+              //     ...prevErrors,
+              //     [row.original.id]: rest,
+              //   };
+              // });
             }
           },
         }),
@@ -217,22 +256,50 @@ const KPITable = ({ data }) => {
           required: true,
           type: 'number',
           variant: 'filled',
-          error: validationErrors.KPI_Den,
-          onChange: (event) => {
+          error: validationErrors[row.original.id]?.KPI_Den,
+          onBlur: (event) => {
             const value = event.target.value;
+
+            tableData[cell.row.index][cell.column.id] = value;
+            setTableData([...tableData]);
+
             //validation logic
             if (!value) {
-              setValidationErrors((prev) => ({ ...prev, KPI_Den: 'Denominator is required' }));
+              setValidationErrors((prev) => ({
+                ...prev,
+                [row.original.id]: {
+                  ...prev[row.original.id],
+                  KPI_Den: 'Denominator is required',
+                },
+              }));
             } else if (value <= 0) {
-              setValidationErrors({
-                ...validationErrors,
-                KPI_Den: 'Denominator can be positive values only',
-              });
+              setValidationErrors((prev) => ({
+                ...prev,
+                [row.original.id]: {
+                  ...prev[row.original.id],
+                  KPI_Den: 'Denominator can be positive values only',
+                },
+              }));
             } else if (!row.original.KPI_Num) {
-              setValidationErrors({ ...validationErrors, KPI_Den: 'Numerator is required' });
+              console.log('##', row);
+              setValidationErrors((prev) => ({
+                ...prev,
+                [row.original.id]: {
+                  ...prev[row.original.id],
+                  KPI_Den: 'Numerator is required',
+                },
+              }));
             } else {
-              delete validationErrors.KPI_Den;
+              delete validationErrors[row.original.id]?.KPI_Den;
               setValidationErrors({ ...validationErrors });
+
+              if (
+                row.original.KPI_Num &&
+                validationErrors[row.original.id]?.KPI_Num == 'Denominator is required'
+              ) {
+                delete validationErrors[row.original.id]?.KPI_Num;
+                setValidationErrors({ ...validationErrors });
+              }
             }
           },
         }),
@@ -293,6 +360,7 @@ const KPITable = ({ data }) => {
         //   filterVariant: 'autocomplete',
         header: 'Source of Data - Link',
         size: 300,
+        variant: 'filled',
       },
       {
         accessorKey: 'kpi_desc',
@@ -411,7 +479,7 @@ const KPITable = ({ data }) => {
         },
       },
     ],
-    [editedUsers, validationErrors],
+    [],
   );
 
   const handleSubmit = (e) => {
@@ -485,8 +553,6 @@ const KPITable = ({ data }) => {
     // console.log('validationErrors', validationErrors);
   };
 
-  console.log('tableData', tableData);
-  console.log('validationErrors', validationErrors);
 
   return (
     <div className="kpi_table">
@@ -500,12 +566,13 @@ const KPITable = ({ data }) => {
           // enablePinning= {true}
           enableRowSelection={false}
           selectAllMode="all"
+          getRowId={(row) => row.id}
           paginationDisplayMode={'pages'}
           enableRowNumbers={true}
           rowNumberMode={'original'}
           // positionToolbarAlertBanner= {'bottom'}
           enableStickyHeader={true}
-          createDisplayMode="row" // ('modal', and 'custom' are also available)
+          // createDisplayMode="row" // ('modal', and 'custom' are also available)
           editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)
           enableEditing={(row) => row.original.Expected_Source == 'Manual'}
           mantineEditTextInputProps={({ cell }) => ({
@@ -513,7 +580,7 @@ const KPITable = ({ data }) => {
             onBlur: (event) => {
               handleSaveCell(cell, event.target.value);
             },
-            variant: 'unstyled', //default for editDisplayMode="table"
+            variant: 'filled', //default for editDisplayMode="table"
           })}
           initialState={{
             showColumnFilters: true,
