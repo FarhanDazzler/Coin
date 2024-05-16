@@ -184,7 +184,7 @@ const KPITable = ({ data }) => {
             // console.log('@@', row.original.id);
             const value = event.target.value;
             tableData[cell.row.index][cell.column.id] = value;
-            setTableData([...tableData]);
+            // setTableData([...tableData]);
 
             //validation logic
             if (!value) {
@@ -242,8 +242,7 @@ const KPITable = ({ data }) => {
             const value = event.target.value;
 
             tableData[cell.row.index][cell.column.id] = value;
-            setTableData([...tableData]);
-
+            // setTableData([...tableData]);
             //validation logic
             if (!value) {
               setValidationErrors((prev) => ({
@@ -298,23 +297,29 @@ const KPITable = ({ data }) => {
       },
       {
         accessorKey: 'expected_kpi_source',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
         header: 'Expected KPI Source',
-        size: 300,
-        enableEditing: false,
+        size: 100,
+        editVariant: 'select',
+        mantineEditSelectProps: ({ cell, row }) => ({
+          data: [
+            {
+              value: 'Automated',
+              label: 'Automated',
+            },
+            {
+              value: 'Manual',
+              label: 'Manual',
+            },
+          ],
+          onChange: (value) => (tableData[cell.row.index][cell.column.id] = value),
+        }),
       },
       {
         accessorKey: 'upload_approach',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
         header: 'Actual KPI Source',
-        size: 300,
+        size: 100,
         editVariant: 'select',
-        mantineTableBodyCellProps: {
-          align: 'center',
-        },
-        mantineEditSelectProps: {
+        mantineEditSelectProps: ({ cell, row }) => ({
           data: [
             {
               value: 'Excel',
@@ -333,15 +338,24 @@ const KPITable = ({ data }) => {
               label: 'Others',
             },
           ],
-        },
+          onChange: (value) => (tableData[cell.row.index][cell.column.id] = value),
+        }),
       },
       {
         accessorKey: 'source_system',
         enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
         header: 'Source of Data - Link',
         size: 300,
-        variant: 'filled',
+        mantineEditTextInputProps: ({ cell, row }) => ({
+          required: false,
+          type: 'text',
+          variant: 'filled',
+          onBlur: (event) => {
+            const value = event.target.value;
+            tableData[cell.row.index][cell.column.id] = value;
+            // setTableData([...tableData]);
+          },
+        }),
       },
       {
         accessorKey: 'kpi_desc',
@@ -521,13 +535,6 @@ const KPITable = ({ data }) => {
     // }
   };
 
-  const handleSaveCell = (cell, value) => {
-    //if using flat data and simple accessorKeys/ids, you can just do a simple assignment here
-    tableData[cell.row.index][cell.column.id] = value;
-    //send/receive api updates here
-    setTableData([...tableData]); //re-render with new data
-  };
-
   const handleSaveKPIData = () => {
     //send/receive api updates here
     // console.log('tableData', tableData);
@@ -558,13 +565,6 @@ const KPITable = ({ data }) => {
           // createDisplayMode="row" // ('modal', and 'custom' are also available)
           editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)
           enableEditing={(row) => row.original.Expected_Source == 'Manual'}
-          mantineEditTextInputProps={({ cell }) => ({
-            //onBlur is more efficient, but could use onChange instead
-            onBlur: (event) => {
-              handleSaveCell(cell, event.target.value);
-            },
-            variant: 'filled', //default for editDisplayMode="table"
-          })}
           initialState={{
             showColumnFilters: true,
             showGlobalFilter: true,
