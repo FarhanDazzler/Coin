@@ -46,7 +46,7 @@ const EditSection1QuestionOption = ({
     setBlock({ ...block, question_type: data });
   };
   const handleChangeQuestion = (value) => {
-    setQuestion(value.target.value);
+    setQuestion(value.target.value.trimStart());
   };
 
   useEffect(() => {
