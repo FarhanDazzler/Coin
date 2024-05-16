@@ -77,7 +77,7 @@ const AddSection1Questions = ({ open, handleClose, type, controlId }) => {
                 value={questionText}
                 maxLength={maxLength}
                 isInvalid={Boolean(questionText?.length == maxLength)}
-                onChange={(e) => setQuestionText(e.target.value)}
+                onChange={(e) => setQuestionText(e.target.value.trimStart())}
               />
               {questionText?.length == maxLength && (
                 <Form.Control.Feedback type="invalid">

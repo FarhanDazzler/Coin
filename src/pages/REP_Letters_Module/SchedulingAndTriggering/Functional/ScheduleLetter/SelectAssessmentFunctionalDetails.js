@@ -280,6 +280,15 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
 
   const handleSaveAdd = (values) => {
     console.log(values);
+    if (moment(values.Due_Date, 'YYYY-MM-DD').isBefore(moment(values.Start_Date, 'YYYY-MM-DD'))) {
+      Swal.fire({
+        title: 'Date issues?',
+        text: 'Start Date must be before Due Date.',
+        icon: 'warning',
+        confirmButtonText: 'Okay',
+      });
+      return;
+    }
     //code for selected item from table
     if (editTableIndex.length === 0) {
       Swal.fire({
@@ -376,8 +385,32 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
             Year: Yup.string().required('Year is required'),
             // KPI_From_Year: Yup.string().required('KPI From is required'),
             // KPI_To: Yup.string().required('KPI To is required'),
-            Start_Date: Yup.string().required('Start Date is required'),
-            Due_Date: Yup.string().required('Due Date is required'),
+            Start_Date: Yup.string()
+              .required('Start Date is required')
+              .test(
+                'is-before-due-date',
+                'Start Date must be before Due Date',
+                function (start_date) {
+                  const { Due_Date } = this.parent; // Access Due_Date from form values
+                  if (!start_date || !Due_Date) return true; // Skip validation if fields are empty
+
+                  // Use Moment.js to parse and compare dates
+                  return moment(start_date, 'YYYY-MM-DD').isBefore(moment(Due_Date, 'YYYY-MM-DD'));
+                },
+              ),
+            Due_Date: Yup.string()
+              .required('Due Date is required')
+              .test(
+                'is-after-start-date',
+                'Due Date must be after Start Date',
+                function (due_date) {
+                  const { Start_Date } = this.parent; // Access Start_Date from form values
+                  if (!due_date || !Start_Date) return true; // Skip validation if fields are empty
+
+                  // Use Moment.js to parse and compare dates
+                  return moment(due_date, 'YYYY-MM-DD').isAfter(moment(Start_Date, 'YYYY-MM-DD'));
+                },
+              ),
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
             try {
@@ -563,11 +596,9 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
                               className="form-control"
                             />
 
-                            {!!touched.Start_Date && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.Start_Date}
-                              </Form.Control.Feedback>
-                            )}
+                            <Form.Control.Feedback type="invalid">
+                              {errors.Start_Date}
+                            </Form.Control.Feedback>
                           </Form.Group>
                         </div>
                       </div>
@@ -585,6 +616,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
                               name="Due_Date"
                               placeholder=""
                               value={values.Due_Date}
+                              min={values.Recipient_Reminder_2}
                               isInvalid={Boolean(touched.Due_Date && errors.Due_Date)}
                               onBlur={handleBlur}
                               onChange={handleChange}
@@ -592,11 +624,9 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
                               className="form-control"
                             />
 
-                            {!!touched.Due_Date && (
-                              <Form.Control.Feedback type="invalid">
-                                {errors.Due_Date}
-                              </Form.Control.Feedback>
-                            )}
+                            <Form.Control.Feedback type="invalid">
+                              {errors.Due_Date}
+                            </Form.Control.Feedback>
                           </Form.Group>
                         </div>
                       </div>
@@ -635,6 +665,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
                               )}
                               onBlur={handleBlur}
                               onChange={handleChange}
+                              min={values.Start_Date}
                               readOnly={false}
                               className="form-control"
                             />
@@ -667,6 +698,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
                               onBlur={handleBlur}
                               onChange={handleChange}
                               readOnly={false}
+                              min={values.Recipient_Reminder_1}
                               className="form-control"
                             />
 

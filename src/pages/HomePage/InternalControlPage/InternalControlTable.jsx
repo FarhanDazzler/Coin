@@ -166,19 +166,19 @@ const InternalControlTable = ({
   );
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
 
-  // useEffect(() => {
-  //   //code for getting Internal Control Home Page table data
+  useEffect(() => {
+    //code for getting Internal Control Home Page table data
 
-  //   if (yearValue.length > 0) {
-  //     const payload = {
-  //       assessmentCycle: assessmentCycleValue,
-  //       year: yearValue,
-  //     };
-  //     dispatch(getInternalControlTableData(payload));
-  //   } else {
-  //     toast.error('Please select Year in filter.');
-  //   }
-  // }, [assessmentCycleValue, yearValue, token]);
+    if (yearValue.length > 0) {
+      const payload = {
+        assessmentCycle: assessmentCycleValue,
+        year: yearValue,
+      };
+      dispatch(getInternalControlTableData(payload));
+    } else {
+      toast.error('Please select Year in filter.');
+    }
+  }, [assessmentCycleValue, yearValue, token]);
 
   const getDashBoardDataState = useSelector(getInternalControlDataSelector);
 

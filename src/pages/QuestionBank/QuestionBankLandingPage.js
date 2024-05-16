@@ -44,7 +44,7 @@ const QuestionBank = () => {
   return (
     <PageWrapper>
       <div className="container-fluid py-5">
-        {localStorage.getItem('selected_Role') === 'Global internal control' && (
+        {localStorage.getItem('selected_Role') === 'Global Internal Control' && (
           <div className="row py-3">
             <div className="col-lg-5 py-4">
               <QuestionBankBox

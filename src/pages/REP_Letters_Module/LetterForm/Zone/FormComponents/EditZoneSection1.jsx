@@ -315,7 +315,9 @@ const EditZoneSection1 = (props) => {
                               as="textarea"
                               placeholder="Enter your comment..."
                               required
-                              onChange={(e) => handleCommentChange(question.id, e.target.value)}
+                              onChange={(e) =>
+                                handleCommentChange(question.id, e.target.value.trimStart())
+                              }
                               name="comment"
                               value={response.comment || ''}
                               rows={4}
@@ -329,7 +331,9 @@ const EditZoneSection1 = (props) => {
                               as="textarea"
                               placeholder="Enter your action plan..."
                               required
-                              onChange={(e) => handleCommentChange(question.id, e.target.value)}
+                              onChange={(e) =>
+                                handleCommentChange(question.id, e.target.value.trimStart())
+                              }
                               name="comment"
                               value={response.comment || ''}
                               rows={4}
@@ -345,7 +349,9 @@ const EditZoneSection1 = (props) => {
                               placeholder="Please select Year"
                               required
                               value={response.year || ''}
-                              onChange={(e) => handleYearChange(question.id, e.target.value)}
+                              onChange={(e) =>
+                                handleYearChange(question.id, e.target.value.trimStart())
+                              }
                               className="form-select"
                               style={{ width: '150px', marginRight: '10px' }}
                             >

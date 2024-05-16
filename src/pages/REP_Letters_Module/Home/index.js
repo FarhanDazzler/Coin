@@ -8,7 +8,7 @@ const REP_Letters_HomePage = () => {
   return (
     <div>
       <PageWrapper>
-        {selected_module_role === 'Functional' ? <FunctionalHomePage /> : <BU_HomePage />}
+        {selected_module_role === 'Functional Representation Letter' ? <FunctionalHomePage /> : <BU_HomePage />}
       </PageWrapper>
     </div>
   );

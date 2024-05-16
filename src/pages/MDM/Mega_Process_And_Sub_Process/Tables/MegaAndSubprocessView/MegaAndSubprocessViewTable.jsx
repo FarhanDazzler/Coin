@@ -106,7 +106,7 @@ const MegaAndSubprocessViewTable = () => {
                     Mega Process & Sub-Process Master Data
                   </span>
                 </div>
-                {localStorage.getItem('selected_Role') === 'Global internal control' && (
+                {localStorage.getItem('selected_Role') === 'Global Internal Control' && (
                   <div>
                     <Button
                       variant="outlined"
