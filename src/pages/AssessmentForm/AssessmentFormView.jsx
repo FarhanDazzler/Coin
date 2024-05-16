@@ -26,7 +26,6 @@ import {
 } from '../../redux/Assessments/AssessmentSelectors';
 import Swal from 'sweetalert2';
 import AssessmentFormRender from './AssessmentFormRender';
-import { getSection3Questions } from '../../redux/Questions/QuestionsAction';
 import { getLanguageFormat, isJsonString } from '../../utils/helper';
 import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
 import { useMsal } from '@azure/msal-react';
@@ -137,8 +136,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     }
   }, [ansSection3]);
 
+  console.log('activeData', activeData);
+
   //API useEffect
   useEffect(() => {
+    if (questionsInfo.loading) return;
     // get question API
     dispatch(
       getQuestions({
@@ -218,7 +220,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     };
   }, []);
 
-  let timeOutSection2 = null;
   let timeOutSection3 = null;
 
   useEffect(() => {
@@ -240,7 +241,9 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     if (responseUpdatedData || condition) {
       if (responseUpdatedData?.s1 && !startEdit) {
         // set section 1 ans here..
-        setAnsSection1(getLanguageFormat(responseUpdatedData.s1, language));
+        setTimeout(() => {
+          setAnsSection1(getLanguageFormat(responseUpdatedData.s1, language));
+        }, [10]);
 
         // if section1 ad question fill then show submit btn
         if (responseUpdatedData.s1?.length > 0) {
@@ -280,54 +283,15 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         }
 
         // convert json string to parse data
-        const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions)
-          ? JSON.parse(questionData.Level?.L1?.Inner_Questions)
-          : [];
         const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions)
           ? JSON.parse(questionData.Level?.L2?.Inner_Questions)
           : [];
 
         // check section 1 and section 2 select any no option or not
-        const isLevel1NoInnerQuestion =
-          questionData.Level?.L1?.Header_Question && !L1InnerQuestion.length;
         const isLevel2NoInnerQuestion =
           questionData.Level?.L1?.Header_Question &&
           questionData.Level?.L2?.Header_Question &&
           !L2InnerQuestion.length;
-
-        // Check section 3 L1 level fill or not
-        if (
-          (section3Data?.L2 && questionData.Level?.L1 && !questionData.Level?.L2) ||
-          (isLevel1NoInnerQuestion && !questionData.Level?.L2) ||
-          (!(L1InnerQuestion.length > 0) &&
-            questionData.Level?.L1?.Inner_Questions &&
-            !questionData.Level?.L2)
-        ) {
-          // if section 3 level 1 show then API to get section 3 L2 level api call condition
-          if (!questionData?.data?.L2) {
-            if (timeOutSection2) clearTimeout(timeOutSection2);
-            timeOutSection2 = setTimeout(() => {
-              if (!loadingRef?.current?.L2) {
-                setLoadingLevel({ ...loadingLevel, L2: true });
-                // Section 3 - L2 level api call
-                dispatch(
-                  getSection3Questions({
-                    Level: 'L2',
-                    Control_ID: activeData?.control_id,
-                    Assessment_ID: activeData?.assessment_id,
-                    events: {
-                      onSuccess: () => {
-                        setTimeout(() => {
-                          setLoadingLevel({ ...loadingLevel, L2: false });
-                        }, 1500);
-                      },
-                    },
-                  }),
-                );
-              }
-            }, 1000);
-          }
-        }
 
         // Check section 3 L2 and L3 level fill or not
         if (
@@ -337,25 +301,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           if (!questionData?.data?.L3) {
             if (timeOutSection3) clearTimeout(timeOutSection3);
             timeOutSection3 = setTimeout(() => {
-              if (!loadingRef?.current?.L3) {
-                setLoadingLevel({ ...loadingLevel, L3: true });
-                // Section 3 - L3 level api call
-                dispatch(
-                  getSection3Questions({
-                    Level: 'L3',
-                    Control_ID: activeData?.control_id,
-                    Assessment_ID: activeData?.assessment_id,
-                    events: {
-                      onSuccess: () => {
-                        setTimeout(() => {
-                          setLoadingLevel({ ...loadingLevel, L3: false });
-                        }, 1500);
-                      },
-                    },
-                  }),
-                );
-              }
-
               if (!showMoreSection) {
                 setTerminating(true);
               }
@@ -364,7 +309,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         }
       }
     }
-  }, [responseData.data, questionData, activeData]);
+  }, [responseData.data, questionData, activeData, questionsInfo]);
 
   // check if section 1 fail or not
   const s1FailObj = useMemo(() => {
