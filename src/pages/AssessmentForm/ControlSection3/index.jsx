@@ -83,18 +83,18 @@ const ControlSection3 = ({
     setStartEdit(true);
     setLastAns(value);
     const noQueAns = value.includes('yes');
+    setShowNoQuestionAns('');
+    setL1AndL2NoQuestionsAns({
+      failingDue: null,
+      reasonsForFailing: null,
+    });
     let updateAns = { ...ans };
     if (noQueAns) {
-      setShowNoQuestionAns('');
       setShowNoQuestion(false);
       updateAns.noQueAns = false;
       if (ans?.L1AndL2NoQuestionsAns && ans?.L1AndL2NoQuestionsAns?.failingDue) {
         updateAns.L1AndL2NoQuestionsAns = { failingDue: null, reasonsForFailing: null };
       }
-      setL1AndL2NoQuestionsAns({
-        failingDue: null,
-        reasonsForFailing: null,
-      });
     }
     if (parentBlock) {
       // Store data for selected level block value

@@ -241,6 +241,14 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       if (responseUpdatedData?.s1 && !startEdit) {
         // set section 1 ans here..
         setAnsSection1(getLanguageFormat(responseUpdatedData.s1, language));
+
+        // if section1 ad question fill then show submit btn
+        if (responseUpdatedData.s1?.length > 0) {
+          const lastS1Data = responseUpdatedData.s1[responseUpdatedData.s1.length - 1];
+          if (lastS1Data && lastS1Data.is_AD && lastS1Data.value) {
+            setTerminating(true);
+          }
+        }
       }
 
       if (responseUpdatedData?.kpis) {
