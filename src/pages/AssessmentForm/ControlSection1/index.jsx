@@ -174,10 +174,14 @@ const ControlSection1 = ({
   };
 
   useEffect(() => {
-    if (getQuestions?.data?.length > 0 && !latestDraftData?.data?.Latest_response) {
+    if (getQuestions?.data?.length > 0) {
       const allData = getFormatQuestions(getQuestions?.data, false, null, true);
       const updateLang = getLanguageFormat(allData, language, null);
       setData(updateLang);
+    }
+    if (getQuestions?.data?.length > 0 && !latestDraftData?.data?.Latest_response) {
+      const allData = getFormatQuestions(getQuestions?.data, false, null, true);
+      const updateLang = getLanguageFormat(allData, language, null);
       const showData = updateLang.filter((d) => d.show);
       setAns(getUniqueListBy(showData, 'q_id'));
     }
