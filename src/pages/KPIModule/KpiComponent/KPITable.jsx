@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { Badge, Box, Button, Flex, Menu, Text, Title, MantineProvider } from '@mantine/core';
 import {
   MRT_GlobalFilterTextInput,
   MRT_ToggleFiltersButton,
@@ -9,7 +11,6 @@ import {
 } from 'mantine-react-table';
 import readXlsxFile from 'read-excel-file';
 import { getCsvTampredDataAction } from '../../../redux/CsvTampred/CsvTampredAction';
-import { Badge, Box, Button, Flex, Menu, Text, Title, MantineProvider } from '@mantine/core';
 import Workbook from 'react-excel-workbook';
 import '../KpiModule.scss';
 import { useTranslation } from 'react-i18next';
@@ -30,6 +31,53 @@ const Badge_apply = ({ data }) => {
     </Badge>
   );
 };
+
+// Function to calculate the result based on the numerator, denominator, threshold, and positive direction
+function calculateResult(numerator, denominator, threshold, positiveDirection) {
+  if (threshold === null || threshold === '' || threshold === '-' || threshold === 'NA') {
+    return 'N/A';
+  }
+
+  if (
+    numerator === null ||
+    numerator === '' ||
+    numerator === 'NA' ||
+    denominator === null ||
+    denominator === '' ||
+    denominator === 'NA'
+  ) {
+    return 'Fail';
+  }
+
+  let num, den, thresholdFloat;
+
+  try {
+    num = parseFloat(numerator);
+    den = parseFloat(denominator);
+    thresholdFloat = parseFloat(threshold);
+  } catch (error) {
+    console.log('Error: One of the inputs is not a valid float.');
+    return 'Fail';
+  }
+
+  if (isNaN(num) || isNaN(den) || isNaN(thresholdFloat)) {
+    console.log('Error: One of the inputs is not a valid float.');
+    return 'Fail';
+  }
+
+  if (den === 0) {
+    return 'Fail'; // Only denominator is zero
+  }
+
+  const value = num / den;
+  if (positiveDirection && positiveDirection.trim().toLowerCase() === 'lower is better') {
+    return value <= thresholdFloat ? 'Pass' : 'Fail';
+  } else if (positiveDirection && positiveDirection.trim().toLowerCase() === 'higher is better') {
+    return value >= thresholdFloat ? 'Pass' : 'Fail';
+  } else {
+    return 'Fail';
+  }
+}
 
 const KPITable = ({ data }) => {
   const { t } = useTranslation();
@@ -185,6 +233,25 @@ const KPITable = ({ data }) => {
             const value = event.target.value;
             tableData[cell.row.index][cell.column.id] = value;
             // setTableData([...tableData]);
+            // setting up results here based on the numerator, denominator, threshold, and positive direction
+            tableData[cell.row.index].Result_L1 = calculateResult(
+              row.original.KPI_Num,
+              row.original.KPI_Den,
+              row.original.L1,
+              row.original.Direction,
+            );
+            tableData[cell.row.index].Result_L2 = calculateResult(
+              row.original.KPI_Num,
+              row.original.KPI_Den,
+              row.original.L2,
+              row.original.Direction,
+            );
+            tableData[cell.row.index].Result_L3 = calculateResult(
+              row.original.KPI_Num,
+              row.original.KPI_Den,
+              row.original.L3,
+              row.original.Direction,
+            );
 
             //validation logic
             if (!value) {
@@ -240,9 +307,38 @@ const KPITable = ({ data }) => {
           helperText: validationErrors[row.original.id]?.KPI_Den,
           onBlur: (event) => {
             const value = event.target.value;
-
             tableData[cell.row.index][cell.column.id] = value;
-            // setTableData([...tableData]);
+
+            // setting up results here based on the numerator, denominator, threshold, and positive direction
+            tableData[cell.row.index].Result_L1 = calculateResult(
+              row.original.KPI_Num,
+              row.original.KPI_Den,
+              row.original.L1,
+              row.original.Direction,
+            );
+            tableData[cell.row.index].Result_L2 = calculateResult(
+              row.original.KPI_Num,
+              row.original.KPI_Den,
+              row.original.L2,
+              row.original.Direction,
+            );
+            tableData[cell.row.index].Result_L3 = calculateResult(
+              row.original.KPI_Num,
+              row.original.KPI_Den,
+              row.original.L3,
+              row.original.Direction,
+            );
+            // console.log(
+            //   '@@',
+            //   calculateResult(
+            //     row.original.KPI_Num,
+            //     row.original.KPI_Den,
+            //     row.original.L3,
+            //     row.original.Direction,
+            //   ),
+            // );
+            // console.log('@@@', cell);
+
             //validation logic
             if (!value) {
               setValidationErrors((prev) => ({
@@ -261,7 +357,7 @@ const KPITable = ({ data }) => {
                 },
               }));
             } else if (!row.original.KPI_Num) {
-              console.log('##', row);
+              // console.log('##', row);
               setValidationErrors((prev) => ({
                 ...prev,
                 [row.original.id]: {
@@ -536,9 +632,32 @@ const KPITable = ({ data }) => {
   };
 
   const handleSaveKPIData = () => {
-    //send/receive api updates here
-    // console.log('tableData', tableData);
-    // console.log('validationErrors', validationErrors);
+    // checking if there are any validation errors before sending the data to the api for saving the data
+    // if there are no validation errors then send the data to the api for saving the data
+    // else show the validation errors to the user
+
+    // {Object.values(validationErrors).some(
+    //   (error) => error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
+    // ) && <Text color="red">Fix errors before submitting</Text>}
+
+    if (
+      Object.keys(tableData).length === 0 ||
+      Object.values(validationErrors).some(
+        (error) => error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
+      )
+    ) {
+      toast.error('Please fill all the required fields and fix the errors before submitting.');
+      return;
+    } else {
+      console.log('Saved data', tableData);
+    }
+  };
+
+  const handleShowResults = () => {
+    // updating setTableData with all user input added directly to tableData via table.
+    // Crated this functionality to stopping re-rendering of table on every cell change.
+    // This will update the tableData with all the user input added directly to tableData via table.
+    setTableData([...tableData]);
   };
 
   console.log('tableData', tableData);
@@ -608,27 +727,28 @@ const KPITable = ({ data }) => {
             return (
               <Flex p="md" justify="space-between" className="kpi_module_buttons">
                 <Flex sx={{ gap: '8px' }}>
-                  <Flex align="center" gap="md">
+                  <Flex align="center" gap="xs">
+                    <button
+                      className="custom-btn mt-2 submit-btn"
+                      onClick={() => {
+                        handleShowResults();
+                      }}
+                    >
+                      Show Results
+                    </button>
                     <button
                       className="custom-btn mt-2 submit-btn"
                       onClick={handleSaveKPIData}
                       // disabled={
                       //   Object.keys(tableData).length === 0 ||
-                      //   Object.values(validationErrors).some((error) => !!error)
+                      //   Object.values(validationErrors).some(
+                      //     (error) =>
+                      //       error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
+                      //   )
                       // }
-                      disabled={
-                        Object.keys(tableData).length === 0 ||
-                        Object.values(validationErrors).some(
-                          (error) =>
-                            error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
-                        )
-                      }
                     >
-                      Submit
+                      Submit KPIs
                     </button>
-                    {Object.values(validationErrors).some(
-                      (error) => error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
-                    ) && <Text color="red">Fix errors before submitting</Text>}
                   </Flex>
                   {/* <div className="row kpi_table_row" id="export_button_right">
               <Workbook
