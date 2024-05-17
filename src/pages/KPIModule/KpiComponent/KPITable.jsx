@@ -726,75 +726,81 @@ const KPITable = ({ data }) => {
           renderTopToolbar={({ table }) => {
             return (
               <Flex p="md" justify="space-between" className="kpi_module_buttons">
-                <Flex sx={{ gap: '8px' }}>
-                  <Flex align="center" gap="xs">
-                    <button
-                      className="custom-btn mt-2 submit-btn"
-                      onClick={() => {
-                        handleShowResults();
-                      }}
-                    >
-                      Show Results
-                    </button>
-                    <button
-                      className="custom-btn mt-2 submit-btn"
-                      onClick={handleSaveKPIData}
-                      // disabled={
-                      //   Object.keys(tableData).length === 0 ||
-                      //   Object.values(validationErrors).some(
-                      //     (error) =>
-                      //       error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
-                      //   )
-                      // }
-                    >
-                      Submit KPIs
-                    </button>
-                  </Flex>
+                <Flex align="center" gap="xs">
+                  <button
+                    className="custom-btn mt-2 submit-btn"
+                    onClick={() => {
+                      handleShowResults();
+                    }}
+                  >
+                    Show Results
+                  </button>
+                  <button
+                    className="custom-btn mt-2 submit-btn"
+                    onClick={handleSaveKPIData}
+                    // disabled={
+                    //   Object.keys(tableData).length === 0 ||
+                    //   Object.values(validationErrors).some(
+                    //     (error) =>
+                    //       error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
+                    //   )
+                    // }
+                  >
+                    Submit KPIs
+                  </button>
                   {/* <div className="row kpi_table_row" id="export_button_right">
-              <Workbook
-              filename={`data.xlsx`}
-              element={
-                <button className="custom-btn mt-2">
-                  {t('selfAssessment.assessmentForm.exportToExcel')}
-                </button>
-              }
-            >
-              <Workbook.Sheet data={data} name="Sheet A">
-                <Workbook.Column label="Global_KPI_Code" value="firstName" />
-                <Workbook.Column label="Applicability" value="Applicability" />
-                <Workbook.Column label="Entity_ID" value="Entity_ID" />
-                <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />
-                <Workbook.Column label="Numerator" value="Numerator" />
-                <Workbook.Column label="Expected_Denominator" value="Expected_Denominator" />
-                <Workbook.Column label="Denominator" value="Denominator" />
-                <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
-                <Workbook.Column label="Month" value="Month" />
-                <Workbook.Column
-                  label="KPI Data source (Select from Excel/PBI/Celonis/Others)"
-                  value="Upload_Approach"
-                />
-                <Workbook.Column label="Link to data" value="Source_System" />
-                <Workbook.Column label="L1_Result" value="L1_Result" />
-                <Workbook.Column label="L2_Result" value="L2_Result" />
-                <Workbook.Column label="L3_Result" value="L3_Result" />
-              </Workbook.Sheet>
-            </Workbook>
-            </div>
+                    <Workbook
+                      filename={`data.xlsx`}
+                      element={
+                        <button className="custom-btn mt-2 submit-btn">
+                          {t('selfAssessment.assessmentForm.exportToExcel')}
+                        </button>
+                      }
+                    >
+                      <Workbook.Sheet data={data} name="Sheet A">
+                        <Workbook.Column label="Global_KPI_Code" value="firstName" />
+                        <Workbook.Column label="Applicability" value="Applicability" />
+                        <Workbook.Column label="Entity_ID" value="Entity_ID" />
+                        <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />
+                        <Workbook.Column label="Numerator" value="Numerator" />
+                        <Workbook.Column
+                          label="Expected_Denominator"
+                          value="Expected_Denominator"
+                        />
+                        <Workbook.Column label="Denominator" value="Denominator" />
+                        <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
+                        <Workbook.Column label="Month" value="Month" />
+                        <Workbook.Column
+                          label="KPI Data source (Select from Excel/PBI/Celonis/Others)"
+                          value="Upload_Approach"
+                        />
+                        <Workbook.Column label="Link to data" value="Source_System" />
+                        <Workbook.Column label="L1_Result" value="L1_Result" />
+                        <Workbook.Column label="L2_Result" value="L2_Result" />
+                        <Workbook.Column label="L3_Result" value="L3_Result" />
+                      </Workbook.Sheet>
+                    </Workbook>
+                  </div>
 
-            <form onSubmit={handleSubmit} id="combine_btn" className="kpi_module_form">
-              <div className="d-flex align-items-center">
-                <div className="mt-2">
-                  <label htmlFor="uploadfile" className="file-input">
-                    <input type="file" placeholder="Name" id="uploadfile" onChange={handleFile} />
-                    <div className="custom-btn choose-file">Choose File</div>
-                  </label>
-                </div>
+                  <form onSubmit={handleSubmit} id="combine_btn" className="kpi_module_form mt-1">
+                    <div className="d-flex align-items-center">
+                      <div className="mt-2">
+                        <label htmlFor="uploadfile" className="file-input">
+                          <input
+                            type="file"
+                            placeholder="Name"
+                            id="uploadfile"
+                            onChange={handleFile}
+                          />
+                          <div className="custom-btn choose-file">Choose File</div>
+                        </label>
+                      </div>
 
-                <button type="submit" className="custom-btn upload-btn" disabled={!excelFile}>
-                  Upload
-                </button>
-              </div>
-            </form> */}
+                      <button type="submit" className="custom-btn upload-btn" disabled={!excelFile}>
+                        Upload
+                      </button>
+                    </div>
+                  </form> */}
                 </Flex>
                 <Flex gap="xs">
                   <MRT_GlobalFilterTextInput table={table} />
