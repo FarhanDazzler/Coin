@@ -38,7 +38,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language; // Selected user language
 
-  const loadingRef = useRef();
   const dispatch = useDispatch();
 
   // Get all reducer selector
@@ -81,11 +80,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     ...getMicsOpenActionPlanVal.data,
     loading: !!getMicsOpenActionPlanVal?.loading,
   });
-  const [isQuestion3Api, setIsQuestion3Api] = useState(false);
-  const [loadingLevel, setLoadingLevel] = useState({
-    L2: false,
-    L3: false,
-  });
 
   // User choose no option in Section plan value true, then we are clear older data
   const isNotEscalationRequired =
@@ -97,20 +91,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions || '[]')
     ? JSON.parse(questionData.Level?.L2?.Inner_Questions || '[]')
     : [];
-
-  const attemptNo = useMemo(() => {
-    return responseData?.data?.Attempt_no
-      ? responseData?.data?.Attempt_no < 5
-        ? 4 - responseData?.data?.Attempt_no
-        : 0
-      : responseData?.data?.Attempt_no === 0
-      ? '4'
-      : '5';
-  }, [responseData?.data]);
-
-  useEffect(() => {
-    loadingRef.current = loadingLevel;
-  }, [loadingLevel]);
 
   useEffect(() => {
     if (responseUpdatedData?.actionPlanInfo?.Action_Plan) {
@@ -598,14 +578,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         setIsModal={setIsModal}
         setStartEdit={setStartEdit}
         language={language}
-        loadingLevel={loadingLevel}
-        setLoadingLevel={setLoadingLevel}
-        loadingRef={loadingRef}
         L1AndL2NoQuestionsAns={L1AndL2NoQuestionsAns}
         setL1AndL2NoQuestionsAns={setL1AndL2NoQuestionsAns}
-        question3Api={isQuestion3Api}
-        setQuestion3Api={setIsQuestion3Api}
-        attemptNo={attemptNo}
       />
     </>
   );
