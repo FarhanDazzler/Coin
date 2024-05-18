@@ -9,6 +9,8 @@ import {
   MRT_ShowHideColumnsButton,
   MRT_ToggleDensePaddingButton,
 } from 'mantine-react-table';
+import * as XLSX from 'xlsx';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import readXlsxFile from 'read-excel-file';
 import { getCsvTampredDataAction } from '../../../redux/CsvTampred/CsvTampredAction';
 import Workbook from 'react-excel-workbook';
@@ -85,9 +87,10 @@ const KPITable = ({ data }) => {
 
   const [tableData, setTableData] = useState(() => data);
   const [validationErrors, setValidationErrors] = useState({});
+  const [excelFile, setExcelFile] = useState(null);
 
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
-  const [excelFile, setExcelFile] = useState(null);
+
   const [csvUpdateData, setScvUpdateData] = useState(0);
 
   const columns = useMemo(
@@ -573,6 +576,125 @@ const KPITable = ({ data }) => {
     [validationErrors, tableData],
   );
 
+  const validateData = () => {
+    if (!excelFile) {
+      console.error('No Excel file data to validate.');
+      return false;
+    }
+
+    // Length validation
+    if (excelFile.length !== tableData.length) {
+      console.error('Data length mismatch between excelFile and tableData.');
+      return false;
+    }
+
+    // Define the mapping between excelFile keys and tableData keys
+    const keyMapping = {
+      Zone: 'Zone',
+      Entity: 'Entity',
+      Provider: 'provider',
+      'Control ID': 'CONTROL_ID',
+      'Control Name': 'control_NAME',
+      'KPI Type': 'kpi_type',
+      'Expected Source': 'Expected_Source',
+      'KPI ID': 'KPI_CODE',
+      'KPI Name': 'KPI_NAME',
+      Applicability: 'applicable',
+      Month: 'Month',
+      'Expected Num': 'expected_num',
+      'Expected Den': 'expected_den',
+      'KPI Num': 'KPI_Num',
+      'KPI Den': 'KPI_Den',
+      'KPI Value': 'KPI_Value',
+      'Expected KPI Source': 'expected_kpi_source',
+      'Actual KPI Source': 'upload_approach',
+      'Source of Data - Link': 'source_system',
+      'KPI Description': 'kpi_desc',
+      'Threshold L1': 'L1',
+      'Threshold L2': 'L2',
+      'Threshold L3': 'L3',
+      'Result L1': 'Result_L1',
+      'Result L2': 'Result_L2',
+      'Result L3': 'Result_L3',
+      'KPI Owner Email': 'kpi_owner_email',
+      'Control Owner Email': 'control_owner_email',
+      'Control Oversight Email': 'control_oversight_email',
+      'Year and Quarter': 'year_and_quarter',
+    };
+
+    // Field mapping for allowed different fields
+    const allowedDiffFieldsExcel = [
+      'KPI Num',
+      'KPI Den',
+      'Expected KPI Source',
+      'Actual KPI Source',
+      'Source of Data - Link',
+    ];
+
+    for (let i = 0; i < excelFile.length; i++) {
+      const excelRow = excelFile[i];
+      const tableRow = tableData[i];
+
+      // Validate fields that should not change
+      for (const excelKey in keyMapping) {
+        const tableKey = keyMapping[excelKey];
+        if (!allowedDiffFieldsExcel.includes(excelKey)) {
+          const excelValue = excelRow[excelKey];
+          const tableValue = tableRow[tableKey];
+          // Treat null and empty string interchangeably
+          if (
+            excelValue !== tableValue &&
+            !(excelValue === null && tableValue === '') &&
+            !(excelValue === '' && tableValue === null)
+          ) {
+            console.error(`Mismatch found at row ${i + 1} for key: ${excelKey}`);
+            return false;
+          }
+        }
+      }
+
+      if (excelRow['KPI Num'] === '' && excelRow['KPI Den'] === '') {
+        // Skip validation if both KPI Num and KPI Den are empty
+        continue;
+      }
+
+      // Validate allowed different fields
+      const kpiNum = parseFloat(excelRow['KPI Num']);
+      const kpiDen = parseFloat(excelRow['KPI Den']);
+      console.log(kpiNum, kpiDen, 'kpiNum, kpiDen');
+
+      if (isNaN(kpiNum) && isNaN(kpiDen)) {
+        console.error(`Invalid KPI Numerator and Denominator at row ${i + 1}`);
+        return false;
+      }
+      if (isNaN(kpiNum) && !isNaN(kpiDen)) {
+        console.error(`Invalid KPI Numerator at row ${i + 1}`);
+        return false;
+      }
+      if (isNaN(kpiDen) && !isNaN(kpiNum)) {
+        console.error(`Invalid KPI Denominator at row ${i + 1}`);
+        return false;
+      }
+
+      // Validate KPI Num
+
+      if (!isNaN(kpiNum) && kpiNum < 0) {
+        console.error(`Numerator can be positive values only at row ${i + 1}`);
+        return false;
+      }
+
+      // Validate KPI Den
+
+      if (!isNaN(kpiDen) && kpiDen <= 0) {
+        console.error(`Denominator cannot be less than equal to Zero at row ${i + 1}`);
+        return false;
+      }
+    }
+
+    console.log('Validation passed');
+    return true;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // if (excelFile !== null) {
@@ -608,27 +730,21 @@ const KPITable = ({ data }) => {
     //   setTableData(null);
     // }
   };
-  const handleFile = (e) => {
-    // let selectedFile = e.target.files[0];
-    // if (selectedFile) {
-    //   if (selectedFile) {
-    //     readXlsxFile(selectedFile).then((data) => {
-    //       setExcelFile(
-    //         data.slice(1).map((d) => {
-    //           let obj = {};
-    //           d.map((v, i) => {
-    //             obj[data[0][i]] = v;
-    //           });
-    //           return obj;
-    //         }),
-    //       );
-    //     });
-    //   } else {
-    //     setExcelFile(null);
-    //   }
-    // } else {
-    //   // console.log('plz select your file');
-    // }
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const binaryStr = e.target.result;
+        const workbook = XLSX.read(binaryStr, { type: 'binary' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        setExcelFile(jsonData);
+      };
+      reader.readAsBinaryString(file);
+    }
   };
 
   const handleSaveKPIData = () => {
@@ -640,6 +756,7 @@ const KPITable = ({ data }) => {
     //   (error) => error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
     // ) && <Text color="red">Fix errors before submitting</Text>}
 
+    validateData();
     if (
       Object.keys(tableData).length === 0 ||
       Object.values(validationErrors).some(
@@ -662,6 +779,7 @@ const KPITable = ({ data }) => {
 
   console.log('tableData', tableData);
   console.log('validationErrors', validationErrors);
+  console.log('excelFile', excelFile);
 
   return (
     <div className="kpi_table">
@@ -748,40 +866,55 @@ const KPITable = ({ data }) => {
                   >
                     Submit KPIs
                   </button>
-                  {/* <div className="row kpi_table_row" id="export_button_right">
+                  <div className="row kpi_table_row" id="export_button_right">
                     <Workbook
-                      filename={`data.xlsx`}
+                      filename={`KPI_Module_Export.xlsx`}
                       element={
-                        <button className="custom-btn mt-2 submit-btn">
+                        <button
+                          className="custom-btn mt-2 submit-btn"
+                          disabled={table.getPrePaginationRowModel().rows.length === 0}
+                        >
                           {t('selfAssessment.assessmentForm.exportToExcel')}
                         </button>
                       }
                     >
-                      <Workbook.Sheet data={data} name="Sheet A">
-                        <Workbook.Column label="Global_KPI_Code" value="firstName" />
-                        <Workbook.Column label="Applicability" value="Applicability" />
-                        <Workbook.Column label="Entity_ID" value="Entity_ID" />
-                        <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />
-                        <Workbook.Column label="Numerator" value="Numerator" />
-                        <Workbook.Column
-                          label="Expected_Denominator"
-                          value="Expected_Denominator"
-                        />
-                        <Workbook.Column label="Denominator" value="Denominator" />
-                        <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
+                      <Workbook.Sheet data={tableData} name="KPI">
+                        <Workbook.Column label="Zone" value="Zone" />
+                        <Workbook.Column label="Entity" value="Entity" />
+                        <Workbook.Column label="Provider" value="provider" />
+                        <Workbook.Column label="Control ID" value="CONTROL_ID" />
+                        <Workbook.Column label="Control Name" value="control_NAME" />
+                        <Workbook.Column label="KPI Type" value="kpi_type" />
+                        <Workbook.Column label="Expected Source" value="Expected_Source" />
+                        <Workbook.Column label="KPI ID" value="KPI_CODE" />
+                        <Workbook.Column label="KPI Name" value="KPI_NAME" />
+                        <Workbook.Column label="Applicability" value="applicable" />
                         <Workbook.Column label="Month" value="Month" />
+                        <Workbook.Column label="Expected Num" value="expected_num" />
+                        <Workbook.Column label="Expected Den" value="expected_den" />
+                        <Workbook.Column label="KPI Num" value="KPI_Num" />
+                        <Workbook.Column label="KPI Den" value="KPI_Den" />
+                        <Workbook.Column label="KPI Value" value="KPI_Value" />
+                        <Workbook.Column label="Expected KPI Source" value="expected_kpi_source" />
+                        <Workbook.Column label="Actual KPI Source" value="upload_approach" />
+                        <Workbook.Column label="Source of Data - Link" value="source_system" />
+                        <Workbook.Column label="KPI Description" value="kpi_desc" />
+                        <Workbook.Column label="Threshold L1" value="L1" />
+                        <Workbook.Column label="Threshold L2" value="L2" />
+                        <Workbook.Column label="Threshold L3" value="L3" />
+                        <Workbook.Column label="Result L1" value="Result_L1" />
+                        <Workbook.Column label="Result L2" value="Result_L2" />
+                        <Workbook.Column label="Result L3" value="Result_L3" />
+                        <Workbook.Column label="KPI Owner Email" value="kpi_owner_email" />
+                        <Workbook.Column label="Control Owner Email" value="control_owner_email" />
                         <Workbook.Column
-                          label="KPI Data source (Select from Excel/PBI/Celonis/Others)"
-                          value="Upload_Approach"
+                          label="Control Oversight Email"
+                          value="control_oversight_email"
                         />
-                        <Workbook.Column label="Link to data" value="Source_System" />
-                        <Workbook.Column label="L1_Result" value="L1_Result" />
-                        <Workbook.Column label="L2_Result" value="L2_Result" />
-                        <Workbook.Column label="L3_Result" value="L3_Result" />
+                        <Workbook.Column label="Year and Quarter" value="year_and_quarter" />
                       </Workbook.Sheet>
                     </Workbook>
                   </div>
-
                   <form onSubmit={handleSubmit} id="combine_btn" className="kpi_module_form mt-1">
                     <div className="d-flex align-items-center">
                       <div className="mt-2">
@@ -790,7 +923,8 @@ const KPITable = ({ data }) => {
                             type="file"
                             placeholder="Name"
                             id="uploadfile"
-                            onChange={handleFile}
+                            accept=".xlsx, .xls"
+                            onChange={handleFileUpload}
                           />
                           <div className="custom-btn choose-file">Choose File</div>
                         </label>
@@ -800,7 +934,7 @@ const KPITable = ({ data }) => {
                         Upload
                       </button>
                     </div>
-                  </form> */}
+                  </form>
                 </Flex>
                 <Flex gap="xs">
                   <MRT_GlobalFilterTextInput table={table} />
