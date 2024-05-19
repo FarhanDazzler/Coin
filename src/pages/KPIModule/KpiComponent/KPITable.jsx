@@ -100,494 +100,491 @@ const KPITable = ({ data }) => {
 
   const [csvUpdateData, setScvUpdateData] = useState(0);
 
-  const columns = useMemo(
-    () => [
-      {
-        accessorKey: 'Zone',
-        filterVariant: 'multi-select',
-        header: 'Zone',
-        size: 50,
-        enableEditing: false,
-        mantineTableBodyCellProps: {
-          align: 'center',
-        },
+  const columns = [
+    {
+      accessorKey: 'Zone',
+      filterVariant: 'multi-select',
+      header: 'Zone',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: {
+        align: 'center',
       },
-      {
-        accessorKey: 'Entity',
-        enableClickToCopy: true,
-        filterVariant: 'multi-select',
-        header: 'Entity',
-        size: 150,
-        enableEditing: false,
+    },
+    {
+      accessorKey: 'Entity',
+      enableClickToCopy: true,
+      filterVariant: 'multi-select',
+      header: 'Entity',
+      size: 150,
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'provider',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Provider',
+      size: 300,
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'CONTROL_ID',
+      enableClickToCopy: true,
+      filterVariant: 'multi-select',
+      header: 'Control ID',
+      size: 200,
+      enableEditing: false,
+      mantineTableBodyCellProps: {
+        align: 'center',
       },
-      {
-        accessorKey: 'provider',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'Provider',
-        size: 300,
-        enableEditing: false,
+    },
+    {
+      accessorKey: 'control_NAME',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Control Name',
+      size: 200,
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'kpi_type',
+      enableClickToCopy: true,
+      filterVariant: 'multi-select',
+      header: 'KPI Type',
+      size: 100,
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'Expected_Source',
+      enableClickToCopy: true,
+      filterVariant: 'multi-select',
+      header: 'Expected Source',
+      size: 100,
+      enableEditing: false,
+      mantineTableBodyCellProps: {
+        align: 'center',
       },
-      {
-        accessorKey: 'CONTROL_ID',
-        enableClickToCopy: true,
-        filterVariant: 'multi-select',
-        header: 'Control ID',
-        size: 200,
-        enableEditing: false,
-        mantineTableBodyCellProps: {
-          align: 'center',
-        },
+      // Cell: ({ row }) => (
+      //   <Button onClick={() => sendEmail(row.original.Expected_Source)}>Send Email</Button>
+      // ),
+      Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
+    },
+    {
+      accessorKey: 'KPI_CODE',
+      enableClickToCopy: true,
+      filterVariant: 'multi-select',
+      header: 'KPI ID',
+      size: 100,
+      enableEditing: false,
+      mantineTableBodyCellProps: {
+        align: 'center',
       },
-      {
-        accessorKey: 'control_NAME',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'Control Name',
-        size: 200,
-        enableEditing: false,
+    },
+    {
+      accessorKey: 'KPI_NAME',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'KPI Name',
+      size: 200,
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'applicable',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Applicability',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: {
+        align: 'center',
       },
-      {
-        accessorKey: 'kpi_type',
-        enableClickToCopy: true,
-        filterVariant: 'multi-select',
-        header: 'KPI Type',
-        size: 100,
-        enableEditing: false,
+    },
+    {
+      accessorKey: 'Month',
+      filterVariant: 'multi-select',
+      header: 'Month',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: {
+        align: 'center',
       },
-      {
-        accessorKey: 'Expected_Source',
-        enableClickToCopy: true,
-        filterVariant: 'multi-select',
-        header: 'Expected Source',
-        size: 100,
-        enableEditing: false,
-        mantineTableBodyCellProps: {
-          align: 'center',
-        },
-        // Cell: ({ row }) => (
-        //   <Button onClick={() => sendEmail(row.original.Expected_Source)}>Send Email</Button>
-        // ),
-        Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
-      },
-      {
-        accessorKey: 'KPI_CODE',
-        enableClickToCopy: true,
-        filterVariant: 'multi-select',
-        header: 'KPI ID',
-        size: 100,
-        enableEditing: false,
-        mantineTableBodyCellProps: {
-          align: 'center',
-        },
-      },
-      {
-        accessorKey: 'KPI_NAME',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'KPI Name',
-        size: 200,
-        enableEditing: false,
-      },
-      {
-        accessorKey: 'applicable',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'Applicability',
-        size: 50,
-        enableEditing: false,
-        mantineTableBodyCellProps: {
-          align: 'center',
-        },
-      },
-      {
-        accessorKey: 'Month',
-        filterVariant: 'multi-select',
-        header: 'Month',
-        size: 50,
-        enableEditing: false,
-        mantineTableBodyCellProps: {
-          align: 'center',
-        },
-      },
-      {
-        accessorKey: 'expected_num',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'Expected Num',
-        size: 200,
-        enableEditing: false,
-      },
-      {
-        accessorKey: 'expected_den',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'Expected Den',
-        size: 200,
-        enableEditing: false,
-      },
-      {
-        accessorKey: 'KPI_Num',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'KPI Num',
-        size: 100,
-        mantineEditTextInputProps: ({ cell, row }) => ({
-          required: true,
-          type: 'number',
-          variant: 'filled',
-          error: validationErrors[row.original.id]?.KPI_Num,
-          helperText: validationErrors[row.original.id]?.KPI_Num,
-          onBlur: (event) => {
-            // console.log('@@', row.original.id);
-            const value = event.target.value;
-            tableData[cell.row.index][cell.column.id] = value;
-            // setTableData([...tableData]);
-            // setting up results here based on the numerator, denominator, threshold, and positive direction
-            tableData[cell.row.index].Result_L1 = calculateResult(
-              row.original.KPI_Num,
-              row.original.KPI_Den,
-              row.original.L1,
-              row.original.Direction,
-              row.original.Result_L1,
-            );
-            tableData[cell.row.index].Result_L2 = calculateResult(
-              row.original.KPI_Num,
-              row.original.KPI_Den,
-              row.original.L2,
-              row.original.Direction,
-              row.original.Result_L2,
-            );
-            tableData[cell.row.index].Result_L3 = calculateResult(
-              row.original.KPI_Num,
-              row.original.KPI_Den,
-              row.original.L3,
-              row.original.Direction,
-              row.original.Result_L3,
-            );
+    },
+    {
+      accessorKey: 'expected_num',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Expected Num',
+      size: 200,
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'expected_den',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Expected Den',
+      size: 200,
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'KPI_Num',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'KPI Num',
+      size: 100,
+      mantineEditTextInputProps: ({ cell, row }) => ({
+        required: true,
+        type: 'number',
+        variant: 'filled',
+        error: validationErrors[row.original.id]?.KPI_Num,
+        helperText: validationErrors[row.original.id]?.KPI_Num,
+        onBlur: (event) => {
+          // console.log('@@', row.original.id);
+          const value = event.target.value;
+          tableData[cell.row.index][cell.column.id] = value;
+          // setTableData([...tableData]);
+          // setting up results here based on the numerator, denominator, threshold, and positive direction
+          tableData[cell.row.index].Result_L1 = calculateResult(
+            row.original.KPI_Num,
+            row.original.KPI_Den,
+            row.original.L1,
+            row.original.Direction,
+            row.original.Result_L1,
+          );
+          tableData[cell.row.index].Result_L2 = calculateResult(
+            row.original.KPI_Num,
+            row.original.KPI_Den,
+            row.original.L2,
+            row.original.Direction,
+            row.original.Result_L2,
+          );
+          tableData[cell.row.index].Result_L3 = calculateResult(
+            row.original.KPI_Num,
+            row.original.KPI_Den,
+            row.original.L3,
+            row.original.Direction,
+            row.original.Result_L3,
+          );
 
-            //validation logic
-            if (!value) {
-              setValidationErrors((prev) => ({
-                ...prev,
-                [row.original.id]: {
-                  ...prev[row.original.id],
-                  KPI_Num: 'Numerator is required',
-                },
-              }));
-            } else if (value < 0) {
-              setValidationErrors((prev) => ({
-                ...prev,
-                [row.original.id]: {
-                  ...prev[row.original.id],
-                  KPI_Num: 'Numerator can be positive values only',
-                },
-              }));
-            } else if (!row.original.KPI_Den) {
-              // console.log('@@', row);
-              setValidationErrors((prev) => ({
-                ...prev,
-                [row.original.id]: {
-                  ...prev[row.original.id],
-                  KPI_Num: 'Denominator is required',
-                },
-              }));
-            } else {
-              delete validationErrors[row.original.id]?.KPI_Num;
-              setValidationErrors({ ...validationErrors });
-              if (
-                row.original.KPI_Den &&
-                validationErrors[row.original.id]?.KPI_Den == 'Numerator is required'
-              ) {
-                delete validationErrors[row.original.id]?.KPI_Den;
-                setValidationErrors({ ...validationErrors });
-              }
-            }
-          },
-        }),
-      },
-      {
-        accessorKey: 'KPI_Den',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'KPI Den',
-        size: 100,
-        mantineEditTextInputProps: ({ cell, row }) => ({
-          required: true,
-          type: 'number',
-          variant: 'filled',
-          error: validationErrors[row.original.id]?.KPI_Den,
-          helperText: validationErrors[row.original.id]?.KPI_Den,
-          onBlur: (event) => {
-            const value = event.target.value;
-            tableData[cell.row.index][cell.column.id] = value;
-
-            // setting up results here based on the numerator, denominator, threshold, and positive direction
-            tableData[cell.row.index].Result_L1 = calculateResult(
-              row.original.KPI_Num,
-              row.original.KPI_Den,
-              row.original.L1,
-              row.original.Direction,
-              row.original.Result_L1,
-            );
-            tableData[cell.row.index].Result_L2 = calculateResult(
-              row.original.KPI_Num,
-              row.original.KPI_Den,
-              row.original.L2,
-              row.original.Direction,
-              row.original.Result_L2,
-            );
-            tableData[cell.row.index].Result_L3 = calculateResult(
-              row.original.KPI_Num,
-              row.original.KPI_Den,
-              row.original.L3,
-              row.original.Direction,
-              row.original.Result_L3,
-            );
-            // console.log(
-            //   '@@',
-            //   calculateResult(
-            //     row.original.KPI_Num,
-            //     row.original.KPI_Den,
-            //     row.original.L3,
-            //     row.original.Direction,
-            //   ),
-            // );
-            // console.log('@@@', cell);
-
-            //validation logic
-            if (!value) {
-              setValidationErrors((prev) => ({
-                ...prev,
-                [row.original.id]: {
-                  ...prev[row.original.id],
-                  KPI_Den: 'Denominator is required',
-                },
-              }));
-            } else if (value <= 0) {
-              setValidationErrors((prev) => ({
-                ...prev,
-                [row.original.id]: {
-                  ...prev[row.original.id],
-                  KPI_Den: 'Denominator can be positive values only',
-                },
-              }));
-            } else if (!row.original.KPI_Num) {
-              // console.log('##', row);
-              setValidationErrors((prev) => ({
-                ...prev,
-                [row.original.id]: {
-                  ...prev[row.original.id],
-                  KPI_Den: 'Numerator is required',
-                },
-              }));
-            } else {
+          //validation logic
+          if (!value) {
+            setValidationErrors((prev) => ({
+              ...prev,
+              [row.original.id]: {
+                ...prev[row.original.id],
+                KPI_Num: 'Numerator is required',
+              },
+            }));
+          } else if (value < 0) {
+            setValidationErrors((prev) => ({
+              ...prev,
+              [row.original.id]: {
+                ...prev[row.original.id],
+                KPI_Num: 'Numerator can be positive values only',
+              },
+            }));
+          } else if (!row.original.KPI_Den) {
+            // console.log('@@', row);
+            setValidationErrors((prev) => ({
+              ...prev,
+              [row.original.id]: {
+                ...prev[row.original.id],
+                KPI_Num: 'Denominator is required',
+              },
+            }));
+          } else {
+            delete validationErrors[row.original.id]?.KPI_Num;
+            setValidationErrors({ ...validationErrors });
+            if (
+              row.original.KPI_Den &&
+              validationErrors[row.original.id]?.KPI_Den == 'Numerator is required'
+            ) {
               delete validationErrors[row.original.id]?.KPI_Den;
               setValidationErrors({ ...validationErrors });
-
-              if (
-                row.original.KPI_Num &&
-                validationErrors[row.original.id]?.KPI_Num == 'Denominator is required'
-              ) {
-                delete validationErrors[row.original.id]?.KPI_Num;
-                setValidationErrors({ ...validationErrors });
-              }
             }
+          }
+        },
+      }),
+    },
+    {
+      accessorKey: 'KPI_Den',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'KPI Den',
+      size: 100,
+      mantineEditTextInputProps: ({ cell, row }) => ({
+        required: true,
+        type: 'number',
+        variant: 'filled',
+        error: validationErrors[row.original.id]?.KPI_Den,
+        helperText: validationErrors[row.original.id]?.KPI_Den,
+        onBlur: (event) => {
+          const value = event.target.value;
+          tableData[cell.row.index][cell.column.id] = value;
+
+          // setting up results here based on the numerator, denominator, threshold, and positive direction
+          tableData[cell.row.index].Result_L1 = calculateResult(
+            row.original.KPI_Num,
+            row.original.KPI_Den,
+            row.original.L1,
+            row.original.Direction,
+            row.original.Result_L1,
+          );
+          tableData[cell.row.index].Result_L2 = calculateResult(
+            row.original.KPI_Num,
+            row.original.KPI_Den,
+            row.original.L2,
+            row.original.Direction,
+            row.original.Result_L2,
+          );
+          tableData[cell.row.index].Result_L3 = calculateResult(
+            row.original.KPI_Num,
+            row.original.KPI_Den,
+            row.original.L3,
+            row.original.Direction,
+            row.original.Result_L3,
+          );
+          // console.log(
+          //   '@@',
+          //   calculateResult(
+          //     row.original.KPI_Num,
+          //     row.original.KPI_Den,
+          //     row.original.L3,
+          //     row.original.Direction,
+          //   ),
+          // );
+          // console.log('@@@', cell);
+
+          //validation logic
+          if (!value) {
+            setValidationErrors((prev) => ({
+              ...prev,
+              [row.original.id]: {
+                ...prev[row.original.id],
+                KPI_Den: 'Denominator is required',
+              },
+            }));
+          } else if (value <= 0) {
+            setValidationErrors((prev) => ({
+              ...prev,
+              [row.original.id]: {
+                ...prev[row.original.id],
+                KPI_Den: 'Denominator can be positive values only',
+              },
+            }));
+          } else if (!row.original.KPI_Num) {
+            // console.log('##', row);
+            setValidationErrors((prev) => ({
+              ...prev,
+              [row.original.id]: {
+                ...prev[row.original.id],
+                KPI_Den: 'Numerator is required',
+              },
+            }));
+          } else {
+            delete validationErrors[row.original.id]?.KPI_Den;
+            setValidationErrors({ ...validationErrors });
+
+            if (
+              row.original.KPI_Num &&
+              validationErrors[row.original.id]?.KPI_Num == 'Denominator is required'
+            ) {
+              delete validationErrors[row.original.id]?.KPI_Num;
+              setValidationErrors({ ...validationErrors });
+            }
+          }
+        },
+      }),
+    },
+    {
+      accessorKey: 'KPI_Value',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'KPI Value',
+      size: 100,
+      mantineTableBodyCellProps: {
+        align: 'center',
+      },
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'expected_kpi_source',
+      header: 'Expected KPI Source',
+      size: 100,
+      editVariant: 'select',
+      mantineEditSelectProps: ({ cell, row }) => ({
+        data: [
+          {
+            value: 'Automated',
+            label: 'Automated',
           },
-        }),
-      },
-      {
-        accessorKey: 'KPI_Value',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'KPI Value',
-        size: 100,
-        mantineTableBodyCellProps: {
-          align: 'center',
-        },
-        enableEditing: false,
-      },
-      {
-        accessorKey: 'expected_kpi_source',
-        header: 'Expected KPI Source',
-        size: 100,
-        editVariant: 'select',
-        mantineEditSelectProps: ({ cell, row }) => ({
-          data: [
-            {
-              value: 'Automated',
-              label: 'Automated',
-            },
-            {
-              value: 'Manual',
-              label: 'Manual',
-            },
-          ],
-          onChange: (value) => (tableData[cell.row.index][cell.column.id] = value),
-        }),
-      },
-      {
-        accessorKey: 'upload_approach',
-        header: 'Actual KPI Source',
-        size: 100,
-        editVariant: 'select',
-        mantineEditSelectProps: ({ cell, row }) => ({
-          data: [
-            {
-              value: 'Excel',
-              label: 'Excel',
-            },
-            {
-              value: 'PBI',
-              label: 'PBI',
-            },
-            {
-              value: 'Celonis',
-              label: 'Celonis',
-            },
-            {
-              value: 'Others',
-              label: 'Others',
-            },
-          ],
-          onChange: (value) => (tableData[cell.row.index][cell.column.id] = value),
-        }),
-      },
-      {
-        accessorKey: 'source_system',
-        enableClickToCopy: true,
-        header: 'Source of Data - Link',
-        size: 300,
-        mantineEditTextInputProps: ({ cell, row }) => ({
-          required: false,
-          type: 'text',
-          variant: 'filled',
-          onBlur: (event) => {
-            const value = event.target.value;
-            tableData[cell.row.index][cell.column.id] = value;
-            // setTableData([...tableData]);
+          {
+            value: 'Manual',
+            label: 'Manual',
           },
-        }),
-      },
-      {
-        accessorKey: 'kpi_desc',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'KPI Description',
-        size: 200,
-        enableEditing: false,
-      },
-      {
-        accessorKey: 'L1',
-        // filterVariant: 'autocomplete',
-        header: 'Threshold L1',
-        size: 50,
-        enableEditing: false,
-      },
-      {
-        accessorKey: 'L2',
-        // filterVariant: 'autocomplete',
-        header: 'Threshold L2',
-        size: 50,
-        enableEditing: false,
-      },
-      {
-        accessorKey: 'L3',
-        // filterVariant: 'autocomplete',
-        header: 'Threshold L3',
-        size: 50,
-        enableEditing: false,
-      },
-      {
-        accessorKey: 'Result_L1',
-        //   filterVariant: 'autocomplete',
-        header: 'Result L1',
-        size: 50,
-        enableEditing: false,
-        mantineTableBodyCellProps: {
-          align: 'center',
+        ],
+        onChange: (value) => (tableData[cell.row.index][cell.column.id] = value),
+      }),
+    },
+    {
+      accessorKey: 'upload_approach',
+      header: 'Actual KPI Source',
+      size: 100,
+      editVariant: 'select',
+      mantineEditSelectProps: ({ cell, row }) => ({
+        data: [
+          {
+            value: 'Excel',
+            label: 'Excel',
+          },
+          {
+            value: 'PBI',
+            label: 'PBI',
+          },
+          {
+            value: 'Celonis',
+            label: 'Celonis',
+          },
+          {
+            value: 'Others',
+            label: 'Others',
+          },
+        ],
+        onChange: (value) => (tableData[cell.row.index][cell.column.id] = value),
+      }),
+    },
+    {
+      accessorKey: 'source_system',
+      enableClickToCopy: true,
+      header: 'Source of Data - Link',
+      size: 300,
+      mantineEditTextInputProps: ({ cell, row }) => ({
+        required: false,
+        type: 'text',
+        variant: 'filled',
+        onBlur: (event) => {
+          const value = event.target.value;
+          tableData[cell.row.index][cell.column.id] = value;
+          // setTableData([...tableData]);
         },
-        Cell: ({ cell }) => <Badge_apply data={cell.getValue()} />,
-        // Cell: ({ row }) => {
-        //   return <Badge_apply data={row.original.Result_L1} />;
-        // },
+      }),
+    },
+    {
+      accessorKey: 'kpi_desc',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'KPI Description',
+      size: 200,
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'L1',
+      // filterVariant: 'autocomplete',
+      header: 'Threshold L1',
+      size: 50,
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'L2',
+      // filterVariant: 'autocomplete',
+      header: 'Threshold L2',
+      size: 50,
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'L3',
+      // filterVariant: 'autocomplete',
+      header: 'Threshold L3',
+      size: 50,
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'Result_L1',
+      //   filterVariant: 'autocomplete',
+      header: 'Result L1',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: {
+        align: 'center',
       },
-      {
-        accessorKey: 'Result_L2',
-        //   filterVariant: 'autocomplete',
-        header: 'Result L2',
-        size: 50,
-        enableEditing: false,
-        mantineTableBodyCellProps: {
-          align: 'center',
-        },
-        Cell: ({ cell }) => <Badge_apply data={cell.getValue()} />,
-      },
-      {
-        accessorKey: 'Result_L3',
-        //   filterVariant: 'autocomplete',
-        header: 'Result L3',
-        size: 50,
-        enableEditing: false,
-        mantineTableBodyCellProps: {
-          align: 'center',
-        },
-        Cell: ({ cell }) => <Badge_apply data={cell.getValue()} />,
-      },
-      {
-        accessorKey: 'kpi_owner_email',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'KPI Owner Email',
-        size: 200,
-        enableEditing: false,
-      },
-      {
-        accessorKey: 'control_owner_email',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'Control Owner Email',
-        size: 200,
-        enableEditing: false,
-      },
-      {
-        accessorKey: 'control_oversight_email',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'Control Oversight Email',
-        size: 300,
-        enableEditing: false,
-      },
-      // {
-      //   accessorKey: 'Direction',
-      //   enableClickToCopy: true,
-      //   //   filterVariant: 'autocomplete',
-      //   header: 'Direction',
-      //   size: 300,
-      //   enableEditing: false,
+      Cell: ({ cell }) => <Badge_apply data={cell.getValue()} />,
+      // Cell: ({ row }) => {
+      //   return <Badge_apply data={row.original.Result_L1} />;
       // },
-      {
-        accessorKey: 'load_date',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'Load Date',
-        size: 300,
-        enableEditing: false,
+    },
+    {
+      accessorKey: 'Result_L2',
+      //   filterVariant: 'autocomplete',
+      header: 'Result L2',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: {
+        align: 'center',
       },
-      {
-        accessorKey: 'year_and_quarter',
-        enableClickToCopy: true,
-        //   filterVariant: 'autocomplete',
-        header: 'Year and Quarter',
-        size: 50,
-        enableEditing: false,
-        mantineTableBodyCellProps: {
-          align: 'center',
-        },
+      Cell: ({ cell }) => <Badge_apply data={cell.getValue()} />,
+    },
+    {
+      accessorKey: 'Result_L3',
+      //   filterVariant: 'autocomplete',
+      header: 'Result L3',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: {
+        align: 'center',
       },
-    ],
-    [validationErrors, tableData],
-  );
+      Cell: ({ cell }) => <Badge_apply data={cell.getValue()} />,
+    },
+    {
+      accessorKey: 'kpi_owner_email',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'KPI Owner Email',
+      size: 200,
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'control_owner_email',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Control Owner Email',
+      size: 200,
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'control_oversight_email',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Control Oversight Email',
+      size: 300,
+      enableEditing: false,
+    },
+    // {
+    //   accessorKey: 'Direction',
+    //   enableClickToCopy: true,
+    //   //   filterVariant: 'autocomplete',
+    //   header: 'Direction',
+    //   size: 300,
+    //   enableEditing: false,
+    // },
+    {
+      accessorKey: 'load_date',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Load Date',
+      size: 300,
+      enableEditing: false,
+    },
+    {
+      accessorKey: 'year_and_quarter',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Year and Quarter',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: {
+        align: 'center',
+      },
+    },
+  ];
 
   const validateData = () => {
     if (!excelFile) {
@@ -597,12 +594,12 @@ const KPITable = ({ data }) => {
     }
 
     // Length validation
-    if (excelFile.length !== tableData.length) {
+    if (excelFile.length !== data.length) {
       toast.error('Data length mismatch between excelFile and tableData.');
       return false;
     }
 
-    // Define the mapping between excelFile keys and tableData keys
+    // Define the mapping between excelFile keys and tableData/data keys
     const keyMapping = {
       Zone: 'Zone',
       Entity: 'Entity',
@@ -648,7 +645,7 @@ const KPITable = ({ data }) => {
 
     for (let i = 0; i < excelFile.length; i++) {
       const excelRow = excelFile[i];
-      const tableRow = tableData[i];
+      const tableRow = data[i];
 
       for (const [excelKey, tableKey] of Object.entries(keyMapping)) {
         if (!allowedDiffFieldsExcel.includes(excelKey)) {
@@ -1051,7 +1048,7 @@ const KPITable = ({ data }) => {
                       </Workbook.Sheet>
                     </Workbook>
                   </div>
-                  <form
+                  {/* <form
                     onSubmit={handleSubmit}
                     id="excel_import_btn_kpi_module"
                     className="kpi_module_form mt-1"
@@ -1074,7 +1071,7 @@ const KPITable = ({ data }) => {
                         Upload
                       </button>
                     </div>
-                  </form>
+                  </form> */}
                 </Flex>
                 <Flex gap="xs">
                   <MRT_GlobalFilterTextInput table={table} />
