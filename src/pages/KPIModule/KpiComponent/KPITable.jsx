@@ -34,9 +34,16 @@ const Badge_apply = ({ data }) => {
   );
 };
 
-// Function to calculate the result based on the numerator, denominator, threshold, and positive direction
-function calculateResult(numerator, denominator, threshold, positiveDirection) {
-  if (threshold === null || threshold === '' || threshold === '-' || threshold === 'NA') {
+// Function to calculate the result based on the numerator, denominator, threshold, positive direction and result
+function calculateResult(numerator, denominator, threshold, positiveDirection, result) {
+  if (
+    threshold === null ||
+    threshold === '' ||
+    threshold === '-' ||
+    threshold === 'NA' ||
+    result === 'NA' ||
+    result === 'N/A'
+  ) {
     return 'N/A';
   }
 
@@ -242,18 +249,21 @@ const KPITable = ({ data }) => {
               row.original.KPI_Den,
               row.original.L1,
               row.original.Direction,
+              row.original.Result_L1,
             );
             tableData[cell.row.index].Result_L2 = calculateResult(
               row.original.KPI_Num,
               row.original.KPI_Den,
               row.original.L2,
               row.original.Direction,
+              row.original.Result_L2,
             );
             tableData[cell.row.index].Result_L3 = calculateResult(
               row.original.KPI_Num,
               row.original.KPI_Den,
               row.original.L3,
               row.original.Direction,
+              row.original.Result_L3,
             );
 
             //validation logic
@@ -318,18 +328,21 @@ const KPITable = ({ data }) => {
               row.original.KPI_Den,
               row.original.L1,
               row.original.Direction,
+              row.original.Result_L1,
             );
             tableData[cell.row.index].Result_L2 = calculateResult(
               row.original.KPI_Num,
               row.original.KPI_Den,
               row.original.L2,
               row.original.Direction,
+              row.original.Result_L2,
             );
             tableData[cell.row.index].Result_L3 = calculateResult(
               row.original.KPI_Num,
               row.original.KPI_Den,
               row.original.L3,
               row.original.Direction,
+              row.original.Result_L3,
             );
             // console.log(
             //   '@@',
@@ -578,13 +591,14 @@ const KPITable = ({ data }) => {
 
   const validateData = () => {
     if (!excelFile) {
-      console.error('No Excel file data to validate.');
+      toast.error('No Excel file data to validate.');
+      // console.error('No Excel file data to validate.');
       return false;
     }
 
     // Length validation
     if (excelFile.length !== tableData.length) {
-      console.error('Data length mismatch between excelFile and tableData.');
+      toast.error('Data length mismatch between excelFile and tableData.');
       return false;
     }
 
@@ -594,11 +608,11 @@ const KPITable = ({ data }) => {
       Entity: 'Entity',
       Provider: 'provider',
       'Control ID': 'CONTROL_ID',
-      'Control Name': 'control_NAME',
+      // 'Control Name': 'control_NAME',
       'KPI Type': 'kpi_type',
       'Expected Source': 'Expected_Source',
       'KPI ID': 'KPI_CODE',
-      'KPI Name': 'KPI_NAME',
+      // 'KPI Name': 'KPI_NAME',
       Applicability: 'applicable',
       Month: 'Month',
       'Expected Num': 'expected_num',
@@ -609,7 +623,7 @@ const KPITable = ({ data }) => {
       'Expected KPI Source': 'expected_kpi_source',
       'Actual KPI Source': 'upload_approach',
       'Source of Data - Link': 'source_system',
-      'KPI Description': 'kpi_desc',
+      // 'KPI Description': 'kpi_desc',
       'Threshold L1': 'L1',
       'Threshold L2': 'L2',
       'Threshold L3': 'L3',
@@ -622,7 +636,6 @@ const KPITable = ({ data }) => {
       'Year and Quarter': 'year_and_quarter',
     };
 
-    // Field mapping for allowed different fields
     const allowedDiffFieldsExcel = [
       'KPI Num',
       'KPI Den',
@@ -631,62 +644,54 @@ const KPITable = ({ data }) => {
       'Source of Data - Link',
     ];
 
+    const isNullOrEmpty = (value) => value === null || value === '';
+
     for (let i = 0; i < excelFile.length; i++) {
       const excelRow = excelFile[i];
       const tableRow = tableData[i];
 
-      // Validate fields that should not change
-      for (const excelKey in keyMapping) {
-        const tableKey = keyMapping[excelKey];
+      for (const [excelKey, tableKey] of Object.entries(keyMapping)) {
         if (!allowedDiffFieldsExcel.includes(excelKey)) {
           const excelValue = excelRow[excelKey];
           const tableValue = tableRow[tableKey];
-          // Treat null and empty string interchangeably
+
           if (
-            excelValue !== tableValue &&
-            !(excelValue === null && tableValue === '') &&
-            !(excelValue === '' && tableValue === null)
+            excelValue != tableValue &&
+            !(isNullOrEmpty(excelValue) && isNullOrEmpty(tableValue))
           ) {
-            console.error(`Mismatch found at row ${i + 1} for key: ${excelKey}`);
+            toast.error(`Mismatch found at row ${i + 1} for key: ${excelKey}`);
             return false;
           }
         }
       }
 
-      if (excelRow['KPI Num'] === '' && excelRow['KPI Den'] === '') {
-        // Skip validation if both KPI Num and KPI Den are empty
+      if (isNullOrEmpty(excelRow['KPI Num']) && isNullOrEmpty(excelRow['KPI Den'])) {
         continue;
       }
 
-      // Validate allowed different fields
       const kpiNum = parseFloat(excelRow['KPI Num']);
       const kpiDen = parseFloat(excelRow['KPI Den']);
-      console.log(kpiNum, kpiDen, 'kpiNum, kpiDen');
 
       if (isNaN(kpiNum) && isNaN(kpiDen)) {
-        console.error(`Invalid KPI Numerator and Denominator at row ${i + 1}`);
+        toast.error(`Invalid KPI Numerator and Denominator at row ${i + 1}`);
         return false;
       }
       if (isNaN(kpiNum) && !isNaN(kpiDen)) {
-        console.error(`Invalid KPI Numerator at row ${i + 1}`);
+        toast.error(`Invalid KPI Numerator at row ${i + 1}`);
         return false;
       }
       if (isNaN(kpiDen) && !isNaN(kpiNum)) {
-        console.error(`Invalid KPI Denominator at row ${i + 1}`);
+        toast.error(`Invalid KPI Denominator at row ${i + 1}`);
         return false;
       }
 
-      // Validate KPI Num
-
-      if (!isNaN(kpiNum) && kpiNum < 0) {
-        console.error(`Numerator can be positive values only at row ${i + 1}`);
+      if (kpiNum < 0) {
+        toast.error(`Numerator must be positive at row ${i + 1}`);
         return false;
       }
 
-      // Validate KPI Den
-
-      if (!isNaN(kpiDen) && kpiDen <= 0) {
-        console.error(`Denominator cannot be less than equal to Zero at row ${i + 1}`);
+      if (kpiDen <= 0) {
+        toast.error(`Denominator must be greater than zero at row ${i + 1}`);
         return false;
       }
     }
@@ -695,40 +700,172 @@ const KPITable = ({ data }) => {
     return true;
   };
 
+  // const validateData = () => {
+  //   if (!excelFile) {
+  //     console.error('No Excel file data to validate.');
+  //     return false;
+  //   }
+
+  //   // Length validation
+  //   if (excelFile.length !== tableData.length) {
+  //     console.error('Data length mismatch between excelFile and tableData.');
+  //     return false;
+  //   }
+
+  //   // Define the mapping between excelFile keys and tableData keys
+  //   const keyMapping = {
+  //     Zone: 'Zone',
+  //     Entity: 'Entity',
+  //     Provider: 'provider',
+  //     'Control ID': 'CONTROL_ID',
+  //     'Control Name': 'control_NAME',
+  //     'KPI Type': 'kpi_type',
+  //     'Expected Source': 'Expected_Source',
+  //     'KPI ID': 'KPI_CODE',
+  //     'KPI Name': 'KPI_NAME',
+  //     Applicability: 'applicable',
+  //     Month: 'Month',
+  //     'Expected Num': 'expected_num',
+  //     'Expected Den': 'expected_den',
+  //     'KPI Num': 'KPI_Num',
+  //     'KPI Den': 'KPI_Den',
+  //     'KPI Value': 'KPI_Value',
+  //     'Expected KPI Source': 'expected_kpi_source',
+  //     'Actual KPI Source': 'upload_approach',
+  //     'Source of Data - Link': 'source_system',
+  //     'KPI Description': 'kpi_desc',
+  //     'Threshold L1': 'L1',
+  //     'Threshold L2': 'L2',
+  //     'Threshold L3': 'L3',
+  //     'Result L1': 'Result_L1',
+  //     'Result L2': 'Result_L2',
+  //     'Result L3': 'Result_L3',
+  //     'KPI Owner Email': 'kpi_owner_email',
+  //     'Control Owner Email': 'control_owner_email',
+  //     'Control Oversight Email': 'control_oversight_email',
+  //     'Year and Quarter': 'year_and_quarter',
+  //   };
+
+  //   // Field mapping for allowed different fields
+  //   const allowedDiffFieldsExcel = [
+  //     'KPI Num',
+  //     'KPI Den',
+  //     'Expected KPI Source',
+  //     'Actual KPI Source',
+  //     'Source of Data - Link',
+  //   ];
+
+  //   for (let i = 0; i < excelFile.length; i++) {
+  //     const excelRow = excelFile[i];
+  //     const tableRow = tableData[i];
+
+  //     // Validate fields that should not change
+  //     for (const excelKey in keyMapping) {
+  //       const tableKey = keyMapping[excelKey];
+  //       if (!allowedDiffFieldsExcel.includes(excelKey)) {
+  //         const excelValue = excelRow[excelKey];
+  //         const tableValue = tableRow[tableKey];
+  //         // Treat null and empty string interchangeably
+  //         if (
+  //           excelValue !== tableValue &&
+  //           !(excelValue === null && tableValue === '') &&
+  //           !(excelValue === '' && tableValue === null)
+  //         ) {
+  //           console.error(`Mismatch found at row ${i + 1} for key: ${excelKey}`);
+  //           return false;
+  //         }
+  //       }
+  //     }
+
+  //     if (excelRow['KPI Num'] === '' && excelRow['KPI Den'] === '') {
+  //       // Skip validation if both KPI Num and KPI Den are empty
+  //       continue;
+  //     }
+
+  //     // Validate allowed different fields
+  //     const kpiNum = parseFloat(excelRow['KPI Num']);
+  //     const kpiDen = parseFloat(excelRow['KPI Den']);
+  //     console.log(kpiNum, kpiDen, 'kpiNum, kpiDen');
+
+  //     if (isNaN(kpiNum) && isNaN(kpiDen)) {
+  //       console.error(`Invalid KPI Numerator and Denominator at row ${i + 1}`);
+  //       return false;
+  //     }
+  //     if (isNaN(kpiNum) && !isNaN(kpiDen)) {
+  //       console.error(`Invalid KPI Numerator at row ${i + 1}`);
+  //       return false;
+  //     }
+  //     if (isNaN(kpiDen) && !isNaN(kpiNum)) {
+  //       console.error(`Invalid KPI Denominator at row ${i + 1}`);
+  //       return false;
+  //     }
+
+  //     // Validate KPI Num
+
+  //     if (!isNaN(kpiNum) && kpiNum < 0) {
+  //       console.error(`Numerator can be positive values only at row ${i + 1}`);
+  //       return false;
+  //     }
+
+  //     // Validate KPI Den
+
+  //     if (!isNaN(kpiDen) && kpiDen <= 0) {
+  //       console.error(`Denominator cannot be less than equal to Zero at row ${i + 1}`);
+  //       return false;
+  //     }
+  //   }
+
+  //   console.log('Validation passed');
+  //   return true;
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if (excelFile !== null) {
-    //   document.getElementById('combine_btn').reset();
 
-    //   var myHeaders = new Headers();
-    //   myHeaders.append('Authorization', 'Basic Q09JTjpDT0lOX1NlY3VyZUAxMjM=');
-    //   myHeaders.append('Content-Type', 'application/json');
+    // Validate the data from the excel file and tableData
+    if (!validateData()) {
+      console.error('Validation failed');
+      document.getElementById('excel_import_btn_kpi_module').reset(); // Ensure the form ID is correct
+      return;
+    }
 
-    //   var apiBody = {
-    //     input_table: tableData,
-    //     output_table: excelFile,
-    //   };
-    //   console.log(excelFile);
-    //   dispatch(getCsvTampredDataAction(apiBody));
-    //   if (stateCsvTampred?.data === false) {
-    //     // let newDataArray = tableData?.map((data, i) => {
-    //     //   return {
-    //     //     ...data,
-    //     //     Numerator: excelFile[i]?.Numerator,
-    //     //     Denominator: excelFile[i]?.Denominator,
-    //     //     Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
-    //     //     Source_System: excelFile[i]['Link to data'],
-    //     //   };
-    //     // });
-    //     // console.log(newDataArray, 'newDataArray');
-    //     // setTableData([...newDataArray]);
-    //     // setScvUpdateData(csvUpdateData + 1);
-    //   } else {
-    //     setScvUpdateData(0);
-    //   }
-    // } else {
-    //   setTableData(null);
-    // }
+    // If validation passes, Then update the table data with results
+    // and update the tableData with the excelFile data
+    const newDataArray = tableData.map((data, i) => {
+      const excelRow = excelFile[i];
+      return {
+        ...data,
+        KPI_Num: excelRow['KPI Num'],
+        KPI_Den: excelRow['KPI Den'],
+        expected_kpi_source: excelRow['Expected KPI Source'],
+        upload_approach: excelRow['Actual KPI Source'],
+        source_system: excelRow['Source of Data - Link'],
+        Result_L1: calculateResult(
+          excelRow['KPI Num'],
+          excelRow['KPI Den'],
+          data.L1,
+          data.Direction,
+          data.Result_L1,
+        ),
+        Result_L2: calculateResult(
+          excelRow['KPI Num'],
+          excelRow['KPI Den'],
+          data.L2,
+          data.Direction,
+          data.Result_L2,
+        ),
+        Result_L3: calculateResult(
+          excelRow['KPI Num'],
+          excelRow['KPI Den'],
+          data.L3,
+          data.Direction,
+          data.Result_L3,
+        ),
+      };
+    });
+
+    // Update the tableData with the results
+    setTableData(newDataArray);
   };
 
   const handleFileUpload = (event) => {
@@ -756,7 +893,6 @@ const KPITable = ({ data }) => {
     //   (error) => error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
     // ) && <Text color="red">Fix errors before submitting</Text>}
 
-    validateData();
     if (
       Object.keys(tableData).length === 0 ||
       Object.values(validationErrors).some(
@@ -915,7 +1051,11 @@ const KPITable = ({ data }) => {
                       </Workbook.Sheet>
                     </Workbook>
                   </div>
-                  <form onSubmit={handleSubmit} id="combine_btn" className="kpi_module_form mt-1">
+                  <form
+                    onSubmit={handleSubmit}
+                    id="excel_import_btn_kpi_module"
+                    className="kpi_module_form mt-1"
+                  >
                     <div className="d-flex align-items-center">
                       <div className="mt-2">
                         <label htmlFor="uploadfile" className="file-input">
