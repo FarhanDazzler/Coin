@@ -913,13 +913,6 @@ const KPITable = ({ data }) => {
     }
   };
 
-  const handleShowResults = () => {
-    // updating setTableData with all user input added directly to tableData via table.
-    // Crated this functionality to stopping re-rendering of table on every cell change.
-    // This will update the tableData with all the user input added directly to tableData via table.
-    setTableData([...tableData]);
-  };
-
   console.log('tableData', tableData);
   console.log('validationErrors', validationErrors);
   console.log('excelFile', excelFile);
@@ -988,14 +981,6 @@ const KPITable = ({ data }) => {
             return (
               <Flex p="md" justify="space-between" className="kpi_module_buttons">
                 <Flex align="center" gap="xs">
-                  <button
-                    className="custom-btn mt-2 submit-btn"
-                    onClick={() => {
-                      handleShowResults();
-                    }}
-                  >
-                    Show Results
-                  </button>
                   <button
                     className="custom-btn mt-2 submit-btn"
                     onClick={handleSaveKPIData}
