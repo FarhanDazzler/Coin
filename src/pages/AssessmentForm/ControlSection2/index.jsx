@@ -521,12 +521,12 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       dataField: 'Source_System',
       text: 'Source of Data - Link',
       editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
-      // formatter: (cell, row) => {
-      //   if (typeof cell === 'string') {
-      //     return cell.trimStart(); // Trim leading spaces from string
-      //   }
-      //   return cell;
-      // },
+      formatter: (cell, row) => {
+        if (typeof cell === 'string') {
+          return cell.trimStart(); // Trim leading spaces from string
+        }
+        return cell;
+      },
       headerStyle: {
         ...headerStyles,
       },
@@ -642,6 +642,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         }
         tData['id'] = i + 1;
         tData['Upload_Approach'] = tData['Upload_Approach'] || '';
+        tData['Source_System'] = tData['Source_System']?.trimStart() || '';
         let period = tData.Period_From;
         let words = period.split('-');
         const month = parseInt(words[1]);
