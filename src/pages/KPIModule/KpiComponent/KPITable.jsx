@@ -94,6 +94,7 @@ const KPITable = ({ data }) => {
   const [tableData, setTableData] = useState(() => data);
   const [validationErrors, setValidationErrors] = useState({});
   const [excelFile, setExcelFile] = useState(null);
+  const [buttonText, setButtonText]  = useState("Choose a file")
 
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
 
@@ -1093,13 +1094,14 @@ const KPITable = ({ data }) => {
   //   return true;
   // };
 
-  const handleSubmit = (e) => {
+  const handleFileSubmit = (e) => {
     e.preventDefault();
 
     // Validate the data from the excel file and tableData
     if (!validateData()) {
       console.error('Validation failed');
       document.getElementById('excel_import_btn_kpi_module').reset(); // Ensure the form ID is correct
+      setButtonText("Choose a file")
       return;
     }
 
@@ -1145,6 +1147,7 @@ const KPITable = ({ data }) => {
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setButtonText(file.name)
       const reader = new FileReader();
       reader.onload = (e) => {
         const binaryStr = e.target.result;
@@ -1310,7 +1313,7 @@ const KPITable = ({ data }) => {
                     </Workbook>
                   </div>
                   {/* <form
-                    onSubmit={handleSubmit}
+                    onSubmit={handleFileSubmit}
                     id="excel_import_btn_kpi_module"
                     className="kpi_module_form mt-1"
                   >
@@ -1324,7 +1327,7 @@ const KPITable = ({ data }) => {
                             accept=".xlsx, .xls"
                             onChange={handleFileUpload}
                           />
-                          <div className="custom-btn choose-file">Choose File</div>
+                          <div className="custom-btn choose-file">{buttonText}</div>
                         </label>
                       </div>
 
