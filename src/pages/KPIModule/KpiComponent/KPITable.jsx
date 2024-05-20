@@ -616,7 +616,7 @@ const KPITable = ({ data }) => {
         type: 'text',
         variant: 'filled',
         onBlur: (event) => {
-          const value = event.target.value;
+          const value = event.target.value.trim();
           tableData[cell.row.index][cell.column.id] = value;
           // setTableData([...tableData]);
         },
