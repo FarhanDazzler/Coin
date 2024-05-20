@@ -117,8 +117,8 @@
   }
 
   .holder {
-    overflow: hidden;
-
+    // overflow: hidden;
+    // height: 300px;
     padding: 20px;
     padding-top: 0;
     .schedule-survey-btn {
@@ -165,8 +165,7 @@
   position: sticky;
   bottom: 0;
   padding: 15px 20px;
-
-  z-index: 999;
+  margin-top: 50px;
 }
 
 .divider {
