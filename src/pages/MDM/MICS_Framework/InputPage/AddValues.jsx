@@ -17,7 +17,7 @@ import {
   getSubProcessMicsFrameworkSelector,
 } from '../../../../redux/MDM/MDM_Selectors';
 import './InputPageStyle.scss';
-import RichTextEditor from '@mantine/rte';
+// import {RichTextEditor} from '@mantine/tiptap';
 
 const GetFormikFieldValue = () => {
   // Grab values and submitForm from context
@@ -1072,7 +1072,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                     <div className="col-lg-12">
                       <div className="row mb-8">
                         <Form.Label className="mt-5">MICS L1 Description</Form.Label>
-                        <RichTextEditor
+                        {/* <RichTextEditor
                           value={values.mics_L1desc}
                           onChange={(val) => setFieldValue('mics_L1desc', val)}
                           placeholder="Provide Description here..."
@@ -1083,7 +1083,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                             ['alignLeft', 'alignCenter', 'alignRight'],
                           ]}
                           radius="md"
-                        />
+                        /> */}
                         {values.mics_L1desc.length > 5000 && (
                           <span className="error">
                             Mics L1 Desc not allowed more than 5000 characters
@@ -1091,7 +1091,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                         )}
 
                         <Form.Label className="mt-8">MICS L2 Description</Form.Label>
-                        <RichTextEditor
+                        {/* <RichTextEditor
                           value={values.mics_L2desc}
                           onChange={(val) => setFieldValue('mics_L2desc', val)}
                           placeholder="Provide Description here..."
@@ -1102,14 +1102,14 @@ const AddValues_MDM_Mics_Framework = (props) => {
                             ['alignLeft', 'alignCenter', 'alignRight'],
                           ]}
                           radius="md"
-                        />
+                        /> */}
                         {values.mics_L2desc.length > 5000 && (
                           <span className="error">
                             Mics L2 Desc not allowed more than 5000 characters
                           </span>
                         )}
                         <Form.Label className="mt-8">MICS L3 Description</Form.Label>
-                        <RichTextEditor
+                        {/* <RichTextEditor
                           value={values.mics_L3desc}
                           onChange={(val) => setFieldValue('mics_L3desc', val)}
                           placeholder="Provide Description here..."
@@ -1120,7 +1120,7 @@ const AddValues_MDM_Mics_Framework = (props) => {
                             ['alignLeft', 'alignCenter', 'alignRight'],
                           ]}
                           radius="md"
-                        />
+                        /> */}
                         {values.mics_L3desc.length > 5000 && (
                           <span className="error">
                             Mics L3 Desc not allowed more than 5000 characters

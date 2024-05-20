@@ -10,7 +10,15 @@ import {
   edit_Function_Questions,
 } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import {} from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
-import RichTextEditor from '@mantine/rte';
+import { RichTextEditor, Link } from '@mantine/tiptap';
+import { useEditor } from '@tiptap/react';
+import Highlight from '@tiptap/extension-highlight';
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import TextAlign from '@tiptap/extension-text-align';
+import Superscript from '@tiptap/extension-superscript';
+import SubScript from '@tiptap/extension-subscript';
+import Placeholder from '@tiptap/extension-placeholder';
 
 const AddNewQuestionModal = ({
   isEdit,
@@ -21,6 +29,23 @@ const AddNewQuestionModal = ({
   functionType,
 }) => {
   const dispatch = useDispatch();
+  const Editor = (values, setFieldValue) => {
+    return useEditor({
+      extensions: [
+        StarterKit,
+        Underline,
+        Superscript,
+        SubScript,
+        Highlight,
+        TextAlign.configure({ types: ['heading', 'paragraph'] }),
+        Placeholder.configure({ placeholder: 'Provide question text here...' }),
+      ],
+      content: values.Instructions,
+      onUpdate({ editor }) {
+        setFieldValue('questionText', editor.getText());
+      },
+    });
+  };
 
   return (
     <div className="p-5">
@@ -41,6 +66,7 @@ const AddNewQuestionModal = ({
                 };
                 dispatch(edit_BU_Questions(payload));
               } else {
+                console.log(values.questionText)
                 const payload = {
                   text: values.questionText,
                   type: 'BU',
@@ -96,18 +122,35 @@ const AddNewQuestionModal = ({
                 </div>
                 <div className="row mb-4">
                   <div className="col-lg-12">
-                    <RichTextEditor
-                      value={values.questionText}
-                      onChange={(val) => setFieldValue('questionText', val)}
-                      placeholder="Provide Question Text here..."
-                      controls={[
-                        ['bold', 'italic', 'underline'],
-                        ['unorderedList', 'h1', 'h2', 'h3'],
-                        ['sup', 'sub'],
-                        ['alignLeft', 'alignCenter', 'alignRight'],
-                      ]}
-                      radius="md"
-                    />
+                    <RichTextEditor editor={Editor(values, setFieldValue)}>
+                      <RichTextEditor.Toolbar sticky>
+                        <RichTextEditor.ControlsGroup>
+                          <RichTextEditor.Bold />
+                          <RichTextEditor.Italic />
+                          <RichTextEditor.Underline />
+                        </RichTextEditor.ControlsGroup>
+
+                        <RichTextEditor.ControlsGroup>
+                          <RichTextEditor.H1 />
+                          <RichTextEditor.H2 />
+                          <RichTextEditor.H3 />
+                        </RichTextEditor.ControlsGroup>
+
+                        <RichTextEditor.ControlsGroup>
+                          <RichTextEditor.BulletList />
+                          <RichTextEditor.Subscript />
+                          <RichTextEditor.Superscript />
+                        </RichTextEditor.ControlsGroup>
+
+                        <RichTextEditor.ControlsGroup>
+                          <RichTextEditor.AlignLeft />
+                          <RichTextEditor.AlignCenter />
+                          <RichTextEditor.AlignRight />
+                        </RichTextEditor.ControlsGroup>
+                      </RichTextEditor.Toolbar>
+
+                      <RichTextEditor.Content />
+                    </RichTextEditor>
                     {values.questionText.length > 5000 && (
                       <span className="error">
                         Question Text is not allowed more than 5000 characters

@@ -19476,7 +19476,20 @@ a.btn.btn-primary {
 .nav-tabs .navbar-link {
   margin-top: 3px;
   margin-bottom: 3px;
-  padding: 10px 20px;
+  padding: 10px 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+@media (max-width: 1400px) {
+  .nav-tabs .navbar-link {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    padding: 10px 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 }
 
 .nav-tabs .navbar-link.active {
@@ -19487,7 +19500,7 @@ a.btn.btn-primary {
   color: white;
   border: none;
   text-align: center;
-  /* padding: 10px 20px; */
+  padding: 10px 20px;
   border-radius: 25px;
   /* margin-top: 3px;
   margin-bottom: 3px; */

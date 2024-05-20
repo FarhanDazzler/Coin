@@ -11,7 +11,7 @@ import { DotSpinner } from '@uiball/loaders';
 // Assessments Summary Table
 import AssessmentsSummaryTable from './Table/AssessmentsSummaryTable';
 import { addAssessmentSchedulingAndTriggeringSelector } from '../../redux/AssessmentBank/AssessmentBankSelectors';
-import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
+import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module';
 
 const AssessmentBankLandingPage = () => {
   const history = useHistory();

@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
+import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module';
 import './styles.scss';
 import ControlOwnerTable from './ControlOwnerTable.jsx';
 import PageWrapper from '../../../components/wrappers/PageWrapper';
