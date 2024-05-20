@@ -26,7 +26,6 @@ import {
 } from '../../redux/Assessments/AssessmentSelectors';
 import Swal from 'sweetalert2';
 import AssessmentFormRender from './AssessmentFormRender';
-import { getSection3Questions } from '../../redux/Questions/QuestionsAction';
 import { getLanguageFormat, isJsonString } from '../../utils/helper';
 import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
 import { useMsal } from '@azure/msal-react';
@@ -39,7 +38,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language; // Selected user language
 
-  const loadingRef = useRef();
   const dispatch = useDispatch();
 
   // Get all reducer selector
@@ -82,11 +80,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     ...getMicsOpenActionPlanVal.data,
     loading: !!getMicsOpenActionPlanVal?.loading,
   });
-  const [isQuestion3Api, setIsQuestion3Api] = useState(false);
-  const [loadingLevel, setLoadingLevel] = useState({
-    L2: false,
-    L3: false,
-  });
 
   // User choose no option in Section plan value true, then we are clear older data
   const isNotEscalationRequired =
@@ -98,20 +91,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions || '[]')
     ? JSON.parse(questionData.Level?.L2?.Inner_Questions || '[]')
     : [];
-
-  const attemptNo = useMemo(() => {
-    return responseData?.data?.Attempt_no
-      ? responseData?.data?.Attempt_no < 5
-        ? 4 - responseData?.data?.Attempt_no
-        : 0
-      : responseData?.data?.Attempt_no === 0
-      ? '4'
-      : '5';
-  }, [responseData?.data]);
-
-  useEffect(() => {
-    loadingRef.current = loadingLevel;
-  }, [loadingLevel]);
 
   useEffect(() => {
     if (responseUpdatedData?.actionPlanInfo?.Action_Plan) {
@@ -137,8 +116,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     }
   }, [ansSection3]);
 
+  console.log('activeData', activeData);
+
   //API useEffect
   useEffect(() => {
+    if (questionsInfo.loading) return;
     // get question API
     dispatch(
       getQuestions({
@@ -218,7 +200,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     };
   }, []);
 
-  let timeOutSection2 = null;
   let timeOutSection3 = null;
 
   useEffect(() => {
@@ -240,7 +221,9 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     if (responseUpdatedData || condition) {
       if (responseUpdatedData?.s1 && !startEdit) {
         // set section 1 ans here..
-        setAnsSection1(getLanguageFormat(responseUpdatedData.s1, language));
+        setTimeout(() => {
+          setAnsSection1(getLanguageFormat(responseUpdatedData.s1, language));
+        }, [10]);
 
         // if section1 ad question fill then show submit btn
         if (responseUpdatedData.s1?.length > 0) {
@@ -280,54 +263,15 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         }
 
         // convert json string to parse data
-        const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions)
-          ? JSON.parse(questionData.Level?.L1?.Inner_Questions)
-          : [];
         const L2InnerQuestion = isJsonString(questionData.Level?.L2?.Inner_Questions)
           ? JSON.parse(questionData.Level?.L2?.Inner_Questions)
           : [];
 
         // check section 1 and section 2 select any no option or not
-        const isLevel1NoInnerQuestion =
-          questionData.Level?.L1?.Header_Question && !L1InnerQuestion.length;
         const isLevel2NoInnerQuestion =
           questionData.Level?.L1?.Header_Question &&
           questionData.Level?.L2?.Header_Question &&
           !L2InnerQuestion.length;
-
-        // Check section 3 L1 level fill or not
-        if (
-          (section3Data?.L2 && questionData.Level?.L1 && !questionData.Level?.L2) ||
-          (isLevel1NoInnerQuestion && !questionData.Level?.L2) ||
-          (!(L1InnerQuestion.length > 0) &&
-            questionData.Level?.L1?.Inner_Questions &&
-            !questionData.Level?.L2)
-        ) {
-          // if section 3 level 1 show then API to get section 3 L2 level api call condition
-          if (!questionData?.data?.L2) {
-            if (timeOutSection2) clearTimeout(timeOutSection2);
-            timeOutSection2 = setTimeout(() => {
-              if (!loadingRef?.current?.L2) {
-                setLoadingLevel({ ...loadingLevel, L2: true });
-                // Section 3 - L2 level api call
-                dispatch(
-                  getSection3Questions({
-                    Level: 'L2',
-                    Control_ID: activeData?.control_id,
-                    Assessment_ID: activeData?.assessment_id,
-                    events: {
-                      onSuccess: () => {
-                        setTimeout(() => {
-                          setLoadingLevel({ ...loadingLevel, L2: false });
-                        }, 1500);
-                      },
-                    },
-                  }),
-                );
-              }
-            }, 1000);
-          }
-        }
 
         // Check section 3 L2 and L3 level fill or not
         if (
@@ -337,25 +281,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           if (!questionData?.data?.L3) {
             if (timeOutSection3) clearTimeout(timeOutSection3);
             timeOutSection3 = setTimeout(() => {
-              if (!loadingRef?.current?.L3) {
-                setLoadingLevel({ ...loadingLevel, L3: true });
-                // Section 3 - L3 level api call
-                dispatch(
-                  getSection3Questions({
-                    Level: 'L3',
-                    Control_ID: activeData?.control_id,
-                    Assessment_ID: activeData?.assessment_id,
-                    events: {
-                      onSuccess: () => {
-                        setTimeout(() => {
-                          setLoadingLevel({ ...loadingLevel, L3: false });
-                        }, 1500);
-                      },
-                    },
-                  }),
-                );
-              }
-
               if (!showMoreSection) {
                 setTerminating(true);
               }
@@ -364,7 +289,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         }
       }
     }
-  }, [responseData.data, questionData, activeData]);
+  }, [responseData.data, questionData, activeData, questionsInfo]);
 
   // check if section 1 fail or not
   const s1FailObj = useMemo(() => {
@@ -653,14 +578,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         setIsModal={setIsModal}
         setStartEdit={setStartEdit}
         language={language}
-        loadingLevel={loadingLevel}
-        setLoadingLevel={setLoadingLevel}
-        loadingRef={loadingRef}
         L1AndL2NoQuestionsAns={L1AndL2NoQuestionsAns}
         setL1AndL2NoQuestionsAns={setL1AndL2NoQuestionsAns}
-        question3Api={isQuestion3Api}
-        setQuestion3Api={setIsQuestion3Api}
-        attemptNo={attemptNo}
       />
     </>
   );

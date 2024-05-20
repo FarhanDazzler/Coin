@@ -5,7 +5,6 @@ import { Loader } from '@mantine/core';
 import { Form } from 'react-bootstrap';
 import RenderBlock from '../../../components/RenderBlock';
 import RenderBlockWrapper from '../../../components/RenderBlock/RenderBlockWrapper';
-import { getSection3Questions } from '../../../redux/Questions/QuestionsAction';
 import CollapseFrame from '../../../components/UI/CollapseFrame';
 import {
   getFormatQuestions,
@@ -25,13 +24,8 @@ const ControlSection3 = ({
   setShowNoQuestionAns,
   setStartEdit,
   isModal,
-  loadingLevel,
-  setLoadingLevel,
-  loadingRef,
   L1AndL2NoQuestionsAns,
   setL1AndL2NoQuestionsAns,
-  question3Api,
-  setQuestion3Api,
 }) => {
   const Control_ID = activeData?.control_id;
   const questionData = useSelector(question3Selector);
@@ -43,8 +37,6 @@ const ControlSection3 = ({
   const [questionL1, setQuestionL1] = useState([]);
   const [questionL2, setQuestionL2] = useState([]);
   const [questionL3, setQuestionL3] = useState([]);
-  const [question2Api, setQuestion2Api] = useState(false);
-
   const [showNoQuestion, setShowNoQuestion] = useState(false);
 
   const L1InnerQuestion = isJsonString(questionData.Level?.L1?.Inner_Questions || '[]')
@@ -109,8 +101,6 @@ const ControlSection3 = ({
     }
 
     setAns(updateAns);
-    setQuestion2Api(false);
-    setQuestion3Api(!noQueAns);
   };
 
   const handleChangeNoQuestion = (val) => {
@@ -157,45 +147,6 @@ const ControlSection3 = ({
   }, [ans, render, questionData]);
 
   useEffect(() => {
-    if (question2Api) return;
-    // Check condition for section 1 and selected question not inner question
-    const isFirstSectionWithNoQuestion =
-      isJsonString(questionData.Level?.L1?.Inner_Questions) &&
-      !JSON.parse(questionData.Level?.L1?.Inner_Questions).length;
-
-    //Check if first section any one 'No' option selected then not section 2 api call make
-    if (isFirstSectionWithNoQuestion && !question2Api && !question3Api && !questionData?.data?.L2) {
-      if (!loadingRef?.current?.L2) {
-        setLoadingLevel({ ...loadingLevel, L2: true });
-        dispatch(
-          getSection3Questions({
-            Level: 'L2',
-            Control_ID: Control_ID,
-            events: {
-              onSuccess: () => {
-                setTimeout(() => {
-                  setLoadingLevel({ ...loadingLevel, L2: false });
-                }, 1500);
-              },
-            },
-          }),
-        );
-      }
-      setQuestion2Api(true);
-    }
-
-    //Same for s3
-    if (question3Api) return;
-    const isSecondSectionWithNoQuestion =
-      isJsonString(questionData.Level?.L2?.Inner_Questions) &&
-      !JSON.parse(questionData.Level?.L2?.Inner_Questions).length;
-    if (isSecondSectionWithNoQuestion && !question3Api && !questionData?.data?.L3) {
-      dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
-      setQuestion3Api(true);
-    }
-  }, [questionData.Level]);
-
-  useEffect(() => {
     if (!lastAns) return;
 
     const updateAns = {};
@@ -207,15 +158,6 @@ const ControlSection3 = ({
           return ans.L1[key].includes('yes');
         });
 
-        if (
-          ansObjectL1.length === allYesFilterData1.length &&
-          !questionL2.length &&
-          !question2Api &&
-          !questionData?.data?.L2
-        ) {
-          dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
-          setQuestion2Api(true);
-        }
         updateAns.L1 = ans.L1;
         setAns(updateAns);
         setTerminating(false);
@@ -241,15 +183,7 @@ const ControlSection3 = ({
         let allYesFilterData2 = Object.keys(ans.L2).filter((key) => {
           return ans.L2[key].includes('yes');
         });
-        if (
-          ansObjectL2.length === allYesFilterData2.length &&
-          !questionL3.length &&
-          !question2Api &&
-          !questionData?.data?.L3
-        ) {
-          dispatch(getSection3Questions({ Level: 'L3', Control_ID: Control_ID }));
-          setQuestion3Api(true);
-        }
+
         updateAns.L2 = ans.L2;
         setAns(updateAns);
         setTerminating(false);
@@ -303,10 +237,6 @@ const ControlSection3 = ({
           if (ans.L1) {
             const updateAnsL1 = setSelectedQuestionAns(data, ans.L1);
             setQuestionL1(updateAnsL1);
-            if (!question2Api && !questionData?.data?.L2) {
-              dispatch(getSection3Questions({ Level: 'L2', Control_ID: Control_ID }));
-              setQuestion2Api(true);
-            }
           } else {
             setQuestionL1(data);
           }
@@ -318,10 +248,11 @@ const ControlSection3 = ({
       const isLevel2NoInnerQuestion =
         !!questionData.Level?.L1 && !!questionData.Level?.L2 && !L2InnerQuestion.length;
 
-      if (
-        (!!questionData.Level?.L2 && !!ans.L1 && !JSON.stringify(ans.L1).includes('no')) ||
-        isLevel1NoInnerQuestion
-      ) {
+      const section1Condition = !!ans.L1 && !JSON.stringify(ans.L1).includes('no');
+
+      if (L1InnerQuestion.length > 0 && !ans.L1) return;
+
+      if ((!!questionData.Level?.L2 && section1Condition) || isLevel1NoInnerQuestion) {
         const apiQuestionL2 = getQuestionsFormatData([questionData.Level?.L2]);
         if (!(questionL2.length > 0) || !isSameLang || isLevel1NoInnerQuestion) {
           const questionsVal2 = getFormatQuestions(apiQuestionL2, null, 'L2');
@@ -330,30 +261,13 @@ const ControlSection3 = ({
           if (ans.L2) {
             const updateAnsL2 = setSelectedQuestionAns(data2, ans.L2);
             setQuestionL2(updateAnsL2);
-            if (!question3Api && !questionData?.data?.L3) {
-              if (!loadingRef?.current?.L3) {
-                setLoadingLevel({ ...loadingLevel, L3: true });
-                dispatch(
-                  getSection3Questions({
-                    Level: 'L3',
-                    Control_ID: Control_ID,
-                    events: {
-                      onSuccess: () => {
-                        setTimeout(() => {
-                          setLoadingLevel({ ...loadingLevel, L3: false });
-                        }, 1500);
-                      },
-                    },
-                  }),
-                );
-              }
-              setQuestion3Api(true);
-            }
           } else {
             setQuestionL2(data2);
           }
         }
       }
+
+      if (L2InnerQuestion.length > 0 && !ans.L2) return;
 
       if (
         (!!questionData.Level?.L3 && !!ans.L2 && !JSON.stringify(ans.L2).includes('no')) ||
@@ -503,16 +417,32 @@ const ControlSection3 = ({
       <CollapseFrame title={t('selfAssessment.assessmentForm.section3_MICS')} active>
         <div className="mt-5" id="section3">
           <>
-            {questionL1.length > 0 && (
+            {questionL1.length > 0 && questionL1[0].Control_ID && (
               <RenderBlock blocks={questionL1} isModal={isModal} handleChange={handleChange} />
             )}
-            {questionL2.length > 0 && !isL1NoAnsSelect && (
+            {questionL2.length > 0 && questionL2[0].Control_ID && !isL1NoAnsSelect && (
               <RenderBlock blocks={questionL2} isModal={isModal} handleChange={handleChange} />
             )}
-            {questionL3.length > 0 && !isL1NoAnsSelect && !isL2NoAnsSelect && (
-              <RenderBlock blocks={questionL3} isModal={isModal} handleChange={handleChange} />
-            )}
+            {questionL3.length > 0 &&
+              questionL3[0].Control_ID &&
+              !isL1NoAnsSelect &&
+              !isL2NoAnsSelect && (
+                <RenderBlock blocks={questionL3} isModal={isModal} handleChange={handleChange} />
+              )}
           </>
+
+          {!(questionL1.length > 0 && questionL1[0].Control_ID) &&
+            !(questionL2.length > 0 && questionL2[0].Control_ID && !isL1NoAnsSelect) &&
+            !(
+              questionL3.length > 0 &&
+              questionL3[0].Control_ID &&
+              !isL1NoAnsSelect &&
+              !isL2NoAnsSelect
+            ) && (
+              <div className="mt-5 mb-5 pt-5 text-center">
+                <h1 className="table-modal-title"> No section 3 data available</h1>
+              </div>
+            )}
 
           {(showNoQuestion || isL1NoAnsSelect || isL2NoAnsSelect) && (
             <>
