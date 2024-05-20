@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 //import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -48,7 +48,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
     tableData.map((data, i) => {
       handleChange('', '', data, i);
     });
-  }, [csvUpdateData, tableData.lengthlength]);
+  }, [csvUpdateData, tableData.length]);
 
   //All fixed table schema
   const columns = [
@@ -349,22 +349,22 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
           };
         }
       },
-      validator: (newValue, row, column) => {
-        if (isNaN(newValue) || newValue < 0) {
-          row.Numerator = '';
-          return {
-            valid: false,
-            message: 'Numerator cannot be negative values only',
-          };
-        }
-        if (+row.Denominator < 0 || !row.Denominator) {
-          handleChange(row.Numerator, newValue, row, column);
-          return {
-            valid: false,
-            message: 'Denominator is required when Numerator is filled',
-          };
-        }
-      },
+      // validator: (newValue, row, column) => {
+      //   if (isNaN(newValue) || newValue < 0) {
+      //     row.Numerator = '';
+      //     return {
+      //       valid: false,
+      //       message: 'Numerator cannot be negative values only',
+      //     };
+      //   }
+      //   if (+row.Denominator < 0 || !row.Denominator) {
+      //     handleChange(row.Numerator, newValue, row, column);
+      //     return {
+      //       valid: false,
+      //       message: 'Denominator is required when Numerator is filled',
+      //     };
+      //   }
+      // },
     },
     {
       dataField: 'Expected_Denominator',
@@ -403,7 +403,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
             </div>
           );
         }
-        if (row.Denominator <= 0) {
+        if (row.Denominator && row.Denominator <= 0) {
           return (
             <div>
               {row.Denominator}
@@ -432,22 +432,22 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         }
       },
 
-      validator: (newValue, row, column) => {
-        if (isNaN(newValue) || newValue <= 0) {
-          row.Denominator = '';
-          return {
-            valid: false,
-            message: 'Denominator can be positive values only',
-          };
-        }
-        if (+row.Numerator < 0 || !row.Numerator) {
-          handleChange(row.Denominator, newValue, row, column);
-          return {
-            valid: false,
-            message: 'Numerator is required when Denominator is filled',
-          };
-        }
-      },
+      // validator: (newValue, row, column) => {
+      //   if (isNaN(newValue) || newValue <= 0) {
+      //     row.Denominator = '';
+      //     return {
+      //       valid: false,
+      //       message: 'Denominator can be positive values only',
+      //     };
+      //   }
+      //   if (+row.Numerator < 0 || !row.Numerator) {
+      //     handleChange(row.Denominator, newValue, row, column);
+      //     return {
+      //       valid: false,
+      //       message: 'Numerator is required when Denominator is filled',
+      //     };
+      //   }
+      // },
     },
     {
       dataField: 'KPI_Value',
@@ -642,6 +642,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         }
         tData['id'] = i + 1;
         tData['Upload_Approach'] = tData['Upload_Approach'] || '';
+        tData['Source_System'] = tData['Source_System']?.trimStart() || '';
         let period = tData.Period_From;
         let words = period.split('-');
         const month = parseInt(words[1]);
@@ -687,9 +688,9 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
           }
         }
 
-        row.KPI_Value = (row.Numerator / row.Denominator).toFixed(5);
+        row.KPI_Value = (+row.Numerator / +row.Denominator).toFixed(5);
         //If user Lower is better change value then update existing value
-        if (row.Positive_direction === 'Lower is better') {
+        if (row.Positive_direction === 'Lower is Better') {
           if (
             row.MICS_L1_Threshold === '-' ||
             row.MICS_L1_Threshold === '' ||
@@ -733,7 +734,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
               row.L3_Result = 'Fail';
             }
           }
-        } else if (row.Positive_direction === 'Higher is better') {
+        } else if (row.Positive_direction === 'Higher is Better') {
           if (
             row.MICS_L1_Threshold === '-' ||
             row.MICS_L1_Threshold === '' ||
