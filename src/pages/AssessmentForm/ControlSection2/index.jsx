@@ -332,16 +332,6 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
             </div>
           );
         }
-        if (row.Numerator && !row.Denominator) {
-          return (
-            <div>
-              {row.Numerator}
-              <div className="alert alert-danger in" role="alert">
-                <strong>Denominator is required when Numerator is filled</strong>
-              </div>
-            </div>
-          );
-        }
         return cellContent;
       },
       style: (cell, row, rowIndex, colIndex) => {
