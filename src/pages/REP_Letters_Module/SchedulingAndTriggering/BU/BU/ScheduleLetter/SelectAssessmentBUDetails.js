@@ -523,7 +523,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                           name="Due_Date"
                           placeholder=""
                           value={values.Due_Date}
-                          min={values.Recipient_Reminder_2}
+                          min={values.Start_Date}
                           isInvalid={Boolean(touched.Due_Date && errors.Due_Date)}
                           onBlur={handleBlur}
                           onChange={handleChange}
@@ -576,6 +576,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                           onChange={handleChange}
                           readOnly={false}
                           min={values.Start_Date}
+                          max={values.Due_Date}
                           className="form-control"
                         />
 
@@ -607,7 +608,8 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                           onBlur={handleBlur}
                           onChange={handleChange}
                           readOnly={false}
-                          min={values.Recipient_Reminder_1}
+                          min={values.Start_Date}
+                          max={values.Due_Date}
                           className="form-control"
                         />
 
