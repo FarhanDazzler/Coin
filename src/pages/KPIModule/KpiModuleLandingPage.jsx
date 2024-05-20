@@ -245,6 +245,13 @@ const ControlOwner_KPIOwner_ControlOversight_Table = () => {
     }
   }, [yearAndQuarter]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      const div = document.getElementsByClassName('loader-animation')[0];
+      if (div) div.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+    }, 200);
+  }, [yearAndQuarter]);
+
   return (
     <div>
       {KpiDataForControlOwner_KPIOwner_ControlOversight?.loading ? (
