@@ -164,10 +164,11 @@ const KPITable = ({ data }) => {
       mantineTableBodyCellProps: {
         align: 'center',
       },
-      // Cell: ({ row }) => (
-      //   <Button onClick={() => sendEmail(row.original.Expected_Source)}>Send Email</Button>
-      // ),
-      Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
+      Cell: ({ row }) => (
+        <span>{row.original.Expected_Source == 'Manual' ? 'Manual' : 'Automated'}</span>
+      ),
+
+      // Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
     },
     {
       accessorKey: 'KPI_CODE',
@@ -231,6 +232,7 @@ const KPITable = ({ data }) => {
       //   filterVariant: 'autocomplete',
       header: 'KPI Num',
       size: 100,
+      Cell: ({ row }) => <span>{row.original.KPI_Num}</span>,
       mantineEditTextInputProps: ({ cell, row }) => ({
         required: true,
         type: 'number',
@@ -311,6 +313,7 @@ const KPITable = ({ data }) => {
       //   filterVariant: 'autocomplete',
       header: 'KPI Den',
       size: 100,
+      Cell: ({ row }) => <span>{row.original.KPI_Den}</span>,
       mantineEditTextInputProps: ({ cell, row }) => ({
         required: true,
         type: 'number',
@@ -411,6 +414,7 @@ const KPITable = ({ data }) => {
       header: 'Expected KPI Source',
       size: 100,
       editVariant: 'select',
+      Cell: ({ row }) => <span>{row.original.expected_kpi_source}</span>,
       mantineEditSelectProps: ({ cell, row }) => ({
         data: [
           {
@@ -430,6 +434,7 @@ const KPITable = ({ data }) => {
       header: 'Actual KPI Source',
       size: 100,
       editVariant: 'select',
+      Cell: ({ row }) => <span>{row.original.upload_approach}</span>,
       mantineEditSelectProps: ({ cell, row }) => ({
         data: [
           {
@@ -457,6 +462,7 @@ const KPITable = ({ data }) => {
       enableClickToCopy: true,
       header: 'Source of Data - Link',
       size: 300,
+      Cell: ({ row }) => <span>{row.original.source_system}</span>,
       mantineEditTextInputProps: ({ cell, row }) => ({
         required: false,
         type: 'text',
@@ -506,10 +512,10 @@ const KPITable = ({ data }) => {
       mantineTableBodyCellProps: {
         align: 'center',
       },
-      Cell: ({ cell }) => <Badge_apply data={cell.getValue()} />,
-      // Cell: ({ row }) => {
-      //   return <Badge_apply data={row.original.Result_L1} />;
-      // },
+      // Cell: ({ cell }) => <Badge_apply data={cell.getValue()} />,
+      Cell: ({ row }) => {
+        return <Badge_apply data={row.original.Result_L1} />;
+      },
     },
     {
       accessorKey: 'Result_L2',
@@ -520,7 +526,9 @@ const KPITable = ({ data }) => {
       mantineTableBodyCellProps: {
         align: 'center',
       },
-      Cell: ({ cell }) => <Badge_apply data={cell.getValue()} />,
+      Cell: ({ row }) => {
+        return <Badge_apply data={row.original.Result_L2} />;
+      },
     },
     {
       accessorKey: 'Result_L3',
@@ -531,7 +539,9 @@ const KPITable = ({ data }) => {
       mantineTableBodyCellProps: {
         align: 'center',
       },
-      Cell: ({ cell }) => <Badge_apply data={cell.getValue()} />,
+      Cell: ({ row }) => {
+        return <Badge_apply data={row.original.Result_L3} />;
+      },
     },
     {
       accessorKey: 'kpi_owner_email',
