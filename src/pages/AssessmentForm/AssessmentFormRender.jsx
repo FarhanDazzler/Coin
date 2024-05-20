@@ -44,18 +44,12 @@ const AssessmentFormRender = ({
   getMicsOpenActionPlanVal,
   actionPlanInfo,
   setActionPlanInfo,
-  loadingLevel,
-  setLoadingLevel,
-  loadingRef,
   setIsModal,
   isReview,
   isOverride,
   setIsOverride,
   L1AndL2NoQuestionsAns,
   setL1AndL2NoQuestionsAns,
-  question3Api,
-  setQuestion3Api,
-  attemptNo,
 }) => {
   const Control_ID = activeData?.control_id;
   const { t } = useTranslation();
@@ -66,11 +60,6 @@ const AssessmentFormRender = ({
   // check useEffect if user select section 1 Terminating then this state true
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
 
-  // If user select any no ans in section 3 then this var true
-  const isSection3Failed = Object.keys(ansSection3)?.find((i) => {
-    const value = ansSection3[i] && Object.values(ansSection3[i]);
-    if (value?.length > 0) return value[0]?.includes('no');
-  });
   const isNotEscalationRequired =
     actionPlanInfo.issueResolved === 'no' && !!actionPlanInfo.isEscalationRequired;
   const [showControlSection, setShowControlSection] = useState(false);
@@ -124,7 +113,7 @@ const AssessmentFormRender = ({
       }
     });
     setSection1TerminatingLogicValue(sectionTerminating);
-  }, [ansSection3]);
+  }, [ansSection3, ansSection1]);
 
   const checkL3Validation = useMemo(() => {
     if (ansSection3 && !(Object.keys(ansSection3).length > 0)) {
@@ -250,13 +239,8 @@ const AssessmentFormRender = ({
                     setShowNoQuestionAns={setShowNoQuestionAns}
                     setStartEdit={setStartEdit}
                     isModal={!isModal}
-                    loadingLevel={loadingLevel}
-                    setLoadingLevel={setLoadingLevel}
-                    loadingRef={loadingRef}
                     L1AndL2NoQuestionsAns={L1AndL2NoQuestionsAns}
                     setL1AndL2NoQuestionsAns={setL1AndL2NoQuestionsAns}
-                    question3Api={question3Api}
-                    setQuestion3Api={setQuestion3Api}
                   />
                 </>
               )}
