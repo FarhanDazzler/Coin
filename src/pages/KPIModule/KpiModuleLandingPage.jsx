@@ -80,6 +80,13 @@ const ICTable = () => {
   }, [getAllZone_State]);
 
   useEffect(() => {
+    setTimeout(() => {
+      const div = document.getElementsByClassName('loader-animation')[0];
+      if (div) div.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
+    }, 200);
+  }, [selectedZone, yearAndQuarter]);
+
+  useEffect(() => {
     if (selectedZone?.value) {
       if (yearAndQuarter?.length > 0) {
         const payload = {
@@ -127,7 +134,9 @@ const ICTable = () => {
                       maxMenuHeight={200}
                       placeholder="Select Zone"
                       value={selectedZone}
-                      onChange={(e) => setSelectedZone(e)}
+                      onChange={(e) => {
+                        setSelectedZone(e);
+                      }}
                       className="l-input functional-select"
                       options={zoneValue}
                     />
