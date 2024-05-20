@@ -77,8 +77,7 @@ function calculateResult(numerator, denominator, threshold, positiveDirection, r
   if (den === 0) {
     return 'Fail'; // Only denominator is zero
   }
-
-  const value = num / den;
+  const value = num / den.toFixed(5);
   if (positiveDirection && positiveDirection.trim().toLowerCase() === 'lower is better') {
     return value <= thresholdFloat ? 'Pass' : 'Fail';
   } else if (positiveDirection && positiveDirection.trim().toLowerCase() === 'higher is better') {
@@ -107,9 +106,15 @@ const KPITable = ({ data }) => {
       header: 'Zone',
       size: 50,
       enableEditing: false,
-      mantineTableBodyCellProps: {
-        align: 'center',
-      },
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'Entity',
@@ -118,6 +123,15 @@ const KPITable = ({ data }) => {
       header: 'Entity',
       size: 150,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'provider',
@@ -126,6 +140,15 @@ const KPITable = ({ data }) => {
       header: 'Provider',
       size: 300,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'CONTROL_ID',
@@ -134,9 +157,15 @@ const KPITable = ({ data }) => {
       header: 'Control ID',
       size: 200,
       enableEditing: false,
-      mantineTableBodyCellProps: {
-        align: 'center',
-      },
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'control_NAME',
@@ -145,6 +174,15 @@ const KPITable = ({ data }) => {
       header: 'Control Name',
       size: 200,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'kpi_type',
@@ -153,6 +191,15 @@ const KPITable = ({ data }) => {
       header: 'KPI Type',
       size: 100,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'Expected_Source',
@@ -161,12 +208,16 @@ const KPITable = ({ data }) => {
       header: 'Expected Source',
       size: 100,
       enableEditing: false,
-      mantineTableBodyCellProps: {
-        align: 'center',
-      },
-      Cell: ({ row }) => (
-        <span>{row.original.Expected_Source == 'Manual' ? 'Manual' : 'Automated'}</span>
-      ),
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+      Cell: ({ row }) => <span>{row.original.Expected_Source}</span>,
 
       // Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
     },
@@ -177,9 +228,15 @@ const KPITable = ({ data }) => {
       header: 'KPI ID',
       size: 100,
       enableEditing: false,
-      mantineTableBodyCellProps: {
-        align: 'center',
-      },
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'KPI_NAME',
@@ -188,6 +245,15 @@ const KPITable = ({ data }) => {
       header: 'KPI Name',
       size: 200,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'applicable',
@@ -196,9 +262,15 @@ const KPITable = ({ data }) => {
       header: 'Applicability',
       size: 50,
       enableEditing: false,
-      mantineTableBodyCellProps: {
-        align: 'center',
-      },
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'Month',
@@ -206,9 +278,15 @@ const KPITable = ({ data }) => {
       header: 'Month',
       size: 50,
       enableEditing: false,
-      mantineTableBodyCellProps: {
-        align: 'center',
-      },
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'expected_num',
@@ -217,6 +295,15 @@ const KPITable = ({ data }) => {
       header: 'Expected Num',
       size: 200,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'expected_den',
@@ -225,6 +312,15 @@ const KPITable = ({ data }) => {
       header: 'Expected Den',
       size: 200,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'KPI_Num',
@@ -241,7 +337,8 @@ const KPITable = ({ data }) => {
         helperText: validationErrors[row.original.id]?.KPI_Num,
         onBlur: (event) => {
           // console.log('@@', row.original.id);
-          const value = event.target.value;
+          const value = parseFloat(event.target.value.trim());
+
           tableData[cell.row.index][cell.column.id] = value;
           // setTableData([...tableData]);
           // setting up results here based on the numerator, denominator, threshold, and positive direction
@@ -268,15 +365,16 @@ const KPITable = ({ data }) => {
           );
 
           //validation logic
-          if (!value) {
-            setValidationErrors((prev) => ({
-              ...prev,
-              [row.original.id]: {
-                ...prev[row.original.id],
-                KPI_Num: 'Numerator is required',
-              },
-            }));
-          } else if (value < 0) {
+          // if (!value) {
+          //   setValidationErrors((prev) => ({
+          //     ...prev,
+          //     [row.original.id]: {
+          //       ...prev[row.original.id],
+          //       KPI_Num: 'Numerator is required',
+          //     },
+          //   }));
+          // } else
+          if (!isNaN(value) && value < 0) {
             setValidationErrors((prev) => ({
               ...prev,
               [row.original.id]: {
@@ -284,7 +382,7 @@ const KPITable = ({ data }) => {
                 KPI_Num: 'Numerator can be positive values only',
               },
             }));
-          } else if (!row.original.KPI_Den) {
+          } else if (row.original.KPI_Num && !row.original.KPI_Den) {
             // console.log('@@', row);
             setValidationErrors((prev) => ({
               ...prev,
@@ -296,6 +394,14 @@ const KPITable = ({ data }) => {
           } else {
             delete validationErrors[row.original.id]?.KPI_Num;
             setValidationErrors({ ...validationErrors });
+
+            // setting up KPI Value after the denominator is entered
+            if (row.original.KPI_Den && row.original.KPI_Num) {
+              tableData[cell.row.index].KPI_Value = (
+                +row.original.KPI_Num / +row.original.KPI_Den
+              ).toFixed(5);
+            }
+
             if (
               row.original.KPI_Den &&
               validationErrors[row.original.id]?.KPI_Den == 'Numerator is required'
@@ -306,6 +412,15 @@ const KPITable = ({ data }) => {
           }
         },
       }),
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'KPI_Den',
@@ -321,7 +436,8 @@ const KPITable = ({ data }) => {
         error: validationErrors[row.original.id]?.KPI_Den,
         helperText: validationErrors[row.original.id]?.KPI_Den,
         onBlur: (event) => {
-          const value = event.target.value;
+          const value = parseFloat(event.target.value.trim());
+
           tableData[cell.row.index][cell.column.id] = value;
 
           // setting up results here based on the numerator, denominator, threshold, and positive direction
@@ -346,27 +462,18 @@ const KPITable = ({ data }) => {
             row.original.Direction,
             row.original.Result_L3,
           );
-          // console.log(
-          //   '@@',
-          //   calculateResult(
-          //     row.original.KPI_Num,
-          //     row.original.KPI_Den,
-          //     row.original.L3,
-          //     row.original.Direction,
-          //   ),
-          // );
-          // console.log('@@@', cell);
 
           //validation logic
-          if (!value) {
-            setValidationErrors((prev) => ({
-              ...prev,
-              [row.original.id]: {
-                ...prev[row.original.id],
-                KPI_Den: 'Denominator is required',
-              },
-            }));
-          } else if (value <= 0) {
+          // if (!value) {
+          //   setValidationErrors((prev) => ({
+          //     ...prev,
+          //     [row.original.id]: {
+          //       ...prev[row.original.id],
+          //       KPI_Den: 'Denominator is required',
+          //     },
+          //   }));
+          // } else
+          if (!isNaN(value) && value <= 0) {
             setValidationErrors((prev) => ({
               ...prev,
               [row.original.id]: {
@@ -374,7 +481,7 @@ const KPITable = ({ data }) => {
                 KPI_Den: 'Denominator can be positive values only',
               },
             }));
-          } else if (!row.original.KPI_Num) {
+          } else if (row.original.KPI_Den && !row.original.KPI_Num) {
             // console.log('##', row);
             setValidationErrors((prev) => ({
               ...prev,
@@ -387,6 +494,13 @@ const KPITable = ({ data }) => {
             delete validationErrors[row.original.id]?.KPI_Den;
             setValidationErrors({ ...validationErrors });
 
+            // setting up KPI Value after the denominator is entered
+            if (row.original.KPI_Den && row.original.KPI_Num) {
+              tableData[cell.row.index].KPI_Value = (
+                +row.original.KPI_Num / +row.original.KPI_Den
+              ).toFixed(5);
+            }
+
             if (
               row.original.KPI_Num &&
               validationErrors[row.original.id]?.KPI_Num == 'Denominator is required'
@@ -397,6 +511,15 @@ const KPITable = ({ data }) => {
           }
         },
       }),
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'KPI_Value',
@@ -404,10 +527,17 @@ const KPITable = ({ data }) => {
       //   filterVariant: 'autocomplete',
       header: 'KPI Value',
       size: 100,
-      mantineTableBodyCellProps: {
-        align: 'center',
-      },
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
       enableEditing: false,
+      Cell: ({ row }) => <span>{row.original.KPI_Value}</span>,
     },
     {
       accessorKey: 'expected_kpi_source',
@@ -428,6 +558,15 @@ const KPITable = ({ data }) => {
         ],
         onChange: (value) => (tableData[cell.row.index][cell.column.id] = value),
       }),
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'upload_approach',
@@ -456,6 +595,15 @@ const KPITable = ({ data }) => {
         ],
         onChange: (value) => (tableData[cell.row.index][cell.column.id] = value),
       }),
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'source_system',
@@ -473,6 +621,15 @@ const KPITable = ({ data }) => {
           // setTableData([...tableData]);
         },
       }),
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'kpi_desc',
@@ -481,6 +638,15 @@ const KPITable = ({ data }) => {
       header: 'KPI Description',
       size: 200,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'L1',
@@ -488,6 +654,15 @@ const KPITable = ({ data }) => {
       header: 'Threshold L1',
       size: 50,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'L2',
@@ -495,6 +670,15 @@ const KPITable = ({ data }) => {
       header: 'Threshold L2',
       size: 50,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'L3',
@@ -502,6 +686,15 @@ const KPITable = ({ data }) => {
       header: 'Threshold L3',
       size: 50,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'Result_L1',
@@ -516,6 +709,13 @@ const KPITable = ({ data }) => {
       Cell: ({ row }) => {
         return <Badge_apply data={row.original.Result_L1} />;
       },
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+          },
+        },
     },
     {
       accessorKey: 'Result_L2',
@@ -529,6 +729,13 @@ const KPITable = ({ data }) => {
       Cell: ({ row }) => {
         return <Badge_apply data={row.original.Result_L2} />;
       },
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+          },
+        },
     },
     {
       accessorKey: 'Result_L3',
@@ -542,6 +749,15 @@ const KPITable = ({ data }) => {
       Cell: ({ row }) => {
         return <Badge_apply data={row.original.Result_L3} />;
       },
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'kpi_owner_email',
@@ -550,6 +766,15 @@ const KPITable = ({ data }) => {
       header: 'KPI Owner Email',
       size: 200,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'control_owner_email',
@@ -558,6 +783,15 @@ const KPITable = ({ data }) => {
       header: 'Control Owner Email',
       size: 200,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'control_oversight_email',
@@ -566,6 +800,15 @@ const KPITable = ({ data }) => {
       header: 'Control Oversight Email',
       size: 300,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     // {
     //   accessorKey: 'Direction',
@@ -574,6 +817,15 @@ const KPITable = ({ data }) => {
     //   header: 'Direction',
     //   size: 300,
     //   enableEditing: false,
+    // mantineTableBodyCellProps: ({ row }) =>
+    //   row.original.Expected_Source == 'Automated' && {
+    //     // align: 'center',
+    //     sx: {
+    //       backgroundColor: '#1B1212',
+    //       color: '#fff',
+    //       // borderRight: '1px solid rgba(224,224,224,1)',
+    //     },
+    //   },
     // },
     {
       accessorKey: 'load_date',
@@ -582,6 +834,15 @@ const KPITable = ({ data }) => {
       header: 'Load Date',
       size: 300,
       enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
     {
       accessorKey: 'year_and_quarter',
@@ -590,9 +851,15 @@ const KPITable = ({ data }) => {
       header: 'Year and Quarter',
       size: 50,
       enableEditing: false,
-      mantineTableBodyCellProps: {
-        align: 'center',
-      },
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
     },
   ];
 
@@ -626,7 +893,7 @@ const KPITable = ({ data }) => {
       'Expected Den': 'expected_den',
       'KPI Num': 'KPI_Num',
       'KPI Den': 'KPI_Den',
-      'KPI Value': 'KPI_Value',
+      // 'KPI Value': 'KPI_Value',
       'Expected KPI Source': 'expected_kpi_source',
       'Actual KPI Source': 'upload_approach',
       'Source of Data - Link': 'source_system',
@@ -930,7 +1197,7 @@ const KPITable = ({ data }) => {
           enableRowSelection={false}
           selectAllMode="all"
           getRowId={(row) => row.id}
-          paginationDisplayMode={'pages'}
+          // paginationDisplayMode={'pages'}
           enableRowNumbers={true}
           rowNumberMode={'original'}
           // positionToolbarAlertBanner= {'bottom'}
@@ -947,10 +1214,10 @@ const KPITable = ({ data }) => {
             pagination: { pageIndex: 0, pageSize: 10 },
             sorting: [{ id: 'state', desc: false }],
           }}
-          mantinePaginationProps={{
-            radius: 'xl',
-            size: 'lg',
-          }}
+          // mantinePaginationProps={{
+          //   radius: 'xl',
+          //   size: 'lg',
+          // }}
           mantineTableHeadCellProps={{
             align: 'center',
           }}
@@ -1022,7 +1289,6 @@ const KPITable = ({ data }) => {
                         <Workbook.Column label="Expected Den" value="expected_den" />
                         <Workbook.Column label="KPI Num" value="KPI_Num" />
                         <Workbook.Column label="KPI Den" value="KPI_Den" />
-                        <Workbook.Column label="KPI Value" value="KPI_Value" />
                         <Workbook.Column label="Expected KPI Source" value="expected_kpi_source" />
                         <Workbook.Column label="Actual KPI Source" value="upload_approach" />
                         <Workbook.Column label="Source of Data - Link" value="source_system" />
