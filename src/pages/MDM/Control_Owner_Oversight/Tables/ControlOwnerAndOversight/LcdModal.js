@@ -6,7 +6,7 @@ import Button from '../../../MDM_Tab_Buttons/Button';
 import { useDispatch } from 'react-redux';
 import useDebounce from '../../../../../hooks/useDebounce';
 import { modifyControlOwnerAndOversight } from '../../../../../redux/MDM/MDM_Action';
-import RichTextEditor from '@mantine/rte';
+// import RichTextEditor from '@mantine/rte';
 
 const LcdModal = ({ setShowModal, assignTableData }) => {
   const dispatch = useDispatch();
@@ -95,7 +95,7 @@ const LcdModal = ({ setShowModal, assignTableData }) => {
                           <Form.Label>LCD</Form.Label>
                         </div>
                         <div className="col-lg-12">
-                          <RichTextEditor
+                          {/* <RichTextEditor
                             value={values.lcd}
                             onChange={(val) => setFieldValue('lcd', val)}
                             placeholder="Provide Description here..."
@@ -106,7 +106,7 @@ const LcdModal = ({ setShowModal, assignTableData }) => {
                               ['alignLeft', 'alignCenter', 'alignRight'],
                             ]}
                             radius="md"
-                          />
+                          /> */}
                           {values.lcd.length > 5000 && (
                             <span className="error">
                               Description is not allowed more than 5000 characters

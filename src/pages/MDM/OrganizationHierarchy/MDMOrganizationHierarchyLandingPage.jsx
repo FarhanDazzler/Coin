@@ -12,7 +12,7 @@ import {
   addOrgStructureSelector,
   updateOrgStructureSelector,
 } from '../../../redux/MDM/MDM_Selectors';
-import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module-legacy';
+import { ProductFeedback } from '@abi-ds-beerblocs/product-feedback-module';
 
 const MDM_OrganizationHierarchyLandingPage = () => {
   const dispatch = useDispatch();

@@ -45,7 +45,7 @@ const OrgHierarchyTableFilterButtons = ({
           placeholder={'Select your entity'}
           searchable
           limit={20}
-          searchValue={entityValue}
+          searchValue={searchValue}
           onSearchChange={onSearchChange}
           nothingFound="Nothing found"
           clearButtonLabel="Clear selection"
