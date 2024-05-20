@@ -642,6 +642,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         }
         tData['id'] = i + 1;
         tData['Upload_Approach'] = tData['Upload_Approach'] || '';
+        tData['Source_System'] = tData['Source_System']?.trimStart() || '';
         let period = tData.Period_From;
         let words = period.split('-');
         const month = parseInt(words[1]);
