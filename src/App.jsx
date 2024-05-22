@@ -46,6 +46,8 @@ import BU_Zone_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/Lett
 import Review from './pages/Review';
 import { PageNotFound } from './pages/PageNotFound';
 import FunctionalLetterForm from './pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm.jsx';
+import KpiModule from './pages/KPIModule/KpiModuleLandingPage.jsx';
+
 
 const theme = createTheme({
   palette: {
@@ -271,6 +273,7 @@ const Pages = () => {
           <Route exact path="/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
+          <Route exact path="/kpi" component={KpiModule} />
           <Route exact path="/POC" component={POC} />
           <Route path="*" component={PageNotFound} />
         </Switch>
