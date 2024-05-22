@@ -149,7 +149,7 @@ const AssessmentFormRender = ({
       if (findErrorTableRow) {
         Swal.fire({
           title: 'Section2: KPI (Invalid)',
-          text: 'Table Data invalid. Please verify every row since some row Numerator and Denominator value not velid.',
+          text: 'Table Data invalid. Please verify every row since some row Numerator and Denominator value not valid.',
           icon: 'error',
         });
         return;
