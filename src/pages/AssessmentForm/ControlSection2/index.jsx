@@ -313,20 +313,20 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
       editor: { type: 'number' },
       formatter: (cellContent, row) => {
-        if (!row.Numerator && row.Denominator) {
+        if (!row?.Numerator && row?.Denominator) {
           return (
             <div>
-              {row.Numerator}
+              {row?.Numerator}
               <div className="alert alert-danger in" role="alert">
                 <strong>Numerator is required when Denominator is filled</strong>
               </div>
             </div>
           );
         }
-        if (row.Numerator < 0) {
+        if (row?.Numerator < 0) {
           return (
             <div>
-              {row.Numerator}
+              {row?.Numerator}
               <div className="alert alert-danger in" role="alert">
                 <strong>Numerator can be positive values only</strong>
               </div>
@@ -394,20 +394,20 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         ...headerStyles,
       },
       formatter: (cellContent, row) => {
-        if (!row.Denominator && row.Numerator) {
+        if (!row?.Denominator && row?.Numerator) {
           return (
             <div>
-              {row.Denominator}
+              {row?.Denominator}
               <div className="alert alert-danger in" role="alert">
                 <strong>Denominator is required when Numerator is filled</strong>
               </div>
             </div>
           );
         }
-        if (row.Denominator && row.Denominator <= 0) {
+        if (row?.Denominator && row?.Denominator <= 0) {
           return (
             <div>
-              {row.Denominator}
+              {row?.Denominator}
               <div className="alert alert-danger in" role="alert">
                 <strong>Denominator can be positive values only</strong>
               </div>
@@ -457,7 +457,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       headerStyle: {
         ...headerStyles,
       },
-      formatter: (cellContent, row) => (!row.Numerator || !row.Denominator ? '' : row.KPI_Value),
+      formatter: (cellContent, row) => (!row?.Numerator || !row?.Denominator ? '' : row.KPI_Value),
       style: (cell, row, rowIndex, colIndex) => {
         if (!row.isManual) {
           return {
@@ -466,7 +466,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
             color: 'black',
           };
         }
-        if (!row.Numerator || !row.Denominator) {
+        if (!row?.Numerator || !row?.Denominator) {
           return {
             backgroundColor: 'white',
             color: 'white',
@@ -695,9 +695,9 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
           row['Denominator'] = convertVariable(copyRow['Denominator']);
         }
 
-        row.KPI_Value = (+row.Numerator / +row.Denominator).toFixed(5);
+        row.KPI_Value = (+row?.Numerator / +row?.Denominator).toFixed(5);
         //If user Lower is better change value then update existing value
-        if (row.Positive_direction === 'Lower is Better') {
+        if (row.Positive_direction.toLowerCase() === 'lower is better') {
           if (
             row.MICS_L1_Threshold === '-' ||
             row.MICS_L1_Threshold === '' ||
@@ -741,7 +741,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
               row.L3_Result = 'Fail';
             }
           }
-        } else if (row.Positive_direction === 'Higher is Better') {
+        } else if (row.Positive_direction.toLowerCase() === 'higher is better') {
           if (
             row.MICS_L1_Threshold === '-' ||
             row.MICS_L1_Threshold === '' ||
@@ -801,17 +801,17 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
   useEffect(() => {
     if (stateCsvTampred?.data === false && !stateCsvTampred.loading) {
-      const isupated = excelFile.find((i) => i.Denominator == 0);
+      const isupated = excelFile.find((i) => i?.Denominator == 0);
       if (isupated) return Swal.fire('Oops...', 'Denominator cannot be Zero !!', 'error');
       let newDataArray = tableData?.map((data, i) => {
         const Numerator =
           excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
             ? excelFile[i]?.Numerator
-            : data.Numerator;
+            : data?.Numerator;
         const Denominator =
           excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
             ? excelFile[i]?.Denominator
-            : data.Denominator || '';
+            : data?.Denominator || '';
         return {
           ...data,
           Numerator,
