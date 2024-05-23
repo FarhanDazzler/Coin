@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 //import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -20,6 +20,7 @@ import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '@mantine/core';
 import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
+import { convertVariable } from '../../../utils/helper';
 
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
 const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isReview }) => {
@@ -604,6 +605,9 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       headerStyle: {
         ...headerStyles,
       },
+      formatter: (cellContent, row) => {
+        return cellContent;
+      },
       style: (cell, row, rowIndex, colIndex) => {
         if (!row.isManual) {
           return {
@@ -662,6 +666,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
     const updateProduct = tableData.map((d) => {
       // Check user change row id match or not
       if (d.id === row.id) {
+        const copyRow = { ...JSON.parse(JSON.stringify(row)) };
         //If user Upload_Approach change value then update existing value
         if (column.dataField === 'Upload_Approach') {
           row['Upload_Approach'] = newValue;
@@ -673,6 +678,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
           } else {
             row['Denominator'] = newValue;
           }
+          row['Numerator'] = convertVariable(copyRow['Numerator']);
         }
 
         if (column.dataField === 'Source_System') {
@@ -686,6 +692,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
           } else {
             row['Numerator'] = newValue;
           }
+          row['Denominator'] = convertVariable(copyRow['Denominator']);
         }
 
         row.KPI_Value = (+row.Numerator / +row.Denominator).toFixed(5);
@@ -881,6 +888,8 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       // console.log('plz select your file');
     }
   };
+
+  console.log('tableDatatableData', tableData);
 
   return (
     <div>

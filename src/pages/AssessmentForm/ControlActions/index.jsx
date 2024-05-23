@@ -102,7 +102,7 @@ const ControlActions = ({
           <div>
             {isReadMore ? (
               <>
-                <h4>L1:-</h4>{' '}
+                <Button className={'active mb-2 cursor-auto'}>L1:-</Button>{' '}
                 {stateGcdData[0]?.mics_L1desc ? (
                   <p
                     dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L1desc.slice(0, 600) }}
@@ -113,19 +113,19 @@ const ControlActions = ({
               </>
             ) : (
               <>
-                <h4>L1:-</h4>{' '}
+                <Button className={'active mb-2 cursor-auto'}>L1:-</Button>{' '}
                 {stateGcdData[0]?.mics_L1desc ? (
                   <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L1desc }} />
                 ) : (
                   'None'
                 )}
-                <h4>L2:-</h4>{' '}
+                <Button className={'active mb-2 cursor-auto'}>L2:-</Button>{' '}
                 {stateGcdData[0]?.mics_L2desc ? (
                   <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L2desc }} />
                 ) : (
                   'None'
                 )}
-                <h4>L3:-</h4>{' '}
+                <Button className={'active mb-2 cursor-auto'}>L3:-</Button>{' '}
                 {stateGcdData[0]?.mics_L3desc ? (
                   <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L3desc }} />
                 ) : (
