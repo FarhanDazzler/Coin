@@ -55,18 +55,16 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
               readOnly
               label="Issue Description: "
               name="IssueDescription"
-            >
-              {info.Issue_Description}
-            </CustomTextarea>
+              value={info.Issue_Description}
+            />
             <CustomTextarea
               formControlProps={{ style: { paddingTop: 20 } }}
               label="Resolution/Action Plan: "
               name="actkonPlan"
               readOnly
               id="Action_Plan"
-            >
-              {info.Action_Plan}
-            </CustomTextarea>
+              value={info.Action_Plan}
+            />
 
             <div className="pt-4 d-flex align-items-center date-white-border">
               <DatePickers
@@ -191,13 +189,12 @@ const ControlSection = ({ setShowControlSection, info = {}, setInfo, isModal }) 
                   name="detailsInfo"
                   className="mt-3"
                   onChange={({ target: { value } }) => {
-                    setInfo({ ...info, detailsInfo: value });
+                    setInfo({ ...info, detailsInfo: value.trimStart() });
                   }}
                   id="detailsInfo"
                   readOnly={isModal}
-                >
-                  {info.detailsInfo || ''}
-                </CustomTextarea>
+                  value={info.detailsInfo}
+                />
               </div>
             )}
 

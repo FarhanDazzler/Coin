@@ -116,8 +116,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     }
   }, [ansSection3]);
 
-  console.log('activeData', activeData);
-
   //API useEffect
   useEffect(() => {
     if (questionsInfo.loading) return;
@@ -296,7 +294,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     return ansSection1.some((i) => {
       return !!i?.question_options?.find((d) => d?.option_id === i.selectVal)?.is_Failing;
     });
-  }, [ansSection1]);
+  }, [ansSection1, responseData, latestDraftData, questionData]);
 
   // assessment submit action
   const handleSubmit = () => {

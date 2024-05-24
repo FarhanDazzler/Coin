@@ -1,11 +1,9 @@
 import React from 'react';
-// import { Textarea } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import './inpurstyles.scss';
 import FormLabel from '@mui/material/FormLabel';
 import cs from 'classnames';
-// import { message } from 'react-widgets/PropTypes';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import TextField from '@mui/material/TextField';
 
 const CustomTextarea = ({
   formControlProps,
@@ -20,12 +18,14 @@ const CustomTextarea = ({
   maxLength = 2500,
   errorMessage,
   children,
+  onChange,
   ...res
 }) => {
   const isMaxValueEnter = maxLength === value?.length;
-  const onChange = ({ target: { value } }) => {
-    if (handleChange && value.length <= maxLength) {
-      handleChange(value, block);
+  const onChangeInput = ({ target: { value } }) => {
+    if (value.length <= maxLength) {
+      if (handleChange) handleChange(value.trimStart(), block);
+      if (onChange) onChange({ target: { value: value.trimStart() } });
     }
   };
 
@@ -40,9 +40,7 @@ const CustomTextarea = ({
           </span>
         </FormLabel>
       )}
-      <TextareaAutosize rowsMin={5} {...res}>
-        {children}
-      </TextareaAutosize>
+      <TextField rowsMin={5} multiline value={value} onChange={onChangeInput} {...res} />
       {isMaxValueEnter && <small className="text-danger input-error-message">{message}</small>}
     </FormControl>
   );
