@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   getLatestDraftSelector,
   getQuestionsSelector,
+  getResponseSelector,
 } from '../../../redux/Assessments/AssessmentSelectors';
 import {
   getFormatQuestions,
@@ -39,6 +40,9 @@ const ControlSection1 = ({
   const userFromAD = useSelector(getUserFromADSelector);
   const isValidEmail = validateEmail(qId2Value);
   const latestDraftData = useSelector(getLatestDraftSelector);
+  const getResponse = useSelector(getResponseSelector);
+
+  const responseData = !getResponse?.data?.Latest_Response ? latestDraftData : getResponse;
 
   // Call the API for checking if the user is in AD
   // Dependency is debounce, is user has finished typing the only hit the API
@@ -130,7 +134,7 @@ const ControlSection1 = ({
 
       case block.question_type === blockType.RADIO:
       case block.question_type === blockType.DROPDOWN:
-        const matchQuestion = block.question_options.find((o) => o.option_id === value);
+        const matchQuestion = block.question_options?.find((o) => o.option_id === value);
         if (matchQuestion.is_Terminating) {
           setTerminating(true);
           setAns(getUniqueListBy(updateCurrentAns, 'q_id'));
@@ -153,10 +157,10 @@ const ControlSection1 = ({
       block.question_type,
     )
       ? block.options[0]
-      : block.question_options.find((o) => o.option_id === value);
+      : block.question_options?.find((o) => o.option_id === value);
     const selectChildQuestionId = matchQuestion?.child_question;
 
-    const selectedChildQuestion = data.find((d) => d.q_id === selectChildQuestionId);
+    const selectedChildQuestion = data?.find((d) => d.q_id === selectChildQuestionId);
 
     if (selectedChildQuestion && value) {
       setShowMoreSection(false);
@@ -174,18 +178,30 @@ const ControlSection1 = ({
   };
 
   useEffect(() => {
+    // Check if get section 1 question api success then store this question in local state
     if (getQuestions?.data?.length > 0) {
       const allData = getFormatQuestions(getQuestions?.data, false, null, true);
       const updateLang = getLanguageFormat(allData, language, null);
       setData(updateLang);
     }
-    if (getQuestions?.data?.length > 0 && !latestDraftData?.data?.Latest_response) {
+
+    // Check is user not any draft data then store first question store
+    if (
+      getQuestions?.data?.length > 0 &&
+      !(responseData?.data?.Latest_Response ?? responseData?.data?.Latest_response)
+    ) {
       const allData = getFormatQuestions(getQuestions?.data, false, null, true);
       const updateLang = getLanguageFormat(allData, language, null);
       const showData = updateLang.filter((d) => d.show);
       setAns(getUniqueListBy(showData, 'q_id'));
     }
-  }, [getQuestions.data, language]);
+
+    // If user save draft or review form open then save ans data
+    if (responseData?.data?.Latest_Response || responseData?.data?.Latest_response) {
+      const apiRes = responseData?.data?.Latest_Response || responseData?.data?.Latest_response;
+      if (apiRes?.s1?.length > 0) setAns(apiRes.s1 || []);
+    }
+  }, [getQuestions.data, language, responseData?.data]);
 
   useEffect(() => {
     setTimeout(() => {

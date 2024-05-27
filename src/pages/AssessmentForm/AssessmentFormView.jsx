@@ -116,8 +116,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     }
   }, [ansSection3]);
 
-  console.log('activeData', activeData);
-
   //API useEffect
   useEffect(() => {
     if (questionsInfo.loading) return;
@@ -147,10 +145,10 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             Entity_ID: activeData?.Receiver,
             KPI_From: activeData?.KPI_From,
             KPI_To: activeData?.KPI_To,
-            // MICS_code: 'INV_REP_06',
-            // Entity_ID: 'Argentina, Botswana',
-            // KPI_From: '2023-09-01' || '',
-            // KPI_To: '2023-11-30' || '',
+            // MICS_code: 'OTC_MD_04',
+            // Entity_ID: 'Botswana',
+            // KPI_From: '2024-03-01' || '',
+            // KPI_To: '2024-05-31' || '',
           }),
         );
       }
@@ -296,7 +294,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     return ansSection1.some((i) => {
       return !!i?.question_options?.find((d) => d?.option_id === i.selectVal)?.is_Failing;
     });
-  }, [ansSection1]);
+  }, [ansSection1, responseData, latestDraftData, questionData]);
 
   // assessment submit action
   const handleSubmit = () => {
@@ -327,7 +325,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     }).then((result) => {
       if (result.isConfirmed) {
         // check if section 1 is_AD question then not store KPI data
-        const isupdated = ansSection1.find((i) => i.is_AD === 1);
+        const isupdated = ansSection1?.find((i) => i.is_AD === 1);
         const dataArray = Object.keys(ansSection3) || [];
         for (const key in ansSection3) {
           if (key !== 'L3') {
@@ -359,11 +357,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               : isReview
               ? responseUpdatedData.data
               : kpiResultData?.data?.data,
-            kpis: isNotEscalationRequired
-              ? []
-              : tableData.length > 0 && showMoreSection
-              ? tableData
-              : [],
+            kpis:
+              tableData.length > 0 && (isNotEscalationRequired || showMoreSection) ? tableData : [],
             s3: isNotEscalationRequired
               ? null
               : !(showMoreSection && !s1FailObj && !isNotEscalationRequired)
@@ -432,11 +427,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                   L1AndL2NoQuestionsAns,
                 }),
             data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
-            kpis: isNotEscalationRequired
-              ? []
-              : tableData.length > 0 && showMoreSection
-              ? tableData
-              : [],
+            kpis:
+              tableData.length > 0 && (isNotEscalationRequired || showMoreSection) ? tableData : [],
             showTable: showMoreSection,
             actionPlanInfo,
             is_override: isOverride,
@@ -504,11 +496,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                   L1AndL2NoQuestionsAns,
                 }),
             data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
-            kpis: isNotEscalationRequired
-              ? []
-              : tableData.length > 0 && showMoreSection
-              ? tableData
-              : [],
+            kpis:
+              tableData.length > 0 && (isNotEscalationRequired || showMoreSection) ? tableData : [],
             showTable: showMoreSection,
             actionPlanInfo,
           },
