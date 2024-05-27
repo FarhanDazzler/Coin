@@ -673,7 +673,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         }
         //If user Denominator change value then update existing value
         if (column.dataField === 'Denominator') {
-          if (newValue < 1) {
+          if (newValue < 0) {
             row['Denominator'] = '';
           } else {
             row['Denominator'] = newValue;
@@ -843,6 +843,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       };
 
       dispatch(getCsvTampredDataAction(apiBody));
+      setTableData(apiBody.output_table.map((d) => ({ ...d, isManual: true })));
       if (stateCsvTampred?.data === false) {
         // let newDataArray = tableData?.map((data, i) => {
         //   return {
@@ -869,27 +870,21 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
   const handleFile = (e) => {
     let selectedFile = e.target.files[0];
     if (selectedFile) {
-      if (selectedFile) {
-        readXlsxFile(selectedFile).then((data) => {
-          setExcelFile(
-            data.slice(1).map((d) => {
-              let obj = {};
-              d.map((v, i) => {
-                obj[data[0][i]] = v;
-              });
-              return obj;
-            }),
-          );
-        });
-      } else {
-        setExcelFile(null);
-      }
+      readXlsxFile(selectedFile).then((data) => {
+        setExcelFile(
+          data.slice(1).map((d) => {
+            let obj = {};
+            d.map((v, i) => {
+              obj[data[0][i]] = v;
+            });
+            return obj;
+          }),
+        );
+      });
     } else {
-      // console.log('plz select your file');
+      setExcelFile(null);
     }
   };
-
-  console.log('tableDatatableData', tableData);
 
   return (
     <div>
@@ -931,11 +926,14 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
                         }
                       >
                         <Workbook.Sheet data={tableData} name="Sheet A">
-                          {/* <Workbook.Column label="sep" value="sep" /> */}
+                          <Workbook.Column label="sep" value="sep" />
                           <Workbook.Column label="Global_KPI_Code" value="Global_KPI_Code" />
                           <Workbook.Column label="Applicability" value="Applicability" />
+                          <Workbook.Column label="Calculation_Source" value="Calculation_Source" />
                           <Workbook.Column label="Entity_ID" value="Entity_ID" />
-                          {/* <Workbook.Column label="KPI Type" value="isManual" /> */}
+                          <Workbook.Column label="KPI_ID" value="KPI_ID" />
+                          <Workbook.Column label="Entity_Type" value="Entity_Type" />
+                          <Workbook.Column label="KPI Type" value="isManual" />
                           <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />
                           <Workbook.Column label="Numerator" value="Numerator" />
                           <Workbook.Column
@@ -944,13 +942,25 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
                           />
                           <Workbook.Column label="Denominator" value="Denominator" />
                           <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
-                          {/* <Workbook.Column label="KPI_Value" value="KPI_Value" /> */}
+                          <Workbook.Column label="KPI_Value" value="KPI_Value" />
                           <Workbook.Column label="Month" value="Month" />
+                          <Workbook.Column label="MICS_Code" value="MICS_Code" />
+                          <Workbook.Column label="Period_From" value="Period_From" />
+                          <Workbook.Column label="Period_To" value="Period_To" />
+                          <Workbook.Column label="Positive_direction" value="Positive_direction" />
+                          <Workbook.Column label="Source_Details" value="Source_Details" />
+                          <Workbook.Column
+                            label="Uploader_DataProvider"
+                            value="Uploader_DataProvider"
+                          />
                           <Workbook.Column
                             label="KPI Data source (Select from Excel/PBI/Celonis/Others)"
                             value="Upload_Approach"
                           />
                           <Workbook.Column label="Link to data" value="Source_System" />
+                          <Workbook.Column label="MICS_L1_Threshold" value="MICS_L1_Threshold" />
+                          <Workbook.Column label="MICS_L3_Threshold" value="MICS_L3_Threshold" />
+                          <Workbook.Column label="L1_Result" value="L1_Result" />
                           <Workbook.Column label="L1_Result" value="L1_Result" />
                           <Workbook.Column label="L2_Result" value="L2_Result" />
                           <Workbook.Column label="L3_Result" value="L3_Result" />
