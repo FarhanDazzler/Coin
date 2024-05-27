@@ -101,36 +101,43 @@ const ControlActions = ({
         {activeTab === 'GCD' && (
           <div>
             {isReadMore ? (
-              <>
+              <div className="bg-light-black">
                 <Button className={'active mb-2 cursor-auto'}>L1:-</Button>{' '}
                 {stateGcdData[0]?.mics_L1desc ? (
                   <p
+                    className="m-0"
                     dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L1desc.slice(0, 600) }}
                   />
                 ) : (
                   ''
                 )}
-              </>
+              </div>
             ) : (
               <>
-                <Button className={'active mb-2 cursor-auto'}>L1:-</Button>{' '}
-                {stateGcdData[0]?.mics_L1desc ? (
-                  <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L1desc }} />
-                ) : (
-                  'None'
-                )}
-                <Button className={'active mb-2 cursor-auto'}>L2:-</Button>{' '}
-                {stateGcdData[0]?.mics_L2desc ? (
-                  <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L2desc }} />
-                ) : (
-                  'None'
-                )}
-                <Button className={'active mb-2 cursor-auto'}>L3:-</Button>{' '}
-                {stateGcdData[0]?.mics_L3desc ? (
-                  <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L3desc }} />
-                ) : (
-                  'None'
-                )}
+                <div className="bg-light-black">
+                  <Button className={'active mb-2 cursor-auto'}>L1:-</Button>{' '}
+                  {stateGcdData[0]?.mics_L1desc ? (
+                    <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L1desc }} />
+                  ) : (
+                    'None'
+                  )}
+                </div>
+                <div className="bg-light-black">
+                  <Button className={'active mb-2 cursor-auto'}>L2:-</Button>{' '}
+                  {stateGcdData[0]?.mics_L2desc ? (
+                    <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L2desc }} />
+                  ) : (
+                    'None'
+                  )}
+                </div>
+                <div className="bg-light-black">
+                  <Button className={'active mb-2 cursor-auto'}>L3:-</Button>{' '}
+                  {stateGcdData[0]?.mics_L3desc ? (
+                    <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L3desc }} />
+                  ) : (
+                    'None'
+                  )}
+                </div>
               </>
             )}
 
