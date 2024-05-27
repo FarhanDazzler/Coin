@@ -104,7 +104,7 @@ const Page4 = ({ handleNext, setStep }) => {
               <span className="grey-text font-weight-bold">KPI From:</span>
             </div>
             <div className="col-lg-6">
-              {months.find((obj) => obj['label'] === scheduleSurveyPage_1_State.KPI_From_month)
+              {months?.find((obj) => obj['label'] === scheduleSurveyPage_1_State.KPI_From_month)
                 .value +
                 '/' +
                 scheduleSurveyPage_1_State.KPI_From_Year}
@@ -118,7 +118,7 @@ const Page4 = ({ handleNext, setStep }) => {
               <span className="grey-text font-weight-bold">KPI To:</span>
             </div>
             <div className="col-lg-6">
-              {months.find((obj) => obj['label'] === scheduleSurveyPage_1_State.KPI_To_Month)
+              {months?.find((obj) => obj['label'] === scheduleSurveyPage_1_State.KPI_To_Month)
                 .value +
                 '/' +
                 scheduleSurveyPage_1_State.KPI_To_Year}

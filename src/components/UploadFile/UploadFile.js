@@ -18,7 +18,7 @@ const UploadFiles = ({ title, isMultiple = true, allowedExtensions }) => {
         const extension = file.name.split('.').pop().toLowerCase();
 
         if (allowedExtensions.includes(extension)) {
-          if (!updatedFiles.find((f) => f.name === file.name)) {
+          if (!updatedFiles?.find((f) => f.name === file.name)) {
             updatedFiles.push({
               name: file.name,
               category: '',

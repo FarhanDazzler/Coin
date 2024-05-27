@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 const DropdownMenu = ({ openMenu, options, selected, handleClick, handleClose, handleSelect }) => {
   const open = Boolean(openMenu);
 
-  const selectedVal = options.find((o) => o.value === selected)?.value || selected;
+  const selectedVal = options?.find((o) => o.value === selected)?.value || selected;
 
   return (
     <div>
