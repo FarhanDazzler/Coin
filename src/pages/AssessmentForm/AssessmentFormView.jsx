@@ -325,7 +325,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     }).then((result) => {
       if (result.isConfirmed) {
         // check if section 1 is_AD question then not store KPI data
-        const isupdated = ansSection1.find((i) => i.is_AD === 1);
+        const isupdated = ansSection1?.find((i) => i.is_AD === 1);
         const dataArray = Object.keys(ansSection3) || [];
         for (const key in ansSection3) {
           if (key !== 'L3') {

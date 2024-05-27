@@ -801,7 +801,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
   useEffect(() => {
     if (stateCsvTampred?.data === false && !stateCsvTampred.loading) {
-      const isupated = excelFile.find((i) => i?.Denominator == 0);
+      const isupated = excelFile?.find((i) => i?.Denominator == 0);
       if (isupated) return Swal.fire('Oops...', 'Denominator cannot be Zero !!', 'error');
       let newDataArray = tableData?.map((data, i) => {
         const Numerator =
