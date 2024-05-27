@@ -145,10 +145,10 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             Entity_ID: activeData?.Receiver,
             KPI_From: activeData?.KPI_From,
             KPI_To: activeData?.KPI_To,
-            // MICS_code: 'INV_REP_06',
-            // Entity_ID: 'Argentina, Botswana',
-            // KPI_From: '2023-09-01' || '',
-            // KPI_To: '2023-11-30' || '',
+            // MICS_code: 'OTC_MD_04',
+            // Entity_ID: 'Botswana',
+            // KPI_From: '2024-03-01' || '',
+            // KPI_To: '2024-05-31' || '',
           }),
         );
       }
@@ -357,11 +357,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               : isReview
               ? responseUpdatedData.data
               : kpiResultData?.data?.data,
-            kpis: isNotEscalationRequired
-              ? []
-              : tableData.length > 0 && showMoreSection
-              ? tableData
-              : [],
+            kpis:
+              tableData.length > 0 && (isNotEscalationRequired || showMoreSection) ? tableData : [],
             s3: isNotEscalationRequired
               ? null
               : !(showMoreSection && !s1FailObj && !isNotEscalationRequired)
@@ -430,11 +427,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                   L1AndL2NoQuestionsAns,
                 }),
             data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
-            kpis: isNotEscalationRequired
-              ? []
-              : tableData.length > 0 && showMoreSection
-              ? tableData
-              : [],
+            kpis:
+              tableData.length > 0 && (isNotEscalationRequired || showMoreSection) ? tableData : [],
             showTable: showMoreSection,
             actionPlanInfo,
             is_override: isOverride,
@@ -502,11 +496,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                   L1AndL2NoQuestionsAns,
                 }),
             data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
-            kpis: isNotEscalationRequired
-              ? []
-              : tableData.length > 0 && showMoreSection
-              ? tableData
-              : [],
+            kpis:
+              tableData.length > 0 && (isNotEscalationRequired || showMoreSection) ? tableData : [],
             showTable: showMoreSection,
             actionPlanInfo,
           },

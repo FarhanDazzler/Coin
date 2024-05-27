@@ -144,7 +144,6 @@ const AssessmentFormRender = ({
     if (type === 'submit' && handleSubmit) {
       const findErrorTableRow = tableData?.find((row) => {
         if ((row.Numerator || row.Numerator === 0) && row.Denominator) {
-          console.log('@@@@@@ ----', +row.Numerator, +row.Denominator);
           return +row.Numerator < 0 && +row.Denominator <= 0;
         }
         if (!row.Numerator && !row.Denominator) {

@@ -10,24 +10,19 @@ export const getUniqueListBy = (arr = [], key) => {
 };
 
 export const convertVariable = (value) => {
-  console.log('typeof value', typeof value, value);
-  if (value === 'object') {
+  if (typeof value === 'object') {
     return '';
   } else if (typeof value === 'string' && !value) {
+    return null;
+  } else if (typeof value === 'number' && isNaN(+value)) {
     return null;
   } else if (typeof value === 'string') {
     // If the value is a string, convert it to a number
     const convertedNumber = Number(value);
-    return isNaN(convertedNumber) ? null : convertedNumber;
+    return isNaN(convertedNumber) ? undefined : convertedNumber;
   } else if (typeof value === 'number') {
     // If the value is a number, convert it to a string
     return value.toString();
-  } else if (value === undefined) {
-    // If the value is undefined, convert it to null
-    return null;
-  } else if (value === null) {
-    // If the value is null, convert it to undefined
-    return undefined;
   }
   // If the value is none of the above (this should never be reached due to TypeScript's type checking)
   return value;
