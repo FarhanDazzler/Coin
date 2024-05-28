@@ -19,6 +19,13 @@
   cursor: not-allowed !important;
 }
 
+.bg-light-black {
+  background: #8c8c8c24;
+  padding: 18px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
 .modal-form-body {
   max-height: calc(100vh - 180px);
   overflow: auto;
