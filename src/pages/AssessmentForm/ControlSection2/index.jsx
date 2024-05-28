@@ -438,6 +438,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       },
       validator: (newValue, row, column) => {
         row.isEdited = true;
+        handleChange(row.Denominator, newValue, row, column);
         if (newValue == 0) {
           row.Denominator = '';
           return {
@@ -445,12 +446,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
             message: 'Denominator cannot be zero',
           };
         }
-        if (row.Numerator && !newValue) {
-          return {
-            valid: false,
-            message: 'Denominator is required when Numerator is filled',
-          };
-        }
+
         return true;
       },
     },
@@ -461,7 +457,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       headerStyle: {
         ...headerStyles,
       },
-      formatter: (cellContent, row) => (!row?.Numerator || !row?.Denominator ? '' : row.KPI_Value),
+      formatter: (cellContent, row) => (!row.Numerator || !row.Denominator ? '' : row.KPI_Value),
       style: (cell, row, rowIndex, colIndex) => {
         if (!row.isManual) {
           return {
@@ -699,7 +695,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
           row['Denominator'] = convertVariable(copyRow['Denominator']);
         }
 
-        row.KPI_Value = (+row?.Numerator / +row?.Denominator).toFixed(5);
+        row.KPI_Value = (+row.Numerator / +row.Denominator).toFixed(5);
         //If user Lower is better change value then update existing value
         if (row.Positive_direction.toLowerCase() === 'lower is better') {
           if (
