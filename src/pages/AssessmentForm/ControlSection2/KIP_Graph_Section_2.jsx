@@ -56,7 +56,12 @@ const KIP_Graph_Section_2 = ({ isModal, isReview }) => {
       : [];
 
   // Get colors using randomColor function
-  const colors = randomColor(renderData.length);
+  const [colors, setColors] = useState(randomColor(renderData?.length));
+  useEffect(() => {
+    if (renderData?.length != colors?.length) {
+      setColors(randomColor(renderData?.length));
+    }
+  }, [renderData.length]);
 
   return (
     <>
