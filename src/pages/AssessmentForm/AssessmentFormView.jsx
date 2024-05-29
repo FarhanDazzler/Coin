@@ -215,7 +215,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       responseUpdatedData?.s3?.length === 1 &&
       responseUpdatedData?.s3[0]?.length === 2 &&
       responseUpdatedData?.s3[0][0] === 'noQueAns';
-
+      
     if (responseUpdatedData || condition) {
       if (responseUpdatedData?.s1 && !startEdit) {
         // set section 1 ans here..
@@ -326,7 +326,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     }).then((result) => {
       if (result.isConfirmed) {
         // check if section 1 is_AD question then not store KPI data
-        const isupdated = ansSection1.find((i) => i.is_AD === 1);
+        const isupdated = ansSection1?.find((i) => i.is_AD === 1);
         const dataArray = Object.keys(ansSection3) || [];
         for (const key in ansSection3) {
           if (key !== 'L3') {
@@ -335,7 +335,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               key !== 'L1AndL2NoQuestionsAns' &&
               ansSection3[key] &&
               Object.values(ansSection3[key]).length > 0 &&
-              Object.values(ansSection3[key])[0].includes('no')
+              Object.values(ansSection3[key])[0]?.includes('no')
             ) {
               isS3FailedData = true;
             }
@@ -373,7 +373,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             actionPlanInfo,
           },
           is_override: isOverride,
-          submitted_by: accounts.length > 0 ? accounts[0].username : '',
+          submitted_by: accounts.length > 0 ? accounts[0]?.username : '',
           // kpis: isNotEscalationRequired ? [] : isupdated ? [] : tableData,
           event: {
             onSuccess: () => {
@@ -433,7 +433,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             showTable: showMoreSection,
             actionPlanInfo,
             is_override: isOverride,
-            submitted_by: accounts.length > 0 ? accounts[0].username : '',
+            submitted_by: accounts.length > 0 ? accounts[0]?.username : '',
           },
           events: {
             onSuccess: () => {
@@ -487,7 +487,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           Assessment_ID: activeData?.assessment_id,
           Latest_response: {
             is_override: !isModal,
-            submitted_by: accounts.length > 0 ? accounts[0].username : '',
+            submitted_by: accounts.length > 0 ? accounts[0]?.username : '',
             s1: isNotEscalationRequired ? null : ansSection1,
             s3: isNotEscalationRequired
               ? null
@@ -504,7 +504,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           },
           actionPlanInfo,
           is_override: isOverride,
-          submitted_by: accounts.length > 0 ? accounts[0].username : '',
+          submitted_by: accounts.length > 0 ? accounts[0]?.username : '',
           events: {
             onSuccess: () => {
               Swal.fire(t('selfAssessment.assessmentForm.saveDraftSuccessText'), '', 'success');

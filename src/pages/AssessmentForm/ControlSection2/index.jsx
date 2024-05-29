@@ -312,29 +312,6 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       },
       editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
       editor: { type: 'number' },
-      formatter: (cellContent, row) => {
-        if (!row.Numerator && row.Denominator) {
-          return (
-            <div>
-              {row.Numerator}
-              <div className="alert alert-danger in" role="alert">
-                <strong>Numerator is required when Denominator is filled</strong>
-              </div>
-            </div>
-          );
-        }
-        if (row.Numerator < 0) {
-          return (
-            <div>
-              {row.Numerator}
-              <div className="alert alert-danger in" role="alert">
-                <strong>Numerator can be positive values only</strong>
-              </div>
-            </div>
-          );
-        }
-        return cellContent;
-      },
       style: (cell, row, rowIndex, colIndex) => {
         if (row.isManual) {
           return {
@@ -350,22 +327,48 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
           };
         }
       },
-      // validator: (newValue, row, column) => {
-      //   if (isNaN(newValue) || newValue < 0) {
-      //     row.Numerator = '';
-      //     return {
-      //       valid: false,
-      //       message: 'Numerator cannot be negative values only',
-      //     };
-      //   }
-      //   if (+row.Denominator < 0 || !row.Denominator) {
-      //     handleChange(row.Numerator, newValue, row, column);
-      //     return {
-      //       valid: false,
-      //       message: 'Denominator is required when Numerator is filled',
-      //     };
-      //   }
-      // },
+      formatter: (cellContent, row) => {
+        if (row.isEdited) {
+          if (!row?.Numerator && row?.Denominator) {
+            return (
+              <div>
+                {row?.Numerator}
+                <div className="alert alert-danger in" role="alert">
+                  <strong>Numerator is required when Denominator is filled</strong>
+                </div>
+              </div>
+            );
+          }
+        }
+        // if (row?.Numerator == 0) {
+        //   return (
+        //     <div>
+        //       {row?.Numerator}
+        //       <div className="alert alert-danger in" role="alert">
+        //         <strong>Numerator can be positive values only</strong>
+        //       </div>
+        //     </div>
+        //   );
+        // }
+        return cellContent;
+      },
+      validator: (newValue, row, column) => {
+        row.isEdited = true;
+        if (isNaN(newValue)) {
+          row.Numerator = '';
+          return {
+            valid: false,
+            message: 'Numerator can be a number only',
+          };
+        }
+        // if (row.Numerator == 0) {
+        //   handleChange(row.Numerator, newValue, row, column);
+        //   return {
+        //     valid: false,
+        //     message: 'Denominator is required when Numerator is filled',
+        //   };
+        // }
+      },
     },
     {
       dataField: 'Expected_Denominator',
@@ -385,7 +388,6 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       },
     },
     {
-      // ddasd
       dataField: 'Denominator',
       text: 'Denominator',
       editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
@@ -394,25 +396,27 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         ...headerStyles,
       },
       formatter: (cellContent, row) => {
-        if (!row.Denominator && row.Numerator) {
-          return (
-            <div>
-              {row.Denominator}
-              <div className="alert alert-danger in" role="alert">
-                <strong>Denominator is required when Numerator is filled</strong>
+        if (row.isEdited) {
+          if (!row?.Denominator && row?.Numerator) {
+            return (
+              <div>
+                {row?.Denominator}
+                <div className="alert alert-danger in" role="alert">
+                  <strong>Denominator is required when Numerator is filled</strong>
+                </div>
               </div>
-            </div>
-          );
-        }
-        if (row.Denominator && row.Denominator <= 0) {
-          return (
-            <div>
-              {row.Denominator}
-              <div className="alert alert-danger in" role="alert">
-                <strong>Denominator can be positive values only</strong>
+            );
+          }
+          if (row?.Denominator == 0) {
+            return (
+              <div>
+                {row?.Denominator}
+                <div className="alert alert-danger in" role="alert">
+                  <strong>Denominator cannot be zero</strong>
+                </div>
               </div>
-            </div>
-          );
+            );
+          }
         }
 
         return cellContent;
@@ -432,23 +436,19 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
           };
         }
       },
+      validator: (newValue, row, column) => {
+        row.isEdited = true;
+        handleChange(row.Denominator, newValue, row, column);
+        if (newValue == 0) {
+          row.Denominator = '';
+          return {
+            valid: false,
+            message: 'Denominator cannot be zero',
+          };
+        }
 
-      // validator: (newValue, row, column) => {
-      //   if (isNaN(newValue) || newValue <= 0) {
-      //     row.Denominator = '';
-      //     return {
-      //       valid: false,
-      //       message: 'Denominator can be positive values only',
-      //     };
-      //   }
-      //   if (+row.Numerator < 0 || !row.Numerator) {
-      //     handleChange(row.Denominator, newValue, row, column);
-      //     return {
-      //       valid: false,
-      //       message: 'Numerator is required when Denominator is filled',
-      //     };
-      //   }
-      // },
+        return true;
+      },
     },
     {
       dataField: 'KPI_Value',
@@ -466,7 +466,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
             color: 'black',
           };
         }
-        if (!row.Numerator || !row.Denominator) {
+        if (!row?.Numerator || !row?.Denominator) {
           return {
             backgroundColor: 'white',
             color: 'white',
@@ -673,7 +673,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         }
         //If user Denominator change value then update existing value
         if (column.dataField === 'Denominator') {
-          if (newValue < 0) {
+          if (newValue == 0) {
             row['Denominator'] = '';
           } else {
             row['Denominator'] = newValue;
@@ -687,17 +687,17 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
         //If user Numerator change value then update existing value
         if (column.dataField === 'Numerator') {
-          if (newValue < 0) {
-            row['Numerator'] = '';
-          } else {
-            row['Numerator'] = newValue;
-          }
+          // if (newValue == 0) {
+          //   row['Numerator'] = 0;
+          // } else {
+          row['Numerator'] = newValue;
+          // }
           row['Denominator'] = convertVariable(copyRow['Denominator']);
         }
 
         row.KPI_Value = (+row.Numerator / +row.Denominator).toFixed(5);
         //If user Lower is better change value then update existing value
-        if (row.Positive_direction === 'Lower is Better') {
+        if (row.Positive_direction.toLowerCase() === 'lower is better') {
           if (
             row.MICS_L1_Threshold === '-' ||
             row.MICS_L1_Threshold === '' ||
@@ -741,7 +741,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
               row.L3_Result = 'Fail';
             }
           }
-        } else if (row.Positive_direction === 'Higher is Better') {
+        } else if (row.Positive_direction.toLowerCase() === 'higher is better') {
           if (
             row.MICS_L1_Threshold === '-' ||
             row.MICS_L1_Threshold === '' ||
@@ -801,28 +801,30 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
   useEffect(() => {
     if (stateCsvTampred?.data === false && !stateCsvTampred.loading) {
-      const isupated = excelFile.find((i) => i.Denominator == 0);
+      const isupated = excelFile?.find((i) => i?.Denominator == 0);
       if (isupated) return Swal.fire('Oops...', 'Denominator cannot be Zero !!', 'error');
-      let newDataArray = tableData?.map((data, i) => {
-        const Numerator =
-          excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
-            ? excelFile[i]?.Numerator
-            : data.Numerator;
-        const Denominator =
-          excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
-            ? excelFile[i]?.Denominator
-            : data.Denominator || '';
-        return {
-          ...data,
-          Numerator,
-          Denominator,
-          Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
-          Source_System: excelFile[i]['Link to data'],
-        };
-      });
+      if (tableData.length > 0) {
+        let newDataArray = tableData?.map((data, i) => {
+          const Numerator =
+            excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
+              ? excelFile[i]?.Numerator
+              : data?.Numerator;
+          const Denominator =
+            excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
+              ? excelFile[i]?.Denominator
+              : data?.Denominator || '';
+          return {
+            ...data,
+            Numerator,
+            Denominator,
+            Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
+            Source_System: excelFile[i]['Link to data'],
+          };
+        });
 
-      setTableData([...newDataArray]);
-      setScvUpdateData(csvUpdateData + 1);
+        setTableData([...newDataArray]);
+        setScvUpdateData(csvUpdateData + 1);
+      }
     } else {
       setScvUpdateData(0);
     }

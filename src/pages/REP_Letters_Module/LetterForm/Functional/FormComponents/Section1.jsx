@@ -186,6 +186,7 @@ const Section1 = ({ questions, assessment_id }) => {
           dispatch(addFunctionSubmitResponse(payload));
           // after api success clear the redux state
           dispatch(clearFunctionSubmitResponse());
+          localStorage.setItem('selected_module_Role', 'Functional Representation Letter')
           history.push('/');
 
           //console.log('Submitted responses:', responses);

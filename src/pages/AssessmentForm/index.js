@@ -48,7 +48,7 @@ const AssessmentForm = (props) => {
   };
 
   useEffect(() => {
-    const ownerData = (getControlOwnerData.data[0]?.cOwnerData || []).find(
+    const ownerData = (getControlOwnerData.data[0]?.cOwnerData || [])?.find(
       (d) => d.id === assessment_id,
     );
     if (!ownerData && !state) return;

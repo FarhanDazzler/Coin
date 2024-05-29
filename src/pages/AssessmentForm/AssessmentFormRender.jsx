@@ -144,7 +144,7 @@ const AssessmentFormRender = ({
     if (type === 'submit' && handleSubmit) {
       const findErrorTableRow = tableData?.find((row) => {
         if ((row.Numerator || row.Numerator === 0) && row.Denominator) {
-          return +row.Numerator < 0 && +row.Denominator <= 0;
+          return +row.Denominator == 0;
         }
         if (!row.Numerator && !row.Denominator) {
           return false;
@@ -155,7 +155,7 @@ const AssessmentFormRender = ({
       if (findErrorTableRow) {
         Swal.fire({
           title: 'Section2: KPI (Invalid)',
-          text: 'Table Data invalid. Please verify every row since some row Numerator and Denominator value not velid.',
+          text: 'Table Data invalid. Please verify every row since some row Numerator and Denominator value not valid.',
           icon: 'error',
         });
         return;
@@ -179,9 +179,9 @@ const AssessmentFormRender = ({
 
   const section3NoSelectErrorMessage = useMemo(() => {
     const s1NoSelect =
-      Object.keys(ansSection3).includes('L1') && !!Object.values(ansSection3?.L1)[0].includes('no');
+      Object.keys(ansSection3).includes('L1') && !!Object.values(ansSection3?.L1)[0]?.includes('no');
     const s2NoSelect =
-      Object.keys(ansSection3).includes('L2') && !!Object.values(ansSection3?.L2)[0].includes('no');
+      Object.keys(ansSection3).includes('L2') && !!Object.values(ansSection3?.L2)[0]?.includes('no');
     return showMoreSection && !s1FailObj && !isNotEscalationRequired && (s1NoSelect || s2NoSelect);
   }, [ansSection3, s1FailObj, isNotEscalationRequired, showNoQuestionAns, L1AndL2NoQuestionsAns]);
 
@@ -267,10 +267,10 @@ const AssessmentFormRender = ({
                         <div style={{ color: 'red', marginBottom: '10px' }}>
                           Based on above response, the control is assessed as failed because of{' '}
                           {Object.keys(ansSection3).includes('L1') &&
-                          !!Object.values(ansSection3?.L1)[0].includes('no')
+                          !!Object.values(ansSection3?.L1)[0]?.includes('no')
                             ? 'L1'
                             : Object.keys(ansSection3).includes('L2') &&
-                              !!Object.values(ansSection3?.L2)[0].includes('no')
+                              !!Object.values(ansSection3?.L2)[0]?.includes('no')
                             ? 'L2'
                             : ''}
                         </div>

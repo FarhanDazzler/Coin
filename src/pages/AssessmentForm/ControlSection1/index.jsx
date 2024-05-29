@@ -107,7 +107,7 @@ const ControlSection1 = ({
     //Check condition to store data like , TEXT, EMAIL_WIDTH_SELECT. IS_AD, EMAIL_WIDTH_SELECT, RADIO, DROPDOWN all input on change here
     switch (true) {
       case block.question_type === blockType.TEXT:
-        if (block.options[0].is_Terminating === 1) {
+        if (block.options[0]?.is_Terminating === 1) {
           setTerminating(true);
           // dispatch(updateLastAccess({ s1: updateCurrentAns }));
           setAns(getUniqueListBy(updateCurrentAns, 'q_id'));
@@ -118,7 +118,7 @@ const ControlSection1 = ({
 
       case block.question_type === blockType.EMAIL_WIDTH_SELECT:
       case block.question_type === blockType.IS_AD:
-        if (block.options[0].is_Terminating === 1) {
+        if (block.options[0]?.is_Terminating === 1) {
           if (validateEmail(value)) {
             userFromAD.data.forEach((element) => {
               if (element.mail === value) {
@@ -134,7 +134,7 @@ const ControlSection1 = ({
 
       case block.question_type === blockType.RADIO:
       case block.question_type === blockType.DROPDOWN:
-        const matchQuestion = block.question_options.find((o) => o.option_id === value);
+        const matchQuestion = block.question_options?.find((o) => o.option_id === value);
         if (matchQuestion.is_Terminating) {
           setTerminating(true);
           setAns(getUniqueListBy(updateCurrentAns, 'q_id'));
@@ -157,10 +157,10 @@ const ControlSection1 = ({
       block.question_type,
     )
       ? block.options[0]
-      : block.question_options.find((o) => o.option_id === value);
+      : block.question_options?.find((o) => o.option_id === value);
     const selectChildQuestionId = matchQuestion?.child_question;
 
-    const selectedChildQuestion = data.find((d) => d.q_id === selectChildQuestionId);
+    const selectedChildQuestion = data?.find((d) => d.q_id === selectChildQuestionId);
 
     if (selectedChildQuestion && value) {
       setShowMoreSection(false);
