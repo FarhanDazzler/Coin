@@ -4,7 +4,11 @@ import { useMsal } from '@azure/msal-react';
 import { useSelector } from 'react-redux';
 import BUZone_DisclosureProcessorTable from './BUZone_DisclosureProcessorTable';
 import '../../styles.scss';
-import { get_BUZone_Disclosure_ProcessorHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import {
+  addBUZoneSubmitResponseSelector,
+  get_BUZone_Disclosure_ProcessorHomePageDataSelector,
+} from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import ProductFeedback from '../../../../../components/NPSFeedbackModule/ProductFeedback/ProductFeedback';
 
 const AmountInfo = React.memo(({ amount, infoText }) => {
   return (
@@ -23,7 +27,8 @@ const BUZone_DisclosureProcessorHomePage = () => {
   const getDisclosureProcessorHomePageData = useSelector(
     get_BUZone_Disclosure_ProcessorHomePageDataSelector,
   );
-
+  const [openNPS, setOpenNPS] = useState(false);
+  const addBUZoneSubmitResponseState = useSelector(addBUZoneSubmitResponseSelector);
   const [zoneValue, setZoneValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
@@ -44,9 +49,7 @@ const BUZone_DisclosureProcessorHomePage = () => {
     }
 
     const updatedData = tableData?.filter((i) => {
-      return (
-        (zoneValue?.length ? zoneValue.includes(i.Zone) : true)
-      );
+      return zoneValue?.length ? zoneValue.includes(i.Zone) : true;
     });
 
     const allUpdatestatus = updatedData?.map((d) => d?.Status);
@@ -57,14 +60,41 @@ const BUZone_DisclosureProcessorHomePage = () => {
       completed: getNumberOfItem(allUpdatestatus, 'Completed'),
       total: allUpdatestatus?.length,
     };
-  }, [
-    getDisclosureProcessorHomePageData?.data[0],
-    zoneValue,
-    getNumberOfItem,
-  ]);
+  }, [getDisclosureProcessorHomePageData?.data[0], zoneValue, getNumberOfItem]);
+
+  // to open NPS feedback modal
+  useEffect(() => {
+    if (addBUZoneSubmitResponseState.success) {
+      // Delay by 1 second (1000 milliseconds)
+      const timeoutId = setTimeout(() => {
+        setOpenNPS(true);
+      }, 2500);
+
+      // Clean up the timeout when the component unmounts or when the effect re-runs
+      return () => clearTimeout(timeoutId);
+    }
+  }, [addBUZoneSubmitResponseState]);
 
   return (
     <div>
+      {openNPS && (
+        <ProductFeedback
+          env={process.env.REACT_APP_STAGE}
+          apiKey={''}
+          token={localStorage.getItem('nps-auth-token')}
+          feedbackMetadata={{
+            Activity: 'Control owner/Control oversigth has submitted the assessment',
+            Created_By: {
+              Email: accounts[0]?.username,
+              name: accounts[0]?.name ? accounts[0].name : '',
+            },
+          }}
+          productId={process.env.REACT_APP_NPS_PRODUCT_ID}
+          productActivityId="nps_score_provided_controlOwner_and_controlOversight"
+          modalOpened={openNPS}
+          setModalOpened={setOpenNPS}
+        />
+      )}
       <div className="container-fluid">
         <div className="row pt-5 align-items-center">
           <div className="col-lg-4 pt-5">
@@ -86,10 +116,7 @@ const BUZone_DisclosureProcessorHomePage = () => {
         </div>
       </div>
 
-      <BUZone_DisclosureProcessorTable
-        zoneValue={zoneValue}
-        setZoneValue={setZoneValue}
-      />
+      <BUZone_DisclosureProcessorTable zoneValue={zoneValue} setZoneValue={setZoneValue} />
     </div>
   );
 };
