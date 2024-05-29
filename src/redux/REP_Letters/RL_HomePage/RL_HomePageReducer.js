@@ -174,6 +174,7 @@ export const CLEAR_FUNCTION_SUBMIT_RESPONSE_REQUEST = 'CLEAR_FUNCTION_SUBMIT_RES
 export const ADD_FUNCTION_SUBMIT_RESPONSE_REQUEST = 'ADD_FUNCTION_SUBMIT_RESPONSE_REQUEST';
 export const ADD_FUNCTION_SUBMIT_RESPONSE_SUCCESS = 'ADD_FUNCTION_SUBMIT_RESPONSE_SUCCESS';
 export const ADD_FUNCTION_SUBMIT_RESPONSE_ERROR = 'ADD_FUNCTION_SUBMIT_RESPONSE_ERROR';
+export const RESET_FUNCTION_SUBMIT_RESPONSE_ERROR = 'RESET_FUNCTION_SUBMIT_RESPONSE_ERROR';
 // ============= ADD FUNCTION SUBMIT RESPONSE data ===============//
 
 // ============= ADD OR UPDATE BU DRAFT RESPONSE data ===============//
@@ -203,6 +204,7 @@ export const CLEAR_BU_SUBMIT_RESPONSE_REQUEST = 'CLEAR_BU_SUBMIT_RESPONSE_REQUES
 export const ADD_BU_SUBMIT_RESPONSE_REQUEST = 'ADD_BU_SUBMIT_RESPONSE_REQUEST';
 export const ADD_BU_SUBMIT_RESPONSE_SUCCESS = 'ADD_BU_SUBMIT_RESPONSE_SUCCESS';
 export const ADD_BU_SUBMIT_RESPONSE_ERROR = 'ADD_BU_SUBMIT_RESPONSE_ERROR';
+export const ADD_BU_SUBMIT_RESPONSE_CLEAR = 'ADD_BU_SUBMIT_RESPONSE_CLEAR';
 // ============= ADD BU SUBMIT RESPONSE data ===============//
 
 // ============= ADD BU SUBMIT RESPONSE data ===============//
@@ -308,6 +310,7 @@ export const CLEAR_BU_ZONE_SUBMIT_RESPONSE_REQUEST = 'CLEAR_BU_ZONE_SUBMIT_RESPO
 export const ADD_BU_ZONE_SUBMIT_RESPONSE_REQUEST = 'ADD_BU_ZONE_SUBMIT_RESPONSE_REQUEST';
 export const ADD_BU_ZONE_SUBMIT_RESPONSE_SUCCESS = 'ADD_BU_ZONE_SUBMIT_RESPONSE_SUCCESS';
 export const ADD_BU_ZONE_SUBMIT_RESPONSE_ERROR = 'ADD_BU_ZONE_SUBMIT_RESPONSE_ERROR';
+export const ADD_BU_ZONE_SUBMIT_RESPONSE_CLEAR = 'ADD_BU_ZONE_SUBMIT_RESPONSE_CLEAR';
 // ============= ADD BUZone SUBMIT RESPONSE data ===============//
 
 // ============= Get BU Zone Section 2 SUBMIT RESPONSE data ===============//
@@ -942,6 +945,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         addFunctionSubmitResponse: {
           ...state.addFunctionSubmitResponse,
           loading: true,
+          success: false,
         },
       };
     case ADD_FUNCTION_SUBMIT_RESPONSE_SUCCESS:
@@ -951,6 +955,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
           ...state.addFunctionSubmitResponse,
           data: payload,
           loading: false,
+          success: true,
         },
       };
     case ADD_FUNCTION_SUBMIT_RESPONSE_ERROR:
@@ -959,6 +964,17 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         addFunctionSubmitResponse: {
           ...state.addFunctionSubmitResponse,
           loading: false,
+          success: false,
+        },
+      };
+    case RESET_FUNCTION_SUBMIT_RESPONSE_ERROR:
+      return {
+        ...state,
+        addFunctionSubmitResponse: {
+          ...state.addFunctionSubmitResponse,
+          loading: false,
+          success: false,
+          error: '',
         },
       };
 
@@ -1068,6 +1084,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         addBUSubmitResponse: {
           ...state.addBUSubmitResponse,
           loading: true,
+          success: false,
         },
       };
     case ADD_BU_SUBMIT_RESPONSE_SUCCESS:
@@ -1077,6 +1094,17 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
           ...state.addBUSubmitResponse,
           data: payload,
           loading: false,
+          success: true,
+        },
+      };
+    case ADD_BU_SUBMIT_RESPONSE_CLEAR:
+      return {
+        ...state,
+        addBUSubmitResponse: {
+          ...state.addBUSubmitResponse,
+          loading: false,
+          success: false,
+          error: '',
         },
       };
     case ADD_BU_SUBMIT_RESPONSE_ERROR:
@@ -1085,6 +1113,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         addBUSubmitResponse: {
           ...state.addBUSubmitResponse,
           loading: false,
+          success: false,
         },
       };
     // ADD_BU_SECTION2_CHECKBOX_REQUEST data
@@ -1509,6 +1538,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         addBUZoneSubmitResponse: {
           ...state.addBUZoneSubmitResponse,
           loading: true,
+          success: false,
         },
       };
     case ADD_BU_ZONE_SUBMIT_RESPONSE_SUCCESS:
@@ -1518,6 +1548,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
           ...state.addBUZoneSubmitResponse,
           data: payload,
           loading: false,
+          success: true,
         },
       };
     case ADD_BU_ZONE_SUBMIT_RESPONSE_ERROR:
@@ -1526,6 +1557,17 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         addBUZoneSubmitResponse: {
           ...state.addBUZoneSubmitResponse,
           loading: false,
+          success: false,
+        },
+      };
+    case ADD_BU_ZONE_SUBMIT_RESPONSE_CLEAR:
+      return {
+        ...state,
+        addBUZoneSubmitResponse: {
+          ...state.addBUZoneSubmitResponse,
+          loading: false,
+          success: false,
+          error: '',
         },
       };
 
