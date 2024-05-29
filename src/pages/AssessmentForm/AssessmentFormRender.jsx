@@ -179,9 +179,9 @@ const AssessmentFormRender = ({
 
   const section3NoSelectErrorMessage = useMemo(() => {
     const s1NoSelect =
-      Object.keys(ansSection3).includes('L1') && !!Object.values(ansSection3?.L1)[0].includes('no');
+      Object.keys(ansSection3).includes('L1') && !!Object.values(ansSection3?.L1)[0]?.includes('no');
     const s2NoSelect =
-      Object.keys(ansSection3).includes('L2') && !!Object.values(ansSection3?.L2)[0].includes('no');
+      Object.keys(ansSection3).includes('L2') && !!Object.values(ansSection3?.L2)[0]?.includes('no');
     return showMoreSection && !s1FailObj && !isNotEscalationRequired && (s1NoSelect || s2NoSelect);
   }, [ansSection3, s1FailObj, isNotEscalationRequired, showNoQuestionAns, L1AndL2NoQuestionsAns]);
 
@@ -267,10 +267,10 @@ const AssessmentFormRender = ({
                         <div style={{ color: 'red', marginBottom: '10px' }}>
                           Based on above response, the control is assessed as failed because of{' '}
                           {Object.keys(ansSection3).includes('L1') &&
-                          !!Object.values(ansSection3?.L1)[0].includes('no')
+                          !!Object.values(ansSection3?.L1)[0]?.includes('no')
                             ? 'L1'
                             : Object.keys(ansSection3).includes('L2') &&
-                              !!Object.values(ansSection3?.L2)[0].includes('no')
+                              !!Object.values(ansSection3?.L2)[0]?.includes('no')
                             ? 'L2'
                             : ''}
                         </div>

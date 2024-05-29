@@ -417,25 +417,25 @@ const ControlSection3 = ({
       <CollapseFrame title={t('selfAssessment.assessmentForm.section3_MICS')} active>
         <div className="mt-5" id="section3">
           <>
-            {questionL1.length > 0 && questionL1[0].Control_ID && (
+            {questionL1.length > 0 && questionL1[0]?.Control_ID && (
               <RenderBlock blocks={questionL1} isModal={isModal} handleChange={handleChange} />
             )}
-            {questionL2.length > 0 && questionL2[0].Control_ID && !isL1NoAnsSelect && (
+            {questionL2.length > 0 && questionL2[0]?.Control_ID && !isL1NoAnsSelect && (
               <RenderBlock blocks={questionL2} isModal={isModal} handleChange={handleChange} />
             )}
             {questionL3.length > 0 &&
-              questionL3[0].Control_ID &&
+              questionL3[0]?.Control_ID &&
               !isL1NoAnsSelect &&
               !isL2NoAnsSelect && (
                 <RenderBlock blocks={questionL3} isModal={isModal} handleChange={handleChange} />
               )}
           </>
 
-          {!(questionL1.length > 0 && questionL1[0].Control_ID) &&
-            !(questionL2.length > 0 && questionL2[0].Control_ID && !isL1NoAnsSelect) &&
+          {!(questionL1.length > 0 && questionL1[0]?.Control_ID) &&
+            !(questionL2.length > 0 && questionL2[0]?.Control_ID && !isL1NoAnsSelect) &&
             !(
               questionL3.length > 0 &&
-              questionL3[0].Control_ID &&
+              questionL3[0]?.Control_ID &&
               !isL1NoAnsSelect &&
               !isL2NoAnsSelect
             ) && (
