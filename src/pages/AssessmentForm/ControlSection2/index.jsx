@@ -803,26 +803,28 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
     if (stateCsvTampred?.data === false && !stateCsvTampred.loading) {
       const isupated = excelFile?.find((i) => i?.Denominator == 0);
       if (isupated) return Swal.fire('Oops...', 'Denominator cannot be Zero !!', 'error');
-      let newDataArray = tableData?.map((data, i) => {
-        const Numerator =
-          excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
-            ? excelFile[i]?.Numerator
-            : data?.Numerator;
-        const Denominator =
-          excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
-            ? excelFile[i]?.Denominator
-            : data?.Denominator || '';
-        return {
-          ...data,
-          Numerator,
-          Denominator,
-          Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
-          Source_System: excelFile[i]['Link to data'],
-        };
-      });
+      if (tableData.length > 0) {
+        let newDataArray = tableData?.map((data, i) => {
+          const Numerator =
+            excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
+              ? excelFile[i]?.Numerator
+              : data?.Numerator;
+          const Denominator =
+            excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
+              ? excelFile[i]?.Denominator
+              : data?.Denominator || '';
+          return {
+            ...data,
+            Numerator,
+            Denominator,
+            Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
+            Source_System: excelFile[i]['Link to data'],
+          };
+        });
 
-      setTableData([...newDataArray]);
-      setScvUpdateData(csvUpdateData + 1);
+        setTableData([...newDataArray]);
+        setScvUpdateData(csvUpdateData + 1);
+      }
     } else {
       setScvUpdateData(0);
     }
