@@ -871,15 +871,16 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
     let selectedFile = e.target.files[0];
     if (selectedFile) {
       readXlsxFile(selectedFile).then((data) => {
-        setExcelFile(
-          data.slice(1).map((d) => {
-            let obj = {};
-            d.map((v, i) => {
-              obj[data[0][i]] = v;
-            });
-            return obj;
-          }),
-        );
+        const copyData = { ...data };
+        const fileData = data.slice(1).map((d, dataIndex) => {
+          let obj = { id: dataIndex };
+          d.map((v, i) => {
+            obj[copyData[0][i]] = v;
+          });
+          return obj;
+        });
+
+        setExcelFile(fileData);
       });
     } else {
       setExcelFile(null);
