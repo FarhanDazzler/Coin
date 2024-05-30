@@ -574,7 +574,7 @@ const KPITable = ({ data }) => {
       header: 'Actual KPI Source',
       size: 100,
       editVariant: 'select',
-      Cell: ({ row }) => <span>{row.original.upload_approach}</span>,
+      Cell: ({ row }) => <span>{row.original?.upload_approach}</span>,
       mantineEditSelectProps: ({ cell, row }) => ({
         data: [
           {

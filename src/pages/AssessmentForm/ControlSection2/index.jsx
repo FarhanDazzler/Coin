@@ -817,7 +817,9 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
             ...data,
             Numerator,
             Denominator,
-            Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
+            Upload_Approach:
+              excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'] ||
+              excelFile[i]['Upload_Approach'],
             Source_System: excelFile[i]['Link to data'],
           };
         });
@@ -877,7 +879,11 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         const fileData = data.slice(1).map((d, dataIndex) => {
           let obj = { id: dataIndex };
           d.map((v, i) => {
-            obj[copyData[0][i]] = v;
+            const key =
+              copyData[0][i] === 'KPI Data source (Select from Excel/PBI/Celonis/Others)'
+                ? 'Upload_Approach'
+                : copyData[0][i];
+            obj[key] = v;
           });
           return obj;
         });
