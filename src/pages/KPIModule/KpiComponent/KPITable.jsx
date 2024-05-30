@@ -94,7 +94,7 @@ const KPITable = ({ data }) => {
   const [tableData, setTableData] = useState(() => data);
   const [validationErrors, setValidationErrors] = useState({});
   const [excelFile, setExcelFile] = useState(null);
-  const [buttonText, setButtonText]  = useState("Choose a file")
+  const [buttonText, setButtonText] = useState('Choose a file');
 
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
 
@@ -1101,7 +1101,7 @@ const KPITable = ({ data }) => {
     if (!validateData()) {
       console.error('Validation failed');
       document.getElementById('excel_import_btn_kpi_module').reset(); // Ensure the form ID is correct
-      setButtonText("Choose a file")
+      setButtonText('Choose a file');
       return;
     }
 
@@ -1147,7 +1147,7 @@ const KPITable = ({ data }) => {
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setButtonText(file.name)
+      setButtonText(file.name);
       const reader = new FileReader();
       reader.onload = (e) => {
         const binaryStr = e.target.result;
