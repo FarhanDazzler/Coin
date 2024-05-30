@@ -703,9 +703,6 @@ const KPITable = ({ data }) => {
       header: 'Result L1',
       size: 50,
       enableEditing: false,
-      mantineTableBodyCellProps: {
-        align: 'center',
-      },
       // Cell: ({ cell }) => <Badge_apply data={cell.getValue()} />,
       Cell: ({ row }) => {
         return <Badge_apply data={row.original.Result_L1} />;
@@ -724,9 +721,6 @@ const KPITable = ({ data }) => {
       header: 'Result L2',
       size: 50,
       enableEditing: false,
-      mantineTableBodyCellProps: {
-        align: 'center',
-      },
       Cell: ({ row }) => {
         return <Badge_apply data={row.original.Result_L2} />;
       },
@@ -744,9 +738,6 @@ const KPITable = ({ data }) => {
       header: 'Result L3',
       size: 50,
       enableEditing: false,
-      mantineTableBodyCellProps: {
-        align: 'center',
-      },
       Cell: ({ row }) => {
         return <Badge_apply data={row.original.Result_L3} />;
       },

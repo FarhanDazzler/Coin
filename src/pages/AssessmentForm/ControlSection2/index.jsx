@@ -407,16 +407,16 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
               </div>
             );
           }
-          if (row?.Denominator == 0) {
-            return (
-              <div>
-                {row?.Denominator}
-                <div className="alert alert-danger in" role="alert">
-                  <strong>Denominator cannot be zero</strong>
-                </div>
-              </div>
-            );
-          }
+          // if (row?.Denominator == 0) {
+          //   return (
+          //     <div>
+          //       {row?.Denominator}
+          //       <div className="alert alert-danger in" role="alert">
+          //         <strong>Denominator cannot be zero</strong>
+          //       </div>
+          //     </div>
+          //   );
+          // }
         }
 
         return cellContent;
@@ -438,14 +438,14 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       },
       validator: (newValue, row, column) => {
         row.isEdited = true;
-        handleChange(row.Denominator, newValue, row, column);
-        if (newValue == 0) {
-          row.Denominator = '';
-          return {
-            valid: false,
-            message: 'Denominator cannot be zero',
-          };
-        }
+        // handleChange(row.Denominator, newValue, row, column);
+        // if (newValue == 0) {
+        //   row.Denominator = '';
+        //   return {
+        //     valid: false,
+        //     message: 'Denominator cannot be zero',
+        //   };
+        // }
 
         return true;
       },
@@ -673,11 +673,11 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         }
         //If user Denominator change value then update existing value
         if (column.dataField === 'Denominator') {
-          if (newValue == 0) {
-            row['Denominator'] = '';
-          } else {
-            row['Denominator'] = newValue;
-          }
+          // if (newValue == 0) {
+          //   row['Denominator'] = '';
+          // } else {
+          row['Denominator'] = newValue;
+          // }
           row['Numerator'] = convertVariable(copyRow['Numerator']);
         }
 
