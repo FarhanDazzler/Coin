@@ -83,14 +83,14 @@ const RecipientHomePage = () => {
           apiKey={''}
           token={localStorage.getItem('nps-auth-token')}
           feedbackMetadata={{
-            Activity: 'Control owner/Control oversigth has submitted the assessment',
+            Activity: 'Recipient has submitted the letter',
             Created_By: {
               Email: accounts[0]?.username,
               name: accounts[0]?.name ? accounts[0].name : '',
             },
           }}
           productId={process.env.REACT_APP_NPS_PRODUCT_ID}
-          productActivityId="nps_score_provided_controlOwner_and_controlOversight"
+          productActivityId="nps_score_provided_by_recipient"
           modalOpened={openNPS}
           setModalOpened={setOpenNPS}
         />
