@@ -83,14 +83,14 @@ const BUZone_DisclosureProcessorHomePage = () => {
           apiKey={''}
           token={localStorage.getItem('nps-auth-token')}
           feedbackMetadata={{
-            Activity: 'Control owner/Control oversigth has submitted the assessment',
+            Activity: 'Local Internal Control has submitted the Rep Letter',
             Created_By: {
               Email: accounts[0]?.username,
               name: accounts[0]?.name ? accounts[0].name : '',
             },
           }}
           productId={process.env.REACT_APP_NPS_PRODUCT_ID}
-          productActivityId="nps_score_provided_controlOwner_and_controlOversight"
+          productActivityId="nps_score_provided_by_local_internal_control"
           modalOpened={openNPS}
           setModalOpened={setOpenNPS}
         />
