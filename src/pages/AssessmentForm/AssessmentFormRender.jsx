@@ -143,8 +143,8 @@ const AssessmentFormRender = ({
   const handleValidation = (type) => () => {
     if (type === 'submit' && handleSubmit) {
       const findErrorTableRow = tableData?.find((row) => {
-        if ((row.Numerator || row.Numerator === 0) && row.Denominator) {
-          return +row.Denominator == 0;
+        if ((row.Numerator || row.Numerator == 0) && (row.Denominator || row.Denominator == 0)) {
+          return false;
         }
         if (!row.Numerator && !row.Denominator) {
           return false;
@@ -179,9 +179,11 @@ const AssessmentFormRender = ({
 
   const section3NoSelectErrorMessage = useMemo(() => {
     const s1NoSelect =
-      Object.keys(ansSection3).includes('L1') && !!Object.values(ansSection3?.L1)[0]?.includes('no');
+      Object.keys(ansSection3).includes('L1') &&
+      !!Object.values(ansSection3?.L1)[0]?.includes('no');
     const s2NoSelect =
-      Object.keys(ansSection3).includes('L2') && !!Object.values(ansSection3?.L2)[0]?.includes('no');
+      Object.keys(ansSection3).includes('L2') &&
+      !!Object.values(ansSection3?.L2)[0]?.includes('no');
     return showMoreSection && !s1FailObj && !isNotEscalationRequired && (s1NoSelect || s2NoSelect);
   }, [ansSection3, s1FailObj, isNotEscalationRequired, showNoQuestionAns, L1AndL2NoQuestionsAns]);
 

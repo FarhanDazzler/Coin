@@ -215,7 +215,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       responseUpdatedData?.s3?.length === 1 &&
       responseUpdatedData?.s3[0]?.length === 2 &&
       responseUpdatedData?.s3[0][0] === 'noQueAns';
-      
+
     if (responseUpdatedData || condition) {
       if (responseUpdatedData?.s1 && !startEdit) {
         // set section 1 ans here..
