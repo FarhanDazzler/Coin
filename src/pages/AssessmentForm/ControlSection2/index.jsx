@@ -820,7 +820,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
             Upload_Approach:
               excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'] ||
               excelFile[i]['Upload_Approach'],
-            Source_System: excelFile[i]['Link to data'],
+            Source_System: excelFile[i]['Link to data'] || excelFile[i]['Source_System'],
           };
         });
 
@@ -879,10 +879,14 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         const fileData = data.slice(1).map((d, dataIndex) => {
           let obj = { id: dataIndex };
           d.map((v, i) => {
-            const key =
-              copyData[0][i] === 'KPI Data source (Select from Excel/PBI/Celonis/Others)'
-                ? 'Upload_Approach'
-                : copyData[0][i];
+            let key = copyData[0][i];
+            if (copyData[0][i] === 'KPI Data source (Select from Excel/PBI/Celonis/Others)') {
+              key = 'Upload_Approach';
+            }
+            if (copyData[0][i] === 'Link to data') {
+              key = 'Source_System';
+            }
+
             obj[key] = v;
           });
           return obj;
@@ -968,8 +972,8 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
                           />
                           <Workbook.Column label="Link to data" value="Source_System" />
                           <Workbook.Column label="MICS_L1_Threshold" value="MICS_L1_Threshold" />
+                          <Workbook.Column label="MICS_L2_Threshold" value="MICS_L2_Threshold" />
                           <Workbook.Column label="MICS_L3_Threshold" value="MICS_L3_Threshold" />
-                          <Workbook.Column label="L1_Result" value="L1_Result" />
                           <Workbook.Column label="L1_Result" value="L1_Result" />
                           <Workbook.Column label="L2_Result" value="L2_Result" />
                           <Workbook.Column label="L3_Result" value="L3_Result" />
