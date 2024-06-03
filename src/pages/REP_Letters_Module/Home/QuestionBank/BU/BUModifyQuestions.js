@@ -114,8 +114,8 @@ const BUModifyQuestions = (props) => {
   const dispatch = useDispatch();
 
   // Access passed props from location.state
-  const modalType = props.location.state.data?.modalType;
-  const title = props.location.state.data?.title;
+  const modalType = props?.location?.state?.data?.modalType;
+  const title = props?.location?.state?.data?.title;
 
   const delete_BU_QuestionsState = useSelector(delete_BU_QuestionsSelector);
   const edit_BU_QuestionsState = useSelector(edit_BU_QuestionsSelector);
@@ -136,7 +136,7 @@ const BUModifyQuestions = (props) => {
 
   const get_BU_QuestionState = useSelector(get_BU_QuestionsSelector);
 
-  console.log(get_BU_QuestionState.data, 'get_BU_Questions');
+  console.log(get_BU_QuestionState?.data, 'get_BU_Questions');
 
   const handleOnclickAdd = () => {
     // Add code
@@ -177,8 +177,8 @@ const BUModifyQuestions = (props) => {
                   <div className="question-text-section">
                     <Questions
                       questionIndex={index + 1}
-                      questionText={data.text}
-                      questionID={data.id}
+                      questionText={data?.text}
+                      questionID={data?.id}
                     />
                   </div>
                 </div>
@@ -189,8 +189,8 @@ const BUModifyQuestions = (props) => {
                       setIsEdit={setIsEdit}
                       setShowBUModifyModal={setShowBUModifyModal}
                       questionIndex={index + 1}
-                      questionText={data.text}
-                      questionID={data.id}
+                      questionText={data?.text}
+                      questionID={data?.id}
                     />
                   </div>
                 </div>

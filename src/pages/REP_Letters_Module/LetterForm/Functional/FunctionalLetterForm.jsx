@@ -3,6 +3,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { DotSpinner } from '@uiball/loaders';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 import * as XLSX from 'xlsx';
 import { compile, convert } from 'html-to-text';
 import PageWrapper from '../../../../components/wrappers/PageWrapper';
@@ -28,6 +30,7 @@ import {
   getFunctionalScopeDataSelector,
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../LetterFormStyle.scss';
+import { Button } from '@mui/material';
 
 const FunctionalLetterForm = (props) => {
   const dispatch = useDispatch();
@@ -42,6 +45,48 @@ const FunctionalLetterForm = (props) => {
   const getLatestFunctionDraftResponseState = useSelector(getLatestFunctionDraftResponseSelector);
   const getFunctionSubmitResponseState = useSelector(getFunctionSubmitResponseSelector);
 
+  /**
+   * Takes a screenshot of the specified element and downloads it as an image.
+   */
+  const takeScreenshot = () => {
+    const element = document.getElementById('screenshot-body');
+    const scale = 2;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+
+    setTimeout(() => {
+      html2canvas(element, {
+        scale: scale,
+        backgroundColor: '#000000',
+        allowTaint: true,
+        useCORS: true,
+        logging: true,
+      }).then((canvas) => {
+        const imgData = canvas.toDataURL('image/jpeg', 0.8); // Compressing the image to reduce size
+        const pdf = new jsPDF('p', 'mm', 'a4'); // Creating PDF with A4 size
+
+        // Calculating the number of pages
+        const pdfWidth = 210; // A4 width in mm
+        const pdfHeight = 297; // A4 height in mm
+        const imgWidth = pdfWidth;
+        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        // Adding the image to PDF and handle long content
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pdfHeight;
+        }
+
+        pdf.save('screenshot.pdf');
+      });
+    }, 1000);
+  };
   useEffect(() => {
     if (token) {
       dispatch(getFunctionalInstructions());
@@ -116,7 +161,7 @@ const FunctionalLetterForm = (props) => {
   }, []);
 
   return (
-    <div>
+    <div id="screenshot-body">
       <PageWrapper>
         {modalType === 'attempt' ? (
           <div className="container-fluid">
@@ -148,6 +193,11 @@ const FunctionalLetterForm = (props) => {
               </div>
             ) : (
               <div className="col-lg-12">
+                <div>
+                  <Button onClick={takeScreenshot} variant="contained">
+                    Take Screenshot
+                  </Button>
+                </div>
                 <div>
                   <div className="d-flex align-items-center" style={{ paddingTop: '14px' }}>
                     <span className="review-response-page-title">Review Responses</span>
