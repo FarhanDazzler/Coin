@@ -40,9 +40,9 @@ const AddNewQuestionModal = ({
         TextAlign.configure({ types: ['heading', 'paragraph'] }),
         Placeholder.configure({ placeholder: 'Provide question text here...' }),
       ],
-      content: values.Instructions,
+      content: isEdit ? editableData?.questionText : '',
       onUpdate({ editor }) {
-        setFieldValue('questionText', editor.getText());
+        setFieldValue('questionText', editor.getHTML());
       },
     });
   };
@@ -66,7 +66,6 @@ const AddNewQuestionModal = ({
                 };
                 dispatch(edit_BU_Questions(payload));
               } else {
-                console.log(values.questionText)
                 const payload = {
                   text: values.questionText,
                   type: 'BU',
