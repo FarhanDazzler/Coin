@@ -19,6 +19,8 @@ import {
   get_BU_QuestionsSelector,
   getInstructionsSelector,
 } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 import {
   getLatestBUDraftResponse,
   getBUSubmitResponse,
@@ -88,7 +90,6 @@ const ReviewSubmittedResponses = ({
     const fileName = `${scopeData?.Letter_Type} - ${scopeData?.Disclosure_Processor} - Submitted-Responses - ${scopeData?.Title} - ${scopeData?.Assessment_Cycle} - ${scopeData?.Year}`;
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
-
   return (
     <>
       <div>
@@ -197,8 +198,54 @@ const ReviewResponsesAtAllTime = ({
     XLSX.writeFile(wb, `${fileName}.xlsx`);
   };
 
+  /**
+   * Takes a screenshot of the specified element and downloads it as an image.
+   */
+  const takeScreenshot = () => {
+    const element = document.getElementById('screenshot-body');
+    const scale = 2;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+
+    setTimeout(() => {
+      html2canvas(element, {
+        scale: scale,
+        backgroundColor: '#000000',
+        allowTaint: true,
+        useCORS: true,
+        logging: true,
+      }).then((canvas) => {
+        const imgData = canvas.toDataURL('image/jpeg', 0.8); // Compressing the image to reduce size
+        const pdf = new jsPDF('p', 'mm', 'a4'); // Creating PDF with A4 size
+
+        // Calculating the number of pages
+        const pdfWidth = 210; // A4 width in mm
+        const pdfHeight = 297; // A4 height in mm
+        const imgWidth = pdfWidth;
+        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        // Adding the image to PDF and handle long content
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;  
+
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pdfHeight;
+        }
+
+        pdf.save('screenshot.pdf');
+      });
+    }, 1000);
+  };
+
   return (
-    <>
+    <div id="screenshot-body">
+      <div>
+        <Button onClick={takeScreenshot}>Take Screenshot</Button>
+      </div>
       <div>
         <div className="d-flex align-items-center" style={{ paddingTop: '14px' }}>
           <span className="review-response-page-title">Review Responses</span>
@@ -248,7 +295,7 @@ const ReviewResponsesAtAllTime = ({
           Go Back
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 
