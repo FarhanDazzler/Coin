@@ -141,14 +141,14 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         // Get KPI Section 2 data API
         dispatch(
           getAssessmentSection2Ans({
-            // MICS_code: activeData?.control_id,
-            // Entity_ID: activeData?.Receiver,
-            // KPI_From: activeData?.KPI_From,
-            // KPI_To: activeData?.KPI_To,
-            MICS_code: 'OTC_MD_04',
-            Entity_ID: 'Botswana',
-            KPI_From: '2024-03-01' || '',
-            KPI_To: '2024-05-31' || '',
+            MICS_code: activeData?.control_id,
+            Entity_ID: activeData?.Receiver,
+            KPI_From: activeData?.KPI_From,
+            KPI_To: activeData?.KPI_To,
+            // MICS_code: 'OTC_MD_04',
+            // Entity_ID: 'Botswana',
+            // KPI_From: '2024-03-01' || '',
+            // KPI_To: '2024-05-31' || '',
           }),
         );
       }
@@ -215,7 +215,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       responseUpdatedData?.s3?.length === 1 &&
       responseUpdatedData?.s3[0]?.length === 2 &&
       responseUpdatedData?.s3[0][0] === 'noQueAns';
-      
+
     if (responseUpdatedData || condition) {
       if (responseUpdatedData?.s1 && !startEdit) {
         // set section 1 ans here..

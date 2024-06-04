@@ -94,7 +94,7 @@ const KPITable = ({ data }) => {
   const [tableData, setTableData] = useState(() => data);
   const [validationErrors, setValidationErrors] = useState({});
   const [excelFile, setExcelFile] = useState(null);
-  const [buttonText, setButtonText]  = useState("Choose a file")
+  const [buttonText, setButtonText] = useState('Choose a file');
 
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
 
@@ -574,7 +574,7 @@ const KPITable = ({ data }) => {
       header: 'Actual KPI Source',
       size: 100,
       editVariant: 'select',
-      Cell: ({ row }) => <span>{row.original.upload_approach}</span>,
+      Cell: ({ row }) => <span>{row.original?.upload_approach}</span>,
       mantineEditSelectProps: ({ cell, row }) => ({
         data: [
           {
@@ -703,9 +703,6 @@ const KPITable = ({ data }) => {
       header: 'Result L1',
       size: 50,
       enableEditing: false,
-      mantineTableBodyCellProps: {
-        align: 'center',
-      },
       // Cell: ({ cell }) => <Badge_apply data={cell.getValue()} />,
       Cell: ({ row }) => {
         return <Badge_apply data={row.original.Result_L1} />;
@@ -724,9 +721,6 @@ const KPITable = ({ data }) => {
       header: 'Result L2',
       size: 50,
       enableEditing: false,
-      mantineTableBodyCellProps: {
-        align: 'center',
-      },
       Cell: ({ row }) => {
         return <Badge_apply data={row.original.Result_L2} />;
       },
@@ -744,9 +738,6 @@ const KPITable = ({ data }) => {
       header: 'Result L3',
       size: 50,
       enableEditing: false,
-      mantineTableBodyCellProps: {
-        align: 'center',
-      },
       Cell: ({ row }) => {
         return <Badge_apply data={row.original.Result_L3} />;
       },
@@ -1101,7 +1092,7 @@ const KPITable = ({ data }) => {
     if (!validateData()) {
       console.error('Validation failed');
       document.getElementById('excel_import_btn_kpi_module').reset(); // Ensure the form ID is correct
-      setButtonText("Choose a file")
+      setButtonText('Choose a file');
       return;
     }
 
@@ -1147,7 +1138,7 @@ const KPITable = ({ data }) => {
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setButtonText(file.name)
+      setButtonText(file.name);
       const reader = new FileReader();
       reader.onload = (e) => {
         const binaryStr = e.target.result;

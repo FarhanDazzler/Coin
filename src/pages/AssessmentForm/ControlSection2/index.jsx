@@ -407,16 +407,16 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
               </div>
             );
           }
-          if (row?.Denominator == 0) {
-            return (
-              <div>
-                {row?.Denominator}
-                <div className="alert alert-danger in" role="alert">
-                  <strong>Denominator cannot be zero</strong>
-                </div>
-              </div>
-            );
-          }
+          // if (row?.Denominator == 0) {
+          //   return (
+          //     <div>
+          //       {row?.Denominator}
+          //       <div className="alert alert-danger in" role="alert">
+          //         <strong>Denominator cannot be zero</strong>
+          //       </div>
+          //     </div>
+          //   );
+          // }
         }
 
         return cellContent;
@@ -438,14 +438,14 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       },
       validator: (newValue, row, column) => {
         row.isEdited = true;
-        handleChange(row.Denominator, newValue, row, column);
-        if (newValue == 0) {
-          row.Denominator = '';
-          return {
-            valid: false,
-            message: 'Denominator cannot be zero',
-          };
-        }
+        // handleChange(row.Denominator, newValue, row, column);
+        // if (newValue == 0) {
+        //   row.Denominator = '';
+        //   return {
+        //     valid: false,
+        //     message: 'Denominator cannot be zero',
+        //   };
+        // }
 
         return true;
       },
@@ -673,11 +673,11 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         }
         //If user Denominator change value then update existing value
         if (column.dataField === 'Denominator') {
-          if (newValue == 0) {
-            row['Denominator'] = '';
-          } else {
-            row['Denominator'] = newValue;
-          }
+          // if (newValue == 0) {
+          //   row['Denominator'] = '';
+          // } else {
+          row['Denominator'] = newValue;
+          // }
           row['Numerator'] = convertVariable(copyRow['Numerator']);
         }
 
@@ -803,7 +803,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
     if (stateCsvTampred?.data === false && !stateCsvTampred.loading) {
       const isupated = excelFile?.find((i) => i?.Denominator == 0);
       if (isupated) return Swal.fire('Oops...', 'Denominator cannot be Zero !!', 'error');
-      if (tableData.length > 0) {
+      if (tableData?.length > 0 && isupated) {
         let newDataArray = tableData?.map((data, i) => {
           const Numerator =
             excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
@@ -817,8 +817,10 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
             ...data,
             Numerator,
             Denominator,
-            Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
-            Source_System: excelFile[i]['Link to data'],
+            Upload_Approach:
+              excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'] ||
+              excelFile[i]['Upload_Approach'],
+            Source_System: excelFile[i]['Link to data'] || excelFile[i]['Source_System'],
           };
         });
 
@@ -877,7 +879,15 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         const fileData = data.slice(1).map((d, dataIndex) => {
           let obj = { id: dataIndex };
           d.map((v, i) => {
-            obj[copyData[0][i]] = v;
+            let key = copyData[0][i];
+            if (copyData[0][i] === 'KPI Data source (Select from Excel/PBI/Celonis/Others)') {
+              key = 'Upload_Approach';
+            }
+            if (copyData[0][i] === 'Link to data') {
+              key = 'Source_System';
+            }
+
+            obj[key] = v;
           });
           return obj;
         });
@@ -962,8 +972,8 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
                           />
                           <Workbook.Column label="Link to data" value="Source_System" />
                           <Workbook.Column label="MICS_L1_Threshold" value="MICS_L1_Threshold" />
+                          <Workbook.Column label="MICS_L2_Threshold" value="MICS_L2_Threshold" />
                           <Workbook.Column label="MICS_L3_Threshold" value="MICS_L3_Threshold" />
-                          <Workbook.Column label="L1_Result" value="L1_Result" />
                           <Workbook.Column label="L1_Result" value="L1_Result" />
                           <Workbook.Column label="L2_Result" value="L2_Result" />
                           <Workbook.Column label="L3_Result" value="L3_Result" />
