@@ -99,7 +99,7 @@ const Pages = () => {
     axios
       .get(`${process.env.REACT_APP_API_BASE_URL}/login?User_oid=${accounts[0]?.idTokenClaims.oid}`)
       .then(async (res) => {
-        if(res.data.data[0]=='user does not exist'){
+        if(res?.data?.data[0]=='user does not exist'){
           history.push('/not-authorized')
         }
         const saRoles = res?.data.data?.sa_roles || [];
