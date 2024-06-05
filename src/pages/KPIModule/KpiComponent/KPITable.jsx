@@ -96,10 +96,6 @@ const KPITable = ({ data }) => {
   const [excelFile, setExcelFile] = useState(null);
   const [buttonText, setButtonText] = useState('Choose a file');
 
-  const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
-
-  const [csvUpdateData, setScvUpdateData] = useState(0);
-
   const columns = [
     {
       accessorKey: 'Zone',
