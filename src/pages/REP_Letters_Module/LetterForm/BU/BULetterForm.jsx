@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { DotSpinner } from '@uiball/loaders';
 import * as XLSX from 'xlsx';
@@ -227,7 +228,7 @@ const ReviewResponsesAtAllTime = ({
 
         // Adding the image to PDF and handle long content
         pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;  
+        heightLeft -= pdfHeight;
 
         while (heightLeft >= 0) {
           position = heightLeft - imgHeight;
@@ -243,9 +244,6 @@ const ReviewResponsesAtAllTime = ({
 
   return (
     <div id="screenshot-body">
-      <div>
-        <Button onClick={takeScreenshot}>Take Screenshot</Button>
-      </div>
       <div>
         <div className="d-flex align-items-center" style={{ paddingTop: '14px' }}>
           <span className="review-response-page-title">Review Responses</span>
@@ -273,7 +271,10 @@ const ReviewResponsesAtAllTime = ({
               );
             }}
           >
-            <strong>Export</strong>
+            <strong>Export to Excel</strong>
+          </button>
+          <button onClick={takeScreenshot} className="export_excel_button">
+            Export to PDF
           </button>
         </div>
       </div>
@@ -301,9 +302,9 @@ const ReviewResponsesAtAllTime = ({
 
 const BULetterForm = (props) => {
   const dispatch = useDispatch();
+  const token = Cookies.get('token');
 
   const { modalType, id } = useParams();
-
   const letterType = 'BU';
 
   const questionState = useSelector(get_BU_QuestionsSelector);
@@ -318,89 +319,91 @@ const BULetterForm = (props) => {
   //const scopeData = getBUScopeDataState?.data;
 
   useEffect(() => {
-    const payloadForGettingInstructions = {
-      module: letterType,
-    };
-
-    dispatch(getInstructions(payloadForGettingInstructions));
-
-    const payloadForGettingScopeData = {
-      id: id,
-    };
-
-    dispatch(getBUScopeData(payloadForGettingScopeData));
-
-    if (modalType === 'attemptSection1') {
-      let payload = {
-        type: letterType,
-      };
-      dispatch(get_BU_Questions(payload));
-
-      let payloadForGettingDraftResp = {
-        assessment_id: id,
-      };
-      dispatch(getLatestBUDraftResponse(payloadForGettingDraftResp));
-    } else if (modalType === 'attemptSection2') {
-      let payloadForGettingSubmittedResp = {
-        assessment_id: id,
+    if (token) {
+      const payloadForGettingInstructions = {
+        module: letterType,
       };
 
-      dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
-      let payloadForBuSection2Response = {
+      dispatch(getInstructions(payloadForGettingInstructions));
+
+      const payloadForGettingScopeData = {
         id: id,
       };
-      dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
-      // const payloadForGettingSection3Response = {
-      //   assessment_id: scopeData?.id,
-      // };
 
-      // dispatch(getBUSection3Response(payloadForGettingSection3Response));
-    } else if (modalType === 'attemptSection3') {
-      let payloadForGettingSubmittedResp = {
-        assessment_id: id,
-      };
+      dispatch(getBUScopeData(payloadForGettingScopeData));
 
-      dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
-      let payloadForBuSection2Response = {
-        id: id,
-      };
-      dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
-      const payloadForGettingSection3RBA_Data = {
-        assessment_id: id,
-      };
-      dispatch(getBUSection3RBA_Data(payloadForGettingSection3RBA_Data));
-    } else if (modalType === 'approveSection3') {
-      let payloadForGettingSubmittedResp = {
-        assessment_id: id,
-      };
+      if (modalType === 'attemptSection1') {
+        let payload = {
+          type: letterType,
+        };
+        dispatch(get_BU_Questions(payload));
 
-      dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
-      let payloadForBuSection2Response = {
-        id: id,
-      };
-      dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
+        let payloadForGettingDraftResp = {
+          assessment_id: id,
+        };
+        dispatch(getLatestBUDraftResponse(payloadForGettingDraftResp));
+      } else if (modalType === 'attemptSection2') {
+        let payloadForGettingSubmittedResp = {
+          assessment_id: id,
+        };
 
-      const payloadForGettingSection3Response = {
-        assessment_id: id,
-      };
-      dispatch(getBUSection3Response(payloadForGettingSection3Response));
-    } else {
-      let payloadForGettingSubmittedResp = {
-        assessment_id: id,
-      };
+        dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+        let payloadForBuSection2Response = {
+          id: id,
+        };
+        dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
+        // const payloadForGettingSection3Response = {
+        //   assessment_id: scopeData?.id,
+        // };
 
-      dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
-      let payloadForBuSection2Response = {
-        id: id,
-      };
-      dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
-      const payloadForGettingSection3Response = {
-        assessment_id: id,
-      };
+        // dispatch(getBUSection3Response(payloadForGettingSection3Response));
+      } else if (modalType === 'attemptSection3') {
+        let payloadForGettingSubmittedResp = {
+          assessment_id: id,
+        };
 
-      dispatch(getBUSection3Response(payloadForGettingSection3Response));
+        dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+        let payloadForBuSection2Response = {
+          id: id,
+        };
+        dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
+        const payloadForGettingSection3RBA_Data = {
+          assessment_id: id,
+        };
+        dispatch(getBUSection3RBA_Data(payloadForGettingSection3RBA_Data));
+      } else if (modalType === 'approveSection3') {
+        let payloadForGettingSubmittedResp = {
+          assessment_id: id,
+        };
+
+        dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+        let payloadForBuSection2Response = {
+          id: id,
+        };
+        dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
+
+        const payloadForGettingSection3Response = {
+          assessment_id: id,
+        };
+        dispatch(getBUSection3Response(payloadForGettingSection3Response));
+      } else {
+        let payloadForGettingSubmittedResp = {
+          assessment_id: id,
+        };
+
+        dispatch(getBUSubmitResponse(payloadForGettingSubmittedResp));
+        let payloadForBuSection2Response = {
+          id: id,
+        };
+        dispatch(getBUSection2SignatureResponseAction(payloadForBuSection2Response));
+        const payloadForGettingSection3Response = {
+          assessment_id: id,
+        };
+
+        dispatch(getBUSection3Response(payloadForGettingSection3Response));
+      }
     }
-  }, [id]);
+  }, [id, token]);
 
   // clear all the states on page leave or refresh page or change url path or change module or change role
   useEffect(() => {
