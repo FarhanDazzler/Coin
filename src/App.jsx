@@ -45,9 +45,9 @@ import BU_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterFor
 import BU_Zone_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterForm/Zone/FormComponents/LazyApprovalSection2/BU_Zone_Letter_LazyApprovalSection2.jsx';
 import Review from './pages/Review';
 import { PageNotFound } from './pages/PageNotFound';
+import BULetterForm from './pages/REP_Letters_Module/LetterForm/BU/BULetterForm';
 import FunctionalLetterForm from './pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm.jsx';
 import KpiModule from './pages/KPIModule/KpiModuleLandingPage.jsx';
-
 
 const theme = createTheme({
   palette: {
@@ -99,8 +99,8 @@ const Pages = () => {
     axios
       .get(`${process.env.REACT_APP_API_BASE_URL}/login?User_oid=${accounts[0]?.idTokenClaims.oid}`)
       .then(async (res) => {
-        if(res.data.data[0]=='user does not exist'){
-          history.push('/not-authorized')
+        if (res?.data?.data[0] == 'user does not exist') {
+          history.push('/not-authorized');
         }
         const saRoles = res?.data.data?.sa_roles || [];
         const updatedParam = {};
@@ -263,6 +263,11 @@ const Pages = () => {
             exact
             path="/REP-Letters/attempt-letter/functional-letter-form/:id/:modalType"
             component={FunctionalLetterForm}
+          />
+          <Route
+            exact
+            path="/REP-Letters/attempt-letter/BU-letter-form/:id/:modalType"
+            component={BULetterForm}
           />
           <Route exact path="/BU-Letter-approve/:id" component={BU_Letter_LazyApprovalSection2} />
           <Route

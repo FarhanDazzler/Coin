@@ -91,7 +91,7 @@ const TopBar = (props) => {
     setModule(moduleOptionData);
     let activeModuleVal = activeModule ?? moduleOptionData[0].value;
 
-    const findModule = moduleOptionData.find((d) => d.label === activeModuleVal);
+    const findModule = moduleOptionData?.find((d) => d.label === activeModuleVal);
 
     if (!findModule) {
       activeModuleVal = moduleOptionData[0].value;
@@ -104,7 +104,7 @@ const TopBar = (props) => {
     if (!roleOptionData) return;
 
     setRolesOption(roleOptionData);
-    const findRole = roleOptionData.find((v) => v.value === rolesVal);
+    const findRole = roleOptionData?.find((v) => v.value === rolesVal);
     if (rolesVal && findRole && rolesVal !== 'null') {
       dispatch(setLoginRole(rolesVal));
       localStorage.setItem('selected_Role', rolesVal);
@@ -459,7 +459,7 @@ const TopBar = (props) => {
                             changeLanguage(e.target.value);
                             setLan(e.target.value);
                           }}
-                          value={lan || languages.find((item) => item.value == i18n.language).value}
+                          value={lan || languages?.find((item) => item.value == i18n.language).value}
                         />
                       </FormControl>
                     </div>

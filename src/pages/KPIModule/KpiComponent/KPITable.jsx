@@ -1,7 +1,18 @@
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { Badge, Box, Button, Flex, Menu, Text, Title, MantineProvider } from '@mantine/core';
+import {
+  Badge,
+  Box,
+  Button,
+  Flex,
+  Menu,
+  Text,
+  Title,
+  MantineProvider,
+  Group,
+  MultiSelect,
+} from '@mantine/core';
 import {
   MRT_GlobalFilterTextInput,
   MRT_ToggleFiltersButton,
@@ -10,12 +21,11 @@ import {
   MRT_ToggleDensePaddingButton,
 } from 'mantine-react-table';
 import * as XLSX from 'xlsx';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import readXlsxFile from 'read-excel-file';
-import { getCsvTampredDataAction } from '../../../redux/CsvTampred/CsvTampredAction';
 import Workbook from 'react-excel-workbook';
 import '../KpiModule.scss';
 import { useTranslation } from 'react-i18next';
+import KpiTableFilter from './KpiTableFilter';
+import readXlsxFile from 'read-excel-file';
 
 const Badge_apply = ({ data }) => {
   const colorMap = {
@@ -95,11 +105,6 @@ const KPITable = ({ data }) => {
   const [validationErrors, setValidationErrors] = useState({});
   const [excelFile, setExcelFile] = useState(null);
   const [buttonText, setButtonText] = useState('Choose a file');
-
-  const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
-
-  const [csvUpdateData, setScvUpdateData] = useState(0);
-
   const columns = [
     {
       accessorKey: 'Zone',
@@ -855,300 +860,114 @@ const KPITable = ({ data }) => {
     },
   ];
 
-  const validateData = () => {
-    if (!excelFile) {
-      toast.error('No Excel file data to validate.');
-      // console.error('No Excel file data to validate.');
-      return false;
-    }
-
-    // Length validation
-    if (excelFile.length !== data.length) {
-      toast.error('Data length mismatch between excelFile and tableData.');
-      return false;
-    }
-
-    // Define the mapping between excelFile keys and tableData/data keys
-    const keyMapping = {
-      Zone: 'Zone',
-      Entity: 'Entity',
-      Provider: 'provider',
-      'Control ID': 'CONTROL_ID',
-      // 'Control Name': 'control_NAME',
-      'KPI Type': 'kpi_type',
-      'Expected Source': 'Expected_Source',
-      'KPI ID': 'KPI_CODE',
-      // 'KPI Name': 'KPI_NAME',
-      Applicability: 'applicable',
-      Month: 'Month',
-      'Expected Num': 'expected_num',
-      'Expected Den': 'expected_den',
-      'KPI Num': 'KPI_Num',
-      'KPI Den': 'KPI_Den',
-      // 'KPI Value': 'KPI_Value',
-      'Expected KPI Source': 'expected_kpi_source',
-      'Actual KPI Source': 'upload_approach',
-      'Source of Data - Link': 'source_system',
-      // 'KPI Description': 'kpi_desc',
-      'Threshold L1': 'L1',
-      'Threshold L2': 'L2',
-      'Threshold L3': 'L3',
-      'Result L1': 'Result_L1',
-      'Result L2': 'Result_L2',
-      'Result L3': 'Result_L3',
-      'KPI Owner Email': 'kpi_owner_email',
-      'Control Owner Email': 'control_owner_email',
-      'Control Oversight Email': 'control_oversight_email',
-      'Year and Quarter': 'year_and_quarter',
-    };
-
-    const allowedDiffFieldsExcel = [
-      'KPI Num',
-      'KPI Den',
-      'Expected KPI Source',
-      'Actual KPI Source',
-      'Source of Data - Link',
-    ];
-
-    const isNullOrEmpty = (value) => value === null || value === '';
-
-    for (let i = 0; i < excelFile.length; i++) {
-      const excelRow = excelFile[i];
-      const tableRow = data[i];
-
-      for (const [excelKey, tableKey] of Object.entries(keyMapping)) {
-        if (!allowedDiffFieldsExcel.includes(excelKey)) {
-          const excelValue = excelRow[excelKey];
-          const tableValue = tableRow[tableKey];
-
-          if (
-            excelValue != tableValue &&
-            !(isNullOrEmpty(excelValue) && isNullOrEmpty(tableValue))
-          ) {
-            toast.error(`Mismatch found at row ${i + 1} for key: ${excelKey}`);
-            return false;
-          }
-        }
-      }
-
-      if (isNullOrEmpty(excelRow['KPI Num']) && isNullOrEmpty(excelRow['KPI Den'])) {
-        continue;
-      }
-
-      const kpiNum = parseFloat(excelRow['KPI Num']);
-      const kpiDen = parseFloat(excelRow['KPI Den']);
-
-      if (isNaN(kpiNum) && isNaN(kpiDen)) {
-        toast.error(`Invalid KPI Numerator and Denominator at row ${i + 1}`);
-        return false;
-      }
-      if (isNaN(kpiNum) && !isNaN(kpiDen)) {
-        toast.error(`Invalid KPI Numerator at row ${i + 1}`);
-        return false;
-      }
-      if (isNaN(kpiDen) && !isNaN(kpiNum)) {
-        toast.error(`Invalid KPI Denominator at row ${i + 1}`);
-        return false;
-      }
-
-      if (kpiNum < 0) {
-        toast.error(`Numerator must be positive at row ${i + 1}`);
-        return false;
-      }
-
-      if (kpiDen <= 0) {
-        toast.error(`Denominator must be greater than zero at row ${i + 1}`);
-        return false;
-      }
-    }
-
-    console.log('Validation passed');
-    return true;
-  };
-
-  // const validateData = () => {
-  //   if (!excelFile) {
-  //     console.error('No Excel file data to validate.');
-  //     return false;
-  //   }
-
-  //   // Length validation
-  //   if (excelFile.length !== tableData.length) {
-  //     console.error('Data length mismatch between excelFile and tableData.');
-  //     return false;
-  //   }
-
-  //   // Define the mapping between excelFile keys and tableData keys
-  //   const keyMapping = {
-  //     Zone: 'Zone',
-  //     Entity: 'Entity',
-  //     Provider: 'provider',
-  //     'Control ID': 'CONTROL_ID',
-  //     'Control Name': 'control_NAME',
-  //     'KPI Type': 'kpi_type',
-  //     'Expected Source': 'Expected_Source',
-  //     'KPI ID': 'KPI_CODE',
-  //     'KPI Name': 'KPI_NAME',
-  //     Applicability: 'applicable',
-  //     Month: 'Month',
-  //     'Expected Num': 'expected_num',
-  //     'Expected Den': 'expected_den',
-  //     'KPI Num': 'KPI_Num',
-  //     'KPI Den': 'KPI_Den',
-  //     'KPI Value': 'KPI_Value',
-  //     'Expected KPI Source': 'expected_kpi_source',
-  //     'Actual KPI Source': 'upload_approach',
-  //     'Source of Data - Link': 'source_system',
-  //     'KPI Description': 'kpi_desc',
-  //     'Threshold L1': 'L1',
-  //     'Threshold L2': 'L2',
-  //     'Threshold L3': 'L3',
-  //     'Result L1': 'Result_L1',
-  //     'Result L2': 'Result_L2',
-  //     'Result L3': 'Result_L3',
-  //     'KPI Owner Email': 'kpi_owner_email',
-  //     'Control Owner Email': 'control_owner_email',
-  //     'Control Oversight Email': 'control_oversight_email',
-  //     'Year and Quarter': 'year_and_quarter',
-  //   };
-
-  //   // Field mapping for allowed different fields
-  //   const allowedDiffFieldsExcel = [
-  //     'KPI Num',
-  //     'KPI Den',
-  //     'Expected KPI Source',
-  //     'Actual KPI Source',
-  //     'Source of Data - Link',
-  //   ];
-
-  //   for (let i = 0; i < excelFile.length; i++) {
-  //     const excelRow = excelFile[i];
-  //     const tableRow = tableData[i];
-
-  //     // Validate fields that should not change
-  //     for (const excelKey in keyMapping) {
-  //       const tableKey = keyMapping[excelKey];
-  //       if (!allowedDiffFieldsExcel.includes(excelKey)) {
-  //         const excelValue = excelRow[excelKey];
-  //         const tableValue = tableRow[tableKey];
-  //         // Treat null and empty string interchangeably
-  //         if (
-  //           excelValue !== tableValue &&
-  //           !(excelValue === null && tableValue === '') &&
-  //           !(excelValue === '' && tableValue === null)
-  //         ) {
-  //           console.error(`Mismatch found at row ${i + 1} for key: ${excelKey}`);
-  //           return false;
-  //         }
-  //       }
-  //     }
-
-  //     if (excelRow['KPI Num'] === '' && excelRow['KPI Den'] === '') {
-  //       // Skip validation if both KPI Num and KPI Den are empty
-  //       continue;
-  //     }
-
-  //     // Validate allowed different fields
-  //     const kpiNum = parseFloat(excelRow['KPI Num']);
-  //     const kpiDen = parseFloat(excelRow['KPI Den']);
-  //     console.log(kpiNum, kpiDen, 'kpiNum, kpiDen');
-
-  //     if (isNaN(kpiNum) && isNaN(kpiDen)) {
-  //       console.error(`Invalid KPI Numerator and Denominator at row ${i + 1}`);
-  //       return false;
-  //     }
-  //     if (isNaN(kpiNum) && !isNaN(kpiDen)) {
-  //       console.error(`Invalid KPI Numerator at row ${i + 1}`);
-  //       return false;
-  //     }
-  //     if (isNaN(kpiDen) && !isNaN(kpiNum)) {
-  //       console.error(`Invalid KPI Denominator at row ${i + 1}`);
-  //       return false;
-  //     }
-
-  //     // Validate KPI Num
-
-  //     if (!isNaN(kpiNum) && kpiNum < 0) {
-  //       console.error(`Numerator can be positive values only at row ${i + 1}`);
-  //       return false;
-  //     }
-
-  //     // Validate KPI Den
-
-  //     if (!isNaN(kpiDen) && kpiDen <= 0) {
-  //       console.error(`Denominator cannot be less than equal to Zero at row ${i + 1}`);
-  //       return false;
-  //     }
-  //   }
-
-  //   console.log('Validation passed');
-  //   return true;
-  // };
-
   const handleFileSubmit = (e) => {
     e.preventDefault();
-
-    // Validate the data from the excel file and tableData
-    if (!validateData()) {
-      console.error('Validation failed');
-      document.getElementById('excel_import_btn_kpi_module').reset(); // Ensure the form ID is correct
-      setButtonText('Choose a file');
-      return;
-    }
-
-    // If validation passes, Then update the table data with results
-    // and update the tableData with the excelFile data
-    const newDataArray = tableData.map((data, i) => {
-      const excelRow = excelFile[i];
-      return {
-        ...data,
-        KPI_Num: excelRow['KPI Num'],
-        KPI_Den: excelRow['KPI Den'],
-        expected_kpi_source: excelRow['Expected KPI Source'],
-        upload_approach: excelRow['Actual KPI Source'],
-        source_system: excelRow['Source of Data - Link'],
-        Result_L1: calculateResult(
-          excelRow['KPI Num'],
-          excelRow['KPI Den'],
-          data.L1,
-          data.Direction,
-          data.Result_L1,
-        ),
-        Result_L2: calculateResult(
-          excelRow['KPI Num'],
-          excelRow['KPI Den'],
-          data.L2,
-          data.Direction,
-          data.Result_L2,
-        ),
-        Result_L3: calculateResult(
-          excelRow['KPI Num'],
-          excelRow['KPI Den'],
-          data.L3,
-          data.Direction,
-          data.Result_L3,
-        ),
-      };
-    });
-
     // Update the tableData with the results
-    setTableData(newDataArray);
+    setTableData(excelFile);
+    setButtonText('Choose a file');
   };
 
   const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setButtonText(file.name);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const binaryStr = e.target.result;
-        const workbook = XLSX.read(binaryStr, { type: 'binary' });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
-        setExcelFile(jsonData);
-      };
-      reader.readAsBinaryString(file);
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      setButtonText(selectedFile.name);
+      readXlsxFile(selectedFile).then((data) => {
+        const copyData = { ...data };
+        const fileData = data.slice(1).map((d, dataIndex) => {
+          let obj = { id: dataIndex };
+          d.map((v, i) => {
+            let key = copyData[0][i];
+            if (copyData[0][i] === 'Provider') {
+              key = 'provider';
+            }
+            if (copyData[0][i] === 'Control ID') {
+              key = 'CONTROL_ID';
+            }
+            if (copyData[0][i] === 'Control Name') {
+              key = 'control_NAME';
+            }
+            if (copyData[0][i] === 'KPI Type') {
+              key = 'kpi_type';
+            }
+            if (copyData[0][i] === 'Expected Source') {
+              key = 'Expected_Source';
+            }
+            if (copyData[0][i] === 'KPI ID') {
+              key = 'KPI_CODE';
+            }
+            if (copyData[0][i] === 'KPI Name') {
+              key = 'KPI_NAME';
+            }
+            if (copyData[0][i] === 'Applicability') {
+              key = 'applicable';
+            }
+            if (copyData[0][i] === 'Expected Num') {
+              key = 'expected_num';
+            }
+            if (copyData[0][i] === 'Expected Den') {
+              key = 'expected_den';
+            }
+            if (copyData[0][i] === 'KPI Num') {
+              key = 'KPI_Num';
+            }
+            if (copyData[0][i] === 'KPI Den') {
+              key = 'KPI_Den';
+            }
+            if (copyData[0][i] === 'KPI Value') {
+              key = 'KPI_Value';
+            }
+            if (copyData[0][i] === 'Expected KPI Source') {
+              key = 'expected_kpi_source';
+            }
+            if (copyData[0][i] === 'Actual KPI Source') {
+              key = 'upload_approach';
+            }
+            if (copyData[0][i] === 'Source of Data - Link') {
+              key = 'source_system';
+            }
+            if (copyData[0][i] === 'KPI Description') {
+              key = 'kpi_desc';
+            }
+            if (copyData[0][i] === 'Threshold L1') {
+              key = 'L1';
+            }
+            if (copyData[0][i] === 'Threshold L2') {
+              key = 'L2';
+            }
+            if (copyData[0][i] === 'Threshold L3') {
+              key = 'L3';
+            }
+            if (copyData[0][i] === 'Result L1') {
+              key = 'Result_L1';
+            }
+            if (copyData[0][i] === 'Result L2') {
+              key = 'Result_L2';
+            }
+            if (copyData[0][i] === 'Result L3') {
+              key = 'Result_L3';
+            }
+            if (copyData[0][i] === 'KPI Owner Email') {
+              key = 'kpi_owner_email';
+            }
+            if (copyData[0][i] === 'Control Owner Email') {
+              key = 'control_owner_email';
+            }
+            if (copyData[0][i] === 'Control Oversight Email') {
+              key = 'control_oversight_email';
+            }
+            if (copyData[0][i] === 'Year and Quarter') {
+              key = 'year_and_quarter';
+            }
+
+            obj[key] = v;
+          });
+          return obj;
+        });
+
+        setExcelFile(fileData);
+      });
+    } else {
+      setExcelFile(null);
     }
   };
 
@@ -1174,12 +993,9 @@ const KPITable = ({ data }) => {
     }
   };
 
-  console.log('tableData', tableData);
-  console.log('validationErrors', validationErrors);
-  console.log('excelFile', excelFile);
-
   return (
     <div className="kpi_table">
+      <KpiTableFilter tableData={tableData} />
       <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
         <MantineReactTable
           columns={columns}
@@ -1283,6 +1099,7 @@ const KPITable = ({ data }) => {
                         <Workbook.Column label="Expected Den" value="expected_den" />
                         <Workbook.Column label="KPI Num" value="KPI_Num" />
                         <Workbook.Column label="KPI Den" value="KPI_Den" />
+                        <Workbook.Column label="KPI Value" value="KPI_Value" />
                         <Workbook.Column label="Expected KPI Source" value="expected_kpi_source" />
                         <Workbook.Column label="Actual KPI Source" value="upload_approach" />
                         <Workbook.Column label="Source of Data - Link" value="source_system" />
@@ -1303,7 +1120,7 @@ const KPITable = ({ data }) => {
                       </Workbook.Sheet>
                     </Workbook>
                   </div>
-                  {/* <form
+                  <form
                     onSubmit={handleFileSubmit}
                     id="excel_import_btn_kpi_module"
                     className="kpi_module_form mt-1"
@@ -1315,7 +1132,6 @@ const KPITable = ({ data }) => {
                             type="file"
                             placeholder="Name"
                             id="uploadfile"
-                            accept=".xlsx, .xls"
                             onChange={handleFileUpload}
                           />
                           <div className="custom-btn choose-file">{buttonText}</div>
@@ -1326,7 +1142,7 @@ const KPITable = ({ data }) => {
                         Upload
                       </button>
                     </div>
-                  </form> */}
+                  </form>
                 </Flex>
                 <Flex gap="xs">
                   <MRT_GlobalFilterTextInput table={table} />

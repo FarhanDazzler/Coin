@@ -58,7 +58,7 @@ const ICTable = () => {
   }, []);
 
   const yearQuarterOption = [currentQuarter, previousQuarter];
-  const [yearAndQuarter, setYearAndQuarter] = useState([getCurrentYearAndQuarter()]);
+  const [yearAndQuarter, setYearAndQuarter] = useState([currentQuarter]);
   const { data: getAllZone_State, loading: getAllZoneLoading } = useSelector(getAllZoneSelector);
   const [selectedZone, setSelectedZone] = useState();
   const [zoneValue, setZoneValue] = useState();
@@ -226,7 +226,7 @@ const ControlOwner_KPIOwner_ControlOversight_Table = () => {
   const previousQuarter = getPreviousYearAndQuarter();
 
   const yearQuarterOption = [currentQuarter, previousQuarter];
-  const [yearAndQuarter, setYearAndQuarter] = useState([getCurrentYearAndQuarter()]);
+  const [yearAndQuarter, setYearAndQuarter] = useState([currentQuarter]);
   // State to store api data
   const KpiDataForControlOwner_KPIOwner_ControlOversight = useSelector(
     get_ControlOwner_KPIOwner_ControlOversight_KPI_dataSelector,
