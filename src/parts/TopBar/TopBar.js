@@ -139,7 +139,7 @@ const TopBar = (props) => {
             </a>
           </li>
 
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <a
               className={`navbar-link ${
                 ['/kpi', '/register'].includes(location?.pathname) ? ' active' : ''
@@ -151,7 +151,7 @@ const TopBar = (props) => {
               <FeatherIcon icon="grid" size={14} />
               &nbsp;{'KPI Module'}
             </a>
-          </li>
+          </li> */}
 
           {!props.isControlPage && (
             <>
