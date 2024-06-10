@@ -261,7 +261,7 @@ const ControlOwnerAndOversightTable = () => {
     {
       accessorKey: 'control_id_provider_entity',
       id: 'control_id_provider_entity',
-      header: 'Provider Organization + Control ID',
+      header: 'Control ID + Provider Organization',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -276,22 +276,22 @@ const ControlOwnerAndOversightTable = () => {
       cellClassName: 'dashboardCell',
       size: 300,
     },
-    {
-      accessorKey: 'cowner_status',
-      id: 'cowner_status',
-      header: 'Control Owner Status',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 180,
-      Cell: (row) => {
-        return (
-          <span className={class_to_apply(row.row.original.cowner_status)}>
-            {row.row.original.cowner_status === '' ? 'N/A' : row.row.original.cowner_status}
-          </span>
-        );
-      },
-    },
+    // {
+    //   accessorKey: 'cowner_status',
+    //   id: 'cowner_status',
+    //   header: 'Control Owner Status',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 180,
+    //   Cell: (row) => {
+    //     return (
+    //       <span className={class_to_apply(row.row.original.cowner_status)}>
+    //         {row.row.original.cowner_status === '' ? 'N/A' : row.row.original.cowner_status}
+    //       </span>
+    //     );
+    //   },
+    // },
     {
       accessorKey: 'coversight',
       id: 'coversight',
@@ -301,22 +301,22 @@ const ControlOwnerAndOversightTable = () => {
       cellClassName: 'dashboardCell',
       size: 300,
     },
-    {
-      accessorKey: 'coversight_status',
-      id: 'coversight_status',
-      header: 'Control Oversight Status',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 190,
-      Cell: (row) => {
-        return (
-          <span className={class_to_apply(row.row.original.coversight_status)}>
-            {row.row.original.coversight_status === '' ? 'N/A' : row.row.original.coversight_status}
-          </span>
-        );
-      },
-    },
+    // {
+    //   accessorKey: 'coversight_status',
+    //   id: 'coversight_status',
+    //   header: 'Control Oversight Status',
+    //   flex: 1,
+    //   columnDefType: 'data',
+    //   cellClassName: 'dashboardCell',
+    //   size: 190,
+    //   Cell: (row) => {
+    //     return (
+    //       <span className={class_to_apply(row.row.original.coversight_status)}>
+    //         {row.row.original.coversight_status === '' ? 'N/A' : row.row.original.coversight_status}
+    //       </span>
+    //     );
+    //   },
+    // },
     {
       accessorKey: 'receiver_entity',
       id: 'receiver_entity',
