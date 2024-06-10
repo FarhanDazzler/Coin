@@ -236,26 +236,31 @@ const Reporting = () => {
   return (
     <>
       <Tabs
-        grow
-        position="center"
+        defaultValue="Assessment Results"
         color="yellow"
         styles={{
           root: { margin: '20px' },
           //tabsListWrapper: { borderRadius: '10px' },
         }}
       >
-        <Tabs.Tab label="Assessment Progress">
+        <Tabs.List grow position="center">
+          <Tabs.Tab value="Assessment Progress">Assessment Progress</Tabs.Tab>
+          <Tabs.Tab value="Assessment Results">Assessment Results</Tabs.Tab>
+          <Tabs.Tab value="KPI Details">KPI Details</Tabs.Tab>
+          <Tabs.Tab value="Network of capability center">Network of capability center</Tabs.Tab>
+        </Tabs.List>
+        <Tabs.Panel value="Assessment Progress" pt="xs">
           <div className="dashboard-width">{AssessmentProgressReportComponent}</div>
-        </Tabs.Tab>
-        <Tabs.Tab label="Assessment Results">
+        </Tabs.Panel>
+        <Tabs.Panel value="Assessment Results" pt="xs">
           <div className="dashboard-width">{AssessmentResultReportComponent}</div>
-        </Tabs.Tab>
-        <Tabs.Tab label="KPI Details">
+        </Tabs.Panel>
+        <Tabs.Panel value="KPI Details" pt="xs">
           <div className="dashboard-width">{KPI_DETAILS_ReportComponent}</div>
-        </Tabs.Tab>
-        <Tabs.Tab label="Network of capability center">
+        </Tabs.Panel>
+        <Tabs.Panel value="Network of capability center" pt="xs">
           <div className="dashboard-width">{NetworkOfCapabilityCentersReportComponent}</div>
-        </Tabs.Tab>
+        </Tabs.Panel>
       </Tabs>
     </>
   );
