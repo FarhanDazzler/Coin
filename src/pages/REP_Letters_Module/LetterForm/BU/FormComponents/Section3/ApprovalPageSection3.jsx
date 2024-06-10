@@ -62,6 +62,8 @@ const ApprovalPageSection3 = ({ scopeData }) => {
     //console.log('payload', payload);
     dispatch(approveBUSection3Response(payload));
     dispatch(clearGetBUSection3Response());
+    localStorage.setItem('selected_module_Role', 'BU Representation Letter');
+    localStorage.setItem('selected_Role', 'Finance Director');
     history.push('/');
   };
 
