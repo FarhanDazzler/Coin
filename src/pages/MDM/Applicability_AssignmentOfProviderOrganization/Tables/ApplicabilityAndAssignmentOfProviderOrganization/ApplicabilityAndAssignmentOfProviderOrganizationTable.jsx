@@ -146,7 +146,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
     {
       accessorKey: 'control_id_provider_entity',
       id: 'control_id_provider_entity',
-      header: 'Provider Organization + Control ID',
+      header: 'Control ID + Provider Organization',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
