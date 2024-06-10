@@ -119,7 +119,7 @@ const ApplicabilityAndAssignmentOfProviderOrganizationTable = ({ selectedZone })
     {
       accessorKey: 'Entity_Control_ID_IsApplicable',
       id: 'Entity_Control_ID_IsApplicable',
-      header: 'Entity + Control ID',
+      header: 'Entity + Control ID + Applicability',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
