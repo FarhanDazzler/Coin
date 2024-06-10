@@ -1,6 +1,33 @@
 import React, { useState } from 'react';
 import { Group, MultiSelect } from '@mantine/core';
 
+
+// Filter buttons
+const FilterMultiSelect = ({ data, label, value, onChange }) => {
+  const [searchValue, onSearchChange] = useState('');
+
+  return (
+    <MultiSelect
+      className="mantine-MultiSelect-wrapper"
+      data={data}
+      label={<span className="mantine-MultiSelect-label">{label}</span>}
+      placeholder="Select your option"
+      searchable
+      limit={20}
+      searchValue={searchValue}
+      onSearchChange={onSearchChange}
+      nothingFound="Nothing found"
+      clearButtonLabel="Clear selection"
+      clearable
+      value={value}
+      onChange={onChange}
+      radius="xl"
+      variant="filled"
+      size="xs"
+    />
+  );
+};
+
 const MicsFrameworkTableFilter = ({
   className,
   MICS_IDData,
@@ -23,105 +50,45 @@ const MicsFrameworkTableFilter = ({
   return (
     <div className={className}>
       <Group spacing="xs">
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+      <FilterMultiSelect
           data={MICS_IDData}
-          label={<span className="mantine-MultiSelect-label">{'MICS ID'}</span>}
-          placeholder={'Select MICS ID'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="MICS ID"
           value={MICS_IDValue}
           onChange={(e) => {
             setMICS_IDValue(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={mega_ProcessData}
-          label={<span className="mantine-MultiSelect-label">{'Mega Process'}</span>}
-          placeholder={'Select your Mega Process'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Mega Process"
           value={mega_ProcessValue}
           onChange={(e) => {
             setMega_ProcessValue(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={subProcessData}
-          label={<span className="mantine-MultiSelect-label">{'Sub Process'}</span>}
-          placeholder={'Select your Control ID'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Sub Process"
           value={subProcessValue}
           onChange={(e) => {
             setSubProcessValue(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={weightData}
-          label={<span className="mantine-MultiSelect-label">{'MICS Weight'}</span>}
-          placeholder={'Select your Provider Organization'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="MICS Weight"
           value={weightValue}
           onChange={(e) => {
             setWeightValue(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={kpiStatusData}
-          label={<span className="mantine-MultiSelect-label">{'Kpi Status'}</span>}
-          placeholder={'Select your Kpi Status'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Kpi Status"
           value={kpiStatusValue}
           onChange={(e) => {
             setKpiStatusValue(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
       </Group>
     </div>
