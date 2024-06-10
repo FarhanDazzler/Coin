@@ -459,7 +459,9 @@ const TopBar = (props) => {
                             changeLanguage(e.target.value);
                             setLan(e.target.value);
                           }}
-                          value={lan || languages?.find((item) => item.value == i18n.language).value}
+                          value={
+                            lan || languages?.find((item) => item.value == i18n.language).value
+                          }
                         />
                       </FormControl>
                     </div>
