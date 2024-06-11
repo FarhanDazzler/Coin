@@ -361,13 +361,13 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
             message: 'Numerator can be a number only',
           };
         }
-        if (row.Numerator == 0) {
-          handleChange(row.Numerator, newValue, row, column);
-          return {
-            valid: false,
-            message: 'Denominator is required when Numerator is filled',
-          };
-        }
+        // if (row.Numerator == 0) {
+        //   handleChange(row.Numerator, newValue, row, column);
+        //   return {
+        //     valid: false,
+        //     message: 'Denominator is required when Numerator is filled',
+        //   };
+        // }
       },
     },
     {
@@ -660,6 +660,104 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
     }
   }, [kpiResultData]);
 
+  const handleUpdateLevel = (data) => {
+    const row = { ...data };
+
+    row.KPI_Value = (+row.Numerator / +row.Denominator).toFixed(5);
+
+    if (row.Positive_direction.toLowerCase() === 'lower is better') {
+      if (
+        row.MICS_L1_Threshold === '-' ||
+        row.MICS_L1_Threshold === '' ||
+        row.MICS_L1_Threshold == null ||
+        row.L1_Result == 'N/A'
+      ) {
+        row.L1_Result = 'N/A';
+      } else {
+        if (+row.KPI_Value <= +row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
+          row.L1_Result = 'Pass';
+        } else {
+          row.L1_Result = 'Fail';
+        }
+      }
+
+      // store L2_Result when KPI value lessthen MICS L2 thresshold value then pass L2 result
+      if (
+        row.MICS_L2_Threshold === '-' ||
+        row.MICS_L2_Threshold === '' ||
+        row.MICS_L2_Threshold == null ||
+        row.L2_Result == 'N/A'
+      ) {
+        row.L2_Result = 'N/A';
+      } else if (+row.KPI_Value <= +row.MICS_L2_Threshold && row.MICS_L2_Threshold !== '') {
+        row.L2_Result = 'Pass';
+      } else {
+        row.L2_Result = 'Fail';
+      }
+
+      if (
+        row.MICS_L3_Threshold === '-' ||
+        row.MICS_L3_Threshold === '' ||
+        row.MICS_L3_Threshold == null ||
+        row.L3_Result == 'N/A'
+      ) {
+        row.L3_Result = 'N/A';
+      } else {
+        if (+row.KPI_Value <= +row.MICS_L3_Threshold) {
+          row.L3_Result = 'Pass';
+        } else {
+          row.L3_Result = 'Fail';
+        }
+      }
+    } else if (row.Positive_direction.toLowerCase() === 'higher is better') {
+      if (
+        row.MICS_L1_Threshold === '-' ||
+        row.MICS_L1_Threshold === '' ||
+        row.MICS_L1_Threshold === null ||
+        row.L1_Result == 'N/A'
+      ) {
+        row.L1_Result = 'N/A';
+      } else {
+        if (+row.KPI_Value >= +row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
+          row.L1_Result = 'Pass';
+        } else {
+          row.L1_Result = 'Fail';
+        }
+      }
+
+      if (
+        row.MICS_L2_Threshold === '-' ||
+        row.MICS_L2_Threshold === '' ||
+        row.MICS_L2_Threshold === null ||
+        row.L2_Result == 'N/A'
+      ) {
+        row.L2_Result = 'N/A';
+      } else {
+        if (+row.KPI_Value >= +row.MICS_L2_Threshold) {
+          row.L2_Result = 'Pass';
+        } else {
+          row.L2_Result = 'Fail';
+        }
+      }
+
+      if (
+        row.MICS_L3_Threshold === '-' ||
+        row.MICS_L3_Threshold === '' ||
+        row.MICS_L3_Threshold === null ||
+        row.L3_Result == 'N/A'
+      ) {
+        row.L3_Result = 'N/A';
+      } else {
+        if (+row.KPI_Value >= +row.MICS_L3_Threshold) {
+          row.L3_Result = 'Pass';
+        } else {
+          row.L3_Result = 'Fail';
+        }
+      }
+    }
+    return row;
+  };
+
   //Table on change function
   function handleChange(oldValue, newInputValue, row, column) {
     const newValue = newInputValue.trimStart();
@@ -695,100 +793,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
           row['Denominator'] = convertVariable(copyRow['Denominator']);
         }
 
-        row.KPI_Value = (+row.Numerator / +row.Denominator).toFixed(5);
-        //If user Lower is better change value then update existing value
-        if (row.Positive_direction.toLowerCase() === 'lower is better') {
-          if (
-            row.MICS_L1_Threshold === '-' ||
-            row.MICS_L1_Threshold === '' ||
-            row.MICS_L1_Threshold == null ||
-            row.L1_Result == 'N/A'
-          ) {
-            row.L1_Result = 'N/A';
-          } else {
-            if (+row.KPI_Value <= +row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
-              row.L1_Result = 'Pass';
-            } else {
-              row.L1_Result = 'Fail';
-            }
-          }
-
-          // store L2_Result when KPI value lessthen MICS L2 thresshold value then pass L2 result
-          if (
-            row.MICS_L2_Threshold === '-' ||
-            row.MICS_L2_Threshold === '' ||
-            row.MICS_L2_Threshold == null ||
-            row.L2_Result == 'N/A'
-          ) {
-            row.L2_Result = 'N/A';
-          } else if (+row.KPI_Value <= +row.MICS_L2_Threshold && row.MICS_L2_Threshold !== '') {
-            row.L2_Result = 'Pass';
-          } else {
-            row.L2_Result = 'Fail';
-          }
-
-          if (
-            row.MICS_L3_Threshold === '-' ||
-            row.MICS_L3_Threshold === '' ||
-            row.MICS_L3_Threshold == null ||
-            row.L3_Result == 'N/A'
-          ) {
-            row.L3_Result = 'N/A';
-          } else {
-            if (+row.KPI_Value <= +row.MICS_L3_Threshold) {
-              row.L3_Result = 'Pass';
-            } else {
-              row.L3_Result = 'Fail';
-            }
-          }
-        } else if (row.Positive_direction.toLowerCase() === 'higher is better') {
-          if (
-            row.MICS_L1_Threshold === '-' ||
-            row.MICS_L1_Threshold === '' ||
-            row.MICS_L1_Threshold === null ||
-            row.L1_Result == 'N/A'
-          ) {
-            row.L1_Result = 'N/A';
-          } else {
-            if (+row.KPI_Value >= +row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
-              row.L1_Result = 'Pass';
-            } else {
-              row.L1_Result = 'Fail';
-            }
-          }
-
-          if (
-            row.MICS_L2_Threshold === '-' ||
-            row.MICS_L2_Threshold === '' ||
-            row.MICS_L2_Threshold === null ||
-            row.L2_Result == 'N/A'
-          ) {
-            row.L2_Result = 'N/A';
-          } else {
-            if (+row.KPI_Value >= +row.MICS_L2_Threshold) {
-              row.L2_Result = 'Pass';
-            } else {
-              row.L2_Result = 'Fail';
-            }
-          }
-
-          if (
-            row.MICS_L3_Threshold === '-' ||
-            row.MICS_L3_Threshold === '' ||
-            row.MICS_L3_Threshold === null ||
-            row.L3_Result == 'N/A'
-          ) {
-            row.L3_Result = 'N/A';
-          } else {
-            if (+row.KPI_Value >= +row.MICS_L3_Threshold) {
-              row.L3_Result = 'Pass';
-            } else {
-              row.L3_Result = 'Fail';
-            }
-          }
-        }
-
-        return row;
+        return handleUpdateLevel(row);
       }
       return d;
     });
@@ -799,38 +804,38 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
     }, 100);
   }
 
-  useEffect(() => {
-    if (stateCsvTampred?.data === false && !stateCsvTampred.loading) {
-      const isupated = excelFile?.find((i) => i?.Denominator == 0);
-      if (isupated) return Swal.fire('Oops...', 'Denominator cannot be Zero !!', 'error');
-      if (tableData?.length > 0 && isupated) {
-        let newDataArray = tableData?.map((data, i) => {
-          const Numerator =
-            excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
-              ? excelFile[i]?.Numerator
-              : data?.Numerator;
-          const Denominator =
-            excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
-              ? excelFile[i]?.Denominator
-              : data?.Denominator || '';
-          return {
-            ...data,
-            Numerator,
-            Denominator,
-            Upload_Approach:
-              excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'] ||
-              excelFile[i]['Upload_Approach'],
-            Source_System: excelFile[i]['Link to data'] || excelFile[i]['Source_System'],
-          };
-        });
-
-        setTableData([...newDataArray]);
-        setScvUpdateData(csvUpdateData + 1);
-      }
-    } else {
-      setScvUpdateData(0);
-    }
-  }, [stateCsvTampred.loading, stateCsvTampred.data]);
+  // useEffect(() => {
+  //   if (stateCsvTampred?.data === false && !stateCsvTampred.loading) {
+  //     const isupated = excelFile?.find((i) => i?.Denominator == 0);
+  //     if (isupated) return Swal.fire('Oops...', 'Denominator cannot be Zero !!', 'error');
+  //     if (tableData?.length > 0 && isupated) {
+  //       let newDataArray = tableData?.map((data, i) => {
+  //         const Numerator =
+  //           excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
+  //             ? excelFile[i]?.Numerator
+  //             : data?.Numerator;
+  //         const Denominator =
+  //           excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
+  //             ? excelFile[i]?.Denominator
+  //             : data?.Denominator || '';
+  //         return {
+  //           ...data,
+  //           Numerator,
+  //           Denominator,
+  //           Upload_Approach:
+  //             excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'] ||
+  //             excelFile[i]['Upload_Approach'],
+  //           Source_System: excelFile[i]['Link to data'] || excelFile[i]['Source_System'],
+  //         };
+  //       });
+  //
+  //       setTableData([...newDataArray]);
+  //       setScvUpdateData(csvUpdateData + 1);
+  //     }
+  //   } else {
+  //     setScvUpdateData(0);
+  //   }
+  // }, [stateCsvTampred.loading, stateCsvTampred.data]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -846,8 +851,30 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         output_table: excelFile,
       };
 
-      dispatch(getCsvTampredDataAction(apiBody));
-      setTableData(apiBody.output_table.map((d) => ({ ...d, isManual: true })));
+      const output_table_data = apiBody.output_table.map((d) => {
+        const Denominator = d['Denominator'];
+        if (Denominator === 0) {
+          d['Denominator'] = '';
+        } else {
+          d['Denominator'] = Denominator ? +Denominator : '';
+        }
+
+        const Numerator = d['Numerator'];
+        if (Numerator === 0) {
+          d['Numerator'] = '';
+        } else {
+          d['Numerator'] = Numerator ? +Numerator : '';
+        }
+        return {
+          ...handleUpdateLevel(d),
+          isManual: true,
+          isEdited: true,
+        };
+      });
+
+      dispatch(getCsvTampredDataAction({ ...apiBody, output_table: output_table_data }));
+      setTableData(output_table_data);
+
       if (stateCsvTampred?.data === false) {
         // let newDataArray = tableData?.map((data, i) => {
         //   return {
@@ -877,8 +904,9 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       readXlsxFile(selectedFile).then((data) => {
         const copyData = { ...data };
         const fileData = data.slice(1).map((d, dataIndex) => {
-          let obj = { id: dataIndex };
-          d.map((v, i) => {
+          let obj = { id: Date.now() + dataIndex };
+          d.map((value, i) => {
+            let v = value;
             let key = copyData[0][i];
             if (copyData[0][i] === 'KPI Data source (Select from Excel/PBI/Celonis/Others)') {
               key = 'Upload_Approach';
@@ -889,7 +917,8 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
             obj[key] = v;
           });
-          return obj;
+
+          return handleUpdateLevel(obj);
         });
 
         setExcelFile(fileData);
