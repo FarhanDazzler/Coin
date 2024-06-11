@@ -143,10 +143,11 @@ const AssessmentFormRender = ({
   const handleValidation = (type) => () => {
     if (type === 'submit' && handleSubmit) {
       const findErrorTableRow = tableData?.find((row) => {
-        if (row.Numerator && row.Denominator) {
+        if (!!(row?.Numerator || row?.Numerator == 0) && !!row.Denominator) {
           return false;
         }
         if (!row.Numerator && !row.Denominator) {
+          if (row?.Numerator == 0 && !row.Denominator) return true;
           return false;
         }
         return true;
