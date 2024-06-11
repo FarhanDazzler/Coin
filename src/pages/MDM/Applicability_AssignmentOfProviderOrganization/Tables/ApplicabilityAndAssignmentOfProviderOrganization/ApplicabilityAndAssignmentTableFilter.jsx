@@ -1,6 +1,32 @@
 import React, { useState } from 'react';
 import { Group, MultiSelect } from '@mantine/core';
 
+// Filter buttons
+const FilterMultiSelect = ({ data, label, value, onChange }) => {
+  const [searchValue, onSearchChange] = useState('');
+
+  return (
+    <MultiSelect
+      className="mantine-MultiSelect-wrapper"
+      data={data}
+      label={<span className="mantine-MultiSelect-label">{label}</span>}
+      placeholder="Select your option"
+      searchable
+      limit={20}
+      searchValue={searchValue}
+      onSearchChange={onSearchChange}
+      nothingFound="Nothing found"
+      clearButtonLabel="Clear selection"
+      clearable
+      value={value}
+      onChange={onChange}
+      radius="xl"
+      variant="filled"
+      size="xs"
+    />
+  );
+};
+
 const ApplicabilityAndAssignmentTableFilter = ({
   className,
   entityData,
@@ -18,65 +44,29 @@ const ApplicabilityAndAssignmentTableFilter = ({
   return (
     <div className={className}>
       <Group spacing="xs">
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+      <FilterMultiSelect
           data={entityData}
-          label={<span className="mantine-MultiSelect-label">{'Entity / Receiver'}</span>}
-          placeholder={'Select your Entity / Receiver'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Entity / Receiver"
           value={entityValue}
           onChange={(e) => {
             setEntityValue(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={control_IDData}
-          label={<span className="mantine-MultiSelect-label">{'Control ID'}</span>}
-          placeholder={'Select your Control ID'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Control ID"
           value={control_IDValue}
           onChange={(e) => {
             setControl_IDValue(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={providerOrganizationData}
-          label={<span className="mantine-MultiSelect-label">{'Provider Organization'}</span>}
-          placeholder={'Select your Provider Organization'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Provider Organization"
           value={providerOrganizationValue}
           onChange={(e) => {
             setProviderOrganizationValue(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
       </Group>
     </div>

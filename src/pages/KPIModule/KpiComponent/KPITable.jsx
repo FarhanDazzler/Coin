@@ -71,9 +71,9 @@ function calculateResult(numerator, denominator, threshold, positiveDirection, r
   let num, den, thresholdFloat;
 
   try {
-    num = parseFloat(numerator);
-    den = parseFloat(denominator);
-    thresholdFloat = parseFloat(threshold);
+    num = parseFloat(+numerator);
+    den = parseFloat(+denominator);
+    thresholdFloat = parseFloat(+threshold);
   } catch (error) {
     console.log('Error: One of the inputs is not a valid float.');
     return 'Fail';
@@ -102,6 +102,12 @@ const KPITable = ({ data }) => {
   const dispatch = useDispatch();
 
   const [tableData, setTableData] = useState(() => data);
+  const [filterData, setFilterData] = useState({
+    zoneValue: [],
+    entityValue: [],
+    providerValue: [],
+    controlIDValue: [],
+  });
   const [validationErrors, setValidationErrors] = useState({});
   const [excelFile, setExcelFile] = useState(null);
   const [buttonText, setButtonText] = useState('Choose a file');
@@ -961,7 +967,31 @@ const KPITable = ({ data }) => {
 
             obj[key] = v;
           });
-          return obj;
+
+          return {
+            ...obj,
+            Result_L1: calculateResult(
+              obj.KPI_Num,
+              obj.KPI_Den,
+              obj.L1,
+              obj.Direction,
+              obj.Result_L1,
+            ),
+            Result_L2: calculateResult(
+              obj.KPI_Num,
+              obj.KPI_Den,
+              obj.L2,
+              obj.Direction,
+              obj.Result_L2,
+            ),
+            Result_L3: calculateResult(
+              obj.KPI_Num,
+              obj.KPI_Den,
+              obj.L3,
+              obj.Direction,
+              obj.Result_L3,
+            ),
+          };
         });
 
         setExcelFile(fileData);
@@ -993,13 +1023,30 @@ const KPITable = ({ data }) => {
     }
   };
 
+  const tableRecord = useMemo(() => {
+    const areAllFiltersEmpty = Object.values(filterData).every((arr) => arr.length === 0);
+
+    return areAllFiltersEmpty
+      ? tableData
+      : tableData.filter((item) => {
+          return (
+            (!filterData.zoneValue.length || filterData.zoneValue.includes(item.Zone)) &&
+            (!filterData.entityValue.length || filterData.entityValue.includes(item.Entity)) &&
+            (!filterData.providerValue.length ||
+              filterData.providerValue.includes(item.provider)) &&
+            (!filterData.controlIDValue.length ||
+              filterData.controlIDValue.includes(item.CONTROL_ID))
+          );
+        });
+  }, [filterData, tableData]);
+
   return (
     <div className="kpi_table">
-      <KpiTableFilter tableData={tableData} />
+      <KpiTableFilter tableData={tableData} setFilterData={setFilterData} />
       <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
         <MantineReactTable
           columns={columns}
-          data={tableData}
+          data={tableRecord}
           enableColumnFilterModes={false}
           enableFacetedValues={true}
           enableGrouping={false}
@@ -1104,6 +1151,7 @@ const KPITable = ({ data }) => {
                         <Workbook.Column label="Actual KPI Source" value="upload_approach" />
                         <Workbook.Column label="Source of Data - Link" value="source_system" />
                         <Workbook.Column label="KPI Description" value="kpi_desc" />
+                        <Workbook.Column label="Direction" value="Direction" />
                         <Workbook.Column label="Threshold L1" value="L1" />
                         <Workbook.Column label="Threshold L2" value="L2" />
                         <Workbook.Column label="Threshold L3" value="L3" />

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Group, MultiSelect } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 
@@ -28,15 +28,17 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-function removeDuplicates(arr) {
-  return [...new Set(arr)];
+function removeDuplicates(array) {
+  return array.filter(
+    (item, index, self) => index === self.findIndex((t) => t.value === item.value),
+  );
 }
 
-const KpiTableFilter = ({ tableData }) => {
-  const [zoneValue, setZoneValue] = useState();
-  const [entityValue, setEntityValue] = useState();
-  const [providerValue, setProviderValue] = useState();
-  const [controlIDValue, setControlIDValue] = useState();
+const KpiTableFilter = ({ tableData, setFilterData }) => {
+  const [zoneValue, setZoneValue] = useState([]);
+  const [entityValue, setEntityValue] = useState([]);
+  const [providerValue, setProviderValue] = useState([]);
+  const [controlIDValue, setControlIDValue] = useState([]);
 
   const zoneOption = useMemo(() => {
     return removeDuplicates(tableData.map((td) => ({ label: td.Zone, value: td.Zone })));
@@ -52,6 +54,15 @@ const KpiTableFilter = ({ tableData }) => {
       tableData.map((td) => ({ label: td.CONTROL_ID, value: td.CONTROL_ID })),
     );
   }, [tableData]);
+
+  useEffect(() => {
+    setFilterData({
+      zoneValue,
+      entityValue,
+      providerValue,
+      controlIDValue,
+    });
+  }, [zoneValue, entityValue, providerValue, controlIDValue]);
 
   return (
     <div className="col-12 col-lg-12 mb-5">
@@ -77,13 +88,13 @@ const KpiTableFilter = ({ tableData }) => {
           onChange={setProviderValue}
           disabled={!providerOption.length}
         />
-        <FilterMultiSelect
-          data={providerOption}
-          label="Provider"
-          value={providerValue}
-          onChange={setProviderValue}
-          disabled={!providerOption.length}
-        />
+        {/*<FilterMultiSelect*/}
+        {/*  data={providerOption}*/}
+        {/*  label="Provider"*/}
+        {/*  value={providerValue}*/}
+        {/*  onChange={setProviderValue}*/}
+        {/*  disabled={!providerOption.length}*/}
+        {/*/>*/}
         <FilterMultiSelect
           data={controlIDOption}
           label="Control ID"
