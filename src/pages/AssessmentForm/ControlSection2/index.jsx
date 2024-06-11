@@ -397,7 +397,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       },
       formatter: (cellContent, row) => {
         if (row.isEdited) {
-          if (!row?.Denominator && row?.Numerator) {
+          if (!row?.Denominator && (row?.Numerator || row?.Numerator == 0)) {
             return (
               <div>
                 {row?.Denominator}
