@@ -361,13 +361,13 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
             message: 'Numerator can be a number only',
           };
         }
-        // if (row.Numerator == 0) {
-        //   handleChange(row.Numerator, newValue, row, column);
-        //   return {
-        //     valid: false,
-        //     message: 'Denominator is required when Numerator is filled',
-        //   };
-        // }
+        if (row.Numerator == 0) {
+          handleChange(row.Numerator, newValue, row, column);
+          return {
+            valid: false,
+            message: 'Denominator is required when Numerator is filled',
+          };
+        }
       },
     },
     {
@@ -673,11 +673,11 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         }
         //If user Denominator change value then update existing value
         if (column.dataField === 'Denominator') {
-          // if (newValue == 0) {
-          //   row['Denominator'] = '';
-          // } else {
-          row['Denominator'] = newValue;
-          // }
+          if (newValue == 0) {
+            row['Denominator'] = '';
+          } else {
+            row['Denominator'] = newValue;
+          }
           row['Numerator'] = convertVariable(copyRow['Numerator']);
         }
 
