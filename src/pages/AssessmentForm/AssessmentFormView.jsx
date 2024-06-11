@@ -234,7 +234,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
       if (responseUpdatedData?.kpis) {
         // section 2 table local state store data
-        console.log('@@@@@@@ --0-00');
         setTableData(responseUpdatedData?.kpis);
       }
 
