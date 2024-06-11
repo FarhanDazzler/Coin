@@ -12,7 +12,11 @@ import {
   recallAssessment,
   reTriggerAssessment,
 } from '../../../redux/AssessmentBank/AssessmentBankAction';
-import { getAssessmentDetailsTableDataSelector, recallAssessmentSelector, reTriggerAssessmentSelector } from '../../../redux/AssessmentBank/AssessmentBankSelectors';
+import {
+  getAssessmentDetailsTableDataSelector,
+  recallAssessmentSelector,
+  reTriggerAssessmentSelector,
+} from '../../../redux/AssessmentBank/AssessmentBankSelectors';
 import { MultiSelect } from '@mantine/core';
 import { Group } from '@mantine/core';
 import Swal from 'sweetalert2';
@@ -21,6 +25,31 @@ import PageWrapper from '../../../components/wrappers/PageWrapper';
 import SettingsBackupRestoreOutlinedIcon from '@mui/icons-material/SettingsBackupRestoreOutlined';
 import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+
+// Filter buttons
+const FilterMultiSelect = ({ data, label, value, onChange }) => {
+  const [searchValue, onSearchChange] = useState('');
+  return (
+    <MultiSelect
+      className="mantine-MultiSelect-wrapper"
+      data={data}
+      label={<span className="mantine-MultiSelect-label">{label}</span>}
+      placeholder="Select your option"
+      searchable
+      limit={20}
+      searchValue={searchValue}
+      onSearchChange={onSearchChange}
+      nothingFound="Nothing found"
+      clearButtonLabel="Clear selection"
+      clearable
+      value={value}
+      onChange={onChange}
+      radius="xl"
+      variant="filled"
+      size="xs"
+    />
+  );
+};
 
 // Filter buttons
 const FilterButtons = ({
@@ -46,107 +75,47 @@ const FilterButtons = ({
   return (
     <div>
       <Group spacing="xs">
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={Zone}
-          label={<span className="mantine-MultiSelect-label">{'Zone'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Zone"
           value={zoneValue}
           onChange={(e) => {
             setZoneValue(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={BU}
-          label={<span className="mantine-MultiSelect-label">{'BU'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="BU"
           value={buValue}
           onChange={(e) => {
             setBUValue(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
         {!isHide && (
-          <MultiSelect
-            className="mantine-MultiSelect-wrapper"
+          <FilterMultiSelect
             data={Receiver}
-            label={<span className="mantine-MultiSelect-label">{'Receiver Organization'}</span>}
-            placeholder={'Select your option'}
-            searchable
-            limit={20}
-            searchValue={searchValue}
-            onSearchChange={onSearchChange}
-            nothingFound="Nothing found"
-            clearButtonLabel="Clear selection"
-            clearable
+            label="Receiver Organization"
             value={receiverValue}
             onChange={(e) => {
               setReceiverValue(e);
             }}
-            radius="xl"
-            variant="filled"
-            size="xs"
           />
         )}
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={Provider}
-          label={<span className="mantine-MultiSelect-label">{'Provider Organization'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Provider Organization"
           value={providerValue}
           onChange={(e) => {
             setProviderValue(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={Mega_Process}
-          label={<span className="mantine-MultiSelect-label">{'Mega Process'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Mega Process"
           value={megaProcessValue}
           onChange={(e) => {
             setMegaProcessValue(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
       </Group>
     </div>

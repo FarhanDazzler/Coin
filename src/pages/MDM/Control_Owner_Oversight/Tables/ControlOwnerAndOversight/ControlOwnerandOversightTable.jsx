@@ -24,6 +24,32 @@ import Swal from 'sweetalert2';
 import { DotSpinner } from '@uiball/loaders';
 
 // Filter buttons
+const FilterMultiSelect = ({ data, label, value, onChange }) => {
+  const [searchValue, onSearchChange] = useState('');
+
+  return (
+    <MultiSelect
+      className="mantine-MultiSelect-wrapper"
+      data={data}
+      label={<span className="mantine-MultiSelect-label">{label}</span>}
+      placeholder="Select your option"
+      searchable
+      limit={20}
+      searchValue={searchValue}
+      onSearchChange={onSearchChange}
+      nothingFound="Nothing found"
+      clearButtonLabel="Clear selection"
+      clearable
+      value={value}
+      onChange={onChange}
+      radius="xl"
+      variant="filled"
+      size="xs"
+    />
+  );
+};
+
+// Filter buttons
 const FilterButtons = ({
   Control_ID,
   provider_entity,
@@ -46,106 +72,45 @@ const FilterButtons = ({
   return (
     <div>
       <Group spacing="xs">
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={Control_ID}
-          label={<span className="mantine-MultiSelect-label">{'Control ID'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Control ID"
           value={valueControl_ID}
           onChange={(e) => {
             setValueControl_ID(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={Zone}
-          label={<span className="mantine-MultiSelect-label">{'Zone'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Zone"
           value={valueZone}
           onChange={(e) => {
             setValueZone(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
-
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={provider_entity}
-          label={<span className="mantine-MultiSelect-label">{'Provider Organization'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Provider Organization"
           value={valueProvider_entity}
           onChange={(e) => {
             setValueProvider_entity(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={cowner}
-          label={<span className="mantine-MultiSelect-label">{'Control Owner'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Control Owner"
           value={valueCowner}
           onChange={(e) => {
             setValueCowner(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={coversight}
-          label={<span className="mantine-MultiSelect-label">{'Control Oversight'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Control Oversight"
           value={valueCoversight}
           onChange={(e) => {
             setValueCoversight(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
       </Group>
     </div>
