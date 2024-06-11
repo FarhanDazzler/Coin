@@ -429,7 +429,7 @@ const ContactUs = () => {
                               {files.length > 0 ? (
                                 <>
                                   {files[0]?.name ? (
-                                    <div>
+                                    <div style={{ color: 'white' }}>
                                       {files[0]?.name}
                                       <Delete
                                         size={14}
@@ -439,7 +439,7 @@ const ContactUs = () => {
                                       ></Delete>
                                     </div>
                                   ) : (
-                                    <div>
+                                    <div style={{ color: 'white' }}>
                                       {files[0]?.fileName}
                                       <Delete
                                         size={14}

@@ -14,6 +14,31 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Button from '../../../../../../components/UI/Button';
 
 // Filter buttons
+const FilterMultiSelect = ({ data, label, value, onChange }) => {
+  const [searchValue, onSearchChange] = useState('');
+  return (
+    <MultiSelect
+      className="mantine-MultiSelect-wrapper"
+      data={data}
+      label={<span className="mantine-MultiSelect-label">{label}</span>}
+      placeholder="Select your option"
+      searchable
+      limit={20}
+      searchValue={searchValue}
+      onSearchChange={onSearchChange}
+      nothingFound="Nothing found"
+      clearButtonLabel="Clear selection"
+      clearable
+      value={value}
+      onChange={onChange}
+      radius="xl"
+      variant="filled"
+      size="xs"
+    />
+  );
+};
+
+// Filter buttons
 const FilterButtons = ({
   year,
   assessment_Cycle,
@@ -27,45 +52,21 @@ const FilterButtons = ({
   return (
     <div>
       <Group spacing="xs">
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={year}
-          label={<span className="mantine-MultiSelect-label">{'Year'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Year"
           value={yearValue}
           onChange={(e) => {
             setYearValue(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
-        <MultiSelect
-          className="mantine-MultiSelect-wrapper"
+        <FilterMultiSelect
           data={assessment_Cycle}
-          label={<span className="mantine-MultiSelect-label">{'Assessment Cycle'}</span>}
-          placeholder={'Select your option'}
-          searchable
-          limit={20}
-          searchValue={searchValue}
-          onSearchChange={onSearchChange}
-          nothingFound="Nothing found"
-          clearButtonLabel="Clear selection"
-          clearable
+          label="Assessment Cycle"
           value={assessmentCycleValue}
           onChange={(e) => {
             setAssessmentCycleValue(e);
           }}
-          radius="xl"
-          variant="filled"
-          size="xs"
         />
       </Group>
     </div>
