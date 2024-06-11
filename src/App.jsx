@@ -101,6 +101,7 @@ const Pages = () => {
       .then(async (res) => {
         if (res?.data?.data[0] == 'user does not exist') {
           history.push('/not-authorized');
+          return
         }
         const saRoles = res?.data.data?.sa_roles || [];
         const updatedParam = {};
