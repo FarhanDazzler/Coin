@@ -22,6 +22,24 @@ import { Loader } from '@mantine/core';
 import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 import { convertVariable } from '../../../utils/helper';
 
+export const hasFailNumerator = (row) => {
+  const isNumeratorValue = !!row?.Numerator || [0, '0'].includes(row?.Numerator);
+  const isDenominatorValue = !!row?.Denominator || [0, '0'].includes(row?.Denominator);
+  if (!isNumeratorValue && isDenominatorValue) {
+    return true;
+  }
+  return false;
+};
+
+export const hasFailDenominator = (row) => {
+  const isNumeratorValue = !!row?.Numerator || [0, '0'].includes(row?.Numerator);
+  const isDenominatorValue = !!row?.Denominator || [0, '0'].includes(row?.Denominator);
+  if (!isDenominatorValue && isNumeratorValue) {
+    return true;
+  }
+  return false;
+};
+
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
 const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isReview }) => {
   const { t } = useTranslation();
@@ -329,7 +347,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       },
       formatter: (cellContent, row) => {
         if (row.isEdited) {
-          if (!row?.Numerator && row?.Denominator) {
+          if (hasFailNumerator(row)) {
             return (
               <div>
                 {row?.Numerator}
@@ -398,7 +416,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       },
       formatter: (cellContent, row) => {
         if (row.isEdited) {
-          if (!row?.Denominator && (row?.Numerator || row?.Numerator == 0)) {
+          if (hasFailDenominator(row)) {
             return (
               <div>
                 {row?.Denominator}
