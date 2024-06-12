@@ -694,7 +694,10 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       ) {
         row.L1_Result = 'N/A';
       } else {
-        if (+row.KPI_Value <= +row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
+        if (
+          parseFloat(row.KPI_Value) <= parseFloat(row.MICS_L1_Threshold) &&
+          row.MICS_L1_Threshold !== ''
+        ) {
           row.L1_Result = 'Pass';
         } else {
           row.L1_Result = 'Fail';
@@ -709,7 +712,10 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         row.L2_Result == 'N/A'
       ) {
         row.L2_Result = 'N/A';
-      } else if (+row.KPI_Value <= +row.MICS_L2_Threshold && row.MICS_L2_Threshold !== '') {
+      } else if (
+        parseFloat(row.KPI_Value) <= parseFloat(row.MICS_L2_Threshold) &&
+        row.MICS_L2_Threshold !== ''
+      ) {
         row.L2_Result = 'Pass';
       } else {
         row.L2_Result = 'Fail';
@@ -723,7 +729,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       ) {
         row.L3_Result = 'N/A';
       } else {
-        if (+row.KPI_Value <= +row.MICS_L3_Threshold) {
+        if (parseFloat(row.KPI_Value) <= parseFloat(row.MICS_L3_Threshold)) {
           row.L3_Result = 'Pass';
         } else {
           row.L3_Result = 'Fail';
@@ -738,7 +744,10 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       ) {
         row.L1_Result = 'N/A';
       } else {
-        if (+row.KPI_Value >= +row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
+        if (
+          parseFloat(row.KPI_Value) >= parseFloat(row.MICS_L1_Threshold) &&
+          row.MICS_L1_Threshold !== ''
+        ) {
           row.L1_Result = 'Pass';
         } else {
           row.L1_Result = 'Fail';
@@ -753,7 +762,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       ) {
         row.L2_Result = 'N/A';
       } else {
-        if (+row.KPI_Value >= +row.MICS_L2_Threshold) {
+        if (parseFloat(row.KPI_Value) >= parseFloat(row.MICS_L2_Threshold)) {
           row.L2_Result = 'Pass';
         } else {
           row.L2_Result = 'Fail';
@@ -768,7 +777,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       ) {
         row.L3_Result = 'N/A';
       } else {
-        if (+row.KPI_Value >= +row.MICS_L3_Threshold) {
+        if (parseFloat(row.KPI_Value) >= parseFloat(row.MICS_L3_Threshold)) {
           row.L3_Result = 'Pass';
         } else {
           row.L3_Result = 'Fail';
