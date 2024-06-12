@@ -685,6 +685,11 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
     row.KPI_Value = (+row.Numerator / +row.Denominator).toFixed(5);
 
+    const isNumeratorValue = !!row?.Numerator || [0, '0'].includes(row?.Numerator);
+    const isDenominatorValue = !!row?.Denominator || [0, '0'].includes(row?.Denominator);
+
+    const isFillsNumeratorAndDenominatorValue = isNumeratorValue && isDenominatorValue;
+
     if (row.Positive_direction.toLowerCase() === 'lower is better') {
       if (
         row.MICS_L1_Threshold === '-' ||
@@ -696,7 +701,8 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       } else {
         if (
           parseFloat(row.KPI_Value) <= parseFloat(row.MICS_L1_Threshold) &&
-          row.MICS_L1_Threshold !== ''
+          row.MICS_L1_Threshold !== '' &&
+          isFillsNumeratorAndDenominatorValue
         ) {
           row.L1_Result = 'Pass';
         } else {
@@ -714,7 +720,8 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         row.L2_Result = 'N/A';
       } else if (
         parseFloat(row.KPI_Value) <= parseFloat(row.MICS_L2_Threshold) &&
-        row.MICS_L2_Threshold !== ''
+        row.MICS_L2_Threshold !== '' &&
+        isFillsNumeratorAndDenominatorValue
       ) {
         row.L2_Result = 'Pass';
       } else {
@@ -729,7 +736,10 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       ) {
         row.L3_Result = 'N/A';
       } else {
-        if (parseFloat(row.KPI_Value) <= parseFloat(row.MICS_L3_Threshold)) {
+        if (
+          parseFloat(row.KPI_Value) <= parseFloat(row.MICS_L3_Threshold) &&
+          isFillsNumeratorAndDenominatorValue
+        ) {
           row.L3_Result = 'Pass';
         } else {
           row.L3_Result = 'Fail';
@@ -746,7 +756,8 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       } else {
         if (
           parseFloat(row.KPI_Value) >= parseFloat(row.MICS_L1_Threshold) &&
-          row.MICS_L1_Threshold !== ''
+          row.MICS_L1_Threshold !== '' &&
+          isFillsNumeratorAndDenominatorValue
         ) {
           row.L1_Result = 'Pass';
         } else {
@@ -762,7 +773,10 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       ) {
         row.L2_Result = 'N/A';
       } else {
-        if (parseFloat(row.KPI_Value) >= parseFloat(row.MICS_L2_Threshold)) {
+        if (
+          parseFloat(row.KPI_Value) >= parseFloat(row.MICS_L2_Threshold) &&
+          isFillsNumeratorAndDenominatorValue
+        ) {
           row.L2_Result = 'Pass';
         } else {
           row.L2_Result = 'Fail';
@@ -777,7 +791,10 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       ) {
         row.L3_Result = 'N/A';
       } else {
-        if (parseFloat(row.KPI_Value) >= parseFloat(row.MICS_L3_Threshold)) {
+        if (
+          parseFloat(row.KPI_Value) >= parseFloat(row.MICS_L3_Threshold) &&
+          isFillsNumeratorAndDenominatorValue
+        ) {
           row.L3_Result = 'Pass';
         } else {
           row.L3_Result = 'Fail';
