@@ -361,7 +361,8 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
             message: 'Numerator can be a number only',
           };
         }
-        // if (row.Numerator == 0) {
+        // TODO: @@@@ If user only positive number then uncomment code
+        // if (row.Numerator <= 0) {
         //   handleChange(row.Numerator, newValue, row, column);
         //   return {
         //     valid: false,
@@ -407,7 +408,8 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
               </div>
             );
           }
-          // if (row?.Denominator == 0) {
+          // TODO: @@@@ If user only positive number then uncomment code
+          // if (row?.Denominator < 0) {
           //   return (
           //     <div>
           //       {row?.Denominator}
@@ -785,6 +787,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
         //If user Numerator change value then update existing value
         if (column.dataField === 'Numerator') {
+          // TODO: @@@@ If 0 not allowed input then uncomment
           // if (newValue == 0) {
           //   row['Numerator'] = 0;
           // } else {
@@ -859,12 +862,10 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
           d['Denominator'] = Denominator ? +Denominator : '';
         }
 
+        // TODO: @@@@ if Numerator accept 0 then add logic here...
         const Numerator = d['Numerator'];
-        if (Numerator === 0) {
-          d['Numerator'] = '';
-        } else {
-          d['Numerator'] = Numerator ? +Numerator : '';
-        }
+        d['Numerator'] = Numerator ? +Numerator : '';
+
         return {
           ...handleUpdateLevel(d),
           isManual: true,
