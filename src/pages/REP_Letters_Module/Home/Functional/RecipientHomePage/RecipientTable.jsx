@@ -185,7 +185,18 @@ const RecipientTable = ({
                 Review
               </Button>
             )}
-            {isFormAccessible(row.row.original.Assessment_Cycle, row.row.original.Year) &&
+            {['Not started', 'Drafted'].includes(row.row.original.Status) && (
+              <Button
+                onClick={() => {
+                  history.push(
+                    `/REP-Letters/attempt-letter/functional-letter-form/${row.row.original.id}/attempt`,
+                  );
+                }}
+              >
+                Letter
+              </Button>
+            )}
+            {/* {isFormAccessible(row.row.original.Assessment_Cycle, row.row.original.Year) &&
               ['Not started', 'Drafted'].includes(row.row.original.Status) && (
                 <Button
                   onClick={() => {
@@ -196,7 +207,7 @@ const RecipientTable = ({
                 >
                   Letter
                 </Button>
-              )}
+              )} */}
           </div>
         );
       },
