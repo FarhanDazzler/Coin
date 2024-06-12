@@ -874,7 +874,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
       const output_table_data = apiBody.output_table.map((d) => {
         const Denominator = d['Denominator'];
-        if (Denominator === 0) {
+        if ([0, '0'].includes(Denominator)) {
           d['Denominator'] = '';
         } else {
           d['Denominator'] = Denominator ? +Denominator : '';
@@ -882,7 +882,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
         // TODO: @@@@ if Numerator accept 0 then add logic here...
         const Numerator = d['Numerator'];
-        d['Numerator'] = Numerator ? +Numerator : '';
+        d['Numerator'] = !!Numerator || [0, '0'].includes(Numerator) ? +Numerator : '';
 
         return {
           ...handleUpdateLevel(d),
@@ -924,8 +924,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         const copyData = { ...data };
         const fileData = data.slice(1).map((d, dataIndex) => {
           let obj = { id: Date.now() + dataIndex };
-          d.map((value, i) => {
-            let v = value;
+          d.map((v, i) => {
             let key = copyData[0][i];
             if (copyData[0][i] === 'KPI Data source (Select from Excel/PBI/Celonis/Others)') {
               key = 'Upload_Approach';
