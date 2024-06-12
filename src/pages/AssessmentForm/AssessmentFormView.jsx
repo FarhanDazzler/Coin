@@ -296,6 +296,16 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     });
   }, [ansSection1, responseData, latestDraftData, questionData]);
 
+  const convertSameDataType = (tableData = []) => {
+    return tableData.map((td) => {
+      return {
+        ...td,
+        Denominator: td.Denominator?.toString(),
+        Numerator: td.Numerator?.toString(),
+      };
+    });
+  };
+
   // assessment submit action
   const handleSubmit = () => {
     let isS3FailedData;
@@ -358,7 +368,9 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               ? responseUpdatedData.data
               : kpiResultData?.data?.data,
             kpis:
-              tableData.length > 0 && (isNotEscalationRequired || showMoreSection) ? tableData : [],
+              tableData.length > 0 && (isNotEscalationRequired || showMoreSection)
+                ? convertSameDataType(tableData)
+                : [],
             s3: isNotEscalationRequired
               ? null
               : !(showMoreSection && !s1FailObj && !isNotEscalationRequired)
@@ -428,7 +440,9 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                 }),
             data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
             kpis:
-              tableData.length > 0 && (isNotEscalationRequired || showMoreSection) ? tableData : [],
+              tableData.length > 0 && (isNotEscalationRequired || showMoreSection)
+                ? convertSameDataType(tableData)
+                : [],
             showTable: showMoreSection,
             actionPlanInfo,
             is_override: isOverride,
@@ -497,7 +511,9 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                 }),
             data: isNotEscalationRequired ? null : kpiResultData?.data?.data,
             kpis:
-              tableData.length > 0 && (isNotEscalationRequired || showMoreSection) ? tableData : [],
+              tableData.length > 0 && (isNotEscalationRequired || showMoreSection)
+                ? convertSameDataType(tableData)
+                : [],
             showTable: showMoreSection,
             actionPlanInfo,
           },
