@@ -57,6 +57,7 @@ const AssessmentFormRender = ({
   const kpiResultData = useSelector(kpiResultSelector);
   const question3 = useSelector(question3Selector);
   const latestDraftData = useSelector(getLatestDraftSelector);
+  const [startTableEdit, setIsStartTableEdit] = useState(false);
   // check useEffect if user select section 1 Terminating then this state true
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
 
@@ -231,6 +232,8 @@ const AssessmentFormRender = ({
                   setStartEdit={setStartEdit}
                   isModal={isModal}
                   isReview={isReview}
+                  startTableEdit={startTableEdit}
+                  setIsStartTableEdit={setIsStartTableEdit}
                 />
               )}
               {showMoreSection && !s1FailObj && !isNotEscalationRequired && (

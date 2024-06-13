@@ -41,7 +41,15 @@ export const hasFailDenominator = (row) => {
 };
 
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
-const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isReview }) => {
+const ControlSection2 = ({
+  tableData = [],
+  setTableData,
+  controlId,
+  isModal,
+  isReview,
+  startTableEdit,
+  setIsStartTableEdit,
+}) => {
   const { t } = useTranslation();
   let headerStyles;
   if (isModal) {
@@ -650,6 +658,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
   };
 
   useEffect(() => {
+    if (startTableEdit) return;
     if (isModal || isReview) {
       //Check is user only preview mode then api data store in table view
       if (getKPIResponse?.data?.Latest_Response?.kpis) {
@@ -806,6 +815,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
   //Table on change function
   function handleChange(oldValue, newInputValue, row, column) {
+    setIsStartTableEdit(true);
     const newValue = newInputValue.trimStart();
     const updateProduct = tableData.map((d) => {
       // Check user change row id match or not
