@@ -22,6 +22,24 @@ import { Loader } from '@mantine/core';
 import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 import { convertVariable } from '../../../utils/helper';
 
+export const hasFailNumerator = (row) => {
+  const isNumeratorValue = !!row?.Numerator || [0, '0'].includes(row?.Numerator);
+  const isDenominatorValue = !!row?.Denominator || [0, '0'].includes(row?.Denominator);
+  if (!isNumeratorValue && isDenominatorValue) {
+    return true;
+  }
+  return false;
+};
+
+export const hasFailDenominator = (row) => {
+  const isNumeratorValue = !!row?.Numerator || [0, '0'].includes(row?.Numerator);
+  const isDenominatorValue = !!row?.Denominator || [0, '0'].includes(row?.Denominator);
+  if (!isDenominatorValue && isNumeratorValue) {
+    return true;
+  }
+  return false;
+};
+
 //const headerStyles = { color: '#000', fontWeight: '700', backgroundColor: 'rgba(0,0,0,0.1)' };
 const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isReview }) => {
   const { t } = useTranslation();
@@ -329,7 +347,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       },
       formatter: (cellContent, row) => {
         if (row.isEdited) {
-          if (!row?.Numerator && row?.Denominator) {
+          if (hasFailNumerator(row)) {
             return (
               <div>
                 {row?.Numerator}
@@ -398,7 +416,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       },
       formatter: (cellContent, row) => {
         if (row.isEdited) {
-          if (!row?.Denominator && (row?.Numerator || row?.Numerator == 0)) {
+          if (hasFailDenominator(row)) {
             return (
               <div>
                 {row?.Denominator}
@@ -667,6 +685,11 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
     row.KPI_Value = (+row.Numerator / +row.Denominator).toFixed(5);
 
+    const isNumeratorValue = !!row?.Numerator || [0, '0'].includes(row?.Numerator);
+    const isDenominatorValue = !!row?.Denominator || [0, '0'].includes(row?.Denominator);
+
+    const isFillsNumeratorAndDenominatorValue = isNumeratorValue && isDenominatorValue;
+
     if (row.Positive_direction.toLowerCase() === 'lower is better') {
       if (
         row.MICS_L1_Threshold === '-' ||
@@ -676,7 +699,11 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       ) {
         row.L1_Result = 'N/A';
       } else {
-        if (+row.KPI_Value <= +row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
+        if (
+          parseFloat(row.KPI_Value) <= parseFloat(row.MICS_L1_Threshold) &&
+          row.MICS_L1_Threshold !== '' &&
+          isFillsNumeratorAndDenominatorValue
+        ) {
           row.L1_Result = 'Pass';
         } else {
           row.L1_Result = 'Fail';
@@ -691,7 +718,11 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         row.L2_Result == 'N/A'
       ) {
         row.L2_Result = 'N/A';
-      } else if (+row.KPI_Value <= +row.MICS_L2_Threshold && row.MICS_L2_Threshold !== '') {
+      } else if (
+        parseFloat(row.KPI_Value) <= parseFloat(row.MICS_L2_Threshold) &&
+        row.MICS_L2_Threshold !== '' &&
+        isFillsNumeratorAndDenominatorValue
+      ) {
         row.L2_Result = 'Pass';
       } else {
         row.L2_Result = 'Fail';
@@ -705,7 +736,10 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       ) {
         row.L3_Result = 'N/A';
       } else {
-        if (+row.KPI_Value <= +row.MICS_L3_Threshold) {
+        if (
+          parseFloat(row.KPI_Value) <= parseFloat(row.MICS_L3_Threshold) &&
+          isFillsNumeratorAndDenominatorValue
+        ) {
           row.L3_Result = 'Pass';
         } else {
           row.L3_Result = 'Fail';
@@ -720,7 +754,11 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       ) {
         row.L1_Result = 'N/A';
       } else {
-        if (+row.KPI_Value >= +row.MICS_L1_Threshold && row.MICS_L1_Threshold !== '') {
+        if (
+          parseFloat(row.KPI_Value) >= parseFloat(row.MICS_L1_Threshold) &&
+          row.MICS_L1_Threshold !== '' &&
+          isFillsNumeratorAndDenominatorValue
+        ) {
           row.L1_Result = 'Pass';
         } else {
           row.L1_Result = 'Fail';
@@ -735,7 +773,10 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       ) {
         row.L2_Result = 'N/A';
       } else {
-        if (+row.KPI_Value >= +row.MICS_L2_Threshold) {
+        if (
+          parseFloat(row.KPI_Value) >= parseFloat(row.MICS_L2_Threshold) &&
+          isFillsNumeratorAndDenominatorValue
+        ) {
           row.L2_Result = 'Pass';
         } else {
           row.L2_Result = 'Fail';
@@ -750,7 +791,10 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
       ) {
         row.L3_Result = 'N/A';
       } else {
-        if (+row.KPI_Value >= +row.MICS_L3_Threshold) {
+        if (
+          parseFloat(row.KPI_Value) >= parseFloat(row.MICS_L3_Threshold) &&
+          isFillsNumeratorAndDenominatorValue
+        ) {
           row.L3_Result = 'Pass';
         } else {
           row.L3_Result = 'Fail';
@@ -856,7 +900,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
       const output_table_data = apiBody.output_table.map((d) => {
         const Denominator = d['Denominator'];
-        if (Denominator === 0) {
+        if ([0, '0'].includes(Denominator)) {
           d['Denominator'] = '';
         } else {
           d['Denominator'] = Denominator ? +Denominator : '';
@@ -864,7 +908,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
 
         // TODO: @@@@ if Numerator accept 0 then add logic here...
         const Numerator = d['Numerator'];
-        d['Numerator'] = Numerator ? +Numerator : '';
+        d['Numerator'] = !!Numerator || [0, '0'].includes(Numerator) ? +Numerator : '';
 
         return {
           ...handleUpdateLevel(d),
@@ -906,8 +950,7 @@ const ControlSection2 = ({ tableData = [], setTableData, controlId, isModal, isR
         const copyData = { ...data };
         const fileData = data.slice(1).map((d, dataIndex) => {
           let obj = { id: Date.now() + dataIndex };
-          d.map((value, i) => {
-            let v = value;
+          d.map((v, i) => {
             let key = copyData[0][i];
             if (copyData[0][i] === 'KPI Data source (Select from Excel/PBI/Celonis/Others)') {
               key = 'Upload_Approach';
