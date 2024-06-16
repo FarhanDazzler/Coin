@@ -503,7 +503,7 @@ const ControlSection2 = ({
         if (!row?.Numerator || !row?.Denominator) {
           return {
             backgroundColor: 'white',
-            color: 'white',
+            // color: 'white',
           };
         }
       },
@@ -1030,8 +1030,8 @@ const ControlSection2 = ({
                         <Workbook.Sheet
                           data={tableData.map((td) => ({
                             ...td,
-                            Numerator: td.Numerator.toString(),
-                            Denominator: td.Denominator.toString(),
+                            Numerator: hasFailNumerator(td) ? '' : td.Numerator.toString(),
+                            Denominator: hasFailDenominator(td) ? '' : td.Denominator.toString(),
                           }))}
                           name="Sheet A"
                         >

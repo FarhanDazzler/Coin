@@ -30,6 +30,7 @@ import { getLanguageFormat, isJsonString } from '../../utils/helper';
 import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
 import { useMsal } from '@azure/msal-react';
 import { resetBlockAD } from '../../redux/AzureAD/AD_Action';
+import { hasFailDenominator, hasFailNumerator } from './ControlSection2';
 
 const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
   const history = useHistory();
@@ -299,8 +300,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     return tableData.map((td) => {
       return {
         ...td,
-        Denominator: td.Denominator?.toString(),
-        Numerator: td.Numerator?.toString(),
+        Denominator: hasFailDenominator(td) ? '' : td.Denominator?.toString() || '',
+        Numerator: hasFailNumerator(td) ? '' : td.Numerator?.toString() || '',
       };
     });
   };
