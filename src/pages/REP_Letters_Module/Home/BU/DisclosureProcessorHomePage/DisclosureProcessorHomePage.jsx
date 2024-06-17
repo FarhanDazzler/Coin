@@ -62,8 +62,8 @@ const DisclosureProcessorHomePage = () => {
       return (
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true) &&
-        (overallStatusValue?.length ? overallStatusValue.includes(i.overallStatusValue) : true) &&
-        (rbaStatusValue?.length ? rbaStatusValue.includes(i.overallStatusValue) : true)
+        (overallStatusValue?.length ? overallStatusValue.includes(i.Status) : true) &&
+        (rbaStatusValue?.length ? rbaStatusValue.includes(i.RBA_Status) : true)
       );
     });
 
