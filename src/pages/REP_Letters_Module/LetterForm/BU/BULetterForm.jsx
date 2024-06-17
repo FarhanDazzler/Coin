@@ -274,7 +274,7 @@ const ReviewResponsesAtAllTime = ({
             <strong>Export to Excel</strong>
           </button>
           <button onClick={takeScreenshot} className="export_excel_button">
-            Export to PDF
+          <strong>Export to PDF </strong>
           </button>
         </div>
       </div>

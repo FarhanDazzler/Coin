@@ -87,6 +87,7 @@ const FunctionalLetterForm = (props) => {
       });
     }, 1000);
   };
+
   useEffect(() => {
     if (token) {
       dispatch(getFunctionalInstructions());
@@ -194,11 +195,6 @@ const FunctionalLetterForm = (props) => {
             ) : (
               <div className="col-lg-12">
                 <div>
-                  <Button onClick={takeScreenshot} variant="contained">
-                    Take Screenshot
-                  </Button>
-                </div>
-                <div>
                   <div className="d-flex align-items-center" style={{ paddingTop: '14px' }}>
                     <span className="review-response-page-title">Review Responses</span>
                     <button
@@ -221,7 +217,10 @@ const FunctionalLetterForm = (props) => {
                         );
                       }}
                     >
-                      <strong>Export</strong>
+                      <strong>Export to Excel</strong>
+                    </button>
+                    <button onClick={takeScreenshot} className="export_excel_button">
+                      <strong>Export to PDF</strong>
                     </button>
                   </div>
                 </div>
