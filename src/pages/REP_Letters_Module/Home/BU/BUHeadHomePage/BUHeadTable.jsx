@@ -41,7 +41,7 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const DisclosureProcessorTable = ({
+const BUHeadTable = ({
   zoneValue,
   setZoneValue,
   buValue,
@@ -433,4 +433,4 @@ const DisclosureProcessorTable = ({
   );
 };
 
-export default DisclosureProcessorTable;
+export default BUHeadTable;

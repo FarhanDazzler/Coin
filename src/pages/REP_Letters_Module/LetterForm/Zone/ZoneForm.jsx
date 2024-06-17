@@ -236,9 +236,6 @@ const ReviewResponsesAtAllTime = ({
   return (
     <div id="screenshot-body">
       <div>
-        <Button onClick={takeScreenshot}>Take Screenshot</Button>
-      </div>
-      <div>
         <div className="d-flex align-items-center" style={{ paddingTop: '14px' }}>
           <span className="review-response-page-title">Review Responses</span>
           <button
@@ -265,7 +262,10 @@ const ReviewResponsesAtAllTime = ({
               );
             }}
           >
-            <strong>Export</strong>
+            <strong>Export to Excel</strong>
+          </button>
+          <button onClick={takeScreenshot} className="export_excel_button">
+            <strong>Export to PDF</strong>
           </button>
         </div>
       </div>
