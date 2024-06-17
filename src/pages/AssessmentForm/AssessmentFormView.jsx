@@ -30,6 +30,7 @@ import { getLanguageFormat, isJsonString } from '../../utils/helper';
 import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
 import { useMsal } from '@azure/msal-react';
 import { resetBlockAD } from '../../redux/AzureAD/AD_Action';
+import { hasFailDenominator, hasFailNumerator } from './ControlSection2';
 
 const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
   const history = useHistory();
@@ -53,7 +54,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   const responseData = !getResponse?.data?.Latest_Response ? latestDraftData : getResponse;
   const responseUpdatedData =
     responseData.data?.Latest_Response || responseData.data?.Latest_response;
-
+  const [submitLoading, setSubmitLoading] = useState(false);
   // Local state for assessment form
   const [isModal, setIsModal] = useState(isReview || contentTypeModal);
   const [isOverride, setIsOverride] = useState(false);
@@ -70,7 +71,6 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   const [showMoreSection, setShowMoreSection] = useState(false);
   const [terminating, setTerminating] = useState(false);
   const [startEdit, setStartEdit] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState(currentLanguage);
   const [actionPlanInfo, setActionPlanInfo] = useState({
     Action_Plan: '',
@@ -300,8 +300,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     return tableData.map((td) => {
       return {
         ...td,
-        Denominator: td.Denominator?.toString(),
-        Numerator: td.Numerator?.toString(),
+        Denominator: hasFailDenominator(td) ? '' : td.Denominator?.toString() || '',
+        Numerator: hasFailNumerator(td) ? '' : td.Numerator?.toString() || '',
       };
     });
   };
@@ -351,6 +351,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           }
         }
 
+        setSubmitLoading(true);
+
         // Assessment_result: check condition for S1 S3 fail then show Fail alert otherwise Pass result condition
         const payload = {
           Assessment_ID: activeData?.assessment_id,
@@ -387,8 +389,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           submitted_by: accounts.length > 0 ? accounts[0]?.username : '',
           // kpis: isNotEscalationRequired ? [] : isupdated ? [] : tableData,
           event: {
+            onError: () => {
+              setSubmitLoading(false);
+            },
             onSuccess: () => {
-              setLoading(false);
+              setSubmitLoading(false);
               if (isupdated) {
                 Swal.fire(
                   t('selfAssessment.assessmentForm.assessmentSubmittedText'),
@@ -427,6 +432,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           Swal.fire(t('selfAssessment.assessmentForm.saveDraftNoLimiteText'), '', 'error');
           return;
         }
+        setSubmitLoading(true);
         const payload = {
           Assessment_ID: activeData?.assessment_id,
           Latest_response: {
@@ -449,7 +455,11 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
             submitted_by: accounts.length > 0 ? accounts[0]?.username : '',
           },
           events: {
+            onError: () => {
+              setSubmitLoading(false);
+            },
             onSuccess: () => {
+              setSubmitLoading(false);
               dispatch(resetBlockAD({ blockType: 'userFromAD' }));
               dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
               dispatch(clearAssessmentResponse()); // Assessment clear action
@@ -496,6 +506,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       }) ${t('selfAssessment.assessmentForm.saveDraftBtn')}`,
     }).then((result) => {
       if (result.isConfirmed) {
+        setSubmitLoading(true);
         const payload = {
           Assessment_ID: activeData?.assessment_id,
           Latest_response: {
@@ -521,7 +532,12 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           is_override: isOverride,
           submitted_by: accounts.length > 0 ? accounts[0]?.username : '',
           events: {
+            onError: () => {
+              setSubmitLoading(false);
+            },
             onSuccess: () => {
+              setSubmitLoading(false);
+              setSubmitLoading(false);
               Swal.fire(t('selfAssessment.assessmentForm.saveDraftSuccessText'), '', 'success');
               dispatch(resetBlockAD({ blockType: 'userFromAD' }));
               dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
@@ -567,7 +583,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         handleSubmit={handleSubmit}
         activeData={activeData}
         handleSaveDraft={handleSaveDraft}
-        loadingSubmit={loading}
+        loadingSubmit={submitLoading}
         actionPlanInfo={actionPlanInfo}
         setActionPlanInfo={setActionPlanInfo}
         getMicsOpenActionPlanVal={getMicsOpenActionPlanVal}

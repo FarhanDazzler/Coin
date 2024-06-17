@@ -291,7 +291,11 @@ const AssessmentFormRender = ({
                     </>
                   ) : handleSaveDraft && !isOverride && !isReview ? (
                     <div className="save-draft-btn-wrapper">
-                      <Button onClick={handleValidation('draft')} {...handleSaveDraftProps}>
+                      <Button
+                        onClick={handleValidation('draft')}
+                        loading={loadingSubmit}
+                        {...handleSaveDraftProps}
+                      >
                         {t('selfAssessment.assessmentForm.saveDraftBtn')}
                       </Button>
                     </div>
