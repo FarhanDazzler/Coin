@@ -492,7 +492,7 @@ const ControlOwnerTable = ({
                 />
               </Group>
             </div>
-            <div className="col-12 col-lg-12 mt-5">
+            <div className="col-12 col-lg-12 mt-5 control-owner-table">
               <Table2
                 tableData={tableDataArray}
                 loading={getControlOwnerData.loading}

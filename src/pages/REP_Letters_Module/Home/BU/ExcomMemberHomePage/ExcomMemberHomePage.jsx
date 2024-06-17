@@ -16,13 +16,11 @@ const AmountInfo = React.memo(({ amount, infoText }) => {
 });
 
 const ExcomMemberHomePage = () => {
-  const history = useHistory();
-  const { state } = useLocation();
-  const { accounts } = useMsal();
-  const selectedUserRole = localStorage.getItem('selected_Role');
   const getHomePageData = useSelector(get_BUZone_ExcomMemberHomePageDataSelector);
 
   const [zoneValue, setZoneValue] = useState([]);
+  const [overallStatusValue, setOverallStatusValue] = useState([]);
+  const [rbaStatusValue, setRbaStatusValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
@@ -30,7 +28,7 @@ const ExcomMemberHomePage = () => {
 
   const statusInfo = useMemo(() => {
     const tableData = getHomePageData?.data[0]?.excomMemberData || [];
-    if (!zoneValue.length) {
+    if (!zoneValue.length && !overallStatusValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);
       return {
@@ -45,7 +43,8 @@ const ExcomMemberHomePage = () => {
 
     const updatedData = tableData?.filter((i) => {
       return (
-        (zoneValue?.length ? zoneValue.includes(i.Zone) : true)
+        (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+        (overallStatusValue?.length ? overallStatusValue.includes(i.Status) : true)
       );
     });
 
@@ -87,6 +86,8 @@ const ExcomMemberHomePage = () => {
       <ExcomMemberTable
         zoneValue={zoneValue}
         setZoneValue={setZoneValue}
+        overallStatusValue={overallStatusValue}
+        setOverallStatusValue={setOverallStatusValue}
       />
     </div>
   );
