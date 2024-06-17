@@ -485,7 +485,13 @@ const ControlSection2 = ({
       headerStyle: {
         ...headerStyles,
       },
-      formatter: (cellContent, row) => (!row.Numerator || !row.Denominator ? '' : row.KPI_Value),
+      formatter: (cellContent, row) => {
+        return (
+          <div style={{ color: '#000' }}>
+            {hasFailNumerator(row) || hasFailDenominator(row) ? '' : row.KPI_Value}
+          </div>
+        );
+      },
       style: (cell, row, rowIndex, colIndex) => {
         if (!row.isManual) {
           return {
@@ -497,7 +503,7 @@ const ControlSection2 = ({
         if (!row?.Numerator || !row?.Denominator) {
           return {
             backgroundColor: 'white',
-            color: 'white',
+            // color: 'white',
           };
         }
       },
@@ -1021,7 +1027,14 @@ const ControlSection2 = ({
                           </button>
                         }
                       >
-                        <Workbook.Sheet data={tableData} name="Sheet A">
+                        <Workbook.Sheet
+                          data={tableData.map((td) => ({
+                            ...td,
+                            Numerator: hasFailNumerator(td) ? '' : td.Numerator.toString(),
+                            Denominator: hasFailDenominator(td) ? '' : td.Denominator.toString(),
+                          }))}
+                          name="Sheet A"
+                        >
                           <Workbook.Column label="sep" value="sep" />
                           <Workbook.Column label="Global_KPI_Code" value="Global_KPI_Code" />
                           <Workbook.Column label="Applicability" value="Applicability" />

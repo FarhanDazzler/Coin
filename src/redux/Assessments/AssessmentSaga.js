@@ -81,8 +81,8 @@ async function AddOrUpdateDraftApi(payload) {
   return await Axios.post('/add_or_update_draft', payload);
 }
 function* handleAddOrUpdateDraft({ payload: copyPayload }) {
+  const { events = {}, ...payload } = copyPayload;
   try {
-    const { events = {}, ...payload } = copyPayload;
     const response = yield call(AddOrUpdateDraftApi, payload);
     if (response.success) {
       yield put({
@@ -94,6 +94,10 @@ function* handleAddOrUpdateDraft({ payload: copyPayload }) {
       }
     }
   } catch (error) {
+    if (events?.onError) {
+      events.onError();
+    }
+
     yield put({
       type: ADD_OR_UPDATE_DRAFT_ERROR,
       error: getSimplifiedError(error),
@@ -174,14 +178,14 @@ async function AssessmentAnsAddApi(payload) {
   return await Axios.post('/save_assessment_response', payload);
 }
 function* handleAddAssessmentAns({ payload: copyPayload }) {
+  const { event, ...payload } = copyPayload;
   try {
-    const { event, ...payload } = copyPayload;
     const response = yield call(AssessmentAnsAddApi, payload);
     if (response) {
       yield put({
         type: ADD_ASSESSMENT_RESPONSE_SUCCESS,
       });
-      if (event) {
+      if (event && event.onSuccess) {
         event.onSuccess();
       }
     }
@@ -190,6 +194,9 @@ function* handleAddAssessmentAns({ payload: copyPayload }) {
       type: ADD_ASSESSMENT_RESPONSE_ERROR,
       error: getSimplifiedError(error),
     });
+    if (event && event.onError) {
+      event.onError();
+    }
     Swal.fire('Oops...', 'Internal Server Error: Please refresh page', 'error');
   }
 }
