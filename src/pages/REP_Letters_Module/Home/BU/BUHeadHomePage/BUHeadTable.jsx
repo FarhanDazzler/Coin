@@ -41,7 +41,7 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const DisclosureProcessorTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) => {
+const BUHeadTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) => {
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
@@ -397,4 +397,4 @@ const DisclosureProcessorTable = ({ zoneValue, setZoneValue, buValue, setBUValue
   );
 };
 
-export default DisclosureProcessorTable;
+export default BUHeadTable;
