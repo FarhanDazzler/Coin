@@ -19507,7 +19507,7 @@ a.btn.btn-primary {
 }
 
 .report-container {
-  height: calc(100vh - 180px);
+  height: 110vh !important;
 }
 
 .report-container iframe {
@@ -19519,4 +19519,5 @@ a.btn.btn-primary {
 
 .dashboard-width {
   margin: 20px;
+  height: 100vh;
 }
