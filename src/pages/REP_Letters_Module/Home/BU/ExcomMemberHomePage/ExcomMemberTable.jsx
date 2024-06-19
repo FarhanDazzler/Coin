@@ -41,7 +41,12 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const ExcomMemberTable = ({ zoneValue, setZoneValue }) => {
+const ExcomMemberTable = ({
+  zoneValue,
+  setZoneValue,
+  overallStatusValue,
+  setOverallStatusValue,
+}) => {
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
@@ -286,17 +291,18 @@ const ExcomMemberTable = ({ zoneValue, setZoneValue }) => {
 
   useEffect(() => {
     if (!tableData?.length) return setTableDataArray([]);
-    if (!assessmentCycleValue?.length && !zoneValue?.length) {
+    if (!assessmentCycleValue?.length && !zoneValue?.length && !overallStatusValue.length) {
       return setTableDataArray(tableData);
     }
     const updatedData = tableData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
+        (overallStatusValue?.length ? overallStatusValue.includes(i.Status) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true)
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, tableData]);
+  }, [assessmentCycleValue, zoneValue, overallStatusValue, tableData]);
   return (
     <>
       <div className="container-fluid">
@@ -328,6 +334,19 @@ const ExcomMemberTable = ({ zoneValue, setZoneValue }) => {
                   label="Zone"
                   value={zoneValue}
                   onChange={setZoneValue}
+                />
+                <FilterMultiSelect
+                  data={[
+                    'Not Started',
+                    'Drafted',
+                    'Approval Pending',
+                    'Prepared',
+                    'Signed',
+                    'Completed',
+                  ]}
+                  label="Over All Status"
+                  value={overallStatusValue}
+                  onChange={setOverallStatusValue}
                 />
               </Group>
             </div>

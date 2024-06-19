@@ -376,7 +376,7 @@ const ControlSection2 = ({
         //     </div>
         //   );
         // }
-        return cellContent;
+        return cellContent ? cellContent : '';
       },
       validator: (newValue, row, column) => {
         row.isEdited = true;
@@ -447,7 +447,7 @@ const ControlSection2 = ({
           // }
         }
 
-        return cellContent;
+        return cellContent ? cellContent : '';
       },
       style: (cell, row, rowIndex, colIndex) => {
         if (row.isManual) {
@@ -466,14 +466,6 @@ const ControlSection2 = ({
       },
       validator: (newValue, row, column) => {
         row.isEdited = true;
-        // handleChange(row.Denominator, newValue, row, column);
-        // if (newValue == 0) {
-        //   row.Denominator = '';
-        //   return {
-        //     valid: false,
-        //     message: 'Denominator cannot be zero',
-        //   };
-        // }
 
         return true;
       },
@@ -485,7 +477,13 @@ const ControlSection2 = ({
       headerStyle: {
         ...headerStyles,
       },
-      formatter: (cellContent, row) => (!row.Numerator || !row.Denominator ? '' : row.KPI_Value),
+      formatter: (cellContent, row) => {
+        return (
+          <div style={{ color: '#000' }}>
+            {hasFailNumerator(row) || hasFailDenominator(row) ? '' : row.KPI_Value}
+          </div>
+        );
+      },
       style: (cell, row, rowIndex, colIndex) => {
         if (!row.isManual) {
           return {
@@ -497,7 +495,7 @@ const ControlSection2 = ({
         if (!row?.Numerator || !row?.Denominator) {
           return {
             backgroundColor: 'white',
-            color: 'white',
+            // color: 'white',
           };
         }
       },
@@ -861,39 +859,6 @@ const ControlSection2 = ({
     }, 100);
   }
 
-  // useEffect(() => {
-  //   if (stateCsvTampred?.data === false && !stateCsvTampred.loading) {
-  //     const isupated = excelFile?.find((i) => i?.Denominator == 0);
-  //     if (isupated) return Swal.fire('Oops...', 'Denominator cannot be Zero !!', 'error');
-  //     if (tableData?.length > 0 && isupated) {
-  //       let newDataArray = tableData?.map((data, i) => {
-  //         const Numerator =
-  //           excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
-  //             ? excelFile[i]?.Numerator
-  //             : data?.Numerator;
-  //         const Denominator =
-  //           excelFile[i]?.Numerator && excelFile[i]?.Denominator > 0
-  //             ? excelFile[i]?.Denominator
-  //             : data?.Denominator || '';
-  //         return {
-  //           ...data,
-  //           Numerator,
-  //           Denominator,
-  //           Upload_Approach:
-  //             excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'] ||
-  //             excelFile[i]['Upload_Approach'],
-  //           Source_System: excelFile[i]['Link to data'] || excelFile[i]['Source_System'],
-  //         };
-  //       });
-  //
-  //       setTableData([...newDataArray]);
-  //       setScvUpdateData(csvUpdateData + 1);
-  //     }
-  //   } else {
-  //     setScvUpdateData(0);
-  //   }
-  // }, [stateCsvTampred.loading, stateCsvTampred.data]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (excelFile !== null) {
@@ -931,18 +896,6 @@ const ControlSection2 = ({
       setTableData(output_table_data);
 
       if (stateCsvTampred?.data === false) {
-        // let newDataArray = tableData?.map((data, i) => {
-        //   return {
-        //     ...data,
-        //     Numerator: excelFile[i]?.Numerator,
-        //     Denominator: excelFile[i]?.Denominator,
-        //     Upload_Approach: excelFile[i]['KPI Data source (Select from Excel/PBI/Celonis/Others)'],
-        //     Source_System: excelFile[i]['Link to data'],
-        //   };
-        // });
-        // console.log(newDataArray, 'newDataArray');
-        // setTableData([...newDataArray]);
-        // setScvUpdateData(csvUpdateData + 1);
       } else {
         setScvUpdateData(0);
       }
@@ -1021,7 +974,22 @@ const ControlSection2 = ({
                           </button>
                         }
                       >
-                        <Workbook.Sheet data={tableData} name="Sheet A">
+                        <Workbook.Sheet
+                          data={tableData.map((td) => ({
+                            ...td,
+                            Numerator: hasFailNumerator(td)
+                              ? ''
+                              : td.Numerator
+                              ? td.Numerator.toString()
+                              : '',
+                            Denominator: hasFailDenominator(td)
+                              ? ''
+                              : td.Denominator
+                              ? td.Denominator.toString()
+                              : '',
+                          }))}
+                          name="Sheet A"
+                        >
                           <Workbook.Column label="sep" value="sep" />
                           <Workbook.Column label="Global_KPI_Code" value="Global_KPI_Code" />
                           <Workbook.Column label="Applicability" value="Applicability" />
@@ -1106,7 +1074,19 @@ const ControlSection2 = ({
                   <BootstrapTable
                     keyField="id"
                     // cellEdit={ cellEditProp }
-                    data={tableData}
+                    data={tableData.map((td) => ({
+                      ...td,
+                      Numerator: hasFailNumerator(td)
+                        ? ''
+                        : td.Numerator
+                        ? td.Numerator.toString()
+                        : '',
+                      Denominator: hasFailDenominator(td)
+                        ? ''
+                        : td.Denominator
+                        ? td.Denominator.toString()
+                        : '',
+                    }))}
                     columns={columns}
                     filter={filterFactory()}
                     pagination={paginationFactory()}

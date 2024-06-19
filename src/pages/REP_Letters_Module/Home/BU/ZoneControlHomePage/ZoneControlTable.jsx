@@ -41,7 +41,16 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const ZoneControlTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) => {
+const ZoneControlTable = ({
+  zoneValue,
+  setZoneValue,
+  buValue,
+  setBUValue,
+  overallStatusValue,
+  setOverallStatusValue,
+  rbaStatusValue,
+  setRbaStatusValue,
+}) => {
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
 
@@ -325,18 +334,26 @@ const ZoneControlTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) => {
 
   useEffect(() => {
     if (!HomePageData?.length) return setTableDataArray([]);
-    if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
+    if (
+      !assessmentCycleValue?.length &&
+      !zoneValue?.length &&
+      !buValue?.length &&
+      !rbaStatusValue?.length &&
+      !overallStatusValue.length
+    ) {
       return setTableDataArray(HomePageData);
     }
     const updatedData = HomePageData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+        (overallStatusValue?.length ? overallStatusValue.includes(i.Status) : true) &&
+        (rbaStatusValue?.length ? rbaStatusValue.includes(i.RBA_Status) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true)
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, buValue, HomePageData]);
+  }, [assessmentCycleValue, zoneValue, buValue, HomePageData, overallStatusValue, rbaStatusValue]);
   return (
     <>
       <div className="container-fluid">
@@ -374,6 +391,26 @@ const ZoneControlTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) => {
                   label="BU"
                   value={buValue}
                   onChange={setBUValue}
+                />
+                <FilterMultiSelect
+                  data={[
+                    'Not Started',
+                    'Drafted',
+                    'Approval Pending',
+                    'Prepared',
+                    'Signed',
+                    'Completed',
+                  ]}
+                  label="Over All Status"
+                  value={overallStatusValue}
+                  onChange={setOverallStatusValue}
+                />
+
+                <FilterMultiSelect
+                  data={['Not Started', 'Pending RBA Approval', 'RBA Approved']}
+                  label="RBA Status"
+                  value={rbaStatusValue}
+                  onChange={setRbaStatusValue}
                 />
               </Group>
             </div>

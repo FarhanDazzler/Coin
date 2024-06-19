@@ -16,14 +16,12 @@ const AmountInfo = React.memo(({ amount, infoText }) => {
 });
 
 const ZoneControlHomePage = () => {
-  const history = useHistory();
-  const { state } = useLocation();
-  const { accounts } = useMsal();
-  const selectedUserRole = localStorage.getItem('selected_Role');
   const getHomePageData = useSelector(get_BU_Zone_ControlHomePageDataSelector);
 
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
+  const [overallStatusValue, setOverallStatusValue] = useState([]);
+  const [rbaStatusValue, setRbaStatusValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
@@ -31,7 +29,12 @@ const ZoneControlHomePage = () => {
 
   const statusInfo = useMemo(() => {
     const tableData = getHomePageData?.data[0]?.zoneControlData || [];
-    if (!zoneValue.length && !buValue.length) {
+    if (
+      !zoneValue.length &&
+      !buValue.length &&
+      !overallStatusValue.length &&
+      !rbaStatusValue.length
+    ) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);
       return {
@@ -47,7 +50,9 @@ const ZoneControlHomePage = () => {
     const updatedData = tableData?.filter((i) => {
       return (
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-        (buValue?.length ? buValue.includes(i.BU) : true)
+        (buValue?.length ? buValue.includes(i.BU) : true) &&
+        (overallStatusValue?.length ? overallStatusValue.includes(i.Status) : true) &&
+        (rbaStatusValue?.length ? rbaStatusValue.includes(i.RBA_Status) : true)
       );
     });
 
@@ -65,6 +70,8 @@ const ZoneControlHomePage = () => {
     getHomePageData?.data[0],
     zoneValue,
     buValue,
+    overallStatusValue,
+    rbaStatusValue,
     getNumberOfItem,
   ]);
 
@@ -96,6 +103,10 @@ const ZoneControlHomePage = () => {
         setZoneValue={setZoneValue}
         buValue={buValue}
         setBUValue={setBUValue}
+        overallStatusValue={overallStatusValue}
+        setOverallStatusValue={setOverallStatusValue}
+        rbaStatusValue={rbaStatusValue}
+        setRbaStatusValue={setRbaStatusValue}
       />
     </div>
   );

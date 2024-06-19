@@ -16,14 +16,12 @@ const AmountInfo = React.memo(({ amount, infoText }) => {
 });
 
 const BUHeadHomePage = () => {
-  const history = useHistory();
-  const { state } = useLocation();
-  const { accounts } = useMsal();
-  const selectedUserRole = localStorage.getItem('selected_Role');
   const getHomePageData = useSelector(get_BU_BU_HeadHomePageDataSelector);
 
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
+  const [overallStatusValue, setOverallStatusValue] = useState([]);
+  const [rbaStatusValue, setRbaStatusValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
@@ -47,7 +45,9 @@ const BUHeadHomePage = () => {
     const updatedData = tableData?.filter((i) => {
       return (
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-        (buValue?.length ? buValue.includes(i.BU) : true)
+        (buValue?.length ? buValue.includes(i.BU) : true) &&
+        (overallStatusValue?.length ? overallStatusValue.includes(i.Status) : true) &&
+        (rbaStatusValue?.length ? rbaStatusValue.includes(i.RBA_Status) : true)
       );
     });
 
@@ -61,12 +61,7 @@ const BUHeadHomePage = () => {
       completed: getNumberOfItem(allUpdatestatus, 'Completed'),
       total: allUpdatestatus?.length,
     };
-  }, [
-    getHomePageData?.data[0],
-    zoneValue,
-    buValue,
-    getNumberOfItem,
-  ]);
+  }, [getHomePageData?.data[0], zoneValue, buValue, getNumberOfItem]);
 
   return (
     <div>
@@ -96,6 +91,10 @@ const BUHeadHomePage = () => {
         setZoneValue={setZoneValue}
         buValue={buValue}
         setBUValue={setBUValue}
+        overallStatusValue={overallStatusValue}
+        setOverallStatusValue={setOverallStatusValue}
+        rbaStatusValue={rbaStatusValue}
+        setRbaStatusValue={setRbaStatusValue}
       />
     </div>
   );
