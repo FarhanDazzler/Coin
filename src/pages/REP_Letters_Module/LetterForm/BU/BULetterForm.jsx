@@ -15,9 +15,9 @@ import ReviewSection2 from './FormComponents/ReviewResponseComponents/ReviewSect
 import ReviewSection3 from './FormComponents/ReviewResponseComponents/ReviewSection3';
 // import ReviewResponsePage from './FormComponents/ReviewResponsePage';
 import { getInstructions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
-import { get_BU_Questions } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
+import { get_BU_Questions_With_Comments } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import {
-  get_BU_QuestionsSelector,
+  get_BU_Questions_With_CommentsSelector,
   getInstructionsSelector,
 } from '../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
 import html2canvas from 'html2canvas';
@@ -274,7 +274,7 @@ const ReviewResponsesAtAllTime = ({
             <strong>Export to Excel</strong>
           </button>
           <button onClick={takeScreenshot} className="export_excel_button">
-          <strong>Export to PDF </strong>
+            <strong>Export to PDF </strong>
           </button>
         </div>
       </div>
@@ -307,7 +307,7 @@ const BULetterForm = (props) => {
   const { modalType, id } = useParams();
   const letterType = 'BU';
 
-  const questionState = useSelector(get_BU_QuestionsSelector);
+  const questionState = useSelector(get_BU_Questions_With_CommentsSelector);
   const instructionState = useSelector(getInstructionsSelector);
   const getLatestBUDraftResponseState = useSelector(getLatestBUDraftResponseSelector);
   const getBUSubmitResponseState = useSelector(getBUSubmitResponseSelector);
@@ -334,9 +334,9 @@ const BULetterForm = (props) => {
 
       if (modalType === 'attemptSection1') {
         let payload = {
-          type: letterType,
+          id: id,
         };
-        dispatch(get_BU_Questions(payload));
+        dispatch(get_BU_Questions_With_Comments(payload));
 
         let payloadForGettingDraftResp = {
           assessment_id: id,

@@ -14,6 +14,9 @@ import {
   DELETE_BU_QUESTIONS_REQUEST,
   DELETE_BU_QUESTIONS_ERROR,
   DELETE_BU_QUESTIONS_SUCCESS,
+  GET_BU_QUESTIONS_WITH_COMMENT_REQUEST,
+  GET_BU_QUESTIONS_WITH_COMMENT_SUCCESS,
+  GET_BU_QUESTIONS_WITH_COMMENT_ERROR,
   GET_FUNCTION_QUESTIONS_REQUEST,
   GET_FUNCTION_QUESTIONS_ERROR,
   GET_FUNCTION_QUESTIONS_SUCCESS,
@@ -143,6 +146,26 @@ function* delete_BU_Questions_Data({ payload }) {
       // error: getSimplifiedError(error),
     });
     Swal.fire('Oops...', 'Something Went Wrong', 'error');
+  }
+}
+
+// get BU Questions with comments
+async function get_BU_Questions_With_CommentsApi(params) {
+  return await Axios.get('/get_bu_questions_with_comments', { params });
+}
+function* handleGet_BU_Questions_With_Comments({ payload }) {
+  try {
+    const response = yield call(get_BU_Questions_With_CommentsApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_BU_QUESTIONS_WITH_COMMENT_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_BU_QUESTIONS_WITH_COMMENT_ERROR,
+    });
   }
 }
 
@@ -404,6 +427,7 @@ export default all([
   takeLatest(ADD_BU_QUESTIONS_REQUEST, add_BU_Questions_Data),
   takeLatest(EDIT_BU_QUESTIONS_REQUEST, edit_BU_Questions_Data),
   takeLatest(DELETE_BU_QUESTIONS_REQUEST, delete_BU_Questions_Data),
+  takeLatest(GET_BU_QUESTIONS_WITH_COMMENT_REQUEST, handleGet_BU_Questions_With_Comments),
   takeLatest(GET_LETTER_NAME_FROM_FUNCTION_REQUEST, handle_GetLetterNameFromFunction),
   takeLatest(CREATE_NEW_FUNCTION_LETTER_REQUEST, createNewFunctionRequest_Data),
   takeLatest(GET_FUNCTION_QUESTIONS_REQUEST, handleGet_Function_Questions),
