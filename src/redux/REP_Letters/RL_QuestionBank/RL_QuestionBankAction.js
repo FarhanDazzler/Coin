@@ -3,6 +3,8 @@ import {
   ADD_BU_QUESTIONS_REQUEST,
   EDIT_BU_QUESTIONS_REQUEST,
   DELETE_BU_QUESTIONS_REQUEST,
+  GET_BU_QUESTIONS_WITH_COMMENT_REQUEST,
+  CLEAR_BU_QUESTIONS_WITH_COMMENT_REQUEST,
   GET_FUNCTION_QUESTIONS_REQUEST,
   ADD_FUNCTION_QUESTIONS_REQUEST,
   EDIT_FUNCTION_QUESTIONS_REQUEST,
@@ -17,6 +19,13 @@ import {
 } from './RL_QuestionBankReducer';
 
 export const get_BU_Questions = (payload) => ({ type: GET_BU_QUESTIONS_REQUEST, payload });
+export const get_BU_Questions_With_Comments = (payload) => ({
+  type: GET_BU_QUESTIONS_WITH_COMMENT_REQUEST,
+  payload,
+});
+export const clear_BU_Questions_With_Comments = () => ({
+  type: CLEAR_BU_QUESTIONS_WITH_COMMENT_REQUEST,
+});
 export const add_BU_Questions = (payload) => ({ type: ADD_BU_QUESTIONS_REQUEST, payload });
 export const edit_BU_Questions = (payload) => ({ type: EDIT_BU_QUESTIONS_REQUEST, payload });
 export const delete_BU_Questions = (payload) => ({

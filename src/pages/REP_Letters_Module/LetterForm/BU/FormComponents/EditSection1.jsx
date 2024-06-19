@@ -11,11 +11,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import Button from '../../../../../components/UI/Button';
 import {
-  get_BU_Questions,
+  get_BU_Questions_With_Comments,
   getInstructions,
 } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankAction';
 import {
-  get_BU_QuestionsSelector,
+  get_BU_Questions_With_CommentsSelector,
   getInstructionsSelector,
 } from '../../../../../redux/REP_Letters/RL_QuestionBank/RL_QuestionBankSelector';
 import {
@@ -61,7 +61,7 @@ const EditSection1 = (props) => {
   const letterType = props.location.state?.data?.letterType;
 
   const getBUSubmitResponseState = useSelector(getBUSubmitResponseSelector);
-  const questionState = useSelector(get_BU_QuestionsSelector);
+  const questionState = useSelector(get_BU_Questions_With_CommentsSelector);
   const questions = questionState?.data;
   const instructionState = useSelector(getInstructionsSelector);
   const getBUScopeDataState = useSelector(getBUScopeDataSelector);
@@ -87,9 +87,9 @@ const EditSection1 = (props) => {
     dispatch(getBUScopeData(payloadGetBUScopeData));
 
     let payloadGet_BU_Questions = {
-      type: letterType,
+      id: scopeData?.id,
     };
-    dispatch(get_BU_Questions(payloadGet_BU_Questions));
+    dispatch(get_BU_Questions_With_Comments(payloadGet_BU_Questions));
 
     let payloadForGettingSubmittedResp = {
       assessment_id: scopeData?.id,

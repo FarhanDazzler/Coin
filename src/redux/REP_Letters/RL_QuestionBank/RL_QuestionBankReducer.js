@@ -25,6 +25,13 @@ export const DELETE_BU_QUESTIONS_SUCCESS = 'DELETE_BU_QUESTIONS_SUCCESS';
 
 // =================== DELETE BU QUESTIONS ========================//
 
+// =================== GET BU QUESTIONS ========================//
+export const GET_BU_QUESTIONS_WITH_COMMENT_REQUEST = 'GET_BU_QUESTIONS_WITH_COMMENT_REQUEST';
+export const GET_BU_QUESTIONS_WITH_COMMENT_SUCCESS = 'GET_BU_QUESTIONS_WITH_COMMENT_SUCCESS';
+export const GET_BU_QUESTIONS_WITH_COMMENT_ERROR = 'GET_BU_QUESTIONS_WITH_COMMENT_ERROR';
+export const CLEAR_BU_QUESTIONS_WITH_COMMENT_REQUEST = 'CLEAR_BU_QUESTIONS_WITH_COMMENT_REQUEST';
+// =================== GET BU QUESTIONS ========================//
+
 // =================== CREATE NEW FUNCTION_LETTER ========================//
 export const CREATE_NEW_FUNCTION_LETTER_REQUEST = 'CREATE_NEW_FUNCTION_LETTER_REQUEST';
 export const CREATE_NEW_FUNCTION_LETTER_SUCCESS = 'CREATE_NEW_FUNCTION_LETTER_SUCCESS';
@@ -106,6 +113,7 @@ const initialState = {
   add_BU_Questions: { ...block, data: [] },
   edit_BU_Questions: { ...block, data: [] },
   delete_BU_Questions: { ...block, data: [] },
+  get_BU_Questions_With_Comments: { ...block, data: [] },
   createNewFunctionRequest: { ...block, data: [] },
   getLetterNameFromFunction: { ...block, data: [] },
   get_Function_Questions: { ...block, data: [] },
@@ -186,6 +194,32 @@ export const RL_QuestionBankReducer = (state = initialState, { type, payload = {
       return {
         ...state,
         delete_BU_Questions: { ...state.delete_BU_Questions, loading: false },
+      };
+
+    // Get BU Questions With Comments
+    case GET_BU_QUESTIONS_WITH_COMMENT_REQUEST:
+      return {
+        ...state,
+        get_BU_Questions_With_Comments: { ...state.get_BU_Questions_With_Comments, loading: true },
+      };
+    case GET_BU_QUESTIONS_WITH_COMMENT_SUCCESS:
+      return {
+        ...state,
+        get_BU_Questions_With_Comments: {
+          ...state.get_BU_Questions_With_Comments,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_BU_QUESTIONS_WITH_COMMENT_ERROR:
+      return {
+        ...state,
+        get_BU_Questions_With_Comments: { ...state.get_BU_Questions_With_Comments, loading: false },
+      };
+    case CLEAR_BU_QUESTIONS_WITH_COMMENT_REQUEST:
+      return {
+        ...state,
+        get_BU_Questions_With_Comments: { ...state.get_BU_Questions_With_Comments, data: [] },
       };
 
     // CREATE NEW FUNCTION LETTER
