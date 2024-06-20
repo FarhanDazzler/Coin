@@ -979,7 +979,6 @@ const KPITable = ({ data }) => {
 
   const handleFileSubmit = (e) => {
     e.preventDefault();
-
     // Validate the data from the excel file and tableData
     if (!validateData()) {
       console.error('Validation failed');
@@ -988,64 +987,6 @@ const KPITable = ({ data }) => {
       return;
     }
 
-    // If validation passes, Then update the table data with results
-    // and update the tableData with the excelFile data
-    const newDataArray = tableData.map((data, i) => {
-      const excelRow = excelFile[i];
-      return {
-        ...data,
-        KPI_Num: excelRow['KPI Num'],
-        KPI_Den: excelRow['KPI Den'],
-        expected_kpi_source: excelRow['Expected KPI Source'],
-        upload_approach: excelRow['Actual KPI Source'],
-        source_system: excelRow['Source of Data - Link'],
-        Result_L1: calculateResult(
-          excelRow['KPI Num'],
-          excelRow['KPI Den'],
-          data.L1,
-          data.Direction,
-          data.Result_L1,
-        ),
-        Result_L2: calculateResult(
-          excelRow['KPI Num'],
-          excelRow['KPI Den'],
-          data.L2,
-          data.Direction,
-          data.Result_L2,
-        ),
-        Result_L3: calculateResult(
-          excelRow['KPI Num'],
-          excelRow['KPI Den'],
-          data.L3,
-          data.Direction,
-          data.Result_L3,
-        ),
-      };
-    });
-
-    // Update the tableData with the results
-    setTableData(newDataArray);
-  };
-
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setButtonText(file.name);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const binaryStr = e.target.result;
-        const workbook = XLSX.read(binaryStr, { type: 'binary' });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
-        setExcelFile(jsonData);
-      };
-      reader.readAsBinaryString(file);
-    }
-  };
-  
-  const handleFileSubmit = (e) => {
-    e.preventDefault();
     // Update the tableData with the results
     setTableData(excelFile);
     setButtonText('Choose a file');
