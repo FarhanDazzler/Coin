@@ -19,8 +19,6 @@ const ExcomMemberHomePage = () => {
   const getHomePageData = useSelector(get_BUZone_ExcomMemberHomePageDataSelector);
 
   const [zoneValue, setZoneValue] = useState([]);
-  const [overallStatusValue, setOverallStatusValue] = useState([]);
-  const [rbaStatusValue, setRbaStatusValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
@@ -28,7 +26,7 @@ const ExcomMemberHomePage = () => {
 
   const statusInfo = useMemo(() => {
     const tableData = getHomePageData?.data[0]?.excomMemberData || [];
-    if (!zoneValue.length && !overallStatusValue.length) {
+    if (!zoneValue.length) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);
       return {
@@ -42,10 +40,7 @@ const ExcomMemberHomePage = () => {
     }
 
     const updatedData = tableData?.filter((i) => {
-      return (
-        (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-        (overallStatusValue?.length ? overallStatusValue.includes(i.Status) : true)
-      );
+      return zoneValue?.length ? zoneValue.includes(i.Zone) : true;
     });
 
     const allUpdatestatus = updatedData?.map((d) => d?.Status);
@@ -83,12 +78,7 @@ const ExcomMemberHomePage = () => {
         </div>
       </div> */}
 
-      <ExcomMemberTable
-        zoneValue={zoneValue}
-        setZoneValue={setZoneValue}
-        overallStatusValue={overallStatusValue}
-        setOverallStatusValue={setOverallStatusValue}
-      />
+      <ExcomMemberTable zoneValue={zoneValue} setZoneValue={setZoneValue} />
     </div>
   );
 };
