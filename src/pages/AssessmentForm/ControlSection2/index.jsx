@@ -883,7 +883,7 @@ const ControlSection2 = ({
 
         // TODO: @@@@ if Numerator accept 0 then add logic here...
         const Numerator = d['Numerator'];
-        d['Numerator'] = !!Numerator || [0, '0'].includes(Numerator) ? +Numerator : '';
+        d['Numerator'] = !!Numerator || [0, '0'].includes(Numerator) ? Numerator.toString() : '';
 
         return {
           ...handleUpdateLevel(d),
