@@ -83,7 +83,7 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
           <span>{scopeData?.Year}</span>
         </p>
         <p className="mb-2">
-          <span className="renderBlockWrapper_title">Local Internal Control : </span>
+          <span className="renderBlockWrapper_title">Processor : </span>
           <span>{scopeData?.Disclosure_Processor}</span>
         </p>
         <p className="mb-2">
@@ -95,18 +95,17 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
           <span>{scopeData?.Zone_Legal_Representative}</span>
         </p>
         <p className="mb-2">
-          <span className="renderBlockWrapper_title">Zone Control : </span>
+          <span className="renderBlockWrapper_title">Head of Zone Control : </span>
           <span>{scopeData?.Zone_Control}</span>
         </p>
         <p className="mb-2">
-          <span className="renderBlockWrapper_title">Zone VP : </span>
+          <span className="renderBlockWrapper_title">Zone VP Finance : </span>
           <span>{scopeData?.Zone_VP}</span>
         </p>
       </div>
     );
   };
 
-  //console.log(scopeData, '@');
   return (
     <div className="Rep-Letter-form-Section0">
       <ClosedCollapseFrame
