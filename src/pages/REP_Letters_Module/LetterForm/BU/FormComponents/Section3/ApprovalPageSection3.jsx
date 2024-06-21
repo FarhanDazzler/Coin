@@ -225,9 +225,7 @@ const ApprovalPageSection3 = ({ scopeData }) => {
                       <>
                         <Row>
                           <h5>
-                            <span className="golden-text">
-                              Comment provided by the Local Internal Control :
-                            </span>
+                            <span className="golden-text">Comment provided by the Processor :</span>
                           </h5>
                         </Row>
                         <Row>

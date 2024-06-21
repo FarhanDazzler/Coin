@@ -285,7 +285,7 @@ const FinanceDirectorTable = ({
     {
       accessorKey: 'Disclosure_Processor',
       id: 'Disclosure_Processor',
-      header: 'Local Internal Control',
+      header: 'Processor',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -303,7 +303,7 @@ const FinanceDirectorTable = ({
     {
       accessorKey: 'BU_Head',
       id: 'BU_Head',
-      header: 'BU Head',
+      header: 'Head of BU Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -312,7 +312,7 @@ const FinanceDirectorTable = ({
     {
       accessorKey: 'Zone_Control',
       id: 'Zone_Control',
-      header: 'Zone Control',
+      header: 'Head of Zone Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -321,7 +321,7 @@ const FinanceDirectorTable = ({
     {
       accessorKey: 'Zone_VP',
       id: 'Zone_VP',
-      header: 'Zone VP',
+      header: 'Zone VP Finance',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',

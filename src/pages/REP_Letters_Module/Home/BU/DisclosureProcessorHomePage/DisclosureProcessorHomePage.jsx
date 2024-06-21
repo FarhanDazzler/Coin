@@ -107,7 +107,7 @@ const DisclosureProcessorHomePage = () => {
           apiKey={''}
           token={localStorage.getItem('nps-auth-token')}
           feedbackMetadata={{
-            Activity: 'Local Internal Control has submitted the Rep Letter',
+            Activity: 'Processor has submitted the Rep Letter',
             Created_By: {
               Email: accounts[0]?.username,
               name: accounts[0]?.name ? accounts[0].name : '',

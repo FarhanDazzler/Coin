@@ -119,7 +119,7 @@ const FunctionalMasterdataModal = ({ setShowModal, assignTableData }) => {
             }),
             Zone_Control: Yup.string().when('Applicability', {
               is: 'Yes',
-              then: Yup.string().required('Zone Control Email is required'),
+              then: Yup.string().required('Head of Zone Control Email is required'),
             }),
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
@@ -285,7 +285,7 @@ const FunctionalMasterdataModal = ({ setShowModal, assignTableData }) => {
                       <div className="col-lg-6">
                         <div className="row mb-4">
                           <div className="col-lg-4">
-                            <Form.Label>Zone Control:</Form.Label>
+                            <Form.Label>Head of Zone Control:</Form.Label>
                           </div>
                           <div className="col-lg-8">
                             <Form.Group className="input-group mb-3">
@@ -341,8 +341,11 @@ const FunctionalMasterdataModal = ({ setShowModal, assignTableData }) => {
                       >
                         Cancel
                       </Button>
-                      <Button color="neutral" className="ml-4" onClick={handleSubmit}
-                      disabled={!isEmailValidADState.data?.isValid}
+                      <Button
+                        color="neutral"
+                        className="ml-4"
+                        onClick={handleSubmit}
+                        disabled={!isEmailValidADState.data?.isValid}
                       >
                         Confirm
                       </Button>

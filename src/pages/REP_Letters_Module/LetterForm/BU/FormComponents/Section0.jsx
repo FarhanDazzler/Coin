@@ -159,7 +159,7 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
               >
                 Scope
               </Button>
-              {localStorage.getItem('selected_Role') === 'Local Internal Control' &&
+              {localStorage.getItem('selected_Role') === 'Processor' &&
                 scopeData.Status != 'Not Started' &&
                 scopeData.Status != 'Drafted' && (
                   <Button

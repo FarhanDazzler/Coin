@@ -38,9 +38,9 @@ const ShowSignaturesBU_Zone = ({ signatures = {} }) => {
       case 'zlr_signed':
         return 'Zone Legal Representative';
       case 'zc_signed':
-        return 'Zone Control';
+        return 'Head of Zone Control';
       case 'zv_signed':
-        return 'Zone VP';
+        return 'Zone VP Finance';
       default:
         return val.split('_').join(' ');
     }

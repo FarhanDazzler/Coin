@@ -263,7 +263,7 @@ const RecipientTable = ({
     {
       accessorKey: 'Zone_Control',
       id: 'Zone_Control',
-      header: 'Zone Control',
+      header: 'Head of Zone Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
