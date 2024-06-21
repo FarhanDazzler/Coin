@@ -139,7 +139,9 @@ const ZoneGlobalPersonaTable = ({ zoneValue, setZoneValue }) => {
       Cell: (row) => {
         return (
           <div>
-            {['Approval Pending', 'Prepared', 'Signed', 'Completed'].includes(row.row.original.Status) && (
+            {['Approval Pending', 'Prepared', 'Signed', 'Completed'].includes(
+              row.row.original.Status,
+            ) && (
               <Button
                 className="mr-2"
                 onClick={() => {
@@ -190,7 +192,7 @@ const ZoneGlobalPersonaTable = ({ zoneValue, setZoneValue }) => {
     {
       accessorKey: 'Disclosure_Processor',
       id: 'Disclosure_Processor',
-      header: 'Local Internal Control',
+      header: 'Processor',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -199,7 +201,7 @@ const ZoneGlobalPersonaTable = ({ zoneValue, setZoneValue }) => {
     {
       accessorKey: 'Zone_Control',
       id: 'Zone_Control',
-      header: 'Zone Control',
+      header: 'Head of Zone Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -208,7 +210,7 @@ const ZoneGlobalPersonaTable = ({ zoneValue, setZoneValue }) => {
     {
       accessorKey: 'Zone_VP',
       id: 'Zone_VP',
-      header: 'Zone VP',
+      header: 'Zone VP Finance',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',

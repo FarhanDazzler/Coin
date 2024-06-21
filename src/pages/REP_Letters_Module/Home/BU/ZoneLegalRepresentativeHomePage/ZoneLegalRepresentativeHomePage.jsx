@@ -16,10 +16,6 @@ const AmountInfo = React.memo(({ amount, infoText }) => {
 });
 
 const ZoneLegalRepresentativeHomePage = () => {
-  const history = useHistory();
-  const { state } = useLocation();
-  const { accounts } = useMsal();
-  const selectedUserRole = localStorage.getItem('selected_Role');
   const getHomePageData = useSelector(get_BUZone_ZoneLegalRepresentativeHomePageDataSelector);
 
   const [zoneValue, setZoneValue] = useState([]);
@@ -44,9 +40,7 @@ const ZoneLegalRepresentativeHomePage = () => {
     }
 
     const updatedData = tableData?.filter((i) => {
-      return (
-        (zoneValue?.length ? zoneValue.includes(i.Zone) : true)
-      );
+      return zoneValue?.length ? zoneValue.includes(i.Zone) : true;
     });
 
     const allUpdatestatus = updatedData?.map((d) => d?.Status);
@@ -84,10 +78,7 @@ const ZoneLegalRepresentativeHomePage = () => {
         </div>
       </div> */}
 
-      <ZoneLegalRepresentativeTable
-        zoneValue={zoneValue}
-        setZoneValue={setZoneValue}
-      />
+      <ZoneLegalRepresentativeTable zoneValue={zoneValue} setZoneValue={setZoneValue} />
     </div>
   );
 };

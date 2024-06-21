@@ -30,6 +30,8 @@ const GlobalPersonaHomePage = () => {
 
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
+  const [overallStatusValue, setOverallStatusValue] = useState([]);
+  const [rbaStatusValue, setRbaStatusValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
@@ -40,6 +42,8 @@ const GlobalPersonaHomePage = () => {
     const updatedData = tableData.filter((i) => {
       return (
         (!zoneValue.length || zoneValue.includes(i.Zone)) &&
+        (!overallStatusValue.length || overallStatusValue.includes(i.Zone)) &&
+        (!rbaStatusValue.length || rbaStatusValue.includes(i.Zone)) &&
         (!buValue.length || buValue.includes(i.BU))
       );
     });
@@ -62,6 +66,8 @@ const GlobalPersonaHomePage = () => {
     zoneValue,
     buValue,
     getNumberOfItem,
+    overallStatusValue,
+    rbaStatusValue,
   ]);
 
   return (
@@ -88,9 +94,7 @@ const GlobalPersonaHomePage = () => {
                   tooltip={
                     <div>
                       <span className="yellow-text"> Not Started : </span>
-                      <span>
-                        Contact Local Internal Control to complete Letter, and check fallbacks on GRC.
-                      </span>
+                      <span>Contact Processor to complete Letter, and check fallbacks on GRC.</span>
                     </div>
                   }
                   subTitle="Not Started"
@@ -102,7 +106,7 @@ const GlobalPersonaHomePage = () => {
                   tooltip={
                     <div>
                       <span className="yellow-text"> Prepared : </span>
-                      <span>Local Internal Control has submitted response for section 1.</span>
+                      <span>Processor has submitted response for section 1.</span>
                     </div>
                   }
                   subTitle="Prepared"
@@ -160,6 +164,10 @@ const GlobalPersonaHomePage = () => {
         setZoneValue={setZoneValue}
         buValue={buValue}
         setBUValue={setBUValue}
+        overallStatusValue={overallStatusValue}
+        setOverallStatusValue={setOverallStatusValue}
+        rbaStatusValue={rbaStatusValue}
+        setRbaStatusValue={setRbaStatusValue}
       />
     </div>
   );

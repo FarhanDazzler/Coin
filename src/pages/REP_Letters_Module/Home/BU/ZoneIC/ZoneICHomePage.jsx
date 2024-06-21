@@ -30,6 +30,8 @@ const ZoneICHomePage = () => {
 
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
+  const [overallStatusValue, setOverallStatusValue] = useState([]);
+  const [rbaStatusValue, setRbaStatusValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
@@ -40,7 +42,9 @@ const ZoneICHomePage = () => {
     const updatedData = tableData.filter((i) => {
       return (
         (!zoneValue.length || zoneValue.includes(i.Zone)) &&
-        (!buValue.length || buValue.includes(i.BU))
+        (!buValue.length || buValue.includes(i.BU)) &&
+        (!overallStatusValue.length || overallStatusValue.includes(i.Status)) &&
+        (!rbaStatusValue.length || rbaStatusValue.includes(i.RBA_Status))
       );
     });
 
@@ -57,12 +61,7 @@ const ZoneICHomePage = () => {
       completedRatio: ((completedAssessment / allUpdatestatus?.length) * 100)?.toFixed(0),
       total: allUpdatestatus?.length,
     };
-  }, [
-    getZICHomePageData?.data[0],
-    zoneValue,
-    buValue,
-    getNumberOfItem,
-  ]);
+  }, [getZICHomePageData?.data[0], zoneValue, buValue, getNumberOfItem]);
 
   return (
     <div>
@@ -88,10 +87,7 @@ const ZoneICHomePage = () => {
                   tooltip={
                     <div>
                       <span className="yellow-text"> Not Started : </span>
-                      <span>
-                        Contact Local Internal Control to complete Letter, and check fallbacks on
-                        GRC.
-                      </span>
+                      <span>Contact Processor to complete Letter, and check fallbacks on GRC.</span>
                     </div>
                   }
                   subTitle="Not Started"
@@ -103,7 +99,7 @@ const ZoneICHomePage = () => {
                   tooltip={
                     <div>
                       <span className="yellow-text"> Prepared : </span>
-                      <span>Local Internal Control has submitted response for section 1.</span>
+                      <span>Processor has submitted response for section 1.</span>
                     </div>
                   }
                   subTitle="Prepared"
@@ -161,6 +157,10 @@ const ZoneICHomePage = () => {
         setZoneValue={setZoneValue}
         buValue={buValue}
         setBUValue={setBUValue}
+        overallStatusValue={overallStatusValue}
+        setOverallStatusValue={setOverallStatusValue}
+        rbaStatusValue={rbaStatusValue}
+        setRbaStatusValue={setRbaStatusValue}
       />
     </div>
   );

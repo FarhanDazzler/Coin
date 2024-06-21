@@ -133,7 +133,7 @@ const FunctionalLetterForm = (props) => {
       { Key: 'BU', Value: info.BU },
       { Key: 'Function', Value: info.Function },
       { Key: 'Recipient', Value: info.Recipient },
-      { Key: 'Zone Control', Value: info.Zone_Control },
+      { Key: 'Head of Zone Control', Value: info.Zone_Control },
       { Key: 'Submitted on', Value: Last_Saved_At },
     ]);
     XLSX.utils.book_append_sheet(wb, infoSheet, 'Information');

@@ -22,7 +22,7 @@ export const convertVariable = (value) => {
     return isNaN(convertedNumber) ? undefined : convertedNumber;
   } else if (typeof value === 'number') {
     // If the value is a number, convert it to a string
-    return value.toString();
+    return value ? value.toString() : value;
   }
   // If the value is none of the above (this should never be reached due to TypeScript's type checking)
   return value;

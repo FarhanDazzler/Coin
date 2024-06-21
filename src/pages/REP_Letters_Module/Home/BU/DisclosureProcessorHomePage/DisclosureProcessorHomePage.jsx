@@ -31,6 +31,8 @@ const DisclosureProcessorHomePage = () => {
   const [openNPS, setOpenNPS] = useState(false);
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
+  const [overallStatusValue, setOverallStatusValue] = useState([]);
+  const [rbaStatusValue, setRbaStatusValue] = useState([]);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
@@ -38,7 +40,12 @@ const DisclosureProcessorHomePage = () => {
 
   const statusInfo = useMemo(() => {
     const tableData = getDisclosureProcessorHomePageData?.data[0]?.dpData || [];
-    if (!zoneValue.length && !buValue.length) {
+    if (
+      !zoneValue.length &&
+      !buValue.length &&
+      !overallStatusValue.length &&
+      !rbaStatusValue.length
+    ) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);
       return {
@@ -54,7 +61,9 @@ const DisclosureProcessorHomePage = () => {
     const updatedData = tableData?.filter((i) => {
       return (
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
-        (buValue?.length ? buValue.includes(i.BU) : true)
+        (buValue?.length ? buValue.includes(i.BU) : true) &&
+        (overallStatusValue?.length ? overallStatusValue.includes(i.Status) : true) &&
+        (rbaStatusValue?.length ? rbaStatusValue.includes(i.RBA_Status) : true)
       );
     });
 
@@ -68,7 +77,14 @@ const DisclosureProcessorHomePage = () => {
       completed: getNumberOfItem(allUpdatestatus, 'Completed'),
       total: allUpdatestatus?.length,
     };
-  }, [getDisclosureProcessorHomePageData?.data[0], zoneValue, buValue, getNumberOfItem]);
+  }, [
+    getDisclosureProcessorHomePageData?.data[0],
+    zoneValue,
+    buValue,
+    getNumberOfItem,
+    overallStatusValue,
+    rbaStatusValue,
+  ]);
 
   // to open NPS feedback modal
   useEffect(() => {
@@ -91,7 +107,7 @@ const DisclosureProcessorHomePage = () => {
           apiKey={''}
           token={localStorage.getItem('nps-auth-token')}
           feedbackMetadata={{
-            Activity: 'Local Internal Control has submitted the Rep Letter',
+            Activity: 'Processor has submitted the Rep Letter',
             Created_By: {
               Email: accounts[0]?.username,
               name: accounts[0]?.name ? accounts[0].name : '',
@@ -130,6 +146,10 @@ const DisclosureProcessorHomePage = () => {
         setZoneValue={setZoneValue}
         buValue={buValue}
         setBUValue={setBUValue}
+        overallStatusValue={overallStatusValue}
+        setOverallStatusValue={setOverallStatusValue}
+        rbaStatusValue={rbaStatusValue}
+        setRbaStatusValue={setRbaStatusValue}
       />
     </div>
   );

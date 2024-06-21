@@ -121,7 +121,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
     {
       accessorKey: 'Disclosure_Processor',
       id: 'Disclosure_Processor',
-      header: 'Local Internal Control',
+      header: 'Processor',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -139,7 +139,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
     {
       accessorKey: 'BU_Head',
       id: 'BU_Head',
-      header: 'BU Head',
+      header: 'Head of BU Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -148,7 +148,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
     {
       accessorKey: 'Zone_VP',
       id: 'Zone_VP',
-      header: 'Zone VP',
+      header: 'Zone VP Finance',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -157,7 +157,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
     {
       accessorKey: 'Zone_Control',
       id: 'Zone_Control',
-      header: 'Zone Control',
+      header: 'Head of Zone Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -223,7 +223,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
     if (editTableIndex.length === 0) {
       Swal.fire({
         title: 'Are you sure?',
-        text: 'All Local Internal Control Selected.',
+        text: 'All Processor Selected.',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'gold',
@@ -550,7 +550,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                     label={
                       <>
                         <Box ml={5}>
-                          <Form.Label>Local Internal Control</Form.Label>
+                          <Form.Label>Processor</Form.Label>
                         </Box>
                       </>
                     }

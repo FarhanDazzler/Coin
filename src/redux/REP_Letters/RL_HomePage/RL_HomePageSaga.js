@@ -235,7 +235,7 @@ function* handle_Get_BU_ZIC_PersonaHomePageData({ payload }) {
   }
 }
 
-// GET BU BU HEAD home page table data
+// GET BU Head of BU Control home page table data
 async function get_BU_BU_HeadHomePageDataApi(params) {
   return await Axios.post('/get_bu_home_page_data_for_bu_head', params);
 }
@@ -255,7 +255,7 @@ function* handle_Get_BU_BU_HeadHomePageData({ payload }) {
   }
 }
 
-// GET BU Local Internal Control home page table data
+// GET BU Processor home page table data
 async function get_BU_Disclosure_ProcessorHomePageDataApi(params) {
   return await Axios.post('/get_bu_home_page_data_for_disclosure_processor', params);
 }
@@ -295,7 +295,7 @@ function* handle_Get_BU_Finance_DirectorHomePageData({ payload }) {
   }
 }
 
-// GET BU ZONE CONTROL home page table data
+// GET BU Head of Zone Control home page table data
 async function get_BU_Zone_ControlHomePageDataApi(params) {
   return await Axios.post('/get_bu_home_page_data_for_zone_control', params);
 }
@@ -315,7 +315,7 @@ function* handle_Get_BU_Zone_ControlHomePageData({ payload }) {
   }
 }
 
-// GET BU Zone VP home page table data
+// GET BU Zone VP Finance home page table data
 async function get_BU_Zone_VPHomePageDataApi(params) {
   return await Axios.post('/get_bu_home_page_data_for_zone_vp', params);
 }
@@ -335,7 +335,7 @@ function* handle_Get_BU_Zone_VPHomePageData({ payload }) {
   }
 }
 
-// GET BU-Zone Local Internal Control home page table data
+// GET BU-Zone Processor home page table data
 async function get_BUZone_Disclosure_ProcessorHomePageDataApi(params) {
   return await Axios.post('/get_zone_home_page_data_for_disclosure_processor', params);
 }
@@ -395,7 +395,7 @@ function* handle_Get_BUZone_ZoneLegalRepresentativeHomePageData({ payload }) {
   }
 }
 
-//  GET BU-Zone Zone VP Home Page Data
+//  GET BU-Zone Zone VP Finance Home Page Data
 async function get_BUZone_Zone_VPHomePageDataApi(params) {
   return await Axios.post('/get_zone_home_page_data_for_zone_vp', params);
 }
@@ -415,7 +415,7 @@ function* handle_Get_BUZone_Zone_VPHomePageData({ payload }) {
   }
 }
 
-//  GET BU-Zone Zone Control Home Page Data
+//  GET BU-Zone Head of Zone Control Home Page Data
 async function get_BUZone_Zone_ControlHomePageDataApi(params) {
   return await Axios.post('/get_zone_home_page_data_for_zone_control', params);
 }

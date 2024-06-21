@@ -45,7 +45,16 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const DisclosureProcessorTable = ({ zoneValue, setZoneValue, buValue, setBUValue }) => {
+const DisclosureProcessorTable = ({
+  zoneValue,
+  setZoneValue,
+  buValue,
+  setBUValue,
+  overallStatusValue,
+  setOverallStatusValue,
+  rbaStatusValue,
+  setRbaStatusValue,
+}) => {
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
 
@@ -296,7 +305,7 @@ const DisclosureProcessorTable = ({ zoneValue, setZoneValue, buValue, setBUValue
     {
       accessorKey: 'Disclosure_Processor',
       id: 'Disclosure_Processor',
-      header: 'Local Internal Control',
+      header: 'Processor',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -314,7 +323,7 @@ const DisclosureProcessorTable = ({ zoneValue, setZoneValue, buValue, setBUValue
     {
       accessorKey: 'BU_Head',
       id: 'BU_Head',
-      header: 'BU Head',
+      header: 'Head of BU Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -323,7 +332,7 @@ const DisclosureProcessorTable = ({ zoneValue, setZoneValue, buValue, setBUValue
     {
       accessorKey: 'Zone_Control',
       id: 'Zone_Control',
-      header: 'Zone Control',
+      header: 'Head of Zone Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -332,7 +341,7 @@ const DisclosureProcessorTable = ({ zoneValue, setZoneValue, buValue, setBUValue
     {
       accessorKey: 'Zone_VP',
       id: 'Zone_VP',
-      header: 'Zone VP',
+      header: 'Zone VP Finance',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -360,18 +369,33 @@ const DisclosureProcessorTable = ({ zoneValue, setZoneValue, buValue, setBUValue
 
   useEffect(() => {
     if (!disclosureProcessorHomePageData?.length) return setTableDataArray([]);
-    if (!assessmentCycleValue?.length && !zoneValue?.length && !buValue?.length) {
+    if (
+      !assessmentCycleValue?.length &&
+      !zoneValue?.length &&
+      !buValue?.length &&
+      !rbaStatusValue?.length &&
+      !overallStatusValue.length
+    ) {
       return setTableDataArray(disclosureProcessorHomePageData);
     }
     const updatedData = disclosureProcessorHomePageData?.filter((i) => {
       return (
         (assessmentCycleValue?.length ? assessmentCycleValue.includes(i.Assessment_Cycle) : true) &&
         (zoneValue?.length ? zoneValue.includes(i.Zone) : true) &&
+        (overallStatusValue?.length ? overallStatusValue.includes(i.Status) : true) &&
+        (rbaStatusValue?.length ? rbaStatusValue.includes(i.RBA_Status) : true) &&
         (buValue?.length ? buValue.includes(i.BU) : true)
       );
     });
     setTableDataArray(updatedData);
-  }, [assessmentCycleValue, zoneValue, buValue, disclosureProcessorHomePageData]);
+  }, [
+    assessmentCycleValue,
+    zoneValue,
+    buValue,
+    disclosureProcessorHomePageData,
+    overallStatusValue,
+    rbaStatusValue,
+  ]);
   return (
     <>
       <div className="container-fluid">
@@ -410,10 +434,31 @@ const DisclosureProcessorTable = ({ zoneValue, setZoneValue, buValue, setBUValue
                   value={buValue}
                   onChange={setBUValue}
                 />
+
+                <FilterMultiSelect
+                  data={[
+                    'Not Started',
+                    'Drafted',
+                    'Approval Pending',
+                    'Prepared',
+                    'Signed',
+                    'Completed',
+                  ]}
+                  label="Over All Status"
+                  value={overallStatusValue}
+                  onChange={setOverallStatusValue}
+                />
+
+                <FilterMultiSelect
+                  data={['Not Started', 'Pending RBA Approval', 'RBA Approved']}
+                  label="RBA Status"
+                  value={rbaStatusValue}
+                  onChange={setRbaStatusValue}
+                />
               </Group>
             </div>
 
-            <div className="col-12 col-lg-12 mt-5">
+            <div className="col-12 col-lg-12 mt-5 LocalInternalControlTable">
               <Table2
                 tableData={tableDataArray}
                 loading={getDisclosureProcessorHomePageData.loading}

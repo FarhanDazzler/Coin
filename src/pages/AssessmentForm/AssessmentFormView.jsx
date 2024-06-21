@@ -300,8 +300,12 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     return tableData.map((td) => {
       return {
         ...td,
-        Denominator: hasFailDenominator(td) ? '' : td.Denominator?.toString() || '',
-        Numerator: hasFailNumerator(td) ? '' : td.Numerator?.toString() || '',
+        Denominator: hasFailDenominator(td)
+          ? ''
+          : td.Denominator
+          ? td.Denominator?.toString() || ''
+          : '',
+        Numerator: hasFailNumerator(td) ? '' : td.Numerator ? td.Numerator?.toString() || '' : '',
       };
     });
   };
