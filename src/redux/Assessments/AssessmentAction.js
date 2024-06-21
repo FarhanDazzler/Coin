@@ -22,6 +22,8 @@ import {
   GET_MICS_OPEN_ACTION_PLAN_REQUEST,
   GET_MICS_OPEN_ACTION_PLAN_DATA_REQUEST,
   CLEAR_MICS_OPEN_ACTION_PLAN_DATA,
+  GET_PREVIOUS_ASSESSMENT_RESULT_REQUEST,
+  CLEAR_PREVIOUS_ASSESSMENT_RESULT,
 } from './AssessmentReducer';
 
 export const saveAssessmentAns = (payload) => ({ type: SAVE_ANS, payload });
@@ -114,4 +116,14 @@ export const get_MICS_OpenActionPlan = (payload) => ({
 
 export const clear_MICS_OpenActionPlan = () => ({
   type: CLEAR_MICS_OPEN_ACTION_PLAN_DATA,
+});
+
+export const get_previous_assessment_result = (payload) => ({
+  type: GET_PREVIOUS_ASSESSMENT_RESULT_REQUEST,
+  payload,
+});
+
+export const clear_previous_assessment_result = (payload) => ({
+  type: CLEAR_PREVIOUS_ASSESSMENT_RESULT,
+  payload,
 });

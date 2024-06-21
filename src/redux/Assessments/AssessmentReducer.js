@@ -84,6 +84,13 @@ export const GET_MICS_OPEN_ACTION_PLAN_DATA_ERROR = 'GET_MICS_OPEN_ACTION_PLAN_D
 export const CLEAR_MICS_OPEN_ACTION_PLAN_DATA = 'CLEAR_MICS_OPEN_ACTION_PLAN_DATA';
 // ================= MICS Action Plan ================== //
 
+// ================= Get Assessment Previous Result ================== //
+export const GET_PREVIOUS_ASSESSMENT_RESULT_REQUEST = 'GET_PREVIOUS_ASSESSMENT_RESULT_REQUEST';
+export const GET_PREVIOUS_ASSESSMENT_RESULT_SUCCESS = 'GET_PREVIOUS_ASSESSMENT_RESULT_SUCCESS';
+export const GET_PREVIOUS_ASSESSMENT_RESULT_ERROR = 'GET_PREVIOUS_ASSESSMENT_RESULT_ERROR';
+export const CLEAR_PREVIOUS_ASSESSMENT_RESULT = 'CLEAR_PREVIOUS_ASSESSMENT_RESULT';
+// ================= Get Assessment Previous Result ================== //
+
 const block = {
   loading: false,
   error: '',
@@ -108,6 +115,7 @@ const initialState = {
   getLatestDraft: { ...block, data: { s1: null, s2: null, s3: null } },
   getMicsOpenActionPlan: { ...block, data: {} },
   get_MICS_OpenActionPlan: { ...block, data: {} },
+  get_previous_assessment_result: { ...block, data: {} },
 };
 
 export const AssessmentReducer = (state = initialState, { type, payload = {} }) => {
@@ -476,6 +484,42 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
         ...state,
         get_MICS_OpenActionPlan: {
           ...state.get_MICS_OpenActionPlan,
+          data: null,
+          loading: false,
+        },
+      };
+
+    // Get Previous Assessment Result
+    case GET_PREVIOUS_ASSESSMENT_RESULT_REQUEST:
+      return {
+        ...state,
+        get_previous_assessment_result: {
+          ...state.get_previous_assessment_result,
+          loading: true,
+        },
+      };
+    case GET_PREVIOUS_ASSESSMENT_RESULT_SUCCESS:
+      return {
+        ...state,
+        get_previous_assessment_result: {
+          ...state.get_previous_assessment_result,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_PREVIOUS_ASSESSMENT_RESULT_ERROR:
+      return {
+        ...state,
+        get_previous_assessment_result: {
+          ...state.get_previous_assessment_result,
+          loading: false,
+        },
+      };
+    case CLEAR_PREVIOUS_ASSESSMENT_RESULT:
+      return {
+        ...state,
+        get_previous_assessment_result: {
+          ...state.get_previous_assessment_result,
           data: null,
           loading: false,
         },
