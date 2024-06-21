@@ -596,6 +596,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
           style: { width: 140 },
           loading: addOrEditUpdateDraft.loading,
         }}
+        controlId={activeData?.control_id}
         isOverride={isOverride}
         setIsOverride={setIsOverride}
         isReview={isReview}

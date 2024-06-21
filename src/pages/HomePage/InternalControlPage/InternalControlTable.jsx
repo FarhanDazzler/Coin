@@ -403,7 +403,7 @@ const InternalControlTable = ({
     {
       accessorKey: 'assessment_submitted_by',
       id: 'assessment_submitted_by',
-      header: 'Assessment submitted by',
+      header: 'Last Submitted By',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
