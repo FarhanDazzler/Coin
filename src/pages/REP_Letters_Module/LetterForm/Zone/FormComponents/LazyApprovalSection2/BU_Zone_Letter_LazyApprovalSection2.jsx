@@ -54,7 +54,7 @@ const Section2 = ({ id }) => {
   const [toggleData, setToggleData] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem('selected_Role') === 'Zone Control') {
+    if (localStorage.getItem('selected_Role') === 'Head of Zone Control') {
       if (
         getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted === true &&
         getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame === ''
@@ -74,7 +74,7 @@ const Section2 = ({ id }) => {
         setToggleData(false);
       }
     }
-    if (localStorage.getItem('selected_Role') === 'Zone VP') {
+    if (localStorage.getItem('selected_Role') === 'Zone VP Finance') {
       if (
         getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted === true &&
         getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame === ''
@@ -257,8 +257,7 @@ const Section2 = ({ id }) => {
                           </p>
                           <div className="rep-letter-form-bottom-btn">
                             <h5>
-                              Approval Email attached by Local Internal Control For Zone Legal
-                              Representative
+                              Approval Email attached by Processor For Zone Legal Representative
                             </h5>
 
                             <Button
@@ -303,10 +302,10 @@ const Section2 = ({ id }) => {
                       getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ? (
                         <div className="col-lg-12">
                           <p>
-                            <b>Zone VP</b>
+                            <b>Zone VP Finance</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>Approval Email attached by Local Internal Control For Zone VP</h5>
+                            <h5>Approval Email attached by Processor For Zone VP Finance</h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
@@ -329,9 +328,9 @@ const Section2 = ({ id }) => {
                               '' && (
                               <div className="col-lg-12 auto-auth">
                                 <p>
-                                  <b>Zone VP</b>
+                                  <b>Zone VP Finance</b>
                                 </p>
-                                <h5>Zone VP has Signed by Auto Authenticator</h5>
+                                <h5>Zone VP Finance has Signed by Auto Authenticator</h5>
                                 {getBUSection2SignatureResponseState?.data?.signatures?.zv
                                   ?.comment && (
                                   <h6>
@@ -353,9 +352,7 @@ const Section2 = ({ id }) => {
                             <b>Excom Member</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>
-                              Approval Email attached by Local Internal Control For Excom Member
-                            </h5>
+                            <h5>Approval Email attached by Processor For Excom Member</h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
@@ -399,12 +396,10 @@ const Section2 = ({ id }) => {
                       getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ? (
                         <div className="col-lg-12">
                           <p>
-                            <b>Zone Control</b>
+                            <b>Head of Zone Control</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>
-                              Approval Email attached by Local Internal Control For Zone Control
-                            </h5>
+                            <h5>Approval Email attached by Processor For Head of Zone Control</h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
@@ -427,9 +422,9 @@ const Section2 = ({ id }) => {
                               '' && (
                               <div className="col-lg-12 auto-auth">
                                 <p>
-                                  <b>Zone Control</b>
+                                  <b>Head of Zone Control</b>
                                 </p>
-                                <h5>Zone Control has Signed by Auto Authenticator</h5>
+                                <h5>Head of Zone Control has Signed by Auto Authenticator</h5>
                                 {getBUSection2SignatureResponseState?.data?.signatures?.zc
                                   ?.comment && (
                                   <h6>
@@ -485,11 +480,11 @@ const ReviewSubmittedResponses = ({ scopeData, getBUSubmitResponseState }) => {
       { Key: 'Zone', Value: info.Zone },
       { Key: 'BU', Value: info.BU },
       { Key: 'Entity', Value: info.Entity },
-      { Key: 'Local Internal Control', Value: info.Disclosure_Processor },
+      { Key: 'Processor', Value: info.Disclosure_Processor },
       { Key: 'Zone Legal Representative', Value: info.Finance_Director },
       { Key: 'Excom Member', Value: info.BU_Head },
-      { Key: 'Zone Control', Value: info.Zone_Control },
-      { Key: 'Zone VP', Value: info.Zone_VP },
+      { Key: 'Head of Zone Control', Value: info.Zone_Control },
+      { Key: 'Zone VP Finance', Value: info.Zone_VP },
       { Key: 'Submitted on', Value: Last_Saved_At },
     ]);
     XLSX.utils.book_append_sheet(wb, infoSheet, 'Information');

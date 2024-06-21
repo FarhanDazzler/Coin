@@ -43,23 +43,23 @@ export const GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR';
 // ============= GET BU ZIC PErsona home page table data ===============//
 
-// ============= GET BU BU Head home page table data ===============//
+// ============= GET BU Head of BU Control home page table data ===============//
 export const GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_REQUEST';
 export const GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_SUCCESS =
   'GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_SUCCESS';
 export const GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_ERROR';
-// ============= GET BU BU Head home page table data ===============//
+// ============= GET BU Head of BU Control home page table data ===============//
 
-// ============= GET BU Local Internal Control home page table data ===============//
+// ============= GET BU Processor home page table data ===============//
 export const GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST';
 export const GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS =
   'GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS';
 export const GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR';
-// ============= GET BU Local Internal Control home page table data ===============//
+// ============= GET BU Processor home page table data ===============//
 
 // ============= GET BU Finance Director home page table data ===============//
 export const GET_BU_FINANCE_DIRECTOR_HOME_PAGE_TABLE_DATA_REQUEST =
@@ -70,32 +70,32 @@ export const GET_BU_FINANCE_DIRECTOR_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_FINANCE_DIRECTOR_HOME_PAGE_TABLE_DATA_ERROR';
 // ============= GET BU Finance Director home page table data ===============//
 
-// ============= GET BU Zone VP home page table data ===============//
+// ============= GET BU Zone VP Finance home page table data ===============//
 export const GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST';
 export const GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_SUCCESS =
   'GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_SUCCESS';
 export const GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_ERROR';
-// ============= GET BU Zone VP home page table data ===============//
+// ============= GET BU Zone VP Finance home page table data ===============//
 
-// ============= GET BU Zone Control home page table data ===============//
+// ============= GET BU Head of Zone Control home page table data ===============//
 export const GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_REQUEST';
 export const GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_SUCCESS =
   'GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_SUCCESS';
 export const GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR';
-// ============= GET BU Zone Control home page table data ===============//
+// ============= GET BU Head of Zone Control home page table data ===============//
 
-// ============= GET BU-Zone Local Internal Control home page table data ===============//
+// ============= GET BU-Zone Processor home page table data ===============//
 export const GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST';
 export const GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS =
   'GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_SUCCESS';
 export const GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR';
-// ============= GET BU-Zone Local Internal Control home page table data ===============//
+// ============= GET BU-Zone Processor home page table data ===============//
 
 // ============= Get BU-Zone Excom Member Home Page Data ===============//
 export const GET_BUZONE_EXCOM_MEMBER_HOME_PAGE_TABLE_DATA_REQUEST =
@@ -115,23 +115,23 @@ export const GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BUZONE_ZONE_LEGAL_REPRESENTATIVE_HOME_PAGE_TABLE_DATA_ERROR';
 // ============= GET BU-Zone Zone Legal Representative Home Page Data ===============//
 
-// ============= GET BU-Zone Zone VP home page table data ===============//
+// ============= GET BU-Zone Zone VP Finance home page table data ===============//
 export const GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST';
 export const GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_SUCCESS =
   'GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_SUCCESS';
 export const GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_ERROR';
-// ============= GET BU-Zone Zone VP home page table data ===============//
+// ============= GET BU-Zone Zone VP Finance home page table data ===============//
 
-// ============= GET BU-Zone Zone Control home page table data ===============//
+// ============= GET BU-Zone Head of Zone Control home page table data ===============//
 export const GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_REQUEST';
 export const GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_SUCCESS =
   'GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_SUCCESS';
 export const GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_ERROR';
-// ============= GET BU-Zone Zone Control home page table data ===============//
+// ============= GET BU-Zone Head of Zone Control home page table data ===============//
 
 // ============= GET BU-Zone Global Persona home page table data ===============//
 export const GET_BUZONE_GLOBAL_PERSONA_HOME_PAGE_TABLE_DATA_REQUEST =
@@ -542,7 +542,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         },
       };
 
-    // GET BU BU Head home page table data
+    // GET BU Head of BU Control home page table data
     case GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_REQUEST:
       return {
         ...state,
@@ -569,7 +569,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         },
       };
 
-    // GET BU Local Internal Control home page table data
+    // GET BU Processor home page table data
     case GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST:
       return {
         ...state,
@@ -623,7 +623,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         },
       };
 
-    // GET BU Zone VP home page table data
+    // GET BU Zone VP Finance home page table data
     case GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST:
       return {
         ...state,
@@ -650,7 +650,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         },
       };
 
-    // GET BU Zone Control home page table data
+    // GET BU Head of Zone Control home page table data
     case GET_BU_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_REQUEST:
       return {
         ...state,
@@ -677,7 +677,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         },
       };
 
-    // GET BU-Zone Local Internal Control home page table data
+    // GET BU-Zone Processor home page table data
     case GET_BUZONE_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST:
       return {
         ...state,
@@ -758,7 +758,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         },
       };
 
-    // GET BU-Zone Zone VP home page table data
+    // GET BU-Zone Zone VP Finance home page table data
     case GET_BUZONE_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST:
       return {
         ...state,
@@ -785,7 +785,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         },
       };
 
-    // GET BU-Zone Zone Control home page table data
+    // GET BU-Zone Head of Zone Control home page table data
     case GET_BUZONE_ZONE_CONTROL_HOME_PAGE_TABLE_DATA_REQUEST:
       return {
         ...state,

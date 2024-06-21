@@ -31,7 +31,7 @@ const Section2 = ({ scopeData }) => {
   const [toggleData, setToggleData] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem('selected_Role') === 'Zone Control') {
+    if (localStorage.getItem('selected_Role') === 'Head of Zone Control') {
       if (
         getBUSection2SignatureResponseState?.data?.signatures?.zc?.submitted === true &&
         getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame === ''
@@ -41,7 +41,7 @@ const Section2 = ({ scopeData }) => {
         setToggleData(false);
       }
     }
-    if (localStorage.getItem('selected_Role') === 'BU Head') {
+    if (localStorage.getItem('selected_Role') === 'Head of BU Control') {
       if (
         getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted === true &&
         getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame === ''
@@ -51,7 +51,7 @@ const Section2 = ({ scopeData }) => {
         setToggleData(false);
       }
     }
-    if (localStorage.getItem('selected_Role') === 'Zone VP') {
+    if (localStorage.getItem('selected_Role') === 'Zone VP Finance') {
       if (
         getBUSection2SignatureResponseState?.data?.signatures?.zv?.submitted === true &&
         getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame === ''
@@ -95,7 +95,7 @@ const Section2 = ({ scopeData }) => {
     // // Extract the individual pieces of information
     // const [ip, city, region, country_name] = decryptedData.split(',');
 
-    if (localStorage.getItem('selected_Role') === 'Zone Control') {
+    if (localStorage.getItem('selected_Role') === 'Head of Zone Control') {
       signatures.push({
         role: 'ZC',
         type: 'checkbox',
@@ -106,7 +106,7 @@ const Section2 = ({ scopeData }) => {
           : location.error.message,
       });
     }
-    if (localStorage.getItem('selected_Role') === 'BU Head') {
+    if (localStorage.getItem('selected_Role') === 'Head of BU Control') {
       signatures.push({
         role: 'BUH',
         type: 'checkbox',
@@ -117,7 +117,7 @@ const Section2 = ({ scopeData }) => {
           : location.error.message,
       });
     }
-    if (localStorage.getItem('selected_Role') === 'Zone VP') {
+    if (localStorage.getItem('selected_Role') === 'Zone VP Finance') {
       signatures.push({
         role: 'ZV',
         type: 'checkbox',
@@ -320,7 +320,7 @@ const Section2 = ({ scopeData }) => {
 
                     <div className="col-lg-6">
                       <Form.Group className="position-relative mb-3">
-                        <Form.Label className="mt-3">BU Head :</Form.Label>
+                        <Form.Label className="mt-3">Head of BU Control :</Form.Label>
                         <Form.Control
                           type="file"
                           required
@@ -345,7 +345,7 @@ const Section2 = ({ scopeData }) => {
 
                     <div className="col-lg-6">
                       <Form.Group className="position-relative mb-3">
-                        <Form.Label className="mt-3">Zone Control :</Form.Label>
+                        <Form.Label className="mt-3">Head of Zone Control :</Form.Label>
                         <Form.Control
                           type="file"
                           required
@@ -370,7 +370,7 @@ const Section2 = ({ scopeData }) => {
 
                     <div className="col-lg-6">
                       <Form.Group className="position-relative mb-3">
-                        <Form.Label className="mt-3">Zone VP :</Form.Label>
+                        <Form.Label className="mt-3">Zone VP Finance :</Form.Label>
                         <Form.Control
                           type="file"
                           required
@@ -521,14 +521,14 @@ const Section2 = ({ scopeData }) => {
                 <p>
                   <b>
                     As a{' '}
-                    {localStorage.getItem('selected_Role') === 'Local Internal Control'
-                      ? 'Local Internal Control'
+                    {localStorage.getItem('selected_Role') === 'Processor'
+                      ? 'Processor'
                       : `${localStorage.getItem('selected_Role')} - Signatory`}
                   </b>
                 </p>
               </div>
               <div className="renderBlockWrapper_content">
-                {localStorage.getItem('selected_Role') === 'Local Internal Control' ? (
+                {localStorage.getItem('selected_Role') === 'Processor' ? (
                   <>
                     <p>Upload the approval email from the respective signatories/authenticators</p>
                   </>
@@ -563,9 +563,7 @@ const Section2 = ({ scopeData }) => {
                             <b>Finance Director</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>
-                              Approval Email attached by Local Internal Control For Finance Director
-                            </h5>
+                            <h5>Approval Email attached by Processor For Finance Director</h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
@@ -609,10 +607,10 @@ const Section2 = ({ scopeData }) => {
                       getBUSection2SignatureResponseState?.data?.signatures?.zv?.finame ? (
                         <div className="col-lg-12">
                           <p>
-                            <b>Zone VP</b>
+                            <b>Zone VP Finance</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>Approval Email attached by Local Internal Control For Zone VP</h5>
+                            <h5>Approval Email attached by Processor For Zone VP Finance</h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
@@ -635,9 +633,9 @@ const Section2 = ({ scopeData }) => {
                               '' && (
                               <div className="col-lg-12 auto-auth">
                                 <p>
-                                  <b>Zone VP</b>
+                                  <b>Zone VP Finance</b>
                                 </p>
-                                <h5>Zone VP has Signed by Auto Authenticator</h5>
+                                <h5>Zone VP Finance has Signed by Auto Authenticator</h5>
                                 {getBUSection2SignatureResponseState?.data?.signatures?.zv
                                   ?.comment && (
                                   <h6>
@@ -656,10 +654,10 @@ const Section2 = ({ scopeData }) => {
                       getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ? (
                         <div className="col-lg-12">
                           <p>
-                            <b>BU Head</b>
+                            <b>Head of BU Control</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>Approval Email attached by Local Internal Control For BU Head</h5>
+                            <h5>Approval Email attached by Processor For Head of BU Control</h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
@@ -682,9 +680,9 @@ const Section2 = ({ scopeData }) => {
                               '' && (
                               <div className="col-lg-12 auto-auth">
                                 <p>
-                                  <b>BU Head</b>
+                                  <b>Head of BU Control</b>
                                 </p>
-                                <h5>BU Head has Signed by Auto Authenticator</h5>
+                                <h5>Head of BU Control has Signed by Auto Authenticator</h5>
                                 {getBUSection2SignatureResponseState?.data?.signatures?.buh
                                   ?.comment && (
                                   <h6>
@@ -703,12 +701,10 @@ const Section2 = ({ scopeData }) => {
                       getBUSection2SignatureResponseState?.data?.signatures?.zc?.finame ? (
                         <div className="col-lg-12">
                           <p>
-                            <b>Zone Control</b>
+                            <b>Head of Zone Control</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>
-                              Approval Email attached by Local Internal Control For Zone Control
-                            </h5>
+                            <h5>Approval Email attached by Processor For Head of Zone Control</h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
@@ -731,9 +727,9 @@ const Section2 = ({ scopeData }) => {
                               '' && (
                               <div className="col-lg-12 auto-auth">
                                 <p>
-                                  <b>Zone Control</b>
+                                  <b>Head of Zone Control</b>
                                 </p>
-                                <h5>Zone Control has Signed by Auto Authenticator</h5>
+                                <h5>Head of Zone Control has Signed by Auto Authenticator</h5>
                                 {getBUSection2SignatureResponseState?.data?.signatures?.zc
                                   ?.comment && (
                                   <h6>
@@ -763,7 +759,7 @@ const Section2 = ({ scopeData }) => {
               />
               <div className="renderBlockWrapper_file">
                 <div>
-                  {localStorage.getItem('selected_Role') === 'Local Internal Control' ? (
+                  {localStorage.getItem('selected_Role') === 'Processor' ? (
                     <EmailAttachmentDiv />
                   ) : (
                     <AutoAuth />

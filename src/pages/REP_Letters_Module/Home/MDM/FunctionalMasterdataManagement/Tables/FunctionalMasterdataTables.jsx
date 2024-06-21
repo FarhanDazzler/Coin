@@ -125,7 +125,7 @@ const FunctionalMasterdataTable = () => {
     {
       accessorKey: 'Zone_Control',
       id: 'Zone_Control',
-      header: 'Zone Control',
+      header: 'Head of Zone Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -134,7 +134,7 @@ const FunctionalMasterdataTable = () => {
     {
       accessorKey: 'Zone_Control_Status',
       id: 'Zone_Control_Status',
-      header: 'Zone Control Status',
+      header: 'Head of Zone Control Status',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',

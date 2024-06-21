@@ -34,13 +34,13 @@ const ShowSignatures = ({ signatures = {} }) => {
   const getSignaturesName = (val) => {
     switch (val) {
       case 'buh_signed':
-        return 'BU Head';
+        return 'Head of BU Control';
       case 'fd_signed':
         return 'Finance Director';
       case 'zc_signed':
-        return 'Zone Control';
+        return 'Head of Zone Control';
       case 'zv_signed':
-        return 'Zone VP';
+        return 'Zone VP Finance';
       default:
         return val.split('_').join(' ');
     }

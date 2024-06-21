@@ -52,10 +52,12 @@ import {
   GET_MICS_OPEN_ACTION_PLAN_DATA_REQUEST,
   GET_MICS_OPEN_ACTION_PLAN_DATA_SUCCESS,
   GET_MICS_OPEN_ACTION_PLAN_DATA_ERROR,
+  GET_PREVIOUS_ASSESSMENT_RESULT_REQUEST,
+  GET_PREVIOUS_ASSESSMENT_RESULT_SUCCESS,
+  GET_PREVIOUS_ASSESSMENT_RESULT_ERROR,
 } from './AssessmentReducer';
 import { ACTION_ADD_ERROR_NOTIFICATION_DATA } from '../ErrorNotification/ErrorNotificationReducer';
 import Swal from 'sweetalert2';
-import { getMicsOpenActionPlan } from './AssessmentAction';
 
 async function GetLatestDraftApi(params) {
   return await Axios.get('/get_latest_draft', { params });
@@ -424,6 +426,27 @@ function* handle_get_MICS_OpenActionPlan({ payload }) {
   }
 }
 
+// Get Previous Assessment Result
+async function get_previous_assessment_resultApi(payload) {
+  return await Axios.post('/get_previous_assessment_result', payload);
+}
+function* handle_get_previous_assessment_result({ payload }) {
+  try {
+    const response = yield call(get_previous_assessment_resultApi, payload);
+    if (response.success) {
+      yield put({
+        type: GET_PREVIOUS_ASSESSMENT_RESULT_SUCCESS,
+        payload: response.data,
+      });
+    }
+  } catch (error) {
+    yield put({
+      type: GET_PREVIOUS_ASSESSMENT_RESULT_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 export default all([
   takeLatest(GET_LATEST_DRAFT_REQUEST, handleGetLatestDraft),
   takeLatest(ADD_OR_UPDATE_DRAFT_REQUEST, handleAddOrUpdateDraft),
@@ -440,4 +463,5 @@ export default all([
   takeLatest(ADD_UPDATE_FINAL_SUBMIT_RESPONSE_REQUEST, handle_addUpdateFinalSubmitResponse),
   takeLatest(GET_MICS_OPEN_ACTION_PLAN_REQUEST, handle_getMicsOpenActionPlan),
   takeLatest(GET_MICS_OPEN_ACTION_PLAN_DATA_REQUEST, handle_get_MICS_OpenActionPlan),
+  takeLatest(GET_PREVIOUS_ASSESSMENT_RESULT_REQUEST, handle_get_previous_assessment_result),
 ]);

@@ -152,7 +152,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
             Applicability: Yup.string().required('Applicability is required'),
             Disclosure_Processor: Yup.string().when('Applicability', {
               is: 'Yes',
-              then: Yup.string().required('Local Internal Control Email is required'),
+              then: Yup.string().required('Processor Email is required'),
             }),
             Finance_Director: Yup.string().when('Applicability', {
               is: 'Yes',
@@ -160,15 +160,15 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
             }),
             BU_Head: Yup.string().when('Applicability', {
               is: 'Yes',
-              then: Yup.string().required('BU Head Email is required'),
+              then: Yup.string().required('Head of BU Control Email is required'),
             }),
             Zone_Control: Yup.string().when('Applicability', {
               is: 'Yes',
-              then: Yup.string().required('Zone Control Email is required'),
+              then: Yup.string().required('Head of Zone Control Email is required'),
             }),
             Zone_VP: Yup.string().when('Applicability', {
               is: 'Yes',
-              then: Yup.string().required('Zone VP Email is required'),
+              then: Yup.string().required('Zone VP Finance Email is required'),
             }),
           })}
           onSubmit={async (values, { setErrors, setStatus, setSubmitting, resetForm }) => {
@@ -257,7 +257,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                       <div className="col-lg-6">
                         <div className="row mb-4">
                           <div className="col-lg-4">
-                            <Form.Label>Local Internal Control:</Form.Label>
+                            <Form.Label>Processor:</Form.Label>
                           </div>
                           <div className="col-lg-8">
                             <Form.Group className="input-group mb-3">
@@ -351,7 +351,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                       <div className="col-lg-6">
                         <div className="row mb-4">
                           <div className="col-lg-4">
-                            <Form.Label>BU Head:</Form.Label>
+                            <Form.Label>Head of BU Control:</Form.Label>
                           </div>
                           <div className="col-lg-8">
                             <Form.Group className="input-group mb-3">
@@ -395,7 +395,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                       <div className="col-lg-6">
                         <div className="row mb-4">
                           <div className="col-lg-4">
-                            <Form.Label>Zone Control:</Form.Label>
+                            <Form.Label>Head of Zone Control:</Form.Label>
                           </div>
                           <div className="col-lg-8">
                             <Form.Group className="input-group mb-3">
@@ -439,7 +439,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                       <div className="col-lg-6">
                         <div className="row mb-4">
                           <div className="col-lg-4">
-                            <Form.Label>Zone VP:</Form.Label>
+                            <Form.Label>Zone VP Finance:</Form.Label>
                           </div>
                           <div className="col-lg-8">
                             <Form.Group className="input-group mb-3">

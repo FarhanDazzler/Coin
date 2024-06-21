@@ -70,7 +70,7 @@ const Section0 = ({ scopeData }) => {
           <span>{scopeData?.Recipient}</span>
         </p>
         <p className="mb-2">
-          <span className="renderBlockWrapper_title">Zone Control : </span>
+          <span className="renderBlockWrapper_title">Head of Zone Control : </span>
           <span>{scopeData?.Zone_Control}</span>
         </p>
         <p className="mb-2">

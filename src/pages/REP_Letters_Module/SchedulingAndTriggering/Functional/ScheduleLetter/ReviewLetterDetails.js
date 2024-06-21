@@ -134,8 +134,8 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               <Workbook.Column label="Recipient" value="Recipient" />
               <Workbook.Column label="Recipient Status" value="Recipient_Status" />
               <Workbook.Column label="Title/Position" value="Title_Position" />
-              <Workbook.Column label="Zone Control" value="Zone_Control" />
-              <Workbook.Column label="Zone Control Status" value="Zone_Control_Status" />
+              <Workbook.Column label="Head of Zone Control" value="Zone_Control" />
+              <Workbook.Column label="Head of Zone Control Status" value="Zone_Control_Status" />
             </Workbook.Sheet>
           </Workbook>
         </div>

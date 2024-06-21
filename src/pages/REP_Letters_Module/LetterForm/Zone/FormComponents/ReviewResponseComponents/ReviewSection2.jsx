@@ -23,8 +23,8 @@ const ReviewSection2 = (props) => {
               <p>
                 <b>
                   As a{' '}
-                  {localStorage.getItem('selected_Role') === 'Local Internal Control'
-                    ? 'Local Internal Control'
+                  {localStorage.getItem('selected_Role') === 'Processor'
+                    ? 'Processor'
                     : `${localStorage.getItem('selected_Role')} - Signatory`}
                 </b>
               </p>
@@ -173,7 +173,7 @@ const ReviewSection2 = (props) => {
                       <div className="col-lg-12">
                         <Divider className="renderBlockWrapper_divider" size="xs" />
                         <p className="golden-text">
-                          <b>Zone VP :</b>
+                          <b>Zone VP Finance :</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
                           <h6>
@@ -230,7 +230,7 @@ const ReviewSection2 = (props) => {
                             <div className="col-lg-12 auto-auth">
                               <Divider className="renderBlockWrapper_divider" size="xs" />
                               <p className="golden-text">
-                                <b>Zone VP :</b>
+                                <b>Zone VP Finance :</b>
                               </p>
                               <h6>
                                 “I hereby certify that the above representation letter reflects my
@@ -412,7 +412,7 @@ const ReviewSection2 = (props) => {
                       <div className="col-lg-12">
                         <Divider className="renderBlockWrapper_divider" size="xs" />
                         <p className="golden-text">
-                          <b>Zone Control :</b>
+                          <b>Head of Zone Control :</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
                           <h6>
@@ -469,7 +469,7 @@ const ReviewSection2 = (props) => {
                             <div className="col-lg-12 auto-auth">
                               <Divider className="renderBlockWrapper_divider" size="xs" />
                               <p className="golden-text">
-                                <b>Zone Control :</b>
+                                <b>Head of Zone Control :</b>
                               </p>
                               <h6>
                                 “I hereby certify that the above representation letter reflects my

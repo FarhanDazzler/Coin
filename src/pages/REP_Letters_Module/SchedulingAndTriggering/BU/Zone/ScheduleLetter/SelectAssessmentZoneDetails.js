@@ -97,7 +97,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
     {
       accessorKey: 'Disclosure_Processor',
       id: 'Disclosure_Processor',
-      header: 'Local Internal Control',
+      header: 'Processor',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -106,7 +106,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
     {
       accessorKey: 'Zone_Control',
       id: 'Zone_Control',
-      header: 'Zone Control',
+      header: 'Head of Zone Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -115,7 +115,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
     {
       accessorKey: 'Zone_VP',
       id: 'Zone_VP',
-      header: 'Zone VP',
+      header: 'Zone VP Finance',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -507,7 +507,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
                     label={
                       <>
                         <Box ml={5}>
-                          <Form.Label>Local Internal Control</Form.Label>
+                          <Form.Label>Processor</Form.Label>
                         </Box>
                       </>
                     }

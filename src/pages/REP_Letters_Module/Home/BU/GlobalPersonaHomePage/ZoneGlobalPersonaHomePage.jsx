@@ -37,9 +37,7 @@ const ZoneGlobalPersonaHomePage = () => {
   const statusInfo = useMemo(() => {
     const tableData = getGlobalPersonaHomePageData?.data[0]?.home_page_table_global || [];
     const updatedData = tableData.filter((i) => {
-      return (
-        (!zoneValue.length || zoneValue.includes(i.Zone))
-      );
+      return !zoneValue.length || zoneValue.includes(i.Zone);
     });
 
     const allUpdatestatus = updatedData.map((d) => d?.Status);
@@ -53,11 +51,7 @@ const ZoneGlobalPersonaHomePage = () => {
       completedRatio: ((completedAssessment / allUpdatestatus?.length) * 100)?.toFixed(0),
       total: allUpdatestatus?.length,
     };
-  }, [
-    getGlobalPersonaHomePageData?.data[0],
-    zoneValue,
-    getNumberOfItem,
-  ]);
+  }, [getGlobalPersonaHomePageData?.data[0], zoneValue, getNumberOfItem]);
 
   return (
     <div>
@@ -83,10 +77,7 @@ const ZoneGlobalPersonaHomePage = () => {
                   tooltip={
                     <div>
                       <span className="yellow-text"> Not Started : </span>
-                      <span>
-                        Contact Local Internal Control to complete Letter, and check fallbacks on
-                        GRC.
-                      </span>
+                      <span>Contact Processor to complete Letter, and check fallbacks on GRC.</span>
                     </div>
                   }
                   subTitle="Not Started"
@@ -98,7 +89,7 @@ const ZoneGlobalPersonaHomePage = () => {
                   tooltip={
                     <div>
                       <span className="yellow-text"> Prepared : </span>
-                      <span>Local Internal Control has submitted response for section 1.</span>
+                      <span>Processor has submitted response for section 1.</span>
                     </div>
                   }
                   subTitle="Prepared"
@@ -140,10 +131,7 @@ const ZoneGlobalPersonaHomePage = () => {
           </div>
         </div>
       </div>
-      <ZoneGlobalPersonaTable
-        zoneValue={zoneValue}
-        setZoneValue={setZoneValue}
-      />
+      <ZoneGlobalPersonaTable zoneValue={zoneValue} setZoneValue={setZoneValue} />
     </div>
   );
 };

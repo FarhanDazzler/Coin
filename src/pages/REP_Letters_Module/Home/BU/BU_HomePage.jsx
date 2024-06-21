@@ -21,15 +21,15 @@ const BU_HomePage = () => {
 
   return (
     <div>
-      {(loginRole || selected_Role) === 'Local Internal Control' ? (
+      {(loginRole || selected_Role) === 'Processor' ? (
         <DisclosureProcessorHomePageContainer />
-      ) : (loginRole || selected_Role) === 'BU Head' ? (
+      ) : (loginRole || selected_Role) === 'Head of BU Control' ? (
         <BUHeadHomePage />
       ) : (loginRole || selected_Role) === 'Finance Director' ? (
         <FinanceDirectorHomePage />
-      ) : (loginRole || selected_Role) === 'Zone Control' ? (
+      ) : (loginRole || selected_Role) === 'Head of Zone Control' ? (
         <ZoneControlHomePageContainer />
-      ) : (loginRole || selected_Role) === 'Zone VP' ? (
+      ) : (loginRole || selected_Role) === 'Zone VP Finance' ? (
         <ZoneVPHomePageContainer />
       ) : (loginRole || selected_Role) === 'Excom Member' ? (
         <ExcomMemberHomePage />
