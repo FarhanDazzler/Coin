@@ -3,6 +3,7 @@
     "assessmentForm": {
       "edit": "우세하다",
       "globalControlDescriptionBtn": "글로벌 컨트롤 설명 (GCD)",
+      "previous_results_on_coin": "硬币的先前结果",
       "localControlDescriptionBtn": "로컬 컨트롤 설명 (LCD)",
       "scopeBtn": "범위",
       "showMoreBtn": "더 보기",

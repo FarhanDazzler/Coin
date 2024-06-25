@@ -3,6 +3,7 @@
     "assessmentForm": {
       "edit": "Override",
       "globalControlDescriptionBtn": "Global Control Description (GCD)",
+      "previous_results_on_coin": "PREVIOUS RESULTS ON COIN",
       "localControlDescriptionBtn": "Local Control Description (LCD)",
       "scopeBtn": "Scope",
       "showMoreBtn": "Show More",

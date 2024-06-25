@@ -3,6 +3,7 @@
     "assessmentForm": {
       "edit": "Sobrepor",
       "globalControlDescriptionBtn": "Descrição de Controle Global (DCG)",
+      "previous_results_on_coin": "RESULTADOS ANTERIORES SOBRE MOEDAS",
       "localControlDescriptionBtn": "Descrição de Controle Local (DCL)",
       "scopeBtn": "Âmbito",
       "showMoreBtn": "Mostrar Mais",

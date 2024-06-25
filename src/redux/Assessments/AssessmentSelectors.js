@@ -15,3 +15,5 @@ export const get_MICS_OpenActionPlanSelector = (state) => state.assessments.get_
 export const submitAssessmentResponseSelector = (state) => state.assessments.addResponse;
 export const get_previous_assessment_resultSelector = (state) =>
   state.assessments.get_previous_assessment_result;
+export const last_previous_assessment_resultSelector = (state) =>
+  state.assessments.last_previous_assessment_result;
