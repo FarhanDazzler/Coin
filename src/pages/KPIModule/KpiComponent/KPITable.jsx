@@ -100,7 +100,7 @@ function calculateResult(numerator, denominator, threshold, positiveDirection, r
 const KPITable = ({ data }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-
+  const currentYear = new Date().getFullYear();
   const [tableData, setTableData] = useState(() => data);
   const [filterData, setFilterData] = useState({
     zoneValue: [],
@@ -883,42 +883,43 @@ const KPITable = ({ data }) => {
     const keyMapping = {
       Zone: 'Zone',
       Entity: 'Entity',
-      Provider: 'provider',
-      'Control ID': 'CONTROL_ID',
+      provider: 'provider',
+      CONTROL_ID: 'CONTROL_ID',
       // 'Control Name': 'control_NAME',
-      'KPI Type': 'kpi_type',
-      'Expected Source': 'Expected_Source',
-      'KPI ID': 'KPI_CODE',
+      kpi_type: 'kpi_type',
+      Expected_Source: 'Expected_Source',
+      KPI_CODE: 'KPI_CODE',
       // 'KPI Name': 'KPI_NAME',
-      Applicability: 'applicable',
+      applicable: 'applicable',
       Month: 'Month',
-      'Expected Num': 'expected_num',
-      'Expected Den': 'expected_den',
-      'KPI Num': 'KPI_Num',
-      'KPI Den': 'KPI_Den',
-      // 'KPI Value': 'KPI_Value',
-      'Expected KPI Source': 'expected_kpi_source',
-      'Actual KPI Source': 'upload_approach',
-      'Source of Data - Link': 'source_system',
+      expected_num: 'expected_num',
+      expected_den: 'expected_den',
+      KPI_Num: 'KPI_Num',
+      KPI_Den: 'KPI_Den',
+      // 'KPI_Value': 'KPI_Value',
+      expected_kpi_source: 'expected_kpi_source',
+      upload_approach: 'upload_approach',
+      source_system: 'source_system',
       // 'KPI Description': 'kpi_desc',
-      'Threshold L1': 'L1',
-      'Threshold L2': 'L2',
-      'Threshold L3': 'L3',
-      'Result L1': 'Result_L1',
-      'Result L2': 'Result_L2',
-      'Result L3': 'Result_L3',
-      'KPI Owner Email': 'kpi_owner_email',
-      'Control Owner Email': 'control_owner_email',
-      'Control Oversight Email': 'control_oversight_email',
-      'Year and Quarter': 'year_and_quarter',
+      L1: 'L1',
+      L2: 'L2',
+      L3: 'L3',
+      Result_L1: 'Result_L1',
+      Result_L2: 'Result_L2',
+      Result_L3: 'Result_L3',
+      kpi_owner_email: 'kpi_owner_email',
+      control_owner_email: 'control_owner_email',
+      control_oversight_email: 'control_oversight_email',
+      year_and_quarter: 'year_and_quarter',
+      id: 'id',
     };
 
     const allowedDiffFieldsExcel = [
-      'KPI Num',
-      'KPI Den',
-      'Expected KPI Source',
-      'Actual KPI Source',
-      'Source of Data - Link',
+      'KPI_Num',
+      'KPI_Den',
+      'expected_kpi_source',
+      'upload_approach',
+      'source_system',
     ];
 
     const isNullOrEmpty = (value) => value === null || value === '';
@@ -926,7 +927,7 @@ const KPITable = ({ data }) => {
     for (let i = 0; i < excelFile.length; i++) {
       const excelRow = excelFile[i];
       const tableRow = data[i];
-
+      console.log('keyMapping', keyMapping);
       for (const [excelKey, tableKey] of Object.entries(keyMapping)) {
         if (!allowedDiffFieldsExcel.includes(excelKey)) {
           const excelValue = excelRow[excelKey];
@@ -942,12 +943,16 @@ const KPITable = ({ data }) => {
         }
       }
 
-      if (isNullOrEmpty(excelRow['KPI Num']) && isNullOrEmpty(excelRow['KPI Den'])) {
+      if (isNullOrEmpty(excelRow['KPI_Num']) && isNullOrEmpty(excelRow['KPI_Den'])) {
         continue;
       }
 
-      const kpiNum = parseFloat(excelRow['KPI Num']);
-      const kpiDen = parseFloat(excelRow['KPI Den']);
+      const kpiNum = parseFloat(excelRow['KPI_Num']);
+      const kpiDen = parseFloat(excelRow['KPI_Den']);
+
+      console.log({
+        excelRow,
+      });
 
       if (isNaN(kpiNum) && isNaN(kpiDen)) {
         toast.error(`Invalid KPI Numerator and Denominator at row ${i + 1}`);
@@ -991,6 +996,23 @@ const KPITable = ({ data }) => {
     setTableData(excelFile);
     setButtonText('Choose a file');
   };
+
+  const tableRecord = useMemo(() => {
+    const areAllFiltersEmpty = Object.values(filterData).every((arr) => arr.length === 0);
+
+    return areAllFiltersEmpty
+      ? tableData
+      : tableData.filter((item) => {
+          return (
+            (!filterData.zoneValue.length || filterData.zoneValue.includes(item.Zone)) &&
+            (!filterData.entityValue.length || filterData.entityValue.includes(item.Entity)) &&
+            (!filterData.providerValue.length ||
+              filterData.providerValue.includes(item.provider)) &&
+            (!filterData.controlIDValue.length ||
+              filterData.controlIDValue.includes(item.CONTROL_ID))
+          );
+        });
+  }, [filterData, tableData]);
 
   const handleFileUpload = (event) => {
     const selectedFile = event.target.files[0];
@@ -1087,30 +1109,35 @@ const KPITable = ({ data }) => {
             obj[key] = v;
           });
 
-          return {
-            ...obj,
-            Result_L1: calculateResult(
-              obj.KPI_Num,
-              obj.KPI_Den,
-              obj.L1,
-              obj.Direction,
-              obj.Result_L1,
-            ),
-            Result_L2: calculateResult(
-              obj.KPI_Num,
-              obj.KPI_Den,
-              obj.L2,
-              obj.Direction,
-              obj.Result_L2,
-            ),
-            Result_L3: calculateResult(
-              obj.KPI_Num,
-              obj.KPI_Den,
-              obj.L3,
-              obj.Direction,
-              obj.Result_L3,
-            ),
-          };
+          const findCurrentData = tableRecord.find((d) => d.id === obj.id);
+
+          if (findCurrentData.year_and_quarter === obj.year_and_quarter) {
+            return {
+              ...obj,
+              Result_L1: calculateResult(
+                obj.KPI_Num,
+                obj.KPI_Den,
+                obj.L1,
+                obj.Direction,
+                obj.Result_L1,
+              ),
+              Result_L2: calculateResult(
+                obj.KPI_Num,
+                obj.KPI_Den,
+                obj.L2,
+                obj.Direction,
+                obj.Result_L2,
+              ),
+              Result_L3: calculateResult(
+                obj.KPI_Num,
+                obj.KPI_Den,
+                obj.L3,
+                obj.Direction,
+                obj.Result_L3,
+              ),
+            };
+          }
+          return findCurrentData;
         });
 
         setExcelFile(fileData);
@@ -1142,23 +1169,6 @@ const KPITable = ({ data }) => {
     }
   };
 
-  const tableRecord = useMemo(() => {
-    const areAllFiltersEmpty = Object.values(filterData).every((arr) => arr.length === 0);
-
-    return areAllFiltersEmpty
-      ? tableData
-      : tableData.filter((item) => {
-          return (
-            (!filterData.zoneValue.length || filterData.zoneValue.includes(item.Zone)) &&
-            (!filterData.entityValue.length || filterData.entityValue.includes(item.Entity)) &&
-            (!filterData.providerValue.length ||
-              filterData.providerValue.includes(item.provider)) &&
-            (!filterData.controlIDValue.length ||
-              filterData.controlIDValue.includes(item.CONTROL_ID))
-          );
-        });
-  }, [filterData, tableData]);
-
   return (
     <div className="kpi_table">
       <KpiTableFilter tableData={tableData} setFilterData={setFilterData} />
@@ -1180,7 +1190,10 @@ const KPITable = ({ data }) => {
           enableStickyHeader={true}
           // createDisplayMode="row" // ('modal', and 'custom' are also available)
           editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)
-          enableEditing={(row) => row.original.Expected_Source == 'Manual'}
+          enableEditing={(row) =>
+            row.original.Expected_Source == 'Manual' &&
+            row.original.year_and_quarter === currentYear
+          }
           initialState={{
             showColumnFilters: true,
             showGlobalFilter: true,
@@ -1284,6 +1297,7 @@ const KPITable = ({ data }) => {
                           value="control_oversight_email"
                         />
                         <Workbook.Column label="Year and Quarter" value="year_and_quarter" />
+                        <Workbook.Column label="id" value="id" />
                       </Workbook.Sheet>
                     </Workbook>
                   </div>
