@@ -950,10 +950,6 @@ const KPITable = ({ data }) => {
       const kpiNum = parseFloat(excelRow['KPI_Num']);
       const kpiDen = parseFloat(excelRow['KPI_Den']);
 
-      console.log({
-        excelRow,
-      });
-
       if (isNaN(kpiNum) && isNaN(kpiDen)) {
         toast.error(`Invalid KPI Numerator and Denominator at row ${i + 1}`);
         return false;

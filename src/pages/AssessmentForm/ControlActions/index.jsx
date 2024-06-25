@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Button from '../../../components/UI/Button';
 import { useTranslation } from 'react-i18next';
+import PreviousResultsOnCoin from './PreviousResultsOnCoin';
 
 const ControlActions = ({
   activeData,
@@ -95,6 +96,16 @@ const ControlActions = ({
               {t('selfAssessment.assessmentForm.edit')}
             </Button>
           )}
+
+          <Button
+            // disabled={activeTab && activeTab !== 'LCD'}
+            className={activeTab === 'previous_results_on_coin' ? 'mr-4 active' : 'mr-4'}
+            onClick={() =>
+              setActiveTab(isClear('previous_results_on_coin') ? '' : 'previous_results_on_coin')
+            }
+          >
+            {t('selfAssessment.assessmentForm.previous_results_on_coin')}
+          </Button>
         </div>
       </div>
       <div className="control-actions-collapse">
@@ -191,6 +202,7 @@ const ControlActions = ({
             </p>
           </div>
         )}
+        {activeTab === 'previous_results_on_coin' && <PreviousResultsOnCoin />}
       </div>
     </div>
   );

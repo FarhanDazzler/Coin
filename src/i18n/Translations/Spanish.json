@@ -3,6 +3,7 @@
     "assessmentForm": {
       "edit": "Anular",
       "globalControlDescriptionBtn": "Descripción de Control Global (DCG)",
+      "previous_results_on_coin": "RESULTADOS ANTERIORES SOBRE MONEDAS",
       "localControlDescriptionBtn": "Descripción de Control Local (DCL)",
       "scopeBtn": "Alcance",
       "showMoreBtn": "Mostrar Más",
