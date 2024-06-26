@@ -852,7 +852,6 @@ const ControlSection2 = ({
       }
       return d;
     });
-
     setTableData(updateProduct);
     setTimeout(() => {
       document.activeElement.blur();
@@ -933,6 +932,14 @@ const ControlSection2 = ({
     } else {
       setExcelFile(null);
     }
+  };
+
+  const setStringValue = (value) => {
+    if ([0, '0'].includes(value)) {
+      return '0';
+    }
+    if (!value) return '';
+    return value.toString();
   };
 
   return (
@@ -1076,16 +1083,8 @@ const ControlSection2 = ({
                     // cellEdit={ cellEditProp }
                     data={tableData.map((td) => ({
                       ...td,
-                      Numerator: hasFailNumerator(td)
-                        ? ''
-                        : td.Numerator
-                        ? td.Numerator.toString()
-                        : '',
-                      Denominator: hasFailDenominator(td)
-                        ? ''
-                        : td.Denominator
-                        ? td.Denominator.toString()
-                        : '',
+                      Numerator: hasFailNumerator(td) ? '' : setStringValue(td.Numerator),
+                      Denominator: hasFailDenominator(td) ? '' : setStringValue(td.Denominator),
                     }))}
                     columns={columns}
                     filter={filterFactory()}
