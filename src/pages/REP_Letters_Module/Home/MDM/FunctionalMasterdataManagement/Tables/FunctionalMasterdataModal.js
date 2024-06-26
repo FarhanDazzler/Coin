@@ -205,129 +205,127 @@ const FunctionalMasterdataModal = ({ setShowModal, assignTableData }) => {
                     </div>
                   </div>
 
-                  {values.Applicability === 'Yes' && (
-                    <>
-                      <div className="col-lg-6">
-                        <div className="row mb-4">
-                          <div className="col-lg-4">
-                            <Form.Label>Recipient:</Form.Label>
-                          </div>
-                          <div className="col-lg-8">
-                            <Form.Group className="input-group mb-3">
-                              <Form.Control
-                                type="text"
-                                name="Recipient"
-                                placeholder=""
-                                value={values.Recipient}
-                                isInvalid={Boolean(touched.Recipient && errors.Recipient)}
-                                onBlur={handleBlur}
-                                onChange={(e) => {
-                                  setFieldValue('Recipient', e.target.value);
-                                  setRecepientValue(e.target.value);
-                                  handleChangeAd(e.target.value, 'Recipient');
-                                }}
-                                readOnly={false}
-                                className="form-control"
-                              />
+                  <>
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-4">
+                          <Form.Label>Recipient:</Form.Label>
+                        </div>
+                        <div className="col-lg-8">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              type="text"
+                              name="Recipient"
+                              placeholder=""
+                              value={values.Recipient}
+                              isInvalid={Boolean(touched.Recipient && errors.Recipient)}
+                              onBlur={handleBlur}
+                              onChange={(e) => {
+                                setFieldValue('Recipient', e.target.value);
+                                setRecepientValue(e.target.value);
+                                handleChangeAd(e.target.value, 'Recipient');
+                              }}
+                              readOnly={false}
+                              className="form-control"
+                            />
 
-                              {!!touched.Recipient && (
-                                <Form.Control.Feedback type="invalid">
-                                  {errors.Recipient}
-                                </Form.Control.Feedback>
-                              )}
-                            </Form.Group>
-                            {adMode === 'Recipient' && (
-                              <AdSearch
-                                block={block}
-                                userApiStart={isStart}
-                                values={values.Recipient}
-                                setBlock={setBlock}
-                                setFieldValue={(val) => {
-                                  if (!val) return;
-                                  setFieldValue('Recipient', val);
-                                }}
-                              />
+                            {!!touched.Recipient && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Recipient}
+                              </Form.Control.Feedback>
                             )}
-                          </div>
+                          </Form.Group>
+                          {adMode === 'Recipient' && (
+                            <AdSearch
+                              block={block}
+                              userApiStart={isStart}
+                              values={values.Recipient}
+                              setBlock={setBlock}
+                              setFieldValue={(val) => {
+                                if (!val) return;
+                                setFieldValue('Recipient', val);
+                              }}
+                            />
+                          )}
                         </div>
                       </div>
+                    </div>
 
-                      <div className="col-lg-6">
-                        <div className="row mb-4">
-                          <div className="col-lg-4">
-                            <Form.Label>Title/Position:</Form.Label>
-                          </div>
-                          <div className="col-lg-8">
-                            <Form.Group className="input-group mb-3">
-                              <Form.Control
-                                type="text"
-                                name="Title_Position"
-                                placeholder=""
-                                value={values.Title_Position}
-                                isInvalid={Boolean(touched.Title_Position && errors.Title_Position)}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                maxLength={5000}
-                                readOnly={false}
-                                className="form-control"
-                              />
-
-                              {!!touched.Title_Position && (
-                                <Form.Control.Feedback type="invalid">
-                                  {errors.Title_Position}
-                                </Form.Control.Feedback>
-                              )}
-                            </Form.Group>
-                          </div>
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-4">
+                          <Form.Label>Title/Position:</Form.Label>
                         </div>
-                      </div>
+                        <div className="col-lg-8">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              type="text"
+                              name="Title_Position"
+                              placeholder=""
+                              value={values.Title_Position}
+                              isInvalid={Boolean(touched.Title_Position && errors.Title_Position)}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              maxLength={5000}
+                              readOnly={false}
+                              className="form-control"
+                            />
 
-                      <div className="col-lg-6">
-                        <div className="row mb-4">
-                          <div className="col-lg-4">
-                            <Form.Label>Head of Zone Control:</Form.Label>
-                          </div>
-                          <div className="col-lg-8">
-                            <Form.Group className="input-group mb-3">
-                              <Form.Control
-                                type="text"
-                                name="Zone_Control"
-                                placeholder=""
-                                value={values.Zone_Control}
-                                isInvalid={Boolean(touched.Zone_Control && errors.Zone_Control)}
-                                onBlur={handleBlur}
-                                onChange={(e) => {
-                                  setFieldValue('Zone_Control', e.target.value);
-                                  setZone_ControlValue(e.target.value);
-                                  handleChangeAd(e.target.value, 'Zone_Control');
-                                }}
-                                readOnly={false}
-                                className="form-control"
-                              />
-
-                              {!!touched.Zone_Control && (
-                                <Form.Control.Feedback type="invalid">
-                                  {errors.Zone_Control}
-                                </Form.Control.Feedback>
-                              )}
-                            </Form.Group>
-                            {adMode === 'Zone_Control' && (
-                              <AdSearch
-                                block={block}
-                                userApiStart={isStart}
-                                values={values.Zone_Control}
-                                setBlock={setBlock}
-                                setFieldValue={(val) => {
-                                  if (!val) return;
-                                  setFieldValue('Zone_Control', val);
-                                }}
-                              />
+                            {!!touched.Title_Position && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Title_Position}
+                              </Form.Control.Feedback>
                             )}
-                          </div>
+                          </Form.Group>
                         </div>
                       </div>
-                    </>
-                  )}
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-4">
+                          <Form.Label>Head of Zone Control:</Form.Label>
+                        </div>
+                        <div className="col-lg-8">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              type="text"
+                              name="Zone_Control"
+                              placeholder=""
+                              value={values.Zone_Control}
+                              isInvalid={Boolean(touched.Zone_Control && errors.Zone_Control)}
+                              onBlur={handleBlur}
+                              onChange={(e) => {
+                                setFieldValue('Zone_Control', e.target.value);
+                                setZone_ControlValue(e.target.value);
+                                handleChangeAd(e.target.value, 'Zone_Control');
+                              }}
+                              readOnly={false}
+                              className="form-control"
+                            />
+
+                            {!!touched.Zone_Control && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Zone_Control}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                          {adMode === 'Zone_Control' && (
+                            <AdSearch
+                              block={block}
+                              userApiStart={isStart}
+                              values={values.Zone_Control}
+                              setBlock={setBlock}
+                              setFieldValue={(val) => {
+                                if (!val) return;
+                                setFieldValue('Zone_Control', val);
+                              }}
+                            />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </>
                 </div>
                 <div className="footer-action">
                   <div className="d-flex align-items-center justify-content-end">
@@ -341,12 +339,7 @@ const FunctionalMasterdataModal = ({ setShowModal, assignTableData }) => {
                       >
                         Cancel
                       </Button>
-                      <Button
-                        color="neutral"
-                        className="ml-4"
-                        onClick={handleSubmit}
-                        disabled={!isEmailValidADState.data?.isValid}
-                      >
+                      <Button color="neutral" className="ml-4" onClick={handleSubmit}>
                         Confirm
                       </Button>
                     </div>
