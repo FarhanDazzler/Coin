@@ -252,236 +252,234 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                     </div>
                   </div>
 
-                  {values.Applicability === 'Yes' && (
-                    <>
-                      <div className="col-lg-6">
-                        <div className="row mb-4">
-                          <div className="col-lg-4">
-                            <Form.Label>Processor:</Form.Label>
-                          </div>
-                          <div className="col-lg-8">
-                            <Form.Group className="input-group mb-3">
-                              <Form.Control
-                                type="text"
-                                name="Disclosure_Processor"
-                                placeholder=""
-                                value={values.Disclosure_Processor}
-                                isInvalid={Boolean(
-                                  touched.Disclosure_Processor && errors.Disclosure_Processor,
-                                )}
-                                onBlur={handleBlur}
-                                onChange={(e) => {
-                                  setFieldValue('Disclosure_Processor', e.target.value);
-                                  setDisclosureProcessorValue(e.target.value);
-                                  handleChangeAd(e.target.value, 'Disclosure_Processor');
-                                }}
-                                readOnly={false}
-                                className="form-control"
-                              />
-
-                              {!!touched.Disclosure_Processor && (
-                                <Form.Control.Feedback type="invalid">
-                                  {errors.Disclosure_Processor}
-                                </Form.Control.Feedback>
+                  <>
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-4">
+                          <Form.Label>Processor:</Form.Label>
+                        </div>
+                        <div className="col-lg-8">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              type="text"
+                              name="Disclosure_Processor"
+                              placeholder=""
+                              value={values.Disclosure_Processor}
+                              isInvalid={Boolean(
+                                touched.Disclosure_Processor && errors.Disclosure_Processor,
                               )}
-                            </Form.Group>
-                            {adMode === 'Disclosure_Processor' && (
-                              <AdSearch
-                                block={block}
-                                userApiStart={isStart}
-                                values={values.Disclosure_Processor}
-                                setBlock={setBlock}
-                                setFieldValue={(val) => {
-                                  if (!val) return;
-                                  setFieldValue('Disclosure_Processor', val);
-                                }}
-                              />
+                              onBlur={handleBlur}
+                              onChange={(e) => {
+                                setFieldValue('Disclosure_Processor', e.target.value);
+                                setDisclosureProcessorValue(e.target.value);
+                                handleChangeAd(e.target.value, 'Disclosure_Processor');
+                              }}
+                              readOnly={false}
+                              className="form-control"
+                            />
+
+                            {!!touched.Disclosure_Processor && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Disclosure_Processor}
+                              </Form.Control.Feedback>
                             )}
-                          </div>
+                          </Form.Group>
+                          {adMode === 'Disclosure_Processor' && (
+                            <AdSearch
+                              block={block}
+                              userApiStart={isStart}
+                              values={values.Disclosure_Processor}
+                              setBlock={setBlock}
+                              setFieldValue={(val) => {
+                                if (!val) return;
+                                setFieldValue('Disclosure_Processor', val);
+                              }}
+                            />
+                          )}
                         </div>
                       </div>
+                    </div>
 
-                      <div className="col-lg-6">
-                        <div className="row mb-4">
-                          <div className="col-lg-4">
-                            <Form.Label>Finance Director:</Form.Label>
-                          </div>
-                          <div className="col-lg-8">
-                            <Form.Group className="input-group mb-3">
-                              <Form.Control
-                                type="text"
-                                name="Finance_Director"
-                                placeholder=""
-                                value={values.Finance_Director}
-                                isInvalid={Boolean(
-                                  touched.Finance_Director && errors.Finance_Director,
-                                )}
-                                onBlur={handleBlur}
-                                onChange={(e) => {
-                                  setFieldValue('Finance_Director', e.target.value);
-                                  setFinanceDirectorValue(e.target.value);
-                                  handleChangeAd(e.target.value, 'Finance_Director');
-                                }}
-                                readOnly={false}
-                                className="form-control"
-                              />
-
-                              {!!touched.Finance_Director && (
-                                <Form.Control.Feedback type="invalid">
-                                  {errors.Finance_Director}
-                                </Form.Control.Feedback>
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-4">
+                          <Form.Label>Finance Director:</Form.Label>
+                        </div>
+                        <div className="col-lg-8">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              type="text"
+                              name="Finance_Director"
+                              placeholder=""
+                              value={values.Finance_Director}
+                              isInvalid={Boolean(
+                                touched.Finance_Director && errors.Finance_Director,
                               )}
-                            </Form.Group>
-                            {adMode === 'Finance_Director' && (
-                              <AdSearch
-                                block={block}
-                                userApiStart={isStart}
-                                values={values.Finance_Director}
-                                setBlock={setBlock}
-                                setFieldValue={(val) => {
-                                  if (!val) return;
-                                  setFieldValue('Finance_Director', val);
-                                }}
-                              />
+                              onBlur={handleBlur}
+                              onChange={(e) => {
+                                setFieldValue('Finance_Director', e.target.value);
+                                setFinanceDirectorValue(e.target.value);
+                                handleChangeAd(e.target.value, 'Finance_Director');
+                              }}
+                              readOnly={false}
+                              className="form-control"
+                            />
+
+                            {!!touched.Finance_Director && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Finance_Director}
+                              </Form.Control.Feedback>
                             )}
-                          </div>
+                          </Form.Group>
+                          {adMode === 'Finance_Director' && (
+                            <AdSearch
+                              block={block}
+                              userApiStart={isStart}
+                              values={values.Finance_Director}
+                              setBlock={setBlock}
+                              setFieldValue={(val) => {
+                                if (!val) return;
+                                setFieldValue('Finance_Director', val);
+                              }}
+                            />
+                          )}
                         </div>
                       </div>
+                    </div>
 
-                      <div className="col-lg-6">
-                        <div className="row mb-4">
-                          <div className="col-lg-4">
-                            <Form.Label>Head of BU Control:</Form.Label>
-                          </div>
-                          <div className="col-lg-8">
-                            <Form.Group className="input-group mb-3">
-                              <Form.Control
-                                type="text"
-                                name="BU_Head"
-                                placeholder=""
-                                value={values.BU_Head}
-                                isInvalid={Boolean(touched.BU_Head && errors.BU_Head)}
-                                onBlur={handleBlur}
-                                onChange={(e) => {
-                                  setFieldValue('BU_Head', e.target.value);
-                                  setBU_HeadValue(e.target.value);
-                                  handleChangeAd(e.target.value, 'BU_Head');
-                                }}
-                                readOnly={false}
-                                className="form-control"
-                              />
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-4">
+                          <Form.Label>Head of BU Control:</Form.Label>
+                        </div>
+                        <div className="col-lg-8">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              type="text"
+                              name="BU_Head"
+                              placeholder=""
+                              value={values.BU_Head}
+                              isInvalid={Boolean(touched.BU_Head && errors.BU_Head)}
+                              onBlur={handleBlur}
+                              onChange={(e) => {
+                                setFieldValue('BU_Head', e.target.value);
+                                setBU_HeadValue(e.target.value);
+                                handleChangeAd(e.target.value, 'BU_Head');
+                              }}
+                              readOnly={false}
+                              className="form-control"
+                            />
 
-                              {!!touched.BU_Head && (
-                                <Form.Control.Feedback type="invalid">
-                                  {errors.BU_Head}
-                                </Form.Control.Feedback>
-                              )}
-                            </Form.Group>
-                            {adMode === 'BU_Head' && (
-                              <AdSearch
-                                block={block}
-                                userApiStart={isStart}
-                                values={values.BU_Head}
-                                setBlock={setBlock}
-                                setFieldValue={(val) => {
-                                  if (!val) return;
-                                  setFieldValue('BU_Head', val);
-                                }}
-                              />
+                            {!!touched.BU_Head && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.BU_Head}
+                              </Form.Control.Feedback>
                             )}
-                          </div>
+                          </Form.Group>
+                          {adMode === 'BU_Head' && (
+                            <AdSearch
+                              block={block}
+                              userApiStart={isStart}
+                              values={values.BU_Head}
+                              setBlock={setBlock}
+                              setFieldValue={(val) => {
+                                if (!val) return;
+                                setFieldValue('BU_Head', val);
+                              }}
+                            />
+                          )}
                         </div>
                       </div>
-                      <div className="col-lg-6">
-                        <div className="row mb-4">
-                          <div className="col-lg-4">
-                            <Form.Label>Head of Zone Control:</Form.Label>
-                          </div>
-                          <div className="col-lg-8">
-                            <Form.Group className="input-group mb-3">
-                              <Form.Control
-                                type="text"
-                                name="Zone_Control"
-                                placeholder=""
-                                value={values.Zone_Control}
-                                isInvalid={Boolean(touched.Zone_Control && errors.Zone_Control)}
-                                onBlur={handleBlur}
-                                onChange={(e) => {
-                                  setFieldValue('Zone_Control', e.target.value);
-                                  setZoneControlValue(e.target.value);
-                                  handleChangeAd(e.target.value, 'Zone_Control');
-                                }}
-                                readOnly={false}
-                                className="form-control"
-                              />
+                    </div>
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-4">
+                          <Form.Label>Head of Zone Control:</Form.Label>
+                        </div>
+                        <div className="col-lg-8">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              type="text"
+                              name="Zone_Control"
+                              placeholder=""
+                              value={values.Zone_Control}
+                              isInvalid={Boolean(touched.Zone_Control && errors.Zone_Control)}
+                              onBlur={handleBlur}
+                              onChange={(e) => {
+                                setFieldValue('Zone_Control', e.target.value);
+                                setZoneControlValue(e.target.value);
+                                handleChangeAd(e.target.value, 'Zone_Control');
+                              }}
+                              readOnly={false}
+                              className="form-control"
+                            />
 
-                              {!!touched.Zone_Control && (
-                                <Form.Control.Feedback type="invalid">
-                                  {errors.Zone_Control}
-                                </Form.Control.Feedback>
-                              )}
-                            </Form.Group>
-                            {adMode === 'Zone_Control' && (
-                              <AdSearch
-                                block={block}
-                                userApiStart={isStart}
-                                values={values.Zone_Control}
-                                setBlock={setBlock}
-                                setFieldValue={(val) => {
-                                  if (!val) return;
-                                  setFieldValue('Zone_Control', val);
-                                }}
-                              />
+                            {!!touched.Zone_Control && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Zone_Control}
+                              </Form.Control.Feedback>
                             )}
-                          </div>
+                          </Form.Group>
+                          {adMode === 'Zone_Control' && (
+                            <AdSearch
+                              block={block}
+                              userApiStart={isStart}
+                              values={values.Zone_Control}
+                              setBlock={setBlock}
+                              setFieldValue={(val) => {
+                                if (!val) return;
+                                setFieldValue('Zone_Control', val);
+                              }}
+                            />
+                          )}
                         </div>
                       </div>
-                      <div className="col-lg-6">
-                        <div className="row mb-4">
-                          <div className="col-lg-4">
-                            <Form.Label>Zone VP Finance:</Form.Label>
-                          </div>
-                          <div className="col-lg-8">
-                            <Form.Group className="input-group mb-3">
-                              <Form.Control
-                                type="text"
-                                name="Zone_VP"
-                                placeholder=""
-                                value={values.Zone_VP}
-                                isInvalid={Boolean(touched.Zone_VP && errors.Zone_VP)}
-                                onBlur={handleBlur}
-                                onChange={(e) => {
-                                  setFieldValue('Zone_VP', e.target.value);
-                                  setZoneVPValue(e.target.value);
-                                  handleChangeAd(e.target.value, 'Zone_VP');
-                                }}
-                                readOnly={false}
-                                className="form-control"
-                              />
+                    </div>
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-4">
+                          <Form.Label>Zone VP Finance:</Form.Label>
+                        </div>
+                        <div className="col-lg-8">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              type="text"
+                              name="Zone_VP"
+                              placeholder=""
+                              value={values.Zone_VP}
+                              isInvalid={Boolean(touched.Zone_VP && errors.Zone_VP)}
+                              onBlur={handleBlur}
+                              onChange={(e) => {
+                                setFieldValue('Zone_VP', e.target.value);
+                                setZoneVPValue(e.target.value);
+                                handleChangeAd(e.target.value, 'Zone_VP');
+                              }}
+                              readOnly={false}
+                              className="form-control"
+                            />
 
-                              {!!touched.Zone_VP && (
-                                <Form.Control.Feedback type="invalid">
-                                  {errors.Zone_VP}
-                                </Form.Control.Feedback>
-                              )}
-                            </Form.Group>
-                            {adMode === 'Zone_VP' && (
-                              <AdSearch
-                                block={block}
-                                userApiStart={isStart}
-                                values={values.Zone_VP}
-                                setBlock={setBlock}
-                                setFieldValue={(val) => {
-                                  if (!val) return;
-                                  setFieldValue('Zone_VP', val);
-                                }}
-                              />
+                            {!!touched.Zone_VP && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Zone_VP}
+                              </Form.Control.Feedback>
                             )}
-                          </div>
+                          </Form.Group>
+                          {adMode === 'Zone_VP' && (
+                            <AdSearch
+                              block={block}
+                              userApiStart={isStart}
+                              values={values.Zone_VP}
+                              setBlock={setBlock}
+                              setFieldValue={(val) => {
+                                if (!val) return;
+                                setFieldValue('Zone_VP', val);
+                              }}
+                            />
+                          )}
                         </div>
                       </div>
-                    </>
-                  )}
+                    </div>
+                  </>
                 </div>
                 <div className="footer-action">
                   <div className="d-flex align-items-center justify-content-end">
@@ -499,7 +497,6 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                         color="neutral"
                         className="ml-4"
                         onClick={handleSubmit}
-                        disabled={!isEmailValidADState.data?.isValid}
                       >
                         Confirm
                       </Button>
