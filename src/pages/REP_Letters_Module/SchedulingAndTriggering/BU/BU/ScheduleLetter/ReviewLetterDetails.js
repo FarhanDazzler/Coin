@@ -135,10 +135,10 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
             >
               <Workbook.Column label="Zone" value="Zone" />
               <Workbook.Column label="BU" value="BU" />
-              <Workbook.Column label="Head of BU Control" value="BU_Head" />
+              <Workbook.Column label="BU Head" value="BU_Head" />
               <Workbook.Column label="Applicability" value="Applicability" />
               <Workbook.Column label="Processor" value="Disclosure_Processor" />
-              <Workbook.Column label="Finance Director" value="Finance_Director" />
+              <Workbook.Column label="Head of BU Control" value="Finance_Director" />
               <Workbook.Column label="Zone VP Finance" value="Zone_VP" />
               <Workbook.Column label="Head of Zone Control" value="Zone_Control" />
             </Workbook.Sheet>

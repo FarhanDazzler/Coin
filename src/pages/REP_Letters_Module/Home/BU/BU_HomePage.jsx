@@ -23,9 +23,9 @@ const BU_HomePage = () => {
     <div>
       {(loginRole || selected_Role) === 'Processor' ? (
         <DisclosureProcessorHomePageContainer />
-      ) : (loginRole || selected_Role) === 'Head of BU Control' ? (
+      ) : (loginRole || selected_Role) === 'BU Head' ? (
         <BUHeadHomePage />
-      ) : (loginRole || selected_Role) === 'Finance Director' ? (
+      ) : (loginRole || selected_Role) === 'Head of BU Control' ? (
         <FinanceDirectorHomePage />
       ) : (loginRole || selected_Role) === 'Head of Zone Control' ? (
         <ZoneControlHomePageContainer />

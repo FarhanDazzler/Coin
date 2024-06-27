@@ -109,11 +109,11 @@ const Section0 = ({ scopeData, letterType, isReview = false }) => {
             <span>{scopeData?.Disclosure_Processor}</span>
           </p>
           <p className="mb-2">
-            <span className="renderBlockWrapper_title">Head of BU Control : </span>
+            <span className="renderBlockWrapper_title">BU Head : </span>
             <span>{scopeData?.BU_Head}</span>
           </p>
           <p className="mb-2">
-            <span className="renderBlockWrapper_title">Finance Director : </span>
+            <span className="renderBlockWrapper_title">Head of BU Control : </span>
             <span>{scopeData?.Finance_Director}</span>
           </p>
           <p className="mb-2">

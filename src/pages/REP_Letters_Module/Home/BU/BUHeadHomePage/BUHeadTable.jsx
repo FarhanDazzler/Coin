@@ -280,7 +280,7 @@ const BUHeadTable = ({
     {
       accessorKey: 'Finance_Director',
       id: 'Finance_Director',
-      header: 'Finance Director',
+      header: 'Head of BU Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -289,7 +289,7 @@ const BUHeadTable = ({
     {
       accessorKey: 'BU_Head',
       id: 'BU_Head',
-      header: 'Head of BU Control',
+      header: 'BU Head',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -406,7 +406,7 @@ const BUHeadTable = ({
                     'Signed',
                     'Completed',
                   ]}
-                  label="Over All Status"
+                  label="Overall Status"
                   value={overallStatusValue}
                   onChange={setOverallStatusValue}
                 />

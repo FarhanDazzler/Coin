@@ -43,14 +43,14 @@ export const GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_ZIC_PERSONA_HOME_PAGE_TABLE_DATA_ERROR';
 // ============= GET BU ZIC PErsona home page table data ===============//
 
-// ============= GET BU Head of BU Control home page table data ===============//
+// ============= GET BU BU Head home page table data ===============//
 export const GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_REQUEST';
 export const GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_SUCCESS =
   'GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_SUCCESS';
 export const GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_ERROR';
-// ============= GET BU Head of BU Control home page table data ===============//
+// ============= GET BU BU Head home page table data ===============//
 
 // ============= GET BU Processor home page table data ===============//
 export const GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_REQUEST =
@@ -61,14 +61,14 @@ export const GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_DISCLOSURE_PROCESSOR_HOME_PAGE_TABLE_DATA_ERROR';
 // ============= GET BU Processor home page table data ===============//
 
-// ============= GET BU Finance Director home page table data ===============//
+// ============= GET BU Head of BU Control home page table data ===============//
 export const GET_BU_FINANCE_DIRECTOR_HOME_PAGE_TABLE_DATA_REQUEST =
   'GET_BU_FINANCE_DIRECTOR_HOME_PAGE_TABLE_DATA_REQUEST';
 export const GET_BU_FINANCE_DIRECTOR_HOME_PAGE_TABLE_DATA_SUCCESS =
   'GET_BU_FINANCE_DIRECTOR_HOME_PAGE_TABLE_DATA_SUCCESS';
 export const GET_BU_FINANCE_DIRECTOR_HOME_PAGE_TABLE_DATA_ERROR =
   'GET_BU_FINANCE_DIRECTOR_HOME_PAGE_TABLE_DATA_ERROR';
-// ============= GET BU Finance Director home page table data ===============//
+// ============= GET BU Head of BU Control home page table data ===============//
 
 // ============= GET BU Zone VP Finance home page table data ===============//
 export const GET_BU_ZONE_VP_HOME_PAGE_TABLE_DATA_REQUEST =
@@ -542,7 +542,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         },
       };
 
-    // GET BU Head of BU Control home page table data
+    // GET BU BU Head home page table data
     case GET_BU_BU_HEAD_HOME_PAGE_TABLE_DATA_REQUEST:
       return {
         ...state,
@@ -596,7 +596,7 @@ export const RL_HomePageReducer = (state = initialState, { type, payload = {} })
         },
       };
 
-    // GET BU Finance Director home page table data
+    // GET BU Head of BU Control home page table data
     case GET_BU_FINANCE_DIRECTOR_HOME_PAGE_TABLE_DATA_REQUEST:
       return {
         ...state,

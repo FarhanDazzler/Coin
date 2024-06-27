@@ -235,7 +235,7 @@ function* handle_Get_BU_ZIC_PersonaHomePageData({ payload }) {
   }
 }
 
-// GET BU Head of BU Control home page table data
+// GET BU BU Head home page table data
 async function get_BU_BU_HeadHomePageDataApi(params) {
   return await Axios.post('/get_bu_home_page_data_for_bu_head', params);
 }
@@ -275,7 +275,7 @@ function* handle_Get_BU_Disclosure_ProcessorHomePageData({ payload }) {
   }
 }
 
-// GET BU Finance Director home page table data
+// GET BU Head of BU Control home page table data
 async function get_BU_Finance_DirectorHomePageDataApi(params) {
   return await Axios.post('/get_bu_home_page_data_for_finance_director', params);
 }
