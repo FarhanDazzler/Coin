@@ -32,6 +32,7 @@ const Table2 = ({
   initialState = {},
   Is_Expanding_Detail_Panel = { Is_Expanding: false },
   isSimpleTable = false,
+  isShowExportActionPlan = true,
 }) => {
   const { t } = useTranslation();
   const [rowSelection, setRowSelection] = useState({});
@@ -243,54 +244,56 @@ const Table2 = ({
             <div className="new-table-button" style={{ padding: '4px 10px' }}>
               {/*<FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />*/}
               {/*<span style={{ paddingLeft: '16px' }}>Table Name</span>*/}
-              <>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    //  gap: '1rem', flexWrap: 'wrap'
-                  }}
-                >
-                  <div className="table-heading" style={{ justifyContent: 'space-between' }}>
-                    <div>
-                      <Button
-                        disabled={table.getPrePaginationRowModel().rows.length === 0}
-                        //export all rows, including from the next page, (still respects filtering and sorting)
-                        onClick={() => exportToExcel(table.getPrePaginationRowModel().rows)}
-                        startIcon={<FileDownloadIcon />}
-                        variant="contained"
-                      >
-                        {t('selfAssessment.homePage.controleOwner.Table.export_all_Rows_button')}
-                      </Button>
-                    </div>
-                    <div>
-                      <Button
-                        disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
-                        //only export selected rows
-                        onClick={() => exportToExcel(table.getSelectedRowModel().rows)}
-                        startIcon={<FileDownloadIcon />}
-                        variant="contained"
-                      >
-                        {t(
-                          'selfAssessment.homePage.controleOwner.Table.export_selected_Rows_button',
-                        )}
-                      </Button>
-                    </div>
-                    {isSimpleTable && (
+              {isShowExportActionPlan && (
+                <>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      //  gap: '1rem', flexWrap: 'wrap'
+                    }}
+                  >
+                    <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                       <div>
                         <Button
                           disabled={table.getPrePaginationRowModel().rows.length === 0}
-                          //only export selected rows
-                          onClick={() => exportToPDF(table.getPrePaginationRowModel().rows)}
+                          //export all rows, including from the next page, (still respects filtering and sorting)
+                          onClick={() => exportToExcel(table.getPrePaginationRowModel().rows)}
                           startIcon={<FileDownloadIcon />}
                           variant="contained"
                         >
-                          Export to PDF
+                          {t('selfAssessment.homePage.controleOwner.Table.export_all_Rows_button')}
                         </Button>
                       </div>
-                    )}
-                  </div>
-                </Box>
-              </>
+                      <div>
+                        <Button
+                          disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
+                          //only export selected rows
+                          onClick={() => exportToExcel(table.getSelectedRowModel().rows)}
+                          startIcon={<FileDownloadIcon />}
+                          variant="contained"
+                        >
+                          {t(
+                            'selfAssessment.homePage.controleOwner.Table.export_selected_Rows_button',
+                          )}
+                        </Button>
+                      </div>
+                      {isSimpleTable && (
+                        <div>
+                          <Button
+                            disabled={table.getPrePaginationRowModel().rows.length === 0}
+                            //only export selected rows
+                            onClick={() => exportToPDF(table.getPrePaginationRowModel().rows)}
+                            startIcon={<FileDownloadIcon />}
+                            variant="contained"
+                          >
+                            Export to PDF
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </Box>
+                </>
+              )}
             </div>
           )}
           renderDetailPanel={Expanding_Detail_Panel}

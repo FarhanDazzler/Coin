@@ -3,6 +3,7 @@
     "assessmentForm": {
       "edit": "Passer outre",
       "globalControlDescriptionBtn": "Description globale du contrôle (DGC)",
+      "previous_results_on_coin": "RÉSULTATS PRÉCÉDENTS SUR COIN",
       "localControlDescriptionBtn": "Description du contrôle local (DCL)",
       "scopeBtn": "Portée",
       "showMoreBtn": "Afficher plus",

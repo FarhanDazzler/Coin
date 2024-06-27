@@ -85,6 +85,8 @@ export const CLEAR_MICS_OPEN_ACTION_PLAN_DATA = 'CLEAR_MICS_OPEN_ACTION_PLAN_DAT
 // ================= MICS Action Plan ================== //
 
 // ================= Get Assessment Previous Result ================== //
+export const GET_PREVIOUS_ASSESSMENT_RESULT_LAST_CALL_ID =
+  'GET_PREVIOUS_ASSESSMENT_RESULT_LAST_CALL_ID';
 export const GET_PREVIOUS_ASSESSMENT_RESULT_REQUEST = 'GET_PREVIOUS_ASSESSMENT_RESULT_REQUEST';
 export const GET_PREVIOUS_ASSESSMENT_RESULT_SUCCESS = 'GET_PREVIOUS_ASSESSMENT_RESULT_SUCCESS';
 export const GET_PREVIOUS_ASSESSMENT_RESULT_ERROR = 'GET_PREVIOUS_ASSESSMENT_RESULT_ERROR';
@@ -115,7 +117,8 @@ const initialState = {
   getLatestDraft: { ...block, data: { s1: null, s2: null, s3: null } },
   getMicsOpenActionPlan: { ...block, data: {} },
   get_MICS_OpenActionPlan: { ...block, data: {} },
-  get_previous_assessment_result: { ...block, data: {} },
+  get_previous_assessment_result: { ...block, data: [] },
+  last_previous_assessment_result: { control_id: '', provider: '' },
 };
 
 export const AssessmentReducer = (state = initialState, { type, payload = {} }) => {
@@ -487,6 +490,12 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
           data: null,
           loading: false,
         },
+      };
+
+    case GET_PREVIOUS_ASSESSMENT_RESULT_LAST_CALL_ID:
+      return {
+        ...state,
+        last_previous_assessment_result: payload,
       };
 
     // Get Previous Assessment Result

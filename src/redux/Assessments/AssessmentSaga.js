@@ -55,6 +55,7 @@ import {
   GET_PREVIOUS_ASSESSMENT_RESULT_REQUEST,
   GET_PREVIOUS_ASSESSMENT_RESULT_SUCCESS,
   GET_PREVIOUS_ASSESSMENT_RESULT_ERROR,
+  GET_PREVIOUS_ASSESSMENT_RESULT_LAST_CALL_ID,
 } from './AssessmentReducer';
 import { ACTION_ADD_ERROR_NOTIFICATION_DATA } from '../ErrorNotification/ErrorNotificationReducer';
 import Swal from 'sweetalert2';
@@ -430,16 +431,27 @@ function* handle_get_MICS_OpenActionPlan({ payload }) {
 async function get_previous_assessment_resultApi(payload) {
   return await Axios.post('/get_previous_assessment_result', payload);
 }
-function* handle_get_previous_assessment_result({ payload }) {
+function* handle_get_previous_assessment_result({ payload: copyPayload }) {
+  const { events, ...payload } = copyPayload;
   try {
     const response = yield call(get_previous_assessment_resultApi, payload);
     if (response.success) {
+      if (events.onSuccess) {
+        events.onSuccess(response.data);
+      }
       yield put({
         type: GET_PREVIOUS_ASSESSMENT_RESULT_SUCCESS,
         payload: response.data,
       });
+      yield put({
+        type: GET_PREVIOUS_ASSESSMENT_RESULT_LAST_CALL_ID,
+        payload: payload,
+      });
     }
   } catch (error) {
+    if (events.onError) {
+      events.onError();
+    }
     yield put({
       type: GET_PREVIOUS_ASSESSMENT_RESULT_ERROR,
       // error: getSimplifiedError(error),
