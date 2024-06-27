@@ -55,7 +55,7 @@ const ReviewSection2 = (props) => {
                     getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame ? (
                       <div className="col-lg-12">
                         <p className="golden-text">
-                          <b>Finance Director :</b>
+                          <b>Head of BU Control :</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
                           <h6>
@@ -111,7 +111,7 @@ const ReviewSection2 = (props) => {
                             '' && (
                             <div className="col-lg-12 auto-auth">
                               <p>
-                                <b className="golden-text">Finance Director :</b>
+                                <b className="golden-text">Head of BU Control :</b>
                               </p>
                               <h6>
                                 “I hereby certify that the above representation letter reflects my
@@ -292,7 +292,7 @@ const ReviewSection2 = (props) => {
                       <div className="col-lg-12">
                         <Divider className="renderBlockWrapper_divider" size="xs" />
                         <p className="golden-text">
-                          <b>Head of BU Control :</b>
+                          <b>BU Head :</b>
                         </p>
                         <div className="rep-letter-form-bottom-btn">
                           <h6>
@@ -349,7 +349,7 @@ const ReviewSection2 = (props) => {
                             <div className="col-lg-12 auto-auth">
                               <Divider className="renderBlockWrapper_divider" size="xs" />
                               <p className="golden-text">
-                                <b>Head of BU Control :</b>
+                                <b>BU Head :</b>
                               </p>
                               <h6>
                                 “I hereby certify that the above representation letter reflects my

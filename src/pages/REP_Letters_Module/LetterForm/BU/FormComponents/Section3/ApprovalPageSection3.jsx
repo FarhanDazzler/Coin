@@ -63,7 +63,7 @@ const ApprovalPageSection3 = ({ scopeData }) => {
     dispatch(approveBUSection3Response(payload));
     dispatch(clearGetBUSection3Response());
     localStorage.setItem('selected_module_Role', 'BU Representation Letter');
-    localStorage.setItem('selected_Role', 'Finance Director');
+    localStorage.setItem('selected_Role', 'Head of BU Control');
     history.push('/');
   };
 

@@ -156,11 +156,11 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
             }),
             Finance_Director: Yup.string().when('Applicability', {
               is: 'Yes',
-              then: Yup.string().required('Finance Director Email is required'),
+              then: Yup.string().required('Head of BU Control Email is required'),
             }),
             BU_Head: Yup.string().when('Applicability', {
               is: 'Yes',
-              then: Yup.string().required('Head of BU Control Email is required'),
+              then: Yup.string().required('BU Head Email is required'),
             }),
             Zone_Control: Yup.string().when('Applicability', {
               is: 'Yes',
@@ -303,7 +303,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-4">
-                          <Form.Label>Finance Director:</Form.Label>
+                          <Form.Label>Head of BU Control:</Form.Label>
                         </div>
                         <div className="col-lg-8">
                           <Form.Group className="input-group mb-3">
@@ -350,7 +350,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                     <div className="col-lg-6">
                       <div className="row mb-4">
                         <div className="col-lg-4">
-                          <Form.Label>Head of BU Control:</Form.Label>
+                          <Form.Label>BU Head:</Form.Label>
                         </div>
                         <div className="col-lg-8">
                           <Form.Group className="input-group mb-3">
@@ -493,11 +493,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                       >
                         Cancel
                       </Button>
-                      <Button
-                        color="neutral"
-                        className="ml-4"
-                        onClick={handleSubmit}
-                      >
+                      <Button color="neutral" className="ml-4" onClick={handleSubmit}>
                         Confirm
                       </Button>
                     </div>

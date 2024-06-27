@@ -154,7 +154,7 @@ const ReviewSection3 = () => {
               <Divider color="gray" className="section3-divider" size="xs" />
               <Row>
                 <h5>
-                  Approval provided by Finance Director{' '}
+                  Approval provided by Head of BU Control{' '}
                   <span className="golden-text">
                     ({getBUSection3ResponseState?.data?.approved_by})
                   </span>{' '}
@@ -162,8 +162,7 @@ const ReviewSection3 = () => {
                   <span className="golden-text">
                     {getBUSection3ResponseState?.data?.approved_at}
                   </span>{' '}
-                  from IP Address
-                  {' '}
+                  from IP Address{' '}
                   <span className="golden-text">
                     {getBUSection3ResponseState?.data?.approver_ip}
                   </span>{' '}

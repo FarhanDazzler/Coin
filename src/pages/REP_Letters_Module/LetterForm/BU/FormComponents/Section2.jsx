@@ -41,7 +41,7 @@ const Section2 = ({ scopeData }) => {
         setToggleData(false);
       }
     }
-    if (localStorage.getItem('selected_Role') === 'Head of BU Control') {
+    if (localStorage.getItem('selected_Role') === 'BU Head') {
       if (
         getBUSection2SignatureResponseState?.data?.signatures?.buh?.submitted === true &&
         getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame === ''
@@ -61,7 +61,7 @@ const Section2 = ({ scopeData }) => {
         setToggleData(false);
       }
     }
-    if (localStorage.getItem('selected_Role') === 'Finance Director') {
+    if (localStorage.getItem('selected_Role') === 'Head of BU Control') {
       if (
         getBUSection2SignatureResponseState?.data?.signatures?.fd?.submitted === true &&
         getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame === ''
@@ -106,7 +106,7 @@ const Section2 = ({ scopeData }) => {
           : location.error.message,
       });
     }
-    if (localStorage.getItem('selected_Role') === 'Head of BU Control') {
+    if (localStorage.getItem('selected_Role') === 'BU Head') {
       signatures.push({
         role: 'BUH',
         type: 'checkbox',
@@ -128,7 +128,7 @@ const Section2 = ({ scopeData }) => {
           : location.error.message,
       });
     }
-    if (localStorage.getItem('selected_Role') === 'Finance Director') {
+    if (localStorage.getItem('selected_Role') === 'Head of BU Control') {
       signatures.push({
         role: 'FD',
         type: 'checkbox',
@@ -295,7 +295,7 @@ const Section2 = ({ scopeData }) => {
                   <div className="row">
                     <div className="col-lg-6">
                       <Form.Group className="position-relative mb-3">
-                        <Form.Label className="mt-3">Finance Director :</Form.Label>
+                        <Form.Label className="mt-3">Head of BU Control :</Form.Label>
                         <Form.Control
                           type="file"
                           required
@@ -320,7 +320,7 @@ const Section2 = ({ scopeData }) => {
 
                     <div className="col-lg-6">
                       <Form.Group className="position-relative mb-3">
-                        <Form.Label className="mt-3">Head of BU Control :</Form.Label>
+                        <Form.Label className="mt-3">BU Head :</Form.Label>
                         <Form.Control
                           type="file"
                           required
@@ -560,10 +560,10 @@ const Section2 = ({ scopeData }) => {
                       getBUSection2SignatureResponseState?.data?.signatures?.fd?.finame ? (
                         <div className="col-lg-12">
                           <p>
-                            <b>Finance Director</b>
+                            <b>Head of BU Control</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>Approval Email attached by Processor For Finance Director</h5>
+                            <h5>Approval Email attached by Processor For Head of BU Control</h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
@@ -586,9 +586,9 @@ const Section2 = ({ scopeData }) => {
                               '' && (
                               <div className="col-lg-12 auto-auth">
                                 <p>
-                                  <b>Finance Director</b>
+                                  <b>Head of BU Control</b>
                                 </p>
-                                <h5>Finance Director has Signed by Auto Authenticator</h5>
+                                <h5>Head of BU Control has Signed by Auto Authenticator</h5>
                                 {getBUSection2SignatureResponseState?.data?.signatures?.fd
                                   ?.comment && (
                                   <h6>
@@ -654,10 +654,10 @@ const Section2 = ({ scopeData }) => {
                       getBUSection2SignatureResponseState?.data?.signatures?.buh?.finame ? (
                         <div className="col-lg-12">
                           <p>
-                            <b>Head of BU Control</b>
+                            <b>BU Head</b>
                           </p>
                           <div className="rep-letter-form-bottom-btn">
-                            <h5>Approval Email attached by Processor For Head of BU Control</h5>
+                            <h5>Approval Email attached by Processor For BU Head</h5>
 
                             <Button
                               startIcon={<PictureAsPdfIcon />}
@@ -680,9 +680,9 @@ const Section2 = ({ scopeData }) => {
                               '' && (
                               <div className="col-lg-12 auto-auth">
                                 <p>
-                                  <b>Head of BU Control</b>
+                                  <b>BU Head</b>
                                 </p>
-                                <h5>Head of BU Control has Signed by Auto Authenticator</h5>
+                                <h5>BU Head has Signed by Auto Authenticator</h5>
                                 {getBUSection2SignatureResponseState?.data?.signatures?.buh
                                   ?.comment && (
                                   <h6>

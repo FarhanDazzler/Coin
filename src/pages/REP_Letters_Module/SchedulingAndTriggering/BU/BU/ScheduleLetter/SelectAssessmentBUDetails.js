@@ -130,7 +130,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
     {
       accessorKey: 'Finance_Director',
       id: 'Finance_Director',
-      header: 'Finance Director',
+      header: 'Head of BU Control',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
@@ -139,7 +139,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
     {
       accessorKey: 'BU_Head',
       id: 'BU_Head',
-      header: 'Head of BU Control',
+      header: 'BU Head',
       flex: 1,
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
