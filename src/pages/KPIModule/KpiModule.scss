@@ -38,6 +38,13 @@
     align-items: center;
     font-family: sans-serif;
   }
+
+  .custom-btn:disabled {
+    background-color: #adaca3;
+  }
+  .custom-btn-disabled {
+    background-color: #adaca3;
+  }
   .choose-file {
     border-radius: 8px 0px 0px 8px;
     border-right: 1px solid black;
