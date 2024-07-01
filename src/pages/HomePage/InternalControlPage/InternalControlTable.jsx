@@ -329,42 +329,6 @@ const InternalControlTable = ({
       },
     },
     {
-      accessorKey: 'KPI_Result',
-      id: 'KPI_Result',
-      header: 'KPI Result',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 100,
-      Cell: (row) => {
-        return <Badge_apply data={row.row.original.KPI_Result} />;
-      },
-    },
-    {
-      accessorKey: 'Assessment_Result',
-      id: 'Assessment_Result',
-      header: 'Assessment Result',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 150,
-      Cell: (row) => {
-        return <Badge_apply data={row.row.original.Assessment_Result} />;
-      },
-    },
-    {
-      accessorKey: 'Compliance_Result',
-      id: 'Compliance_Result',
-      header: 'Compliance Result',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 150,
-      Cell: (row) => {
-        return <Badge_apply data={row.row.original.Compliance_Result} />;
-      },
-    },
-    {
       accessorKey: 'Control_Owner',
       id: 'Control_Owner',
       header: 'Control Owner',
@@ -399,6 +363,42 @@ const InternalControlTable = ({
       columnDefType: 'data',
       cellClassName: 'dashboardCell',
       size: 90,
+    },
+    {
+      accessorKey: 'KPI_Result',
+      id: 'KPI_Result',
+      header: 'KPI Result',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 100,
+      Cell: (row) => {
+        return <Badge_apply data={row.row.original.KPI_Result} />;
+      },
+    },
+    {
+      accessorKey: 'Assessment_Result',
+      id: 'Assessment_Result',
+      header: 'Assessment Result',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 150,
+      Cell: (row) => {
+        return <Badge_apply data={row.row.original.Assessment_Result} />;
+      },
+    },
+    {
+      accessorKey: 'Compliance_Result',
+      id: 'Compliance_Result',
+      header: 'Compliance Result',
+      flex: 1,
+      columnDefType: 'data',
+      cellClassName: 'dashboardCell',
+      size: 150,
+      Cell: (row) => {
+        return <Badge_apply data={row.row.original.Compliance_Result} />;
+      },
     },
     {
       accessorKey: 'assessment_submitted_by',
