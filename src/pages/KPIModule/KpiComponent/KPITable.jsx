@@ -111,7 +111,7 @@ const KPITable = ({ data, yearAndQuarter }) => {
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
         row.original.Expected_Source == 'Automated' && {
-          align: 'center',
+          // align: 'center',
           sx: {
             backgroundColor: '#1B1212',
             color: '#fff',
@@ -162,7 +162,7 @@ const KPITable = ({ data, yearAndQuarter }) => {
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
         row.original.Expected_Source == 'Automated' && {
-          align: 'center',
+          // align: 'center',
           sx: {
             backgroundColor: '#1B1212',
             color: '#fff',
