@@ -1221,12 +1221,16 @@ const KPITable = ({ data, yearAndQuarter }) => {
             //   },
           }}
           renderTopToolbar={({ table }) => {
+            const isDisabled =
+              buttonText === 'Choose a file' && yearAndQuarter.toString() !== currentQuarter;
+
             return (
               <Flex p="md" justify="space-between" className="kpi_module_buttons">
                 <Flex align="center" gap="xs">
                   <button
                     className="custom-btn mt-2 submit-btn"
                     onClick={handleSaveKPIData}
+                    disabled={isDisabled}
                     // disabled={
                     //   Object.keys(tableData).length === 0 ||
                     //   Object.values(validationErrors).some(
@@ -1301,19 +1305,21 @@ const KPITable = ({ data, yearAndQuarter }) => {
                             placeholder="Name"
                             id="uploadfile"
                             onChange={handleFileUpload}
+                            disabled={yearAndQuarter.toString() !== currentQuarter}
                           />
-                          <div className="custom-btn choose-file">{buttonText}</div>
+                          <div
+                            className={`custom-btn choose-file ${
+                              yearAndQuarter.toString() !== currentQuarter
+                                ? 'custom-btn-disabled'
+                                : ''
+                            }`}
+                          >
+                            {buttonText}
+                          </div>
                         </label>
                       </div>
 
-                      <button
-                        type="submit"
-                        className="custom-btn upload-btn"
-                        disabled={
-                          buttonText === 'Choose a file' ||
-                          yearAndQuarter.toString() !== currentQuarter
-                        }
-                      >
+                      <button type="submit" className="custom-btn upload-btn" disabled={isDisabled}>
                         Upload
                       </button>
                     </div>
