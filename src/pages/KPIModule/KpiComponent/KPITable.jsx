@@ -1230,7 +1230,7 @@ const KPITable = ({ data, yearAndQuarter }) => {
                   <button
                     className="custom-btn mt-2 submit-btn"
                     onClick={handleSaveKPIData}
-                    disabled={isDisabled}
+                    // disabled={isDisabled}
                     // disabled={
                     //   Object.keys(tableData).length === 0 ||
                     //   Object.values(validationErrors).some(
