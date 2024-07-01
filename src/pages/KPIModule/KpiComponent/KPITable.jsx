@@ -1,18 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import {
-  Badge,
-  Box,
-  Button,
-  Flex,
-  Menu,
-  Text,
-  Title,
-  MantineProvider,
-  Group,
-  MultiSelect,
-} from '@mantine/core';
+import { Badge, Flex, MantineProvider } from '@mantine/core';
 import {
   MRT_GlobalFilterTextInput,
   MRT_ToggleFiltersButton,
@@ -20,12 +9,12 @@ import {
   MRT_ShowHideColumnsButton,
   MRT_ToggleDensePaddingButton,
 } from 'mantine-react-table';
-import * as XLSX from 'xlsx';
 import Workbook from 'react-excel-workbook';
 import '../KpiModule.scss';
 import { useTranslation } from 'react-i18next';
 import KpiTableFilter from './KpiTableFilter';
 import readXlsxFile from 'read-excel-file';
+import { getCurrentYearAndQuarter } from '../KpiModuleLandingPage';
 
 const Badge_apply = ({ data }) => {
   const colorMap = {
@@ -97,9 +86,11 @@ function calculateResult(numerator, denominator, threshold, positiveDirection, r
   }
 }
 
-const KPITable = ({ data }) => {
+const KPITable = ({ data, yearAndQuarter }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const currentQuarter = getCurrentYearAndQuarter();
+  console.log('currentQuarter', currentQuarter);
   const currentYear = new Date().getFullYear();
   const [tableData, setTableData] = useState(() => data);
   const [filterData, setFilterData] = useState({
@@ -1315,7 +1306,14 @@ const KPITable = ({ data }) => {
                         </label>
                       </div>
 
-                      <button type="submit" className="custom-btn upload-btn" disabled={!excelFile}>
+                      <button
+                        type="submit"
+                        className="custom-btn upload-btn"
+                        disabled={
+                          buttonText === 'Choose a file' ||
+                          yearAndQuarter.toString() !== currentQuarter
+                        }
+                      >
                         Upload
                       </button>
                     </div>

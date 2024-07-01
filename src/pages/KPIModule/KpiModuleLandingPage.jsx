@@ -21,7 +21,7 @@ import {
   get_ic_KPI_dataSelector,
 } from '../../redux/KPI_Module/KPI_Selectors';
 
-function getCurrentYearAndQuarter() {
+export function getCurrentYearAndQuarter() {
   const today = new Date();
   const currentYear = today.getFullYear();
 
@@ -59,6 +59,8 @@ const ICTable = () => {
 
   const yearQuarterOption = [currentQuarter, previousQuarter];
   const [yearAndQuarter, setYearAndQuarter] = useState([currentQuarter]);
+
+  console.log('yearQuarterOption', yearAndQuarter);
   const { data: getAllZone_State, loading: getAllZoneLoading } = useSelector(getAllZoneSelector);
   const [selectedZone, setSelectedZone] = useState();
   const [zoneValue, setZoneValue] = useState();
@@ -176,7 +178,7 @@ const ICTable = () => {
                         </div>
                       </Form.Group>
                     </div>
-                    <KPITable data={KpiDataForIC?.data} />
+                    <KPITable data={KpiDataForIC?.data} yearAndQuarter={yearAndQuarter} />
                   </div>
                 </>
               ))}
@@ -210,7 +212,7 @@ const ICTable = () => {
               </div>
             </Form.Group>
           </div>
-          <KPITable data={KpiDataForIC?.data} />
+          <KPITable data={KpiDataForIC?.data} yearAndQuarter={yearAndQuarter} />
         </>
       )}
     </div>
@@ -282,7 +284,10 @@ const ControlOwner_KPIOwner_ControlOversight_Table = () => {
               </div>
             </Form.Group>
           </div>
-          <KPITable data={KpiDataForControlOwner_KPIOwner_ControlOversight?.data} />
+          <KPITable
+            data={KpiDataForControlOwner_KPIOwner_ControlOversight?.data}
+            yearAndQuarter={yearAndQuarter}
+          />
         </>
       )}
     </div>
