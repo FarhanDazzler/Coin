@@ -1230,7 +1230,7 @@ const KPITable = ({ data, yearAndQuarter }) => {
                   <button
                     className="custom-btn mt-2 submit-btn"
                     onClick={handleSaveKPIData}
-                    // disabled={isDisabled}
+                    disabled={isDisabled}
                     // disabled={
                     //   Object.keys(tableData).length === 0 ||
                     //   Object.values(validationErrors).some(
@@ -1245,10 +1245,7 @@ const KPITable = ({ data, yearAndQuarter }) => {
                     <Workbook
                       filename={`KPI_Module_Export.xlsx`}
                       element={
-                        <button
-                          className="custom-btn mt-2 submit-btn"
-                          disabled={table.getPrePaginationRowModel().rows.length === 0}
-                        >
+                        <button className="custom-btn mt-2 submit-btn">
                           {t('selfAssessment.assessmentForm.exportToExcel')}
                         </button>
                       }
