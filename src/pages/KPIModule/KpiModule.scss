@@ -21,9 +21,9 @@
   }
   .submit-btn:hover {
     cursor: pointer;
-    background-color: rgba(211, 163, 6, 0.04);
-    border: 1px solid #d3a306;
-    color: white;
+  }
+  .submit-btn:disabled {
+    cursor: not-allowed !important;
   }
   .custom-btn {
     min-height: 36px;
