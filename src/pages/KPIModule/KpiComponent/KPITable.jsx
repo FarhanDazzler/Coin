@@ -1294,7 +1294,7 @@ const KPITable = ({ data, yearAndQuarter }) => {
                     id="excel_import_btn_kpi_module"
                     className="kpi_module_form mt-1"
                   >
-                    <div className="d-flex align-items-center">
+                    <div className="d-flex align-items-center" style={{ marginTop: 4 }}>
                       <div className="mt-2">
                         <label htmlFor="uploadfile" className="file-input">
                           <input
