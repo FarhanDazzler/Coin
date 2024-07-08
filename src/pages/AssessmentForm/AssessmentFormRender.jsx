@@ -278,15 +278,17 @@ const AssessmentFormRender = ({
                         </div>
                       ) : null}
                       {!kpiResultData.loading && (
-                        <Button
-                          color="neutral"
-                          className={cs('w-100', { ['isDisabledButton']: isDisabledButton })}
-                          id="submit-button"
-                          loading={loadingSubmit}
-                          onClick={handleValidation('submit')}
-                        >
-                          {t('selfAssessment.assessmentForm.submitBtn')}
-                        </Button>
+                        <div style={{paddingBottom: '100px'}} >
+                          <Button
+                            color="neutral"
+                            className={cs('w-100', { ['isDisabledButton']: isDisabledButton })}
+                            id="submit-button"
+                            loading={loadingSubmit}
+                            onClick={handleValidation('submit')}
+                          >
+                            {t('selfAssessment.assessmentForm.submitBtn')}
+                          </Button>
+                        </div>
                       )}
                     </>
                   ) : handleSaveDraft && !isOverride && !isReview ? (
