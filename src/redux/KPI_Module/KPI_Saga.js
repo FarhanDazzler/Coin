@@ -12,6 +12,8 @@ import {
   GET_CONTROL_OWNER_KPI_OWNER_CONTROL_OVERSIGHT_KPI_DATA_SUCCESS,
   GET_CONTROL_OWNER_KPI_OWNER_CONTROL_OVERSIGHT_KPI_DATA_ERROR,
   SUBMIT_KPI_DATA_KPI_MODULE_REQUEST,
+  SUBMIT_KPI_DATA_KPI_MODULE_ERROR,
+  SUBMIT_KPI_DATA_KPI_MODULE_SUCCESS,
 } from './KPI_Reducer';
 
 // GET KPI Module KPI Data for IC
@@ -43,13 +45,13 @@ function* handle_Submit_KPI_data_KPI_Module({ payload }) {
     const response = yield call(submit_KPI_data_KPI_ModuleAPI, payload);
     if (response.success) {
       yield put({
-        type: GET_IC_KPI_DATA_SUCCESS,
+        type: SUBMIT_KPI_DATA_KPI_MODULE_SUCCESS,
         payload: response.data,
       });
     }
   } catch (error) {
     yield put({
-      type: GET_IC_KPI_DATA_ERROR,
+      type: SUBMIT_KPI_DATA_KPI_MODULE_ERROR,
     });
   }
 }

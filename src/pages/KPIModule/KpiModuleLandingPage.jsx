@@ -75,7 +75,7 @@ const ICTable = () => {
         value: zone.zone,
       }));
       setZoneValue([formattedData[0]]);
-      if (getAllZone_State.length > 1) {
+      if (getAllZone_State?.length > 1) {
         setZoneValue(formattedData);
       }
     }
@@ -92,7 +92,7 @@ const ICTable = () => {
     if (selectedZone?.value) {
       if (yearAndQuarter?.length > 0) {
         const payload = {
-          zone: selectedZone.value,
+          zone: selectedZone?.value,
           year_and_quarter: yearAndQuarter,
         };
         dispatch(get_ic_KPI_data(payload));
@@ -178,7 +178,14 @@ const ICTable = () => {
                         </div>
                       </Form.Group>
                     </div>
-                    <KPITable data={KpiDataForIC?.data} yearAndQuarter={yearAndQuarter} />
+                    <KPITable
+                      data={KpiDataForIC?.data?.KPI_table_data}
+                      yearAndQuarter={yearAndQuarter}
+                      distinct_control_ids={KpiDataForIC?.data?.distinct_control_ids}
+                      distinct_provider={KpiDataForIC?.data?.distinct_provider}
+                      distinct_receiver={KpiDataForIC?.data?.distinct_receiver}
+                      distinct_zone={KpiDataForIC?.data?.distinct_zone}
+                    />
                   </div>
                 </>
               ))}
@@ -212,7 +219,14 @@ const ICTable = () => {
               </div>
             </Form.Group>
           </div>
-          <KPITable data={KpiDataForIC?.data} yearAndQuarter={yearAndQuarter} />
+          <KPITable
+            data={KpiDataForIC?.data?.KPI_table_data}
+            yearAndQuarter={yearAndQuarter}
+            distinct_control_ids={KpiDataForIC?.data?.distinct_control_ids}
+            distinct_provider={KpiDataForIC?.data?.distinct_provider}
+            distinct_receiver={KpiDataForIC?.data?.distinct_receiver}
+            distinct_zone={KpiDataForIC?.data?.distinct_zone}
+          />
         </>
       )}
     </div>
@@ -233,7 +247,6 @@ const ControlOwner_KPIOwner_ControlOversight_Table = () => {
   const KpiDataForControlOwner_KPIOwner_ControlOversight = useSelector(
     get_ControlOwner_KPIOwner_ControlOversight_KPI_dataSelector,
   );
-
   useEffect(() => {
     if (yearAndQuarter?.length > 0) {
       const payload = {
@@ -285,8 +298,18 @@ const ControlOwner_KPIOwner_ControlOversight_Table = () => {
             </Form.Group>
           </div>
           <KPITable
-            data={KpiDataForControlOwner_KPIOwner_ControlOversight?.data}
+            data={KpiDataForControlOwner_KPIOwner_ControlOversight?.data?.KPI_table_data}
             yearAndQuarter={yearAndQuarter}
+            distinct_control_ids={
+              KpiDataForControlOwner_KPIOwner_ControlOversight?.data?.distinct_control_ids
+            }
+            distinct_provider={
+              KpiDataForControlOwner_KPIOwner_ControlOversight?.data?.distinct_provider
+            }
+            distinct_receiver={
+              KpiDataForControlOwner_KPIOwner_ControlOversight?.data?.distinct_receiver
+            }
+            distinct_zone={KpiDataForControlOwner_KPIOwner_ControlOversight?.data?.distinct_zone}
           />
         </>
       )}

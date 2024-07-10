@@ -15,6 +15,8 @@ import { useTranslation } from 'react-i18next';
 import KpiTableFilter from './KpiTableFilter';
 import readXlsxFile from 'read-excel-file';
 import { getCurrentYearAndQuarter } from '../KpiModuleLandingPage';
+import { useMsal } from '@azure/msal-react';
+import { submit_KPI_data_KPI_Module } from '../../../redux/KPI_Module/KPI_Action';
 
 const Badge_apply = ({ data }) => {
   const colorMap = {
@@ -86,12 +88,20 @@ function calculateResult(numerator, denominator, threshold, positiveDirection, r
   }
 }
 
-const KPITable = ({ data, yearAndQuarter }) => {
+const KPITable = ({
+  data = [],
+  yearAndQuarter,
+  distinct_control_ids = [],
+  distinct_provider = [],
+  distinct_receiver = [],
+  distinct_zone = [],
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const currentQuarter = getCurrentYearAndQuarter();
-  console.log('currentQuarter', currentQuarter);
-  const currentYear = new Date().getFullYear();
+  const { accounts } = useMsal();
+
+  const currentYearAndQuarter = getCurrentYearAndQuarter();
+  console.log('currentYearAndQuarter', currentYearAndQuarter);
   const [tableData, setTableData] = useState(() => data);
   const [filterData, setFilterData] = useState({
     zoneValue: [],
@@ -1141,13 +1151,25 @@ const KPITable = ({ data, yearAndQuarter }) => {
       toast.error('Please fill all the required fields and fix the errors before submitting.');
       return;
     } else {
+      const payload = {
+        Submitted_by: accounts[0]?.username,
+        KPI_data: tableData,
+      };
+      dispatch(submit_KPI_data_KPI_Module(payload));
       console.log('Saved data', tableData);
     }
   };
 
   return (
     <div className="kpi_table">
-      <KpiTableFilter tableData={tableData} setFilterData={setFilterData} />
+      <KpiTableFilter
+        tableData={tableData}
+        distinct_control_ids={distinct_control_ids}
+        distinct_provider={distinct_provider}
+        distinct_receiver={distinct_receiver}
+        distinct_zone={distinct_zone}
+        setFilterData={setFilterData}
+      />
       <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
         <MantineReactTable
           columns={columns}
@@ -1168,7 +1190,7 @@ const KPITable = ({ data, yearAndQuarter }) => {
           editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)
           enableEditing={(row) =>
             row.original.Expected_Source == 'Manual' &&
-            row.original.year_and_quarter === currentYear
+            row.original.year_and_quarter === currentYearAndQuarter
           }
           initialState={{
             showColumnFilters: true,
@@ -1211,7 +1233,7 @@ const KPITable = ({ data, yearAndQuarter }) => {
           }}
           renderTopToolbar={({ table }) => {
             const isDisabled =
-              buttonText === 'Choose a file' && yearAndQuarter.toString() !== currentQuarter;
+              buttonText === 'Choose a file' && yearAndQuarter.toString() !== currentYearAndQuarter;
 
             return (
               <Flex p="md" justify="space-between" className="kpi_module_buttons">
@@ -1291,11 +1313,11 @@ const KPITable = ({ data, yearAndQuarter }) => {
                             placeholder="Name"
                             id="uploadfile"
                             onChange={handleFileUpload}
-                            disabled={yearAndQuarter.toString() !== currentQuarter}
+                            disabled={yearAndQuarter.toString() !== currentYearAndQuarter}
                           />
                           <div
                             className={`custom-btn choose-file ${
-                              yearAndQuarter.toString() !== currentQuarter
+                              yearAndQuarter.toString() !== currentYearAndQuarter
                                 ? 'custom-btn-disabled'
                                 : ''
                             }`}
