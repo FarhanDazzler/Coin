@@ -41,13 +41,13 @@ const KpiTableFilter = ({ tableData, setFilterData }) => {
   const [controlIDValue, setControlIDValue] = useState([]);
 
   const zoneOption = useMemo(() => {
-    return removeDuplicates(tableData.map((td) => ({ label: td.Zone, value: td.Zone })));
+    return removeDuplicates(tableData?.map((td) => ({ label: td.Zone, value: td.Zone })));
   }, [tableData]);
   const entityOption = useMemo(() => {
-    return removeDuplicates(tableData.map((td) => ({ label: td.Entity, value: td.Entity })));
+    return removeDuplicates(tableData?.map((td) => ({ label: td.Entity, value: td.Entity })));
   }, [tableData]);
   const providerOption = useMemo(() => {
-    return removeDuplicates(tableData.map((td) => ({ label: td.provider, value: td.provider })));
+    return removeDuplicates(tableData?.map((td) => ({ label: td.provider, value: td.provider })));
   }, [tableData]);
   const controlIDOption = useMemo(() => {
     return removeDuplicates(
@@ -68,25 +68,25 @@ const KpiTableFilter = ({ tableData, setFilterData }) => {
     <div className="col-12 col-lg-12 mb-5">
       <Group spacing="xs" className="actions-button-wrapper">
         <FilterMultiSelect
-          data={zoneOption}
+          data={zoneOption || []}
           label="Zone"
           value={zoneValue}
           onChange={setZoneValue}
-          disabled={!zoneOption.length}
+          disabled={!zoneOption?.length}
         />
         <FilterMultiSelect
-          data={entityOption}
+          data={entityOption || []}
           label="Entity"
           value={entityValue}
           onChange={setEntityValue}
-          disabled={!entityOption.length}
+          disabled={!entityOption?.length}
         />
         <FilterMultiSelect
-          data={providerOption}
+          data={providerOption || []}
           label="Provider"
           value={providerValue}
           onChange={setProviderValue}
-          disabled={!providerOption.length}
+          disabled={!providerOption?.length}
         />
         {/*<FilterMultiSelect*/}
         {/*  data={providerOption}*/}
@@ -96,11 +96,11 @@ const KpiTableFilter = ({ tableData, setFilterData }) => {
         {/*  disabled={!providerOption.length}*/}
         {/*/>*/}
         <FilterMultiSelect
-          data={controlIDOption}
+          data={controlIDOption || []}
           label="Control ID"
           value={controlIDValue}
           onChange={setControlIDValue}
-          disabled={!controlIDOption.length}
+          disabled={!controlIDOption?.length}
         />
       </Group>
     </div>
