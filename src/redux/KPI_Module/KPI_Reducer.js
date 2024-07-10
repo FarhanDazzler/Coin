@@ -16,6 +16,10 @@ export const GET_CONTROL_OWNER_KPI_OWNER_CONTROL_OVERSIGHT_KPI_DATA_ERROR =
 export const CLEAR_CONTROL_OWNER_KPI_OWNER_CONTROL_OVERSIGHT_KPI_DATA =
   'CLEAR_CONTROL_OWNER_KPI_OWNER_CONTROL_OVERSIGHT_KPI_DATA';
 
+export const SUBMIT_KPI_DATA_KPI_MODULE_REQUEST = 'SUBMIT_KPI_DATA_KPI_MODULE_REQUEST';
+export const SUBMIT_KPI_DATA_KPI_MODULE_SUCCESS = 'SUBMIT_KPI_DATA_KPI_MODULE_SUCCESS';
+export const SUBMIT_KPI_DATA_KPI_MODULE_ERROR = 'SUBMIT_KPI_DATA_KPI_MODULE_ERROR';
+
 const block = {
   loading: false,
   error: '',
@@ -97,6 +101,32 @@ export const KPI_ModuleReducer = (state = initialState, { type, payload = {} }) 
         get_ControlOwner_KPIOwner_ControlOversight_KPI_data: {
           ...state.get_ControlOwner_KPIOwner_ControlOversight_KPI_data,
           data: [],
+          loading: false,
+        },
+      };
+
+    case SUBMIT_KPI_DATA_KPI_MODULE_REQUEST:
+      return {
+        ...state,
+        get_ic_KPI_data: {
+          ...state.get_ic_KPI_data,
+          loading: true,
+        },
+      };
+    case SUBMIT_KPI_DATA_KPI_MODULE_SUCCESS:
+      return {
+        ...state,
+        get_ic_KPI_data: {
+          ...state.get_ic_KPI_data,
+          data: payload,
+          loading: false,
+        },
+      };
+    case SUBMIT_KPI_DATA_KPI_MODULE_ERROR:
+      return {
+        ...state,
+        get_ic_KPI_data: {
+          ...state.get_ic_KPI_data,
           loading: false,
         },
       };
