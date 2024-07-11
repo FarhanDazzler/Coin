@@ -34,26 +34,18 @@ function removeDuplicates(array) {
   );
 }
 
-const KpiTableFilter = ({ tableData, setFilterData }) => {
+const KpiTableFilter = ({
+  tableData = [],
+  setFilterData,
+  distinct_control_ids = [],
+  distinct_provider = [],
+  distinct_receiver = [],
+  distinct_zone = [],
+}) => {
   const [zoneValue, setZoneValue] = useState([]);
   const [entityValue, setEntityValue] = useState([]);
   const [providerValue, setProviderValue] = useState([]);
   const [controlIDValue, setControlIDValue] = useState([]);
-
-  const zoneOption = useMemo(() => {
-    return removeDuplicates(tableData.map((td) => ({ label: td.Zone, value: td.Zone })));
-  }, [tableData]);
-  const entityOption = useMemo(() => {
-    return removeDuplicates(tableData.map((td) => ({ label: td.Entity, value: td.Entity })));
-  }, [tableData]);
-  const providerOption = useMemo(() => {
-    return removeDuplicates(tableData.map((td) => ({ label: td.provider, value: td.provider })));
-  }, [tableData]);
-  const controlIDOption = useMemo(() => {
-    return removeDuplicates(
-      tableData.map((td) => ({ label: td.CONTROL_ID, value: td.CONTROL_ID })),
-    );
-  }, [tableData]);
 
   useEffect(() => {
     setFilterData({
@@ -68,39 +60,32 @@ const KpiTableFilter = ({ tableData, setFilterData }) => {
     <div className="col-12 col-lg-12 mb-5">
       <Group spacing="xs" className="actions-button-wrapper">
         <FilterMultiSelect
-          data={zoneOption}
+          data={distinct_zone || []}
           label="Zone"
           value={zoneValue}
           onChange={setZoneValue}
-          disabled={!zoneOption.length}
+          disabled={!distinct_zone?.length}
         />
         <FilterMultiSelect
-          data={entityOption}
-          label="Entity"
-          value={entityValue}
-          onChange={setEntityValue}
-          disabled={!entityOption.length}
-        />
-        <FilterMultiSelect
-          data={providerOption}
-          label="Provider"
-          value={providerValue}
-          onChange={setProviderValue}
-          disabled={!providerOption.length}
-        />
-        {/*<FilterMultiSelect*/}
-        {/*  data={providerOption}*/}
-        {/*  label="Provider"*/}
-        {/*  value={providerValue}*/}
-        {/*  onChange={setProviderValue}*/}
-        {/*  disabled={!providerOption.length}*/}
-        {/*/>*/}
-        <FilterMultiSelect
-          data={controlIDOption}
+          data={distinct_control_ids || []}
           label="Control ID"
           value={controlIDValue}
           onChange={setControlIDValue}
-          disabled={!controlIDOption.length}
+          disabled={!distinct_control_ids?.length}
+        />
+        <FilterMultiSelect
+          data={distinct_provider || []}
+          label="Provider"
+          value={providerValue}
+          onChange={setProviderValue}
+          disabled={!distinct_provider?.length}
+        />
+        <FilterMultiSelect
+          data={distinct_receiver || []}
+          label="Entity"
+          value={entityValue}
+          onChange={setEntityValue}
+          disabled={!distinct_receiver?.length}
         />
       </Group>
     </div>
