@@ -494,7 +494,7 @@ const AssignModal = ({ setShowModal, assignTableData }) => {
                         color="neutral"
                         className="ml-4"
                         onClick={handleSubmit}
-                        disabled={!isEmailValidADState.data?.isValid}
+                        disabled={block?.loading || block?.dropDownOption?.length > 0 || !isEmailValidADState.data?.isValid}
                       >
                         Confirm
                       </Button>

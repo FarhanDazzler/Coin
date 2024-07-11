@@ -339,7 +339,16 @@ const FunctionalMasterdataModal = ({ setShowModal, assignTableData }) => {
                       >
                         Cancel
                       </Button>
-                      <Button color="neutral" className="ml-4" onClick={handleSubmit}>
+                      <Button
+                        color="neutral"
+                        className="ml-4"
+                        onClick={handleSubmit}
+                        disabled={
+                          block?.loading ||
+                          block?.dropDownOption?.length > 0 ||
+                          !isEmailValidADState.data?.isValid
+                        }
+                      >
                         Confirm
                       </Button>
                     </div>
