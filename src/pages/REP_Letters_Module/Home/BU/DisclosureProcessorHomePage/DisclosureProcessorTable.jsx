@@ -162,29 +162,36 @@ const DisclosureProcessorTable = ({
     dispatch,
   ]);
 
-  // // Function to check if RBA is accessible or not. If RBA is accessible, then only RBA button will be enabled.
-  // // RBA will be applicable on work day 11 from the start date of the assessment cycle.
-  // const isRBA_Accessible = (startDate) => {
-  //   const today = new Date();
-  //   const startDateObj = new Date(startDate);
-  //   const diffTime = Math.abs(today - startDateObj);
-  //   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  //   return diffDays >= 11;
-  // };
+  // Function to check if RBA is accessible or not. If RBA is accessible, then only RBA button will be enabled.
+  // RBA will be applicable on the 11th working day of the month of startDate.
 
-  // Function to check if RBA is accessible or not.
-  // RBA will be applicable on the 11th day of the month of startDate.
   const isRBA_Accessible = (startDate) => {
-    // Get today's date.
     const today = new Date();
-
-    // Convert the provided startDate string into a Date object.
     const startDateObj = new Date(startDate);
 
-    // Create a new Date object representing the 11th day of the same month and year as the startDate.
-    const rbaDate = new Date(startDateObj.getFullYear(), startDateObj.getMonth(), 11);
+    // Initialize the count of working days
+    let workingDayCount = 0;
 
-    // Check if today's date is on or after the 11th day of the month of startDate.
+    // Start from the first day of the month
+    let currentDay = new Date(startDateObj.getFullYear(), startDateObj.getMonth(), 1);
+
+    // Loop through days of the month
+    while (workingDayCount < 11) {
+      const dayOfWeek = currentDay.getDay();
+
+      // Increment working day count if it's a weekday (Monday to Friday)
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        workingDayCount++;
+      }
+
+      // Move to the next day
+      currentDay.setDate(currentDay.getDate() + 1);
+    }
+
+    // currentDay now holds the 11th working day of the month
+    const rbaDate = currentDay;
+
+    // Check if today's date is on or after the 11th working day of the month
     return today >= rbaDate;
   };
 
