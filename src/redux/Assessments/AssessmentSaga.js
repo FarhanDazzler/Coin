@@ -56,6 +56,8 @@ import {
   GET_PREVIOUS_ASSESSMENT_RESULT_SUCCESS,
   GET_PREVIOUS_ASSESSMENT_RESULT_ERROR,
   GET_PREVIOUS_ASSESSMENT_RESULT_LAST_CALL_ID,
+  GET_HISTORICAL_GRAPH_RESULT_SUCCESS,
+  GET_HISTORICAL_GRAPH_RESULT_ERROR,
 } from './AssessmentReducer';
 import { ACTION_ADD_ERROR_NOTIFICATION_DATA } from '../ErrorNotification/ErrorNotificationReducer';
 import Swal from 'sweetalert2';
@@ -459,6 +461,38 @@ function* handle_get_previous_assessment_result({ payload: copyPayload }) {
   }
 }
 
+// Get Previous Assessment Result
+async function handle_get_historical_dataApi(payload) {
+  return await Axios.post('/get_Section2_Historical_Graph_Data', payload);
+}
+function* handle_get_historical_data({ payload: copyPayload }) {
+  const { events, ...payload } = copyPayload;
+  try {
+    const response = yield call(handle_get_historical_dataApi, payload);
+    if (response.success) {
+      if (events.onSuccess) {
+        events.onSuccess(response.data);
+      }
+      yield put({
+        type: GET_HISTORICAL_GRAPH_RESULT_SUCCESS,
+        payload: response.data,
+      });
+      yield put({
+        type: GET_PREVIOUS_ASSESSMENT_RESULT_LAST_CALL_ID,
+        payload: payload,
+      });
+    }
+  } catch (error) {
+    if (events.onError) {
+      events.onError();
+    }
+    yield put({
+      type: GET_HISTORICAL_GRAPH_RESULT_ERROR,
+      // error: getSimplifiedError(error),
+    });
+  }
+}
+
 export default all([
   takeLatest(GET_LATEST_DRAFT_REQUEST, handleGetLatestDraft),
   takeLatest(ADD_OR_UPDATE_DRAFT_REQUEST, handleAddOrUpdateDraft),
@@ -476,4 +510,5 @@ export default all([
   takeLatest(GET_MICS_OPEN_ACTION_PLAN_REQUEST, handle_getMicsOpenActionPlan),
   takeLatest(GET_MICS_OPEN_ACTION_PLAN_DATA_REQUEST, handle_get_MICS_OpenActionPlan),
   takeLatest(GET_PREVIOUS_ASSESSMENT_RESULT_REQUEST, handle_get_previous_assessment_result),
+  takeLatest(GET_HISTORICAL_GRAPH_RESULT_SUCCESS, handle_get_historical_data),
 ]);
