@@ -238,7 +238,7 @@ const KPITable = ({
       enableClickToCopy: true,
       // filterVariant: 'multi-select',
       header: 'Expected KPI Data Source',
-      size: 100,
+      size: 300,
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
         row.original.Expected_Source == 'Automated' && {
@@ -308,6 +308,23 @@ const KPITable = ({
       //filterVariant: 'multi-select',
       header: 'Month',
       size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'Direction',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Direction',
+      size: 300,
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
         row.original.Expected_Source == 'Automated' && {
@@ -807,23 +824,6 @@ const KPITable = ({
           },
         },
     },
-    // {
-    //   accessorKey: 'Direction',
-    //   enableClickToCopy: true,
-    //   //   filterVariant: 'autocomplete',
-    //   header: 'Direction',
-    //   size: 300,
-    //   enableEditing: false,
-    // mantineTableBodyCellProps: ({ row }) =>
-    //   row.original.Expected_Source == 'Automated' && {
-    //     // align: 'center',
-    //     sx: {
-    //       backgroundColor: '#1B1212',
-    //       color: '#fff',
-    //       // borderRight: '1px solid rgba(224,224,224,1)',
-    //     },
-    //   },
-    // },
     {
       accessorKey: 'load_date',
       enableClickToCopy: true,
