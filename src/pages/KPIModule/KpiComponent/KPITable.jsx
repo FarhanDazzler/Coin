@@ -431,6 +431,8 @@ const KPITable = ({
               tableData[cell.row.index].KPI_Value = (
                 +row.original.KPI_Num / +row.original.KPI_Den
               ).toFixed(5);
+            } else {
+              tableData[cell.row.index].KPI_Value = '';
             }
 
             if (
@@ -530,6 +532,8 @@ const KPITable = ({
               tableData[cell.row.index].KPI_Value = (
                 +row.original.KPI_Num / +row.original.KPI_Den
               ).toFixed(5);
+            } else {
+              tableData[cell.row.index].KPI_Value = '';
             }
 
             if (
@@ -1201,10 +1205,6 @@ const KPITable = ({
             pagination: { pageIndex: 0, pageSize: 10 },
             sorting: [{ id: 'state', desc: false }],
           }}
-          // mantinePaginationProps={{
-          //   radius: 'xl',
-          //   size: 'lg',
-          // }}
           mantineTableHeadCellProps={{
             align: 'center',
           }}
@@ -1217,19 +1217,7 @@ const KPITable = ({
             },
           }}
           mantineTableProps={{
-            //   highlightOnHover: false,
             withColumnBorders: true,
-            //   sx: {
-            //     'thead > tr': {
-            //       backgroundColor: 'inherit',
-            //     },
-            //     // 'thead > tr > th': {
-            //     //   backgroundColor: 'inherit',
-            //     // },
-            //     'tbody > tr > td': {
-            //       backgroundColor: 'inherit',
-            //     },
-            //   },
           }}
           renderTopToolbar={({ table }) => {
             const isDisabled =

@@ -13,6 +13,7 @@ import {
   kpiResultSelector,
   getResponseSelector,
   getLatestDraftSelector,
+  get_historical_graph_dataSelector,
 } from '../../../redux/Assessments/AssessmentSelectors';
 import { getCsvTampredDataAction } from '../../../redux/CsvTampred/CsvTampredAction';
 import CollapseFrame from '../../../components/UI/CollapseFrame';
@@ -68,7 +69,8 @@ const ControlSection2 = ({
   const kpiResponseData = latestDraftData?.data?.Latest_response?.kpis || kpiResultData?.data?.kpis;
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();
-
+  const get_historical_graph_data = useSelector(get_historical_graph_dataSelector);
+  const historicalGraphData = get_historical_graph_data?.data || {};
   const [excelFile, setExcelFile] = useState(null);
   const [csvUpdateData, setScvUpdateData] = useState(0);
   useEffect(() => {
@@ -945,7 +947,7 @@ const ControlSection2 = ({
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section2KPI')} active>
-        {kpiResultData.loading ? (
+        {get_historical_graph_data.loading ? (
           <div>
             <div className="mt-8 mb-8 text-center">
               <Loader color="#e7c55d" />
@@ -956,7 +958,7 @@ const ControlSection2 = ({
             <div className="mt-5 pt-5">
               {showGraph && (
                 <>
-                  {kpiResult && Object.keys(kpiResult)?.length > 0 ? (
+                  {historicalGraphData && Object.keys(historicalGraphData)?.length > 0 ? (
                     <KIP_Graph_Section_2 isReview={isReview} isModal={isModal} />
                   ) : (
                     <div className="mt-5 text-center">

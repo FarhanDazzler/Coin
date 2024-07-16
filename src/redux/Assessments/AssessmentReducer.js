@@ -538,7 +538,7 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
           loading: false,
         },
       };
-      
+
     case GET_HISTORICAL_GRAPH_RESULT_REQUEST:
       return {
         ...state,
@@ -547,14 +547,17 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
     case GET_HISTORICAL_GRAPH_RESULT_SUCCESS:
       return {
         ...state,
-        get_historical_graph_data: { ...state.get_historical_graph_data, loading: false },
+        get_historical_graph_data: {
+          ...state.get_historical_graph_data,
+          data: payload,
+          loading: false,
+        },
       };
     case GET_HISTORICAL_GRAPH_RESULT_ERROR:
       return {
         ...state,
         get_historical_graph_data: { ...state.get_historical_graph_data, loading: false },
       };
-
 
     //reset block with flag and data
     case RESET_BLOCK_ASSESSMENT:

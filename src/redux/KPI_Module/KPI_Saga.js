@@ -15,6 +15,7 @@ import {
   SUBMIT_KPI_DATA_KPI_MODULE_ERROR,
   SUBMIT_KPI_DATA_KPI_MODULE_SUCCESS,
 } from './KPI_Reducer';
+import { toast } from 'react-toastify';
 
 // GET KPI Module KPI Data for IC
 async function get_ic_KPI_dataApi(params) {
@@ -73,6 +74,8 @@ function* handle_Get_ControlOwner_KPIOwner_ControlOversight_KPI_dataApi({ payloa
     yield put({
       type: GET_CONTROL_OWNER_KPI_OWNER_CONTROL_OVERSIGHT_KPI_DATA_ERROR,
     });
+    console.log('Error handle_Get_ControlOwner_KPIOwner_ControlOversight_KPI_dataApi: ', error);
+    toast.error('Something went wrong, Please try again after sometime.');
   }
 }
 

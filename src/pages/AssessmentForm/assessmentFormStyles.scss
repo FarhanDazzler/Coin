@@ -147,6 +147,11 @@
 }
 
 .chart-info-table {
+  .table-responsive {
+    max-height: 375px;
+    overflow: auto;
+  }
+
   th,
   td {
     padding: 10px;
@@ -282,4 +287,7 @@
   border-radius: 8px;
   font-weight: 500;
   font-size: 16px;
+}
+
+.title-chart-ui {
 }
