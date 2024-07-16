@@ -279,7 +279,7 @@ const Pages = () => {
           <Route exact path="/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
-          <Route exact path="/kpi" component={KpiModule} />
+          <Route exact path="/kpi-module" component={KpiModule} />
           <Route exact path="/POC" component={POC} />
           <Route path="*" component={PageNotFound} />
         </Switch>

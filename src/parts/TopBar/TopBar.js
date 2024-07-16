@@ -139,19 +139,19 @@ const TopBar = (props) => {
             </a>
           </li>
 
-          {/* <li className="nav-item">
+          <li className="nav-item">
             <a
               className={`navbar-link ${
-                ['/kpi', '/register'].includes(location?.pathname) ? ' active' : ''
+                ['/kpi-module', '/register'].includes(location?.pathname) ? ' active' : ''
               }`}
               onClick={() => {
-                history.push('/kpi');
+                history.push('/kpi-module');
               }}
             >
               <FeatherIcon icon="grid" size={14} />
               &nbsp;{'KPI Module'}
             </a>
-          </li> */}
+          </li>
 
           {!props.isControlPage && (
             <>
