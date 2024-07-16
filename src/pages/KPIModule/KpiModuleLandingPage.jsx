@@ -77,7 +77,7 @@ const ICTable = () => {
       setZoneValue([formattedData[0]]);
       if (getAllZone_State?.length > 1) {
         // Adding Select All option in dropdown
-        setZoneValue([{ label: 'All Zone', value: 'All Zone' }, ...formattedData]);
+        setZoneValue([{ label: 'All Zones', value: 'All Zones' }, ...formattedData]);
       }
     }
   }, [getAllZone_State]);
