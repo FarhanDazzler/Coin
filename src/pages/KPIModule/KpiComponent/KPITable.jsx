@@ -238,7 +238,7 @@ const KPITable = ({
       enableClickToCopy: true,
       // filterVariant: 'multi-select',
       header: 'Expected KPI Data Source',
-      size: 100,
+      size: 300,
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
         row.original.Expected_Source == 'Automated' && {
