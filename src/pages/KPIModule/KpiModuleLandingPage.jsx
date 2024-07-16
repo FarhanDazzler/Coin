@@ -25,14 +25,26 @@ export function getCurrentYearAndQuarter() {
   const today = new Date();
   const currentYear = today.getFullYear();
 
+  // Check if the current date falls between February 1st and April 30th
   if (new Date(currentYear, 1, 1) <= today && today <= new Date(currentYear, 3, 30)) {
     return currentYear + 'Q1';
-  } else if (new Date(currentYear, 4, 1) <= today && today <= new Date(currentYear, 6, 30)) {
+  }
+  // Check if the current date falls between May 1st and July 31st
+  else if (new Date(currentYear, 4, 1) <= today && today <= new Date(currentYear, 6, 31)) {
     return currentYear + 'Q2';
-  } else if (new Date(currentYear, 7, 1) <= today && today <= new Date(currentYear, 9, 31)) {
+  }
+  // Check if the current date falls between August 1st and October 31st
+  else if (new Date(currentYear, 7, 1) <= today && today <= new Date(currentYear, 9, 31)) {
     return currentYear + 'Q3';
-  } else if (new Date(currentYear, 10, 1) <= today && today <= new Date(currentYear, 0, 31)) {
-    return currentYear + 'Q4';
+  }
+  // Check if the current date falls between November 1st and January 31st
+  else if (new Date(currentYear, 10, 1) <= today || today <= new Date(currentYear, 0, 31)) {
+    // If the current month is January, return the previous year and Q4
+    if (today.getMonth() == 0) {
+      return currentYear - 1 + 'Q4';
+    } else {
+      return currentYear + 'Q4';
+    }
   } else {
     return 'Invalid date';
   }
