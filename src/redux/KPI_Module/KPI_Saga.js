@@ -41,10 +41,14 @@ function* handle_Get_ic_KPI_dataApi({ payload }) {
 async function submit_KPI_data_KPI_ModuleAPI(params) {
   return await Axios.post('/submit_KPI_data_KPI_Module', params);
 }
-function* handle_Submit_KPI_data_KPI_Module({ payload }) {
+function* handle_Submit_KPI_data_KPI_Module({ payload: copyPayload }) {
+  const { events, ...payload } = { ...copyPayload };
   try {
     const response = yield call(submit_KPI_data_KPI_ModuleAPI, payload);
     if (response.success) {
+      if (events.onSuccess) {
+        events.onSuccess();
+      }
       yield put({
         type: SUBMIT_KPI_DATA_KPI_MODULE_SUCCESS,
         payload: response.data,
@@ -54,6 +58,11 @@ function* handle_Submit_KPI_data_KPI_Module({ payload }) {
     yield put({
       type: SUBMIT_KPI_DATA_KPI_MODULE_ERROR,
     });
+    if (events.onError) {
+      events.onError();
+    }
+    console.log('errorerror', error.message, error.data);
+    toast.error(`Something went wrong, ${error.message}`);
   }
 }
 
