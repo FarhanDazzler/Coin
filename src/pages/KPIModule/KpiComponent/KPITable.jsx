@@ -320,6 +320,23 @@ const KPITable = ({
         },
     },
     {
+      accessorKey: 'Direction',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Direction',
+      size: 300,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.Expected_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
       accessorKey: 'expected_num',
       enableClickToCopy: true,
       //   filterVariant: 'autocomplete',
@@ -803,23 +820,6 @@ const KPITable = ({
           },
         },
     },
-    // {
-    //   accessorKey: 'Direction',
-    //   enableClickToCopy: true,
-    //   //   filterVariant: 'autocomplete',
-    //   header: 'Direction',
-    //   size: 300,
-    //   enableEditing: false,
-    // mantineTableBodyCellProps: ({ row }) =>
-    //   row.original.Expected_Source == 'Automated' && {
-    //     // align: 'center',
-    //     sx: {
-    //       backgroundColor: '#1B1212',
-    //       color: '#fff',
-    //       // borderRight: '1px solid rgba(224,224,224,1)',
-    //     },
-    //   },
-    // },
     {
       accessorKey: 'load_date',
       enableClickToCopy: true,
