@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ComposedChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { useSelector } from 'react-redux';
 import {
+  get_historical_graph_dataSelector,
   getResponseSelector,
   kpiResultSelector,
 } from '../../../redux/Assessments/AssessmentSelectors';
@@ -28,10 +29,14 @@ function convertData(key, data) {
 const KIP_Graph_Section_2 = ({ isModal, isReview }) => {
   const kpiResultData = useSelector(kpiResultSelector);
   const getKPIResponse = useSelector(getResponseSelector);
-  const kpiResult =
-    isModal || isReview
-      ? getKPIResponse?.data?.Latest_Response?.data
-      : kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
+
+  const get_historical_graph_data = useSelector(get_historical_graph_dataSelector);
+  const kpiResult = get_historical_graph_data?.data || {};
+
+  // const kpiResult =
+  //   isModal || isReview
+  //     ? getKPIResponse?.data?.Latest_Response?.data
+  //     : kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
   const [KPIList, setKPIList] = useState(null);
   const [activeKPI, setActiveKPI] = useState();
   const { width } = useWindowDimensions();
@@ -45,7 +50,7 @@ const KIP_Graph_Section_2 = ({ isModal, isReview }) => {
       const activeIdVal = Object.keys(kpiResult)[0];
       setActiveKPI(activeIdVal);
     }
-  }, [kpiResultData?.data]);
+  }, [kpiResult]);
 
   const data = convertData(activeKPI, kpiResult);
   const renderData =
@@ -101,29 +106,36 @@ const KIP_Graph_Section_2 = ({ isModal, isReview }) => {
             <Line type="monotone" dataKey="L3_Threshold" stroke="#ffc658" />
           </ComposedChart>
         </div>
-        <div className="renderBlockWrapper" style={{ minWidth: isModal ? 300 : 450 }}>
-          <div className="d-flex chart-info-table overflow-table">
-            <table className="w-full">
-              <tr>
-                <th>KPI ID </th>
-                {/*<th>KPI NAME</th>*/}
-              </tr>
-
-              <tbody>
-                {KPIList?.map((list) => (
-                  <tr key={list}>
-                    <td>
-                      <span
-                        onClick={() => handleKPIClick(list)}
-                        style={{ cursor: 'pointer', color: list === activeKPI ? '#f1c40f' : '' }}
-                      >
-                        {list}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <div>
+          <div className="renderBlockWrapper" style={{ minWidth: isModal ? 300 : 450 }}>
+            <div className="chart-info-table overflow-table">
+              <table className="w-full">
+                <tr className="title-chart-ui">
+                  <th>KPI ID</th>
+                </tr>
+              </table>
+              <div className="table-responsive">
+                <table className="w-full">
+                  <tbody>
+                    {KPIList?.map((list) => (
+                      <tr key={list}>
+                        <td>
+                          <span
+                            onClick={() => handleKPIClick(list)}
+                            style={{
+                              cursor: 'pointer',
+                              color: list === activeKPI ? '#f1c40f' : '',
+                            }}
+                          >
+                            {list}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>

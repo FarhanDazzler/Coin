@@ -25,39 +25,67 @@ export function getCurrentYearAndQuarter() {
   const today = new Date();
   const currentYear = today.getFullYear();
 
+  // Check if the current date falls between February 1st and April 30th
   if (new Date(currentYear, 1, 1) <= today && today <= new Date(currentYear, 3, 30)) {
     return currentYear + 'Q1';
-  } else if (new Date(currentYear, 4, 1) <= today && today <= new Date(currentYear, 6, 30)) {
+  }
+  // Check if the current date falls between May 1st and July 31st
+  else if (new Date(currentYear, 4, 1) <= today && today <= new Date(currentYear, 6, 31)) {
     return currentYear + 'Q2';
-  } else if (new Date(currentYear, 7, 1) <= today && today <= new Date(currentYear, 9, 31)) {
+  }
+  // Check if the current date falls between August 1st and October 31st
+  else if (new Date(currentYear, 7, 1) <= today && today <= new Date(currentYear, 9, 31)) {
     return currentYear + 'Q3';
-  } else if (new Date(currentYear, 10, 1) <= today && today <= new Date(currentYear, 0, 31)) {
-    return currentYear + 'Q4';
+  }
+  // Check if the current date falls between November 1st and January 31st
+  else if (new Date(currentYear, 10, 1) <= today || today <= new Date(currentYear, 0, 31)) {
+    // If the current month is January, return the previous year and Q4
+    if (today.getMonth() == 0) {
+      return currentYear - 1 + 'Q4';
+    } else {
+      return currentYear + 'Q4';
+    }
   } else {
     return 'Invalid date';
   }
 }
 
-function getPreviousYearAndQuarter() {
-  const currentDate = new Date();
-  currentDate.setMonth(currentDate.getMonth() - 4);
-  const previousYear = currentDate.getFullYear();
-  const previousQuarter = Math.ceil((currentDate.getMonth() + 1) / 3);
-  return previousYear + 'Q' + previousQuarter;
+function getPastTwoQuarters(currentQuarter) {
+  // I/P : "2024Q2"
+  // O/P : ['2024Q1', '2023Q4']
+
+  // Split the input string into year and quarter
+  let [year, quarter] = currentQuarter.split('Q');
+  year = parseInt(year);
+  quarter = parseInt(quarter);
+
+  // Calculate the past two quarters
+  const pastQuarters = [];
+  for (let i = 0; i < 2; i++) {
+    if (quarter === 1) {
+      quarter = 4;
+      year -= 1;
+    } else {
+      quarter -= 1;
+    }
+    pastQuarters.push(`${year}Q${quarter}`);
+  }
+
+  return pastQuarters;
 }
 
 const ICTable = () => {
   const dispatch = useDispatch();
 
   const currentQuarter = getCurrentYearAndQuarter();
-  const previousQuarter = getPreviousYearAndQuarter();
+  const previousQuarter = getPastTwoQuarters(currentQuarter);
 
   // API to fetch respective zone of IC user
   useEffect(() => {
     dispatch(getAllZone());
   }, []);
 
-  const yearQuarterOption = [currentQuarter, previousQuarter];
+  const yearQuarterOption = [currentQuarter, ...previousQuarter];
   const [yearAndQuarter, setYearAndQuarter] = useState([currentQuarter]);
 
   console.log('yearQuarterOption', yearAndQuarter);
@@ -240,9 +268,9 @@ const ControlOwner_KPIOwner_ControlOversight_Table = () => {
   const { accounts } = useMsal();
 
   const currentQuarter = getCurrentYearAndQuarter();
-  const previousQuarter = getPreviousYearAndQuarter();
+  const previousQuarter = getPastTwoQuarters(currentQuarter);
 
-  const yearQuarterOption = [currentQuarter, previousQuarter];
+  const yearQuarterOption = [currentQuarter, ...previousQuarter];
   const [yearAndQuarter, setYearAndQuarter] = useState([currentQuarter]);
   // State to store api data
   const KpiDataForControlOwner_KPIOwner_ControlOversight = useSelector(

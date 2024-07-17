@@ -17,3 +17,6 @@ export const get_previous_assessment_resultSelector = (state) =>
   state.assessments.get_previous_assessment_result;
 export const last_previous_assessment_resultSelector = (state) =>
   state.assessments.last_previous_assessment_result;
+
+export const get_historical_graph_dataSelector = (state) =>
+  state.assessments.get_historical_graph_data;
