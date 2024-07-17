@@ -25,6 +25,7 @@ import {
   GET_PREVIOUS_ASSESSMENT_RESULT_REQUEST,
   CLEAR_PREVIOUS_ASSESSMENT_RESULT,
   GET_PREVIOUS_ASSESSMENT_RESULT_LAST_CALL_ID,
+  GET_HISTORICAL_GRAPH_RESULT_REQUEST,
 } from './AssessmentReducer';
 
 export const saveAssessmentAns = (payload) => ({ type: SAVE_ANS, payload });
@@ -131,5 +132,11 @@ export const get_previous_assessment_result_last_id = (payload) => ({
 
 export const clear_previous_assessment_result = (payload) => ({
   type: CLEAR_PREVIOUS_ASSESSMENT_RESULT,
+  payload,
+});
+
+
+export const getHistoricalGraphData = (payload) => ({
+  type: GET_HISTORICAL_GRAPH_RESULT_REQUEST,
   payload,
 });

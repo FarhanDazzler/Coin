@@ -15,6 +15,7 @@ import {
   updateLastAccess,
   getMicsOpenActionPlan,
   resetBlockAssessment,
+  getHistoricalGraphData,
 } from '../../redux/Assessments/AssessmentAction';
 import {
   addOrEditUpdateDraftSelector,
@@ -31,6 +32,7 @@ import { question3Selector } from '../../redux/Questions/QuestionsSelectors';
 import { useMsal } from '@azure/msal-react';
 import { resetBlockAD } from '../../redux/AzureAD/AD_Action';
 import { hasFailDenominator, hasFailNumerator } from './ControlSection2';
+import { getCurrentYearAndQuarter } from '../KPIModule/KpiModuleLandingPage';
 
 const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
   const history = useHistory();
@@ -38,7 +40,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
   // selected language getting here
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language; // Selected user language
-
+  const currentQuarter = getCurrentYearAndQuarter();
   const dispatch = useDispatch();
 
   // Get all reducer selector
@@ -183,6 +185,17 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         Provider: activeData?.Provider,
         // Control_ID: 'OTC_AR_04',
         // Provider: 'SSC_ZCC_MAZ_GUA_CO_ECUADOR',
+      }),
+    );
+    dispatch(
+      getHistoricalGraphData({
+        mics_id: activeData?.control_id,
+        receiver_entity: activeData?.Receiver,
+        year_and_quarter: currentQuarter,
+
+        // mics_id: 'FA_MD_01',
+        // receiver_entity: 'Italy, Dominican Republic, Argentina',
+        // year_and_quarter: '2024Q2',
       }),
     );
     return () => {
