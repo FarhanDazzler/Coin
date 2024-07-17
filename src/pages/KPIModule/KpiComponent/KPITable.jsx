@@ -120,11 +120,11 @@ const KPITable = ({
     if (type === 'KPI_Num') {
       if (row.KPI_Num && !row.KPI_Den) {
         errors.KPI_Num = 'Denominator is required';
-      } else if (!row.KPI_Num && row.KPI_Den) {
+      } else if (!row.KPI_Num && row.KPI_Num !== 0 && row.KPI_Den) {
         errors.KPI_Num = 'Numerator is required';
       }
     } else if (type === 'KPI_Den') {
-      if (row.KPI_Den && !row.KPI_Num) {
+      if (row.KPI_Den && !row.KPI_Num && row.KPI_Num !== 0) {
         errors.KPI_Den = 'Numerator is required';
       } else if (row.KPI_Num && !row.KPI_Den) {
         errors.KPI_Num = 'Denominator is required';
@@ -159,7 +159,7 @@ const KPITable = ({
       row.Result_L3,
     );
 
-    if (row.KPI_Num && row.KPI_Den) {
+    if ((row.KPI_Num || row.KPI_Num == 0) && row.KPI_Den) {
       tableData[cell.row.index].KPI_Value = (+row.KPI_Num / +row.KPI_Den).toFixed(5);
     } else {
       tableData[cell.row.index].KPI_Value = '';
