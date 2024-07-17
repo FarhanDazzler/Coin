@@ -112,6 +112,60 @@ const KPITable = ({
   const [validationErrors, setValidationErrors] = useState({});
   const [excelFile, setExcelFile] = useState(null);
   const [buttonText, setButtonText] = useState('Choose a file');
+
+  // Code for validation and result calculation for KPI_Num and KPI_Den columns
+  const validateKPI = (row, value, type) => {
+    let errors = {};
+
+    if (type === 'KPI_Num') {
+      if (row.KPI_Num && !row.KPI_Den) {
+        errors.KPI_Num = 'Denominator is required';
+      } else if (!row.KPI_Num && row.KPI_Den) {
+        errors.KPI_Num = 'Numerator is required';
+      }
+    } else if (type === 'KPI_Den') {
+      if (row.KPI_Den && !row.KPI_Num) {
+        errors.KPI_Den = 'Numerator is required';
+      } else if (row.KPI_Num && !row.KPI_Den) {
+        errors.KPI_Num = 'Denominator is required';
+      } else if (!isNaN(value) && value <= 0) {
+        errors.KPI_Den = 'Denominator must be greater than zero';
+      }
+    }
+    console.log('errors', errors);
+    return errors;
+  };
+
+  const updateResults = (row, tableData, cell) => {
+    tableData[cell.row.index].Result_L1 = calculateResult(
+      row.KPI_Num,
+      row.KPI_Den,
+      row.L1,
+      row.Direction,
+      row.Result_L1,
+    );
+    tableData[cell.row.index].Result_L2 = calculateResult(
+      row.KPI_Num,
+      row.KPI_Den,
+      row.L2,
+      row.Direction,
+      row.Result_L2,
+    );
+    tableData[cell.row.index].Result_L3 = calculateResult(
+      row.KPI_Num,
+      row.KPI_Den,
+      row.L3,
+      row.Direction,
+      row.Result_L3,
+    );
+
+    if (row.KPI_Num && row.KPI_Den) {
+      tableData[cell.row.index].KPI_Value = (+row.KPI_Num / +row.KPI_Den).toFixed(5);
+    } else {
+      tableData[cell.row.index].KPI_Value = '';
+    }
+  };
+
   const columns = [
     {
       accessorKey: 'Zone',
@@ -373,7 +427,6 @@ const KPITable = ({
     {
       accessorKey: 'KPI_Num',
       enableClickToCopy: true,
-      //   filterVariant: 'autocomplete',
       header: 'KPI Num',
       size: 100,
       Cell: ({ row }) => <span>{row.original.KPI_Num}</span>,
@@ -382,100 +435,40 @@ const KPITable = ({
         type: 'number',
         variant: 'filled',
         error: validationErrors[row.original.id]?.KPI_Num,
-        helperText: validationErrors[row.original.id]?.KPI_Num,
+        //helperText: validationErrors[row.original.id]?.KPI_Num,
         onBlur: (event) => {
-          // console.log('@@', row.original.id);
           const value = parseFloat(event.target.value.trim());
-
           tableData[cell.row.index][cell.column.id] = value;
-          // setTableData([...tableData]);
-          // setting up results here based on the numerator, denominator, threshold, and positive direction
-          tableData[cell.row.index].Result_L1 = calculateResult(
-            row.original.KPI_Num,
-            row.original.KPI_Den,
-            row.original.L1,
-            row.original.Direction,
-            row.original.Result_L1,
-          );
-          tableData[cell.row.index].Result_L2 = calculateResult(
-            row.original.KPI_Num,
-            row.original.KPI_Den,
-            row.original.L2,
-            row.original.Direction,
-            row.original.Result_L2,
-          );
-          tableData[cell.row.index].Result_L3 = calculateResult(
-            row.original.KPI_Num,
-            row.original.KPI_Den,
-            row.original.L3,
-            row.original.Direction,
-            row.original.Result_L3,
-          );
 
-          //validation logic
-          // if (!value) {
-          //   setValidationErrors((prev) => ({
-          //     ...prev,
-          //     [row.original.id]: {
-          //       ...prev[row.original.id],
-          //       KPI_Num: 'Numerator is required',
-          //     },
-          //   }));
-          // } else
-          if (!isNaN(value) && value < 0) {
-            setValidationErrors((prev) => ({
-              ...prev,
-              [row.original.id]: {
-                ...prev[row.original.id],
-                KPI_Num: 'Numerator can be positive values only',
-              },
-            }));
-          } else if (row.original.KPI_Num && !row.original.KPI_Den) {
-            // console.log('@@', row);
-            setValidationErrors((prev) => ({
-              ...prev,
-              [row.original.id]: {
-                ...prev[row.original.id],
-                KPI_Num: 'Denominator is required',
-              },
-            }));
-          } else {
+          const errors = validateKPI(row.original, value, 'KPI_Num');
+          setValidationErrors((prev) => ({
+            ...prev,
+            [row.original.id]: {
+              ...prev[row.original.id],
+              ...errors,
+            },
+          }));
+
+          if (Object.keys(errors).length === 0) {
             delete validationErrors[row.original.id]?.KPI_Num;
+            delete validationErrors[row.original.id]?.KPI_Den;
             setValidationErrors({ ...validationErrors });
-
-            // setting up KPI Value after the denominator is entered
-            if (row.original.KPI_Den && row.original.KPI_Num) {
-              tableData[cell.row.index].KPI_Value = (
-                +row.original.KPI_Num / +row.original.KPI_Den
-              ).toFixed(5);
-            } else {
-              tableData[cell.row.index].KPI_Value = '';
-            }
-
-            if (
-              row.original.KPI_Den &&
-              validationErrors[row.original.id]?.KPI_Den == 'Numerator is required'
-            ) {
-              delete validationErrors[row.original.id]?.KPI_Den;
-              setValidationErrors({ ...validationErrors });
-            }
           }
+
+          updateResults(row.original, tableData, cell);
         },
       }),
       mantineTableBodyCellProps: ({ row }) =>
         row.original.Expected_Source == 'Automated' && {
-          // align: 'center',
           sx: {
             backgroundColor: '#1B1212',
             color: '#fff',
-            // borderRight: '1px solid rgba(224,224,224,1)',
           },
         },
     },
     {
       accessorKey: 'KPI_Den',
       enableClickToCopy: true,
-      //   filterVariant: 'autocomplete',
       header: 'KPI Den',
       size: 100,
       Cell: ({ row }) => <span>{row.original.KPI_Den}</span>,
@@ -484,95 +477,241 @@ const KPITable = ({
         type: 'number',
         variant: 'filled',
         error: validationErrors[row.original.id]?.KPI_Den,
-        helperText: validationErrors[row.original.id]?.KPI_Den,
+        //helperText: validationErrors[row.original.id]?.KPI_Den,
         onBlur: (event) => {
           const value = parseFloat(event.target.value.trim());
-
           tableData[cell.row.index][cell.column.id] = value;
 
-          // setting up results here based on the numerator, denominator, threshold, and positive direction
-          tableData[cell.row.index].Result_L1 = calculateResult(
-            row.original.KPI_Num,
-            row.original.KPI_Den,
-            row.original.L1,
-            row.original.Direction,
-            row.original.Result_L1,
-          );
-          tableData[cell.row.index].Result_L2 = calculateResult(
-            row.original.KPI_Num,
-            row.original.KPI_Den,
-            row.original.L2,
-            row.original.Direction,
-            row.original.Result_L2,
-          );
-          tableData[cell.row.index].Result_L3 = calculateResult(
-            row.original.KPI_Num,
-            row.original.KPI_Den,
-            row.original.L3,
-            row.original.Direction,
-            row.original.Result_L3,
-          );
+          const errors = validateKPI(row.original, value, 'KPI_Den');
+          setValidationErrors((prev) => ({
+            ...prev,
+            [row.original.id]: {
+              ...prev[row.original.id],
+              ...errors,
+            },
+          }));
 
-          //validation logic
-          // if (!value) {
-          //   setValidationErrors((prev) => ({
-          //     ...prev,
-          //     [row.original.id]: {
-          //       ...prev[row.original.id],
-          //       KPI_Den: 'Denominator is required',
-          //     },
-          //   }));
-          // } else
-          if (!isNaN(value) && value <= 0) {
-            setValidationErrors((prev) => ({
-              ...prev,
-              [row.original.id]: {
-                ...prev[row.original.id],
-                KPI_Den: 'Denominator can be positive values only',
-              },
-            }));
-          } else if (row.original.KPI_Den && !row.original.KPI_Num) {
-            // console.log('##', row);
-            setValidationErrors((prev) => ({
-              ...prev,
-              [row.original.id]: {
-                ...prev[row.original.id],
-                KPI_Den: 'Numerator is required',
-              },
-            }));
-          } else {
+          if (Object.keys(errors).length === 0) {
+            delete validationErrors[row.original.id]?.KPI_Num;
             delete validationErrors[row.original.id]?.KPI_Den;
             setValidationErrors({ ...validationErrors });
-
-            // setting up KPI Value after the denominator is entered
-            if (row.original.KPI_Den && row.original.KPI_Num) {
-              tableData[cell.row.index].KPI_Value = (
-                +row.original.KPI_Num / +row.original.KPI_Den
-              ).toFixed(5);
-            } else {
-              tableData[cell.row.index].KPI_Value = '';
-            }
-
-            if (
-              row.original.KPI_Num &&
-              validationErrors[row.original.id]?.KPI_Num == 'Denominator is required'
-            ) {
-              delete validationErrors[row.original.id]?.KPI_Num;
-              setValidationErrors({ ...validationErrors });
-            }
           }
+
+          updateResults(row.original, tableData, cell);
         },
       }),
       mantineTableBodyCellProps: ({ row }) =>
         row.original.Expected_Source == 'Automated' && {
-          // align: 'center',
           sx: {
             backgroundColor: '#1B1212',
             color: '#fff',
-            // borderRight: '1px solid rgba(224,224,224,1)',
           },
         },
     },
+    // {
+    //   accessorKey: 'KPI_Num',
+    //   enableClickToCopy: true,
+    //   //   filterVariant: 'autocomplete',
+    //   header: 'KPI Num',
+    //   size: 100,
+    //   Cell: ({ row }) => <span>{row.original.KPI_Num}</span>,
+    //   mantineEditTextInputProps: ({ cell, row }) => ({
+    //     required: true,
+    //     type: 'number',
+    //     variant: 'filled',
+    //     error: validationErrors[row.original.id]?.KPI_Num,
+    //     helperText: validationErrors[row.original.id]?.KPI_Num,
+    //     onBlur: (event) => {
+    //       // console.log('@@', row.original.id);
+    //       const value = parseFloat(event.target.value.trim());
+
+    //       tableData[cell.row.index][cell.column.id] = value;
+    //       // setTableData([...tableData]);
+    //       // setting up results here based on the numerator, denominator, threshold, and positive direction
+    //       tableData[cell.row.index].Result_L1 = calculateResult(
+    //         row.original.KPI_Num,
+    //         row.original.KPI_Den,
+    //         row.original.L1,
+    //         row.original.Direction,
+    //         row.original.Result_L1,
+    //       );
+    //       tableData[cell.row.index].Result_L2 = calculateResult(
+    //         row.original.KPI_Num,
+    //         row.original.KPI_Den,
+    //         row.original.L2,
+    //         row.original.Direction,
+    //         row.original.Result_L2,
+    //       );
+    //       tableData[cell.row.index].Result_L3 = calculateResult(
+    //         row.original.KPI_Num,
+    //         row.original.KPI_Den,
+    //         row.original.L3,
+    //         row.original.Direction,
+    //         row.original.Result_L3,
+    //       );
+
+    //       //validation logic
+    //       // if (!value) {
+    //       //   setValidationErrors((prev) => ({
+    //       //     ...prev,
+    //       //     [row.original.id]: {
+    //       //       ...prev[row.original.id],
+    //       //       KPI_Num: 'Numerator is required',
+    //       //     },
+    //       //   }));
+    //       // } else
+    //       // if (!isNaN(value) && value < 0) {
+    //       //   setValidationErrors((prev) => ({
+    //       //     ...prev,
+    //       //     [row.original.id]: {
+    //       //       ...prev[row.original.id],
+    //       //       KPI_Num: 'Numerator can be positive values only',
+    //       //     },
+    //       //   }));
+    //       // } else
+    //       if (row.original.KPI_Num && !row.original.KPI_Den) {
+    //         // console.log('@@', row);
+    //         setValidationErrors((prev) => ({
+    //           ...prev,
+    //           [row.original.id]: {
+    //             ...prev[row.original.id],
+    //             KPI_Num: 'Denominator is required',
+    //           },
+    //         }));
+    //       } else {
+    //         delete validationErrors[row.original.id]?.KPI_Num;
+    //         setValidationErrors({ ...validationErrors });
+
+    //         // setting up KPI Value after the denominator is entered
+    //         if (row.original.KPI_Den && row.original.KPI_Num) {
+    //           tableData[cell.row.index].KPI_Value = (
+    //             +row.original.KPI_Num / +row.original.KPI_Den
+    //           ).toFixed(5);
+    //         } else {
+    //           tableData[cell.row.index].KPI_Value = '';
+    //         }
+
+    //         if (
+    //           row.original.KPI_Den &&
+    //           validationErrors[row.original.id]?.KPI_Den == 'Numerator is required'
+    //         ) {
+    //           delete validationErrors[row.original.id]?.KPI_Den;
+    //           setValidationErrors({ ...validationErrors });
+    //         }
+    //       }
+    //     },
+    //   }),
+    //   mantineTableBodyCellProps: ({ row }) =>
+    //     row.original.Expected_Source == 'Automated' && {
+    //       // align: 'center',
+    //       sx: {
+    //         backgroundColor: '#1B1212',
+    //         color: '#fff',
+    //         // borderRight: '1px solid rgba(224,224,224,1)',
+    //       },
+    //     },
+    // },
+    // {
+    //   accessorKey: 'KPI_Den',
+    //   enableClickToCopy: true,
+    //   //   filterVariant: 'autocomplete',
+    //   header: 'KPI Den',
+    //   size: 100,
+    //   Cell: ({ row }) => <span>{row.original.KPI_Den}</span>,
+    //   mantineEditTextInputProps: ({ cell, row }) => ({
+    //     required: true,
+    //     type: 'number',
+    //     variant: 'filled',
+    //     error: validationErrors[row.original.id]?.KPI_Den,
+    //     helperText: validationErrors[row.original.id]?.KPI_Den,
+    //     onBlur: (event) => {
+    //       const value = parseFloat(event.target.value.trim());
+
+    //       tableData[cell.row.index][cell.column.id] = value;
+
+    //       // setting up results here based on the numerator, denominator, threshold, and positive direction
+    //       tableData[cell.row.index].Result_L1 = calculateResult(
+    //         row.original.KPI_Num,
+    //         row.original.KPI_Den,
+    //         row.original.L1,
+    //         row.original.Direction,
+    //         row.original.Result_L1,
+    //       );
+    //       tableData[cell.row.index].Result_L2 = calculateResult(
+    //         row.original.KPI_Num,
+    //         row.original.KPI_Den,
+    //         row.original.L2,
+    //         row.original.Direction,
+    //         row.original.Result_L2,
+    //       );
+    //       tableData[cell.row.index].Result_L3 = calculateResult(
+    //         row.original.KPI_Num,
+    //         row.original.KPI_Den,
+    //         row.original.L3,
+    //         row.original.Direction,
+    //         row.original.Result_L3,
+    //       );
+
+    //       //validation logic
+    //       // if (!value) {
+    //       //   setValidationErrors((prev) => ({
+    //       //     ...prev,
+    //       //     [row.original.id]: {
+    //       //       ...prev[row.original.id],
+    //       //       KPI_Den: 'Denominator is required',
+    //       //     },
+    //       //   }));
+    //       // } else
+    //       if (!isNaN(value) && value <= 0) {
+    //         setValidationErrors((prev) => ({
+    //           ...prev,
+    //           [row.original.id]: {
+    //             ...prev[row.original.id],
+    //             KPI_Den: 'Denominator can be positive values only',
+    //           },
+    //         }));
+    //       } else if (row.original.KPI_Den && !row.original.KPI_Num) {
+    //         // console.log('##', row);
+    //         setValidationErrors((prev) => ({
+    //           ...prev,
+    //           [row.original.id]: {
+    //             ...prev[row.original.id],
+    //             KPI_Den: 'Numerator is required',
+    //           },
+    //         }));
+    //       } else {
+    //         delete validationErrors[row.original.id]?.KPI_Den;
+    //         setValidationErrors({ ...validationErrors });
+
+    //         // setting up KPI Value after the denominator is entered
+    //         if (row.original.KPI_Den && row.original.KPI_Num) {
+    //           tableData[cell.row.index].KPI_Value = (
+    //             +row.original.KPI_Num / +row.original.KPI_Den
+    //           ).toFixed(5);
+    //         } else {
+    //           tableData[cell.row.index].KPI_Value = '';
+    //         }
+
+    //         if (
+    //           row.original.KPI_Num &&
+    //           validationErrors[row.original.id]?.KPI_Num == 'Denominator is required'
+    //         ) {
+    //           delete validationErrors[row.original.id]?.KPI_Num;
+    //           setValidationErrors({ ...validationErrors });
+    //         }
+    //       }
+    //     },
+    //   }),
+    //   mantineTableBodyCellProps: ({ row }) =>
+    //     row.original.Expected_Source == 'Automated' && {
+    //       // align: 'center',
+    //       sx: {
+    //         backgroundColor: '#1B1212',
+    //         color: '#fff',
+    //         // borderRight: '1px solid rgba(224,224,224,1)',
+    //       },
+    //     },
+    // },
     {
       accessorKey: 'KPI_Value',
       enableClickToCopy: true,
