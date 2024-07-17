@@ -1000,6 +1000,10 @@ const KPITable = ({
   ];
 
   const validateData = () => {
+    // console.log('Validating data...');
+    // console.log('excelFile', excelFile);
+    // console.log('data', data);
+
     if (!excelFile) {
       toast.error('No Excel file data to validate.');
       // console.error('No Excel file data to validate.');
@@ -1007,65 +1011,63 @@ const KPITable = ({
     }
 
     // Length validation
-    if (excelFile.length !== data.length) {
+    if (excelFile.length !== tableData.length) {
       toast.error('Data length mismatch between excelFile and tableData.');
       return false;
     }
 
     // Define the mapping between excelFile keys and tableData/data keys
     const keyMapping = {
+      id: 'id',
       Zone: 'Zone',
       Entity: 'Entity',
-      provider: 'provider',
-      CONTROL_ID: 'CONTROL_ID',
-      // 'Control Name': 'control_NAME',
-      kpi_type: 'kpi_type',
-      Expected_Source: 'Expected_Source',
-      KPI_CODE: 'KPI_CODE',
-      // 'KPI Name': 'KPI_NAME',
-      applicable: 'applicable',
+      provider: 'Provider',
+      CONTROL_ID: 'Control ID',
+      control_NAME: 'Control Name',
+      kpi_type: 'KPI Type',
+      Expected_Source: 'Expected Source',
+      expected_kpi_source: 'Expected KPI Source',
+      KPI_CODE: 'KPI ID',
+      KPI_NAME: 'KPI Name',
+      applicable: 'Applicability',
       Month: 'Month',
-      expected_num: 'expected_num',
-      expected_den: 'expected_den',
-      KPI_Num: 'KPI_Num',
-      KPI_Den: 'KPI_Den',
-      // 'KPI_Value': 'KPI_Value',
-      expected_kpi_source: 'expected_kpi_source',
-      upload_approach: 'upload_approach',
-      source_system: 'source_system',
-      // 'KPI Description': 'kpi_desc',
-      L1: 'L1',
-      L2: 'L2',
-      L3: 'L3',
-      Result_L1: 'Result_L1',
-      Result_L2: 'Result_L2',
-      Result_L3: 'Result_L3',
-      kpi_owner_email: 'kpi_owner_email',
-      control_owner_email: 'control_owner_email',
-      control_oversight_email: 'control_oversight_email',
-      year_and_quarter: 'year_and_quarter',
-      id: 'id',
+      Direction: 'Direction',
+      expected_num: 'Expected Num',
+      expected_den: 'Expected Den',
+      KPI_Num: 'KPI Num',
+      KPI_Den: 'KPI Den',
+      KPI_Value: 'KPI Value',
+      upload_approach: 'Actual KPI Source',
+      source_system: 'Source of Data - Link',
+      kpi_desc: 'KPI Description',
+      L1: 'Threshold L1',
+      L2: 'Threshold L2',
+      L3: 'Threshold L3',
+      Result_L1: 'Result L1',
+      Result_L2: 'Result L2',
+      Result_L3: 'Result L3',
+      kpi_owner_email: 'KPI Owner Email',
+      control_owner_email: 'Control Owner Email',
+      control_oversight_email: 'Control Oversight Email',
+      year_and_quarter: 'Year and Quarter',
     };
 
-    const allowedDiffFieldsExcel = [
-      'KPI_Num',
-      'KPI_Den',
-      'expected_kpi_source',
-      'upload_approach',
-      'source_system',
-    ];
+    const allowedDiffFieldsExcel = ['KPI_Num', 'KPI_Den', 'upload_approach', 'source_system'];
 
     const isNullOrEmpty = (value) => value === null || value === '';
 
     for (let i = 0; i < excelFile.length; i++) {
       const excelRow = excelFile[i];
-      const tableRow = data[i];
-      console.log('keyMapping', keyMapping);
-      for (const [excelKey, tableKey] of Object.entries(keyMapping)) {
+      const tableRow = tableData[i];
+      console.log('excelRow', excelRow);
+      console.log('tableRow', tableRow);
+      for (const [tableKey, excelKey] of Object.entries(keyMapping)) {
         if (!allowedDiffFieldsExcel.includes(excelKey)) {
           const excelValue = excelRow[excelKey];
           const tableValue = tableRow[tableKey];
 
+          console.log('excelValue', excelValue, excelKey);
+          console.log('tableValue', tableValue, tableKey);
           if (
             excelValue != tableValue &&
             !(isNullOrEmpty(excelValue) && isNullOrEmpty(tableValue))
@@ -1096,10 +1098,10 @@ const KPITable = ({
         return false;
       }
 
-      if (kpiNum < 0) {
-        toast.error(`Numerator must be positive at row ${i + 1}`);
-        return false;
-      }
+      // if (kpiNum < 0) {
+      //   toast.error(`Numerator must be positive at row ${i + 1}`);
+      //   return false;
+      // }
 
       if (kpiDen <= 0) {
         toast.error(`Denominator must be greater than zero at row ${i + 1}`);
@@ -1153,6 +1155,15 @@ const KPITable = ({
           let obj = { id: dataIndex };
           d.map((v, i) => {
             let key = copyData[0][i];
+            if (copyData[0][i] === 'id') {
+              key = 'id';
+            }
+            if (copyData[0][i] === 'Zone') {
+              key = 'Zone';
+            }
+            if (copyData[0][i] === 'Entity') {
+              key = 'Entity';
+            }
             if (copyData[0][i] === 'Provider') {
               key = 'provider';
             }
@@ -1168,6 +1179,9 @@ const KPITable = ({
             if (copyData[0][i] === 'Expected Source') {
               key = 'Expected_Source';
             }
+            if (copyData[0][i] === 'Expected KPI Source') {
+              key = 'expected_kpi_source';
+            }
             if (copyData[0][i] === 'KPI ID') {
               key = 'KPI_CODE';
             }
@@ -1176,6 +1190,12 @@ const KPITable = ({
             }
             if (copyData[0][i] === 'Applicability') {
               key = 'applicable';
+            }
+            if (copyData[0][i] === 'Month') {
+              key = 'Month';
+            }
+            if (copyData[0][i] === 'Direction') {
+              key = 'Direction';
             }
             if (copyData[0][i] === 'Expected Num') {
               key = 'expected_num';
@@ -1191,9 +1211,6 @@ const KPITable = ({
             }
             if (copyData[0][i] === 'KPI Value') {
               key = 'KPI_Value';
-            }
-            if (copyData[0][i] === 'Expected KPI Source') {
-              key = 'expected_kpi_source';
             }
             if (copyData[0][i] === 'Actual KPI Source') {
               key = 'upload_approach';
@@ -1243,6 +1260,10 @@ const KPITable = ({
           if (findCurrentData.year_and_quarter === obj.year_and_quarter) {
             return {
               ...obj,
+              KPI_Value:
+                (obj.KPI_Num || obj.KPI_Num == 0) && obj.KPI_Den
+                  ? (+obj.KPI_Num / +obj.KPI_Den).toFixed(5)
+                  : '',
               Result_L1: calculateResult(
                 obj.KPI_Num,
                 obj.KPI_Den,
@@ -1394,6 +1415,7 @@ const KPITable = ({
                       }
                     >
                       <Workbook.Sheet data={tableData} name="KPI">
+                        <Workbook.Column label="id" value="id" />
                         <Workbook.Column label="Zone" value="Zone" />
                         <Workbook.Column label="Entity" value="Entity" />
                         <Workbook.Column label="Provider" value="provider" />
@@ -1401,20 +1423,20 @@ const KPITable = ({
                         <Workbook.Column label="Control Name" value="control_NAME" />
                         <Workbook.Column label="KPI Type" value="kpi_type" />
                         <Workbook.Column label="Expected Source" value="Expected_Source" />
+                        <Workbook.Column label="Expected KPI Source" value="expected_kpi_source" />
                         <Workbook.Column label="KPI ID" value="KPI_CODE" />
                         <Workbook.Column label="KPI Name" value="KPI_NAME" />
                         <Workbook.Column label="Applicability" value="applicable" />
                         <Workbook.Column label="Month" value="Month" />
+                        <Workbook.Column label="Direction" value="Direction" />
                         <Workbook.Column label="Expected Num" value="expected_num" />
                         <Workbook.Column label="Expected Den" value="expected_den" />
                         <Workbook.Column label="KPI Num" value="KPI_Num" />
                         <Workbook.Column label="KPI Den" value="KPI_Den" />
                         <Workbook.Column label="KPI Value" value="KPI_Value" />
-                        <Workbook.Column label="Expected KPI Source" value="expected_kpi_source" />
                         <Workbook.Column label="Actual KPI Source" value="upload_approach" />
                         <Workbook.Column label="Source of Data - Link" value="source_system" />
                         <Workbook.Column label="KPI Description" value="kpi_desc" />
-                        {/*<Workbook.Column label="Direction" value="Direction" />*/}
                         <Workbook.Column label="Threshold L1" value="L1" />
                         <Workbook.Column label="Threshold L2" value="L2" />
                         <Workbook.Column label="Threshold L3" value="L3" />
@@ -1428,7 +1450,6 @@ const KPITable = ({
                           value="control_oversight_email"
                         />
                         <Workbook.Column label="Year and Quarter" value="year_and_quarter" />
-                        <Workbook.Column label="id" value="id" />
                       </Workbook.Sheet>
                     </Workbook>
                   </div>
