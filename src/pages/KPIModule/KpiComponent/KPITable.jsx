@@ -99,7 +99,7 @@ const KPITable = ({
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { accounts } = useMsal();
-
+  const [submitLoading, setSubmitLoading] = useState(false);
   const currentYearAndQuarter = getCurrentYearAndQuarter();
   console.log('currentYearAndQuarter', currentYearAndQuarter);
   const [tableData, setTableData] = useState(() => data);
@@ -448,6 +448,8 @@ const KPITable = ({
               tableData[cell.row.index].KPI_Value = (
                 +row.original.KPI_Num / +row.original.KPI_Den
               ).toFixed(5);
+            } else {
+              tableData[cell.row.index].KPI_Value = '';
             }
 
             if (
@@ -547,6 +549,8 @@ const KPITable = ({
               tableData[cell.row.index].KPI_Value = (
                 +row.original.KPI_Num / +row.original.KPI_Den
               ).toFixed(5);
+            } else {
+              tableData[cell.row.index].KPI_Value = '';
             }
 
             if (
@@ -1154,7 +1158,12 @@ const KPITable = ({
       const payload = {
         Submitted_by: accounts[0]?.username,
         KPI_data: tableData,
+        events: {
+          onSuccess: () => setSubmitLoading(false),
+          onError: () => setSubmitLoading(false),
+        },
       };
+      setSubmitLoading(true);
       dispatch(submit_KPI_data_KPI_Module(payload));
       console.log('Saved data', tableData);
     }
@@ -1201,10 +1210,6 @@ const KPITable = ({
             pagination: { pageIndex: 0, pageSize: 10 },
             sorting: [{ id: 'state', desc: false }],
           }}
-          // mantinePaginationProps={{
-          //   radius: 'xl',
-          //   size: 'lg',
-          // }}
           mantineTableHeadCellProps={{
             align: 'center',
           }}
@@ -1217,19 +1222,7 @@ const KPITable = ({
             },
           }}
           mantineTableProps={{
-            //   highlightOnHover: false,
             withColumnBorders: true,
-            //   sx: {
-            //     'thead > tr': {
-            //       backgroundColor: 'inherit',
-            //     },
-            //     // 'thead > tr > th': {
-            //     //   backgroundColor: 'inherit',
-            //     // },
-            //     'tbody > tr > td': {
-            //       backgroundColor: 'inherit',
-            //     },
-            //   },
           }}
           renderTopToolbar={({ table }) => {
             const isDisabled =
@@ -1241,7 +1234,7 @@ const KPITable = ({
                   <button
                     className="custom-btn mt-2 submit-btn"
                     onClick={handleSaveKPIData}
-                    disabled={isDisabled}
+                    disabled={isDisabled || submitLoading}
                     // disabled={
                     //   Object.keys(tableData).length === 0 ||
                     //   Object.values(validationErrors).some(
@@ -1282,7 +1275,7 @@ const KPITable = ({
                         <Workbook.Column label="Actual KPI Source" value="upload_approach" />
                         <Workbook.Column label="Source of Data - Link" value="source_system" />
                         <Workbook.Column label="KPI Description" value="kpi_desc" />
-                        <Workbook.Column label="Direction" value="Direction" />
+                        {/*<Workbook.Column label="Direction" value="Direction" />*/}
                         <Workbook.Column label="Threshold L1" value="L1" />
                         <Workbook.Column label="Threshold L2" value="L2" />
                         <Workbook.Column label="Threshold L3" value="L3" />
