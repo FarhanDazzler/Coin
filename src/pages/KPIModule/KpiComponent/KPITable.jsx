@@ -435,10 +435,11 @@ const KPITable = ({
         type: 'number',
         variant: 'filled',
         error: validationErrors[row.original.id]?.KPI_Num,
-        //helperText: validationErrors[row.original.id]?.KPI_Num,
         onBlur: (event) => {
           const value = parseFloat(event.target.value.trim());
-          tableData[cell.row.index][cell.column.id] = value;
+          const updatedTableData = [...tableData];
+          updatedTableData[cell.row.index][cell.column.id] = value;
+          setTableData(updatedTableData);
 
           const errors = validateKPI(row.original, value, 'KPI_Num');
           setValidationErrors((prev) => ({
@@ -451,15 +452,15 @@ const KPITable = ({
 
           if (Object.keys(errors).length === 0) {
             delete validationErrors[row.original.id]?.KPI_Num;
-            delete validationErrors[row.original.id]?.KPI_Den;
             setValidationErrors({ ...validationErrors });
           }
 
-          updateResults(row.original, tableData, cell);
+          updateResults(row.original, updatedTableData, cell);
         },
+        value: row.original.KPI_Num?.toString() || '', // Ensure value is converted to string
       }),
       mantineTableBodyCellProps: ({ row }) =>
-        row.original.Expected_Source == 'Automated' && {
+        row.original.Expected_Source === 'Automated' && {
           sx: {
             backgroundColor: '#1B1212',
             color: '#fff',
@@ -477,10 +478,11 @@ const KPITable = ({
         type: 'number',
         variant: 'filled',
         error: validationErrors[row.original.id]?.KPI_Den,
-        //helperText: validationErrors[row.original.id]?.KPI_Den,
         onBlur: (event) => {
           const value = parseFloat(event.target.value.trim());
-          tableData[cell.row.index][cell.column.id] = value;
+          const updatedTableData = [...tableData];
+          updatedTableData[cell.row.index][cell.column.id] = value;
+          setTableData(updatedTableData);
 
           const errors = validateKPI(row.original, value, 'KPI_Den');
           setValidationErrors((prev) => ({
@@ -492,16 +494,16 @@ const KPITable = ({
           }));
 
           if (Object.keys(errors).length === 0) {
-            delete validationErrors[row.original.id]?.KPI_Num;
             delete validationErrors[row.original.id]?.KPI_Den;
             setValidationErrors({ ...validationErrors });
           }
 
-          updateResults(row.original, tableData, cell);
+          updateResults(row.original, updatedTableData, cell);
         },
+        value: row.original.KPI_Den?.toString() || '', // Ensure value is converted to string
       }),
       mantineTableBodyCellProps: ({ row }) =>
-        row.original.Expected_Source == 'Automated' && {
+        row.original.Expected_Source === 'Automated' && {
           sx: {
             backgroundColor: '#1B1212',
             color: '#fff',
@@ -1002,7 +1004,7 @@ const KPITable = ({
   const validateData = () => {
     // console.log('Validating data...');
     // console.log('excelFile', excelFile);
-    // console.log('data', data);
+    // console.log('tableData', tableData);
 
     if (!excelFile) {
       toast.error('No Excel file data to validate.');
@@ -1052,27 +1054,28 @@ const KPITable = ({
       year_and_quarter: 'Year and Quarter',
     };
 
-    const allowedDiffFieldsExcel = ['KPI_Num', 'KPI_Den', 'upload_approach', 'source_system'];
+    const allowedDiffFieldsExcel = ['KPI_Num', 'KPI_Den', 'upload_approach', 'source_system', 'KPI_Value'];
 
     const isNullOrEmpty = (value) => value === null || value === '';
 
     for (let i = 0; i < excelFile.length; i++) {
       const excelRow = excelFile[i];
       const tableRow = tableData[i];
-      console.log('excelRow', excelRow);
-      console.log('tableRow', tableRow);
-      for (const [tableKey, excelKey] of Object.entries(keyMapping)) {
-        if (!allowedDiffFieldsExcel.includes(excelKey)) {
-          const excelValue = excelRow[excelKey];
-          const tableValue = tableRow[tableKey];
+      // console.log('excelRow', excelRow);
+      // console.log('tableRow', tableRow);
 
-          console.log('excelValue', excelValue, excelKey);
-          console.log('tableValue', tableValue, tableKey);
+      for (const [key, value] of Object.entries(excelRow)) {
+        if (!allowedDiffFieldsExcel.includes(key)) {
+          const excelValue = (excelRow[key] || '').trim();
+          const tableValue = (tableRow[key] || '').trim();
+
+          // console.log('excelValue', excelValue, key, i);
+          // console.log('tableValue', tableValue, key, i);
           if (
             excelValue != tableValue &&
             !(isNullOrEmpty(excelValue) && isNullOrEmpty(tableValue))
           ) {
-            toast.error(`Mismatch found at row ${i + 1} for key: ${excelKey}`);
+            toast.error(`Mismatch found at row ${i + 1} for key: ${key}`);
             return false;
           }
         }
@@ -1129,20 +1132,23 @@ const KPITable = ({
   };
 
   const tableRecord = useMemo(() => {
-    const areAllFiltersEmpty = Object.values(filterData).every((arr) => arr.length === 0);
+    // Check if all filter arrays are empty
+    const areAllFiltersEmpty = Object.values(filterData).every(arr => arr.length === 0);
 
-    return areAllFiltersEmpty
-      ? tableData
-      : tableData.filter((item) => {
-          return (
-            (!filterData.zoneValue.length || filterData.zoneValue.includes(item.Zone)) &&
-            (!filterData.entityValue.length || filterData.entityValue.includes(item.Entity)) &&
-            (!filterData.providerValue.length ||
-              filterData.providerValue.includes(item.provider)) &&
-            (!filterData.controlIDValue.length ||
-              filterData.controlIDValue.includes(item.CONTROL_ID))
-          );
-        });
+    if (areAllFiltersEmpty) {
+      // If all filters are empty, return the original tableData
+      return tableData;
+    } else {
+      // Otherwise, filter the tableData based on filterData values
+      return tableData.filter(item => {
+        return (
+          (!filterData.zoneValue.length || filterData.zoneValue.includes(item.Zone)) &&
+          (!filterData.entityValue.length || filterData.entityValue.includes(item.Entity)) &&
+          (!filterData.providerValue.length || filterData.providerValue.includes(item.provider)) &&
+          (!filterData.controlIDValue.length || filterData.controlIDValue.includes(item.CONTROL_ID))
+        );
+      });
+    }
   }, [filterData, tableData]);
 
   const handleFileUpload = (event) => {
@@ -1328,7 +1334,27 @@ const KPITable = ({
       console.log('Saved data', tableData);
     }
   };
+  const onEditingCellChange = (cell, value) => {
+    const { row, column } = cell;
 
+    // Update the tableData with the new value
+    const updatedData = [...tableData];
+    updatedData[row.index][column.accessorKey] = value;
+    setTableData(updatedData);
+
+    // Perform validations or other calculations
+    const errors = validateKPI(updatedData[row.index], value, column.accessorKey);
+    setValidationErrors((prevErrors) => ({
+      ...prevErrors,
+      [row.original.id]: {
+        ...prevErrors[row.original.id],
+        ...errors,
+      },
+    }));
+
+    // Update other related states or perform other actions if needed
+    updateResults(row.original, updatedData, cell);
+  };
   return (
     <div className="kpi_table">
       <KpiTableFilter
@@ -1341,6 +1367,7 @@ const KPITable = ({
       />
       <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
         <MantineReactTable
+          onEditingCellChange={onEditingCellChange}
           columns={columns}
           data={tableRecord}
           enableColumnFilterModes={false}
@@ -1387,7 +1414,6 @@ const KPITable = ({
           renderTopToolbar={({ table }) => {
             const isDisabled =
               buttonText === 'Choose a file' && yearAndQuarter.toString() !== currentYearAndQuarter;
-
             return (
               <Flex p="md" justify="space-between" className="kpi_module_buttons">
                 <Flex align="center" gap="xs">
@@ -1395,13 +1421,13 @@ const KPITable = ({
                     className="custom-btn mt-2 submit-btn"
                     onClick={handleSaveKPIData}
                     disabled={isDisabled || submitLoading}
-                    // disabled={
-                    //   Object.keys(tableData).length === 0 ||
-                    //   Object.values(validationErrors).some(
-                    //     (error) =>
-                    //       error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
-                    //   )
-                    // }
+                  // disabled={
+                  //   Object.keys(tableData).length === 0 ||
+                  //   Object.values(validationErrors).some(
+                  //     (error) =>
+                  //       error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
+                  //   )
+                  // }
                   >
                     Submit KPIs
                   </button>
@@ -1469,11 +1495,10 @@ const KPITable = ({
                             disabled={yearAndQuarter.toString() !== currentYearAndQuarter}
                           />
                           <div
-                            className={`custom-btn choose-file ${
-                              yearAndQuarter.toString() !== currentYearAndQuarter
-                                ? 'custom-btn-disabled'
-                                : ''
-                            }`}
+                            className={`custom-btn choose-file ${yearAndQuarter.toString() !== currentYearAndQuarter
+                              ? 'custom-btn-disabled'
+                              : ''
+                              }`}
                           >
                             {buttonText}
                           </div>
