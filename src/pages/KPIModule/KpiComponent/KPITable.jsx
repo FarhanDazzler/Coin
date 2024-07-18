@@ -436,6 +436,17 @@ const KPITable = ({
         variant: 'filled',
         error: validationErrors[row.original.id]?.KPI_Num,
         //helperText: validationErrors[row.original.id]?.KPI_Num,
+        value: row.original.KPI_Num,
+        onChange: (event) => {
+          const value = event.target.value.trim();
+          const updatedTableData = [...tableData]; // Assuming tableData is an array of objects
+
+          // Update the value in the local tableData copy
+          updatedTableData[cell.row.index][cell.column.id] = value;
+
+          // Update results based on the row
+          updateResults(row.original, updatedTableData, cell);
+        },
         onBlur: (event) => {
           const value = parseFloat(event.target.value.trim());
           tableData[cell.row.index][cell.column.id] = value;
@@ -477,6 +488,17 @@ const KPITable = ({
         type: 'number',
         variant: 'filled',
         error: validationErrors[row.original.id]?.KPI_Den,
+        value: row.original.KPI_Den,
+        onChange: (event) => {
+          const value = event.target.value.trim();
+          const updatedTableData = [...tableData]; // Assuming tableData is an array of objects
+
+          // Update the value in the local tableData copy
+          updatedTableData[cell.row.index][cell.column.id] = value;
+
+          // Update results based on the row
+          updateResults(row.original, updatedTableData, cell);
+        },
         //helperText: validationErrors[row.original.id]?.KPI_Den,
         onBlur: (event) => {
           const value = parseFloat(event.target.value.trim());
@@ -756,6 +778,7 @@ const KPITable = ({
           },
         ],
         onChange: (value) => (tableData[cell.row.index][cell.column.id] = value),
+        value: row.original.KPI_Value,
       }),
       mantineTableBodyCellProps: ({ row }) =>
         row.original.Expected_Source == 'Automated' && {
@@ -1052,27 +1075,34 @@ const KPITable = ({
       year_and_quarter: 'Year and Quarter',
     };
 
-    const allowedDiffFieldsExcel = ['KPI_Num', 'KPI_Den', 'upload_approach', 'source_system'];
+    const allowedDiffFieldsExcel = [
+      'KPI_Num',
+      'KPI_Den',
+      'upload_approach',
+      'source_system',
+      'KPI_Value',
+    ];
 
     const isNullOrEmpty = (value) => value === null || value === '';
 
     for (let i = 0; i < excelFile.length; i++) {
       const excelRow = excelFile[i];
       const tableRow = tableData[i];
-      console.log('excelRow', excelRow);
-      console.log('tableRow', tableRow);
-      for (const [tableKey, excelKey] of Object.entries(keyMapping)) {
-        if (!allowedDiffFieldsExcel.includes(excelKey)) {
-          const excelValue = excelRow[excelKey];
-          const tableValue = tableRow[tableKey];
+      // console.log('excelRow', excelRow);
+      // console.log('tableRow', tableRow);
 
-          console.log('excelValue', excelValue, excelKey);
-          console.log('tableValue', tableValue, tableKey);
+      for (const [key, value] of Object.entries(excelRow)) {
+        if (!allowedDiffFieldsExcel.includes(key)) {
+          const excelValue = (excelRow[key] || '').trim();
+          const tableValue = (tableRow[key] || '').trim();
+
+          // console.log('excelValue', excelValue, key, i);
+          // console.log('tableValue', tableValue, key, i);
           if (
             excelValue != tableValue &&
             !(isNullOrEmpty(excelValue) && isNullOrEmpty(tableValue))
           ) {
-            toast.error(`Mismatch found at row ${i + 1} for key: ${excelKey}`);
+            toast.error(`Mismatch found at row ${i + 1} for key: ${key}`);
             return false;
           }
         }
