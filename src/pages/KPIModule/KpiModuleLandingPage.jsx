@@ -97,7 +97,9 @@ const ICTable = () => {
 
   // Converting get all zone data into select dropdown format
   useEffect(() => {
-    if (getAllZone_State?.length > 0) {
+    if (getAllZone_State?.length === 1) {
+      setSelectedZone(getAllZone_State[0].zone);
+    } else if (getAllZone_State?.length > 0) {
       const formattedData = getAllZone_State.map((zone) => ({
         label: zone.zone,
         value: zone.zone,
@@ -118,15 +120,23 @@ const ICTable = () => {
   }, [selectedZone, yearAndQuarter]);
 
   useEffect(() => {
-    if (selectedZone?.value) {
-      if (yearAndQuarter?.length > 0) {
-        const payload = {
-          zone: selectedZone?.value,
-          year_and_quarter: yearAndQuarter,
-        };
-        dispatch(get_ic_KPI_data(payload));
-      } else {
-        toast.error('Please select Year in filter.');
+    if (localStorage.getItem('selected_Role') === 'Zonal Internal Control') {
+      const payload = {
+        zone: selectedZone,
+        year_and_quarter: yearAndQuarter,
+      };
+      dispatch(get_ic_KPI_data(payload));
+    } else if (localStorage.getItem('selected_Role') === 'Global Internal Control') {
+      if (selectedZone?.value) {
+        if (yearAndQuarter?.length > 0) {
+          const payload = {
+            zone: selectedZone?.value,
+            year_and_quarter: yearAndQuarter,
+          };
+          dispatch(get_ic_KPI_data(payload));
+        } else {
+          toast.error('Please select Year in filter.');
+        }
       }
     }
   }, [yearAndQuarter, selectedZone]);
