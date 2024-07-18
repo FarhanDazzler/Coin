@@ -777,8 +777,10 @@ const KPITable = ({
             label: 'Others',
           },
         ],
-        onChange: (value) => (tableData[cell.row.index][cell.column.id] = value),
-        value: row.original.KPI_Value,
+        onChange: (value) => {
+          return (tableData[cell.row.index][cell.column.id] = value)
+        },
+        value: row.original.upload_approach ? row.original.upload_approach : null
       }),
       mantineTableBodyCellProps: ({ row }) =>
         row.original.Expected_Source == 'Automated' && {
@@ -800,6 +802,17 @@ const KPITable = ({
         required: false,
         type: 'text',
         variant: 'filled',
+        value: row.original.source_system,
+        onChange: (event) => {
+          const value = event.target.value.trim();
+          const updatedTableData = [...tableData]; // Assuming tableData is an array of objects
+
+          // Update the value in the local tableData copy
+          updatedTableData[cell.row.index][cell.column.id] = value;
+
+          // Update results based on the row
+          updateResults(row.original, updatedTableData, cell);
+        },
         onBlur: (event) => {
           const value = event.target.value.trim();
           tableData[cell.row.index][cell.column.id] = value;
@@ -1495,8 +1508,8 @@ const KPITable = ({
                           />
                           <div
                             className={`custom-btn choose-file ${yearAndQuarter.toString() !== currentYearAndQuarter
-                                ? 'custom-btn-disabled'
-                                : ''
+                              ? 'custom-btn-disabled'
+                              : ''
                               }`}
                           >
                             {buttonText}
