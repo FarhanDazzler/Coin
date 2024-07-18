@@ -1094,6 +1094,9 @@ const KPITable = ({
       'upload_approach',
       'source_system',
       'KPI_Value',
+      'L1',
+      'L2',
+      'L3',
     ];
 
     const isNullOrEmpty = (value) => value === null || value === '';
@@ -1222,7 +1225,7 @@ const KPITable = ({
             if (copyData[0][i] === 'Expected Source') {
               key = 'Expected_Source';
             }
-            if (copyData[0][i] === 'Expected KPI Source') {
+            if (copyData[0][i] === 'Expected KPI Data Source') {
               key = 'expected_kpi_source';
             }
             if (copyData[0][i] === 'KPI ID') {
@@ -1290,6 +1293,9 @@ const KPITable = ({
             }
             if (copyData[0][i] === 'Control Oversight Email') {
               key = 'control_oversight_email';
+            }
+            if (copyData[0][i] === 'Load Date') {
+              key = 'load_date';
             }
             if (copyData[0][i] === 'Year and Quarter') {
               key = 'year_and_quarter';
@@ -1466,7 +1472,10 @@ const KPITable = ({
                         <Workbook.Column label="Control Name" value="control_NAME" />
                         <Workbook.Column label="KPI Type" value="kpi_type" />
                         <Workbook.Column label="Expected Source" value="Expected_Source" />
-                        <Workbook.Column label="Expected KPI Source" value="expected_kpi_source" />
+                        <Workbook.Column
+                          label="Expected KPI Data Source"
+                          value="expected_kpi_source"
+                        />
                         <Workbook.Column label="KPI ID" value="KPI_CODE" />
                         <Workbook.Column label="KPI Name" value="KPI_NAME" />
                         <Workbook.Column label="Applicability" value="applicable" />
@@ -1492,6 +1501,7 @@ const KPITable = ({
                           label="Control Oversight Email"
                           value="control_oversight_email"
                         />
+                        <Workbook.Column label="Load Date" value="load_date" />
                         <Workbook.Column label="Year and Quarter" value="year_and_quarter" />
                       </Workbook.Sheet>
                     </Workbook>
