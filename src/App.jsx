@@ -81,7 +81,7 @@ const Pages = () => {
   const [userState, userDispatch] = useContext(UserContext);
   const role = loginRole ?? userRole;
 
-  const isControlPage = useMemo(() => {
+  var isControlPage = useMemo(() => {
     return (
       [
         'Control owner',
@@ -93,6 +93,19 @@ const Pages = () => {
       ]?.includes(role) || false
     );
   }, [loginRole, userRole]);
+
+  const isKPIOwnerPage = useMemo(() => {
+    if (
+      loginRole === 'KPI Owner' ||
+      role === 'KPI_owner' ||
+      role === 'KPI owner' ||
+      role === 'KPI_Owner'
+    ) {
+      isControlPage = false;
+      return true;
+    } else return false;
+  }, [loginRole, userRole]);
+
   // eslint-disable-next-line no-unused-vars
   const isAssessmentsPage = ['Assessment Module'].includes(module);
   const getUserData = () => {
@@ -101,7 +114,7 @@ const Pages = () => {
       .then(async (res) => {
         if (res?.data?.data[0] == 'user does not exist') {
           history.push('/not-authorized');
-          return
+          return;
         }
         const saRoles = res?.data.data?.sa_roles || [];
         const updatedParam = {};
@@ -231,6 +244,8 @@ const Pages = () => {
             <Route exact path="/" component={REP_Letters_HomePage} />
           ) : isControlPage ? (
             <Route exact path="/" component={ControlHomePage} />
+          ) : isKPIOwnerPage ? (
+            <Route exact path="/" component={KpiModule} />
           ) : (
             <Route exact path="/" component={InternalControlHomePage} />
           )}
