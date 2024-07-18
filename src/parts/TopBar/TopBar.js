@@ -125,19 +125,21 @@ const TopBar = (props) => {
         style={{ marginRight: '10px' }}
       >
         <ul className="nav nav-tabs border-0 flex-wrap">
-          <li className="nav-item">
-            <a
-              className={`navbar-link ${
-                ['/', '/register'].includes(location?.pathname) ? ' active' : ''
-              }`}
-              onClick={() => {
-                history.push('/');
-              }}
-            >
-              <FeatherIcon icon="home" size={14} />
-              &nbsp;{'Home'}
-            </a>
-          </li>
+          {localStorage.getItem('selected_Role') != 'KPI Owner' && (
+            <li className="nav-item">
+              <a
+                className={`navbar-link ${
+                  ['/', '/register'].includes(location?.pathname) ? ' active' : ''
+                }`}
+                onClick={() => {
+                  history.push('/');
+                }}
+              >
+                <FeatherIcon icon="home" size={14} />
+                &nbsp;{'Home'}
+              </a>
+            </li>
+          )}
 
           <li className="nav-item">
             <a
@@ -153,7 +155,7 @@ const TopBar = (props) => {
             </a>
           </li>
 
-          {!props.isControlPage && (
+          {!props.isControlPage && localStorage.getItem('selected_Role') !== 'KPI Owner' && (
             <>
               {
                 <li className="nav-item">
