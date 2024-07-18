@@ -1075,17 +1075,12 @@ const KPITable = ({
       year_and_quarter: 'Year and Quarter',
     };
 
-    const allowedDiffFieldsExcel = [
-      'KPI_Num',
-      'KPI_Den',
-      'upload_approach',
-      'source_system',
-      'KPI_Value',
-    ];
+    const allowedDiffFieldsExcel = ['KPI_Num', 'KPI_Den', 'upload_approach', 'source_system', 'KPI_Value'];
 
     const isNullOrEmpty = (value) => value === null || value === '';
 
     for (let i = 0; i < excelFile.length; i++) {
+
       const excelRow = excelFile[i];
       const tableRow = tableData[i];
       // console.log('excelRow', excelRow);
@@ -1164,15 +1159,15 @@ const KPITable = ({
     return areAllFiltersEmpty
       ? tableData
       : tableData.filter((item) => {
-          return (
-            (!filterData.zoneValue.length || filterData.zoneValue.includes(item.Zone)) &&
-            (!filterData.entityValue.length || filterData.entityValue.includes(item.Entity)) &&
-            (!filterData.providerValue.length ||
-              filterData.providerValue.includes(item.provider)) &&
-            (!filterData.controlIDValue.length ||
-              filterData.controlIDValue.includes(item.CONTROL_ID))
-          );
-        });
+        return (
+          (!filterData.zoneValue.length || filterData.zoneValue.includes(item.Zone)) &&
+          (!filterData.entityValue.length || filterData.entityValue.includes(item.Entity)) &&
+          (!filterData.providerValue.length ||
+            filterData.providerValue.includes(item.provider)) &&
+          (!filterData.controlIDValue.length ||
+            filterData.controlIDValue.includes(item.CONTROL_ID))
+        );
+      });
   }, [filterData, tableData]);
 
   const handleFileUpload = (event) => {
@@ -1425,13 +1420,13 @@ const KPITable = ({
                     className="custom-btn mt-2 submit-btn"
                     onClick={handleSaveKPIData}
                     disabled={isDisabled || submitLoading}
-                    // disabled={
-                    //   Object.keys(tableData).length === 0 ||
-                    //   Object.values(validationErrors).some(
-                    //     (error) =>
-                    //       error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
-                    //   )
-                    // }
+                  // disabled={
+                  //   Object.keys(tableData).length === 0 ||
+                  //   Object.values(validationErrors).some(
+                  //     (error) =>
+                  //       error.hasOwnProperty('KPI_Num') || error.hasOwnProperty('KPI_Den'),
+                  //   )
+                  // }
                   >
                     Submit KPIs
                   </button>
@@ -1499,11 +1494,10 @@ const KPITable = ({
                             disabled={yearAndQuarter.toString() !== currentYearAndQuarter}
                           />
                           <div
-                            className={`custom-btn choose-file ${
-                              yearAndQuarter.toString() !== currentYearAndQuarter
+                            className={`custom-btn choose-file ${yearAndQuarter.toString() !== currentYearAndQuarter
                                 ? 'custom-btn-disabled'
                                 : ''
-                            }`}
+                              }`}
                           >
                             {buttonText}
                           </div>
