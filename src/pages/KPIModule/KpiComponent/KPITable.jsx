@@ -1046,7 +1046,8 @@ const KPITable = ({
   const handleFileSubmit = (event) => {
     event.preventDefault();
     // Trigger file input click
-    document.getElementById('uploadfile').click();
+    const fileInput = document.getElementById('uploadfile');
+    fileInput.click();
   };
 
   const tableRecord = useMemo(() => {
@@ -1068,6 +1069,11 @@ const KPITable = ({
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
     const reader = new FileReader();
 
     reader.onload = (e) => {
@@ -1078,6 +1084,8 @@ const KPITable = ({
       const csvData = XLSX.utils.sheet_to_json(worksheet);
 
       handleDataImport(csvData);
+      // Clear the file input value to allow re-uploading the same file
+      event.target.value = '';
     };
 
     reader.readAsArrayBuffer(file);
@@ -1089,10 +1097,14 @@ const KPITable = ({
     data.forEach((row, index) => {
       const { id, 'KPI Num': KPI_Num, 'KPI Den': KPI_Den } = row;
 
-      if ((KPI_Num || KPI_Num === 0) && KPI_Den) {
-        if (isNaN(KPI_Num) || isNaN(KPI_Den) || KPI_Den <= 0) {
+      if ((KPI_Num || KPI_Num === 0) && (KPI_Den || KPI_Den === 0)) {
+        if (isNaN(KPI_Num) || isNaN(KPI_Den)) {
           isValid = false;
-          toast.error(`Invalid data at row ${index + 1}`);
+          toast.error(`Invalid KPI Numerator and Denominator at row ${index + 1}`);
+        }
+        if (KPI_Den <= 0) {
+          isValid = false;
+          toast.error(`Denominator must be greater than zero at row ${index + 1}`);
         }
       } else if (KPI_Num || KPI_Den) {
         isValid = false;
