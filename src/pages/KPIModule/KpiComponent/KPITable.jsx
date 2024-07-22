@@ -9,7 +9,7 @@ import {
   MRT_ShowHideColumnsButton,
   MRT_ToggleDensePaddingButton,
 } from 'mantine-react-table';
-import Workbook from 'react-excel-workbook';
+import * as XLSX from 'xlsx';
 import '../KpiModule.scss';
 import { useTranslation } from 'react-i18next';
 import KpiTableFilter from './KpiTableFilter';
@@ -17,6 +17,39 @@ import readXlsxFile from 'read-excel-file';
 import { getCurrentYearAndQuarter } from '../KpiModuleLandingPage';
 import { useMsal } from '@azure/msal-react';
 import { submit_KPI_data_KPI_Module } from '../../../redux/KPI_Module/KPI_Action';
+
+// function to export the data to CSV using the XLSX library
+const exportToCsv = (filename, data, fields) => {
+  // Map data to the required format
+  const formattedData = data.map((item) => {
+    const result = {};
+    fields.forEach((field) => {
+      result[field.label] = item[field.value];
+    });
+    return result;
+  });
+
+  // Create a new workbook and add the worksheet
+  const ws = XLSX.utils.json_to_sheet(formattedData);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+  // Write the workbook to CSV format
+  const csv = XLSX.write(wb, { bookType: 'csv', type: 'string' });
+
+  // Create a Blob from the CSV data
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  if (link.download !== undefined) {
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+};
 
 const Badge_apply = ({ data }) => {
   const colorMap = {
@@ -111,7 +144,7 @@ const KPITable = ({
   });
   const [validationErrors, setValidationErrors] = useState({});
   const [excelFile, setExcelFile] = useState(null);
-  const [buttonText, setButtonText] = useState('Choose a file');
+  const [buttonText, setButtonText] = useState('Choose A File');
 
   // Code for validation and result calculation for KPI_Num and KPI_Den columns
   const validateKPI = (row, value, type) => {
@@ -530,210 +563,6 @@ const KPITable = ({
           },
         },
     },
-    // {
-    //   accessorKey: 'KPI_Num',
-    //   enableClickToCopy: true,
-    //   //   filterVariant: 'autocomplete',
-    //   header: 'KPI Num',
-    //   size: 100,
-    //   Cell: ({ row }) => <span>{row.original.KPI_Num}</span>,
-    //   mantineEditTextInputProps: ({ cell, row }) => ({
-    //     required: true,
-    //     type: 'number',
-    //     variant: 'filled',
-    //     error: validationErrors[row.original.id]?.KPI_Num,
-    //     helperText: validationErrors[row.original.id]?.KPI_Num,
-    //     onBlur: (event) => {
-    //       // console.log('@@', row.original.id);
-    //       const value = parseFloat(event.target.value.trim());
-
-    //       tableData[cell.row.index][cell.column.id] = value;
-    //       // setTableData([...tableData]);
-    //       // setting up results here based on the numerator, denominator, threshold, and positive direction
-    //       tableData[cell.row.index].Result_L1 = calculateResult(
-    //         row.original.KPI_Num,
-    //         row.original.KPI_Den,
-    //         row.original.L1,
-    //         row.original.Direction,
-    //         row.original.Result_L1,
-    //       );
-    //       tableData[cell.row.index].Result_L2 = calculateResult(
-    //         row.original.KPI_Num,
-    //         row.original.KPI_Den,
-    //         row.original.L2,
-    //         row.original.Direction,
-    //         row.original.Result_L2,
-    //       );
-    //       tableData[cell.row.index].Result_L3 = calculateResult(
-    //         row.original.KPI_Num,
-    //         row.original.KPI_Den,
-    //         row.original.L3,
-    //         row.original.Direction,
-    //         row.original.Result_L3,
-    //       );
-
-    //       //validation logic
-    //       // if (!value) {
-    //       //   setValidationErrors((prev) => ({
-    //       //     ...prev,
-    //       //     [row.original.id]: {
-    //       //       ...prev[row.original.id],
-    //       //       KPI_Num: 'Numerator is required',
-    //       //     },
-    //       //   }));
-    //       // } else
-    //       // if (!isNaN(value) && value < 0) {
-    //       //   setValidationErrors((prev) => ({
-    //       //     ...prev,
-    //       //     [row.original.id]: {
-    //       //       ...prev[row.original.id],
-    //       //       KPI_Num: 'Numerator can be positive values only',
-    //       //     },
-    //       //   }));
-    //       // } else
-    //       if (row.original.KPI_Num && !row.original.KPI_Den) {
-    //         // console.log('@@', row);
-    //         setValidationErrors((prev) => ({
-    //           ...prev,
-    //           [row.original.id]: {
-    //             ...prev[row.original.id],
-    //             KPI_Num: 'Denominator is required',
-    //           },
-    //         }));
-    //       } else {
-    //         delete validationErrors[row.original.id]?.KPI_Num;
-    //         setValidationErrors({ ...validationErrors });
-
-    //         // setting up KPI Value after the denominator is entered
-    //         if (row.original.KPI_Den && row.original.KPI_Num) {
-    //           tableData[cell.row.index].KPI_Value = (
-    //             +row.original.KPI_Num / +row.original.KPI_Den
-    //           ).toFixed(5);
-    //         } else {
-    //           tableData[cell.row.index].KPI_Value = '';
-    //         }
-
-    //         if (
-    //           row.original.KPI_Den &&
-    //           validationErrors[row.original.id]?.KPI_Den == 'Numerator is required'
-    //         ) {
-    //           delete validationErrors[row.original.id]?.KPI_Den;
-    //           setValidationErrors({ ...validationErrors });
-    //         }
-    //       }
-    //     },
-    //   }),
-    //   mantineTableBodyCellProps: ({ row }) =>
-    //     row.original.Expected_Source == 'Automated' && {
-    //       // align: 'center',
-    //       sx: {
-    //         backgroundColor: '#1B1212',
-    //         color: '#fff',
-    //         // borderRight: '1px solid rgba(224,224,224,1)',
-    //       },
-    //     },
-    // },
-    // {
-    //   accessorKey: 'KPI_Den',
-    //   enableClickToCopy: true,
-    //   //   filterVariant: 'autocomplete',
-    //   header: 'KPI Den',
-    //   size: 100,
-    //   Cell: ({ row }) => <span>{row.original.KPI_Den}</span>,
-    //   mantineEditTextInputProps: ({ cell, row }) => ({
-    //     required: true,
-    //     type: 'number',
-    //     variant: 'filled',
-    //     error: validationErrors[row.original.id]?.KPI_Den,
-    //     helperText: validationErrors[row.original.id]?.KPI_Den,
-    //     onBlur: (event) => {
-    //       const value = parseFloat(event.target.value.trim());
-
-    //       tableData[cell.row.index][cell.column.id] = value;
-
-    //       // setting up results here based on the numerator, denominator, threshold, and positive direction
-    //       tableData[cell.row.index].Result_L1 = calculateResult(
-    //         row.original.KPI_Num,
-    //         row.original.KPI_Den,
-    //         row.original.L1,
-    //         row.original.Direction,
-    //         row.original.Result_L1,
-    //       );
-    //       tableData[cell.row.index].Result_L2 = calculateResult(
-    //         row.original.KPI_Num,
-    //         row.original.KPI_Den,
-    //         row.original.L2,
-    //         row.original.Direction,
-    //         row.original.Result_L2,
-    //       );
-    //       tableData[cell.row.index].Result_L3 = calculateResult(
-    //         row.original.KPI_Num,
-    //         row.original.KPI_Den,
-    //         row.original.L3,
-    //         row.original.Direction,
-    //         row.original.Result_L3,
-    //       );
-
-    //       //validation logic
-    //       // if (!value) {
-    //       //   setValidationErrors((prev) => ({
-    //       //     ...prev,
-    //       //     [row.original.id]: {
-    //       //       ...prev[row.original.id],
-    //       //       KPI_Den: 'Denominator is required',
-    //       //     },
-    //       //   }));
-    //       // } else
-    //       if (!isNaN(value) && value <= 0) {
-    //         setValidationErrors((prev) => ({
-    //           ...prev,
-    //           [row.original.id]: {
-    //             ...prev[row.original.id],
-    //             KPI_Den: 'Denominator can be positive values only',
-    //           },
-    //         }));
-    //       } else if (row.original.KPI_Den && !row.original.KPI_Num) {
-    //         // console.log('##', row);
-    //         setValidationErrors((prev) => ({
-    //           ...prev,
-    //           [row.original.id]: {
-    //             ...prev[row.original.id],
-    //             KPI_Den: 'Numerator is required',
-    //           },
-    //         }));
-    //       } else {
-    //         delete validationErrors[row.original.id]?.KPI_Den;
-    //         setValidationErrors({ ...validationErrors });
-
-    //         // setting up KPI Value after the denominator is entered
-    //         if (row.original.KPI_Den && row.original.KPI_Num) {
-    //           tableData[cell.row.index].KPI_Value = (
-    //             +row.original.KPI_Num / +row.original.KPI_Den
-    //           ).toFixed(5);
-    //         } else {
-    //           tableData[cell.row.index].KPI_Value = '';
-    //         }
-
-    //         if (
-    //           row.original.KPI_Num &&
-    //           validationErrors[row.original.id]?.KPI_Num == 'Denominator is required'
-    //         ) {
-    //           delete validationErrors[row.original.id]?.KPI_Num;
-    //           setValidationErrors({ ...validationErrors });
-    //         }
-    //       }
-    //     },
-    //   }),
-    //   mantineTableBodyCellProps: ({ row }) =>
-    //     row.original.Expected_Source == 'Automated' && {
-    //       // align: 'center',
-    //       sx: {
-    //         backgroundColor: '#1B1212',
-    //         color: '#fff',
-    //         // borderRight: '1px solid rgba(224,224,224,1)',
-    //       },
-    //     },
-    // },
     {
       accessorKey: 'KPI_Value',
       enableClickToCopy: true,
@@ -1035,6 +864,46 @@ const KPITable = ({
     },
   ];
 
+  const handleExport = () => {
+    const fields = [
+      { label: 'id', value: 'id' },
+      { label: 'Zone', value: 'Zone' },
+      { label: 'Entity', value: 'Entity' },
+      { label: 'Provider', value: 'provider' },
+      { label: 'Control ID', value: 'CONTROL_ID' },
+      { label: 'Control Name', value: 'control_NAME' },
+      { label: 'KPI Type', value: 'kpi_type' },
+      { label: 'Expected Source', value: 'Expected_Source' },
+      { label: 'Expected KPI Data Source', value: 'expected_kpi_source' },
+      { label: 'KPI ID', value: 'KPI_CODE' },
+      { label: 'KPI Name', value: 'KPI_NAME' },
+      { label: 'Applicability', value: 'applicable' },
+      { label: 'Month', value: 'Month' },
+      { label: 'Direction', value: 'Direction' },
+      { label: 'Expected Num', value: 'expected_num' },
+      { label: 'Expected Den', value: 'expected_den' },
+      { label: 'KPI Num', value: 'KPI_Num' },
+      { label: 'KPI Den', value: 'KPI_Den' },
+      { label: 'KPI Value', value: 'KPI_Value' },
+      { label: 'Actual KPI Source', value: 'upload_approach' },
+      { label: 'Source of Data - Link', value: 'source_system' },
+      { label: 'KPI Description', value: 'kpi_desc' },
+      { label: 'Threshold L1', value: 'L1' },
+      { label: 'Threshold L2', value: 'L2' },
+      { label: 'Threshold L3', value: 'L3' },
+      { label: 'Result L1', value: 'Result_L1' },
+      { label: 'Result L2', value: 'Result_L2' },
+      { label: 'Result L3', value: 'Result_L3' },
+      { label: 'KPI Owner Email', value: 'kpi_owner_email' },
+      { label: 'Control Owner Email', value: 'control_owner_email' },
+      { label: 'Control Oversight Email', value: 'control_oversight_email' },
+      { label: 'Load Date', value: 'load_date' },
+      { label: 'Year and Quarter', value: 'year_and_quarter' },
+    ];
+
+    exportToCsv('KPI_Module_Export.csv', tableData, fields);
+  };
+
   const validateData = () => {
     // console.log('Validating data...');
     // console.log('excelFile', excelFile);
@@ -1165,13 +1034,13 @@ const KPITable = ({
     if (!validateData()) {
       console.error('Validation failed');
       document.getElementById('excel_import_btn_kpi_module').reset(); // Ensure the form ID is correct
-      setButtonText('Choose a file');
+      setButtonText('Choose A File');
       return;
     }
 
     // Update the tableData with the results
     setTableData(excelFile);
-    setButtonText('Choose a file');
+    setButtonText('Choose A File');
   };
 
   const tableRecord = useMemo(() => {
@@ -1435,7 +1304,7 @@ const KPITable = ({
           }}
           renderTopToolbar={({ table }) => {
             const isDisabled =
-              buttonText === 'Choose a file' && yearAndQuarter.toString() !== currentYearAndQuarter;
+              buttonText === 'Choose A File' && yearAndQuarter.toString() !== currentYearAndQuarter;
 
             return (
               <Flex p="md" justify="space-between" className="kpi_module_buttons">
@@ -1454,58 +1323,11 @@ const KPITable = ({
                   >
                     Submit KPIs
                   </button>
-                  <div className="row kpi_table_row" id="export_button_right">
-                    <Workbook
-                      filename={`KPI_Module_Export.xlsx`}
-                      element={
-                        <button className="custom-btn mt-2 submit-btn">
-                          {t('selfAssessment.assessmentForm.exportToExcel')}
-                        </button>
-                      }
-                    >
-                      <Workbook.Sheet data={tableData} name="KPI">
-                        <Workbook.Column label="id" value="id" />
-                        <Workbook.Column label="Zone" value="Zone" />
-                        <Workbook.Column label="Entity" value="Entity" />
-                        <Workbook.Column label="Provider" value="provider" />
-                        <Workbook.Column label="Control ID" value="CONTROL_ID" />
-                        <Workbook.Column label="Control Name" value="control_NAME" />
-                        <Workbook.Column label="KPI Type" value="kpi_type" />
-                        <Workbook.Column label="Expected Source" value="Expected_Source" />
-                        <Workbook.Column
-                          label="Expected KPI Data Source"
-                          value="expected_kpi_source"
-                        />
-                        <Workbook.Column label="KPI ID" value="KPI_CODE" />
-                        <Workbook.Column label="KPI Name" value="KPI_NAME" />
-                        <Workbook.Column label="Applicability" value="applicable" />
-                        <Workbook.Column label="Month" value="Month" />
-                        <Workbook.Column label="Direction" value="Direction" />
-                        <Workbook.Column label="Expected Num" value="expected_num" />
-                        <Workbook.Column label="Expected Den" value="expected_den" />
-                        <Workbook.Column label="KPI Num" value="KPI_Num" />
-                        <Workbook.Column label="KPI Den" value="KPI_Den" />
-                        <Workbook.Column label="KPI Value" value="KPI_Value" />
-                        <Workbook.Column label="Actual KPI Source" value="upload_approach" />
-                        <Workbook.Column label="Source of Data - Link" value="source_system" />
-                        <Workbook.Column label="KPI Description" value="kpi_desc" />
-                        <Workbook.Column label="Threshold L1" value="L1" />
-                        <Workbook.Column label="Threshold L2" value="L2" />
-                        <Workbook.Column label="Threshold L3" value="L3" />
-                        <Workbook.Column label="Result L1" value="Result_L1" />
-                        <Workbook.Column label="Result L2" value="Result_L2" />
-                        <Workbook.Column label="Result L3" value="Result_L3" />
-                        <Workbook.Column label="KPI Owner Email" value="kpi_owner_email" />
-                        <Workbook.Column label="Control Owner Email" value="control_owner_email" />
-                        <Workbook.Column
-                          label="Control Oversight Email"
-                          value="control_oversight_email"
-                        />
-                        <Workbook.Column label="Load Date" value="load_date" />
-                        <Workbook.Column label="Year and Quarter" value="year_and_quarter" />
-                      </Workbook.Sheet>
-                    </Workbook>
-                  </div>
+
+                  <button className="custom-btn mt-2 submit-btn" onClick={handleExport}>
+                    {t('selfAssessment.assessmentForm.exportToExcel')}
+                  </button>
+
                   <form
                     onSubmit={handleFileSubmit}
                     id="excel_import_btn_kpi_module"
