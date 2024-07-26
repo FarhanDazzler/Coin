@@ -508,7 +508,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     // }
     Swal.fire({
       title: t('selfAssessment.assessmentForm.saveDraftText'),
-      html: `<p class='draft-btn'> ${t('selfAssessment.assessmentForm.saveDraftBtn')}</p>`,
+      // html: `<p class='draft-btn'> ${t('selfAssessment.assessmentForm.saveDraftBtn')}</p>`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
