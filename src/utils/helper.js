@@ -477,3 +477,12 @@ export const getLanguageToTextKey = (language) => {
       return '';
   }
 };
+
+export const replaceWordInString = (fullString, wordToReplace, replaceWith) => {
+  // Escape any special characters in the word to replace
+  const escapedWordToReplace = wordToReplace.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // Create a regular expression with the escaped word to replace, using the global flag to replace all occurrences
+  const regex = new RegExp(escapedWordToReplace, 'g');
+  // Use the replace method with the regular expression to replace all occurrences
+  return fullString.replace(regex, replaceWith);
+};

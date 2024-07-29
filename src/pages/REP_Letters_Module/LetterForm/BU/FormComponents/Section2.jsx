@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Divider, Box } from '@mantine/core';
@@ -18,8 +18,10 @@ import {
   getBUSection2SignatureResponseSelector,
   addBUSection2CheckboxSelector,
   addBUSection2UploadMailApprovalSelector,
+  getBUScopeDataSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import useIPandGeoLocation from '../../../../../hooks/useIPandGeoLocation';
+import useRepLetters from '../../../../../hooks/useRepLetters';
 
 const Section2 = ({ scopeData }) => {
   const history = useHistory();
@@ -419,6 +421,8 @@ const Section2 = ({ scopeData }) => {
     );
   };
 
+  const { cognosCodeList } = useRepLetters();
+
   const AutoAuth = () => {
     return (
       <div className="section2-form">
@@ -459,9 +463,9 @@ const Section2 = ({ scopeData }) => {
                   <span>
                     &nbsp;&nbsp;I hereby certify that the above representation letter reflects my
                     understanding of the accuracy of the financial reporting package and the
-                    effectiveness of the internal controls and financial reporting controls of
-                    Cognos Company Code. I hereby allow the capturing of the following data in order
-                    to verify my identity: Location, Object Identifier, IP Address, Email, Timestamp
+                    effectiveness of the internal controls and financial reporting controls{' '}
+                    {cognosCodeList}. I hereby allow the capturing of the following data in order to
+                    verify my identity: Location, Object Identifier, IP Address, Email, Timestamp
                     and Persona.
                   </span>
                   {/* <p>
