@@ -336,19 +336,19 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       confirmButtonColor: 'golden',
       cancelButtonColor: 'black',
       confirmButtonText: ` ${t('selfAssessment.assessmentForm.submitConfirmBtn')} <br/>`,
-      showDenyButton: !(responseData?.data?.Attempt_no >= 5),
-      denyButtonText: `${t('selfAssessment.assessmentForm.saveDraftBtn')}
-      
-      (${
-        responseData?.data?.Attempt_no
-          ? responseData?.data?.Attempt_no < 5
-            ? 4 - responseData?.data?.Attempt_no
-            : 0
-          : responseData?.data?.Attempt_no === 0
-          ? '4'
-          : '5'
-      } remaining)`,
+      showDenyButton: true,
+      denyButtonText: `${t('selfAssessment.assessmentForm.saveDraftBtn')}`,
       denyButtonColor: 'silver',
+
+      // (${
+      //   responseData?.data?.Attempt_no
+      //     ? responseData?.data?.Attempt_no < 5
+      //       ? 4 - responseData?.data?.Attempt_no
+      //       : 0
+      //     : responseData?.data?.Attempt_no === 0
+      //     ? '4'
+      //     : '5'
+      // } remaining)`,
     }).then((result) => {
       if (result.isConfirmed) {
         // check if section 1 is_AD question then not store KPI data
@@ -445,10 +445,10 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       // If user Denied (Draft) action
       if (result.isDenied) {
         //is user 5 time draft then not save again. show no limit error dialog
-        if (responseData?.data?.Attempt_no >= 5) {
-          Swal.fire(t('selfAssessment.assessmentForm.saveDraftNoLimiteText'), '', 'error');
-          return;
-        }
+        // if (responseData?.data?.Attempt_no >= 5) {
+        //   Swal.fire(t('selfAssessment.assessmentForm.saveDraftNoLimiteText'), '', 'error');
+        //   return;
+        // }
         setSubmitLoading(true);
         const payload = {
           Assessment_ID: activeData?.assessment_id,
@@ -493,13 +493,28 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
   const handleSaveDraft = () => {
     //is user 5 time draft then not save again. show no limit error dialog
-    if (responseData?.data?.Attempt_no >= 5) {
-      Swal.fire(t('selfAssessment.assessmentForm.saveDraftNoLimiteText'), '', 'error');
-      return;
-    }
+    // if (responseData?.data?.Attempt_no >= 5) {
+    //   Swal.fire(t('selfAssessment.assessmentForm.saveDraftNoLimiteText'), '', 'error');
+    //   return;
+    // }
+    // ${
+    //   responseData?.data?.Attempt_no
+    //     ? responseData?.data?.Attempt_no < 5
+    //       ? 4 - responseData?.data?.Attempt_no
+    //       : 0
+    //     : responseData?.data?.Attempt_no === 0
+    //     ? '4'
+    //     : '5'
+    // }
     Swal.fire({
       title: t('selfAssessment.assessmentForm.saveDraftText'),
-      // html: `<p class='draft-btn'>${
+      // html: `<p class='draft-btn'> ${t('selfAssessment.assessmentForm.saveDraftBtn')}</p>`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'golden',
+      cancelButtonColor: 'black',
+      confirmButtonText: `${t('selfAssessment.assessmentForm.saveDraftBtn')}`,
+      // (${
       //   responseData?.data?.Attempt_no
       //     ? responseData?.data?.Attempt_no < 5
       //       ? 4 - responseData?.data?.Attempt_no
@@ -507,20 +522,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
       //     : responseData?.data?.Attempt_no === 0
       //     ? '4'
       //     : '5'
-      // } ${t('selfAssessment.assessmentForm.saveDraftBtn')}</p>`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: 'golden',
-      cancelButtonColor: 'black',
-      confirmButtonText: `(${
-        responseData?.data?.Attempt_no
-          ? responseData?.data?.Attempt_no < 5
-            ? 4 - responseData?.data?.Attempt_no
-            : 0
-          : responseData?.data?.Attempt_no === 0
-          ? '4'
-          : '5'
-      }) ${t('selfAssessment.assessmentForm.saveDraftBtn')}`,
+      // })
     }).then((result) => {
       if (result.isConfirmed) {
         setSubmitLoading(true);
@@ -605,7 +607,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         setActionPlanInfo={setActionPlanInfo}
         getMicsOpenActionPlanVal={getMicsOpenActionPlanVal}
         handleSaveDraftProps={{
-          disabled: responseData?.data?.Attempt_no >= 5,
+          // disabled: responseData?.data?.Attempt_no >= 5,
           style: { width: 140 },
           loading: addOrEditUpdateDraft.loading,
         }}

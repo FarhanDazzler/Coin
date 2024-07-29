@@ -88,21 +88,21 @@ const Section1 = ({ questions, assessment_id }) => {
   }, [DraftResponseState?.data]);
 
   const handleSaveDraft = () => {
-    if (DraftResponseState?.data?.Attempt_no >= 5) {
-      Swal.fire(`You don't have a limited`, '', 'error');
-      return;
-    }
+    // if (DraftResponseState?.data?.Attempt_no >= 5) {
+    //   Swal.fire(`You don't have a limited`, '', 'error');
+    //   return;
+    // }
     Swal.fire({
       title: `Do you want save as draft!`,
-      text: `${
-        DraftResponseState?.data?.Attempt_no
-          ? DraftResponseState?.data?.Attempt_no < 5
-            ? 4 - DraftResponseState?.data?.Attempt_no
-            : 0
-          : DraftResponseState?.data?.Attempt_no === 0
-          ? '4'
-          : '5'
-      } save draft letter remaining`,
+      // text: `${
+      //   DraftResponseState?.data?.Attempt_no
+      //     ? DraftResponseState?.data?.Attempt_no < 5
+      //       ? 4 - DraftResponseState?.data?.Attempt_no
+      //       : 0
+      //     : DraftResponseState?.data?.Attempt_no === 0
+      //     ? '4'
+      //     : '5'
+      // } save draft letter remaining`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'golden',
@@ -143,21 +143,21 @@ const Section1 = ({ questions, assessment_id }) => {
     } else {
       Swal.fire({
         title: 'You are about to submit the Representation letter.',
-        text: `${
-          DraftResponseState?.data?.Attempt_no
-            ? DraftResponseState?.data?.Attempt_no < 5
-              ? 4 - DraftResponseState?.data?.Attempt_no
-              : 0
-            : DraftResponseState?.data?.Attempt_no === 0
-            ? '4'
-            : '5'
-        } save draft letter remaining`,
+        // text: `${
+        //   DraftResponseState?.data?.Attempt_no
+        //     ? DraftResponseState?.data?.Attempt_no < 5
+        //       ? 4 - DraftResponseState?.data?.Attempt_no
+        //       : 0
+        //     : DraftResponseState?.data?.Attempt_no === 0
+        //     ? '4'
+        //     : '5'
+        // } save draft letter remaining`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: 'golden',
         cancelButtonColor: 'black',
         confirmButtonText: 'Yes, submit it',
-        showDenyButton: !(DraftResponseState?.data?.Attempt_no >= 5),
+        // showDenyButton: !(DraftResponseState?.data?.Attempt_no >= 5),
         denyButtonText: 'Save draft',
         denyButtonColor: 'black',
       }).then((result) => {
@@ -186,7 +186,7 @@ const Section1 = ({ questions, assessment_id }) => {
           dispatch(addFunctionSubmitResponse(payload));
           // after api success clear the redux state
           dispatch(clearFunctionSubmitResponse());
-          localStorage.setItem('selected_module_Role', 'Functional Representation Letter')
+          localStorage.setItem('selected_module_Role', 'Functional Representation Letter');
           history.push('/');
 
           //console.log('Submitted responses:', responses);
