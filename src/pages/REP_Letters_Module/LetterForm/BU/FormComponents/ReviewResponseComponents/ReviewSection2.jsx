@@ -9,10 +9,11 @@ import ActionLogChatTimeline from '../Section3/ActionLogChatTimeline';
 import '../../../LetterFormStyle.scss';
 import { clearGetBUSection3Response } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import { getBUSection2SignatureResponseSelector } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import useRepLetters from '../../../../../../hooks/useRepLetters';
 
 const ReviewSection2 = (props) => {
   const dispatch = useDispatch();
-
+  const { cognosCodeList } = useRepLetters();
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
   return (
     <ClosedCollapseFrame title="Section 2 : Signatures" active>
@@ -117,7 +118,7 @@ const ReviewSection2 = (props) => {
                                 “I hereby certify that the above representation letter reflects my
                                 understanding of the accuracy of the financial reporting package and
                                 the effectiveness of the internal controls and financial reporting
-                                controls of Cognos Company Code.” - Signed by{' '}
+                                controls {cognosCodeList}.” - Signed by{' '}
                                 <span className="golden-text">
                                   {
                                     getBUSection2SignatureResponseState?.data?.signatures?.fd
@@ -236,7 +237,7 @@ const ReviewSection2 = (props) => {
                                 “I hereby certify that the above representation letter reflects my
                                 understanding of the accuracy of the financial reporting package and
                                 the effectiveness of the internal controls and financial reporting
-                                controls of Cognos Company Code.” - Signed by{' '}
+                                controls {cognosCodeList}.” - Signed by{' '}
                                 <span className="golden-text">
                                   {
                                     getBUSection2SignatureResponseState?.data?.signatures?.zv
@@ -355,7 +356,7 @@ const ReviewSection2 = (props) => {
                                 “I hereby certify that the above representation letter reflects my
                                 understanding of the accuracy of the financial reporting package and
                                 the effectiveness of the internal controls and financial reporting
-                                controls of Cognos Company Code.” - Signed by{' '}
+                                controls {cognosCodeList}.” - Signed by{' '}
                                 <span className="golden-text">
                                   {
                                     getBUSection2SignatureResponseState?.data?.signatures?.buh
@@ -474,7 +475,7 @@ const ReviewSection2 = (props) => {
                                 “I hereby certify that the above representation letter reflects my
                                 understanding of the accuracy of the financial reporting package and
                                 the effectiveness of the internal controls and financial reporting
-                                controls of Cognos Company Code.” - Signed by{' '}
+                                controls {cognosCodeList}.” - Signed by{' '}
                                 <span className="golden-text">
                                   {
                                     getBUSection2SignatureResponseState?.data?.signatures?.zc

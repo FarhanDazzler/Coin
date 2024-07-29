@@ -57,7 +57,21 @@ const ControlActions = ({
     }
   };
 
+  const transformText = (text) => {
+    const regex = /\[KPI_[\s\S]*/; // Regex to match text starting from the first "[KPI_" to the end
+    const matchedText = text.match(regex);
+
+    if (matchedText) {
+      const beforeText = text.split(matchedText)[0];
+      const highlightedText = `<strong><span class='golden-text'>${matchedText[0]}</span></strong>`;
+      return beforeText + highlightedText;
+    }
+
+    return text;
+  };
+
   const isClear = (text) => activeTab === text;
+
   return (
     <div className="control-actions-wrapper">
       <div className="pb-5 pt-4 d-flex justify-content-between">
@@ -136,7 +150,11 @@ const ControlActions = ({
                 <div className="bg-light-black">
                   <Button className={'active mb-2 cursor-auto'}>L2:-</Button>{' '}
                   {stateGcdData[0]?.mics_L2desc ? (
-                    <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L2desc }} />
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: transformText(stateGcdData[0]?.mics_L2desc || ''),
+                      }}
+                    />
                   ) : (
                     'None'
                   )}

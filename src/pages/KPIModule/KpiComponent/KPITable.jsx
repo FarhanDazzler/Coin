@@ -1112,51 +1112,61 @@ const KPITable = ({
               buttonText === 'Choose A File' && yearAndQuarter.toString() !== currentYearAndQuarter;
 
             return (
-              <Flex p="md" justify="space-between" className="kpi_module_buttons">
-                <Flex align="center" gap="xs">
-                  <button
-                    className="custom-btn mt-2 submit-btn"
-                    onClick={handleSaveKPIData}
-                    disabled={isDisabled || submitLoading}
-                    
-                  >
-                    Submit KPIs
-                  </button>
+              <div>
+                <div style={{ padding: '16px', color: 'white', fontSize: '14px' }}>
+                  <b>Note:</b> In case there have been no transactions for the specified period for any
+                  KPI, please enter 0 as both the numerator and the denominator. In case the values
+                  are not allowed please reach out to your Zone Internal Control.
+                </div>
+                <Flex p="md" justify="space-between" className="kpi_module_buttons">
+                  <Flex align="center" gap="xs">
+                    <button
+                      className="custom-btn mt-2 submit-btn"
+                      onClick={handleSaveKPIData}
+                      disabled={isDisabled || submitLoading}
+                    >
+                      Submit KPIs
+                    </button>
 
-                  <button className="custom-btn mt-2 submit-btn" onClick={handleExport}>
-                    {t('selfAssessment.assessmentForm.exportToExcel')}
-                  </button>
-                  <form
-                    onSubmit={handleFileSubmit}
-                    id="excel_import_btn_kpi_module"
-                    className="kpi_module_form mt-1"
-                  >
-                    <div className="d-flex align-items-center" style={{ marginTop: 4 }}>
-                      <div className="mt-2">
-                        <label htmlFor="uploadfile" className="file-input">
-                          <input
-                            type="file"
-                            placeholder="Name"
-                            id="uploadfile"
-                            onChange={handleFileUpload}
-                            style={{ display: 'none' }}
-                          />
-                          <div className="custom-btn choose-file">{buttonText}</div>
-                        </label>
+                    <button className="custom-btn mt-2 submit-btn" onClick={handleExport}>
+                      {t('selfAssessment.assessmentForm.exportToExcel')}
+                    </button>
+                    <form
+                      onSubmit={handleFileSubmit}
+                      id="excel_import_btn_kpi_module"
+                      className="kpi_module_form mt-1"
+                    >
+                      <div className="d-flex align-items-center" style={{ marginTop: 4 }}>
+                        <div className="mt-2">
+                          <label htmlFor="uploadfile" className="file-input">
+                            <input
+                              type="file"
+                              placeholder="Name"
+                              id="uploadfile"
+                              onChange={handleFileUpload}
+                              style={{ display: 'none' }}
+                            />
+                            <div className="custom-btn choose-file">{buttonText}</div>
+                          </label>
+                        </div>
+                        <button
+                          type="submit"
+                          className="custom-btn upload-btn"
+                          disabled={isDisabled}
+                        >
+                          Upload
+                        </button>
                       </div>
-                      <button type="submit" className="custom-btn upload-btn" disabled={isDisabled}>
-                        Upload
-                      </button>
-                    </div>
-                  </form>
+                    </form>
+                  </Flex>
+                  <Flex gap="xs">
+                    <MRT_GlobalFilterTextInput table={table} />
+                    <MRT_ToggleFiltersButton table={table} />
+                    <MRT_ShowHideColumnsButton table={table} />
+                    <MRT_ToggleDensePaddingButton table={table} />
+                  </Flex>
                 </Flex>
-                <Flex gap="xs">
-                  <MRT_GlobalFilterTextInput table={table} />
-                  <MRT_ToggleFiltersButton table={table} />
-                  <MRT_ShowHideColumnsButton table={table} />
-                  <MRT_ToggleDensePaddingButton table={table} />
-                </Flex>
-              </Flex>
+              </div>
             );
           }}
         />
