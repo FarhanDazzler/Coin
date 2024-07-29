@@ -50,26 +50,42 @@ export function getCurrentYearAndQuarter() {
   }
 }
 
-function getPreviousYearAndQuarter() {
-  const currentDate = new Date();
-  currentDate.setMonth(currentDate.getMonth() - 4);
-  const previousYear = currentDate.getFullYear();
-  const previousQuarter = Math.ceil((currentDate.getMonth() + 1) / 3);
-  return previousYear + 'Q' + previousQuarter;
+function getPastTwoQuarters(currentQuarter) {
+  // I/P : "2024Q2"
+  // O/P : ['2024Q1', '2023Q4']
+
+  // Split the input string into year and quarter
+  let [year, quarter] = currentQuarter.split('Q');
+  year = parseInt(year);
+  quarter = parseInt(quarter);
+
+  // Calculate the past two quarters
+  const pastQuarters = [];
+  for (let i = 0; i < 2; i++) {
+    if (quarter === 1) {
+      quarter = 4;
+      year -= 1;
+    } else {
+      quarter -= 1;
+    }
+    pastQuarters.push(`${year}Q${quarter}`);
+  }
+
+  return pastQuarters;
 }
 
 const ICTable = () => {
   const dispatch = useDispatch();
 
   const currentQuarter = getCurrentYearAndQuarter();
-  const previousQuarter = getPreviousYearAndQuarter();
+  const previousQuarter = getPastTwoQuarters(currentQuarter);
 
   // API to fetch respective zone of IC user
   useEffect(() => {
     dispatch(getAllZone());
   }, []);
 
-  const yearQuarterOption = [currentQuarter, previousQuarter];
+  const yearQuarterOption = [currentQuarter, ...previousQuarter];
   const [yearAndQuarter, setYearAndQuarter] = useState([currentQuarter]);
 
   console.log('yearQuarterOption', yearAndQuarter);
@@ -81,7 +97,9 @@ const ICTable = () => {
 
   // Converting get all zone data into select dropdown format
   useEffect(() => {
-    if (getAllZone_State?.length > 0) {
+    if (getAllZone_State?.length === 1) {
+      setSelectedZone(getAllZone_State[0].zone);
+    } else if (getAllZone_State?.length > 0) {
       const formattedData = getAllZone_State.map((zone) => ({
         label: zone.zone,
         value: zone.zone,
@@ -102,15 +120,23 @@ const ICTable = () => {
   }, [selectedZone, yearAndQuarter]);
 
   useEffect(() => {
-    if (selectedZone?.value) {
-      if (yearAndQuarter?.length > 0) {
-        const payload = {
-          zone: selectedZone?.value,
-          year_and_quarter: yearAndQuarter,
-        };
-        dispatch(get_ic_KPI_data(payload));
-      } else {
-        toast.error('Please select Year in filter.');
+    if (localStorage.getItem('selected_Role') === 'Zonal Internal Control') {
+      const payload = {
+        zone: selectedZone,
+        year_and_quarter: yearAndQuarter,
+      };
+      dispatch(get_ic_KPI_data(payload));
+    } else if (localStorage.getItem('selected_Role') === 'Global Internal Control') {
+      if (selectedZone?.value) {
+        if (yearAndQuarter?.length > 0) {
+          const payload = {
+            zone: selectedZone?.value,
+            year_and_quarter: yearAndQuarter,
+          };
+          dispatch(get_ic_KPI_data(payload));
+        } else {
+          toast.error('Please select Year in filter.');
+        }
       }
     }
   }, [yearAndQuarter, selectedZone]);
@@ -252,9 +278,9 @@ const ControlOwner_KPIOwner_ControlOversight_Table = () => {
   const { accounts } = useMsal();
 
   const currentQuarter = getCurrentYearAndQuarter();
-  const previousQuarter = getPreviousYearAndQuarter();
+  const previousQuarter = getPastTwoQuarters(currentQuarter);
 
-  const yearQuarterOption = [currentQuarter, previousQuarter];
+  const yearQuarterOption = [currentQuarter, ...previousQuarter];
   const [yearAndQuarter, setYearAndQuarter] = useState([currentQuarter]);
   // State to store api data
   const KpiDataForControlOwner_KPIOwner_ControlOversight = useSelector(
