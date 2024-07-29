@@ -36,6 +36,12 @@ const Table2 = ({
 }) => {
   const { t } = useTranslation();
   const [rowSelection, setRowSelection] = useState({});
+  const [columnFilters, setColumnFilters] = useState([]);
+  const [globalFilter, setGlobalFilter] = useState('');
+  const [columnVisibility, setColumnVisibility] = useState({});
+  const [density, setDensity] = useState('compact');
+  const [fullscreen, setFullscreen] = useState(false);
+  const [sorting, setSorting] = useState([]);
 
   useEffect(() => {
     //do something when the row selection changes...
@@ -221,6 +227,24 @@ const Table2 = ({
         )
       : null;
 
+  const resetTableState = () => {
+    setColumnFilters([]);
+    setGlobalFilter('');
+    setColumnVisibility({});
+    setDensity('compact');
+    setFullscreen(false);
+    setSorting([]);
+  };
+
+  const isClearButtonDisabled = !(
+    columnFilters.length > 0 ||
+    globalFilter ||
+    Object.keys(columnVisibility).length > 0 ||
+    density !== 'compact' ||
+    sorting.length > 0 ||
+    fullscreen
+  );
+
   return (
     <ThemeProvider theme={darkTheme}>
       <div className="materialReactTableWrapper">
@@ -229,6 +253,7 @@ const Table2 = ({
           selectAllMode="all"
           enableColumnFilterModes
           enableColumnFilters
+          onColumnFiltersChange={setColumnFilters}
           columns={tableColumns}
           data={tableData}
           initialState={{ showColumnFilters: false, density: 'compact' }}
@@ -237,11 +262,26 @@ const Table2 = ({
           enableStickyHeader
           getRowId={(row) => row.id} //give each row a more useful id
           onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
-          state={{ rowSelection, isLoading: loading }} //pass our managed row selection state to the table to use
-          enableRowPinning={isSimpleTable ? false : true}
-          enableColumnPinning={isSimpleTable ? false : true}
+          state={{
+            rowSelection,
+            isLoading: loading,
+            columnFilters,
+            globalFilter,
+            columnVisibility,
+            density,
+            fullscreen,
+            sorting,
+          }}
+          enableRowPinning={!isSimpleTable}
+          enableColumnPinning={!isSimpleTable}
+          onColumnFiltersChange={setColumnFilters}
+          onGlobalFilterChange={setGlobalFilter}
+          onColumnVisibilityChange={setColumnVisibility}
+          onDensityChange={setDensity}
+          onSortingChange={setSorting}
+          onFullscreenChange={setFullscreen}
           renderTopToolbarCustomActions={({ table }) => (
-            <div className="new-table-button" style={{ padding: '4px 10px' }}>
+            <div className="new-table-button" style={{ padding: '4px 10px', width: '100%' }}>
               {/*<FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />*/}
               {/*<span style={{ paddingLeft: '16px' }}>Table Name</span>*/}
               {isShowExportActionPlan && (
@@ -249,6 +289,7 @@ const Table2 = ({
                   <Box
                     sx={{
                       display: 'flex',
+                      justifyContent: 'space-between',
                       //  gap: '1rem', flexWrap: 'wrap'
                     }}
                   >
@@ -290,6 +331,17 @@ const Table2 = ({
                           </Button>
                         </div>
                       )}
+                    </div>
+                    <div className="table-heading" style={{ justifyContent: 'space-between' }}>
+                      <div>
+                        <Button
+                          onClick={resetTableState}
+                          variant="contained"
+                          disabled={isClearButtonDisabled}
+                        >
+                          Clear Filters
+                        </Button>
+                      </div>
                     </div>
                   </Box>
                 </>

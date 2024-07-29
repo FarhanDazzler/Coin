@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getLatestDraftSelector,
@@ -9,6 +9,7 @@ import {
   getFormatQuestions,
   getLanguageFormat,
   getUniqueListBy,
+  replaceWordInString,
   validateEmail,
 } from '../../../utils/helper';
 import { getUserFromAD } from '../../../redux/AzureAD/AD_Action';
@@ -18,11 +19,12 @@ import blockType from '../../../components/RenderBlock/constant';
 import RenderBlock from '../../../components/RenderBlock';
 import CollapseFrame from '../../../components/UI/CollapseFrame';
 import { useTranslation } from 'react-i18next';
+import { getControlDataSelector } from '../../../redux/ControlData/ControlDataSelectors';
 
 const ControlSection1 = ({
   setShowMoreSection,
   setTerminating,
-  ans,
+  ans: selectedAns,
   setAns,
   setStartEdit,
   isModal,
@@ -30,6 +32,19 @@ const ControlSection1 = ({
   isDisabled,
   setAnsSection3,
 }) => {
+  const getControlData = useSelector(getControlDataSelector);
+
+  const ans = useMemo(() => {
+    if (!selectedAns || !selectedAns.length) return [];
+    if (getControlData?.data?.lcd) {
+      return selectedAns.map((d) => ({
+        ...d,
+        label: replaceWordInString(d.label, '(LCD)', getControlData?.data?.lcd),
+      }));
+    }
+    return selectedAns;
+  }, [selectedAns, getControlData.data]);
+
   const { t } = useTranslation();
   const getQuestions = useSelector(getQuestionsSelector);
   const [data, setData] = useState([]);
