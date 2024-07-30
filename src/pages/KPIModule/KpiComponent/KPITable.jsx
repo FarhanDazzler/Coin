@@ -12,8 +12,8 @@ import {
 import * as XLSX from 'xlsx';
 import '../KpiModule.scss';
 import { useTranslation } from 'react-i18next';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import KpiTableFilter from './KpiTableFilter';
-import readXlsxFile from 'read-excel-file';
 import { getCurrentYearAndQuarter } from '../KpiModuleLandingPage';
 import { useMsal } from '@azure/msal-react';
 import { submit_KPI_data_KPI_Module } from '../../../redux/KPI_Module/KPI_Action';
@@ -143,8 +143,8 @@ const KPITable = ({
     controlIDValue: [],
   });
   const [validationErrors, setValidationErrors] = useState({});
-  const [excelFile, setExcelFile] = useState(null);
-  const [buttonText, setButtonText] = useState('Choose A File');
+  // const [excelFile, setExcelFile] = useState(null);
+  const [buttonText, setButtonText] = useState('Upload File');
 
   // Code for validation and result calculation for KPI_Num and KPI_Den columns
   const validateKPI = (row, value, type) => {
@@ -904,13 +904,6 @@ const KPITable = ({
     exportToCsv('KPI_Module_Export.csv', tableData, fields);
   };
 
-  const handleFileSubmit = (event) => {
-    event.preventDefault();
-    // Trigger file input click
-    const fileInput = document.getElementById('uploadfile');
-    fileInput.click();
-  };
-
   const tableRecord = useMemo(() => {
     const areAllFiltersEmpty = Object.values(filterData).every((arr) => arr.length === 0);
 
@@ -1017,6 +1010,8 @@ const KPITable = ({
     if (validateData(csvData)) {
       const updatedData = performCalculations(csvData, tableData);
       setTableData(updatedData);
+      // Clear the validation errors of table after successful validation and import of data
+      setValidationErrors({});
     }
   };
 
@@ -1108,8 +1103,7 @@ const KPITable = ({
             withColumnBorders: true,
           }}
           renderTopToolbar={({ table }) => {
-            const isDisabled =
-              buttonText === 'Choose A File' && yearAndQuarter.toString() !== currentYearAndQuarter;
+            const isDisabled = yearAndQuarter.toString() !== currentYearAndQuarter;
 
             return (
               <div>
@@ -1131,33 +1125,24 @@ const KPITable = ({
                     <button className="custom-btn mt-2 submit-btn" onClick={handleExport}>
                       {t('selfAssessment.assessmentForm.exportToExcel')}
                     </button>
-                    <form
-                      onSubmit={handleFileSubmit}
-                      id="excel_import_btn_kpi_module"
-                      className="kpi_module_form mt-1"
-                    >
-                      <div className="d-flex align-items-center" style={{ marginTop: 4 }}>
-                        <div className="mt-2">
-                          <label htmlFor="uploadfile" className="file-input">
-                            <input
-                              type="file"
-                              placeholder="Name"
-                              id="uploadfile"
-                              onChange={handleFileUpload}
-                              style={{ display: 'none' }}
-                            />
-                            <div className="custom-btn choose-file">{buttonText}</div>
-                          </label>
-                        </div>
-                        <button
-                          type="submit"
-                          className="custom-btn upload-btn"
+
+                    <div className="mt-4">
+                      <label htmlFor="uploadfile" className="file-input">
+                        <input
+                          icon={FileUploadOutlinedIcon}
+                          type="file"
+                          placeholder="Name"
+                          id="uploadfile"
+                          onChange={handleFileUpload}
+                          //style={{ display: 'none' }}
                           disabled={isDisabled}
-                        >
-                          Upload
-                        </button>
-                      </div>
-                    </form>
+                        />
+                        <div className="custom-btn choose-file">
+                          {<FileUploadOutlinedIcon />}
+                          {' ' + buttonText}
+                        </div>
+                      </label>
+                    </div>
                   </Flex>
                   <Flex gap="xs">
                     <MRT_GlobalFilterTextInput table={table} />
