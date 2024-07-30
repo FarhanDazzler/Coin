@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import PageWrapper from '../../../../components/wrappers/PageWrapper';
 import './BuSchedulingAndTriggeringLandingPage.scss';
 import Button from '../../../../components/UI/Button';
 import { ArrowNarrowRight } from 'tabler-icons-react';
@@ -8,9 +6,6 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 const BuSchedulingAndTriggeringLandingPage = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
-
-  useEffect(() => {}, []);
 
   useEffect(() => {}, []);
   // Code for BU and Zone
@@ -29,9 +24,7 @@ const BuSchedulingAndTriggeringLandingPage = () => {
       history.push('/REP-Letters/scheduling-and-triggering/zone-letter-summary-details');
     }
   };
-  const handleFunctionalModify = () => {
-    history.push('/REP-Letters/questionbank/Function-modify');
-  };
+
   return (
     <div className="container py-5">
       <div className="RlQuestionBankHeader">

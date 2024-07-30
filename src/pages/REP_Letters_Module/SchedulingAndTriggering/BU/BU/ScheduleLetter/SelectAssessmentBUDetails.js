@@ -75,20 +75,11 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
     end_date: '',
     reminder1: '',
     reminder2: '',
+    reminder3: '',
   });
   useEffect(() => {
     setOpenReviewModal(false);
   }, [rlAddBuLetterDataState?.data]);
-  const class_to_apply = (item) => {
-    let className = '';
-    if (item.toUpperCase() === 'ACTIVE') {
-      className = 'badge badge-success';
-    }
-    if (item.toUpperCase() === 'INACTIVE') {
-      className = 'badge badge-red';
-    }
-    return className;
-  };
 
   const TABLE_COLUMNS = [
     {
@@ -188,6 +179,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
         end_date: getBUPage1dataState?.data?.auto_fill_data[4]?.end_date,
         reminder1: getBUPage1dataState?.data?.auto_fill_data[5]?.reminder1,
         reminder2: getBUPage1dataState?.data?.auto_fill_data[6]?.reminder2,
+        reminder3: getBUPage1dataState?.data?.auto_fill_data[6]?.reminder2,
       });
       dispatch(getRlBUZoneData());
     }
@@ -246,6 +238,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
             Due_Date: values.Due_Date,
             Disclosure_Processor_Reminder_1: values.Recipient_Reminder_1,
             Disclosure_Processor_Reminder_2: values.Recipient_Reminder_2,
+            Disclosure_Processor_Reminder_3: values.Recipient_Reminder_3,
             SelectedDataFromTable: cloneData,
             Created_By: {
               Email: accounts[0]?.username,
@@ -275,6 +268,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
         Due_Date: values.Due_Date,
         Disclosure_Processor_Reminder_1: values.Recipient_Reminder_1,
         Disclosure_Processor_Reminder_2: values.Recipient_Reminder_2,
+        Disclosure_Processor_Reminder_3: values.Recipient_Reminder_3,
         SelectedDataFromTable: cloneData,
         Created_By: {
           Email: accounts[0]?.username,
@@ -314,14 +308,13 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
             Due_Date: page1Data?.end_date || '',
             Recipient_Reminder_1: page1Data?.reminder1 || '',
             Recipient_Reminder_2: page1Data?.reminder2 || '',
+            Recipient_Reminder_3: page1Data?.reminder3 || '',
           }}
           validationSchema={Yup.object().shape({
             Template: Yup.string().required('Template is required'),
             Title: Yup.string().required('Title is required'),
             Assessment_Cycle: Yup.string().required('Assessment Cycle is required'),
             Year: Yup.string().required('Year is required'),
-            // KPI_From_Year: Yup.string().required('KPI From is required'),
-            // KPI_To: Yup.string().required('KPI To is required'),
             Start_Date: Yup.string().required('Start Date is required'),
             Due_Date: Yup.string().required('Due Date is required'),
           })}
@@ -616,6 +609,39 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                         {!!touched.Recipient_Reminder_2 && (
                           <Form.Control.Feedback type="invalid">
                             {errors.Recipient_Reminder_2}
+                          </Form.Control.Feedback>
+                        )}
+                      </Form.Group>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Reminder - 3</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          type="date"
+                          name="Recipient_Reminder_3"
+                          placeholder=""
+                          value={values.Recipient_Reminder_3}
+                          isInvalid={Boolean(
+                            touched.Recipient_Reminder_3 && errors.Recipient_Reminder_3,
+                          )}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          readOnly={false}
+                          min={values.Start_Date}
+                          //max={values.Due_Date}
+                          className="form-control"
+                        />
+
+                        {!!touched.Recipient_Reminder_3 && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Recipient_Reminder_3}
                           </Form.Control.Feedback>
                         )}
                       </Form.Group>

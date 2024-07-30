@@ -98,6 +98,14 @@ const ReviewLetterDetails = ({ finalPayload, onClose }) => {
               <div className="col-lg-6">{finalPayload?.Disclosure_Processor_Reminder_2}</div>
             </div>
           </div>
+          <div className="col-lg-6">
+            <div className="row mb-4">
+              <div className="col-lg-6">
+                <span className="black-text font-weight-bold">Reminder - 3:</span>
+              </div>
+              <div className="col-lg-6">{finalPayload?.Disclosure_Processor_Reminder_3}</div>
+            </div>
+          </div>
         </div>
 
         <div className="row">
