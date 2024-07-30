@@ -130,6 +130,8 @@ const Section2 = ({ id }) => {
   };
 
   const AutoAuth = () => {
+    const getBUScopeDataState = useSelector(getBUScopeDataSelector);
+
     return (
       <div className="section2-form">
         <Formik
@@ -169,10 +171,10 @@ const Section2 = ({ id }) => {
                   <span>
                     &nbsp;&nbsp;I hereby certify that the above representation letter reflects my
                     understanding of the accuracy of the financial reporting package and the
-                    effectiveness of the internal controls and financial reporting controls of
-                    Cognos Company Code. I hereby allow the capturing of the following data in order
-                    to verify my identity: Location, Object Identifier, IP Address, Email, Timestamp
-                    and Persona.
+                    effectiveness of the internal controls and financial reporting controls of{' '}
+                    {getBUScopeDataState?.data?.Zone}. I hereby allow the capturing of the following
+                    data in order to verify my identity: Location, Object Identifier, IP Address,
+                    Email, Timestamp and Persona.
                   </span>
                   {/* <p>
                     with this selection, I agree to let COIN collect my information - (ie. Timestamp
