@@ -131,7 +131,9 @@ const ControlActions = ({
                 {stateGcdData[0]?.mics_L1desc ? (
                   <p
                     className="m-0"
-                    dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L1desc.slice(0, 600) }}
+                    dangerouslySetInnerHTML={{
+                      __html: transformText(stateGcdData[0]?.mics_L1desc.slice(0, 600) || ''),
+                    }}
                   />
                 ) : (
                   ''
@@ -142,7 +144,11 @@ const ControlActions = ({
                 <div className="bg-light-black">
                   <Button className={'active mb-2 cursor-auto'}>L1:-</Button>{' '}
                   {stateGcdData[0]?.mics_L1desc ? (
-                    <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L1desc }} />
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: transformText(stateGcdData[0]?.mics_L1desc || ''),
+                      }}
+                    />
                   ) : (
                     'None'
                   )}
@@ -162,7 +168,11 @@ const ControlActions = ({
                 <div className="bg-light-black">
                   <Button className={'active mb-2 cursor-auto'}>L3:-</Button>{' '}
                   {stateGcdData[0]?.mics_L3desc ? (
-                    <p dangerouslySetInnerHTML={{ __html: stateGcdData[0]?.mics_L3desc }} />
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: transformText(stateGcdData[0]?.mics_L3desc || ''),
+                      }}
+                    />
                   ) : (
                     'None'
                   )}
