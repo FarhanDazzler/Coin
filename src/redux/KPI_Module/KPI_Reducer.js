@@ -29,6 +29,7 @@ const block = {
 const initialState = {
   get_ic_KPI_data: { ...block, data: [] },
   get_ControlOwner_KPIOwner_ControlOversight_KPI_data: { ...block, data: [] },
+  submit_KPI_data_KPI_Module: { ...block, data: [] },
 };
 
 export const KPI_ModuleReducer = (state = initialState, { type, payload = {} }) => {
@@ -108,26 +109,28 @@ export const KPI_ModuleReducer = (state = initialState, { type, payload = {} }) 
     case SUBMIT_KPI_DATA_KPI_MODULE_REQUEST:
       return {
         ...state,
-        get_ic_KPI_data: {
-          ...state.get_ic_KPI_data,
+        submit_KPI_data_KPI_Module: {
+          ...state.submit_KPI_data_KPI_Module,
           loading: true,
         },
       };
     case SUBMIT_KPI_DATA_KPI_MODULE_SUCCESS:
       return {
         ...state,
-        get_ic_KPI_data: {
-          ...state.get_ic_KPI_data,
+        submit_KPI_data_KPI_Module: {
+          ...state.submit_KPI_data_KPI_Module,
           data: payload,
           loading: false,
+          success: true,
         },
       };
     case SUBMIT_KPI_DATA_KPI_MODULE_ERROR:
       return {
         ...state,
-        get_ic_KPI_data: {
-          ...state.get_ic_KPI_data,
+        submit_KPI_data_KPI_Module: {
+          ...state.submit_KPI_data_KPI_Module,
           loading: false,
+          success: false,
         },
       };
 
