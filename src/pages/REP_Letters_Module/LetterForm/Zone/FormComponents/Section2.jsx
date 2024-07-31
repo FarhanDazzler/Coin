@@ -4,20 +4,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Divider, Box } from '@mantine/core';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import Button from '../../../../MDM/MDM_Tab_Buttons/Button';
-import { Form, Container, Row, Col, Card } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import * as Yup from 'yup';
-import { useFormikContext, Field, Formik, ErrorMessage } from 'formik';
-import CryptoJS from 'crypto-js';
+import { Field, Formik, ErrorMessage } from 'formik';
 import {
-  getBUZoneSection2SignatureResponseAction,
   addBUZoneSection2CheckboxAction,
   addBUZoneSection2UploadMailApprovalAction,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import {
+  getBUZoneScopeDataSelector,
   getBUZoneSection2SignatureResponseSelector,
-  addBUZoneSection2CheckboxSelector,
-  addBUZoneSection2UploadMailApprovalSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import useIPandGeoLocation from '../../../../../hooks/useIPandGeoLocation';
 
@@ -425,6 +422,8 @@ const Section2 = ({ scopeData }) => {
     );
   };
 
+  const getBUScopeDataState = useSelector(getBUZoneScopeDataSelector);
+
   const AutoAuth = () => {
     return (
       <div className="section2-form">
@@ -466,9 +465,9 @@ const Section2 = ({ scopeData }) => {
                     &nbsp;&nbsp;I hereby certify that the above representation letter reflects my
                     understanding of the accuracy of the financial reporting package and the
                     effectiveness of the internal controls and financial reporting controls of
-                    Cognos Company Code. I hereby allow the capturing of the following data in order
-                    to verify my identity: Location, Object Identifier, IP Address, Email, Timestamp
-                    and Persona.
+                    {getBUScopeDataState?.data?.Zone}. I hereby allow the capturing of the following
+                    data in order to verify my identity: Location, Object Identifier, IP Address,
+                    Email, Timestamp and Persona.
                   </span>
                   {/* <p>
                     with this selection, I agree to let COIN collect my information - (ie. Timestamp
