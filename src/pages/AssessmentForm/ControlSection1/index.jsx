@@ -42,7 +42,7 @@ const ControlSection1 = ({
         label: replaceWordInString(
           d.label,
           '(({{LCD}}))',
-          getControlData?.data?.lcd || 'LCD not found',
+          `"${getControlData?.data?.lcd || 'LCD not available'}"`,
         ),
       };
     });
