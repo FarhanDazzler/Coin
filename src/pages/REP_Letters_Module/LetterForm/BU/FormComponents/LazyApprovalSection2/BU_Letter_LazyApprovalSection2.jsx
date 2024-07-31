@@ -11,11 +11,9 @@ import { Form } from 'react-bootstrap';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import * as Yup from 'yup';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { Container, Title, Text, Group, Stack } from '@mantine/core';
-import { useFormikContext, Field, Formik, ErrorMessage } from 'formik';
-import CryptoJS from 'crypto-js';
+import { Title, Text, Group, Stack } from '@mantine/core';
+import { Field, Formik, ErrorMessage } from 'formik';
 import CollapseFrame from '../../../../../../components/UI/CollapseFrame';
-// import Button from '../../../../../../components/UI/Button';
 import Button from '../../../../../MDM/MDM_Tab_Buttons/Button';
 import PageWrapper from '../../../../../../components/wrappers/PageWrapper';
 import Section0 from '../Section0';
@@ -39,6 +37,7 @@ import {
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../../../LetterFormStyle.scss';
 import useIPandGeoLocation from '../../../../../../hooks/useIPandGeoLocation';
+import useRepLetters from '../../../../../../hooks/useRepLetters';
 
 const Section2 = ({ id }) => {
   const history = useHistory();
@@ -130,8 +129,7 @@ const Section2 = ({ id }) => {
   };
 
   const AutoAuth = () => {
-    const getBUScopeDataState = useSelector(getBUScopeDataSelector);
-
+    const { cognosCodeList } = useRepLetters();
     return (
       <div className="section2-form">
         <Formik
@@ -172,9 +170,9 @@ const Section2 = ({ id }) => {
                     &nbsp;&nbsp;I hereby certify that the above representation letter reflects my
                     understanding of the accuracy of the financial reporting package and the
                     effectiveness of the internal controls and financial reporting controls of{' '}
-                    {getBUScopeDataState?.data?.Zone}. I hereby allow the capturing of the following
-                    data in order to verify my identity: Location, Object Identifier, IP Address,
-                    Email, Timestamp and Persona.
+                    {cognosCodeList}. I hereby allow the capturing of the following data in order to
+                    verify my identity: Location, Object Identifier, IP Address, Email, Timestamp
+                    and Persona.
                   </span>
                   {/* <p>
                     with this selection, I agree to let COIN collect my information - (ie. Timestamp
