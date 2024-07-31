@@ -36,13 +36,16 @@ const ControlSection1 = ({
 
   const ans = useMemo(() => {
     if (!selectedAns || !selectedAns.length) return [];
-    if (getControlData?.data?.lcd) {
-      return selectedAns.map((d) => ({
+    return selectedAns.map((d) => {
+      return {
         ...d,
-        label: replaceWordInString(d.label, '(LCD)', getControlData?.data?.lcd),
-      }));
-    }
-    return selectedAns;
+        label: replaceWordInString(
+          d.label,
+          '(({{LCD}}))',
+          `"${getControlData?.data?.lcd || 'LCD not available'}"`,
+        ),
+      };
+    });
   }, [selectedAns, getControlData.data]);
 
   const { t } = useTranslation();

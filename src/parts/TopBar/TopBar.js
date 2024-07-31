@@ -598,6 +598,13 @@ const TopBar = (props) => {
                       >
                         Report a Bug
                       </a>
+                      <a
+                        className="dropdown-item text-left"
+                        target="_blank"
+                        href="https://acoegrcstorageprod.blob.core.windows.net/other-files/Privacy%20Policy%20-%20COIN.pdf?sp=r&st=2024-07-30T10:02:50Z&se=2030-07-30T18:02:50Z&spr=https&sv=2022-11-02&sr=b&sig=DUDtz0aeGiv3vn5qdunkhcctdPhi7FyO5PPwSnovPPc%3D"
+                      >
+                        Privacy Policy
+                      </a>
                       <a className="dropdown-item text-left" onClick={handleLogout}>
                         Sign out
                       </a>

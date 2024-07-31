@@ -23,23 +23,24 @@ import {
 } from '../../redux/KPI_Module/KPI_Selectors';
 
 export function getCurrentYearAndQuarter() {
+  // Get the current date
   const today = new Date();
   const currentYear = today.getFullYear();
 
   // Check if the current date falls between February 1st and April 30th
-  if (new Date(currentYear, 1, 1) <= today && today <= new Date(currentYear, 3, 30)) {
+  if (new Date(currentYear, 1, 1) <= today && today < new Date(currentYear, 4, 1)) {
     return currentYear + 'Q1';
   }
   // Check if the current date falls between May 1st and July 31st
-  else if (new Date(currentYear, 4, 1) <= today && today <= new Date(currentYear, 6, 31)) {
+  else if (new Date(currentYear, 4, 1) <= today && today < new Date(currentYear, 7, 1)) {
     return currentYear + 'Q2';
   }
   // Check if the current date falls between August 1st and October 31st
-  else if (new Date(currentYear, 7, 1) <= today && today <= new Date(currentYear, 9, 31)) {
+  else if (new Date(currentYear, 7, 1) <= today && today < new Date(currentYear, 10, 1)) {
     return currentYear + 'Q3';
   }
   // Check if the current date falls between November 1st and January 31st
-  else if (new Date(currentYear, 10, 1) <= today || today <= new Date(currentYear, 0, 31)) {
+  else if (new Date(currentYear, 10, 1) <= today || today < new Date(currentYear, 1, 1)) {
     // If the current month is January, return the previous year and Q4
     if (today.getMonth() == 0) {
       return currentYear - 1 + 'Q4';

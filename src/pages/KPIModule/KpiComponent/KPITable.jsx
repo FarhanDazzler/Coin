@@ -12,8 +12,8 @@ import {
 import * as XLSX from 'xlsx';
 import '../KpiModule.scss';
 import { useTranslation } from 'react-i18next';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import KpiTableFilter from './KpiTableFilter';
-import readXlsxFile from 'read-excel-file';
 import { getCurrentYearAndQuarter } from '../KpiModuleLandingPage';
 import { useMsal } from '@azure/msal-react';
 import { submit_KPI_data_KPI_Module } from '../../../redux/KPI_Module/KPI_Action';
@@ -143,8 +143,8 @@ const KPITable = ({
     controlIDValue: [],
   });
   const [validationErrors, setValidationErrors] = useState({});
-  const [excelFile, setExcelFile] = useState(null);
-  const [buttonText, setButtonText] = useState('Choose A File');
+  const [isFileUploading, setIsfileuploading] = useState(false);
+  const [buttonText, setButtonText] = useState('Upload File');
 
   // Code for validation and result calculation for KPI_Num and KPI_Den columns
   const validateKPI = (row, value, type) => {
@@ -904,13 +904,6 @@ const KPITable = ({
     exportToCsv('KPI_Module_Export.csv', tableData, fields);
   };
 
-  const handleFileSubmit = (event) => {
-    event.preventDefault();
-    // Trigger file input click
-    const fileInput = document.getElementById('uploadfile');
-    fileInput.click();
-  };
-
   const tableRecord = useMemo(() => {
     const areAllFiltersEmpty = Object.values(filterData).every((arr) => arr.length === 0);
 
@@ -934,7 +927,8 @@ const KPITable = ({
     if (!file) {
       return;
     }
-
+    // setting the file uploading state to true
+    setIsfileuploading(true);
     const reader = new FileReader();
 
     reader.onload = (e) => {
@@ -947,6 +941,8 @@ const KPITable = ({
       handleDataImport(csvData);
       // Clear the file input value to allow re-uploading the same file
       event.target.value = '';
+      // setting the file uploading state to false
+      setIsfileuploading(false);
     };
 
     reader.readAsArrayBuffer(file);
@@ -989,24 +985,29 @@ const KPITable = ({
       const tableRow = tableData.find((item) => item.id === id);
 
       if (tableRow) {
-        const { L1, L2, L3, Direction, Result_L1, Result_L2, Result_L3 } = tableRow;
-        const KPI_Value =
-          (KPI_Num || KPI_Num == 0) && KPI_Den ? (+KPI_Num / +KPI_Den).toFixed(5) : '';
-        const newResult_L1 = calculateResult(KPI_Num, KPI_Den, L1, Direction, Result_L1);
-        const newResult_L2 = calculateResult(KPI_Num, KPI_Den, L2, Direction, Result_L2);
-        const newResult_L3 = calculateResult(KPI_Num, KPI_Den, L3, Direction, Result_L3);
+        const { Expected_Source, L1, L2, L3, Direction, Result_L1, Result_L2, Result_L3 } =
+          tableRow;
 
-        return {
-          ...tableRow,
-          KPI_Num,
-          KPI_Den,
-          upload_approach,
-          source_system,
-          KPI_Value,
-          Result_L1: newResult_L1,
-          Result_L2: newResult_L2,
-          Result_L3: newResult_L3,
-        };
+        // only update those row where expected source is manual
+        if (Expected_Source === 'Manual') {
+          const KPI_Value =
+            (KPI_Num || KPI_Num == 0) && KPI_Den ? (+KPI_Num / +KPI_Den).toFixed(5) : '';
+          const newResult_L1 = calculateResult(KPI_Num, KPI_Den, L1, Direction, Result_L1);
+          const newResult_L2 = calculateResult(KPI_Num, KPI_Den, L2, Direction, Result_L2);
+          const newResult_L3 = calculateResult(KPI_Num, KPI_Den, L3, Direction, Result_L3);
+
+          return {
+            ...tableRow,
+            KPI_Num,
+            KPI_Den,
+            upload_approach,
+            source_system,
+            KPI_Value,
+            Result_L1: newResult_L1,
+            Result_L2: newResult_L2,
+            Result_L3: newResult_L3,
+          };
+        }
       }
 
       return tableRow;
@@ -1017,6 +1018,8 @@ const KPITable = ({
     if (validateData(csvData)) {
       const updatedData = performCalculations(csvData, tableData);
       setTableData(updatedData);
+      // Clear the validation errors of table after successful validation and import of data
+      setValidationErrors({});
     }
   };
 
@@ -1085,6 +1088,7 @@ const KPITable = ({
             row.original.year_and_quarter === currentYearAndQuarter
           }
           initialState={{
+            isLoading: isFileUploading,
             showColumnFilters: true,
             showGlobalFilter: true,
             density: 'xs',
@@ -1108,8 +1112,7 @@ const KPITable = ({
             withColumnBorders: true,
           }}
           renderTopToolbar={({ table }) => {
-            const isDisabled =
-              buttonText === 'Choose A File' && yearAndQuarter.toString() !== currentYearAndQuarter;
+            const isDisabled = yearAndQuarter.toString() !== currentYearAndQuarter;
 
             return (
               <div>
@@ -1131,33 +1134,24 @@ const KPITable = ({
                     <button className="custom-btn mt-2 submit-btn" onClick={handleExport}>
                       {t('selfAssessment.assessmentForm.exportToExcel')}
                     </button>
-                    <form
-                      onSubmit={handleFileSubmit}
-                      id="excel_import_btn_kpi_module"
-                      className="kpi_module_form mt-1"
-                    >
-                      <div className="d-flex align-items-center" style={{ marginTop: 4 }}>
-                        <div className="mt-2">
-                          <label htmlFor="uploadfile" className="file-input">
-                            <input
-                              type="file"
-                              placeholder="Name"
-                              id="uploadfile"
-                              onChange={handleFileUpload}
-                              style={{ display: 'none' }}
-                            />
-                            <div className="custom-btn choose-file">{buttonText}</div>
-                          </label>
-                        </div>
-                        <button
-                          type="submit"
-                          className="custom-btn upload-btn"
+
+                    <div className="mt-4">
+                      <label htmlFor="uploadfile" className="file-input">
+                        <input
+                          icon={FileUploadOutlinedIcon}
+                          type="file"
+                          placeholder="Name"
+                          id="uploadfile"
+                          onChange={handleFileUpload}
+                          //style={{ display: 'none' }}
                           disabled={isDisabled}
-                        >
-                          Upload
-                        </button>
-                      </div>
-                    </form>
+                        />
+                        <div className="custom-btn choose-file">
+                          {<FileUploadOutlinedIcon />}
+                          {' ' + buttonText}
+                        </div>
+                      </label>
+                    </div>
                   </Flex>
                   <Flex gap="xs">
                     <MRT_GlobalFilterTextInput table={table} />
