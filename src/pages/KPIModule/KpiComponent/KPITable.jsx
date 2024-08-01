@@ -1119,7 +1119,7 @@ const KPITable = ({
                 <div style={{ padding: '16px', color: 'white', fontSize: '14px' }}>
                   <b>Note:</b> In case there have been no transactions for the specified period for
                   any KPI, please enter 0 as both the numerator and the denominator. In case the
-                  values are not allowed please reach out to your Zone Internal Control.
+                  values are not allowed, please reach out to your Zone Internal Control.
                 </div>
                 <Flex p="md" justify="space-between" className="kpi_module_buttons">
                   <Flex align="center" gap="xs">
