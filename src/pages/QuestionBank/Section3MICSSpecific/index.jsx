@@ -2,10 +2,10 @@ import React from 'react';
 import FormControl from '@mui/material/FormControl';
 import Select from '../../../components/UI/Select/Select';
 import { levels } from '../CreateQuestions/constant';
-import { Loader } from 'semantic-ui-react';
 import RenderBlock from '../../../components/RenderBlock';
 import { useSelector } from 'react-redux';
 import { question3Selector } from '../../../redux/Questions/QuestionsSelectors';
+import { Loader } from '@mantine/core';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

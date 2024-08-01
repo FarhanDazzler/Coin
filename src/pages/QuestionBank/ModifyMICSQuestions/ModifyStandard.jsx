@@ -9,9 +9,9 @@ import {
   getSection1Questions,
 } from '../../../redux/Questions/QuestionsAction';
 import { question1Selector } from '../../../redux/Questions/QuestionsSelectors';
-import { Loader } from 'semantic-ui-react';
 import Button from '../../../components/UI/Button';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
+import { Loader } from '@mantine/core';
 
 const ModifyStandard = () => {
   const dispatch = useDispatch();
