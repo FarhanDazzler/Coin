@@ -169,7 +169,7 @@ const Section2 = ({ id }) => {
                   <span>
                     &nbsp;&nbsp;I hereby certify that the above representation letter reflects my
                     understanding of the accuracy of the financial reporting package and the
-                    effectiveness of the internal controls and financial reporting controls of
+                    effectiveness of the internal controls and financial reporting controls of{' '}
                     {getBUScopeDataState?.data?.Zone}. I hereby allow the capturing of the following
                     data in order to verify my identity: Location, Object Identifier, IP Address,
                     Email, Timestamp and Persona.
