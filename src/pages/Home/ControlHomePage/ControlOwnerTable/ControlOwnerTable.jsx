@@ -74,41 +74,32 @@ const ControlOwnerTable = ({
   const getControlOwnerData = useSelector(getControlOwnerDataSelector);
 
   function getCurrentAssessmentCycle() {
+    // Get the current date
     const today = new Date();
-    const todayDatetime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const currentYear = today.getFullYear();
 
-    if (
-      new Date(today.getFullYear(), 2, 1) <= todayDatetime &&
-      todayDatetime <= new Date(today.getFullYear(), 4, 31)
-    ) {
+    // Check if the current date falls between February 1st and April 30th
+    if (new Date(currentYear, 1, 1) <= today && today < new Date(currentYear, 4, 1)) {
       return 'Assessment Cycle 1';
-    } else if (
-      new Date(today.getFullYear(), 5, 1) <= todayDatetime &&
-      todayDatetime <= new Date(today.getFullYear(), 7, 31)
-    ) {
+    }
+    // Check if the current date falls between May 1st and July 31st
+    else if (new Date(currentYear, 4, 1) <= today && today < new Date(currentYear, 7, 1)) {
       return 'Assessment Cycle 2';
-    } else if (
-      new Date(today.getFullYear(), 8, 1) <= todayDatetime &&
-      todayDatetime <= new Date(today.getFullYear(), 10, 30)
-    ) {
+    }
+    // Check if the current date falls between August 1st and October 31st
+    else if (new Date(currentYear, 7, 1) <= today && today < new Date(currentYear, 10, 1)) {
       return 'Assessment Cycle 3';
-    } else {
-      // For December 1 to February 28, and accounting for leap year (February 29)
-      if (
-        (new Date(today.getFullYear(), 11, 1) <= todayDatetime &&
-          todayDatetime <= new Date(today.getFullYear(), 11, 31)) ||
-        (new Date(today.getFullYear(), 0, 1) <= todayDatetime &&
-          todayDatetime <= new Date(today.getFullYear(), 1, 28))
-      ) {
-        return 'Assessment Cycle 4';
-      } else if (
-        today.getFullYear() % 4 === 0 &&
-        todayDatetime.toDateString() === new Date(today.getFullYear(), 1, 29).toDateString()
-      ) {
+    }
+    // Check if the current date falls between November 1st and January 31st
+    else if (new Date(currentYear, 10, 1) <= today || today < new Date(currentYear, 1, 1)) {
+      // If the current month is January, return the previous year and Q4
+      if (today.getMonth() == 0) {
         return 'Assessment Cycle 4';
       } else {
-        return 'Invalid date';
+        return 'Assessment Cycle 4';
       }
+    } else {
+      return 'Invalid date';
     }
   }
 
