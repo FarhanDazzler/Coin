@@ -634,7 +634,7 @@ const SelectAssessmentDetailsBU = ({ handleNext }) => {
                           onBlur={handleBlur}
                           onChange={handleChange}
                           readOnly={false}
-                          min={values.Start_Date}
+                          min={values.Due_Date}
                           //max={values.Due_Date}
                           className="form-control"
                         />
