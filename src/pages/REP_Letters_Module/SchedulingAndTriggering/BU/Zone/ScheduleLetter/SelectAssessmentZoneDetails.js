@@ -589,7 +589,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
                           onBlur={handleBlur}
                           onChange={handleChange}
                           readOnly={false}
-                          min={values.Start_Date}
+                          min={values.Due_Date}
                           //max={values.Due_Date}
                           className="form-control"
                         />
@@ -603,7 +603,6 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
                     </div>
                   </div>
                 </div>
-
               </div>
               <div className="row">
                 <Divider
