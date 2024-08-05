@@ -121,7 +121,7 @@ const ReviewSection2 = (props) => {
                                 “I hereby certify that the above representation letter reflects my
                                 understanding of the accuracy of the financial reporting package and
                                 the effectiveness of the internal controls and financial reporting
-                                controls {getBUScopeDataState?.data?.Zone}.” - Signed by{' '}
+                                controls of {getBUScopeDataState?.data?.Zone}.” - Signed by{' '}
                                 <span className="golden-text">
                                   {
                                     getBUSection2SignatureResponseState?.data?.signatures?.zlr
@@ -240,7 +240,7 @@ const ReviewSection2 = (props) => {
                                 “I hereby certify that the above representation letter reflects my
                                 understanding of the accuracy of the financial reporting package and
                                 the effectiveness of the internal controls and financial reporting
-                                controls {getBUScopeDataState?.data?.Zone}.” - Signed by{' '}
+                                controls of {getBUScopeDataState?.data?.Zone}.” - Signed by{' '}
                                 <span className="golden-text">
                                   {
                                     getBUSection2SignatureResponseState?.data?.signatures?.zv
@@ -360,7 +360,7 @@ const ReviewSection2 = (props) => {
                                 “I hereby certify that the above representation letter reflects my
                                 understanding of the accuracy of the financial reporting package and
                                 the effectiveness of the internal controls and financial reporting
-                                controls {getBUScopeDataState?.data?.Zone}.” - Signed by{' '}
+                                controls of {getBUScopeDataState?.data?.Zone}.” - Signed by{' '}
                                 <span className="golden-text">
                                   {
                                     getBUSection2SignatureResponseState?.data?.signatures?.exc
@@ -479,7 +479,7 @@ const ReviewSection2 = (props) => {
                                 “I hereby certify that the above representation letter reflects my
                                 understanding of the accuracy of the financial reporting package and
                                 the effectiveness of the internal controls and financial reporting
-                                controls {getBUScopeDataState?.data?.Zone}.” - Signed by{' '}
+                                controls of {getBUScopeDataState?.data?.Zone}.” - Signed by{' '}
                                 <span className="golden-text">
                                   {
                                     getBUSection2SignatureResponseState?.data?.signatures?.zc
