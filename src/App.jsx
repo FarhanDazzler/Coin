@@ -49,6 +49,9 @@ import { PageNotFound } from './pages/PageNotFound';
 import BULetterForm from './pages/REP_Letters_Module/LetterForm/BU/BULetterForm';
 import FunctionalLetterForm from './pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm.jsx';
 import KpiModule from './pages/KPIModule/KpiModuleLandingPage.jsx';
+import PageWrapper from './components/wrappers/PageWrapper/index.jsx';
+import RecipientHomePage from './pages/REP_Letters_Module/Home/Functional/RecipientHomePage/RecipientHomePage.jsx';
+import DisclosureProcessorHomePageContainer from './pages/REP_Letters_Module/Home/BU/DisclosureProcessorHomePage/index.jsx';
 
 const theme = createTheme({
   palette: {
@@ -79,12 +82,18 @@ const HomePageDirectLink = () => {
 
   if (moduleName === 'Assessment Module' && roleName === 'Control Owner') {
     return <ControlHomePage />;
-  } else if (
-    (moduleName === 'Functional Representation Letter' ||
-      moduleName === 'BU Representation Letter') &&
-    (roleName === 'Recipient' || roleName === 'Processor')
-  ) {
-    return <REP_Letters_HomePage />;
+  } else if (moduleName === 'Functional Representation Letter' && roleName === 'Recipient') {
+    return (
+      <PageWrapper>
+        <RecipientHomePage />
+      </PageWrapper>
+    );
+  } else if (moduleName === 'BU Representation Letter' && roleName === 'Processor') {
+    return (
+      <PageWrapper>
+        <DisclosureProcessorHomePageContainer />
+      </PageWrapper>
+    );
   } else {
     return <PageNotFound />;
   }
