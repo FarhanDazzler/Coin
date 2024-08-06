@@ -10,6 +10,7 @@ import {
   Switch,
   useLocation,
   useHistory,
+  useParams,
 } from 'react-router-dom';
 import axios from 'axios';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -67,6 +68,27 @@ const theme = createTheme({
     },
   },
 });
+
+// Functional Component for opening/rendering the HomePage Directly from the URL
+const HomePageDirectLink = () => {
+  const { moduleName, roleName } = useParams();
+  const token = Cookies.get('token');
+
+  localStorage.setItem('selected_module_Role', moduleName);
+  localStorage.setItem('selected_Role', roleName);
+
+  if (moduleName === 'Assessment Module' && roleName === 'Control Owner') {
+    return <ControlHomePage />;
+  } else if (
+    (moduleName === 'Functional Representation Letter' ||
+      moduleName === 'BU Representation Letter') &&
+    (roleName === 'Recipient' || roleName === 'Processor')
+  ) {
+    return <REP_Letters_HomePage />;
+  } else {
+    return <PageNotFound />;
+  }
+};
 
 const Pages = () => {
   const location = useLocation();
@@ -290,6 +312,11 @@ const Pages = () => {
             exact
             path="/BU-Zone-Letter-approve/:id"
             component={BU_Zone_Letter_LazyApprovalSection2}
+          />
+          <Route
+            exact
+            path="/homepage-direct-link/:moduleName/:roleName"
+            component={HomePageDirectLink}
           />
           <Route exact path="/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized/contact-us" component={ContactUs} />
