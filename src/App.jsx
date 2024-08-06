@@ -45,13 +45,13 @@ import i18n from './i18n/i18n';
 import BU_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterForm/BU/FormComponents/LazyApprovalSection2/BU_Letter_LazyApprovalSection2.jsx';
 import BU_Zone_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterForm/Zone/FormComponents/LazyApprovalSection2/BU_Zone_Letter_LazyApprovalSection2.jsx';
 import Review from './pages/Review';
-import { PageNotFound } from './pages/PageNotFound';
 import BULetterForm from './pages/REP_Letters_Module/LetterForm/BU/BULetterForm';
 import FunctionalLetterForm from './pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm.jsx';
 import KpiModule from './pages/KPIModule/KpiModuleLandingPage.jsx';
 import PageWrapper from './components/wrappers/PageWrapper/index.jsx';
 import RecipientHomePage from './pages/REP_Letters_Module/Home/Functional/RecipientHomePage/RecipientHomePage.jsx';
 import DisclosureProcessorHomePageContainer from './pages/REP_Letters_Module/Home/BU/DisclosureProcessorHomePage/index.jsx';
+import { NoMatch } from './pages/NoMatch/NoMatch.js';
 
 const theme = createTheme({
   palette: {
@@ -95,7 +95,7 @@ const HomePageDirectLink = () => {
       </PageWrapper>
     );
   } else {
-    return <PageNotFound />;
+    return <NoMatch />;
   }
 };
 
@@ -332,7 +332,7 @@ const Pages = () => {
           <Route exact path="/not-authorized" component={NotAuthorized} />
           <Route exact path="/kpi-module" component={KpiModule} />
           <Route exact path="/POC" component={POC} />
-          <Route path="*" component={PageNotFound} />
+          <Route path="*" component={NoMatch} />
         </Switch>
       </div>
     </div>
