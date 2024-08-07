@@ -11,71 +11,73 @@ import ScheduleSurveyPage from '../../pages/AssessmentBank/ScheduleSurvey/Schedu
 import AssessmentDetailsTableData from '../../pages/AssessmentBank/Table/AssessmentDetailsTableData.jsx';
 import QuestionBankChangeLanguage from '../../pages/QuestionBankChangeLanguage';
 import Reporting from '../../pages/Reporting/Reporting';
+import { CommonWrapper } from '../../App';
 
 export const AssessmentModuleRoutes = [
   {
     path: '/questionbank',
     exact: true,
-    component: QuestionBank,
+    component: () => CommonWrapper(<QuestionBank />),
   },
   {
     path: '/questionbank/change-language',
     exact: true,
-    component: QuestionBankChangeLanguage,
+    component: () => CommonWrapper(<QuestionBankChangeLanguage />),
   },
   {
     path: '/master-data-management',
     exact: true,
-    component: MDM,
+    component: () => CommonWrapper(<MDM />),
   },
   {
     path: '/master-data-management/organization-hierarchy',
     exact: true,
-    component: MDM_OrganizationHierarchyLandingPage,
+    component: () => CommonWrapper(<MDM_OrganizationHierarchyLandingPage />),
   },
   {
     path: '/master-data-management/applicability-assignment-of-provider-organization',
     exact: true,
-    component: MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage,
+    component: () =>
+      CommonWrapper(<MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage />),
   },
   {
     path: '/master-data-management/co-owner-oversight',
     exact: true,
-    component: MDM_Control_Owner_OversightLandingPage,
+    component: () => CommonWrapper(<MDM_Control_Owner_OversightLandingPage />),
   },
   {
     path: '/master-data-management/mics-framework',
     exact: true,
-    component: MDM_MICS_FrameworkLandingPage,
+    component: () => CommonWrapper(<MDM_MICS_FrameworkLandingPage />),
   },
   {
     path: '/master-data-management/mics-framework/addNew',
     exact: true,
-    component: AddValues_MDM_Mics_Framework,
+    component: () => CommonWrapper(<AddValues_MDM_Mics_Framework />),
   },
   {
     path: '/master-data-management/mega-process-sub-Process',
     exact: true,
-    component: MDM_Mega_Process_Sub_ProcessLandingPage,
+    component: () => CommonWrapper(<MDM_Mega_Process_Sub_ProcessLandingPage />),
   },
   {
     path: '/assessmentbank',
     exact: true,
-    component: AssessmentBankLandingPage,
+    component: () => CommonWrapper(<AssessmentBankLandingPage />),
   },
   {
     path: '/assessmentbank/schedule-survey',
     exact: true,
-    component: ScheduleSurveyPage,
+    component: () => CommonWrapper(<ScheduleSurveyPage />),
   },
   {
     path: '/assessmentbank/assessment-details',
     exact: true,
-    component: AssessmentDetailsTableData,
+    component: () => CommonWrapper(<AssessmentDetailsTableData />),
   },
   {
     path: '/reporting',
     exact: true,
-    component: Reporting,
+    component: () => CommonWrapper(<Reporting />),
   },
 ];

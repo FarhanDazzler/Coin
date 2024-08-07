@@ -99,6 +99,31 @@ const HomePageDirectLink = () => {
   }
 };
 
+export function CommonWrapper(component) {
+  const userRole = localStorage.getItem('selected_Role');
+  const loginRole = useSelector((state) => state?.auth?.loginRole);
+  const role = loginRole ?? userRole;
+  var isControlPage = useMemo(() => {
+    return (
+      [
+        'Control owner',
+        'Control oversight',
+        'control_owner',
+        'control_oversight',
+        'Control Owner',
+        'Control Oversight',
+      ]?.includes(role) || false
+    );
+  }, [loginRole, userRole]);
+
+  return (
+    <>
+      <TopBar isControlPage={isControlPage} />
+      {component && component}
+    </>
+  );
+}
+
 const Pages = () => {
   const location = useLocation();
   const history = useHistory();
@@ -111,7 +136,8 @@ const Pages = () => {
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const [userState, userDispatch] = useContext(UserContext);
   const role = loginRole ?? userRole;
-
+  const { moduleName, roleName } = useParams();
+  console.log('@@@@@ -> APp', { moduleName, roleName });
   var isControlPage = useMemo(() => {
     return (
       [
@@ -261,7 +287,7 @@ const Pages = () => {
     <div className="page">
       <ToastContainer autoClose={15000} />
       <div className="flex-fill">
-        {!['/login'].includes(location?.pathname) && <TopBar isControlPage={isControlPage} />}
+        {/*{!['/login'].includes(location?.pathname) && <TopBar isControlPage={isControlPage} />}*/}
         {/* <Home /> */}
         <Switch>
           <Route
@@ -272,15 +298,15 @@ const Pages = () => {
           />
 
           {!isAssessmentsPage ? (
-            <Route exact path="/" component={REP_Letters_HomePage} />
+            <Route exact path="/" component={() => CommonWrapper(<REP_Letters_HomePage />)} />
           ) : isControlPage ? (
-            <Route exact path="/" component={ControlHomePage} />
+            <Route exact path="/" component={() => CommonWrapper(<ControlHomePage />)} />
           ) : isKPIOwnerPage ? (
-            <Route exact path="/" component={KpiModule} />
+            <Route exact path="/" component={() => CommonWrapper(<KpiModule />)} />
           ) : (
-            <Route exact path="/" component={InternalControlHomePage} />
+            <Route exact path="/" component={() => CommonWrapper(<InternalControlHomePage />)} />
           )}
-          <Route exact path="/review/:control_id" component={Review} />
+          <Route exact path="/review/:control_id" component={() => CommonWrapper(<Review />)} />
 
           {/* {user_role === 'organizational persona' ? (
             <Route exact path="/home" component={Home_controlOwner} />
@@ -290,7 +316,11 @@ const Pages = () => {
             <Route exact path="/home" component={Home_controlOwner} />
           )} */}
           {module === 'Assessment Module' && (
-            <Route exact path="/Assessments/:control_id" component={AssessmentForm} />
+            <Route
+              exact
+              path="/Assessments/:control_id"
+              component={() => CommonWrapper(<AssessmentForm />)}
+            />
           )}
 
           {userRole === 'Global Internal Control' || userRole === 'Zonal Internal Control'
@@ -309,30 +339,38 @@ const Pages = () => {
           <Route
             exact
             path="/REP-Letters/attempt-letter/functional-letter-form/:id/:modalType"
-            component={FunctionalLetterForm}
+            component={() => CommonWrapper(<FunctionalLetterForm />)}
           />
           <Route
             exact
             path="/REP-Letters/attempt-letter/BU-letter-form/:id/:modalType"
-            component={BULetterForm}
+            component={() => CommonWrapper(<BULetterForm />)}
           />
-          <Route exact path="/BU-Letter-approve/:id" component={BU_Letter_LazyApprovalSection2} />
+          <Route
+            exact
+            path="/BU-Letter-approve/:id"
+            component={() => CommonWrapper(<BU_Letter_LazyApprovalSection2 />)}
+          />
           <Route
             exact
             path="/BU-Zone-Letter-approve/:id"
-            component={BU_Zone_Letter_LazyApprovalSection2}
+            component={() => CommonWrapper(<BU_Zone_Letter_LazyApprovalSection2 />)}
           />
           <Route
             exact
             path="/homepage-direct-link/:moduleName/:roleName"
-            component={HomePageDirectLink}
+            component={() => CommonWrapper(<HomePageDirectLink />)}
           />
-          <Route exact path="/contact-us" component={ContactUs} />
-          <Route exact path="/not-authorized/contact-us" component={ContactUs} />
-          <Route exact path="/not-authorized" component={NotAuthorized} />
-          <Route exact path="/kpi-module" component={KpiModule} />
-          <Route exact path="/POC" component={POC} />
-          <Route path="*" component={NoMatch} />
+          <Route exact path="/contact-us" component={() => CommonWrapper(<ContactUs />)} />
+          <Route
+            exact
+            path="/not-authorized/contact-us"
+            component={() => CommonWrapper(<ContactUs />)}
+          />
+          <Route exact path="/not-authorized" component={() => CommonWrapper(<NotAuthorized />)} />
+          <Route exact path="/kpi-module" component={() => CommonWrapper(<KpiModule />)} />
+          <Route exact path="/POC" component={() => CommonWrapper(<POC />)} />
+          <Route path="*" component={() => CommonWrapper(<NoMatch />)} />
         </Switch>
       </div>
     </div>
