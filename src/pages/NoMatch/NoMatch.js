@@ -20,7 +20,7 @@ export function NoMatch() {
           >
             <Title className={classes.title}>Nothing to see here</Title>
             <Text
-              c="dimmed"
+              //c="dimmed"
               size="lg"
               ta="center"
               className={classes.description}
@@ -31,7 +31,7 @@ export function NoMatch() {
             </Text>
             <Group justify="center">
               <Button
-                variant="grey"
+                //variant="grey"
                 //variant="outline"
                 color="dark"
                 radius="lg"
