@@ -16,6 +16,7 @@ import {
   clearLatestDraftResponse,
   resetBlockAssessment,
 } from '../../../redux/Assessments/AssessmentAction';
+import { useQuery, stringToArray } from '../../../hooks/useQuery';
 
 const Badge_apply = ({ data }) => {
   if (data.toUpperCase() === 'PASS') {
@@ -111,7 +112,7 @@ const ControlOwnerTable = ({
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
   const history = useHistory();
-
+  const params = useQuery();
   const { accounts } = useMsal();
   const dispatch = useDispatch();
   const userRole = localStorage.getItem('selected_Role');
@@ -161,11 +162,16 @@ const ControlOwnerTable = ({
   //var currentMonth = new Date().getMonth() + 1;
   // Adding 1 because getMonth() returns zero-based month (0-11)
   const [yearValue, setYearValue] = useState(
-    new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
+    params?.filterYear
+      ? stringToArray(params?.filterYear)
+      : new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
       ? [String(new Date().getFullYear() - 1)]
       : [String(new Date().getFullYear())],
   );
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
+
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState(
+    params?.filterCycle ? stringToArray(params?.filterCycle) : [getCurrentAssessmentCycle()],
+  );
 
   const controlOwnerData = useMemo(() => {
     return loginUserRole === 'Control Owner'
@@ -231,25 +237,32 @@ const ControlOwnerTable = ({
                   dispatch(resetBlockAssessment({ blockType: 'getLatestDraft' }));
 
                   const original = row.row.original;
-                  history.push(
-                    `/review/${original.Control_ID}?id=${encodeURIComponent(
-                      original.id,
-                    )}&Provider=${encodeURIComponent(
-                      original.Provider,
-                    )}&Receiver=${encodeURIComponent(
-                      original.Receiver,
-                    )}&coOwner=${encodeURIComponent(
-                      original.Control_Owner,
-                    )}&Control_Oversight=${encodeURIComponent(
-                      original.Control_Oversight,
-                    )}&KPI_To=${encodeURIComponent(original.KPI_To)}&KPI_From=${
-                      original.KPI_From
-                    }&BU=${encodeURIComponent(original.BU)}&Year=${encodeURIComponent(
-                      original.Year,
-                    )}&Assessment_Cycle=${encodeURIComponent(
-                      original.Assessment_Cycle,
-                    )}&Question_Bank=${encodeURIComponent(original.Question_Bank)}`,
-                  );
+                  const params = new URLSearchParams();
+
+                  // Add existing values to params
+                  params.set('id', original.id);
+                  params.set('Provider', original.Provider);
+                  params.set('Receiver', original.Receiver);
+                  params.set('coOwner', original.Control_Owner);
+                  params.set('Control_Oversight', original.Control_Oversight);
+                  params.set('KPI_To', original.KPI_To);
+                  params.set('KPI_From', original.KPI_From);
+                  params.set('BU', original.BU);
+                  params.set('Year', original.Year);
+                  params.set('Assessment_Cycle', original.Assessment_Cycle);
+                  params.set('Question_Bank', original.Question_Bank);
+
+                  // Add filter values to params if they exist
+                  if (yearValue) params.set('filterYear', yearValue);
+                  if (assessmentCycleValue) params.set('filterCycle', assessmentCycleValue);
+                  if (zoneValue) params.set('filterZone', zoneValue);
+                  if (buValue) params.set('filterBU', buValue);
+                  if (providerValue) params.set('filterProvider', providerValue);
+
+                  // Construct the final URL
+                  const url = `/review/${original.Control_ID}?${params.toString()}`;
+
+                  history.push(url);
                 }}
               >
                 {t('selfAssessment.homePage.controleOwner.Table.review_button')}
@@ -262,26 +275,35 @@ const ControlOwnerTable = ({
                     dispatch(clearLatestDraftResponse());
                     dispatch(resetBlockAssessment({ blockType: 'getResponse' }));
                     dispatch(resetBlockAssessment({ blockType: 'getLatestDraft' }));
+
                     const original = row.row.original;
-                    history.push(
-                      `/Assessments/${original.Control_ID}?id=${encodeURIComponent(
-                        original.id,
-                      )}&Provider=${encodeURIComponent(
-                        original.Provider,
-                      )}&Receiver=${encodeURIComponent(
-                        original.Receiver,
-                      )}&coOwner=${encodeURIComponent(
-                        original.Control_Owner,
-                      )}&Control_Oversight=${encodeURIComponent(
-                        original.Control_Oversight,
-                      )}&KPI_To=${encodeURIComponent(original.KPI_To)}&KPI_From=${
-                        original.KPI_From
-                      }&BU=${encodeURIComponent(original.BU)}&Year=${encodeURIComponent(
-                        original.Year,
-                      )}&Assessment_Cycle=${encodeURIComponent(
-                        original.Assessment_Cycle,
-                      )}&Question_Bank=${encodeURIComponent(original.Question_Bank)}`,
-                    );
+                    const params = new URLSearchParams();
+
+                    // Add original values to params
+                    params.set('id', original.id);
+                    params.set('Provider', original.Provider);
+                    params.set('Receiver', original.Receiver);
+                    params.set('coOwner', original.Control_Owner);
+                    params.set('Control_Oversight', original.Control_Oversight);
+                    params.set('KPI_To', original.KPI_To);
+                    params.set('KPI_From', original.KPI_From);
+                    params.set('BU', original.BU);
+                    params.set('Year', original.Year);
+                    params.set('Assessment_Cycle', original.Assessment_Cycle);
+                    params.set('Question_Bank', original.Question_Bank);
+
+                    // Add only the local state values if they exist
+                    if (yearValue) params.set('filterYear', yearValue);
+                    if (assessmentCycleValue) params.set('filterCycle', assessmentCycleValue);
+                    if (zoneValue) params.set('filterZone', zoneValue);
+                    if (buValue) params.set('filterBU', buValue);
+                    if (providerValue) params.set('filterProvider', providerValue);
+
+                    // Construct the final URL
+                    const url = `/Assessments/${original.Control_ID}?${params.toString()}`;
+
+                    // Navigate to the new URL with the combined query parameters
+                    history.push(url);
                   }}
                 >
                   {t('selfAssessment.homePage.controleOwner.Table.take_assessment_button')}
@@ -445,6 +467,52 @@ const ControlOwnerTable = ({
 
     return yearsArray;
   }
+
+  console.log('assessmentCycleValue', assessmentCycleValue, zoneValue, providerValue, buValue);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    // Update or remove the year parameter
+    if (yearValue) {
+      params.set('filterYear', yearValue.toString());
+    } else {
+      params.delete('filterYear');
+    }
+
+    // Update or remove the assessment cycle parameter
+    if (assessmentCycleValue?.length > 0) {
+      params.set('filterCycle', assessmentCycleValue.toString());
+    } else {
+      params.delete('filterCycle');
+    }
+
+    // Update or remove the zone parameter
+    if (zoneValue?.length > 0) {
+      params.set('filterZone', zoneValue);
+    } else {
+      params.delete('filterZone');
+    }
+
+    // Update or remove the BU parameter
+    if (buValue?.length > 0) {
+      params.set('filterBU', buValue);
+    } else {
+      params.delete('filterBU');
+    }
+
+    // Update or remove the provider parameter
+    if (providerValue?.length > 0) {
+      params.set('filterProvider', providerValue);
+    } else {
+      params.delete('filterProvider');
+    }
+
+    history.replace({
+      pathname: window.location.pathname,
+      search: params.toString(),
+    });
+  }, [yearValue, assessmentCycleValue, zoneValue, buValue, providerValue]);
 
   return (
     <>
