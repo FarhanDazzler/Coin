@@ -120,6 +120,23 @@ const TopBar = (props) => {
     //TODO: set deps here
   }, [authAPIRoles]);
 
+  const handleHomePageRedirect = () => {
+    // Get current query parameters
+    const searchParams = new URLSearchParams(location.search);
+
+    // Check for %filter% keyword in any of the query parameters
+    let filterParams = new URLSearchParams();
+    searchParams.forEach((value, key) => {
+      if (key.includes('filter')) {
+        filterParams.append(key, value);
+      }
+    });
+
+    // Redirect to home with preserved %filter% query parameters if any
+    const url = filterParams.toString() ? `/?${filterParams.toString()}` : '/';
+    history.push(url);
+  };
+
   const TopBar_SA = () => {
     // TOP BAR Buttons/ Tabs for Seld Assessment Module
     return (
@@ -135,7 +152,7 @@ const TopBar = (props) => {
                   ['/', '/register'].includes(location?.pathname) ? ' active' : ''
                 }`}
                 onClick={() => {
-                  history.push('/');
+                  handleHomePageRedirect();
                 }}
               >
                 <FeatherIcon icon="home" size={14} />
@@ -278,7 +295,7 @@ const TopBar = (props) => {
                 ['/', '/register'].includes(location?.pathname) ? ' active' : ''
               }`}
               onClick={() => {
-                history.push('/');
+                handleHomePageRedirect();
               }}
             >
               <FeatherIcon icon="home" size={14} />

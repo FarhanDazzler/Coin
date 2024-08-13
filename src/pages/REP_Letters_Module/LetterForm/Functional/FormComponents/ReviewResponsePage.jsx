@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import { Divider, Group } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,25 @@ import Button from '../../../../../components/UI/Button';
 
 const ReviewResponsePage = ({ submittedResponses = [] }) => {
   const history = useHistory();
+
+  const location = useLocation();
+
+  const handleHomePageRedirect = () => {
+    // Get current query parameters
+    const searchParams = new URLSearchParams(location.search);
+
+    // Check for %filter% keyword in any of the query parameters
+    let filterParams = new URLSearchParams();
+    searchParams.forEach((value, key) => {
+      if (key.includes('filter')) {
+        filterParams.append(key, value);
+      }
+    });
+
+    // Redirect to home with preserved %filter% query parameters if any
+    const url = filterParams.toString() ? `/?${filterParams.toString()}` : '/';
+    history.push(url);
+  };
 
   return (
     <CollapseFrame title="Section 1 : Please give your responses" active>
@@ -63,7 +82,7 @@ const ReviewResponsePage = ({ submittedResponses = [] }) => {
             color="neutral"
             className="w-100"
             id="submit-button"
-            onClick={() => history.push('/')}
+            onClick={() => handleHomePageRedirect()}
           >
             GO Back to Home Page
           </Button>

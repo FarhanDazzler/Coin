@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
 import { Group, MultiSelect, Badge } from '@mantine/core';
@@ -16,6 +16,7 @@ import {
   getControlDataAction,
   getControlDataGcdAction,
 } from '../../../redux/ControlData/ControlDataAction';
+import { stringToArray, useQuery } from '../../../hooks/useQuery';
 
 const Badge_apply = ({ data }) => {
   if (data.toUpperCase() === 'PASS') {
@@ -112,7 +113,7 @@ const InternalControlTable = ({
   const dispatch = useDispatch();
   const history = useHistory();
   const token = Cookies.get('token');
-
+  const params = useQuery();
   const { instance, accounts, inProgress } = useMsal();
   const [tableColumns, setTableColumns] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -151,11 +152,26 @@ const InternalControlTable = ({
   //var currentMonth = new Date().getMonth() + 1;
   // Adding 1 because getMonth() returns zero-based month (0-11)
   const [yearValue, setYearValue] = useState(
-    new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
+    params?.filterYear
+      ? stringToArray(params?.filterYear)
+      : new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
       ? [String(new Date().getFullYear() - 1)]
       : [String(new Date().getFullYear())],
   );
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState(
+    params?.filterCycle ? stringToArray(params?.filterCycle) : [getCurrentAssessmentCycle()],
+  );
+
+  const filterRef = useRef({
+    yearValue,
+    assessmentCycleValue,
+    zoneValue,
+    buValue,
+    providerValue,
+    receiverValue,
+    controlIdValue,
+    statusOfAssessmentValue,
+  });
 
   useEffect(() => {
     //code for getting Internal Control Home Page table data
@@ -215,25 +231,48 @@ const InternalControlTable = ({
                 className="mr-2"
                 onClick={() => {
                   const original = row.row.original;
-                  history.push(
-                    `/review/${original.Control_ID}?id=${encodeURIComponent(
-                      original.id,
-                    )}&Provider=${encodeURIComponent(
-                      original.Provider,
-                    )}&Receiver=${encodeURIComponent(
-                      original.Receiver,
-                    )}&coOwner=${encodeURIComponent(
-                      original.Control_Owner,
-                    )}&Control_Oversight=${encodeURIComponent(
-                      original.Control_Oversight,
-                    )}&KPI_To=${encodeURIComponent(original.KPI_To)}&KPI_From=${
-                      original.KPI_From
-                    }&BU=${encodeURIComponent(original.BU)}&Year=${encodeURIComponent(
-                      original.Year,
-                    )}&Assessment_Cycle=${encodeURIComponent(
-                      original.Assessment_Cycle,
-                    )}&Question_Bank=${encodeURIComponent(original.Question_Bank)}`,
-                  );
+                  const paramsSearch = new URLSearchParams();
+
+                  // Add original values to paramss
+                  paramsSearch.set('id', original.id);
+                  paramsSearch.set('Provider', original.Provider);
+                  paramsSearch.set('Receiver', original.Receiver);
+                  paramsSearch.set('coOwner', original.Control_Owner);
+                  paramsSearch.set('Control_Oversight', original.Control_Oversight);
+                  paramsSearch.set('KPI_To', original.KPI_To);
+                  paramsSearch.set('KPI_From', original.KPI_From);
+                  paramsSearch.set('BU', original.BU);
+                  paramsSearch.set('Year', original.Year);
+                  paramsSearch.set('Assessment_Cycle', original.Assessment_Cycle);
+                  paramsSearch.set('Question_Bank', original.Question_Bank);
+
+                  // Add only the local state values if they exist
+                  if (filterRef.current.yearValue?.length > 0)
+                    paramsSearch.set('filterYear', filterRef.current.yearValue);
+                  if (filterRef.current.assessmentCycleValue?.length > 0)
+                    paramsSearch.set('filterCycle', filterRef.current.assessmentCycleValue);
+                  if (filterRef.current.zoneValue?.length > 0)
+                    paramsSearch.set('filterZone', filterRef.current.zoneValue);
+                  if (filterRef.current.buValue?.length > 0)
+                    paramsSearch.set('filterBU', filterRef.current.buValue);
+                  if (filterRef.current.providerValue?.length > 0)
+                    paramsSearch.set('filterProvider', filterRef.current.providerValue);
+
+                  if (filterRef.current.receiverValue?.length > 0)
+                    paramsSearch.set('filterReceiverOrg', filterRef.current.receiverValue);
+                  if (filterRef.current.controlIdValue?.length > 0)
+                    paramsSearch.set('filterControlId', filterRef.current.controlIdValue);
+                  if (filterRef.current.statusOfAssessmentValue?.length > 0)
+                    paramsSearch.set(
+                      'filterStatusOfAssessment',
+                      filterRef.current.statusOfAssessmentValue,
+                    );
+
+                  // Construct the final URL
+                  const url = `/Assessments/${original.Control_ID}?${paramsSearch.toString()}`;
+
+                  // Navigate to the new URL with the combined query parameters
+                  history.push(url);
                 }}
               >
                 Review
@@ -432,6 +471,89 @@ const InternalControlTable = ({
 
     return yearsArray;
   }
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    // Update or remove the year parameter
+    if (yearValue) {
+      params.set('filterYear', yearValue.toString());
+    } else {
+      params.delete('filterYear');
+    }
+
+    // Update or remove the assessment cycle parameter
+    if (assessmentCycleValue?.length > 0) {
+      params.set('filterCycle', assessmentCycleValue.toString());
+    } else {
+      params.delete('filterCycle');
+    }
+
+    // Update or remove the zone parameter
+    if (zoneValue?.length > 0) {
+      params.set('filterZone', zoneValue);
+    } else {
+      params.delete('filterZone');
+    }
+
+    // Update or remove the BU parameter
+    if (buValue?.length > 0) {
+      params.set('filterBU', buValue);
+    } else {
+      params.delete('filterBU');
+    }
+
+    // Update or remove the provider parameter
+    if (providerValue?.length > 0) {
+      params.set('filterProvider', providerValue);
+    } else {
+      params.delete('filterProvider');
+    }
+
+    // Update or remove the provider parameter
+    if (receiverValue?.length > 0) {
+      params.set('filterReceiverOrg', receiverValue);
+    } else {
+      params.delete('filterReceiverOrg');
+    }
+    // Update or remove the provider parameter
+    if (controlIdValue?.length > 0) {
+      params.set('filterControlId', controlIdValue);
+    } else {
+      params.delete('filterControlId');
+    }
+    // Update or remove the provider parameter
+    if (statusOfAssessmentValue?.length > 0) {
+      params.set('filterStatusOfAssessment', statusOfAssessmentValue);
+    } else {
+      params.delete('filterStatusOfAssessment');
+    }
+
+    filterRef.current = {
+      yearValue,
+      assessmentCycleValue,
+      zoneValue,
+      buValue,
+      providerValue,
+      receiverValue,
+      controlIdValue,
+      statusOfAssessmentValue,
+    };
+
+    history.replace({
+      pathname: window.location.pathname,
+      search: params.toString(),
+    });
+  }, [
+    yearValue,
+    assessmentCycleValue,
+    zoneValue,
+    buValue,
+    providerValue,
+    receiverValue,
+    controlIdValue,
+    statusOfAssessmentValue,
+  ]);
 
   // Arrays for showing data on filters
   const Zone = getDashBoardDataState?.data?.map((i) => i.Zone);

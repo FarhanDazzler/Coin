@@ -8,8 +8,6 @@ import './App.css';
 import Workbook from 'react-excel-workbook';
 import * as XLSX from 'xlsx';
 function Section2(props) {
-  console.log('second');
-
   const [excelFile, setExcelFile] = useState(null);
   const [check_table, setcheck_table] = useState(1);
 

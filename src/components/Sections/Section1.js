@@ -77,8 +77,6 @@ const Section1 = () => {
     validationSchema,
     onSubmit: (values, { setSubmitting }) => {
       setSuccessData(true);
-      console.log('Form data', values);
-      console.log('Saved data', JSON.parse(JSON.stringify(values)));
       setSubmitting(false);
     },
     // enableReinitialize,

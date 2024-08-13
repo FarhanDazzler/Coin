@@ -13,11 +13,13 @@ import { submitAssessmentResponseSelector } from '../../../redux/Assessments/Ass
 
 // TODO: import HomeTableModal model from refectored code
 import AssessmentFormView from '../../AssessmentForm/AssessmentFormView';
+import { stringToArray, useQuery } from '../../../hooks/useQuery';
 
 const ControlHomePage = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const { state } = useLocation();
+  const params = useQuery();
   const selectedUserRole = localStorage.getItem('selected_Role');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const loginUserRole = loginRole ?? selectedUserRole;
@@ -28,16 +30,23 @@ const ControlHomePage = () => {
   const [openNPS, setOpenNPS] = useState(false);
   const submitAssessmentResponseState = useSelector(submitAssessmentResponseSelector);
 
-  const [zoneValue, setZoneValue] = useState([]);
-  const [buValue, setBUValue] = useState([]);
+  const initValue = {
+    zoneValue: params?.filterZone ? stringToArray(params?.filterZone) : [],
+    buValue: params?.filterBU ? stringToArray(params?.filterBU) : [],
+    receiverValue: [],
+    providerValue: params?.filterProvider ? stringToArray(params?.filterProvider) : [],
+  };
+
+  const [zoneValue, setZoneValue] = useState(initValue.zoneValue);
+  const [buValue, setBUValue] = useState(initValue.buValue);
   const [receiverValue, setReceiverValue] = useState([]);
-  const [providerValue, setProviderValue] = useState([]);
+  const [providerValue, setProviderValue] = useState(initValue.providerValue);
 
   useEffect(() => {
-    setZoneValue([]);
-    setBUValue([]);
+    setZoneValue(initValue.zoneValue);
+    setBUValue(initValue.buValue);
     setReceiverValue([]);
-    setProviderValue([]);
+    setProviderValue(initValue.providerValue);
   }, [loginUserRole]);
 
   const getNumberOfItem = (array, itemName) => {
@@ -192,7 +201,6 @@ const ControlHomePage = () => {
             setProviderValue={setProviderValue}
           />
         )}
-
         {Control_ID && <AssessmentFormView isModal={true} activeData={state} />}
       </PageWrapper>
     </div>

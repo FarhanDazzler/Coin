@@ -46,7 +46,6 @@ function Section2(props) {
   let [parent, setparent] = useState(new Map());
   let [children, setchildren] = useState(new Map());
   const [val, setval] = useState('');
-  console.log('$$$$$$$$ : final', final);
   let parent_arr = [
     {
       ques_text:

@@ -12,6 +12,7 @@ import { ReactComponent as InfoIcon } from '../../../assets/images/InfoCircle.sv
 
 // TODO: import HomeTableModal model from refectored code
 import AssessmentFormView from '../../AssessmentForm/AssessmentFormView';
+import { stringToArray, useQuery } from '../../../hooks/useQuery';
 
 const NumberWithText = ({ number, tooltip, subTitle }) => {
   return (
@@ -33,13 +34,27 @@ const InternalControlHomePage = () => {
   const query = new URLSearchParams(history.location.search);
   const Control_ID = query.get('Control_ID');
   const selectedUserRole = localStorage.getItem('selected_Role');
+  const params = useQuery();
 
-  const [zoneValue, setZoneValue] = useState([]);
-  const [buValue, setBUValue] = useState([]);
-  const [receiverValue, setReceiverValue] = useState([]);
-  const [providerValue, setProviderValue] = useState([]);
-  const [controlIdValue, setControlIdValue] = useState([]);
-  const [statusOfAssessmentValue, setStatusOfAssessmentValue] = useState([]);
+  const initValue = {
+    zoneValue: params?.filterZone ? stringToArray(params?.filterZone) : [],
+    buValue: params?.filterBU ? stringToArray(params?.filterBU) : [],
+    providerValue: params?.filterProvider ? stringToArray(params?.filterProvider) : [],
+    receiverValue: params?.filterReceiverOrg ? stringToArray(params?.filterReceiverOrg) : [],
+    controlIdValue: params?.filterControlId ? stringToArray(params?.filterControlId) : [],
+    statusOfAssessmentValue: params?.filterStatusOfAssessment
+      ? stringToArray(params?.filterStatusOfAssessment)
+      : [],
+  };
+
+  const [zoneValue, setZoneValue] = useState(initValue.zoneValue);
+  const [buValue, setBUValue] = useState(initValue.buValue);
+  const [receiverValue, setReceiverValue] = useState(initValue.receiverValue);
+  const [providerValue, setProviderValue] = useState(initValue.providerValue);
+  const [controlIdValue, setControlIdValue] = useState(initValue.controlIdValue);
+  const [statusOfAssessmentValue, setStatusOfAssessmentValue] = useState(
+    initValue.statusOfAssessmentValue,
+  );
 
   const userRole = localStorage.getItem('Roles');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
