@@ -30,22 +30,23 @@ const ControlHomePage = () => {
   const [openNPS, setOpenNPS] = useState(false);
   const submitAssessmentResponseState = useSelector(submitAssessmentResponseSelector);
 
-  const inintValue = {
+  const initValue = {
     zoneValue: params?.filterZone ? stringToArray(params?.filterZone) : [],
     buValue: params?.filterBU ? stringToArray(params?.filterBU) : [],
     receiverValue: [],
     providerValue: params?.filterProvider ? stringToArray(params?.filterProvider) : [],
   };
-  const [zoneValue, setZoneValue] = useState(inintValue.zoneValue);
-  const [buValue, setBUValue] = useState(inintValue.buValue);
+
+  const [zoneValue, setZoneValue] = useState(initValue.zoneValue);
+  const [buValue, setBUValue] = useState(initValue.buValue);
   const [receiverValue, setReceiverValue] = useState([]);
-  const [providerValue, setProviderValue] = useState(inintValue.providerValue);
+  const [providerValue, setProviderValue] = useState(initValue.providerValue);
 
   useEffect(() => {
-    setZoneValue(inintValue.zoneValue);
-    setBUValue(inintValue.buValue);
+    setZoneValue(initValue.zoneValue);
+    setBUValue(initValue.buValue);
     setReceiverValue([]);
-    setProviderValue(inintValue.providerValue);
+    setProviderValue(initValue.providerValue);
   }, [loginUserRole]);
 
   const getNumberOfItem = (array, itemName) => {

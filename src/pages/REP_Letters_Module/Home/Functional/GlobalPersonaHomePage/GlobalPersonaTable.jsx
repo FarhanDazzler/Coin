@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import Cookies from 'js-cookie';
@@ -11,6 +11,7 @@ import Button from '../../../../../components/UI/Button';
 import NoDataPlaceholder from '../../../../../components/NoDataPlaceholder/NoDataPlaceholderForRepLetter';
 import { getFunctionGlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { getFunctionGlobalPersonaHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
+import { stringToArray, useQuery } from '../../../../../hooks/useQuery';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -48,7 +49,7 @@ const GlobalPersonaTable = ({
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
-
+  const params = useQuery();
   const history = useHistory();
 
   const { accounts } = useMsal();
@@ -110,11 +111,23 @@ const GlobalPersonaTable = ({
   //var currentMonth = new Date().getMonth() + 1;
   // Adding 1 because getMonth() returns zero-based month (0-11)
   const [yearValue, setYearValue] = useState(
-    new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
+    params?.filterYear
+      ? stringToArray(params?.filterYear)
+      : new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
       ? [String(new Date().getFullYear() - 1)]
       : [String(new Date().getFullYear())],
   );
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState(
+    params?.filterCycle ? stringToArray(params?.filterCycle) : [getCurrentAssessmentCycle()],
+  );
+
+  const filterRef = useRef({
+    yearValue,
+    assessmentCycleValue,
+    zoneValue,
+    buValue,
+    functionValue,
+  });
 
   const getGlobalPersonaHomePageData = useSelector(getFunctionGlobalPersonaHomePageDataSelector);
 
@@ -153,9 +166,14 @@ const GlobalPersonaTable = ({
               <Button
                 className="mr-2"
                 onClick={() => {
-                  history.push(
-                    `/REP-Letters/attempt-letter/functional-letter-form/${row.row.original.id}/review`,
-                  );
+                  // Get the current search parameters from the URL
+                  const currentSearchParams = new URLSearchParams(window.location.search);
+
+                  // Build the new URL path
+                  const newPath = `/REP-Letters/attempt-letter/functional-letter-form/${row.row.original.id}/review`;
+
+                  // Redirect with the current search parameters appended
+                  history.push(`${newPath}?${currentSearchParams.toString()}`);
                 }}
               >
                 Review
@@ -260,6 +278,59 @@ const GlobalPersonaTable = ({
     });
     setTableDataArray(updatedData);
   }, [zoneValue, buValue, functionValue, tableData]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    // Update or remove the year parameter
+    if (yearValue) {
+      params.set('filterYear', yearValue.toString());
+    } else {
+      params.delete('filterYear');
+    }
+
+    // Update or remove the assessment cycle parameter
+    if (assessmentCycleValue?.length > 0) {
+      params.set('filterCycle', assessmentCycleValue.toString());
+    } else {
+      params.delete('filterCycle');
+    }
+
+    // Update or remove the zone parameter
+    if (zoneValue?.length > 0) {
+      params.set('filterZone', zoneValue);
+    } else {
+      params.delete('filterZone');
+    }
+
+    // Update or remove the BU parameter
+    if (buValue?.length > 0) {
+      params.set('filterBU', buValue);
+    } else {
+      params.delete('filterBU');
+    }
+
+    // Update or remove the functionValue parameter
+    if (functionValue?.length > 0) {
+      params.set('filterFunction', functionValue);
+    } else {
+      params.delete('filterFunction');
+    }
+
+    filterRef.current = {
+      yearValue,
+      assessmentCycleValue,
+      zoneValue,
+      buValue,
+      functionValue,
+    };
+
+    history.replace({
+      pathname: window.location.pathname,
+      search: params.toString(),
+    });
+  }, [yearValue, assessmentCycleValue, zoneValue, buValue, functionValue]);
+
   return (
     <>
       <div className="container-fluid">

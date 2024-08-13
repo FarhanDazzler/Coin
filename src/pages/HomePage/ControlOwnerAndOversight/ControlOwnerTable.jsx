@@ -1,6 +1,6 @@
 //ControlOwnerTable
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -112,6 +112,7 @@ const ControlOwnerTable = ({
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
   const history = useHistory();
+  const { search } = useLocation();
   const params = useQuery();
   const { accounts } = useMsal();
   const dispatch = useDispatch();
@@ -172,6 +173,7 @@ const ControlOwnerTable = ({
   const [assessmentCycleValue, setAssessmentCycleValue] = useState(
     params?.filterCycle ? stringToArray(params?.filterCycle) : [getCurrentAssessmentCycle()],
   );
+  const filterRef = useRef({ yearValue, assessmentCycleValue, zoneValue, buValue, providerValue });
 
   const controlOwnerData = useMemo(() => {
     return loginUserRole === 'Control Owner'
@@ -216,218 +218,235 @@ const ControlOwnerTable = ({
   };
 
   const actionHeader = t('selfAssessment.homePage.controleOwner.Table.actions_button');
-  const TABLE_COLUMNS = [
-    {
-      accessorKey: 'Action',
-      id: 'Action',
-      header: actionHeader,
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 210,
-      Cell: (row) => {
-        return (
-          <div>
-            {row.row.original.Status === 'Completed' && (
-              <Button
-                className="mr-2"
-                onClick={() => {
-                  dispatch(clearLatestDraftResponse());
-                  dispatch(resetBlockAssessment({ blockType: 'getResponse' }));
-                  dispatch(resetBlockAssessment({ blockType: 'getLatestDraft' }));
 
-                  const original = row.row.original;
-                  const params = new URLSearchParams();
+  const handleRedirect = useCallback(
+    ({ row }) => {
+      dispatch(clearLatestDraftResponse());
+      dispatch(resetBlockAssessment({ blockType: 'getResponse' }));
+      dispatch(resetBlockAssessment({ blockType: 'getLatestDraft' }));
 
-                  // Add existing values to params
-                  params.set('id', original.id);
-                  params.set('Provider', original.Provider);
-                  params.set('Receiver', original.Receiver);
-                  params.set('coOwner', original.Control_Owner);
-                  params.set('Control_Oversight', original.Control_Oversight);
-                  params.set('KPI_To', original.KPI_To);
-                  params.set('KPI_From', original.KPI_From);
-                  params.set('BU', original.BU);
-                  params.set('Year', original.Year);
-                  params.set('Assessment_Cycle', original.Assessment_Cycle);
-                  params.set('Question_Bank', original.Question_Bank);
+      const original = row.row.original;
+      const paramsSearch = new URLSearchParams();
 
-                  // Add filter values to params if they exist
-                  if (yearValue) params.set('filterYear', yearValue);
-                  if (assessmentCycleValue) params.set('filterCycle', assessmentCycleValue);
-                  if (zoneValue) params.set('filterZone', zoneValue);
-                  if (buValue) params.set('filterBU', buValue);
-                  if (providerValue) params.set('filterProvider', providerValue);
+      // Add original values to paramss
+      paramsSearch.set('id', original.id);
+      paramsSearch.set('Provider', original.Provider);
+      paramsSearch.set('Receiver', original.Receiver);
+      paramsSearch.set('coOwner', original.Control_Owner);
+      paramsSearch.set('Control_Oversight', original.Control_Oversight);
+      paramsSearch.set('KPI_To', original.KPI_To);
+      paramsSearch.set('KPI_From', original.KPI_From);
+      paramsSearch.set('BU', original.BU);
+      paramsSearch.set('Year', original.Year);
+      paramsSearch.set('Assessment_Cycle', original.Assessment_Cycle);
+      paramsSearch.set('Question_Bank', original.Question_Bank);
 
-                  // Construct the final URL
-                  const url = `/review/${original.Control_ID}?${params.toString()}`;
+      // Add only the local state values if they exist
+      if (filterRef.current.yearValue?.length > 0)
+        paramsSearch.set('filterYear', filterRef.current.yearValue);
+      if (filterRef.current.assessmentCycleValue?.length > 0)
+        paramsSearch.set('filterCycle', filterRef.current.assessmentCycleValue);
+      if (filterRef.current.zoneValue?.length > 0)
+        paramsSearch.set('filterZone', filterRef.current.zoneValue);
+      if (filterRef.current.buValue?.length > 0)
+        paramsSearch.set('filterBU', filterRef.current.buValue);
+      if (filterRef.current.providerValue?.length > 0)
+        paramsSearch.set('filterProvider', filterRef.current.providerValue);
 
-                  history.push(url);
-                }}
-              >
-                {t('selfAssessment.homePage.controleOwner.Table.review_button')}
-              </Button>
-            )}
-            {isFormAccessible(row.row.original.Assessment_Cycle, row.row.original.Year) &&
-              ['Not started', 'Re-assessed', 'Drafted'].includes(row.row.original.Status) && (
+      // Construct the final URL
+      const url = `/Assessments/${original.Control_ID}?${paramsSearch.toString()}`;
+
+      // Navigate to the new URL with the combined query parameters
+      history.push(url);
+    },
+    [yearValue, assessmentCycleValue, zoneValue, buValue, providerValue],
+  );
+
+  const TABLE_COLUMNS = useMemo(() => {
+    return [
+      {
+        accessorKey: 'Action',
+        id: 'Action',
+        header: actionHeader,
+        flex: 1,
+        columnDefType: 'data',
+        cellClassName: 'dashboardCell',
+        size: 210,
+        Cell: (row) => {
+          return (
+            <div>
+              {row.row.original.Status === 'Completed' && (
                 <Button
+                  className="mr-2"
                   onClick={() => {
                     dispatch(clearLatestDraftResponse());
                     dispatch(resetBlockAssessment({ blockType: 'getResponse' }));
                     dispatch(resetBlockAssessment({ blockType: 'getLatestDraft' }));
 
                     const original = row.row.original;
-                    const params = new URLSearchParams();
+                    const paramsSearch = new URLSearchParams();
 
-                    // Add original values to params
-                    params.set('id', original.id);
-                    params.set('Provider', original.Provider);
-                    params.set('Receiver', original.Receiver);
-                    params.set('coOwner', original.Control_Owner);
-                    params.set('Control_Oversight', original.Control_Oversight);
-                    params.set('KPI_To', original.KPI_To);
-                    params.set('KPI_From', original.KPI_From);
-                    params.set('BU', original.BU);
-                    params.set('Year', original.Year);
-                    params.set('Assessment_Cycle', original.Assessment_Cycle);
-                    params.set('Question_Bank', original.Question_Bank);
+                    // Add existing values to params
+                    paramsSearch.set('id', original.id);
+                    paramsSearch.set('Provider', original.Provider);
+                    paramsSearch.set('Receiver', original.Receiver);
+                    paramsSearch.set('coOwner', original.Control_Owner);
+                    paramsSearch.set('Control_Oversight', original.Control_Oversight);
+                    paramsSearch.set('KPI_To', original.KPI_To);
+                    paramsSearch.set('KPI_From', original.KPI_From);
+                    paramsSearch.set('BU', original.BU);
+                    paramsSearch.set('Year', original.Year);
+                    paramsSearch.set('Assessment_Cycle', original.Assessment_Cycle);
+                    paramsSearch.set('Question_Bank', original.Question_Bank);
 
-                    // Add only the local state values if they exist
-                    if (yearValue) params.set('filterYear', yearValue);
-                    if (assessmentCycleValue) params.set('filterCycle', assessmentCycleValue);
-                    if (zoneValue) params.set('filterZone', zoneValue);
-                    if (buValue) params.set('filterBU', buValue);
-                    if (providerValue) params.set('filterProvider', providerValue);
+                    // Add filter values to params if they exist
+                    if (yearValue?.length > 0) paramsSearch.set('filterYear', yearValue);
+                    if (assessmentCycleValue?.length > 0)
+                      paramsSearch.set('filterCycle', assessmentCycleValue);
+                    if (zoneValue?.length > 0) paramsSearch.set('filterZone', zoneValue);
+                    if (buValue?.length > 0) paramsSearch.set('filterBU', buValue);
+                    if (providerValue?.length > 0)
+                      paramsSearch.set('filterProvider', providerValue);
 
                     // Construct the final URL
-                    const url = `/Assessments/${original.Control_ID}?${params.toString()}`;
+                    const url = `/review/${original.Control_ID}?${paramsSearch.toString()}`;
 
-                    // Navigate to the new URL with the combined query parameters
                     history.push(url);
                   }}
                 >
-                  {t('selfAssessment.homePage.controleOwner.Table.take_assessment_button')}
+                  {t('selfAssessment.homePage.controleOwner.Table.review_button')}
                 </Button>
               )}
-          </div>
-        );
+              {isFormAccessible(row.row.original.Assessment_Cycle, row.row.original.Year) &&
+                ['Not started', 'Re-assessed', 'Drafted'].includes(row.row.original.Status) && (
+                  <Button
+                    onClick={() => {
+                      handleRedirect({ row });
+                    }}
+                  >
+                    {t('selfAssessment.homePage.controleOwner.Table.take_assessment_button')}
+                  </Button>
+                )}
+            </div>
+          );
+        },
       },
-    },
-    {
-      accessorKey: 'Zone',
-      id: 'Zone',
-      header: 'Zone',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
-    },
-    {
-      accessorKey: 'Control_ID',
-      id: 'Control_ID',
-      header: 'Control ID',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 140,
-      Cell: (row) => {
-        return <span className={'text-yellow'}>{row.row.original.Control_ID}</span>;
+      {
+        accessorKey: 'Zone',
+        id: 'Zone',
+        header: 'Zone',
+        flex: 1,
+        columnDefType: 'data',
+        cellClassName: 'dashboardCell',
+        size: 90,
       },
-    },
-    {
-      accessorKey: 'Provider',
-      id: 'Provider',
-      header: 'Provider Organization',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
-    },
-    {
-      accessorKey: 'Status',
-      id: 'Status',
-      header: 'Status',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 120,
-      Cell: (row) => {
-        return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
+      {
+        accessorKey: 'Control_ID',
+        id: 'Control_ID',
+        header: 'Control ID',
+        flex: 1,
+        columnDefType: 'data',
+        cellClassName: 'dashboardCell',
+        size: 140,
+        Cell: (row) => {
+          return <span className={'text-yellow'}>{row.row.original.Control_ID}</span>;
+        },
       },
-    },
-    {
-      accessorKey: 'KPI_Result',
-      id: 'KPI_Result',
-      header: 'KPI Result',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 100,
-      Cell: (row) => {
-        return <Badge_apply data={row.row.original.KPI_Result} />;
+      {
+        accessorKey: 'Provider',
+        id: 'Provider',
+        header: 'Provider Organization',
+        flex: 1,
+        columnDefType: 'data',
+        cellClassName: 'dashboardCell',
+        size: 90,
       },
-    },
-    {
-      accessorKey: 'Assessment_Result',
-      id: 'Assessment_Result',
-      header: 'Assessment Result',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 150,
-      Cell: (row) => {
-        return <Badge_apply data={row.row.original.Assessment_Result} />;
+      {
+        accessorKey: 'Status',
+        id: 'Status',
+        header: 'Status',
+        flex: 1,
+        columnDefType: 'data',
+        cellClassName: 'dashboardCell',
+        size: 120,
+        Cell: (row) => {
+          return <span className={'text-yellow-dark'}>{row.row.original.Status}</span>;
+        },
       },
-    },
-    {
-      accessorKey: 'Compliance_Result',
-      id: 'Compliance_Result',
-      header: 'Compliance Result',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 150,
-      Cell: (row) => {
-        return <Badge_apply data={row.row.original.Compliance_Result} />;
+      {
+        accessorKey: 'KPI_Result',
+        id: 'KPI_Result',
+        header: 'KPI Result',
+        flex: 1,
+        columnDefType: 'data',
+        cellClassName: 'dashboardCell',
+        size: 100,
+        Cell: (row) => {
+          return <Badge_apply data={row.row.original.KPI_Result} />;
+        },
       },
-    },
-    {
-      accessorKey: 'Control_Owner',
-      id: 'Control_Owner',
-      header: 'Control Owner',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 200,
-    },
-    {
-      accessorKey: 'Control_Oversight',
-      id: 'Control_Oversight',
-      header: 'Control Oversight',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 250,
-    },
-    {
-      accessorKey: 'Assessment_Cycle',
-      id: 'Assessment_Cycle',
-      header: 'Assessment Cycle',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 150,
-    },
-    {
-      accessorKey: 'Year',
-      id: 'Year',
-      header: 'Year',
-      flex: 1,
-      columnDefType: 'data',
-      cellClassName: 'dashboardCell',
-      size: 90,
-    },
-  ];
+      {
+        accessorKey: 'Assessment_Result',
+        id: 'Assessment_Result',
+        header: 'Assessment Result',
+        flex: 1,
+        columnDefType: 'data',
+        cellClassName: 'dashboardCell',
+        size: 150,
+        Cell: (row) => {
+          return <Badge_apply data={row.row.original.Assessment_Result} />;
+        },
+      },
+      {
+        accessorKey: 'Compliance_Result',
+        id: 'Compliance_Result',
+        header: 'Compliance Result',
+        flex: 1,
+        columnDefType: 'data',
+        cellClassName: 'dashboardCell',
+        size: 150,
+        Cell: (row) => {
+          return <Badge_apply data={row.row.original.Compliance_Result} />;
+        },
+      },
+      {
+        accessorKey: 'Control_Owner',
+        id: 'Control_Owner',
+        header: 'Control Owner',
+        flex: 1,
+        columnDefType: 'data',
+        cellClassName: 'dashboardCell',
+        size: 200,
+      },
+      {
+        accessorKey: 'Control_Oversight',
+        id: 'Control_Oversight',
+        header: 'Control Oversight',
+        flex: 1,
+        columnDefType: 'data',
+        cellClassName: 'dashboardCell',
+        size: 250,
+      },
+      {
+        accessorKey: 'Assessment_Cycle',
+        id: 'Assessment_Cycle',
+        header: 'Assessment Cycle',
+        flex: 1,
+        columnDefType: 'data',
+        cellClassName: 'dashboardCell',
+        size: 150,
+      },
+      {
+        accessorKey: 'Year',
+        id: 'Year',
+        header: 'Year',
+        flex: 1,
+        columnDefType: 'data',
+        cellClassName: 'dashboardCell',
+        size: 90,
+      },
+    ];
+  }, [yearValue, assessmentCycleValue, zoneValue, buValue, providerValue]);
 
   // Memoize static data to prevent re-creation on every render
   const Zone = useMemo(() => controlOwnerData?.map((i) => i.Zone), [controlOwnerData]);
@@ -512,6 +531,10 @@ const ControlOwnerTable = ({
       pathname: window.location.pathname,
       search: params.toString(),
     });
+  }, [yearValue, assessmentCycleValue, zoneValue, buValue, providerValue]);
+
+  useEffect(() => {
+    filterRef.current = { yearValue, assessmentCycleValue, zoneValue, buValue, providerValue };
   }, [yearValue, assessmentCycleValue, zoneValue, buValue, providerValue]);
 
   return (
