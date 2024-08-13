@@ -150,24 +150,102 @@ const KPITable = ({
   const validateKPI = (row, value, type) => {
     let errors = {};
 
+    // These functions handle the validation logic based on the Numerator_Allowed and Denominator_Allowed values.
+    const isNumeratorValid = (num) => {
+      switch (row.Numerator_Allowed) {
+        case 'Positive/Zero only':
+          return num >= 0;
+        case 'Negative/Zero only':
+          return num <= 0;
+        case 'Zero/One only':
+          return num === 0 || num === 1;
+        case 'Any value':
+        default:
+          return true;
+      }
+    };
+
+    const isDenominatorValid = (den) => {
+      switch (row.Denominator_Allowed) {
+        case 'Positive only':
+          return den > 0;
+        case 'Negative only':
+          return den < 0;
+        case 'Positive/Zero only':
+          return den >= 0;
+        case 'Negative/Zero only':
+          return den <= 0;
+        case 'Zero/One only':
+          return den === 0 || den === 1;
+        case 'Any value':
+        default:
+          return true;
+      }
+    };
+
     if (type === 'Numerator') {
-      if (row.Numerator && !row.Denominator) {
+      // Check if the Numerator is valid based on the Numerator_Allowed value
+      if (!isNaN(value) && !isNumeratorValid(value)) {
+        errors.Numerator = `Numerator must be ${row.Numerator_Allowed}`;
+      } else if (
+        (row.Numerator || row.Numerator == 0) && // Handling zero as a valid number
+        !row.Denominator &&
+        row.Denominator !== 0
+      ) {
         errors.Numerator = 'Denominator is required';
-      } else if (!row.Numerator && row.Numerator !== 0 && row.Denominator) {
+      } else if (
+        !row.Numerator &&
+        row.Numerator !== 0 &&
+        (row.Denominator || row.Denominator == 0)
+      ) {
         errors.Numerator = 'Numerator is required';
       }
     } else if (type === 'Denominator') {
-      if (row.Denominator && !row.Numerator && row.Numerator !== 0) {
+      // Check if the Denominator is valid based on the Denominator_Allowed value
+      if (!isNaN(value) && !isDenominatorValid(value)) {
+        errors.Denominator = `Denominator must be ${row.Denominator_Allowed}`;
+      } else if (
+        (row.Denominator || row.Denominator == 0) &&
+        !row.Numerator &&
+        row.Numerator !== 0
+      ) {
         errors.Denominator = 'Numerator is required';
-      } else if (row.Numerator && !row.Denominator) {
+      } else if (
+        (row.Numerator || row.Numerator == 0) &&
+        !row.Denominator &&
+        row.Denominator !== 0
+      ) {
         errors.Numerator = 'Denominator is required';
-      } else if (!isNaN(value) && value <= 0) {
-        errors.Denominator = 'Denominator must be greater than zero';
       }
+      // else if (!isNaN(value) && value <= 0) {
+      //   errors.Denominator = 'Denominator must be greater than zero';
+      // }
     }
     console.log('errors', errors);
     return errors;
   };
+
+  //  const validateKPI = (row, value, type) => {
+  //   let errors = {};
+
+  //   if (type === 'Numerator') {
+  //     if (row.Numerator && !row.Denominator) {
+  //       errors.Numerator = 'Denominator is required';
+  //     } else if (!row.Numerator && row.Numerator !== 0 && row.Denominator) {
+  //       errors.Numerator = 'Numerator is required';
+  //     }
+  //   } else if (type === 'Denominator') {
+  //     if (row.Denominator && !row.Numerator && row.Numerator !== 0) {
+  //       errors.Denominator = 'Numerator is required';
+  //     } else if (row.Numerator && !row.Denominator) {
+  //       errors.Numerator = 'Denominator is required';
+  //     } else if (!isNaN(value) && value <= 0) {
+  //       errors.Denominator = 'Denominator must be greater than zero';
+  //     }
+  //   }
+  //   console.log('errors', errors);
+  //   return errors;
+  // };
 
   const updateResults = (row, tableData, cell) => {
     tableData[cell.row.index].L1_Result = calculateResult(
@@ -192,8 +270,12 @@ const KPITable = ({
       row.L3_Result,
     );
 
-    if ((row.Numerator || row.Numerator == 0) && row.Denominator) {
-      tableData[cell.row.index].KPI_Value = (+row.Numerator / +row.Denominator).toFixed(5);
+    // logic to calculate KPI Value
+    if ((row.Numerator || row.Numerator == 0) && (row.Denominator || row.Denominator == 0)) {
+      // calculate KPI Value only if Numerator and Denominator are present and not null and finding the absolute value of the result
+      tableData[cell.row.index].KPI_Value = Math.abs(
+        (+row.Numerator / +row.Denominator).toFixed(5),
+      );
     } else {
       tableData[cell.row.index].KPI_Value = '';
     }
@@ -1133,16 +1215,62 @@ const KPITable = ({
     let isValid = true;
 
     data.forEach((row, index) => {
-      const { id, Numerator: Numerator, Denominator: Denominator } = row;
+      const {
+        id,
+        'Denominator Allowed': Denominator_Allowed,
+        'Numerator Allowed': Numerator_Allowed,
+        Numerator,
+        Denominator,
+      } = row;
+
+      // Function to check if the Numerator is valid based on the Numerator Allowed value
+      const isNumeratorValid = (num) => {
+        switch (Numerator_Allowed) {
+          case 'Positive/Zero only':
+            return num >= 0;
+          case 'Negative/Zero only':
+            return num <= 0;
+          case 'Zero/One only':
+            return num === 0 || num === 1;
+          case 'Any value':
+          default:
+            return true;
+        }
+      };
+
+      // Function to check if the Denominator is valid based on the Denominator Allowed value
+      const isDenominatorValid = (den) => {
+        switch (Denominator_Allowed) {
+          case 'Positive only':
+            return den > 0;
+          case 'Negative only':
+            return den < 0;
+          case 'Positive/Zero only':
+            return den >= 0;
+          case 'Negative/Zero only':
+            return den <= 0;
+          case 'Zero/One only':
+            return den === 0 || den === 1;
+          case 'Any value':
+          default:
+            return true;
+        }
+      };
 
       if ((Numerator || Numerator === 0) && (Denominator || Denominator === 0)) {
         if (isNaN(Numerator) || isNaN(Denominator)) {
           isValid = false;
           toast.error(`Invalid KPI Numerator and Denominator at row ${index + 1}`);
         }
-        if (Denominator <= 0) {
+        // Check if Numerator and Denominator are valid based on their allowed values
+        if (!isNumeratorValid(Numerator)) {
           isValid = false;
-          toast.error(`Denominator must be greater than zero at row ${index + 1}`);
+          toast.error(`Numerator must be ${Numerator_Allowed} at row ${index + 1}`);
+        }
+
+        if (!isDenominatorValid(Denominator)) {
+          isValid = false;
+          toast.error(`Denominator must be ${Denominator_Allowed} at row ${index + 1}`);
         }
       } else if (Numerator || Denominator) {
         isValid = false;
@@ -1152,6 +1280,30 @@ const KPITable = ({
 
     return isValid;
   };
+
+  // const validateData = (data) => {
+  //   let isValid = true;
+
+  //   data.forEach((row, index) => {
+  //     const { id, Numerator, Denominator } = row;
+
+  //     if ((Numerator || Numerator === 0) && (Denominator || Denominator === 0)) {
+  //       if (isNaN(Numerator) || isNaN(Denominator)) {
+  //         isValid = false;
+  //         toast.error(`Invalid KPI Numerator and Denominator at row ${index + 1}`);
+  //       }
+  //       if (Denominator <= 0) {
+  //         isValid = false;
+  //         toast.error(`Denominator must be greater than zero at row ${index + 1}`);
+  //       }
+  //     } else if (Numerator || Denominator) {
+  //       isValid = false;
+  //       toast.error(`Both Numerator and Denominator are required at row ${index + 1}`);
+  //     }
+  //   });
+
+  //   return isValid;
+  // };
 
   const performCalculations = (data, tableData) => {
     return data.map((row) => {
@@ -1179,10 +1331,12 @@ const KPITable = ({
 
         // only update those row where expected source is manual
         if (KPI_Source === 'Manual') {
+          // Calculate KPI Value when Numerator and Denominator are provided and are valid numbers and finding the absolute value of the KPI Value
           const KPI_Value =
-            (Numerator || Numerator == 0) && Denominator
-              ? (+Numerator / +Denominator).toFixed(5)
+            (Numerator || Numerator == 0) && (Denominator || Denominator == 0)
+              ? Math.abs((+Numerator / +Denominator).toFixed(5))
               : '';
+
           const newResult_L1 = calculateResult(
             Numerator,
             Denominator,
