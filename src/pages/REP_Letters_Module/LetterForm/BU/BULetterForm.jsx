@@ -43,6 +43,7 @@ import {
 import '../LetterFormStyle.scss';
 import AttemptSection3 from './FormComponents/Section3/AttemptSection3';
 import ApprovalPageSection3 from './FormComponents/Section3/ApprovalPageSection3';
+import { useGoHomePage } from '../../../../hooks/useGoHomePage';
 
 const ReviewSubmittedResponses = ({
   scopeData,
@@ -52,6 +53,7 @@ const ReviewSubmittedResponses = ({
   modalType,
 }) => {
   const history = useHistory();
+  const { handleHomePageRedirect } = useGoHomePage();
   const exportResponseToExcel = (info, responses, Last_Saved_At) => {
     // Create a new workbook
     const wb = XLSX.utils.book_new();
@@ -141,7 +143,7 @@ const ReviewSubmittedResponses = ({
             //color="secondary"
             color="neutral"
             className="w-100"
-            onClick={() => history.push('/')}
+            onClick={handleHomePageRedirect}
           >
             Go Back
           </Button>
@@ -159,6 +161,7 @@ const ReviewResponsesAtAllTime = ({
   modalType,
 }) => {
   const history = useHistory();
+  const { handleHomePageRedirect } = useGoHomePage();
   const exportResponseToExcel = (info, responses, Last_Saved_At) => {
     // Create a new workbook
     const wb = XLSX.utils.book_new();
@@ -291,7 +294,7 @@ const ReviewResponsesAtAllTime = ({
           //color="secondary"
           color="neutral"
           className="w-100"
-          onClick={() => history.push('/')}
+          onClick={handleHomePageRedirect}
         >
           Go Back
         </Button>

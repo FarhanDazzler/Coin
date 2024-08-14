@@ -93,7 +93,7 @@ const Pages = () => {
       ]?.includes(role) || false
     );
   }, [loginRole, userRole]);
-  console.log('isControlPage', isControlPage);
+
   const isKPIOwnerPage = useMemo(() => {
     if (
       loginRole === 'KPI Owner' ||

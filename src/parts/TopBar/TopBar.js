@@ -25,10 +25,12 @@ import i18n from '../../i18n/i18n';
 import { useTranslation } from 'react-i18next';
 import { authAPIRolesSelector } from '../../redux/Auth/AuthSelectors';
 import { AlignCenter } from 'tabler-icons-react';
+import { useGoHomePage } from '../../hooks/useGoHomePage';
 
 const TopBar = (props) => {
   const history = useHistory();
   const location = useLocation();
+  const { handleHomePageRedirect } = useGoHomePage();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const selected_Role = localStorage.getItem('selected_Role');
@@ -116,23 +118,6 @@ const TopBar = (props) => {
     }
     //TODO: set deps here
   }, [authAPIRoles]);
-
-  const handleHomePageRedirect = () => {
-    // Get current query parameters
-    const searchParams = new URLSearchParams(location.search);
-
-    // Check for %filter% keyword in any of the query parameters
-    let filterParams = new URLSearchParams();
-    searchParams.forEach((value, key) => {
-      if (key.includes('filter')) {
-        filterParams.append(key, value);
-      }
-    });
-
-    // Redirect to home with preserved %filter% query parameters if any
-    const url = filterParams.toString() ? `/?${filterParams.toString()}` : '/';
-    history.push(url);
-  };
 
   const TopBar_SA = () => {
     // TOP BAR Buttons/ Tabs for Seld Assessment Module

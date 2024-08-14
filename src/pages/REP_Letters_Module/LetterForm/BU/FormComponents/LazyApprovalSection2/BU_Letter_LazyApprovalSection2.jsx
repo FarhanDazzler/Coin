@@ -38,12 +38,14 @@ import {
 import '../../../LetterFormStyle.scss';
 import useIPandGeoLocation from '../../../../../../hooks/useIPandGeoLocation';
 import useRepLetters from '../../../../../../hooks/useRepLetters';
+import { useGoHomePage } from '../../../../../../hooks/useGoHomePage';
 
 const Section2 = ({ id }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { ipAddress, location } = useIPandGeoLocation();
   const { instance, accounts, inProgress } = useMsal();
+  const { handleHomePageRedirect } = useGoHomePage();
 
   const getBUSection2SignatureResponseState = useSelector(getBUSection2SignatureResponseSelector);
 
@@ -199,7 +201,7 @@ const Section2 = ({ id }) => {
               <div className="footer-action">
                 <div className="d-flex align-items-center justify-content-end">
                   <div>
-                    <Button variant="outlined" color="secondary" onClick={() => history.push('/')}>
+                    <Button variant="outlined" color="secondary" onClick={handleHomePageRedirect}>
                       Cancel
                     </Button>
                     <Button
@@ -547,7 +549,7 @@ const ReviewSubmittedResponses = ({ scopeData, getBUSubmitResponseState }) => {
 
 const SuccessDialog = () => {
   const history = useHistory();
-
+  const { handleHomePageRedirect } = useGoHomePage();
   return (
     <div className="container py-5">
       <div>
@@ -567,7 +569,7 @@ const SuccessDialog = () => {
             Thank you for signing the responses. Feel free to close this window now.
           </Text>
           <Group justify="center">
-            <Button color="neutral" className="ml-4" onClick={() => history.push('/')}>
+            <Button color="neutral" className="ml-4" onClick={handleHomePageRedirect}>
               Take me back to home page
             </Button>
           </Group>
