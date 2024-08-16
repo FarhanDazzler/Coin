@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import Cookies from 'js-cookie';
@@ -12,6 +12,7 @@ import NoDataPlaceholder from '../../../../../components/NoDataPlaceholder/NoDat
 import { get_BU_ZIC_PersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BU_ZIC_PersonaHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignatures from '../../../../../components/ShowSignatures';
+import { stringToArray, useQuery } from '../../../../../hooks/useQuery';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -50,7 +51,7 @@ const ZoneICTable = ({
 }) => {
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
-
+  const params = useQuery();
   function getCurrentAssessmentCycle() {
     const today = new Date();
     const todayDatetime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -105,13 +106,26 @@ const ZoneICTable = ({
   }
 
   const [yearValue, setYearValue] = useState(
-    new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
+    params?.filterYear
+      ? stringToArray(params?.filterYear)
+      : new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
       ? [String(new Date().getFullYear() - 1)]
       : [String(new Date().getFullYear())],
   );
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState(
+    params?.filterCycle ? stringToArray(params?.filterCycle) : [getCurrentAssessmentCycle()],
+  );
 
   const history = useHistory();
+
+  const filterRef = useRef({
+    yearValue,
+    assessmentCycleValue,
+    zoneValue,
+    buValue,
+    overallStatusValue,
+    rbaStatusValue,
+  });
 
   const { accounts } = useMsal();
   const dispatch = useDispatch();
@@ -154,9 +168,14 @@ const ZoneICTable = ({
               <Button
                 className="mr-2"
                 onClick={() => {
-                  history.push(
-                    `/REP-Letters/attempt-letter/BU-letter-form/${row.row.original.id}/Review`,
-                  );
+                  // Get the current search parameters from the URL
+                  const currentSearchParams = new URLSearchParams(window.location.search);
+
+                  // Build the new URL path
+                  const newPath = `/REP-Letters/attempt-letter/BU-letter-form/${row.row.original.id}/Review`;
+
+                  // Redirect with the current search parameters appended
+                  history.push(`${newPath}?${currentSearchParams.toString()}`);
                 }}
               >
                 Review
@@ -315,6 +334,67 @@ const ZoneICTable = ({
     });
     setTableDataArray(updatedData);
   }, [assessmentCycleValue, zoneValue, buValue, HomePageData]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    // Update or remove the year parameter
+    if (yearValue) {
+      params.set('filterYear', yearValue.toString());
+    } else {
+      params.delete('filterYear');
+    }
+
+    // Update or remove the assessment cycle parameter
+    if (assessmentCycleValue?.length > 0) {
+      params.set('filterCycle', assessmentCycleValue.toString());
+    } else {
+      params.delete('filterCycle');
+    }
+
+    // Update or remove the zone parameter
+    if (zoneValue?.length > 0) {
+      params.set('filterZone', zoneValue);
+    } else {
+      params.delete('filterZone');
+    }
+
+    // Update or remove the BU parameter
+    if (buValue?.length > 0) {
+      params.set('filterBU', buValue);
+    } else {
+      params.delete('filterBU');
+    }
+
+    // Update or remove the overallStatusValue parameter
+    if (overallStatusValue?.length > 0) {
+      params.set('filterOverallStatus', overallStatusValue);
+    } else {
+      params.delete('filterOverallStatus');
+    }
+
+    // Update or remove the rbaStatusValue parameter
+    if (rbaStatusValue?.length > 0) {
+      params.set('filterRbaStatus', rbaStatusValue);
+    } else {
+      params.delete('filterRbaStatus');
+    }
+
+    filterRef.current = {
+      yearValue,
+      assessmentCycleValue,
+      zoneValue,
+      buValue,
+      overallStatusValue,
+      rbaStatusValue,
+    };
+
+    history.replace({
+      pathname: window.location.pathname,
+      search: params.toString(),
+    });
+  }, [yearValue, assessmentCycleValue, zoneValue, buValue, overallStatusValue, rbaStatusValue]);
+
   return (
     <>
       <div className="container-fluid">
