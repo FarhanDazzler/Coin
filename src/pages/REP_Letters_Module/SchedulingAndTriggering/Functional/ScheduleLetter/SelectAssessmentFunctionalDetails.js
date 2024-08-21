@@ -108,6 +108,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
     end_date: '',
     reminder1: '',
     reminder2: '',
+    reminder3: '',
   });
   useEffect(() => {
     setOpenReviewModal(false);
@@ -122,6 +123,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
         end_date: getFunctionalPage1dataState?.data?.auto_fill_data[4]?.end_date,
         reminder1: getFunctionalPage1dataState?.data?.auto_fill_data[5]?.reminder1,
         reminder2: getFunctionalPage1dataState?.data?.auto_fill_data[6]?.reminder2,
+        reminder3: getFunctionalPage1dataState?.data?.auto_fill_data[6]?.reminder2,
       });
     }
   }, [getFunctionalPage1dataState?.data]);
@@ -315,6 +317,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
             Due_Date: values.Due_Date,
             Recipient_Reminder_1: values.Recipient_Reminder_1,
             Recipient_Reminder_2: values.Recipient_Reminder_2,
+            Recipient_Reminder_3: values.Recipient_Reminder_3,
             SelectedDataFromTable: cloneData,
             Created_By: {
               Email: accounts[0]?.username,
@@ -343,6 +346,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
         Due_Date: values.Due_Date,
         Recipient_Reminder_1: values.Recipient_Reminder_1,
         Recipient_Reminder_2: values.Recipient_Reminder_2,
+        Recipient_Reminder_3: values.Recipient_Reminder_3,
         SelectedDataFromTable: cloneData,
         Created_By: {
           Email: accounts[0]?.username,
@@ -377,6 +381,7 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
             Due_Date: page1Data?.end_date || '',
             Recipient_Reminder_1: page1Data?.reminder1 || '',
             Recipient_Reminder_2: page1Data?.reminder2 || '',
+            Recipient_Reminder_3: page1Data?.reminder3 || '',
           }}
           validationSchema={Yup.object().shape({
             Function: Yup.string().required('Function is required'),
@@ -707,6 +712,39 @@ const SelectAssessmentDetailsFunctional = ({ handleNext }) => {
                             {!!touched.Recipient_Reminder_2 && (
                               <Form.Control.Feedback type="invalid">
                                 {errors.Recipient_Reminder_2}
+                              </Form.Control.Feedback>
+                            )}
+                          </Form.Group>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-lg-6">
+                      <div className="row mb-4">
+                        <div className="col-lg-4">
+                          <Form.Label>Reminder - 3</Form.Label>
+                        </div>
+                        <div className="col-lg-6">
+                          <Form.Group className="input-group mb-3">
+                            <Form.Control
+                              type="date"
+                              name="Recipient_Reminder_3"
+                              placeholder=""
+                              value={values.Recipient_Reminder_3}
+                              isInvalid={Boolean(
+                                touched.Recipient_Reminder_3 && errors.Recipient_Reminder_3,
+                              )}
+                              onBlur={handleBlur}
+                              onChange={handleChange}
+                              readOnly={false}
+                              min={values.Due_Date}
+                              //max={values.Due_Date}
+                              className="form-control"
+                            />
+
+                            {!!touched.Recipient_Reminder_3 && (
+                              <Form.Control.Feedback type="invalid">
+                                {errors.Recipient_Reminder_3}
                               </Form.Control.Feedback>
                             )}
                           </Form.Group>

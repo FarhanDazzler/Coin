@@ -10,14 +10,10 @@ import { useHistory } from 'react-router-dom';
 import { Divider, Box } from '@mantine/core';
 import Table2 from '../../../../../../components/UI/Table/Table2';
 import { FloatRight } from 'tabler-icons-react';
-import moment from 'moment';
 import CustomModal from '../../../../../../components/UI/CustomModal';
 import Swal from 'sweetalert2';
 // import for multi select filter
-import { Group } from '@mantine/core';
-import { MultiSelect } from '@mantine/core';
 import '../../../../../MDM/Control_Owner_Oversight/MultiSelectButtonStyles.scss';
-import { months } from '../../../../../QuestionBank/CreateQuestions/constant';
 import {
   getRlZonePage1Data,
   getRlAllZoneMdmData,
@@ -66,6 +62,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
     end_date: '',
     reminder1: '',
     reminder2: '',
+    reminder3: '',
   });
   useEffect(() => {
     setOpenReviewModal(false);
@@ -73,16 +70,6 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
   useEffect(() => {
     dispatch(getRlAllZoneMdmData());
   }, []);
-  const class_to_apply = (item) => {
-    let className = '';
-    if (item.toUpperCase() === 'ACTIVE') {
-      className = 'badge badge-success';
-    }
-    if (item.toUpperCase() === 'INACTIVE') {
-      className = 'badge badge-red';
-    }
-    return className;
-  };
 
   const TABLE_COLUMNS = [
     {
@@ -165,6 +152,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
         end_date: getBUPage1dataState?.data?.auto_fill_data[4]?.end_date,
         reminder1: getBUPage1dataState?.data?.auto_fill_data[5]?.reminder1,
         reminder2: getBUPage1dataState?.data?.auto_fill_data[6]?.reminder2,
+        reminder3: getBUPage1dataState?.data?.auto_fill_data[6]?.reminder2,
       });
     }
   }, [getBUPage1dataState?.data]);
@@ -207,6 +195,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
             Due_Date: values.Due_Date,
             Zone_VP_Reminder_1: values.Recipient_Reminder_1,
             Zone_VP_Reminder_2: values.Recipient_Reminder_2,
+            Zone_VP_Reminder_3: values.Recipient_Reminder_3,
             SelectedDataFromTable: cloneData,
             Created_By: {
               Email: accounts[0]?.username,
@@ -236,6 +225,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
         Due_Date: values.Due_Date,
         Zone_VP_Reminder_1: values.Recipient_Reminder_1,
         Zone_VP_Reminder_2: values.Recipient_Reminder_2,
+        Zone_VP_Reminder_3: values.Recipient_Reminder_3,
         SelectedDataFromTable: cloneData,
         Created_By: {
           Email: accounts[0]?.username,
@@ -273,6 +263,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
             Due_Date: page1Data?.end_date || '',
             Recipient_Reminder_1: page1Data?.reminder1 || '',
             Recipient_Reminder_2: page1Data?.reminder2 || '',
+            Recipient_Reminder_3: page1Data?.reminder3 || '',
           }}
           validationSchema={Yup.object().shape({
             Template: Yup.string().required('Template is required'),
@@ -579,6 +570,39 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
                     </div>
                   </div>
                 </div>
+
+                <div className="col-lg-6">
+                  <div className="row mb-4">
+                    <div className="col-lg-4">
+                      <Form.Label>Reminder - 3</Form.Label>
+                    </div>
+                    <div className="col-lg-6">
+                      <Form.Group className="input-group mb-3">
+                        <Form.Control
+                          type="date"
+                          name="Recipient_Reminder_3"
+                          placeholder=""
+                          value={values.Recipient_Reminder_3}
+                          isInvalid={Boolean(
+                            touched.Recipient_Reminder_3 && errors.Recipient_Reminder_3,
+                          )}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          readOnly={false}
+                          min={values.Due_Date}
+                          //max={values.Due_Date}
+                          className="form-control"
+                        />
+
+                        {!!touched.Recipient_Reminder_3 && (
+                          <Form.Control.Feedback type="invalid">
+                            {errors.Recipient_Reminder_3}
+                          </Form.Control.Feedback>
+                        )}
+                      </Form.Group>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="row">
                 <Divider
@@ -589,7 +613,7 @@ const SelectAssessmentDetailsZone = ({ handleNext }) => {
                   label={
                     <>
                       <Box ml={5}>
-                        <Form.Label>Select Business Unit</Form.Label>
+                        <Form.Label>Select Zones</Form.Label>
                       </Box>
                     </>
                   }

@@ -19,26 +19,28 @@ import {
 import {
   get_ControlOwner_KPIOwner_ControlOversight_KPI_dataSelector,
   get_ic_KPI_dataSelector,
+  submit_KPI_data_KPI_ModuleSelector,
 } from '../../redux/KPI_Module/KPI_Selectors';
 
 export function getCurrentYearAndQuarter() {
+  // Get the current date
   const today = new Date();
   const currentYear = today.getFullYear();
 
   // Check if the current date falls between February 1st and April 30th
-  if (new Date(currentYear, 1, 1) <= today && today <= new Date(currentYear, 3, 30)) {
+  if (new Date(currentYear, 1, 1) <= today && today < new Date(currentYear, 4, 1)) {
     return currentYear + 'Q1';
   }
   // Check if the current date falls between May 1st and July 31st
-  else if (new Date(currentYear, 4, 1) <= today && today <= new Date(currentYear, 6, 31)) {
+  else if (new Date(currentYear, 4, 1) <= today && today < new Date(currentYear, 7, 1)) {
     return currentYear + 'Q2';
   }
   // Check if the current date falls between August 1st and October 31st
-  else if (new Date(currentYear, 7, 1) <= today && today <= new Date(currentYear, 9, 31)) {
+  else if (new Date(currentYear, 7, 1) <= today && today < new Date(currentYear, 10, 1)) {
     return currentYear + 'Q3';
   }
   // Check if the current date falls between November 1st and January 31st
-  else if (new Date(currentYear, 10, 1) <= today || today <= new Date(currentYear, 0, 31)) {
+  else if (new Date(currentYear, 10, 1) <= today || today < new Date(currentYear, 1, 1)) {
     // If the current month is January, return the previous year and Q4
     if (today.getMonth() == 0) {
       return currentYear - 1 + 'Q4';
@@ -92,8 +94,11 @@ const ICTable = () => {
   const { data: getAllZone_State, loading: getAllZoneLoading } = useSelector(getAllZoneSelector);
   const [selectedZone, setSelectedZone] = useState();
   const [zoneValue, setZoneValue] = useState();
+
   // State to store api data
   const KpiDataForIC = useSelector(get_ic_KPI_dataSelector);
+
+  const submit_KPI_data_KPI_ModuleState = useSelector(submit_KPI_data_KPI_ModuleSelector);
 
   // Converting get all zone data into select dropdown format
   useEffect(() => {
@@ -139,7 +144,7 @@ const ICTable = () => {
         }
       }
     }
-  }, [yearAndQuarter, selectedZone]);
+  }, [yearAndQuarter, selectedZone, submit_KPI_data_KPI_ModuleState?.success]);
 
   return (
     <div>
@@ -186,7 +191,7 @@ const ICTable = () => {
               </div>
             </div>
             {selectedZone &&
-              (KpiDataForIC?.loading ? (
+              (KpiDataForIC?.loading || submit_KPI_data_KPI_ModuleState?.loading ? (
                 <div className="loader-animation">
                   <DotSpinner size={100} speed={0.9} color="#e3af32" />
                   <p className="loader-Desc ml-3">Please wait a moment while we fetch the data</p>
@@ -230,7 +235,7 @@ const ICTable = () => {
               ))}
           </>
         )
-      ) : KpiDataForIC?.loading ? (
+      ) : KpiDataForIC?.loading || submit_KPI_data_KPI_ModuleState?.loading ? (
         <div className="loader-animation">
           <DotSpinner size={100} speed={0.9} color="#e3af32" />
           <p className="loader-Desc ml-3">Please wait a moment while we fetch the data</p>
@@ -286,6 +291,9 @@ const ControlOwner_KPIOwner_ControlOversight_Table = () => {
   const KpiDataForControlOwner_KPIOwner_ControlOversight = useSelector(
     get_ControlOwner_KPIOwner_ControlOversight_KPI_dataSelector,
   );
+
+  const submit_KPI_data_KPI_ModuleState = useSelector(submit_KPI_data_KPI_ModuleSelector);
+
   useEffect(() => {
     if (yearAndQuarter?.length > 0) {
       const payload = {
@@ -297,7 +305,7 @@ const ControlOwner_KPIOwner_ControlOversight_Table = () => {
     } else {
       toast.error('Please select Year in filter.');
     }
-  }, [yearAndQuarter]);
+  }, [yearAndQuarter, submit_KPI_data_KPI_ModuleState?.success]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -308,7 +316,8 @@ const ControlOwner_KPIOwner_ControlOversight_Table = () => {
 
   return (
     <div>
-      {KpiDataForControlOwner_KPIOwner_ControlOversight?.loading ? (
+      {KpiDataForControlOwner_KPIOwner_ControlOversight?.loading ||
+      submit_KPI_data_KPI_ModuleState?.loading ? (
         <div className="loader-animation">
           <DotSpinner size={100} speed={0.9} color="#e3af32" />
           <p className="loader-Desc ml-3">Please wait a moment while we fetch the data</p>
