@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
@@ -540,10 +540,7 @@ const InternalControlTable = ({
       statusOfAssessmentValue,
     };
 
-    history.replace({
-      pathname: window.location.pathname,
-      search: params.toString(),
-    });
+    window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`);
   }, [
     yearValue,
     assessmentCycleValue,
