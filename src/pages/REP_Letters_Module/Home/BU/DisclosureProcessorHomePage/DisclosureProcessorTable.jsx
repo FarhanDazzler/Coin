@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import Cookies from 'js-cookie';
@@ -19,6 +19,7 @@ import {
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BU_Disclosure_ProcessorHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignatures from '../../../../../components/ShowSignatures';
+import { stringToArray, useQuery } from '../../../../../hooks/useQuery';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -57,7 +58,7 @@ const DisclosureProcessorTable = ({
 }) => {
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
-
+  const params = useQuery();
   function getCurrentAssessmentCycle() {
     // Get the current date
     const today = new Date();
@@ -103,11 +104,24 @@ const DisclosureProcessorTable = ({
   }
 
   const [yearValue, setYearValue] = useState(
-    new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
+    params?.filterYear
+      ? stringToArray(params?.filterYear)
+      : new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
       ? [String(new Date().getFullYear() - 1)]
       : [String(new Date().getFullYear())],
   );
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState(
+    params?.filterCycle ? stringToArray(params?.filterCycle) : [getCurrentAssessmentCycle()],
+  );
+
+  const filterRef = useRef({
+    yearValue,
+    assessmentCycleValue,
+    zoneValue,
+    buValue,
+    overallStatusValue,
+    rbaStatusValue,
+  });
 
   const history = useHistory();
 
@@ -186,6 +200,30 @@ const DisclosureProcessorTable = ({
     return today >= rbaDate;
   };
 
+  const handleButtonRedirect = (urlString) => {
+    const paramsSearch = new URLSearchParams();
+
+    // Add only the local state values if they exist
+    if (filterRef.current.yearValue?.length > 0)
+      paramsSearch.set('filterYear', filterRef.current.yearValue);
+    if (filterRef.current.assessmentCycleValue?.length > 0)
+      paramsSearch.set('filterCycle', filterRef.current.assessmentCycleValue);
+    if (filterRef.current.zoneValue?.length > 0)
+      paramsSearch.set('filterZone', filterRef.current.zoneValue);
+    if (filterRef.current.buValue?.length > 0)
+      paramsSearch.set('filterBU', filterRef.current.buValue);
+    if (filterRef.current.overallStatusValue?.length > 0)
+      paramsSearch.set('filterOverallStatus', filterRef.current.overallStatusValue);
+    if (filterRef.current.rbaStatusValue?.length > 0)
+      paramsSearch.set('filterRbaStatus', filterRef.current.rbaStatusValue);
+
+    // Construct the final URL
+    const url = `${urlString}?${paramsSearch.toString()}`;
+
+    // Navigate to the new URL with the combined query parameters
+    history.push(url);
+  };
+
   const TABLE_COLUMNS = [
     {
       accessorKey: 'Action',
@@ -204,7 +242,7 @@ const DisclosureProcessorTable = ({
               <Button
                 className="mr-2"
                 onClick={() => {
-                  history.push(
+                  handleButtonRedirect(
                     `/REP-Letters/attempt-letter/BU-letter-form/${row.row.original.id}/Review`,
                   );
                 }}
@@ -216,7 +254,7 @@ const DisclosureProcessorTable = ({
               <Button
                 className="mr-2"
                 onClick={() => {
-                  history.push(
+                  handleButtonRedirect(
                     `/REP-Letters/attempt-letter/BU-letter-form/${row.row.original.id}/attemptSection1`,
                   );
                 }}
@@ -228,7 +266,7 @@ const DisclosureProcessorTable = ({
               <Button
                 className="mr-2"
                 onClick={() => {
-                  history.push(
+                  handleButtonRedirect(
                     `/REP-Letters/attempt-letter/BU-letter-form/${row.row.original.id}/attemptSection2`,
                   );
                 }}
@@ -242,7 +280,7 @@ const DisclosureProcessorTable = ({
                 <Button
                   className="mr-2"
                   onClick={() => {
-                    history.push(
+                    handleButtonRedirect(
                       `/REP-Letters/attempt-letter/BU-letter-form/${row.row.original.id}/attemptSection3`,
                     );
                   }}
@@ -410,6 +448,67 @@ const DisclosureProcessorTable = ({
     overallStatusValue,
     rbaStatusValue,
   ]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    // Update or remove the year parameter
+    if (yearValue) {
+      params.set('filterYear', yearValue.toString());
+    } else {
+      params.delete('filterYear');
+    }
+
+    // Update or remove the assessment cycle parameter
+    if (assessmentCycleValue?.length > 0) {
+      params.set('filterCycle', assessmentCycleValue.toString());
+    } else {
+      params.delete('filterCycle');
+    }
+
+    // Update or remove the zone parameter
+    if (zoneValue?.length > 0) {
+      params.set('filterZone', zoneValue);
+    } else {
+      params.delete('filterZone');
+    }
+
+    // Update or remove the BU parameter
+    if (buValue?.length > 0) {
+      params.set('filterBU', buValue);
+    } else {
+      params.delete('filterBU');
+    }
+
+    // Update or remove the provider parameter
+    if (overallStatusValue?.length > 0) {
+      params.set('filterOverallStatus', overallStatusValue);
+    } else {
+      params.delete('filterOverallStatus');
+    }
+
+    // Update or remove the provider parameter
+    if (rbaStatusValue?.length > 0) {
+      params.set('filterRbaStatus', rbaStatusValue);
+    } else {
+      params.delete('filterRbaStatus');
+    }
+
+    filterRef.current = {
+      yearValue,
+      assessmentCycleValue,
+      zoneValue,
+      buValue,
+      overallStatusValue,
+      rbaStatusValue,
+    };
+
+    history.replace({
+      pathname: window.location.pathname,
+      search: params.toString(),
+    });
+  }, [yearValue, assessmentCycleValue, zoneValue, buValue, overallStatusValue, rbaStatusValue]);
+
   return (
     <>
       <div className="container-fluid">

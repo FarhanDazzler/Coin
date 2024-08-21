@@ -17,11 +17,13 @@ import {
   getBUZoneSection2SignatureResponseSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import useIPandGeoLocation from '../../../../../hooks/useIPandGeoLocation';
+import { useGoHomePage } from '../../../../../hooks/useGoHomePage';
 
 const Section2 = ({ scopeData }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { ipAddress, location } = useIPandGeoLocation();
+  const { handleHomePageRedirect } = useGoHomePage();
 
   const getBUSection2SignatureResponseState = useSelector(
     getBUZoneSection2SignatureResponseSelector,
@@ -153,7 +155,7 @@ const Section2 = ({ scopeData }) => {
         },
       }),
     );
-    history.push('/');
+    handleHomePageRedirect();
   };
 
   const handleSave = (values, resetForm) => {
@@ -247,7 +249,7 @@ const Section2 = ({ scopeData }) => {
         },
       }),
     );
-    history.push('/');
+    handleHomePageRedirect();
   };
 
   const EmailAttachmentDiv = () => {
@@ -401,7 +403,7 @@ const Section2 = ({ scopeData }) => {
               <div className="footer-action">
                 <div className="d-flex align-items-center justify-content-end">
                   <div>
-                    <Button variant="outlined" color="secondary" onClick={() => history.push('/')}>
+                    <Button variant="outlined" color="secondary" onClick={handleHomePageRedirect}>
                       Cancel
                     </Button>
                     <Button
@@ -494,7 +496,7 @@ const Section2 = ({ scopeData }) => {
               <div className="footer-action">
                 <div className="d-flex align-items-center justify-content-end">
                   <div>
-                    <Button variant="outlined" color="secondary" onClick={() => history.push('/')}>
+                    <Button variant="outlined" color="secondary" onClick={handleHomePageRedirect}>
                       Cancel
                     </Button>
                     <Button

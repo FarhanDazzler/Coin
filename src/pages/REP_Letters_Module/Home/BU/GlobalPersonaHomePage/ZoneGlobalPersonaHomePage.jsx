@@ -8,6 +8,7 @@ import ProgressBar from '../../../../Home/V2/InternalControlHomePage/HomePageTab
 import ZoneGlobalPersonaTable from './ZoneGlobalPersonaTable';
 import { ReactComponent as InfoIcon } from '../../../../../assets/images/InfoCircle.svg';
 import { get_BUZone_GlobalPersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { stringToArray, useQuery } from '../../../../../hooks/useQuery';
 const NumberWithText = ({ total, number, tooltip, subTitle }) => (
   <div className="d-flex justify-content-between bg-black mb-2 p-1 px-4 rounded-3">
     <div className="d-flex align-items-center">
@@ -24,11 +25,16 @@ const NumberWithText = ({ total, number, tooltip, subTitle }) => (
 
 const ZoneGlobalPersonaHomePage = () => {
   const history = useHistory();
+  const params = useQuery();
   const { accounts } = useMsal();
   const selectedUserRole = localStorage.getItem('selected_Role');
   const getGlobalPersonaHomePageData = useSelector(get_BUZone_GlobalPersonaHomePageDataSelector);
 
-  const [zoneValue, setZoneValue] = useState([]);
+  const initValue = {
+    zoneValue: params?.filterZone ? stringToArray(params?.filterZone) : [],
+  };
+
+  const [zoneValue, setZoneValue] = useState(initValue.zoneValue);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
