@@ -18,6 +18,7 @@ import {
   addOrUpdateBUDraftResponseSelector,
   getLatestBUDraftResponseSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { useGoHomePage } from '../../../../../hooks/useGoHomePage';
 
 const months = [
   { value: 'January', label: 'January' },
@@ -43,6 +44,7 @@ const years = Array.from({ length: 3 }, (_, index) => currentYear + index);
 const Section1 = ({ questions, scopeData }) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { handleHomePageRedirect } = useGoHomePage();
   const newFormat = [];
   const [responses, setResponses] = useState({});
   const [formErrors, setFormErrors] = useState({});
@@ -173,7 +175,7 @@ const Section1 = ({ questions, scopeData }) => {
         dispatch(addOrUpdateBUDraftResponse(payload));
         // after api success clear the redux state
         dispatch(clearLatestBUDraftResponse());
-        history.push('/');
+        handleHomePageRedirect();
       }
     });
   };
@@ -248,7 +250,7 @@ const Section1 = ({ questions, scopeData }) => {
           dispatch(addBUSubmitResponse(payload));
           // after api success clear the redux state
           dispatch(clearBUSubmitResponse());
-          history.push('/');
+          handleHomePageRedirect();
           //console.log('Submitted responses:', responses);
           //localStorage.setItem('storedResponses', JSON.stringify(responses));
         }
@@ -265,7 +267,7 @@ const Section1 = ({ questions, scopeData }) => {
           dispatch(addOrUpdateBUDraftResponse(payload));
           // after api success clear the redux state
           dispatch(clearLatestBUDraftResponse());
-          history.push('/');
+          handleHomePageRedirect();
         }
       });
     }
@@ -409,7 +411,7 @@ const Section1 = ({ questions, scopeData }) => {
       })}
       <div>
         <div className="rep-letter-form-bottom-btn">
-          <Button className="w-30" onClick={() => history.push('/')}>
+          <Button className="w-30" onClick={handleHomePageRedirect}>
             Cancel
           </Button>
           <Button className="w-30" onClick={handleSaveDraft}>

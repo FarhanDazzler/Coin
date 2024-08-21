@@ -5,28 +5,10 @@ import { Divider, Group } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import Button from '../../../../../components/UI/Button';
+import { useGoHomePage } from '../../../../../hooks/useGoHomePage';
 
 const ReviewResponsePage = ({ submittedResponses = [] }) => {
-  const history = useHistory();
-
-  const location = useLocation();
-
-  const handleHomePageRedirect = () => {
-    // Get current query parameters
-    const searchParams = new URLSearchParams(location.search);
-
-    // Check for %filter% keyword in any of the query parameters
-    let filterParams = new URLSearchParams();
-    searchParams.forEach((value, key) => {
-      if (key.includes('filter')) {
-        filterParams.append(key, value);
-      }
-    });
-
-    // Redirect to home with preserved %filter% query parameters if any
-    const url = filterParams.toString() ? `/?${filterParams.toString()}` : '/';
-    history.push(url);
-  };
+  const { handleHomePageRedirect } = useGoHomePage();
 
   return (
     <CollapseFrame title="Section 1 : Please give your responses" active>

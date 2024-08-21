@@ -24,18 +24,18 @@ import Select from '../../components/UI/Select/Select';
 import i18n from '../../i18n/i18n';
 import { useTranslation } from 'react-i18next';
 import { authAPIRolesSelector } from '../../redux/Auth/AuthSelectors';
-import { useParams } from 'react-router';
+import { AlignCenter } from 'tabler-icons-react';
+import { useGoHomePage } from '../../hooks/useGoHomePage';
 
 const TopBar = (props) => {
   const history = useHistory();
   const location = useLocation();
+  const { handleHomePageRedirect } = useGoHomePage();
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { moduleName, roleName } = useParams();
-  const selected_Role = roleName || localStorage.getItem('selected_Role');
+  const selected_Role = localStorage.getItem('selected_Role');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
-  const selected_module_role = moduleName || localStorage.getItem('selected_module_Role');
-
+  const selected_module_role = localStorage.getItem('selected_module_Role');
   const { instance, accounts, inProgress } = useMsal();
   const [isDropDownOpen, setisDropDownOpen] = useState(false);
   const authAPIRoles = useSelector(authAPIRolesSelector);
@@ -111,31 +111,13 @@ const TopBar = (props) => {
       dispatch(setLoginRole(rolesVal));
       localStorage.setItem('selected_Role', rolesVal);
     } else {
-      const valueRole = moduleName || roleOptionData[0]?.value;
-      dispatch(setLoginRole(valueRole));
+      dispatch(setLoginRole(roleOptionData[0]?.value));
       setRolesOption(roleOptionData);
-      setRolesVal(valueRole);
-      localStorage.setItem('selected_Role', valueRole);
+      setRolesVal(roleOptionData[0]?.value);
+      localStorage.setItem('selected_Role', roleOptionData[0]?.value);
     }
     //TODO: set deps here
   }, [authAPIRoles]);
-
-  const handleHomePageRedirect = () => {
-    // Get current query parameters
-    const searchParams = new URLSearchParams(location.search);
-
-    // Check for %filter% keyword in any of the query parameters
-    let filterParams = new URLSearchParams();
-    searchParams.forEach((value, key) => {
-      if (key.includes('filter')) {
-        filterParams.append(key, value);
-      }
-    });
-
-    // Redirect to home with preserved %filter% query parameters if any
-    const url = filterParams.toString() ? `/?${filterParams.toString()}` : '/';
-    history.push(url);
-  };
 
   const TopBar_SA = () => {
     // TOP BAR Buttons/ Tabs for Seld Assessment Module
@@ -617,13 +599,6 @@ const TopBar = (props) => {
                         }}
                       >
                         Report a Bug
-                      </a>
-                      <a
-                        className="dropdown-item text-left"
-                        target="_blank"
-                        href="https://acoegrcstorageprod.blob.core.windows.net/other-files/Privacy%20Policy%20-%20COIN.pdf?sp=r&st=2024-07-30T10:02:50Z&se=2030-07-30T18:02:50Z&spr=https&sv=2022-11-02&sr=b&sig=DUDtz0aeGiv3vn5qdunkhcctdPhi7FyO5PPwSnovPPc%3D"
-                      >
-                        Privacy Policy
                       </a>
                       <a className="dropdown-item text-left" onClick={handleLogout}>
                         Sign out

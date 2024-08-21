@@ -9,6 +9,7 @@ import {
   get_BU_Disclosure_ProcessorHomePageDataSelector,
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import ProductFeedback from '../../../../../components/NPSFeedbackModule/ProductFeedback/ProductFeedback';
+import { stringToArray, useQuery } from '../../../../../hooks/useQuery';
 
 const AmountInfo = React.memo(({ amount, infoText }) => {
   return (
@@ -21,6 +22,7 @@ const AmountInfo = React.memo(({ amount, infoText }) => {
 
 const DisclosureProcessorHomePage = () => {
   const history = useHistory();
+  const params = useQuery();
   const { state } = useLocation();
   const { accounts } = useMsal();
   const selectedUserRole = localStorage.getItem('selected_Role');
@@ -29,10 +31,20 @@ const DisclosureProcessorHomePage = () => {
   );
   const addBUSubmitResponseState = useSelector(addBUSubmitResponseSelector);
   const [openNPS, setOpenNPS] = useState(false);
-  const [zoneValue, setZoneValue] = useState([]);
-  const [buValue, setBUValue] = useState([]);
-  const [overallStatusValue, setOverallStatusValue] = useState([]);
-  const [rbaStatusValue, setRbaStatusValue] = useState([]);
+
+  const initValue = {
+    zoneValue: params?.filterZone ? stringToArray(params?.filterZone) : [],
+    buValue: params?.filterBU ? stringToArray(params?.filterBU) : [],
+    overallStatusValue: params?.filterOverallStatus
+      ? stringToArray(params?.filterOverallStatus)
+      : [],
+    rbaStatusValue: params?.filterRbaStatus ? stringToArray(params?.filterRbaStatus) : [],
+  };
+
+  const [zoneValue, setZoneValue] = useState(initValue.zoneValue);
+  const [buValue, setBUValue] = useState(initValue.buValue);
+  const [overallStatusValue, setOverallStatusValue] = useState(initValue.overallStatusValue);
+  const [rbaStatusValue, setRbaStatusValue] = useState(initValue.rbaStatusValue);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
@@ -41,10 +53,10 @@ const DisclosureProcessorHomePage = () => {
   const statusInfo = useMemo(() => {
     const tableData = getDisclosureProcessorHomePageData?.data[0]?.dpData || [];
     if (
-      !zoneValue.length &&
-      !buValue.length &&
-      !overallStatusValue.length &&
-      !rbaStatusValue.length
+      !zoneValue?.length &&
+      !buValue?.length &&
+      !overallStatusValue?.length &&
+      !rbaStatusValue?.length
     ) {
       const allstatus = tableData?.map((d) => d?.Status);
       const RBAStatus = tableData.map((d) => d?.RBA_Status);

@@ -8,6 +8,7 @@ import ProgressBar from '../../../../Home/V2/InternalControlHomePage/HomePageTab
 import ZoneICTable from './ZoneICTable';
 import { ReactComponent as InfoIcon } from '../../../../../assets/images/InfoCircle.svg';
 import { get_BU_ZIC_PersonaHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { stringToArray, useQuery } from '../../../../../hooks/useQuery';
 const NumberWithText = ({ total, number, tooltip, subTitle }) => (
   <div className="d-flex justify-content-between bg-black mb-2 p-1 px-4 rounded-3">
     <div className="d-flex align-items-center">
@@ -25,8 +26,18 @@ const NumberWithText = ({ total, number, tooltip, subTitle }) => (
 const ZoneICHomePage = () => {
   const history = useHistory();
   const { accounts } = useMsal();
+  const params = useQuery();
   const selectedUserRole = localStorage.getItem('selected_Role');
   const getZICHomePageData = useSelector(get_BU_ZIC_PersonaHomePageDataSelector);
+
+  const initValue = {
+    zoneValue: params?.filterZone ? stringToArray(params?.filterZone) : [],
+    buValue: params?.filterBU ? stringToArray(params?.filterBU) : [],
+    overallStatusValue: params?.filterOverallStatus
+      ? stringToArray(params?.filterOverallStatus)
+      : [],
+    rbaStatusValue: params?.filterRbaStatus ? stringToArray(params?.filterRbaStatus) : [],
+  };
 
   const [zoneValue, setZoneValue] = useState([]);
   const [buValue, setBUValue] = useState([]);
@@ -68,6 +79,7 @@ const ZoneICHomePage = () => {
       <div className="container-fluid">
         <div className="row pt-5 align-items-center">
           <div className="col-lg-4">
+            12345678
             <h4 className="welcome-text">Welcome</h4>
             <h2 className="user-name-home yellow-gradient-text mb-2 text-capitalize">
               {accounts.length > 0 ? accounts[0].name.split('(').join(' (') : 'User Name'}
