@@ -17,67 +17,66 @@ export const AssessmentModuleRoutes = [
   {
     path: '/questionbank',
     exact: true,
-    component: () => CommonWrapper(<QuestionBank />),
+    component: QuestionBank,
   },
   {
     path: '/questionbank/change-language',
     exact: true,
-    component: () => CommonWrapper(<QuestionBankChangeLanguage />),
+    component: QuestionBankChangeLanguage,
   },
   {
     path: '/master-data-management',
     exact: true,
-    component: () => CommonWrapper(<MDM />),
+    component: MDM,
   },
   {
     path: '/master-data-management/organization-hierarchy',
     exact: true,
-    component: () => CommonWrapper(<MDM_OrganizationHierarchyLandingPage />),
+    component: MDM_OrganizationHierarchyLandingPage,
   },
   {
     path: '/master-data-management/applicability-assignment-of-provider-organization',
     exact: true,
-    component: () =>
-      CommonWrapper(<MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage />),
+    component: MDM_ApplicabilityAndAssignmentOfProviderOrganizationLandingPage,
   },
   {
     path: '/master-data-management/co-owner-oversight',
     exact: true,
-    component: () => CommonWrapper(<MDM_Control_Owner_OversightLandingPage />),
+    component: MDM_Control_Owner_OversightLandingPage,
   },
   {
     path: '/master-data-management/mics-framework',
     exact: true,
-    component: () => CommonWrapper(<MDM_MICS_FrameworkLandingPage />),
+    component: MDM_MICS_FrameworkLandingPage,
   },
   {
     path: '/master-data-management/mics-framework/addNew',
     exact: true,
-    component: () => CommonWrapper(<AddValues_MDM_Mics_Framework />),
+    component: AddValues_MDM_Mics_Framework,
   },
   {
     path: '/master-data-management/mega-process-sub-Process',
     exact: true,
-    component: () => CommonWrapper(<MDM_Mega_Process_Sub_ProcessLandingPage />),
+    component: MDM_Mega_Process_Sub_ProcessLandingPage,
   },
   {
     path: '/assessmentbank',
     exact: true,
-    component: () => CommonWrapper(<AssessmentBankLandingPage />),
+    component: AssessmentBankLandingPage,
   },
   {
     path: '/assessmentbank/schedule-survey',
     exact: true,
-    component: () => CommonWrapper(<ScheduleSurveyPage />),
+    component: ScheduleSurveyPage,
   },
   {
     path: '/assessmentbank/assessment-details',
     exact: true,
-    component: () => CommonWrapper(<AssessmentDetailsTableData />),
+    component: AssessmentDetailsTableData,
   },
   {
     path: '/reporting',
     exact: true,
-    component: () => CommonWrapper(<Reporting />),
+    component: Reporting,
   },
 ];
