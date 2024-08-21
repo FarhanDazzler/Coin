@@ -7,16 +7,16 @@ export const AdminRoutes = [
   {
     path: '/admin-panel',
     exact: true,
-    component: () => CommonWrapper(<AdminLandingPage />),
+    component: AdminLandingPage,
   },
   {
     path: '/admin-panel/sa',
     exact: true,
-    component: () => CommonWrapper(<AssessmentModulePanel />),
+    component: AssessmentModulePanel,
   },
   {
     path: '/admin-panel/rl',
     exact: true,
-    component: () => CommonWrapper(<RepresentationLetterModulePanel />),
+    component: RepresentationLetterModulePanel,
   },
 ];

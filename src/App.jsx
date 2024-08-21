@@ -287,7 +287,7 @@ const Pages = () => {
     <div className="page">
       <ToastContainer autoClose={15000} />
       <div className="flex-fill">
-        {/*{!['/login'].includes(location?.pathname) && <TopBar isControlPage={isControlPage} />}*/}
+        {!['/login'].includes(location?.pathname) && <TopBar isControlPage={isControlPage} />}
         {/* <Home /> */}
         <Switch>
           <Route
@@ -298,15 +298,15 @@ const Pages = () => {
           />
 
           {!isAssessmentsPage ? (
-            <Route exact path="/" component={() => CommonWrapper(<REP_Letters_HomePage />)} />
+            <Route exact path="/" component={REP_Letters_HomePage} />
           ) : isControlPage ? (
-            <Route exact path="/" component={() => CommonWrapper(<ControlHomePage />)} />
+            <Route exact path="/" component={ControlHomePage} />
           ) : isKPIOwnerPage ? (
-            <Route exact path="/" component={() => CommonWrapper(<KpiModule />)} />
+            <Route exact path="/" component={KpiModule} />
           ) : (
-            <Route exact path="/" component={() => CommonWrapper(<InternalControlHomePage />)} />
+            <Route exact path="/" component={InternalControlHomePage} />
           )}
-          <Route exact path="/review/:control_id" component={() => CommonWrapper(<Review />)} />
+          <Route exact path="/review/:control_id" component={Review} />
 
           {/* {user_role === 'organizational persona' ? (
             <Route exact path="/home" component={Home_controlOwner} />
@@ -316,11 +316,7 @@ const Pages = () => {
             <Route exact path="/home" component={Home_controlOwner} />
           )} */}
           {module === 'Assessment Module' && (
-            <Route
-              exact
-              path="/Assessments/:control_id"
-              component={() => CommonWrapper(<AssessmentForm />)}
-            />
+            <Route exact path="/Assessments/:control_id" component={AssessmentForm} />
           )}
 
           {userRole === 'Global Internal Control' || userRole === 'Zonal Internal Control'
@@ -339,38 +335,30 @@ const Pages = () => {
           <Route
             exact
             path="/REP-Letters/attempt-letter/functional-letter-form/:id/:modalType"
-            component={() => CommonWrapper(<FunctionalLetterForm />)}
+            component={FunctionalLetterForm}
           />
           <Route
             exact
             path="/REP-Letters/attempt-letter/BU-letter-form/:id/:modalType"
-            component={() => CommonWrapper(<BULetterForm />)}
+            component={BULetterForm}
           />
-          <Route
-            exact
-            path="/BU-Letter-approve/:id"
-            component={() => CommonWrapper(<BU_Letter_LazyApprovalSection2 />)}
-          />
+          <Route exact path="/BU-Letter-approve/:id" component={BU_Letter_LazyApprovalSection2} />
           <Route
             exact
             path="/BU-Zone-Letter-approve/:id"
-            component={() => CommonWrapper(<BU_Zone_Letter_LazyApprovalSection2 />)}
+            component={BU_Zone_Letter_LazyApprovalSection2}
           />
           <Route
             exact
             path="/homepage-direct-link/:moduleName/:roleName"
-            component={() => CommonWrapper(<HomePageDirectLink />)}
+            component={HomePageDirectLink}
           />
-          <Route exact path="/contact-us" component={() => CommonWrapper(<ContactUs />)} />
-          <Route
-            exact
-            path="/not-authorized/contact-us"
-            component={() => CommonWrapper(<ContactUs />)}
-          />
-          <Route exact path="/not-authorized" component={() => CommonWrapper(<NotAuthorized />)} />
-          <Route exact path="/kpi-module" component={() => CommonWrapper(<KpiModule />)} />
-          <Route exact path="/POC" component={() => CommonWrapper(<POC />)} />
-          <Route path="*" component={() => CommonWrapper(<NoMatch />)} />
+          <Route exact path="/contact-us" component={ContactUs} />
+          <Route exact path="/not-authorized/contact-us" component={ContactUs} />
+          <Route exact path="/not-authorized" component={NotAuthorized} />
+          <Route exact path="/kpi-module" component={KpiModule} />
+          <Route exact path="/POC" component={POC} />
+          <Route path="*" component={NoMatch} />
         </Switch>
       </div>
     </div>
