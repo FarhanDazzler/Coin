@@ -48,13 +48,13 @@ function AssessmentForm() {
   const [submit1, setSubmit1] = useState();
   var parentQuestions = [];
   var child_question = [];
-  console.log(email);
+
   const handleChange = (e, name) => {
     const re =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (name === 'email') {
       const value = e.target.value.trim().toLowerCase();
-      console.log(value);
+
       const isValidEmail = re.test(value);
 
       setEmail({
@@ -63,7 +63,6 @@ function AssessmentForm() {
         error: !isValidEmail,
       });
     } else if (name === 'textarea') {
-      console.log('text', e.target.value.length);
       if (e.target.value.length === 0) {
         setTextArea({
           message: 'Required',

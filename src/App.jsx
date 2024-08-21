@@ -10,6 +10,7 @@ import {
   Switch,
   useLocation,
   useHistory,
+  useParams,
 } from 'react-router-dom';
 import axios from 'axios';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -44,10 +45,13 @@ import i18n from './i18n/i18n';
 import BU_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterForm/BU/FormComponents/LazyApprovalSection2/BU_Letter_LazyApprovalSection2.jsx';
 import BU_Zone_Letter_LazyApprovalSection2 from './pages/REP_Letters_Module/LetterForm/Zone/FormComponents/LazyApprovalSection2/BU_Zone_Letter_LazyApprovalSection2.jsx';
 import Review from './pages/Review';
-import { PageNotFound } from './pages/PageNotFound';
 import BULetterForm from './pages/REP_Letters_Module/LetterForm/BU/BULetterForm';
 import FunctionalLetterForm from './pages/REP_Letters_Module/LetterForm/Functional/FunctionalLetterForm.jsx';
 import KpiModule from './pages/KPIModule/KpiModuleLandingPage.jsx';
+import PageWrapper from './components/wrappers/PageWrapper/index.jsx';
+import RecipientHomePage from './pages/REP_Letters_Module/Home/Functional/RecipientHomePage/RecipientHomePage.jsx';
+import DisclosureProcessorHomePageContainer from './pages/REP_Letters_Module/Home/BU/DisclosureProcessorHomePage/index.jsx';
+import { NoMatch } from './pages/NoMatch/NoMatch.js';
 
 const theme = createTheme({
   palette: {
@@ -68,6 +72,58 @@ const theme = createTheme({
   },
 });
 
+// Functional Component for opening/rendering the HomePage Directly from the URL
+const HomePageDirectLink = () => {
+  const { moduleName, roleName } = useParams();
+  const token = Cookies.get('token');
+
+  localStorage.setItem('selected_module_Role', moduleName);
+  localStorage.setItem('selected_Role', roleName);
+
+  if (moduleName === 'Assessment Module' && roleName === 'Control Owner') {
+    return <ControlHomePage />;
+  } else if (moduleName === 'Functional Representation Letter' && roleName === 'Recipient') {
+    return (
+      <PageWrapper>
+        <RecipientHomePage />
+      </PageWrapper>
+    );
+  } else if (moduleName === 'BU Representation Letter' && roleName === 'Processor') {
+    return (
+      <PageWrapper>
+        <DisclosureProcessorHomePageContainer />
+      </PageWrapper>
+    );
+  } else {
+    return <NoMatch />;
+  }
+};
+
+export function CommonWrapper(component) {
+  const userRole = localStorage.getItem('selected_Role');
+  const loginRole = useSelector((state) => state?.auth?.loginRole);
+  const role = loginRole ?? userRole;
+  var isControlPage = useMemo(() => {
+    return (
+      [
+        'Control owner',
+        'Control oversight',
+        'control_owner',
+        'control_oversight',
+        'Control Owner',
+        'Control Oversight',
+      ]?.includes(role) || false
+    );
+  }, [loginRole, userRole]);
+
+  return (
+    <>
+      <TopBar isControlPage={isControlPage} />
+      {component && component}
+    </>
+  );
+}
+
 const Pages = () => {
   const location = useLocation();
   const history = useHistory();
@@ -80,6 +136,7 @@ const Pages = () => {
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const [userState, userDispatch] = useContext(UserContext);
   const role = loginRole ?? userRole;
+  const { moduleName, roleName } = useParams();
 
   var isControlPage = useMemo(() => {
     return (
@@ -291,12 +348,17 @@ const Pages = () => {
             path="/BU-Zone-Letter-approve/:id"
             component={BU_Zone_Letter_LazyApprovalSection2}
           />
+          <Route
+            exact
+            path="/homepage-direct-link/:moduleName/:roleName"
+            component={HomePageDirectLink}
+          />
           <Route exact path="/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized/contact-us" component={ContactUs} />
           <Route exact path="/not-authorized" component={NotAuthorized} />
           <Route exact path="/kpi-module" component={KpiModule} />
           <Route exact path="/POC" component={POC} />
-          <Route path="*" component={PageNotFound} />
+          <Route path="*" component={NoMatch} />
         </Switch>
       </div>
     </div>

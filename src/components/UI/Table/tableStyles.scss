@@ -151,6 +151,12 @@ td.MuiTableCell-root.MuiTableCell-body {
 }
 
 .new-table-button {
+  width: 100%;
+  transition: 1s;
+  &.with-search {
+    transition: none;
+    width: calc(100% - 487px);
+  }
   .table-heading {
     display: flex;
     flex-direction: row;

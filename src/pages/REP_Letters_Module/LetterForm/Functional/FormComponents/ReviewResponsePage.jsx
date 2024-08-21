@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import { Divider, Group } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import CollapseFrame from '../../../../../components/UI/CollapseFrame';
 import Button from '../../../../../components/UI/Button';
+import { useGoHomePage } from '../../../../../hooks/useGoHomePage';
 
 const ReviewResponsePage = ({ submittedResponses = [] }) => {
-  const history = useHistory();
+  const { handleHomePageRedirect } = useGoHomePage();
 
   return (
     <CollapseFrame title="Section 1 : Please give your responses" active>
@@ -63,7 +64,7 @@ const ReviewResponsePage = ({ submittedResponses = [] }) => {
             color="neutral"
             className="w-100"
             id="submit-button"
-            onClick={() => history.push('/')}
+            onClick={() => handleHomePageRedirect()}
           >
             GO Back to Home Page
           </Button>

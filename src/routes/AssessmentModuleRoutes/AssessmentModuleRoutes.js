@@ -11,6 +11,7 @@ import ScheduleSurveyPage from '../../pages/AssessmentBank/ScheduleSurvey/Schedu
 import AssessmentDetailsTableData from '../../pages/AssessmentBank/Table/AssessmentDetailsTableData.jsx';
 import QuestionBankChangeLanguage from '../../pages/QuestionBankChangeLanguage';
 import Reporting from '../../pages/Reporting/Reporting';
+import { CommonWrapper } from '../../App';
 
 export const AssessmentModuleRoutes = [
   {

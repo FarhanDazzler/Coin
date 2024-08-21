@@ -83,8 +83,6 @@ const AssessmentForm = () => {
     validationSchema,
     onSubmit: (values, { setSubmitting }) => {
       setSuccessData(true);
-      console.log('Form data', values);
-      console.log('Saved data', JSON.parse(JSON.stringify(values)));
       setSubmitting(false);
     },
     // enableReinitialize,
@@ -158,7 +156,6 @@ const AssessmentForm = () => {
             var index = array.indexOf(element);
             if (index !== -1) {
               array.splice(index, 1);
-              console.log(showHide);
             }
           });
 
@@ -167,7 +164,6 @@ const AssessmentForm = () => {
           all_children = ques.child_question;
           array = [...showHide]; // make a separate copy of the array
           var index = array.indexOf(all_children);
-          console.log(index);
           if (index !== -1) {
             array.splice(index, 1);
             setShowHide([...array]);
@@ -177,7 +173,6 @@ const AssessmentForm = () => {
         //idea is to add the child id in the show state so that only this child is shown
         setShowHide([...showHide, result.q_id]);
         setshow(true);
-        console.log(showHide);
       } else {
         //check if any child is already in the show queue.
         array = [...showHide]; // make a separate copy of the array

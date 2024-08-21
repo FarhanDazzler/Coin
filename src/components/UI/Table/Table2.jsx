@@ -42,7 +42,9 @@ const Table2 = ({
   const [density, setDensity] = useState('compact');
   const [fullscreen, setFullscreen] = useState(false);
   const [sorting, setSorting] = useState([]);
+  const [showGlobalFilter, setShowGlobalFilter] = useState(false);
 
+  console.log('showGlobalFilter', showGlobalFilter);
   useEffect(() => {
     //do something when the row selection changes...
     //console.info({ rowSelection }, Object.keys(rowSelection));
@@ -271,7 +273,9 @@ const Table2 = ({
             density,
             fullscreen,
             sorting,
+            showGlobalFilter,
           }}
+          onShowGlobalFilterChange={setShowGlobalFilter}
           enableRowPinning={!isSimpleTable}
           enableColumnPinning={!isSimpleTable}
           onColumnFiltersChange={setColumnFilters}
@@ -281,7 +285,12 @@ const Table2 = ({
           onSortingChange={setSorting}
           onFullscreenChange={setFullscreen}
           renderTopToolbarCustomActions={({ table }) => (
-            <div className="new-table-button" style={{ padding: '4px 10px', width: '100%' }}>
+            <div
+              className={`new-table-button ${showGlobalFilter && 'with-search'}`}
+              style={{
+                padding: '4px 10px',
+              }}
+            >
               {/*<FloatRight size={24} strokeWidth={2} color={'#FFFFFF'} />*/}
               {/*<span style={{ paddingLeft: '16px' }}>Table Name</span>*/}
               {isShowExportActionPlan && (

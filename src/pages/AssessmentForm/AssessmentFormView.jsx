@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import './assessmentFormStyles.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -36,6 +36,7 @@ import { getCurrentYearAndQuarter } from '../KPIModule/KpiModuleLandingPage';
 
 const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}, isReview }) => {
   const history = useHistory();
+  const location = useLocation();
   const { accounts } = useMsal();
   // selected language getting here
   const { t, i18n } = useTranslation();
@@ -323,6 +324,23 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     });
   };
 
+  const onSuccessRedirect = () => {
+    // Get current query parameters
+    const searchParams = new URLSearchParams(location.search);
+
+    // Check for %filter% keyword in any of the query parameters
+    let filterParams = new URLSearchParams();
+    searchParams.forEach((value, key) => {
+      if (key.includes('filter')) {
+        filterParams.append(key, value);
+      }
+    });
+
+    // Redirect to home with preserved %filter% query parameters if any
+    const url = filterParams.toString() ? `/?${filterParams.toString()}` : '/';
+    history.push(url);
+  };
+
   // assessment submit action
   const handleSubmit = () => {
     let isS3FailedData;
@@ -420,7 +438,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                 dispatch(clearAssessmentResponse());
                 dispatch(resetBlockAD({ blockType: 'userFromAD' }));
                 dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
-                history.push('/');
+                onSuccessRedirect();
               } else {
                 if (
                   (dataArray.length > 0 ? isS3FailedData || s1FailObj : s1FailObj) ||
@@ -433,7 +451,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
                 dispatch(resetBlockAD({ blockType: 'userFromAD' }));
                 dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
                 dispatch(clearAssessmentResponse());
-                history.push('/');
+                onSuccessRedirect();
               }
             },
           },
@@ -480,7 +498,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               dispatch(resetBlockAD({ blockType: 'userFromAD' }));
               dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
               dispatch(clearAssessmentResponse()); // Assessment clear action
-              history.push('/');
+              onSuccessRedirect();
             },
           },
         };
@@ -561,7 +579,7 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
               dispatch(resetBlockAD({ blockType: 'userFromAD' }));
               dispatch(resetBlockAD({ blockType: 'isEmailValidAD' }));
               dispatch(clearAssessmentResponse());
-              history.push('/');
+              onSuccessRedirect();
             },
           },
         };

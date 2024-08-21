@@ -24,16 +24,20 @@ import Select from '../../components/UI/Select/Select';
 import i18n from '../../i18n/i18n';
 import { useTranslation } from 'react-i18next';
 import { authAPIRolesSelector } from '../../redux/Auth/AuthSelectors';
-import { AlignCenter } from 'tabler-icons-react';
+import { useParams } from 'react-router';
+import { useGoHomePage } from '../../hooks/useGoHomePage';
 
 const TopBar = (props) => {
   const history = useHistory();
   const location = useLocation();
+  const { handleHomePageRedirect } = useGoHomePage();
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const selected_Role = localStorage.getItem('selected_Role');
+  const { moduleName, roleName } = useParams();
+  const selected_Role = roleName || localStorage.getItem('selected_Role');
   const loginRole = useSelector((state) => state?.auth?.loginRole);
-  const selected_module_role = localStorage.getItem('selected_module_Role');
+  const selected_module_role = moduleName || localStorage.getItem('selected_module_Role');
+
   const { instance, accounts, inProgress } = useMsal();
   const [isDropDownOpen, setisDropDownOpen] = useState(false);
   const authAPIRoles = useSelector(authAPIRolesSelector);
@@ -109,10 +113,11 @@ const TopBar = (props) => {
       dispatch(setLoginRole(rolesVal));
       localStorage.setItem('selected_Role', rolesVal);
     } else {
-      dispatch(setLoginRole(roleOptionData[0]?.value));
+      const valueRole = moduleName || roleOptionData[0]?.value;
+      dispatch(setLoginRole(valueRole));
       setRolesOption(roleOptionData);
-      setRolesVal(roleOptionData[0]?.value);
-      localStorage.setItem('selected_Role', roleOptionData[0]?.value);
+      setRolesVal(valueRole);
+      localStorage.setItem('selected_Role', valueRole);
     }
     //TODO: set deps here
   }, [authAPIRoles]);
@@ -132,7 +137,7 @@ const TopBar = (props) => {
                   ['/', '/register'].includes(location?.pathname) ? ' active' : ''
                 }`}
                 onClick={() => {
-                  history.push('/');
+                  handleHomePageRedirect();
                 }}
               >
                 <FeatherIcon icon="home" size={14} />
@@ -275,7 +280,7 @@ const TopBar = (props) => {
                 ['/', '/register'].includes(location?.pathname) ? ' active' : ''
               }`}
               onClick={() => {
-                history.push('/');
+                handleHomePageRedirect();
               }}
             >
               <FeatherIcon icon="home" size={14} />
