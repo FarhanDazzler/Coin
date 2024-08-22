@@ -137,6 +137,7 @@ const Pages = () => {
   const [userState, userDispatch] = useContext(UserContext);
   const role = loginRole ?? userRole;
   const { moduleName, roleName } = useParams();
+  const [isAuth, setIsAuth] = useState(false);
 
   var isControlPage = useMemo(() => {
     return (
@@ -209,7 +210,7 @@ const Pages = () => {
 
   useEffect(() => {
     // // logic redirect login url
-    if (accounts && accounts?.length > 0 && inProgress === InteractionStatus.None) {
+    if (accounts && accounts?.length > 0 && inProgress === InteractionStatus.None && !isAuth) {
       if (accounts?.length > 0) {
         instance
           .acquireTokenSilent({
@@ -225,6 +226,7 @@ const Pages = () => {
                   userDispatch({ type: 'SET_PROFILE_PHOTO', payload: image });
               })
               .catch((err) => console.log(err));
+            setIsAuth(true);
           })
           .catch((err) => {
             instance.logout({
@@ -251,6 +253,9 @@ const Pages = () => {
           })
           .then((response) => {
             localStorage.setItem('powerbi_access_token', response?.accessToken);
+          })
+          .catch((err) => {
+            console.log(`Error occurred while acquiring token: ${err}`);
           });
       }
       // logic for getting NPS api auth token
