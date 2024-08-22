@@ -81,21 +81,36 @@ const HomePageDirectLink = () => {
   localStorage.setItem('selected_Role', roleName);
 
   if (moduleName === 'Assessment Module' && roleName === 'Control Owner') {
-    return <ControlHomePage />;
+    return (
+      <>
+        <TopBar isControlPage={true} />
+        <ControlHomePage />
+      </>
+    );
   } else if (moduleName === 'Functional Representation Letter' && roleName === 'Recipient') {
     return (
-      <PageWrapper>
-        <RecipientHomePage />
-      </PageWrapper>
+      <>
+        <TopBar isControlPage={false} />
+        <PageWrapper>
+          <RecipientHomePage />
+        </PageWrapper>
+      </>
     );
   } else if (moduleName === 'BU Representation Letter' && roleName === 'Processor') {
     return (
-      <PageWrapper>
-        <DisclosureProcessorHomePageContainer />
-      </PageWrapper>
+      <>
+        <TopBar isControlPage={false} />
+        <PageWrapper>
+          <DisclosureProcessorHomePageContainer />
+        </PageWrapper>
+      </>
     );
   } else {
-    return <NoMatch />;
+    return (
+      <>
+        <TopBar isControlPage={false} /> <NoMatch />{' '}
+      </>
+    );
   }
 };
 
@@ -283,11 +298,17 @@ const Pages = () => {
     }
   }, [accounts, inProgress]);
 
+  const isNotShowTopNavbar = useMemo(() => {
+    const paths = ['/login', '/homepage-direct-link'];
+
+    return paths.some((path) => location?.pathname.startsWith(path));
+  }, [location?.pathname]);
+
   return (
     <div className="page">
       <ToastContainer autoClose={15000} />
       <div className="flex-fill">
-        {!['/login'].includes(location?.pathname) && <TopBar isControlPage={isControlPage} />}
+        {!isNotShowTopNavbar && <TopBar isControlPage={isControlPage} />}
         {/* <Home /> */}
         <Switch>
           <Route
