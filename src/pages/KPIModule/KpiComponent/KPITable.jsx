@@ -1503,6 +1503,7 @@ const KPITable = ({
                         <input
                           icon={FileUploadOutlinedIcon}
                           type="file"
+                          accept="text/csv"
                           placeholder="Name"
                           id="uploadfile"
                           onChange={handleFileUpload}
