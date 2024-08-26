@@ -1,7 +1,6 @@
 import AdminLandingPage from '../../pages/AdminPage/AdminLandingPage';
 import AssessmentModulePanel from '../../pages/AdminPage/AssessmentModulePanel/AssessmentModulePanel.jsx';
 import RepresentationLetterModulePanel from '../../pages/AdminPage/RepresentationLetterModulePanel/RepresentationLetterModulePanel';
-import { CommonWrapper } from '../../App';
 
 export const AdminRoutes = [
   {
