@@ -1306,6 +1306,16 @@ const KPITable = ({
   // };
 
   const performCalculations = (data, tableData) => {
+    // Predefined Calculation Source options with proper casing
+    const Calculation_Source_options = {
+      pbi: 'PBI',
+      'grm dashboard': 'GRM Dashboard',
+      cognos: 'Cognos',
+      sap: 'SAP',
+      celonis: 'Celonis',
+      anaplan: 'Anaplan',
+    };
+
     return data.map((row) => {
       const {
         id,
@@ -1331,6 +1341,14 @@ const KPITable = ({
 
         // only update those row where expected source is manual
         if (KPI_Source === 'Manual') {
+          let normalizedCalculationSource = Calculation_Source;
+
+          // Normalize the Calculation_Source if it has a value
+          if (Calculation_Source && Calculation_Source.trim() !== '') {
+            const normalizedInput = Calculation_Source.trim().toLowerCase();
+            normalizedCalculationSource = Calculation_Source_options[normalizedInput] || 'Others';
+          }
+
           // Calculate KPI Value when Numerator and Denominator are provided and are valid numbers and finding the absolute value of the KPI Value
           const KPI_Value =
             (Numerator || Numerator == 0) && (Denominator || Denominator == 0)
@@ -1363,7 +1381,7 @@ const KPITable = ({
             ...tableRow,
             Numerator,
             Denominator,
-            Calculation_Source,
+            Calculation_Source: normalizedCalculationSource,
             Actual_Source_Link,
             KPI_Value,
             L1_Result: newResult_L1,
