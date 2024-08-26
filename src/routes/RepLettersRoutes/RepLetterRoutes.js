@@ -21,7 +21,6 @@ import ScheduleSurveyZonePage from '../../pages/REP_Letters_Module/SchedulingAnd
 import EditSection1 from '../../pages/REP_Letters_Module/LetterForm/BU/FormComponents/EditSection1';
 import EditZoneSection1 from '../../pages/REP_Letters_Module/LetterForm/Zone/FormComponents/EditZoneSection1';
 import MDMSiteAndPlant from '../../pages/REP_Letters_Module/Home/MDM/SitesAndPlants/MDMSiteAndPlant';
-import { CommonWrapper } from '../../App';
 
 export const RepLettersRoutes = [
   {
