@@ -149,8 +149,8 @@ const KPITable = ({
   // Code for validation and result calculation for Numerator and Denominator columns
   const validateKPI = (row, value, type) => {
     let errors = {};
-    console.log('row num', row.numerator);
-    console.log('row deno', row.denominator);
+    console.log('row num', row.Numerator);
+    console.log('row deno', row.Denominator);
     console.log('value', value);
     console.log('type', type);
     console.log(row.Numerator ? 'Numerator is present' : 'Numerator is not present');
@@ -226,6 +226,24 @@ const KPITable = ({
       // else if (!isNaN(value) && value <= 0) {
       //   errors.Denominator = 'Denominator must be greater than zero';
       // }
+    }
+
+    // If both Numerator and Denominator are present, check their validity
+    if ((row.Numerator || row.Numerator === 0) && (row.Denominator || row.Denominator === 0)) {
+      const isNumeratorInvalid = !isNumeratorValid(row.Numerator);
+      const isDenominatorInvalid = !isDenominatorValid(row.Denominator);
+
+      if (isNumeratorInvalid) {
+        errors.Numerator = `Numerator must be ${row.Numerator_Allowed}`;
+      } else {
+        errors.Numerator = null;
+      }
+
+      if (isDenominatorInvalid) {
+        errors.Denominator = `Denominator must be ${row.Denominator_Allowed}`;
+      } else {
+        errors.Denominator = null;
+      }
     }
     console.log('errors', errors);
     return errors;
@@ -1436,6 +1454,8 @@ const KPITable = ({
       console.log('Saved data', tableData);
     }
   };
+
+  console.log('validationErrors', validationErrors);
 
   return (
     <div className="kpi_table">
