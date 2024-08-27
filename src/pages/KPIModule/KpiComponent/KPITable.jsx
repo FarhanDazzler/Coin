@@ -99,12 +99,12 @@ function calculateResult(numerator, denominator, threshold, positiveDirection, r
     den = parseFloat(+denominator);
     thresholdFloat = parseFloat(+threshold);
   } catch (error) {
-    console.log('Error: One of the inputs is not a valid float.');
+    // console.log('Error: One of the inputs is not a valid float.');
     return 'Fail';
   }
 
   if (isNaN(num) || isNaN(den) || isNaN(thresholdFloat)) {
-    console.log('Error: One of the inputs is not a valid float.');
+    // console.log('Error: One of the inputs is not a valid float.');
     return 'Fail';
   }
 
@@ -134,7 +134,7 @@ const KPITable = ({
   const { accounts } = useMsal();
   const [submitLoading, setSubmitLoading] = useState(false);
   const currentYearAndQuarter = getCurrentYearAndQuarter();
-  console.log('currentYearAndQuarter', currentYearAndQuarter);
+  // console.log('currentYearAndQuarter', currentYearAndQuarter);
   const [tableData, setTableData] = useState(() => data);
   const [filterData, setFilterData] = useState({
     zoneValue: [],
@@ -149,6 +149,12 @@ const KPITable = ({
   // Code for validation and result calculation for Numerator and Denominator columns
   const validateKPI = (row, value, type) => {
     let errors = {};
+    // console.log('row num', row.Numerator);
+    // console.log('row deno', row.Denominator);
+    // console.log('value', value);
+    // console.log('type', type);
+    // console.log(row.Numerator ? 'Numerator is present' : 'Numerator is not present');
+    // console.log(row.Denominator ? 'Denominator is present' : 'Denominator is not present');
 
     // These functions handle the validation logic based on the Numerator_Allowed and Denominator_Allowed values.
     const isNumeratorValid = (num) => {
@@ -188,7 +194,7 @@ const KPITable = ({
       if (!isNaN(value) && !isNumeratorValid(value)) {
         errors.Numerator = `Numerator must be ${row.Numerator_Allowed}`;
       } else if (
-        (row.Numerator || row.Numerator == 0) && // Handling zero as a valid number
+        (row.Numerator || row.Numerator === 0) && // Handling zero as a valid number
         !row.Denominator &&
         row.Denominator !== 0
       ) {
@@ -196,7 +202,7 @@ const KPITable = ({
       } else if (
         !row.Numerator &&
         row.Numerator !== 0 &&
-        (row.Denominator || row.Denominator == 0)
+        (row.Denominator || row.Denominator === 0)
       ) {
         errors.Numerator = 'Numerator is required';
       }
@@ -205,22 +211,39 @@ const KPITable = ({
       if (!isNaN(value) && !isDenominatorValid(value)) {
         errors.Denominator = `Denominator must be ${row.Denominator_Allowed}`;
       } else if (
-        (row.Denominator || row.Denominator == 0) &&
+        (row.Denominator || row.Denominator === 0) &&
         !row.Numerator &&
         row.Numerator !== 0
       ) {
         errors.Denominator = 'Numerator is required';
       } else if (
-        (row.Numerator || row.Numerator == 0) &&
+        (row.Numerator || row.Numerator === 0) &&
         !row.Denominator &&
         row.Denominator !== 0
       ) {
-        errors.Numerator = 'Denominator is required';
+        errors.Denominator = 'Denominator is required';
       }
       // else if (!isNaN(value) && value <= 0) {
       //   errors.Denominator = 'Denominator must be greater than zero';
       // }
     }
+
+    // If both Numerator and Denominator are present, check their validity
+    if ((row.Numerator || row.Numerator === 0) && (row.Denominator || row.Denominator === 0)) {
+      const isNumeratorInvalid = !isNumeratorValid(row.Numerator);
+      const isDenominatorInvalid = !isDenominatorValid(row.Denominator);
+
+      errors.Numerator = isNumeratorInvalid ? `Numerator must be ${row.Numerator_Allowed}` : null;
+      errors.Denominator = isDenominatorInvalid
+        ? `Denominator must be ${row.Denominator_Allowed}`
+        : null;
+
+      // If both are valid, clear the errors object
+      if (!isNumeratorInvalid && !isDenominatorInvalid) {
+        errors = {};
+      }
+    }
+
     console.log('errors', errors);
     return errors;
   };
@@ -248,36 +271,43 @@ const KPITable = ({
   // };
 
   const updateResults = (row, tableData, cell) => {
+    const numerator = parseFloat(row.Numerator);
+    const denominator = parseFloat(row.Denominator);
+
+    // console.log('numerator', numerator);
+    // console.log('denominator', denominator);
+
     tableData[cell.row.index].L1_Result = calculateResult(
-      row.Numerator,
-      row.Denominator,
+      numerator,
+      denominator,
       row.Threshold_L1,
       row.Positive_Direction,
       row.L1_Result,
     );
     tableData[cell.row.index].L2_Result = calculateResult(
-      row.Numerator,
-      row.Denominator,
+      numerator,
+      denominator,
       row.Threshold_L2,
       row.Positive_Direction,
       row.L2_Result,
     );
     tableData[cell.row.index].L3_Result = calculateResult(
-      row.Numerator,
-      row.Denominator,
+      numerator,
+      denominator,
       row.Threshold_L3,
       row.Positive_Direction,
       row.L3_Result,
     );
 
     // logic to calculate KPI Value
-    if ((row.Numerator || row.Numerator == 0) && (row.Denominator || row.Denominator == 0)) {
+    if ((numerator || numerator === 0) && (denominator || denominator === 0)) {
       // calculate KPI Value only if Numerator and Denominator are present and not null and finding the absolute value of the result
-      tableData[cell.row.index].KPI_Value = Math.abs(
-        (+row.Numerator / +row.Denominator).toFixed(5),
-      );
+      tableData[cell.row.index].KPI_Value = Math.abs((+numerator / +denominator).toFixed(5));
+      // console.log('abs Value', Math.abs((+numerator / +denominator).toFixed(5)));
+      // console.log('KPI Value', tableData[cell.row.index].KPI_Value);
     } else {
       tableData[cell.row.index].KPI_Value = '';
+      // console.log('KPI Value else', tableData[cell.row.index].KPI_Value);
     }
   };
 
@@ -663,11 +693,12 @@ const KPITable = ({
           // Update the value in the local tableData copy
           updatedTableData[cell.row.index][cell.column.id] = value;
 
-          // Update results based on the row
-          updateResults(row.original, updatedTableData, cell);
+          // // Update results based on the row
+          // updateResults(row.original, updatedTableData, cell);
         },
         onBlur: (event) => {
-          const value = parseFloat(event.target.value.trim());
+          //const value = parseFloat(event.target.value.trim());
+          const value = event.target.value.trim();
           tableData[cell.row.index][cell.column.id] = value;
 
           const errors = validateKPI(row.original, value, 'Numerator');
@@ -683,9 +714,8 @@ const KPITable = ({
             delete validationErrors[row.original.id]?.Numerator;
             delete validationErrors[row.original.id]?.Denominator;
             setValidationErrors({ ...validationErrors });
+            updateResults(row.original, tableData, cell);
           }
-
-          updateResults(row.original, tableData, cell);
         },
       }),
       mantineTableBodyCellProps: ({ row }) =>
@@ -732,12 +762,13 @@ const KPITable = ({
           // Update the value in the local tableData copy
           updatedTableData[cell.row.index][cell.column.id] = value;
 
-          // Update results based on the row
-          updateResults(row.original, updatedTableData, cell);
+          // // Update results based on the row
+          // updateResults(row.original, updatedTableData, cell);
         },
         //helperText: validationErrors[row.original.id]?.Denominator,
         onBlur: (event) => {
-          const value = parseFloat(event.target.value.trim());
+          //const value = parseFloat(event.target.value.trim());
+          const value = event.target.value.trim();
           tableData[cell.row.index][cell.column.id] = value;
 
           const errors = validateKPI(row.original, value, 'Denominator');
@@ -753,9 +784,8 @@ const KPITable = ({
             delete validationErrors[row.original.id]?.Numerator;
             delete validationErrors[row.original.id]?.Denominator;
             setValidationErrors({ ...validationErrors });
+            updateResults(row.original, tableData, cell);
           }
-
-          updateResults(row.original, tableData, cell);
         },
       }),
       mantineTableBodyCellProps: ({ row }) =>
@@ -853,9 +883,6 @@ const KPITable = ({
 
           // Update the value in the local tableData copy
           updatedTableData[cell.row.index][cell.column.id] = value;
-
-          // Update results based on the row
-          updateResults(row.original, updatedTableData, cell);
         },
         onBlur: (event) => {
           const value = event.target.value.trim();
@@ -1011,12 +1038,12 @@ const KPITable = ({
     },
   ];
 
-  const formattedData = columns.map((column) => ({
-    label: column.header,
-    value: column.accessorKey,
-  }));
+  // const formattedData = columns.map((column) => ({
+  //   label: column.header,
+  //   value: column.accessorKey,
+  // }));
 
-  console.log(formattedData, '@@@');
+  // console.log(formattedData, '@@@');
 
   const handleExport = () => {
     const fields = [
@@ -1435,6 +1462,8 @@ const KPITable = ({
       console.log('Saved data', tableData);
     }
   };
+
+  // console.log('validationErrors', validationErrors);
 
   return (
     <div className="kpi_table">
