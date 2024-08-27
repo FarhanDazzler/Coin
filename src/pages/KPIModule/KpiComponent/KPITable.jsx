@@ -149,6 +149,12 @@ const KPITable = ({
   // Code for validation and result calculation for Numerator and Denominator columns
   const validateKPI = (row, value, type) => {
     let errors = {};
+    console.log('row num', row.numerator);
+    console.log('row deno', row.denominator);
+    console.log('value', value);
+    console.log('type', type);
+    console.log(row.Numerator ? 'Numerator is present' : 'Numerator is not present');
+    console.log(row.Denominator ? 'Denominator is present' : 'Denominator is not present');
 
     // These functions handle the validation logic based on the Numerator_Allowed and Denominator_Allowed values.
     const isNumeratorValid = (num) => {
@@ -188,7 +194,7 @@ const KPITable = ({
       if (!isNaN(value) && !isNumeratorValid(value)) {
         errors.Numerator = `Numerator must be ${row.Numerator_Allowed}`;
       } else if (
-        (row.Numerator || row.Numerator == 0) && // Handling zero as a valid number
+        (row.Numerator || row.Numerator === 0) && // Handling zero as a valid number
         !row.Denominator &&
         row.Denominator !== 0
       ) {
@@ -196,7 +202,7 @@ const KPITable = ({
       } else if (
         !row.Numerator &&
         row.Numerator !== 0 &&
-        (row.Denominator || row.Denominator == 0)
+        (row.Denominator || row.Denominator === 0)
       ) {
         errors.Numerator = 'Numerator is required';
       }
@@ -205,17 +211,17 @@ const KPITable = ({
       if (!isNaN(value) && !isDenominatorValid(value)) {
         errors.Denominator = `Denominator must be ${row.Denominator_Allowed}`;
       } else if (
-        (row.Denominator || row.Denominator == 0) &&
+        (row.Denominator || row.Denominator === 0) &&
         !row.Numerator &&
         row.Numerator !== 0
       ) {
         errors.Denominator = 'Numerator is required';
       } else if (
-        (row.Numerator || row.Numerator == 0) &&
+        (row.Numerator || row.Numerator === 0) &&
         !row.Denominator &&
         row.Denominator !== 0
       ) {
-        errors.Numerator = 'Denominator is required';
+        errors.Denominator = 'Denominator is required';
       }
       // else if (!isNaN(value) && value <= 0) {
       //   errors.Denominator = 'Denominator must be greater than zero';
