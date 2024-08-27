@@ -302,7 +302,10 @@ const KPITable = ({
     // logic to calculate KPI Value
     if ((numerator || numerator === 0) && (denominator || denominator === 0)) {
       // calculate KPI Value only if Numerator and Denominator are present and not null and finding the absolute value of the result
-      tableData[cell.row.index].KPI_Value = Math.abs((+numerator / +denominator).toFixed(5));
+      // If the denominator is zero, the KPI Value is zero
+      tableData[cell.row.index].KPI_Value =
+        denominator === 0 ? 0 : Math.abs((+numerator / +denominator).toFixed(5));
+
       // console.log('abs Value', Math.abs((+numerator / +denominator).toFixed(5)));
       // console.log('KPI Value', tableData[cell.row.index].KPI_Value);
     } else {
@@ -1377,9 +1380,12 @@ const KPITable = ({
           }
 
           // Calculate KPI Value when Numerator and Denominator are provided and are valid numbers and finding the absolute value of the KPI Value
+          // If the Denominator is 0, then the KPI Value is 0
           const KPI_Value =
-            (Numerator || Numerator == 0) && (Denominator || Denominator == 0)
-              ? Math.abs((+Numerator / +Denominator).toFixed(5))
+            (Numerator || Numerator === 0) && (Denominator || Denominator === 0)
+              ? Denominator === 0
+                ? 0
+                : Math.abs((+Numerator / +Denominator).toFixed(5))
               : '';
 
           const newResult_L1 = calculateResult(
