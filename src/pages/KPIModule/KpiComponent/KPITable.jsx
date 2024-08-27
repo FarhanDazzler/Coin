@@ -99,12 +99,12 @@ function calculateResult(numerator, denominator, threshold, positiveDirection, r
     den = parseFloat(+denominator);
     thresholdFloat = parseFloat(+threshold);
   } catch (error) {
-    console.log('Error: One of the inputs is not a valid float.');
+    // console.log('Error: One of the inputs is not a valid float.');
     return 'Fail';
   }
 
   if (isNaN(num) || isNaN(den) || isNaN(thresholdFloat)) {
-    console.log('Error: One of the inputs is not a valid float.');
+    // console.log('Error: One of the inputs is not a valid float.');
     return 'Fail';
   }
 
@@ -134,7 +134,7 @@ const KPITable = ({
   const { accounts } = useMsal();
   const [submitLoading, setSubmitLoading] = useState(false);
   const currentYearAndQuarter = getCurrentYearAndQuarter();
-  console.log('currentYearAndQuarter', currentYearAndQuarter);
+  // console.log('currentYearAndQuarter', currentYearAndQuarter);
   const [tableData, setTableData] = useState(() => data);
   const [filterData, setFilterData] = useState({
     zoneValue: [],
@@ -663,8 +663,8 @@ const KPITable = ({
           // Update the value in the local tableData copy
           updatedTableData[cell.row.index][cell.column.id] = value;
 
-          // Update results based on the row
-          updateResults(row.original, updatedTableData, cell);
+          // // Update results based on the row
+          // updateResults(row.original, updatedTableData, cell);
         },
         onBlur: (event) => {
           const value = parseFloat(event.target.value.trim());
@@ -683,9 +683,8 @@ const KPITable = ({
             delete validationErrors[row.original.id]?.Numerator;
             delete validationErrors[row.original.id]?.Denominator;
             setValidationErrors({ ...validationErrors });
+            updateResults(row.original, tableData, cell);
           }
-
-          updateResults(row.original, tableData, cell);
         },
       }),
       mantineTableBodyCellProps: ({ row }) =>
@@ -732,8 +731,8 @@ const KPITable = ({
           // Update the value in the local tableData copy
           updatedTableData[cell.row.index][cell.column.id] = value;
 
-          // Update results based on the row
-          updateResults(row.original, updatedTableData, cell);
+          // // Update results based on the row
+          // updateResults(row.original, updatedTableData, cell);
         },
         //helperText: validationErrors[row.original.id]?.Denominator,
         onBlur: (event) => {
@@ -753,9 +752,8 @@ const KPITable = ({
             delete validationErrors[row.original.id]?.Numerator;
             delete validationErrors[row.original.id]?.Denominator;
             setValidationErrors({ ...validationErrors });
+            updateResults(row.original, tableData, cell);
           }
-
-          updateResults(row.original, tableData, cell);
         },
       }),
       mantineTableBodyCellProps: ({ row }) =>
@@ -853,9 +851,6 @@ const KPITable = ({
 
           // Update the value in the local tableData copy
           updatedTableData[cell.row.index][cell.column.id] = value;
-
-          // Update results based on the row
-          updateResults(row.original, updatedTableData, cell);
         },
         onBlur: (event) => {
           const value = event.target.value.trim();
@@ -1011,12 +1006,12 @@ const KPITable = ({
     },
   ];
 
-  const formattedData = columns.map((column) => ({
-    label: column.header,
-    value: column.accessorKey,
-  }));
+  // const formattedData = columns.map((column) => ({
+  //   label: column.header,
+  //   value: column.accessorKey,
+  // }));
 
-  console.log(formattedData, '@@@');
+  // console.log(formattedData, '@@@');
 
   const handleExport = () => {
     const fields = [
