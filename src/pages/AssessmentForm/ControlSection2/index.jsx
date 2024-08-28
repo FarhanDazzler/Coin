@@ -5,7 +5,15 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
-import Swal from 'sweetalert2';
+import { Badge, Flex, MantineProvider } from '@mantine/core';
+import {
+  MRT_GlobalFilterTextInput,
+  MRT_ToggleFiltersButton,
+  MantineReactTable,
+  MRT_ShowHideColumnsButton,
+  MRT_ToggleDensePaddingButton,
+} from 'mantine-react-table';
+import * as XLSX from 'xlsx';
 
 import Workbook from 'react-excel-workbook';
 import readXlsxFile from 'read-excel-file';
@@ -78,6 +86,125 @@ const ControlSection2 = ({
       handleChange('', '', data, i);
     });
   }, [csvUpdateData, tableData.length]);
+
+  const headerCellStyle = {
+    backgroundColor: '#d4d4d4',
+    border: '2px solid gray',
+    color: 'black',
+  };
+
+  const columnsTable = [
+    {
+      accessorKey: 'id',
+      header: 'id',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) => ({
+        style: !row.original.isManual ? headerCellStyle : undefined,
+      }),
+      headerCellStyle: headerCellStyle,
+    },
+    {
+      accessorKey: 'sep',
+      header: 'sep',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) => ({
+        style: !row.original.isManual ? headerCellStyle : undefined,
+      }),
+      headerCellStyle: headerCellStyle,
+    },
+    {
+      accessorKey: 'Global_KPI_Code',
+      header: 'Global KPI Code',
+      size: 100,
+      enableEditing: true,
+      mantineTableBodyCellProps: ({ row }) => ({
+        style: !row.original.isManual ? headerCellStyle : undefined,
+      }),
+      headerCellStyle: headerCellStyle,
+    },
+    {
+      accessorKey: 'Region',
+      header: 'Region',
+      size: 100,
+      enableEditing: true,
+      mantineTableBodyCellProps: ({ row }) => ({
+        style: !row.original.isManual ? headerCellStyle : undefined,
+      }),
+      headerCellStyle: headerCellStyle,
+    },
+    {
+      accessorKey: 'Legal_Entity_Code',
+      header: 'Legal Entity Code',
+      size: 100,
+      enableEditing: true,
+      mantineTableBodyCellProps: ({ row }) => ({
+        style: !row.original.isManual ? headerCellStyle : undefined,
+      }),
+      headerCellStyle: headerCellStyle,
+    },
+    {
+      accessorKey: 'Legal_Entity_Name',
+      header: 'Legal Entity Name',
+      size: 100,
+      enableEditing: true,
+      mantineTableBodyCellProps: ({ row }) => ({
+        style: !row.original.isManual ? headerCellStyle : undefined,
+      }),
+      headerCellStyle: headerCellStyle,
+    },
+    {
+      accessorKey: 'Department',
+      header: 'Department',
+      size: 100,
+      enableEditing: true,
+      mantineTableBodyCellProps: ({ row }) => ({
+        style: !row.original.isManual ? headerCellStyle : undefined,
+      }),
+      headerCellStyle: headerCellStyle,
+    },
+    {
+      accessorKey: 'Sub_Department',
+      header: 'Sub Department',
+      size: 100,
+      enableEditing: true,
+      mantineTableBodyCellProps: ({ row }) => ({
+        style: !row.original.isManual ? headerCellStyle : undefined,
+      }),
+      headerCellStyle: headerCellStyle,
+    },
+    {
+      accessorKey: 'L3',
+      header: 'L3',
+      size: 100,
+      enableEditing: true,
+      mantineTableBodyCellProps: ({ row }) => ({
+        style: !row.original.isManual ? headerCellStyle : undefined,
+      }),
+      headerCellStyle: headerCellStyle,
+    },
+    {
+      accessorKey: 'L4',
+      header: 'L4',
+      size: 100,
+      enableEditing: true,
+      mantineTableBodyCellProps: ({ row }) => ({
+        style: !row.original.isManual ? headerCellStyle : undefined,
+      }),
+      headerCellStyle: headerCellStyle,
+    },
+    {
+      accessorKey: 'Manual_Segment',
+      header: 'Manual Segment',
+      size: 100,
+      enableEditing: true,
+      mantineTableBodyCellProps: ({ row }) => ({
+        style: !row.original.isManual ? headerCellStyle : undefined,
+      }),
+      headerCellStyle: headerCellStyle,
+    },
+  ];
 
   //All fixed table schema
   const columns = [
@@ -956,6 +1083,50 @@ const ControlSection2 = ({
         ) : (
           <>
             <div className="mt-5 pt-5">
+              <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
+                <MantineReactTable
+                  columns={columnsTable}
+                  data={[]}
+                  enableColumnFilterModes={false}
+                  enableFacetedValues={true}
+                  enableGrouping={false}
+                  enableRowSelection={false}
+                  selectAllMode="all"
+                  getRowId={(row) => row.id}
+                  enableRowNumbers={true}
+                  rowNumberMode={'original'}
+                  enableStickyHeader={true}
+                  editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)
+                  // enableEditing={(row) =>
+                  //   row.original.KPI_Source == 'Manual' &&
+                  //   row.original.Year_and_Quarter === currentYearAndQuarter
+                  // }
+                  initialState={{
+                    showColumnFilters: true,
+                    showGlobalFilter: true,
+                    density: 'xs',
+                    expanded: true,
+                    grouping: ['state'],
+                    pagination: { pageIndex: 0, pageSize: 10 },
+                    sorting: [{ id: 'state', desc: false }],
+                  }}
+                  mantineTableHeadCellProps={{
+                    align: 'center',
+                  }}
+                  // displayColumnDefOptions={{
+                  //   'mrt-row-numbers': {
+                  //     size: 10,
+                  //   },
+                  //   'mrt-row-expand': {
+                  //     size: 10,
+                  //   },
+                  // }}
+                  mantineTableProps={{
+                    withColumnBorders: true,
+                  }}
+                />
+              </MantineProvider>
+
               {showGraph && (
                 <>
                   {historicalGraphData && Object.keys(historicalGraphData)?.length > 0 ? (

@@ -17,6 +17,7 @@ import {
   resetBlockAssessment,
 } from '../../../redux/Assessments/AssessmentAction';
 import { useQuery, stringToArray } from '../../../hooks/useQuery';
+import ClearFilter from '../../../components/UI/ClearFilter';
 
 const Badge_apply = ({ data }) => {
   if (data.toUpperCase() === 'PASS') {
@@ -536,43 +537,48 @@ const ControlOwnerTable = ({
         ) : (
           <div className="row pt-5">
             <div className="col-12 col-lg-12">
-              <Group spacing="xs" className="actions-button-wrapper">
-                <FilterMultiSelect
-                  data={getYearsData() || []}
-                  label="Year"
-                  value={yearValue}
-                  onChange={setYearValue}
-                />
-                <FilterMultiSelect
-                  data={[
-                    { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
-                    { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
-                    { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
-                    { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
-                  ]}
-                  label="Assessment Cycle"
-                  value={assessmentCycleValue}
-                  onChange={setAssessmentCycleValue}
-                />
-                <FilterMultiSelect
-                  data={removeDuplicates(Zone) || []}
-                  label="Zone"
-                  value={zoneValue}
-                  onChange={setZoneValue}
-                />
-                <FilterMultiSelect
-                  data={removeDuplicates(BU) || []}
-                  label="BU"
-                  value={buValue}
-                  onChange={setBUValue}
-                />
-                <FilterMultiSelect
-                  data={removeDuplicates(Provider) || []}
-                  label="Provider Organization"
-                  value={providerValue}
-                  onChange={setProviderValue}
-                />
-              </Group>
+              <div className="d-flex justify-content-between">
+                <Group spacing="xs" className="actions-button-wrapper">
+                  <FilterMultiSelect
+                    data={getYearsData() || []}
+                    label="Year"
+                    value={yearValue}
+                    onChange={setYearValue}
+                  />
+                  <FilterMultiSelect
+                    data={[
+                      { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
+                      { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
+                      { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
+                      { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
+                    ]}
+                    label="Assessment Cycle"
+                    value={assessmentCycleValue}
+                    onChange={setAssessmentCycleValue}
+                  />
+                  <FilterMultiSelect
+                    data={removeDuplicates(Zone) || []}
+                    label="Zone"
+                    value={zoneValue}
+                    onChange={setZoneValue}
+                  />
+                  <FilterMultiSelect
+                    data={removeDuplicates(BU) || []}
+                    label="BU"
+                    value={buValue}
+                    onChange={setBUValue}
+                  />
+                  <FilterMultiSelect
+                    data={removeDuplicates(Provider) || []}
+                    label="Provider Organization"
+                    value={providerValue}
+                    onChange={setProviderValue}
+                  />
+                </Group>
+                <div className="d-flex align-items-end">
+                  <ClearFilter />
+                </div>
+              </div>
             </div>
             <div className="col-12 col-lg-12 mt-5 control-owner-table">
               <Table2
