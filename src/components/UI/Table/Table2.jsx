@@ -343,13 +343,13 @@ const Table2 = ({
                     </div>
                     <div className="table-heading" style={{ justifyContent: 'space-between' }}>
                       <div>
-                        <Button
-                          onClick={resetTableState}
-                          variant="contained"
-                          disabled={isClearButtonDisabled}
-                        >
-                          Clear Filters
-                        </Button>
+                        {/*<Button*/}
+                        {/*  onClick={resetTableState}*/}
+                        {/*  variant="contained"*/}
+                        {/*  disabled={isClearButtonDisabled}*/}
+                        {/*>*/}
+                        {/*  Clear Filters*/}
+                        {/*</Button>*/}
                       </div>
                     </div>
                   </Box>

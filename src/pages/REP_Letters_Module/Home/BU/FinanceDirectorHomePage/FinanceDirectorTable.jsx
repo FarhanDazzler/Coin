@@ -16,6 +16,7 @@ import {
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BU_Finance_DirectorHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignatures from '../../../../../components/ShowSignatures';
+import ClearFilter from '../../../../../components/UI/ClearFilter';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -51,6 +52,7 @@ const FinanceDirectorTable = ({
   setOverallStatusValue,
   rbaStatusValue,
   setRbaStatusValue,
+  handleResetState,
 }) => {
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
@@ -99,12 +101,19 @@ const FinanceDirectorTable = ({
     return yearsArray;
   }
 
-  const [yearValue, setYearValue] = useState(
+  const initialYear =
     new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
       ? [String(new Date().getFullYear() - 1)]
-      : [String(new Date().getFullYear())],
-  );
+      : [String(new Date().getFullYear())];
+
+  const [yearValue, setYearValue] = useState(initialYear);
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
+
+  const handleClearState = () => {
+    setYearValue(initialYear);
+    setAssessmentCycleValue([getCurrentAssessmentCycle()]);
+    if (handleResetState) handleResetState();
+  };
 
   const history = useHistory();
 
@@ -376,57 +385,62 @@ const FinanceDirectorTable = ({
         ) : (
           <div className="row pt-5">
             <div className="col-12 col-lg-12">
-              <Group spacing="xs" className="actions-button-wrapper">
-                <FilterMultiSelect
-                  data={getYearsData() || []}
-                  label="Year"
-                  value={yearValue}
-                  onChange={setYearValue}
-                />
-                <FilterMultiSelect
-                  data={[
-                    { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
-                    { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
-                    { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
-                    { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
-                  ]}
-                  label="Assessment Cycle"
-                  value={assessmentCycleValue}
-                  onChange={setAssessmentCycleValue}
-                />
-                <FilterMultiSelect
-                  data={getHomePageData?.data[0]?.distinct_zone || []}
-                  label="Zone"
-                  value={zoneValue}
-                  onChange={setZoneValue}
-                />
-                <FilterMultiSelect
-                  data={getHomePageData?.data[0]?.distinct_bu || []}
-                  label="BU"
-                  value={buValue}
-                  onChange={setBUValue}
-                />
-                <FilterMultiSelect
-                  data={[
-                    'Not Started',
-                    'Drafted',
-                    'Approval Pending',
-                    'Prepared',
-                    'Signed',
-                    'Completed',
-                  ]}
-                  label="Overall Status"
-                  value={overallStatusValue}
-                  onChange={setOverallStatusValue}
-                />
+              <div className="d-flex justify-content-between">
+                <Group spacing="xs" className="actions-button-wrapper">
+                  <FilterMultiSelect
+                    data={getYearsData() || []}
+                    label="Year"
+                    value={yearValue}
+                    onChange={setYearValue}
+                  />
+                  <FilterMultiSelect
+                    data={[
+                      { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
+                      { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
+                      { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
+                      { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
+                    ]}
+                    label="Assessment Cycle"
+                    value={assessmentCycleValue}
+                    onChange={setAssessmentCycleValue}
+                  />
+                  <FilterMultiSelect
+                    data={getHomePageData?.data[0]?.distinct_zone || []}
+                    label="Zone"
+                    value={zoneValue}
+                    onChange={setZoneValue}
+                  />
+                  <FilterMultiSelect
+                    data={getHomePageData?.data[0]?.distinct_bu || []}
+                    label="BU"
+                    value={buValue}
+                    onChange={setBUValue}
+                  />
+                  <FilterMultiSelect
+                    data={[
+                      'Not Started',
+                      'Drafted',
+                      'Approval Pending',
+                      'Prepared',
+                      'Signed',
+                      'Completed',
+                    ]}
+                    label="Overall Status"
+                    value={overallStatusValue}
+                    onChange={setOverallStatusValue}
+                  />
 
-                <FilterMultiSelect
-                  data={['Not Started', 'Pending RBA Approval', 'RBA Approved']}
-                  label="RBA Status"
-                  value={rbaStatusValue}
-                  onChange={setRbaStatusValue}
-                />
-              </Group>
+                  <FilterMultiSelect
+                    data={['Not Started', 'Pending RBA Approval', 'RBA Approved']}
+                    label="RBA Status"
+                    value={rbaStatusValue}
+                    onChange={setRbaStatusValue}
+                  />
+                </Group>
+                <div className="d-flex align-items-end">
+                  <ClearFilter onClick={handleClearState} />
+                </div>
+              </div>
             </div>
 
             <div className="col-12 col-lg-12 mt-5">

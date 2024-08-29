@@ -20,6 +20,7 @@ import {
 import { get_BU_Disclosure_ProcessorHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignatures from '../../../../../components/ShowSignatures';
 import { stringToArray, useQuery } from '../../../../../hooks/useQuery';
+import ClearFilter from '../../../../../components/UI/ClearFilter';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -55,6 +56,7 @@ const DisclosureProcessorTable = ({
   setOverallStatusValue,
   rbaStatusValue,
   setRbaStatusValue,
+  handleResetState,
 }) => {
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
@@ -103,16 +105,23 @@ const DisclosureProcessorTable = ({
     return yearsArray;
   }
 
-  const [yearValue, setYearValue] = useState(
-    params?.filterYear
-      ? stringToArray(params?.filterYear)
-      : new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
+  const initialYear =
+    new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
       ? [String(new Date().getFullYear() - 1)]
-      : [String(new Date().getFullYear())],
+      : [String(new Date().getFullYear())];
+
+  const [yearValue, setYearValue] = useState(
+    params?.filterYear ? stringToArray(params?.filterYear) : initialYear,
   );
   const [assessmentCycleValue, setAssessmentCycleValue] = useState(
     params?.filterCycle ? stringToArray(params?.filterCycle) : [getCurrentAssessmentCycle()],
   );
+
+  const handleClearState = () => {
+    setYearValue(initialYear);
+    setAssessmentCycleValue([getCurrentAssessmentCycle()]);
+    if (handleResetState) handleResetState();
+  };
 
   const filterRef = useRef({
     yearValue,
@@ -517,58 +526,64 @@ const DisclosureProcessorTable = ({
         ) : (
           <div className="row pt-5">
             <div className="col-12 col-lg-12">
-              <Group spacing="xs" className="actions-button-wrapper">
-                <FilterMultiSelect
-                  data={getYearsData() || []}
-                  label="Year"
-                  value={yearValue}
-                  onChange={setYearValue}
-                />
-                <FilterMultiSelect
-                  data={[
-                    { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
-                    { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
-                    { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
-                    { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
-                  ]}
-                  label="Assessment Cycle"
-                  value={assessmentCycleValue}
-                  onChange={setAssessmentCycleValue}
-                />
-                <FilterMultiSelect
-                  data={getDisclosureProcessorHomePageData?.data[0]?.distinct_zone || []}
-                  label="Zone"
-                  value={zoneValue}
-                  onChange={setZoneValue}
-                />
-                <FilterMultiSelect
-                  data={getDisclosureProcessorHomePageData?.data[0]?.distinct_bu || []}
-                  label="BU"
-                  value={buValue}
-                  onChange={setBUValue}
-                />
+              <div className="d-flex justify-content-between">
+                <Group spacing="xs" className="actions-button-wrapper">
+                  <FilterMultiSelect
+                    data={getYearsData() || []}
+                    label="Year"
+                    value={yearValue}
+                    onChange={setYearValue}
+                  />
+                  <FilterMultiSelect
+                    data={[
+                      { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
+                      { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
+                      { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
+                      { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
+                    ]}
+                    label="Assessment Cycle"
+                    value={assessmentCycleValue}
+                    onChange={setAssessmentCycleValue}
+                  />
+                  <FilterMultiSelect
+                    data={getDisclosureProcessorHomePageData?.data[0]?.distinct_zone || []}
+                    label="Zone"
+                    value={zoneValue}
+                    onChange={setZoneValue}
+                  />
+                  <FilterMultiSelect
+                    data={getDisclosureProcessorHomePageData?.data[0]?.distinct_bu || []}
+                    label="BU"
+                    value={buValue}
+                    onChange={setBUValue}
+                  />
 
-                <FilterMultiSelect
-                  data={[
-                    'Not Started',
-                    'Drafted',
-                    'Approval Pending',
-                    'Prepared',
-                    'Signed',
-                    'Completed',
-                  ]}
-                  label="Overall Status"
-                  value={overallStatusValue}
-                  onChange={setOverallStatusValue}
-                />
+                  <FilterMultiSelect
+                    data={[
+                      'Not Started',
+                      'Drafted',
+                      'Approval Pending',
+                      'Prepared',
+                      'Signed',
+                      'Completed',
+                    ]}
+                    label="Overall Status"
+                    value={overallStatusValue}
+                    onChange={setOverallStatusValue}
+                  />
 
-                <FilterMultiSelect
-                  data={['Not Started', 'Pending RBA Approval', 'RBA Approved']}
-                  label="RBA Status"
-                  value={rbaStatusValue}
-                  onChange={setRbaStatusValue}
-                />
-              </Group>
+                  <FilterMultiSelect
+                    data={['Not Started', 'Pending RBA Approval', 'RBA Approved']}
+                    label="RBA Status"
+                    value={rbaStatusValue}
+                    onChange={setRbaStatusValue}
+                  />
+                </Group>
+
+                <div className="d-flex align-items-end">
+                  <ClearFilter onClick={handleClearState} />
+                </div>
+              </div>
             </div>
 
             <div className="col-12 col-lg-12 mt-5 LocalInternalControlTable">
