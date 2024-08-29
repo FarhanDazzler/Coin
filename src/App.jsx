@@ -301,15 +301,8 @@ const Pages = () => {
         history.push(`${location.pathname}${location.search ? location.search : ''}`);
       }
     } else if (accounts && accounts.length === 0 && inProgress === InteractionStatus.None) {
-      const storedTime = localStorage.getItem('lT');
-      const fourHoursInMilliseconds = (3 * 60 + 55) * 60 * 1000; // 3 hrs 55 mins in milliseconds
-      if (storedTime && Date.now() - storedTime >= fourHoursInMilliseconds) {
-        authFlow();
-      } else {
-        setIsAuth(false)
-        if (redirect) history.push(`/login?redirect=${redirect}`);
-        else history.push('/login');
-      }
+      if (redirect) history.push(`/login?redirect=${redirect}`);
+      else history.push('/login');
     }
   }, [accounts, inProgress, location.pathname]);
 
