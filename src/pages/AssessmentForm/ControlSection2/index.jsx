@@ -5,7 +5,15 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
-import Swal from 'sweetalert2';
+import { Badge, Flex, MantineProvider } from '@mantine/core';
+import {
+  MRT_GlobalFilterTextInput,
+  MRT_ToggleFiltersButton,
+  MantineReactTable,
+  MRT_ShowHideColumnsButton,
+  MRT_ToggleDensePaddingButton,
+} from 'mantine-react-table';
+import * as XLSX from 'xlsx';
 
 import Workbook from 'react-excel-workbook';
 import readXlsxFile from 'read-excel-file';
@@ -22,6 +30,24 @@ import { useTranslation } from 'react-i18next';
 import { Loader } from '@mantine/core';
 import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 import { convertVariable } from '../../../utils/helper';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+
+const Badge_apply = ({ data }) => {
+  const colorMap = {
+    PASS: 'green',
+    FAIL: 'red',
+    'N/A': 'gray',
+    NA: 'gray',
+  };
+
+  const color = colorMap[data.toUpperCase()] || 'gray';
+
+  return (
+    <Badge color={color} size="lg" radius="lg" variant="outline">
+      {data.toUpperCase()}
+    </Badge>
+  );
+};
 
 export const hasFailNumerator = (row) => {
   const isNumeratorValue = !!row?.Numerator || [0, '0'].includes(row?.Numerator);
@@ -78,6 +104,12 @@ const ControlSection2 = ({
       handleChange('', '', data, i);
     });
   }, [csvUpdateData, tableData.length]);
+
+  const headerCellStyle = {
+    backgroundColor: '#d4d4d4',
+    border: '2px solid gray',
+    color: 'black',
+  };
 
   //All fixed table schema
   const columns = [
@@ -226,6 +258,7 @@ const ControlSection2 = ({
         }
       },
     },
+
     {
       dataField: 'Positive_direction',
       text: 'Positive_direction',
@@ -944,6 +977,346 @@ const ControlSection2 = ({
     return value.toString();
   };
 
+  const tableBodyCellStyle = {
+    backgroundColor: '#d4d4d4',
+    border: '2px solid gray',
+    color: 'black',
+  };
+
+  const columns1212 = [
+    {
+      accessorKey: 'id',
+      header: 'id',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'sep',
+      header: 'sep',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'Global_KPI_Code',
+      enableClickToCopy: true,
+      header: 'Global_KPI_Code',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          // align: 'center',
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'Applicability',
+      enableClickToCopy: true,
+      header: 'Applicability',
+      size: 100,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'MICS_Code',
+      enableClickToCopy: true,
+      header: 'MICS_Code',
+      size: 100,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+
+    {
+      accessorKey: 'MICS_L1_Threshold',
+      // filterVariant: 'autocomplete',
+      header: 'MICS_L1_Threshold',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'MICS_L2_Threshold',
+      // filterVariant: 'autocomplete',
+      header: 'MICS_L2_Threshold',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'MICS_L3_Threshold',
+      header: 'MICS_L3_Threshold',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+
+    {
+      accessorKey: 'Positive_direction',
+      enableClickToCopy: true,
+      header: 'Positive_direction',
+      size: 200,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'Entity_ID',
+      enableClickToCopy: true,
+      header: 'Entity_ID',
+      size: 200,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'isManual',
+      enableClickToCopy: true,
+      //filterVariant: 'multi-select',
+      header: 'isManual',
+      size: 100,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'Period_From',
+      enableClickToCopy: true,
+      header: 'Period_From',
+      size: 100,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'Period_To',
+      enableClickToCopy: true,
+      //filterVariant: 'multi-select',
+      header: 'Period_To',
+      size: 100,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'Expected_Numerator',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Expected_Numerator',
+      size: 200,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'Numerator',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Numerator',
+      size: 200,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'Expected_Denominator',
+      enableClickToCopy: true,
+      //filterVariant: 'multi-select',
+      header: 'Expected_Denominator',
+      size: 100,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'Denominator',
+      enableClickToCopy: true,
+      header: 'Denominator',
+      size: 300,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'KPI_Value',
+      enableClickToCopy: true,
+      header: 'KPI_Value',
+      size: 150,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+
+    {
+      accessorKey: 'Upload_Approach',
+      enableClickToCopy: true,
+      header: 'KPI Data source (Excel/PBI/Celonis/Others)',
+      size: 200,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'Source_System',
+      enableClickToCopy: true,
+      header: 'Source of Data - Link',
+      size: 300,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'Month',
+      enableClickToCopy: true,
+      header: 'Month',
+      size: 300,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+
+    {
+      accessorKey: 'L1_Result',
+      header: 'L1_Result',
+      size: 50,
+      enableEditing: false,
+      Cell: ({ row }) => {
+        return <Badge_apply data={row.original.L1_Result} />;
+      },
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'L2_Result',
+      //   filterVariant: 'autocomplete',
+      header: 'L2_Result',
+      size: 50,
+      enableEditing: false,
+      Cell: ({ row }) => {
+        return <Badge_apply data={row.original.L2_Result} />;
+      },
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+    {
+      accessorKey: 'L3_Result',
+      //   filterVariant: 'autocomplete',
+      header: 'L3_Result',
+      size: 50,
+      enableEditing: false,
+      Cell: ({ row }) => {
+        return <Badge_apply data={row.original.L3_Result} />;
+      },
+      mantineTableBodyCellProps: ({ row }) =>
+        !row.original.isManual && {
+          sx: {
+            ...tableBodyCellStyle,
+          },
+        },
+    },
+  ];
+
+  const tableRecord = useMemo(() => {
+    return tableData;
+  }, [tableData]);
+
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section2KPI')} active>
@@ -956,6 +1329,88 @@ const ControlSection2 = ({
         ) : (
           <>
             <div className="mt-5 pt-5">
+              {/*<MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>*/}
+              {/*  <MantineReactTable*/}
+              {/*    columns={columns1212}*/}
+              {/*    data={tableRecord}*/}
+              {/*    enableColumnFilterModes={false}*/}
+              {/*    enableFacetedValues={true}*/}
+              {/*    enableGrouping={false}*/}
+              {/*    enableRowSelection={false}*/}
+              {/*    selectAllMode="all"*/}
+              {/*    getRowId={(row) => row.id}*/}
+              {/*    enableRowNumbers={true}*/}
+              {/*    rowNumberMode={'original'}*/}
+              {/*    enableStickyHeader={true}*/}
+              {/*    editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)*/}
+              {/*    // enableEditing={(row) =>*/}
+              {/*    //   row.original.KPI_Source == 'Manual' &&*/}
+              {/*    //   row.original.Year_and_Quarter === currentYearAndQuarter*/}
+              {/*    // }*/}
+              {/*    initialState={{*/}
+              {/*      showColumnFilters: true,*/}
+              {/*      showGlobalFilter: true,*/}
+              {/*      density: 'xs',*/}
+              {/*      expanded: true,*/}
+              {/*      grouping: ['state'],*/}
+              {/*      pagination: { pageIndex: 0, pageSize: 10 },*/}
+              {/*      sorting: [{ id: 'state', desc: false }],*/}
+              {/*    }}*/}
+              {/*    mantineTableHeadCellProps={{*/}
+              {/*      align: 'center',*/}
+              {/*    }}*/}
+              {/*    displayColumnDefOptions={{*/}
+              {/*      'mrt-row-numbers': {*/}
+              {/*        size: 10,*/}
+              {/*      },*/}
+              {/*      'mrt-row-expand': {*/}
+              {/*        size: 10,*/}
+              {/*      },*/}
+              {/*    }}*/}
+              {/*    mantineTableProps={{*/}
+              {/*      withColumnBorders: true,*/}
+              {/*    }}*/}
+              {/*    renderTopToolbar={({ table }) => {*/}
+              {/*      // const isDisabled = yearAndQuarter.toString() !== currentYearAndQuarter;*/}
+
+              {/*      return (*/}
+              {/*        <div>*/}
+              {/*          <Flex p="md" justify="space-between" className="kpi_module_buttons">*/}
+              {/*            <Flex align="center" gap="xs">*/}
+              {/*              <button className="custom-btn submit-btn">*/}
+              {/*                {t('selfAssessment.assessmentForm.exportToExcel')}*/}
+              {/*              </button>*/}
+
+              {/*              <label htmlFor="uploadfile" className="file-input">*/}
+              {/*                <input*/}
+              {/*                  icon={FileUploadOutlinedIcon}*/}
+              {/*                  type="file"*/}
+              {/*                  accept="text/csv"*/}
+              {/*                  placeholder="Name"*/}
+              {/*                  id="uploadfile"*/}
+              {/*                  // onChange={handleFileUpload}*/}
+              {/*                  //style={{ display: 'none' }}*/}
+              {/*                  // disabled={isDisabled}*/}
+              {/*                />*/}
+              {/*                <div className="custom-btn choose-file">*/}
+              {/*                  {<FileUploadOutlinedIcon />}*/}
+              {/*                  Upload file*/}
+              {/*                </div>*/}
+              {/*              </label>*/}
+              {/*            </Flex>*/}
+              {/*            <Flex gap="xs">*/}
+              {/*              <MRT_GlobalFilterTextInput table={table} />*/}
+              {/*              <MRT_ToggleFiltersButton table={table} />*/}
+              {/*              <MRT_ShowHideColumnsButton table={table} />*/}
+              {/*              <MRT_ToggleDensePaddingButton table={table} />*/}
+              {/*            </Flex>*/}
+              {/*          </Flex>*/}
+              {/*        </div>*/}
+              {/*      );*/}
+              {/*    }}*/}
+              {/*  />*/}
+              {/*</MantineProvider>*/}
+
               {showGraph && (
                 <>
                   {historicalGraphData && Object.keys(historicalGraphData)?.length > 0 ? (

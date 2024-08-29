@@ -49,6 +49,13 @@ const ControlHomePage = () => {
     setProviderValue(initValue.providerValue);
   }, [loginUserRole]);
 
+  const handleResetState = () => {
+    setZoneValue([]);
+    setBUValue([]);
+    setReceiverValue([]);
+    setProviderValue([]);
+  };
+
   const getNumberOfItem = (array, itemName) => {
     return array.filter((val) => val === itemName)?.length;
   };
@@ -199,6 +206,7 @@ const ControlHomePage = () => {
             setReceiverValue={setReceiverValue}
             providerValue={providerValue}
             setProviderValue={setProviderValue}
+            handleResetState={handleResetState}
           />
         )}
         {Control_ID && <AssessmentFormView isModal={true} activeData={state} />}

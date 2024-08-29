@@ -36,6 +36,10 @@ const ZoneGlobalPersonaHomePage = () => {
 
   const [zoneValue, setZoneValue] = useState(initValue.zoneValue);
 
+  const handleResetState = () => {
+    setZoneValue([]);
+  };
+
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
   }, []);
@@ -137,7 +141,11 @@ const ZoneGlobalPersonaHomePage = () => {
           </div>
         </div>
       </div>
-      <ZoneGlobalPersonaTable zoneValue={zoneValue} setZoneValue={setZoneValue} />
+      <ZoneGlobalPersonaTable
+        zoneValue={zoneValue}
+        setZoneValue={setZoneValue}
+        handleResetState={handleResetState}
+      />
     </div>
   );
 };

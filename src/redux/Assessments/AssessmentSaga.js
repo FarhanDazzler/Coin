@@ -464,7 +464,7 @@ function* handle_get_previous_assessment_result({ payload: copyPayload }) {
 
 // Get Previous Assessment Result
 async function handle_get_historical_dataApi(payload) {
-  return await Axios.post('/get_Section2_Historical_Graph_Data', payload);
+  return await Axios.post('/get_KPI_Section2_Data', payload);
 }
 function* handle_get_historical_data({ payload: copyPayload }) {
   const { events = {}, ...payload } = copyPayload;

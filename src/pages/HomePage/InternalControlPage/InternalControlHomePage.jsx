@@ -60,6 +60,15 @@ const InternalControlHomePage = () => {
   const loginRole = useSelector((state) => state?.auth?.loginRole);
   const getControlOwnerData = useSelector(getInternalControlDataSelector);
 
+  const handleResetState = () => {
+    setZoneValue([]);
+    setBUValue([]);
+    setReceiverValue([]);
+    setProviderValue([]);
+    setControlIdValue([]);
+    setStatusOfAssessmentValue([]);
+  };
+
   const getNumberOfItem = (array = [], itemName) => {
     return array?.filter((val) => val === itemName)?.length;
   };
@@ -206,6 +215,7 @@ const InternalControlHomePage = () => {
           setStatusOfAssessmentValue={setStatusOfAssessmentValue}
           controlIdValue={controlIdValue}
           setControlIdValue={setControlIdValue}
+          handleResetState={handleResetState}
         />
         {Control_ID && <AssessmentFormView isModal={true} activeData={state} />}
         {/*<SummaryView />*/}

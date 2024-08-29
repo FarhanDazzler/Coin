@@ -17,6 +17,7 @@ import {
   getControlDataGcdAction,
 } from '../../../redux/ControlData/ControlDataAction';
 import { stringToArray, useQuery } from '../../../hooks/useQuery';
+import ClearFilter from '../../../components/UI/ClearFilter';
 
 const Badge_apply = ({ data }) => {
   if (data.toUpperCase() === 'PASS') {
@@ -109,6 +110,7 @@ const InternalControlTable = ({
   setStatusOfAssessmentValue,
   controlIdValue,
   setControlIdValue,
+  handleResetState,
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -149,18 +151,24 @@ const InternalControlTable = ({
     }
   }
 
+  const initialYear =
+    new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
+      ? [String(new Date().getFullYear() - 1)]
+      : [String(new Date().getFullYear())];
   //var currentMonth = new Date().getMonth() + 1;
   // Adding 1 because getMonth() returns zero-based month (0-11)
   const [yearValue, setYearValue] = useState(
-    params?.filterYear
-      ? stringToArray(params?.filterYear)
-      : new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
-      ? [String(new Date().getFullYear() - 1)]
-      : [String(new Date().getFullYear())],
+    params?.filterYear ? stringToArray(params?.filterYear) : initialYear,
   );
   const [assessmentCycleValue, setAssessmentCycleValue] = useState(
     params?.filterCycle ? stringToArray(params?.filterCycle) : [getCurrentAssessmentCycle()],
   );
+
+  const handleClearState = () => {
+    setYearValue(initialYear);
+    setAssessmentCycleValue([getCurrentAssessmentCycle()]);
+    if (handleResetState) handleResetState();
+  };
 
   const filterRef = useRef({
     yearValue,
@@ -568,79 +576,84 @@ const InternalControlTable = ({
             <div className="container-fluid pl-0 pr-0 mt-5">
               <div className="row">
                 <div className="col-12 col-lg-12">
-                  <Group spacing="xs" className="actions-button-wrapper">
-                    <MultiSelect
-                      className="mantine-MultiSelect-wrapper"
-                      data={getYearsData() || []}
-                      label={<span className="mantine-MultiSelect-label">Year</span>}
-                      placeholder="Select your option"
-                      limit={20}
-                      nothingFound="Nothing found"
-                      clearButtonLabel="Clear selection"
-                      clearable
-                      value={yearValue}
-                      onChange={setYearValue}
-                      radius="xl"
-                      variant="filled"
-                      size="xs"
-                    />
-                    <MultiSelect
-                      className="mantine-MultiSelect-wrapper"
-                      data={[
-                        { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
-                        { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
-                        { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
-                        { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
-                      ]}
-                      label={<span className="mantine-MultiSelect-label">Assessment Cycle</span>}
-                      placeholder="Select your option"
-                      limit={20}
-                      nothingFound="Nothing found"
-                      clearButtonLabel="Clear selection"
-                      clearable
-                      value={assessmentCycleValue}
-                      onChange={setAssessmentCycleValue}
-                      radius="xl"
-                      variant="filled"
-                      size="xs"
-                    />
-                    <FilterMultiSelect
-                      data={removeDuplicates(Zone) || []}
-                      label="Zone"
-                      value={zoneValue}
-                      onChange={setZoneValue}
-                    />
-                    <FilterMultiSelect
-                      data={removeDuplicates(BU) || []}
-                      label="BU"
-                      value={buValue}
-                      onChange={setBUValue}
-                    />
-                    <FilterMultiSelect
-                      data={removeDuplicates(Receiver) || []}
-                      label="Receiver Organization"
-                      value={receiverValue}
-                      onChange={setReceiverValue}
-                    />
-                    <FilterMultiSelect
-                      data={removeDuplicates(Provider) || []}
-                      label="Provider Organization"
-                      value={providerValue}
-                      onChange={setProviderValue}
-                    />
-                    <FilterMultiSelect
-                      data={removeDuplicates(control_id) || []}
-                      label="Control ID"
-                      value={controlIdValue}
-                      onChange={setControlIdValue}
-                    />
-                    <FilterMultiSelect
-                      data={removeDuplicates(status_of_assessment) || []}
-                      label="Status of Assessment"
-                      value={statusOfAssessmentValue}
-                      onChange={setStatusOfAssessmentValue}
-                    />
-                  </Group>
+                  <div className="d-flex justify-content-between">
+                    <Group spacing="xs" className="actions-button-wrapper">
+                      <MultiSelect
+                        className="mantine-MultiSelect-wrapper"
+                        data={getYearsData() || []}
+                        label={<span className="mantine-MultiSelect-label">Year</span>}
+                        placeholder="Select your option"
+                        limit={20}
+                        nothingFound="Nothing found"
+                        clearButtonLabel="Clear selection"
+                        clearable
+                        value={yearValue}
+                        onChange={setYearValue}
+                        radius="xl"
+                        variant="filled"
+                        size="xs"
+                      />
+                      <MultiSelect
+                        className="mantine-MultiSelect-wrapper"
+                        data={[
+                          { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
+                          { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
+                          { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
+                          { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
+                        ]}
+                        label={<span className="mantine-MultiSelect-label">Assessment Cycle</span>}
+                        placeholder="Select your option"
+                        limit={20}
+                        nothingFound="Nothing found"
+                        clearButtonLabel="Clear selection"
+                        clearable
+                        value={assessmentCycleValue}
+                        onChange={setAssessmentCycleValue}
+                        radius="xl"
+                        variant="filled"
+                        size="xs"
+                      />
+                      <FilterMultiSelect
+                        data={removeDuplicates(Zone) || []}
+                        label="Zone"
+                        value={zoneValue}
+                        onChange={setZoneValue}
+                      />
+                      <FilterMultiSelect
+                        data={removeDuplicates(BU) || []}
+                        label="BU"
+                        value={buValue}
+                        onChange={setBUValue}
+                      />
+                      <FilterMultiSelect
+                        data={removeDuplicates(Receiver) || []}
+                        label="Receiver Organization"
+                        value={receiverValue}
+                        onChange={setReceiverValue}
+                      />
+                      <FilterMultiSelect
+                        data={removeDuplicates(Provider) || []}
+                        label="Provider Organization"
+                        value={providerValue}
+                        onChange={setProviderValue}
+                      />
+                      <FilterMultiSelect
+                        data={removeDuplicates(control_id) || []}
+                        label="Control ID"
+                        value={controlIdValue}
+                        onChange={setControlIdValue}
+                      />
+                      <FilterMultiSelect
+                        data={removeDuplicates(status_of_assessment) || []}
+                        label="Status of Assessment"
+                        value={statusOfAssessmentValue}
+                        onChange={setStatusOfAssessmentValue}
+                      />
+                    </Group>
+                    <div className="d-flex align-items-end">
+                      <ClearFilter onClick={handleClearState} />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

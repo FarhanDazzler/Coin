@@ -23,6 +23,13 @@ const ZoneControlHomePage = () => {
   const [overallStatusValue, setOverallStatusValue] = useState([]);
   const [rbaStatusValue, setRbaStatusValue] = useState([]);
 
+  const handleResetState = () => {
+    setZoneValue([]);
+    setBUValue([]);
+    setOverallStatusValue([]);
+    setRbaStatusValue([]);
+  };
+
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
   }, []);
@@ -107,6 +114,7 @@ const ZoneControlHomePage = () => {
         setOverallStatusValue={setOverallStatusValue}
         rbaStatusValue={rbaStatusValue}
         setRbaStatusValue={setRbaStatusValue}
+        handleResetState={handleResetState}
       />
     </div>
   );
