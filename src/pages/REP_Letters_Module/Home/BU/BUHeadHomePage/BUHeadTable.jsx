@@ -51,6 +51,7 @@ const BUHeadTable = ({
   setOverallStatusValue,
   rbaStatusValue,
   setRbaStatusValue,
+  handleResetState,
 }) => {
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
@@ -114,12 +115,19 @@ const BUHeadTable = ({
     return yearsArray;
   }
 
-  const [yearValue, setYearValue] = useState(
+  const initialYear =
     new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
       ? [String(new Date().getFullYear() - 1)]
-      : [String(new Date().getFullYear())],
-  );
+      : [String(new Date().getFullYear())];
+
+  const [yearValue, setYearValue] = useState(initialYear);
   const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
+
+  const handleClearState = () => {
+    setYearValue(initialYear);
+    setAssessmentCycleValue([getCurrentAssessmentCycle()]);
+    if (handleResetState) handleResetState();
+  };
 
   useEffect(() => {
     if (yearValue.length > 0) {
@@ -412,7 +420,7 @@ const BUHeadTable = ({
                 </Group>
 
                 <div className="d-flex align-items-end">
-                  <ClearFilter />
+                  <ClearFilter onClick={handleClearState} />
                 </div>
               </div>
             </div>

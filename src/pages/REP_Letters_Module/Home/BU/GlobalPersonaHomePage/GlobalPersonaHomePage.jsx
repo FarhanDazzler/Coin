@@ -44,6 +44,13 @@ const GlobalPersonaHomePage = () => {
   const [overallStatusValue, setOverallStatusValue] = useState(initValue.overallStatusValue);
   const [rbaStatusValue, setRbaStatusValue] = useState(initValue.rbaStatusValue);
 
+  const handleResetState = () => {
+    setZoneValue([]);
+    setBUValue([]);
+    setOverallStatusValue([]);
+    setRbaStatusValue([]);
+  };
+
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
   }, []);
@@ -179,6 +186,7 @@ const GlobalPersonaHomePage = () => {
         setOverallStatusValue={setOverallStatusValue}
         rbaStatusValue={rbaStatusValue}
         setRbaStatusValue={setRbaStatusValue}
+        handleResetState={handleResetState}
       />
     </div>
   );

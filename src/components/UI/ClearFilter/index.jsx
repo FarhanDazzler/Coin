@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Button from '../Button';
 import { useHistory, useLocation } from 'react-router-dom';
 
-const ClearFilter = () => {
+const ClearFilter = ({ onClick }) => {
   const history = useHistory();
   const location = useLocation();
 
@@ -20,6 +20,8 @@ const ClearFilter = () => {
 
     // Navigate to the URL without query parameters
     history.replace(urlWithoutQueryParams);
+    if (onClick) onClick();
+    // window.location.reload();
   };
 
   return (

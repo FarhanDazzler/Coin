@@ -190,13 +190,13 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
     );
     dispatch(
       getHistoricalGraphData({
-        mics_id: activeData?.control_id,
-        receiver_entity: activeData?.Receiver,
-        year_and_quarter: currentQuarter,
+        // mics_id: activeData?.control_id,
+        // receiver_entity: activeData?.Receiver,
+        // year_and_quarter: currentQuarter,
 
-        // mics_id: 'FA_MD_01',
-        // receiver_entity: 'Italy, Dominican Republic, Argentina',
-        // year_and_quarter: '2024Q2',
+        mics_id: 'FA_MD_01',
+        receiver_entity: 'Italy, Dominican Republic, Argentina',
+        year_and_quarter: '2024Q2',
       }),
     );
     return () => {

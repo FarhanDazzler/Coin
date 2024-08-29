@@ -110,6 +110,7 @@ const InternalControlTable = ({
   setStatusOfAssessmentValue,
   controlIdValue,
   setControlIdValue,
+  handleResetState,
 }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -150,18 +151,24 @@ const InternalControlTable = ({
     }
   }
 
+  const initialYear =
+    new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
+      ? [String(new Date().getFullYear() - 1)]
+      : [String(new Date().getFullYear())];
   //var currentMonth = new Date().getMonth() + 1;
   // Adding 1 because getMonth() returns zero-based month (0-11)
   const [yearValue, setYearValue] = useState(
-    params?.filterYear
-      ? stringToArray(params?.filterYear)
-      : new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
-      ? [String(new Date().getFullYear() - 1)]
-      : [String(new Date().getFullYear())],
+    params?.filterYear ? stringToArray(params?.filterYear) : initialYear,
   );
   const [assessmentCycleValue, setAssessmentCycleValue] = useState(
     params?.filterCycle ? stringToArray(params?.filterCycle) : [getCurrentAssessmentCycle()],
   );
+
+  const handleClearState = () => {
+    setYearValue(initialYear);
+    setAssessmentCycleValue([getCurrentAssessmentCycle()]);
+    if (handleResetState) handleResetState();
+  };
 
   const filterRef = useRef({
     yearValue,
@@ -644,7 +651,7 @@ const InternalControlTable = ({
                       />
                     </Group>
                     <div className="d-flex align-items-end">
-                      <ClearFilter />
+                      <ClearFilter onClick={handleClearState} />
                     </div>
                   </div>
                 </div>
