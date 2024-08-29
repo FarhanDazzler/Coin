@@ -306,6 +306,7 @@ const Pages = () => {
       if (storedTime && Date.now() - storedTime >= fourHoursInMilliseconds) {
         authFlow();
       } else {
+        setIsAuth(false)
         if (redirect) history.push(`/login?redirect=${redirect}`);
         else history.push('/login');
       }
