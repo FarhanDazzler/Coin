@@ -194,6 +194,7 @@ const ControlHomePage = () => {
             setReceiverValue={setReceiverValue}
             providerValue={providerValue}
             setProviderValue={setProviderValue}
+            handleResetState={handleResetState}
           />
         ) : (
           <ControlOwnerTable

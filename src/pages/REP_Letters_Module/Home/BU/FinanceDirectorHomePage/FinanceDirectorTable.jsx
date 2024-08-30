@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import Cookies from 'js-cookie';
@@ -17,6 +17,7 @@ import {
 import { get_BU_Finance_DirectorHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignatures from '../../../../../components/ShowSignatures';
 import ClearFilter from '../../../../../components/UI/ClearFilter';
+import { stringToArray, useQuery } from '../../../../../hooks/useQuery';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -56,7 +57,8 @@ const FinanceDirectorTable = ({
 }) => {
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
-
+  const history = useHistory();
+  const params = useQuery();
   function getCurrentAssessmentCycle() {
     // Get the current date
     const today = new Date();
@@ -106,16 +108,27 @@ const FinanceDirectorTable = ({
       ? [String(new Date().getFullYear() - 1)]
       : [String(new Date().getFullYear())];
 
-  const [yearValue, setYearValue] = useState(initialYear);
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
+  const [yearValue, setYearValue] = useState(
+    params?.filterYear ? stringToArray(params?.filterYear) : initialYear,
+  );
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState(
+    params?.filterCycle ? stringToArray(params?.filterCycle) : [getCurrentAssessmentCycle()],
+  );
+
+  const filterRef = useRef({
+    yearValue,
+    assessmentCycleValue,
+    zoneValue,
+    buValue,
+    overallStatusValue,
+    rbaStatusValue,
+  });
 
   const handleClearState = () => {
     setYearValue(initialYear);
     setAssessmentCycleValue([getCurrentAssessmentCycle()]);
     if (handleResetState) handleResetState();
   };
-
-  const history = useHistory();
 
   const { accounts } = useMsal();
   const dispatch = useDispatch();
@@ -377,6 +390,79 @@ const FinanceDirectorTable = ({
     HomePageData,
     getHomePageData?.data[0],
   ]);
+
+  const isClearButtonDisabled = useMemo(() => {
+    const paramsKeyLength = Object.keys(params).length;
+    if (paramsKeyLength === 2) {
+      if (
+        params.filterYear === initialYear[0] &&
+        params.filterCycle === getCurrentAssessmentCycle()
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }, [params]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    // Update or remove the year parameter
+    if (yearValue) {
+      params.set('filterYear', yearValue.toString());
+    } else {
+      params.delete('filterYear');
+    }
+
+    // Update or remove the assessment cycle parameter
+    if (assessmentCycleValue?.length > 0) {
+      params.set('filterCycle', assessmentCycleValue.toString());
+    } else {
+      params.delete('filterCycle');
+    }
+
+    // Update or remove the zone parameter
+    if (zoneValue?.length > 0) {
+      params.set('filterZone', zoneValue);
+    } else {
+      params.delete('filterZone');
+    }
+
+    // Update or remove the BU parameter
+    if (buValue?.length > 0) {
+      params.set('filterBU', buValue);
+    } else {
+      params.delete('filterBU');
+    }
+
+    // Update or remove the overallStatusValue parameter
+    if (overallStatusValue?.length > 0) {
+      params.set('filterOverallStatus', overallStatusValue);
+    } else {
+      params.delete('filterOverallStatus');
+    }
+
+    // Update or remove the rbaStatusValue parameter
+    if (rbaStatusValue?.length > 0) {
+      params.set('filterRbaStatus', rbaStatusValue);
+    } else {
+      params.delete('filterRbaStatus');
+    }
+
+    filterRef.current = {
+      yearValue,
+      assessmentCycleValue,
+      zoneValue,
+      buValue,
+      overallStatusValue,
+      rbaStatusValue,
+    };
+
+    history.replace({
+      pathname: window.location.pathname,
+      search: params.toString(),
+    });
+  }, [yearValue, assessmentCycleValue, zoneValue, buValue, overallStatusValue, rbaStatusValue]);
   return (
     <>
       <div className="container-fluid">
@@ -438,7 +524,10 @@ const FinanceDirectorTable = ({
                   />
                 </Group>
                 <div className="d-flex align-items-end">
-                  <ClearFilter onClick={handleClearState} />
+                  <ClearFilter
+                    onClick={handleClearState}
+                    isClearButtonDisabled={isClearButtonDisabled}
+                  />
                 </div>
               </div>
             </div>

@@ -26,6 +26,9 @@ import {
   CLEAR_PREVIOUS_ASSESSMENT_RESULT,
   GET_PREVIOUS_ASSESSMENT_RESULT_LAST_CALL_ID,
   GET_HISTORICAL_GRAPH_RESULT_REQUEST,
+  GET_KPI_SECTION2_DATA_REQUEST,
+  GET_KPI_SECTION2_DATA_SUCCESS,
+  GET_KPI_SECTION2_DATA_ERROR,
 } from './AssessmentReducer';
 
 export const saveAssessmentAns = (payload) => ({ type: SAVE_ANS, payload });
@@ -135,8 +138,12 @@ export const clear_previous_assessment_result = (payload) => ({
   payload,
 });
 
-
 export const getHistoricalGraphData = (payload) => ({
   type: GET_HISTORICAL_GRAPH_RESULT_REQUEST,
+  payload,
+});
+
+export const getKPISection2Data = (payload) => ({
+  type: GET_KPI_SECTION2_DATA_REQUEST,
   payload,
 });

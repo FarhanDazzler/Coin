@@ -35,6 +35,7 @@ import {
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../LetterFormStyle.scss';
 import { useGoHomePage } from '../../../../hooks/useGoHomePage';
+import { prepareForPDF, revertAfterPDF } from '../../../../utils/helper';
 
 const ReviewSubmittedResponses = ({
   scopeData,
@@ -200,7 +201,7 @@ const ReviewResponsesAtAllTime = ({
     const element = document.getElementById('screenshot-body');
     const scale = 2;
     const pdf = new jsPDF('p', 'mm', 'a4');
-
+    prepareForPDF(element);
     setTimeout(() => {
       html2canvas(element, {
         scale: scale,
@@ -232,6 +233,7 @@ const ReviewResponsesAtAllTime = ({
         }
 
         pdf.save('screenshot.pdf');
+        revertAfterPDF(element);
       });
     }, 1000);
   };
@@ -268,7 +270,7 @@ const ReviewResponsesAtAllTime = ({
             <strong>Export to Excel</strong>
           </button>
           <button onClick={takeScreenshot} className="export_excel_button">
-            <strong>Export to PDF</strong>
+            <strong>Export to PDF 1</strong>
           </button>
         </div>
       </div>

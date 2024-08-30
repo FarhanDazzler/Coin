@@ -202,6 +202,19 @@ const ControlOwnerTable = ({
     setTableColumns(TABLE_COLUMNS);
   }, [assessmentCycleValue, yearValue, token]);
 
+  const isClearButtonDisabled = useMemo(() => {
+    const paramsKeyLength = Object.keys(params).length;
+    if (paramsKeyLength === 2) {
+      if (
+        params.filterYear === initialYear[0] &&
+        params.filterCycle === getCurrentAssessmentCycle()
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }, [params]);
+
   // function for accessing form on the basis of current assessment cycle and year.
   // Attempt button will be visible only for current assessment cycle and year in action column.
   const isFormAccessible = (assessmentCycle, year) => {
@@ -584,7 +597,10 @@ const ControlOwnerTable = ({
                   />
                 </Group>
                 <div className="d-flex align-items-end">
-                  <ClearFilter onClick={handleClearState} />
+                  <ClearFilter
+                    onClick={handleClearState}
+                    isClearButtonDisabled={isClearButtonDisabled}
+                  />
                 </div>
               </div>
             </div>
