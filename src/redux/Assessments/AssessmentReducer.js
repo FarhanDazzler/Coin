@@ -48,6 +48,10 @@ export const GET_HISTORICAL_GRAPH_RESULT_REQUEST = 'GET_HISTORICAL_GRAPH_RESULT_
 export const GET_HISTORICAL_GRAPH_RESULT_SUCCESS = 'GET_HISTORICAL_GRAPH_RESULT_SUCCESS';
 export const GET_HISTORICAL_GRAPH_RESULT_ERROR = 'GET_HISTORICAL_GRAPH_RESULT_ERROR';
 
+export const GET_KPI_SECTION2_DATA_REQUEST = 'GET_KPI_SECTION2_DATA_REQUEST';
+export const GET_KPI_SECTION2_DATA_SUCCESS = 'GET_KPI_SECTION2_DATA_SUCCESS';
+export const GET_KPI_SECTION2_DATA_ERROR = 'GET_KPI_SECTION2_DATA_ERROR';
+
 export const GET_DRAFT_RESPONSE_REQUEST = 'GET_DRAFT_RESPONSE_REQUEST';
 export const GET_DRAFT_RESPONSE_SUCCESS = 'GET_DRAFT_RESPONSE_SUCCESS';
 export const GET_DRAFT_RESPONSE_ERROR = 'GET_DRAFT_RESPONSE_ERROR';
@@ -124,6 +128,7 @@ const initialState = {
   get_previous_assessment_result: { ...block, data: [] },
   last_previous_assessment_result: { control_id: '', provider: '' },
   get_historical_graph_data: { ...block, data: {} },
+  get_KPI_Section2_data: { ...block, data: {} },
 };
 
 export const AssessmentReducer = (state = initialState, { type, payload = {} }) => {
@@ -557,6 +562,26 @@ export const AssessmentReducer = (state = initialState, { type, payload = {} }) 
       return {
         ...state,
         get_historical_graph_data: { ...state.get_historical_graph_data, loading: false },
+      };
+
+    case GET_KPI_SECTION2_DATA_REQUEST:
+      return {
+        ...state,
+        get_KPI_Section2_data: { ...state.get_KPI_Section2_data, loading: true },
+      };
+    case GET_KPI_SECTION2_DATA_SUCCESS:
+      return {
+        ...state,
+        get_KPI_Section2_data: {
+          ...state.get_KPI_Section2_data,
+          data: payload,
+          loading: false,
+        },
+      };
+    case GET_KPI_SECTION2_DATA_ERROR:
+      return {
+        ...state,
+        get_KPI_Section2_data: { ...state.get_KPI_Section2_data, loading: false },
       };
 
     //reset block with flag and data

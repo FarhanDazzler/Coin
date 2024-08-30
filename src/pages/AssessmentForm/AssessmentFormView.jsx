@@ -16,6 +16,7 @@ import {
   getMicsOpenActionPlan,
   resetBlockAssessment,
   getHistoricalGraphData,
+  getKPISection2Data,
 } from '../../redux/Assessments/AssessmentAction';
 import {
   addOrEditUpdateDraftSelector,
@@ -193,10 +194,14 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
         mics_id: activeData?.control_id,
         receiver_entity: activeData?.Receiver,
         year_and_quarter: currentQuarter,
+      }),
+    );
 
-        // mics_id: 'FA_MD_01',
-        // receiver_entity: 'Italy, Dominican Republic, Argentina',
-        // year_and_quarter: '2024Q2',
+    dispatch(
+      getKPISection2Data({
+        mics_id: 'KPI_ATR_MJE_02b.1',
+        receiver_entity: 'Nigeria, South Africa, China, New Zealand',
+        year_and_quarter: '2024Q3',
       }),
     );
     return () => {

@@ -13,6 +13,7 @@ import { get_BUZone_GlobalPersonaHomePageDataSelector } from '../../../../../red
 import { get_BUZone_GlobalPersonaHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignaturesBU_Zone from '../../../../../components/ShowSignatures/ShowSignaturesBU_Zone';
 import { stringToArray, useQuery } from '../../../../../hooks/useQuery';
+import ClearFilter from '../../../../../components/UI/ClearFilter';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -39,7 +40,7 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const ZoneGlobalPersonaTable = ({ zoneValue, setZoneValue }) => {
+const ZoneGlobalPersonaTable = ({ zoneValue, setZoneValue, handleResetState }) => {
   const params = useQuery();
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
@@ -88,16 +89,23 @@ const ZoneGlobalPersonaTable = ({ zoneValue, setZoneValue }) => {
     return yearsArray;
   }
 
-  const [yearValue, setYearValue] = useState(
-    params?.filterYear
-      ? stringToArray(params?.filterYear)
-      : new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
+  const initialYear =
+    new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
       ? [String(new Date().getFullYear() - 1)]
-      : [String(new Date().getFullYear())],
+      : [String(new Date().getFullYear())];
+
+  const [yearValue, setYearValue] = useState(
+    params?.filterYear ? stringToArray(params?.filterYear) : initialYear,
   );
   const [assessmentCycleValue, setAssessmentCycleValue] = useState(
     params?.filterCycle ? stringToArray(params?.filterCycle) : [getCurrentAssessmentCycle()],
   );
+
+  const handleClearState = () => {
+    setYearValue(initialYear);
+    setAssessmentCycleValue([getCurrentAssessmentCycle()]);
+    if (handleResetState) handleResetState();
+  };
 
   const filterRef = useRef({
     yearValue,
@@ -312,6 +320,19 @@ const ZoneGlobalPersonaTable = ({ zoneValue, setZoneValue }) => {
     });
   }, [yearValue, assessmentCycleValue, zoneValue]);
 
+  const isClearButtonDisabled = useMemo(() => {
+    const paramsKeyLength = Object.keys(params).length;
+    if (paramsKeyLength === 2) {
+      if (
+        params.filterYear === initialYear[0] &&
+        params.filterCycle === getCurrentAssessmentCycle()
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }, [params]);
+
   return (
     <>
       <div className="container-fluid">
@@ -320,31 +341,40 @@ const ZoneGlobalPersonaTable = ({ zoneValue, setZoneValue }) => {
         ) : (
           <div className="row pt-5">
             <div className="col-12 col-lg-12">
-              <Group spacing="xs" className="actions-button-wrapper">
-                <FilterMultiSelect
-                  data={getYearsData() || []}
-                  label="Year"
-                  value={yearValue}
-                  onChange={setYearValue}
-                />
-                <FilterMultiSelect
-                  data={[
-                    { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
-                    { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
-                    { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
-                    { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
-                  ]}
-                  label="Assessment Cycle"
-                  value={assessmentCycleValue}
-                  onChange={setAssessmentCycleValue}
-                />
-                <FilterMultiSelect
-                  data={getGlobalPersonaHomePageData?.data[0]?.distinct_zone || []}
-                  label="Zone"
-                  value={zoneValue}
-                  onChange={setZoneValue}
-                />
-              </Group>
+              <div className="d-flex justify-content-between">
+                <Group spacing="xs" className="actions-button-wrapper">
+                  <FilterMultiSelect
+                    data={getYearsData() || []}
+                    label="Year"
+                    value={yearValue}
+                    onChange={setYearValue}
+                  />
+                  <FilterMultiSelect
+                    data={[
+                      { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
+                      { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
+                      { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
+                      { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
+                    ]}
+                    label="Assessment Cycle"
+                    value={assessmentCycleValue}
+                    onChange={setAssessmentCycleValue}
+                  />
+                  <FilterMultiSelect
+                    data={getGlobalPersonaHomePageData?.data[0]?.distinct_zone || []}
+                    label="Zone"
+                    value={zoneValue}
+                    onChange={setZoneValue}
+                  />
+                </Group>
+
+                <div className="d-flex align-items-end">
+                  <ClearFilter
+                    onClick={handleClearState}
+                    isClearButtonDisabled={isClearButtonDisabled}
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="col-12 col-lg-12 mt-5">

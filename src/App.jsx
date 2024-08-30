@@ -223,55 +223,58 @@ const Pages = () => {
   //   }
   // }, [history.location.pathname]);
 
+  const authFlow = () => {
+    instance
+      .acquireTokenSilent({
+        ...loginRequest,
+        account: accounts[0],
+      })
+      .then((response) => {
+        localStorage.setItem('id_token', response?.idToken);
+        dataService
+          .getMSGraphPhoto(response.accessToken)
+          .then((image) => {
+            if (image.type === 'image/jpeg')
+              userDispatch({ type: 'SET_PROFILE_PHOTO', payload: image });
+          })
+          .catch((err) => console.log(err));
+        setIsAuth(true);
+      })
+      .catch((err) => {
+        instance.logout({
+          account: accounts.length > 0 ? accounts[0] : null,
+        });
+      });
+    // for creating Snow API token for Ticketing
+    instance
+      .acquireTokenSilent({
+        ...snowBackendRequest,
+        account: accounts[0],
+      })
+      .then((response) => {
+        localStorage.setItem('snow_api_access_token', response?.accessToken);
+      })
+      .catch((err) => {
+        console.log(`Error occurred while acquiring token: ${err}`);
+      });
+    // for creating PowerBI API token for PowerBI
+    instance
+      .acquireTokenSilent({
+        ...powerbiRequest,
+        account: accounts[0],
+      })
+      .then((response) => {
+        localStorage.setItem('powerbi_access_token', response?.accessToken);
+      })
+      .catch((err) => {
+        console.log(`Error occurred while acquiring token: ${err}`);
+      });
+  };
   useEffect(() => {
-    // // logic redirect login url
+    // // logic redirect login url'
     if (accounts && accounts?.length > 0 && inProgress === InteractionStatus.None && !isAuth) {
       if (accounts?.length > 0) {
-        instance
-          .acquireTokenSilent({
-            ...loginRequest,
-            account: accounts[0],
-          })
-          .then((response) => {
-            localStorage.setItem('id_token', response?.idToken);
-            dataService
-              .getMSGraphPhoto(response.accessToken)
-              .then((image) => {
-                if (image.type === 'image/jpeg')
-                  userDispatch({ type: 'SET_PROFILE_PHOTO', payload: image });
-              })
-              .catch((err) => console.log(err));
-            setIsAuth(true);
-          })
-          .catch((err) => {
-            instance.logout({
-              account: accounts.length > 0 ? accounts[0] : null,
-            });
-          });
-        // for creating Snow API token for Ticketing
-        instance
-          .acquireTokenSilent({
-            ...snowBackendRequest,
-            account: accounts[0],
-          })
-          .then((response) => {
-            localStorage.setItem('snow_api_access_token', response?.accessToken);
-          })
-          .catch((err) => {
-            console.log(`Error occurred while acquiring token: ${err}`);
-          });
-        // for creating PowerBI API token for PowerBI
-        instance
-          .acquireTokenSilent({
-            ...powerbiRequest,
-            account: accounts[0],
-          })
-          .then((response) => {
-            localStorage.setItem('powerbi_access_token', response?.accessToken);
-          })
-          .catch((err) => {
-            console.log(`Error occurred while acquiring token: ${err}`);
-          });
+        authFlow();
       }
       // logic for getting NPS api auth token
       if (accounts) {
@@ -301,7 +304,7 @@ const Pages = () => {
       if (redirect) history.push(`/login?redirect=${redirect}`);
       else history.push('/login');
     }
-  }, [accounts, inProgress]);
+  }, [accounts, inProgress, location.pathname]);
 
   const isNotShowTopNavbar = useMemo(() => {
     const paths = ['/login', '/homepage-direct-link'];

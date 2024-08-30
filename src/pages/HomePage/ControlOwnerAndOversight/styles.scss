@@ -28,3 +28,10 @@
 .table-title {
   font-size: 22px !important;
 }
+
+.isClearButtonDisabledButton {
+  color: rgba(255, 255, 255, 0.3) !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}

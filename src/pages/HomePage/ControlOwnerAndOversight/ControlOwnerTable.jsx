@@ -17,6 +17,7 @@ import {
   resetBlockAssessment,
 } from '../../../redux/Assessments/AssessmentAction';
 import { useQuery, stringToArray } from '../../../hooks/useQuery';
+import ClearFilter from '../../../components/UI/ClearFilter';
 
 const Badge_apply = ({ data }) => {
   if (data.toUpperCase() === 'PASS') {
@@ -106,6 +107,7 @@ const ControlOwnerTable = ({
   setReceiverValue,
   providerValue,
   setProviderValue,
+  handleResetState,
 }) => {
   const { t } = useTranslation();
   const [tableColumns, setTableColumns] = useState([]);
@@ -151,20 +153,27 @@ const ControlOwnerTable = ({
     }
   }
 
+  const initialYear =
+    new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
+      ? [String(new Date().getFullYear() - 1)]
+      : [String(new Date().getFullYear())];
+
   //var currentMonth = new Date().getMonth() + 1;
   // Adding 1 because getMonth() returns zero-based month (0-11)
   const [yearValue, setYearValue] = useState(
-    params?.filterYear
-      ? stringToArray(params?.filterYear)
-      : new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
-      ? [String(new Date().getFullYear() - 1)]
-      : [String(new Date().getFullYear())],
+    params?.filterYear ? stringToArray(params?.filterYear) : initialYear,
   );
 
   const [assessmentCycleValue, setAssessmentCycleValue] = useState(
     params?.filterCycle ? stringToArray(params?.filterCycle) : [getCurrentAssessmentCycle()],
   );
   const filterRef = useRef({ yearValue, assessmentCycleValue, zoneValue, buValue, providerValue });
+
+  const handleClearState = () => {
+    setYearValue(initialYear);
+    setAssessmentCycleValue([getCurrentAssessmentCycle()]);
+    if (handleResetState) handleResetState();
+  };
 
   const controlOwnerData = useMemo(() => {
     return loginUserRole === 'Control Owner'
@@ -192,6 +201,19 @@ const ControlOwnerTable = ({
     // );
     setTableColumns(TABLE_COLUMNS);
   }, [assessmentCycleValue, yearValue, token]);
+
+  const isClearButtonDisabled = useMemo(() => {
+    const paramsKeyLength = Object.keys(params).length;
+    if (paramsKeyLength === 2) {
+      if (
+        params.filterYear === initialYear[0] &&
+        params.filterCycle === getCurrentAssessmentCycle()
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }, [params]);
 
   // function for accessing form on the basis of current assessment cycle and year.
   // Attempt button will be visible only for current assessment cycle and year in action column.
@@ -536,43 +558,51 @@ const ControlOwnerTable = ({
         ) : (
           <div className="row pt-5">
             <div className="col-12 col-lg-12">
-              <Group spacing="xs" className="actions-button-wrapper">
-                <FilterMultiSelect
-                  data={getYearsData() || []}
-                  label="Year"
-                  value={yearValue}
-                  onChange={setYearValue}
-                />
-                <FilterMultiSelect
-                  data={[
-                    { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
-                    { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
-                    { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
-                    { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
-                  ]}
-                  label="Assessment Cycle"
-                  value={assessmentCycleValue}
-                  onChange={setAssessmentCycleValue}
-                />
-                <FilterMultiSelect
-                  data={removeDuplicates(Zone) || []}
-                  label="Zone"
-                  value={zoneValue}
-                  onChange={setZoneValue}
-                />
-                <FilterMultiSelect
-                  data={removeDuplicates(BU) || []}
-                  label="BU"
-                  value={buValue}
-                  onChange={setBUValue}
-                />
-                <FilterMultiSelect
-                  data={removeDuplicates(Provider) || []}
-                  label="Provider Organization"
-                  value={providerValue}
-                  onChange={setProviderValue}
-                />
-              </Group>
+              <div className="d-flex justify-content-between">
+                <Group spacing="xs" className="actions-button-wrapper">
+                  <FilterMultiSelect
+                    data={getYearsData() || []}
+                    label="Year"
+                    value={yearValue}
+                    onChange={setYearValue}
+                  />
+                  <FilterMultiSelect
+                    data={[
+                      { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
+                      { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
+                      { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
+                      { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
+                    ]}
+                    label="Assessment Cycle"
+                    value={assessmentCycleValue}
+                    onChange={setAssessmentCycleValue}
+                  />
+                  <FilterMultiSelect
+                    data={removeDuplicates(Zone) || []}
+                    label="Zone"
+                    value={zoneValue}
+                    onChange={setZoneValue}
+                  />
+                  <FilterMultiSelect
+                    data={removeDuplicates(BU) || []}
+                    label="BU"
+                    value={buValue}
+                    onChange={setBUValue}
+                  />
+                  <FilterMultiSelect
+                    data={removeDuplicates(Provider) || []}
+                    label="Provider Organization"
+                    value={providerValue}
+                    onChange={setProviderValue}
+                  />
+                </Group>
+                <div className="d-flex align-items-end">
+                  <ClearFilter
+                    onClick={handleClearState}
+                    isClearButtonDisabled={isClearButtonDisabled}
+                  />
+                </div>
+              </div>
             </div>
             <div className="col-12 col-lg-12 mt-5 control-owner-table">
               <Table2
