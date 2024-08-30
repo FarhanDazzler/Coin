@@ -320,6 +320,19 @@ const ZoneGlobalPersonaTable = ({ zoneValue, setZoneValue, handleResetState }) =
     });
   }, [yearValue, assessmentCycleValue, zoneValue]);
 
+  const isClearButtonDisabled = useMemo(() => {
+    const paramsKeyLength = Object.keys(params).length;
+    if (paramsKeyLength === 2) {
+      if (
+        params.filterYear === initialYear[0] &&
+        params.filterCycle === getCurrentAssessmentCycle()
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }, [params]);
+
   return (
     <>
       <div className="container-fluid">
@@ -356,7 +369,10 @@ const ZoneGlobalPersonaTable = ({ zoneValue, setZoneValue, handleResetState }) =
                 </Group>
 
                 <div className="d-flex align-items-end">
-                  <ClearFilter onClick={handleClearState} />
+                  <ClearFilter
+                    onClick={handleClearState}
+                    isClearButtonDisabled={isClearButtonDisabled}
+                  />
                 </div>
               </div>
             </div>

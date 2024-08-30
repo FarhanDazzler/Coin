@@ -44,6 +44,7 @@ import '../LetterFormStyle.scss';
 import AttemptSection3 from './FormComponents/Section3/AttemptSection3';
 import ApprovalPageSection3 from './FormComponents/Section3/ApprovalPageSection3';
 import { useGoHomePage } from '../../../../hooks/useGoHomePage';
+import { prepareForPDF, revertAfterPDF } from '../../../../utils/helper';
 
 const ReviewSubmittedResponses = ({
   scopeData,
@@ -211,6 +212,7 @@ const ReviewResponsesAtAllTime = ({
     const pdf = new jsPDF('p', 'mm', 'a4');
 
     setTimeout(() => {
+      prepareForPDF(element);
       html2canvas(element, {
         scale: scale,
         backgroundColor: '#000000',
@@ -241,6 +243,8 @@ const ReviewResponsesAtAllTime = ({
         }
 
         pdf.save('screenshot.pdf');
+
+        revertAfterPDF(element);
       });
     }, 1000);
   };
@@ -277,7 +281,7 @@ const ReviewResponsesAtAllTime = ({
             <strong>Export to Excel</strong>
           </button>
           <button onClick={takeScreenshot} className="export_excel_button">
-            <strong>Export to PDF </strong>
+            <strong>Export to PDF</strong>
           </button>
         </div>
       </div>

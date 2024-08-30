@@ -36,7 +36,7 @@ const ReviewSection1 = ({ submittedResponses = [] }) => {
             {item.response !== 'No'
               ? item.comment && (
                   <div>
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3 pdf-textarea-input">
                       <Form.Control
                         as="textarea"
                         placeholder="Enter your comment..."
@@ -47,11 +47,12 @@ const ReviewSection1 = ({ submittedResponses = [] }) => {
                         readOnly
                       />
                     </Form.Group>
+                    <div className="mb-3 pdf-textarea-text">{item.comment || ''}</div>
                   </div>
                 )
               : item.comment && (
                   <div>
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3 pdf-textarea-input">
                       <Form.Control
                         as="textarea"
                         placeholder="Enter your action plan..."
@@ -62,6 +63,7 @@ const ReviewSection1 = ({ submittedResponses = [] }) => {
                         readOnly
                       />
                     </Form.Group>
+                    <div className="mb-3 pdf-textarea-text">{item.comment || ''}</div>
                     <Form.Group>
                       <Form.Label className="mb-3">
                         Please select month:{' '}

@@ -49,3 +49,7 @@ div#google_translate_element select:focus-visible {
 .report-container {
   height: 110vh !important;
 }
+
+.Toastify__toast-body {
+  font-size: 18px;
+}

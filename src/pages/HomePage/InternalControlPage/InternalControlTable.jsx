@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useHistory, useNavigate } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMsal } from '@azure/msal-react';
 import { Group, MultiSelect, Badge } from '@mantine/core';
@@ -560,6 +560,19 @@ const InternalControlTable = ({
     statusOfAssessmentValue,
   ]);
 
+  const isClearButtonDisabled = useMemo(() => {
+    const paramsKeyLength = Object.keys(params).length;
+    if (paramsKeyLength === 2) {
+      if (
+        params.filterYear === initialYear[0] &&
+        params.filterCycle === getCurrentAssessmentCycle()
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }, [params]);
+
   // Arrays for showing data on filters
   const Zone = getDashBoardDataState?.data?.map((i) => i.Zone);
   const BU = getDashBoardDataState?.data?.map((i) => i.BU);
@@ -651,7 +664,10 @@ const InternalControlTable = ({
                       />
                     </Group>
                     <div className="d-flex align-items-end">
-                      <ClearFilter onClick={handleClearState} />
+                      <ClearFilter
+                        onClick={handleClearState}
+                        isClearButtonDisabled={isClearButtonDisabled}
+                      />
                     </div>
                   </div>
                 </div>

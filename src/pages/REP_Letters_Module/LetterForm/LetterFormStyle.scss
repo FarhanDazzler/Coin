@@ -206,3 +206,31 @@
     margin-bottom: 0 !important;
   }
 }
+
+.pdf-textarea-input {
+  display: block;
+}
+
+.pdf-textarea-text {
+  display: none;
+  background: #fff;
+  color: #1a1a1a;
+  min-height: 85px;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.6;
+  border: 1px solid rgba(0, 40, 100, 0.12);
+  border-radius: 3px;
+}
+
+@media print {
+  .pdf-textarea-input {
+    display: none;
+  }
+
+  .pdf-textarea-text {
+    display: block;
+    background-color: #f8f9fa;
+  }
+}

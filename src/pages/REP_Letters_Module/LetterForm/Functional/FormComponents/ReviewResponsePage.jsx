@@ -42,7 +42,7 @@ const ReviewResponsePage = ({ submittedResponses = [] }) => {
             </div>
             {item.comment && (
               <div>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-3 pdf-textarea-input">
                   <Form.Control
                     as="textarea"
                     placeholder="Enter your comment..."
@@ -53,6 +53,7 @@ const ReviewResponsePage = ({ submittedResponses = [] }) => {
                     readOnly
                   />
                 </Form.Group>
+                <div className="mb-3 pdf-textarea-text">{item.comment || ''}</div>
               </div>
             )}
           </div>
