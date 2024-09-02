@@ -1,10 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 //import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import BootstrapTable from 'react-bootstrap-table-next';
-import filterFactory from 'react-bootstrap-table2-filter';
-import paginationFactory from 'react-bootstrap-table2-paginator';
-import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import { Badge, Flex, MantineProvider } from '@mantine/core';
 import {
   MRT_GlobalFilterTextInput,
@@ -33,23 +29,7 @@ import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 import { convertVariable } from '../../../utils/helper';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import { getCurrentYearAndQuarter } from '../../KPIModule/KpiModuleLandingPage';
-
-const Badge_apply = ({ data }) => {
-  const colorMap = {
-    PASS: 'green',
-    FAIL: 'red',
-    'N/A': 'gray',
-    NA: 'gray',
-  };
-
-  const color = colorMap[data.toUpperCase()] || 'gray';
-
-  return (
-    <Badge color={color} size="lg" radius="lg" variant="outline">
-      {data.toUpperCase()}
-    </Badge>
-  );
-};
+import { exportToCsv, Badge_apply } from '../../KPIModule/KpiComponent/KPITable';
 
 export const hasFailNumerator = (row) => {
   const isNumeratorValue = !!row?.Numerator || [0, '0'].includes(row?.Numerator);
@@ -91,608 +71,20 @@ const ControlSection2 = ({
   const kpiResultData = useSelector(kpiResultSelector);
   const get_KPI_Section2_data = useSelector(get_KPI_Section2_dataSelector);
   const latestDraftData = useSelector(getLatestDraftSelector);
-  const kpiResponseData =
-    latestDraftData?.data?.Latest_response?.kpis &&
-    latestDraftData?.data?.Latest_response?.kpis.length > 0
-      ? latestDraftData?.data?.Latest_response?.kpis
-      : get_KPI_Section2_data?.data;
+  const [validationErrors, setValidationErrors] = useState({});
+  const kpiResponseData = latestDraftData?.data?.Latest_response?.kpis
+    ? latestDraftData?.data?.Latest_response?.kpis
+    : get_KPI_Section2_data?.data;
 
   const currentYearAndQuarter = getCurrentYearAndQuarter();
-  const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();
   const get_historical_graph_data = useSelector(get_historical_graph_dataSelector);
   const historicalGraphData = get_historical_graph_data?.data || {};
-  const [excelFile, setExcelFile] = useState(null);
-  const [csvUpdateData, setScvUpdateData] = useState(0);
-  useEffect(() => {
-    tableData.map((data, i) => {
-      handleChange('', '', data, i);
-    });
-  }, [csvUpdateData, tableData.length]);
 
   const headerCellStyle = {
     backgroundColor: '#d4d4d4',
     border: '2px solid gray',
     color: 'black',
-  };
-
-  //All fixed table schema
-  const columns = [
-    {
-      dataField: 'id',
-      text: 'id',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      hidden: true,
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'sep',
-      text: 'sep',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      hidden: true,
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'Global_KPI_Code',
-      text: 'Global_KPI_Code',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-      // filter: textFilter(),
-    },
-    {
-      dataField: 'Applicability',
-      text: 'Applicability',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-      // filter: textFilter(),
-    },
-    {
-      dataField: 'MICS_Code',
-      text: 'MICS_Code',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-        width: '1000px',
-      },
-      hidden: true,
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'MICS_L1_Threshold',
-      text: 'MICS_L1_Threshold',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      hidden: true,
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'MICS_L2_Threshold',
-      text: 'MICS_L2_Threshold',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      hidden: true,
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'MICS_L3_Threshold',
-      text: 'MICS_L3_Threshold',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      hidden: true,
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-
-    {
-      dataField: 'Positive_direction',
-      text: 'Positive_direction',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      hidden: true,
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'Entity_ID',
-      text: 'Entity_ID',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'isManual',
-      formatter: (cellContent, row) => (row?.isManual ? 'Manual' : 'Automated'),
-      text: 'KPI Type',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'Period_From',
-      text: 'Period_From',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      hidden: true,
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'Period_To',
-      text: 'Period_To',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      hidden: true,
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'Expected_Numerator',
-      text: 'Expected_Numerator',
-      headerStyle: {
-        ...headerStyles,
-      },
-      editable: false,
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'Numerator',
-      text: 'Numerator',
-      headerStyle: {
-        ...headerStyles,
-      },
-      editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
-      editor: { type: 'number' },
-      style: (cell, row, rowIndex, colIndex) => {
-        if (row.isManual) {
-          return {
-            backgroundColor: 'white',
-            border: '2px solid gold',
-            color: 'black',
-          };
-        } else {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-      formatter: (cellContent, row) => {
-        if (row.isEdited) {
-          if (hasFailNumerator(row)) {
-            return (
-              <div>
-                {row?.Numerator}
-                <div className="alert alert-danger in" role="alert">
-                  <strong>Numerator is required when Denominator is filled</strong>
-                </div>
-              </div>
-            );
-          }
-        }
-        // if (row?.Numerator == 0) {
-        //   return (
-        //     <div>
-        //       {row?.Numerator}
-        //       <div className="alert alert-danger in" role="alert">
-        //         <strong>Numerator can be positive values only</strong>
-        //       </div>
-        //     </div>
-        //   );
-        // }
-        return cellContent ? cellContent : '';
-      },
-      validator: (newValue, row, column) => {
-        row.isEdited = true;
-        if (isNaN(newValue)) {
-          row.Numerator = '';
-          return {
-            valid: false,
-            message: 'Numerator can be a number only',
-          };
-        }
-        // TODO: @@@@ If user only positive number then uncomment code
-        // if (row.Numerator <= 0) {
-        //   handleChange(row.Numerator, newValue, row, column);
-        //   return {
-        //     valid: false,
-        //     message: 'Denominator is required when Numerator is filled',
-        //   };
-        // }
-      },
-    },
-    {
-      dataField: 'Expected_Denominator',
-      text: 'Expected_Denominator',
-      headerStyle: {
-        ...headerStyles,
-      },
-      editable: false,
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'Denominator',
-      text: 'Denominator',
-      editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
-      editor: { type: 'number' },
-      headerStyle: {
-        ...headerStyles,
-      },
-      formatter: (cellContent, row) => {
-        if (row.isEdited) {
-          if (hasFailDenominator(row)) {
-            return (
-              <div>
-                {row?.Denominator}
-                <div className="alert alert-danger in" role="alert">
-                  <strong>Denominator is required when Numerator is filled</strong>
-                </div>
-              </div>
-            );
-          }
-          // TODO: @@@@ If user only positive number then uncomment code
-          // if (row?.Denominator < 0) {
-          //   return (
-          //     <div>
-          //       {row?.Denominator}
-          //       <div className="alert alert-danger in" role="alert">
-          //         <strong>Denominator cannot be zero</strong>
-          //       </div>
-          //     </div>
-          //   );
-          // }
-        }
-
-        return cellContent ? cellContent : '';
-      },
-      style: (cell, row, rowIndex, colIndex) => {
-        if (row.isManual) {
-          return {
-            backgroundColor: 'white',
-            border: '2px solid gold',
-            color: 'black',
-          };
-        } else {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-      validator: (newValue, row, column) => {
-        row.isEdited = true;
-
-        return true;
-      },
-    },
-    {
-      dataField: 'KPI_Value',
-      text: 'KPI_Value',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      formatter: (cellContent, row) => {
-        return (
-          <div style={{ color: '#000' }}>
-            {hasFailNumerator(row) || hasFailDenominator(row) ? '' : row.KPI_Value}
-          </div>
-        );
-      },
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-        if (!row?.Numerator || !row?.Denominator) {
-          return {
-            backgroundColor: 'white',
-            // color: 'white',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'Upload_Approach',
-      text: 'KPI Data source (Excel/PBI/Celonis/Others)',
-      editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
-      headerStyle: {
-        ...headerStyles,
-      },
-      editor: {
-        type: Type.SELECT,
-        options: [
-          {
-            value: 'Excel',
-            label: 'Excel',
-          },
-          {
-            value: 'PBI',
-            label: 'PBI',
-          },
-          {
-            value: 'Celonis',
-            label: 'Celonis',
-          },
-          {
-            value: 'Others',
-            label: 'Others',
-          },
-        ],
-      },
-      style: (cell, row, rowIndex, colIndex) => {
-        if (row.isManual) {
-          return {
-            backgroundColor: 'white',
-            border: '2px solid gold',
-            color: 'black',
-          };
-        } else {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'Source_System',
-      text: 'Source of Data - Link',
-      editable: isModal ? false : (value, row, rowIndex, columnIndex) => row.isManual,
-      formatter: (cell, row) => {
-        if (typeof cell === 'string') {
-          return cell.trimStart(); // Trim leading spaces from string
-        }
-        return cell;
-      },
-      headerStyle: {
-        ...headerStyles,
-      },
-      style: (cell, row, rowIndex, colIndex) => {
-        if (row.isManual) {
-          return {
-            backgroundColor: 'white',
-            border: '2px solid gold',
-            color: 'black',
-          };
-        } else {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'Month',
-      text: 'Month',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'L1_Result',
-      text: 'L1_Result',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'L2_Result',
-      text: 'L2_Result',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-    {
-      dataField: 'L3_Result',
-      text: 'L3_Result',
-      editable: false,
-      headerStyle: {
-        ...headerStyles,
-      },
-      formatter: (cellContent, row) => {
-        return cellContent;
-      },
-      style: (cell, row, rowIndex, colIndex) => {
-        if (!row.isManual) {
-          return {
-            backgroundColor: '#d4d4d4',
-            border: '2px solid gray',
-            color: 'black',
-          };
-        }
-      },
-    },
-  ];
-
-  const rowStyle2 = (row, rowIndex) => {
-    const style = {};
-    if (row.L3_Result === 'Fail' || row.L3_Result === 'Fail' || row.L3_Result === 'Fail') {
-      style.backgroundColor = '#f8dbe0';
-      style.color = '#000';
-    }
-    return style;
   };
 
   useEffect(() => {
@@ -706,21 +98,9 @@ const ControlSection2 = ({
       //Convert table formate data TO display structure
       const table_data = [...kpiResponseData];
       table_data.forEach((tData, i) => {
-        if (tData.KPI_Value === '' || tData.KPI_Value === 0) {
-          tData['sep'] = 2;
-        } else {
-          tData['sep'] = 1;
-        }
-        tData['id'] = i + 1;
+        // tData['id'] = i + 1;
         tData['Upload_Approach'] = tData['Upload_Approach'] || '';
         tData['Source_System'] = tData['Source_System']?.trimStart() || '';
-        let period = tData.Period_From;
-        let words = period.split('-');
-        const month = parseInt(words[1]);
-        const d = new Date();
-        d.setMonth(month - 1);
-        tData['Month'] = moment(period, 'YYYY-MM-DD').format('MMMM');
-        tData['Type_of_KPI'] = tData.isManual ? 'Manual' : 'Automated';
       });
 
       setTableData(table_data);
@@ -852,7 +232,7 @@ const ControlSection2 = ({
   };
 
   //Table on change function
-  function handleChange(oldValue, newInputValue, row, column) {
+  function handleChange(newInputValue, row, column) {
     setIsStartTableEdit(true);
     const newValue = newInputValue.trimStart();
     const updateProduct = tableData.map((d) => {
@@ -898,54 +278,101 @@ const ControlSection2 = ({
     }, 100);
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (excelFile !== null) {
-      document.getElementById('combine_btn').reset();
+  // Code for validation and result calculation for Numerator and Denominator columns
+  const validateKPI = (row, value, type) => {
+    let errors = {};
 
-      var myHeaders = new Headers();
-      myHeaders.append('Authorization', 'Basic Q09JTjpDT0lOX1NlY3VyZUAxMjM=');
-      myHeaders.append('Content-Type', 'application/json');
-
-      var apiBody = {
-        input_table: tableData,
-        output_table: excelFile,
-      };
-
-      const output_table_data = apiBody.output_table.map((d) => {
-        const Denominator = d['Denominator'];
-        if ([0, '0'].includes(Denominator)) {
-          d['Denominator'] = '';
-        } else {
-          d['Denominator'] = Denominator ? +Denominator : '';
-        }
-
-        // TODO: @@@@ if Numerator accept 0 then add logic here...
-        const Numerator = d['Numerator'];
-        d['Numerator'] = !!Numerator || [0, '0'].includes(Numerator) ? Numerator.toString() : '';
-
-        return {
-          ...handleUpdateLevel(d),
-          isManual: true,
-          isEdited: true,
-        };
-      });
-
-      dispatch(getCsvTampredDataAction({ ...apiBody, output_table: output_table_data }));
-      setTableData(output_table_data);
-
-      if (stateCsvTampred?.data === false) {
-      } else {
-        setScvUpdateData(0);
+    // These functions handle the validation logic based on the Numerator_Allowed and Denominator_Allowed values.
+    const isNumeratorValid = (num) => {
+      switch (row.Numerator_Allowed) {
+        case 'Positive/Zero only':
+          return num >= 0;
+        case 'Negative/Zero only':
+          return num <= 0;
+        case 'Zero/One only':
+          return num === 0 || num === 1;
+        case 'Any value':
+        default:
+          return true;
       }
-    } else {
-      setTableData(null);
+    };
+
+    const isDenominatorValid = (den) => {
+      switch (row.Denominator_Allowed) {
+        case 'Positive only':
+          return den > 0;
+        case 'Negative only':
+          return den < 0;
+        case 'Positive/Zero only':
+          return den >= 0;
+        case 'Negative/Zero only':
+          return den <= 0;
+        case 'Zero/One only':
+          return den === 0 || den === 1;
+        case 'Any value':
+        default:
+          return true;
+      }
+    };
+
+    if (type === 'Numerator') {
+      // Check if the Numerator is valid based on the Numerator_Allowed value
+      if (!isNaN(value) && !isNumeratorValid(value)) {
+        errors.Numerator = `Numerator must be ${row.Numerator_Allowed}`;
+      } else if (
+        (row.Numerator || row.Numerator === 0) && // Handling zero as a valid number
+        !row.Denominator &&
+        row.Denominator !== 0
+      ) {
+        errors.Numerator = 'Denominator is required';
+      } else if (
+        !row.Numerator &&
+        row.Numerator !== 0 &&
+        (row.Denominator || row.Denominator === 0)
+      ) {
+        errors.Numerator = 'Numerator is required';
+      }
+    } else if (type === 'Denominator') {
+      // Check if the Denominator is valid based on the Denominator_Allowed value
+      if (!isNaN(value) && !isDenominatorValid(value)) {
+        errors.Denominator = `Denominator must be ${row.Denominator_Allowed}`;
+      } else if (
+        (row.Denominator || row.Denominator === 0) &&
+        !row.Numerator &&
+        row.Numerator !== 0
+      ) {
+        errors.Denominator = 'Numerator is required';
+      } else if (
+        (row.Numerator || row.Numerator === 0) &&
+        !row.Denominator &&
+        row.Denominator !== 0
+      ) {
+        errors.Denominator = 'Denominator is required';
+      }
     }
+
+    // If both Numerator and Denominator are present, check their validity
+    if ((row.Numerator || row.Numerator === 0) && (row.Denominator || row.Denominator === 0)) {
+      const isNumeratorInvalid = !isNumeratorValid(row.Numerator);
+      const isDenominatorInvalid = !isDenominatorValid(row.Denominator);
+
+      errors.Numerator = isNumeratorInvalid ? `Numerator must be ${row.Numerator_Allowed}` : null;
+      errors.Denominator = isDenominatorInvalid
+        ? `Denominator must be ${row.Denominator_Allowed}`
+        : null;
+
+      // If both are valid, clear the errors object
+      if (!isNumeratorInvalid && !isDenominatorInvalid) {
+        errors = {};
+      }
+    }
+
+    return errors;
   };
 
   // File upload logic
   // This function convert uploaded Excel file data read and view on table mode
-  const handleFile = (e) => {
+  const handleFileUpload = (e) => {
     let selectedFile = e.target.files[0];
     if (selectedFile) {
       readXlsxFile(selectedFile).then((data) => {
@@ -967,19 +394,38 @@ const ControlSection2 = ({
           return handleUpdateLevel(obj);
         });
 
-        setExcelFile(fileData);
-      });
-    } else {
-      setExcelFile(null);
-    }
-  };
+        var myHeaders = new Headers();
+        myHeaders.append('Authorization', 'Basic Q09JTjpDT0lOX1NlY3VyZUAxMjM=');
+        myHeaders.append('Content-Type', 'application/json');
 
-  const setStringValue = (value) => {
-    if ([0, '0'].includes(value)) {
-      return '0';
+        var apiBody = {
+          input_table: tableData,
+          output_table: fileData,
+        };
+
+        const output_table_data = apiBody.output_table.map((d) => {
+          const Denominator = d['Denominator'];
+          if ([0, '0'].includes(Denominator)) {
+            d['Denominator'] = '';
+          } else {
+            d['Denominator'] = Denominator ? +Denominator : '';
+          }
+
+          // TODO: @@@@ if Numerator accept 0 then add logic here...
+          const Numerator = d['Numerator'];
+          d['Numerator'] = !!Numerator || [0, '0'].includes(Numerator) ? Numerator.toString() : '';
+
+          return {
+            ...handleUpdateLevel(d),
+            isManual: true,
+            isEdited: true,
+          };
+        });
+
+        dispatch(getCsvTampredDataAction({ ...apiBody, output_table: output_table_data }));
+        setTableData(output_table_data);
+      });
     }
-    if (!value) return '';
-    return value.toString();
   };
 
   const tableBodyCellStyle = {
@@ -990,42 +436,312 @@ const ControlSection2 = ({
 
   const columnsNew = [
     {
-      accessorKey: 'KPI_ID',
-      enableClickToCopy: true,
-      header: 'KPI_ID',
+      accessorKey: 'Zone',
+      //filterVariant: 'multi-select',
+      header: 'Zone',
       size: 50,
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
+        row.original.KPI_Source == 'Automated' && {
           // align: 'center',
           sx: {
-            ...tableBodyCellStyle,
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'Month',
+      //filterVariant: 'multi-select',
+      header: 'Month',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'Year_and_Quarter',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Year and Quarter',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'KPI_ID',
+      enableClickToCopy: true,
+      //filterVariant: 'multi-select',
+      header: 'KPI ID',
+      size: 100,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'KPI_Name',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'KPI Name',
+      size: 200,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'KPI_Description',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'KPI Description',
+      size: 200,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'KPI_Type',
+      enableClickToCopy: true,
+      //filterVariant: 'multi-select',
+      header: 'KPI Type',
+      size: 100,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
           },
         },
     },
     {
       accessorKey: 'KPI_Applicability_Level',
       enableClickToCopy: true,
-      header: 'KPI_Applicability_Level',
+      //   filterVariant: 'autocomplete',
+      header: 'KPI Applicability Level',
       size: 100,
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
           sx: {
-            ...tableBodyCellStyle,
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
           },
         },
     },
     {
-      accessorKey: 'Positive_direction',
+      accessorKey: 'KPI_Responsibility',
       enableClickToCopy: true,
-      header: 'Positive_direction',
+      //filterVariant: 'multi-select',
+      header: 'KPI Responsibility',
+      size: 100,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'Receiving_Entity',
+      enableClickToCopy: true,
+      //filterVariant: 'multi-select',
+      header: 'Receiving Entity',
+      size: 150,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'KPI_Owner_Email',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'KPI Owner Email',
       size: 200,
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
           sx: {
-            ...tableBodyCellStyle,
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'KPI_Oversight_Email',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'KPI Oversight Email',
+      size: 200,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'KPI_Source',
+      enableClickToCopy: true,
+      //filterVariant: 'multi-select',
+      header: 'KPI Source',
+      size: 100,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+      // Cell: ({ row }) => <span>{row.original.KPI_Source}</span>,
+      // Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
+    },
+    {
+      accessorKey: 'Expected_KPI_Source',
+      enableClickToCopy: true,
+      // filterVariant: 'multi-select',
+      header: 'Expected KPI Data Source',
+      size: 300,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+      // Cell: ({ row }) => <span>{row.original.Expected_KPI_Source}</span>,
+      // Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
+    },
+    {
+      accessorKey: 'KPI_Frequency',
+      enableClickToCopy: true,
+      //filterVariant: 'multi-select',
+      header: 'KPI Frequency',
+      size: 150,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+      // Cell: ({ row }) => <span>{row.original.KPI_Source}</span>,
+      // Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
+    },
+    {
+      accessorKey: 'Control_ID',
+      enableClickToCopy: true,
+      //filterVariant: 'multi-select',
+      header: 'Control ID',
+      size: 200,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'Provider_Org',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Provider Org',
+      size: 300,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'Positive_Direction',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Positive Direction',
+      size: 300,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
           },
         },
     },
@@ -1033,13 +749,50 @@ const ControlSection2 = ({
       accessorKey: 'Expected_Numerator',
       enableClickToCopy: true,
       //   filterVariant: 'autocomplete',
-      header: 'Expected_Numerator',
+      header: 'Expected Numerator',
       size: 200,
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
           sx: {
-            ...tableBodyCellStyle,
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'Expected_Denominator',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Expected Denominator',
+      size: 200,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'Numerator_Allowed',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Numerator Allowed',
+      size: 150,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
           },
         },
     },
@@ -1053,8 +806,8 @@ const ControlSection2 = ({
         required: true,
         type: 'number',
         variant: 'filled',
-        // error: validationErrors[row.original.id]?.Numerator,
-        //helperText: validationErrors[row.original.id]?.Numerator,
+        error: validationErrors[row.original.id]?.Numerator,
+        helperText: validationErrors[row.original.id]?.Numerator,
         value: row.original.Numerator,
         onChange: (event) => {
           const value = event.target.value.trim();
@@ -1062,30 +815,27 @@ const ControlSection2 = ({
 
           // Update the value in the local tableData copy
           updatedTableData[cell.row.index][cell.column.id] = value;
-
-          // // Update results based on the row
-          // updateResults(row.original, updatedTableData, cell);
         },
         onBlur: (event) => {
           //const value = parseFloat(event.target.value.trim());
           const value = event.target.value.trim();
           tableData[cell.row.index][cell.column.id] = value;
 
-          // const errors = validateKPI(row.original, value, 'Numerator');
-          // setValidationErrors((prev) => ({
-          //   ...prev,
-          //   [row.original.id]: {
-          //     ...prev[row.original.id],
-          //     ...errors,
-          //   },
-          // }));
+          const errors = validateKPI(row.original, value, 'Numerator');
+          setValidationErrors((prev) => ({
+            ...prev,
+            [row.original.id]: {
+              ...prev[row.original.id],
+              ...errors,
+            },
+          }));
 
-          // if (Object.keys(errors).length === 0) {
-          //   delete validationErrors[row.original.id]?.Numerator;
-          //   delete validationErrors[row.original.id]?.Denominator;
-          //   setValidationErrors({ ...validationErrors });
-          //   updateResults(row.original, tableData, cell);
-          // }
+          if (Object.keys(errors).length === 0) {
+            delete validationErrors[row.original.id]?.Numerator;
+            delete validationErrors[row.original.id]?.Denominator;
+            setValidationErrors({ ...validationErrors });
+          }
+          handleChange(value, row.original, { dataField: 'Numerator' });
         },
       }),
       mantineTableBodyCellProps: ({ row }) =>
@@ -1097,16 +847,19 @@ const ControlSection2 = ({
         },
     },
     {
-      accessorKey: 'Expected_Denominator',
+      accessorKey: 'Denominator_Allowed',
       enableClickToCopy: true,
-      //filterVariant: 'multi-select',
-      header: 'Expected_Denominator',
-      size: 100,
+      //   filterVariant: 'autocomplete',
+      header: 'Denominator Allowed',
+      size: 150,
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
           sx: {
-            ...tableBodyCellStyle,
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
           },
         },
     },
@@ -1127,15 +880,28 @@ const ControlSection2 = ({
 
           // Update the value in the local tableData copy
           updatedTableData[cell.row.index][cell.column.id] = value;
-
-          // // Update results based on the row
-          // updateResults(row.original, updatedTableData, cell);
         },
-        //helperText: validationErrors[row.original.id]?.Denominator,
+        error: validationErrors[row.original.id]?.Denominator,
         onBlur: (event) => {
           //const value = parseFloat(event.target.value.trim());
           const value = event.target.value.trim();
           tableData[cell.row.index][cell.column.id] = value;
+
+          const errors = validateKPI(row.original, value, 'Denominator');
+          setValidationErrors((prev) => ({
+            ...prev,
+            [row.original.id]: {
+              ...prev[row.original.id],
+              ...errors,
+            },
+          }));
+
+          if (Object.keys(errors).length === 0) {
+            delete validationErrors[row.original.id]?.Numerator;
+            delete validationErrors[row.original.id]?.Denominator;
+            setValidationErrors({ ...validationErrors });
+          }
+          handleChange(value, row.original, { dataField: 'Denominator' });
         },
       }),
       mantineTableBodyCellProps: ({ row }) =>
@@ -1149,106 +915,251 @@ const ControlSection2 = ({
     {
       accessorKey: 'KPI_Value',
       enableClickToCopy: true,
-      header: 'KPI_Value',
-      size: 150,
-      enableEditing: false,
+      //   filterVariant: 'autocomplete',
+      header: 'KPI Value',
+      size: 100,
       mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
           sx: {
-            ...tableBodyCellStyle,
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+      enableEditing: false,
+      Cell: ({ row }) => <span>{row.original.KPI_Value}</span>,
+    },
+    {
+      accessorKey: 'Calculation_Source',
+      header: 'Calculation Source',
+      size: 100,
+      editVariant: 'select',
+      Cell: ({ row }) => <span>{row.original?.Calculation_Source}</span>,
+      mantineEditSelectProps: ({ cell, row }) => ({
+        data: [
+          {
+            value: 'PBI',
+            label: 'PBI',
+          },
+          {
+            value: 'GRM Dashboard',
+            label: 'GRM Dashboard',
+          },
+          {
+            value: 'Cognos',
+            label: 'Cognos',
+          },
+          {
+            value: 'SAP',
+            label: 'SAP',
+          },
+          {
+            value: 'Celonis',
+            label: 'Celonis',
+          },
+          {
+            value: 'Anaplan',
+            label: 'Anaplan',
+          },
+          {
+            value: 'Others',
+            label: 'Others',
+          },
+        ],
+        onChange: (value) => {
+          return (tableData[cell.row.index][cell.column.id] = value);
+        },
+        value: row.original.Calculation_Source ? row.original.Calculation_Source : null,
+      }),
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
           },
         },
     },
     {
-      accessorKey: 'KPI_Uploader',
+      accessorKey: 'Actual_Source_Link',
       enableClickToCopy: true,
-      header: 'KPI Data source (Excel/PBI/Celonis/Others)',
-      size: 200,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
-          sx: {
-            ...tableBodyCellStyle,
-          },
-        },
-    },
-    {
-      accessorKey: 'KPI_Source',
-      enableClickToCopy: true,
-      header: 'Source of Data - Link',
+      header: 'Actual Source Link',
       size: 300,
-      enableEditing: false,
+      Cell: ({ row }) => <span>{row.original.Actual_Source_Link}</span>,
+      mantineEditTextInputProps: ({ cell, row }) => ({
+        required: false,
+        type: 'text',
+        variant: 'filled',
+        value: row.original.Actual_Source_Link,
+        onChange: (event) => {
+          const value = event.target.value.trim();
+          const updatedTableData = [...tableData]; // Assuming tableData is an array of objects
+
+          // Update the value in the local tableData copy
+          updatedTableData[cell.row.index][cell.column.id] = value;
+        },
+        onBlur: (event) => {
+          const value = event.target.value.trim();
+          tableData[cell.row.index][cell.column.id] = value;
+          // setTableData([...tableData]);
+        },
+      }),
       mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
           sx: {
-            ...tableBodyCellStyle,
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
           },
         },
     },
     {
-      accessorKey: 'Month',
-      enableClickToCopy: true,
-      header: 'Month',
-      size: 300,
+      accessorKey: 'Threshold_L1',
+      // filterVariant: 'autocomplete',
+      header: 'Threshold L1',
+      size: 50,
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
           sx: {
-            ...tableBodyCellStyle,
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'Threshold_L2',
+      // filterVariant: 'autocomplete',
+      header: 'Threshold L2',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'Threshold_L3',
+      // filterVariant: 'autocomplete',
+      header: 'Threshold L3',
+      size: 50,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
           },
         },
     },
     {
       accessorKey: 'L1_Result',
-      header: 'L1_Result',
+      //   filterVariant: 'autocomplete',
+      header: 'L1 Result',
       size: 50,
       enableEditing: false,
+      // Cell: ({ cell }) => <Badge_apply data={cell.getValue()} />,
       Cell: ({ row }) => {
         return <Badge_apply data={row.original.L1_Result} />;
       },
       mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
           sx: {
-            ...tableBodyCellStyle,
+            backgroundColor: '#1B1212',
           },
         },
     },
     {
       accessorKey: 'L2_Result',
       //   filterVariant: 'autocomplete',
-      header: 'L2_Result',
+      header: 'L2 Result',
       size: 50,
       enableEditing: false,
       Cell: ({ row }) => {
         return <Badge_apply data={row.original.L2_Result} />;
       },
       mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
           sx: {
-            ...tableBodyCellStyle,
+            backgroundColor: '#1B1212',
           },
         },
     },
     {
       accessorKey: 'L3_Result',
       //   filterVariant: 'autocomplete',
-      header: 'L3_Result',
+      header: 'L3 Result',
       size: 50,
       enableEditing: false,
       Cell: ({ row }) => {
         return <Badge_apply data={row.original.L3_Result} />;
       },
       mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
           sx: {
-            ...tableBodyCellStyle,
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'Load_Date',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'Load Date',
+      size: 300,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
+          },
+        },
+    },
+    {
+      accessorKey: 'KPI_Uploader',
+      enableClickToCopy: true,
+      //   filterVariant: 'autocomplete',
+      header: 'KPI Uploader',
+      size: 200,
+      enableEditing: false,
+      mantineTableBodyCellProps: ({ row }) =>
+        row.original.KPI_Source == 'Automated' && {
+          // align: 'center',
+          sx: {
+            backgroundColor: '#1B1212',
+            color: '#fff',
+            // borderRight: '1px solid rgba(224,224,224,1)',
           },
         },
     },
   ];
 
   const tableRecord = useMemo(() => {
-    return tableData;
+    return tableData.map((d) => ({
+      ...d,
+      KPI_Source: 'Manual',
+      Year_and_Quarter: currentYearAndQuarter,
+    }));
   }, [tableData]);
 
   console.log('tableRecord', tableRecord);
@@ -1256,7 +1167,7 @@ const ControlSection2 = ({
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section2KPI')} active>
-        {get_historical_graph_data.loading ? (
+        {get_historical_graph_data.loading || get_KPI_Section2_data.loading ? (
           <div>
             <div className="mt-8 mb-8 text-center">
               <Loader color="#e7c55d" />
@@ -1279,108 +1190,8 @@ const ControlSection2 = ({
                 </>
               )}
             </div>
-            {tableData?.length !== 0 ? (
+            {tableRecord?.length !== 0 ? (
               <div className="mt-5">
-                {/*<div id="my_btns">*/}
-                {/*  <div className="d-flex align-items-center">*/}
-                {/*    <div className="row " id="export_button_right">*/}
-                {/*      <Workbook*/}
-                {/*        filename={`data-${controlId}.xlsx`}*/}
-                {/*        element={*/}
-                {/*          <button className="export_button">*/}
-                {/*            <strong>{t('selfAssessment.assessmentForm.exportToExcel')}</strong>*/}
-                {/*          </button>*/}
-                {/*        }*/}
-                {/*      >*/}
-                {/*        <Workbook.Sheet*/}
-                {/*          data={tableData.map((td) => ({*/}
-                {/*            ...td,*/}
-                {/*            Numerator: hasFailNumerator(td)*/}
-                {/*              ? ''*/}
-                {/*              : td.Numerator*/}
-                {/*              ? td.Numerator.toString()*/}
-                {/*              : '',*/}
-                {/*            Denominator: hasFailDenominator(td)*/}
-                {/*              ? ''*/}
-                {/*              : td.Denominator*/}
-                {/*              ? td.Denominator.toString()*/}
-                {/*              : '',*/}
-                {/*          }))}*/}
-                {/*          name="Sheet A"*/}
-                {/*        >*/}
-                {/*          <Workbook.Column label="sep" value="sep" />*/}
-                {/*          <Workbook.Column label="Global_KPI_Code" value="Global_KPI_Code" />*/}
-                {/*          <Workbook.Column label="Applicability" value="Applicability" />*/}
-                {/*          <Workbook.Column label="Calculation_Source" value="Calculation_Source" />*/}
-                {/*          <Workbook.Column label="Entity_ID" value="Entity_ID" />*/}
-                {/*          <Workbook.Column label="KPI_ID" value="KPI_ID" />*/}
-                {/*          <Workbook.Column label="Entity_Type" value="Entity_Type" />*/}
-                {/*          <Workbook.Column label="KPI Type" value="isManual" />*/}
-                {/*          <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />*/}
-                {/*          <Workbook.Column label="Numerator" value="Numerator" />*/}
-                {/*          <Workbook.Column*/}
-                {/*            label="Expected_Denominator"*/}
-                {/*            value="Expected_Denominator"*/}
-                {/*          />*/}
-                {/*          <Workbook.Column label="Denominator" value="Denominator" />*/}
-                {/*          <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />*/}
-                {/*          <Workbook.Column label="KPI_Value" value="KPI_Value" />*/}
-                {/*          <Workbook.Column label="Month" value="Month" />*/}
-                {/*          <Workbook.Column label="MICS_Code" value="MICS_Code" />*/}
-                {/*          <Workbook.Column label="Period_From" value="Period_From" />*/}
-                {/*          <Workbook.Column label="Period_To" value="Period_To" />*/}
-                {/*          <Workbook.Column label="Positive_direction" value="Positive_direction" />*/}
-                {/*          <Workbook.Column label="Source_Details" value="Source_Details" />*/}
-                {/*          <Workbook.Column*/}
-                {/*            label="Uploader_DataProvider"*/}
-                {/*            value="Uploader_DataProvider"*/}
-                {/*          />*/}
-                {/*          <Workbook.Column*/}
-                {/*            label="KPI Data source (Select from Excel/PBI/Celonis/Others)"*/}
-                {/*            value="Upload_Approach"*/}
-                {/*          />*/}
-                {/*          <Workbook.Column label="Link to data" value="Source_System" />*/}
-                {/*          <Workbook.Column label="MICS_L1_Threshold" value="MICS_L1_Threshold" />*/}
-                {/*          <Workbook.Column label="MICS_L2_Threshold" value="MICS_L2_Threshold" />*/}
-                {/*          <Workbook.Column label="MICS_L3_Threshold" value="MICS_L3_Threshold" />*/}
-                {/*          <Workbook.Column label="L1_Result" value="L1_Result" />*/}
-                {/*          <Workbook.Column label="L2_Result" value="L2_Result" />*/}
-                {/*          <Workbook.Column label="L3_Result" value="L3_Result" />*/}
-                {/*        </Workbook.Sheet>*/}
-                {/*      </Workbook>*/}
-                {/*    </div>*/}
-                {/*    <button className="export_button" onClick={() => setShowGraph(!showGraph)}>*/}
-                {/*      <strong> KPI Statistics</strong>*/}
-                {/*    </button>*/}
-                {/*  </div>*/}
-                {/*  {!isModal && (*/}
-                {/*    <form onSubmit={handleSubmit} id="combine_btn">*/}
-                {/*      <div className="d-flex align-items-center">*/}
-                {/*        <div className="mr-2">*/}
-                {/*          <label htmlFor="uploadfile" className="file-input-wrapper">*/}
-                {/*            <input*/}
-                {/*              type="file"*/}
-                {/*              placeholder="Name"*/}
-                {/*              id="uploadfile"*/}
-                {/*              onChange={handleFile}*/}
-                {/*            />*/}
-                {/*          </label>*/}
-                {/*        </div>*/}
-
-                {/*        <button*/}
-                {/*          type="submit"*/}
-                {/*          className="submit_btn black-text"*/}
-                {/*          disabled={!excelFile}*/}
-                {/*        >*/}
-                {/*          <strong>*/}
-                {/*            {t('selfAssessment.assessmentForm.section2UploadExcelBtn')}*/}
-                {/*          </strong>*/}
-                {/*        </button>*/}
-                {/*      </div>*/}
-                {/*    </form>*/}
-                {/*  )}*/}
-                {/*</div>*/}
-
                 <div className="kpi_table">
                   <MantineProvider
                     theme={{ colorScheme: 'dark' }}
@@ -1401,6 +1212,7 @@ const ControlSection2 = ({
                       enableStickyHeader={true}
                       editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)
                       enableEditing={(row) =>
+                        row.original.KPI_Source == 'Manual' &&
                         row.original.Year_and_Quarter === currentYearAndQuarter
                       }
                       initialState={{
@@ -1461,74 +1273,103 @@ const ControlSection2 = ({
                                         }))}
                                         name="Sheet A"
                                       >
-                                        <Workbook.Column label="sep" value="sep" />
+                                        <Workbook.Column label="id" value="id" />
+                                        <Workbook.Column label="Zone" value="Zone" />
+                                        <Workbook.Column label="Month" value="Month" />
                                         <Workbook.Column
-                                          label="Global_KPI_Code"
-                                          value="Global_KPI_Code"
+                                          label="Year_and_Quarter"
+                                          value="Year_and_Quarter"
                                         />
-                                        <Workbook.Column
-                                          label="Applicability"
-                                          value="Applicability"
-                                        />
-                                        <Workbook.Column
-                                          label="Calculation_Source"
-                                          value="Calculation_Source"
-                                        />
-                                        <Workbook.Column label="Entity_ID" value="Entity_ID" />
                                         <Workbook.Column label="KPI_ID" value="KPI_ID" />
-                                        <Workbook.Column label="Entity_Type" value="Entity_Type" />
-                                        <Workbook.Column label="KPI Type" value="isManual" />
+                                        <Workbook.Column label="KPI_Name" value="KPI_Name" />
+                                        <Workbook.Column
+                                          label="KPI_Description"
+                                          value="KPI_Description"
+                                        />
+                                        <Workbook.Column label="KPI_Type" value="KPI_Type" />
+                                        <Workbook.Column
+                                          label="KPI_Applicability_Level"
+                                          value="KPI_Applicability_Level"
+                                        />
+                                        <Workbook.Column
+                                          label="KPI_Responsibility"
+                                          value="KPI_Responsibility"
+                                        />
+                                        <Workbook.Column
+                                          label="Receiving_Entity"
+                                          value="Receiving_Entity"
+                                        />
+                                        <Workbook.Column
+                                          label="KPI_Owner_Email"
+                                          value="KPI_Owner_Email"
+                                        />
+                                        <Workbook.Column
+                                          label="KPI_Oversight_Email"
+                                          value="KPI_Oversight_Email"
+                                        />
+                                        <Workbook.Column label="KPI_Source" value="KPI_Source" />
+                                        <Workbook.Column
+                                          label="Expected_KPI_Source"
+                                          value="Expected_KPI_Source"
+                                        />
+                                        <Workbook.Column
+                                          label="KPI_Frequency"
+                                          value="KPI_Frequency"
+                                        />
+                                        <Workbook.Column label="Control_ID" value="Control_ID" />
+                                        <Workbook.Column
+                                          label="Provider_Org"
+                                          value="Provider_Org"
+                                        />
+                                        <Workbook.Column
+                                          label="Positive_Direction"
+                                          value="Positive_Direction"
+                                        />
                                         <Workbook.Column
                                           label="Expected_Numerator"
                                           value="Expected_Numerator"
                                         />
-                                        <Workbook.Column label="Numerator" value="Numerator" />
                                         <Workbook.Column
                                           label="Expected_Denominator"
                                           value="Expected_Denominator"
                                         />
-                                        <Workbook.Column label="Denominator" value="Denominator" />
-                                        <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
+                                        <Workbook.Column
+                                          label="Numerator_Allowed"
+                                          value="Numerator_Allowed"
+                                        />
+                                        <Workbook.Column
+                                          label="Denominator_Allowed"
+                                          value="Denominator_Allowed"
+                                        />
                                         <Workbook.Column label="KPI_Value" value="KPI_Value" />
-                                        <Workbook.Column label="Month" value="Month" />
-                                        <Workbook.Column label="MICS_Code" value="MICS_Code" />
-                                        <Workbook.Column label="Period_From" value="Period_From" />
-                                        <Workbook.Column label="Period_To" value="Period_To" />
                                         <Workbook.Column
-                                          label="Positive_direction"
-                                          value="Positive_direction"
+                                          label="Calculation_Source"
+                                          value="Calculation_Source"
                                         />
                                         <Workbook.Column
-                                          label="Source_Details"
-                                          value="Source_Details"
+                                          label="Actual_Source_Link"
+                                          value="Actual_Source_Link"
                                         />
                                         <Workbook.Column
-                                          label="Uploader_DataProvider"
-                                          value="Uploader_DataProvider"
+                                          label="Threshold_L1"
+                                          value="Threshold_L1"
                                         />
                                         <Workbook.Column
-                                          label="KPI Data source (Select from Excel/PBI/Celonis/Others)"
-                                          value="Upload_Approach"
+                                          label="Threshold_L2"
+                                          value="Threshold_L2"
                                         />
                                         <Workbook.Column
-                                          label="Link to data"
-                                          value="Source_System"
-                                        />
-                                        <Workbook.Column
-                                          label="MICS_L1_Threshold"
-                                          value="MICS_L1_Threshold"
-                                        />
-                                        <Workbook.Column
-                                          label="MICS_L2_Threshold"
-                                          value="MICS_L2_Threshold"
-                                        />
-                                        <Workbook.Column
-                                          label="MICS_L3_Threshold"
-                                          value="MICS_L3_Threshold"
+                                          label="Threshold_L3"
+                                          value="Threshold_L3"
                                         />
                                         <Workbook.Column label="L1_Result" value="L1_Result" />
                                         <Workbook.Column label="L2_Result" value="L2_Result" />
                                         <Workbook.Column label="L3_Result" value="L3_Result" />
+                                        <Workbook.Column label="Load_Date" value="Load_Date" />
+                                        <Workbook.Column
+                                          label="KPI_Uploader"
+                                          value="KPI_Uploader"
+                                        />
                                       </Workbook.Sheet>
                                     </Workbook>
                                   </div>
@@ -1537,10 +1378,10 @@ const ControlSection2 = ({
                                     <input
                                       icon={FileUploadOutlinedIcon}
                                       type="file"
-                                      accept="text/csv"
+                                      // accept="text/csv"
                                       placeholder="Name"
                                       id="uploadfile"
-                                      // onChange={handleFileUpload}
+                                      onChange={handleFileUpload}
                                       //style={{ display: 'none' }}
                                       // disabled={isDisabled}
                                     />
@@ -1568,35 +1409,6 @@ const ControlSection2 = ({
                     />
                   </MantineProvider>
                 </div>
-
-                {/*<div*/}
-                {/*  className={`renderBlockWrapper section2-table ${*/}
-                {/*    isModal ? 'section2-table-ismodal' : 'section2-table-notmodal'*/}
-                {/*  }`}*/}
-                {/*>*/}
-                {/*  <BootstrapTable*/}
-                {/*    keyField="id"*/}
-                {/*    // cellEdit={ cellEditProp }*/}
-                {/*    data={tableData.map((td) => ({*/}
-                {/*      ...td,*/}
-                {/*      Numerator: hasFailNumerator(td) ? '' : setStringValue(td.Numerator),*/}
-                {/*      Denominator: hasFailDenominator(td) ? '' : setStringValue(td.Denominator),*/}
-                {/*    }))}*/}
-                {/*    columns={columns}*/}
-                {/*    filter={filterFactory()}*/}
-                {/*    pagination={paginationFactory()}*/}
-                {/*    className="container pagination"*/}
-                {/*    responsive*/}
-                {/*    rowStyle={rowStyle2}*/}
-                {/*    cellEdit={cellEditFactory({*/}
-                {/*      autoSelectText: true,*/}
-                {/*      autoFocus: true,*/}
-                {/*      mode: 'click',*/}
-                {/*      blurToSave: true,*/}
-                {/*      afterSaveCell: handleChange,*/}
-                {/*    })}*/}
-                {/*  />*/}
-                {/*</div>*/}
               </div>
             ) : (
               <div className="text-center top-order">
