@@ -17,9 +17,17 @@ const Axios = axios.create({
 
 Axios.interceptors.request.use(
   async (config) => {
-    const token = getToken('token');
-    if (token) config.headers.Authorization = `Bearer ${token}`;
-    return config;
+    const storedTime = localStorage.getItem('lT');
+    const fourHoursInMilliseconds = 4 * 60 * 60 * 1000; // 3 hrs 55 mins in milliseconds
+    if (storedTime && Date.now() - storedTime >= fourHoursInMilliseconds) {
+      Cookies.remove('token');
+      localStorage.clear();
+      window.location.reload();
+    } else {
+      const token = getToken('token');
+      if (token) config.headers.Authorization = `Bearer ${token}`;
+      return config;
+    }
   },
   (error) => Promise.reject(error),
 );

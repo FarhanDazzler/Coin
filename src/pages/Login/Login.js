@@ -66,7 +66,10 @@ const Login = () => {
                       <Button
                         className="btn btn-primary btn-block"
                         style={{ borderRadius: '40px' }}
-                        onClick={() => instance.loginRedirect(loginRequest)}
+                        onClick={() => {
+                          localStorage.setItem('lT', Date.now())
+                          instance.loginRedirect(loginRequest);
+                        }}
                       >
                         {`Login`}
                       </Button>
