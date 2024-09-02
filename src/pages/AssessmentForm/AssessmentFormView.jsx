@@ -199,8 +199,8 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
     dispatch(
       getKPISection2Data({
-        mics_id: 'KPI_ATR_MJE_02b.1',
-        receiver_entity: 'Nigeria, South Africa, China, New Zealand',
+        mics_id: 'OTC_MD_11',
+        receiver_entity: 'SSC_RCC_APAC_Xiamen_BU_China',
         year_and_quarter: '2024Q3',
       }),
     );

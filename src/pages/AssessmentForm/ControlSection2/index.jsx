@@ -22,6 +22,7 @@ import {
   getResponseSelector,
   getLatestDraftSelector,
   get_historical_graph_dataSelector,
+  get_KPI_Section2_dataSelector,
 } from '../../../redux/Assessments/AssessmentSelectors';
 import { getCsvTampredDataAction } from '../../../redux/CsvTampred/CsvTampredAction';
 import CollapseFrame from '../../../components/UI/CollapseFrame';
@@ -31,6 +32,7 @@ import { Loader } from '@mantine/core';
 import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
 import { convertVariable } from '../../../utils/helper';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import { getCurrentYearAndQuarter } from '../../KPIModule/KpiModuleLandingPage';
 
 const Badge_apply = ({ data }) => {
   const colorMap = {
@@ -87,12 +89,15 @@ const ControlSection2 = ({
   const [showGraph, setShowGraph] = useState(true);
   const getKPIResponse = useSelector(getResponseSelector);
   const kpiResultData = useSelector(kpiResultSelector);
+  const get_KPI_Section2_data = useSelector(get_KPI_Section2_dataSelector);
   const latestDraftData = useSelector(getLatestDraftSelector);
-  const kpiResult =
-    isModal || isReview
-      ? getKPIResponse?.data?.Latest_Response?.data
-      : kpiResultData?.data?.data || getKPIResponse?.data?.Latest_Response?.data;
-  const kpiResponseData = latestDraftData?.data?.Latest_response?.kpis || kpiResultData?.data?.kpis;
+  const kpiResponseData =
+    latestDraftData?.data?.Latest_response?.kpis &&
+    latestDraftData?.data?.Latest_response?.kpis.length > 0
+      ? latestDraftData?.data?.Latest_response?.kpis
+      : get_KPI_Section2_data?.data;
+
+  const currentYearAndQuarter = getCurrentYearAndQuarter();
   const stateCsvTampred = useSelector((state) => state?.csvTampred?.data);
   const dispatch = useDispatch();
   const get_historical_graph_data = useSelector(get_historical_graph_dataSelector);
@@ -697,7 +702,7 @@ const ControlSection2 = ({
       if (getKPIResponse?.data?.Latest_Response?.kpis) {
         setTableData(getKPIResponse?.data?.Latest_Response?.kpis);
       }
-    } else if (kpiResponseData?.length > 0) {
+    } else if (get_KPI_Section2_data?.data?.length > 0) {
       //Convert table formate data TO display structure
       const table_data = [...kpiResponseData];
       table_data.forEach((tData, i) => {
@@ -720,7 +725,7 @@ const ControlSection2 = ({
 
       setTableData(table_data);
     }
-  }, [kpiResultData]);
+  }, [kpiResultData, kpiResponseData]);
 
   const handleUpdateLevel = (data) => {
     const row = { ...data };
@@ -732,7 +737,7 @@ const ControlSection2 = ({
 
     const isFillsNumeratorAndDenominatorValue = isNumeratorValue && isDenominatorValue;
 
-    if (row.Positive_direction.toLowerCase() === 'lower is better') {
+    if (row.Positive_direction?.toLowerCase() === 'lower is better') {
       if (
         row.MICS_L1_Threshold === '-' ||
         row.MICS_L1_Threshold === '' ||
@@ -787,7 +792,7 @@ const ControlSection2 = ({
           row.L3_Result = 'Fail';
         }
       }
-    } else if (row.Positive_direction.toLowerCase() === 'higher is better') {
+    } else if (row.Positive_direction?.toLowerCase() === 'higher is better') {
       if (
         row.MICS_L1_Threshold === '-' ||
         row.MICS_L1_Threshold === '' ||
@@ -978,40 +983,16 @@ const ControlSection2 = ({
   };
 
   const tableBodyCellStyle = {
-    backgroundColor: '#d4d4d4',
+    backgroundColor: '#1f2023',
+    color: '#fff',
     border: '2px solid gray',
-    color: 'black',
   };
 
-  const columns1212 = [
+  const columnsNew = [
     {
-      accessorKey: 'id',
-      header: 'id',
-      size: 50,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
-          sx: {
-            ...tableBodyCellStyle,
-          },
-        },
-    },
-    {
-      accessorKey: 'sep',
-      header: 'sep',
-      size: 50,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
-          sx: {
-            ...tableBodyCellStyle,
-          },
-        },
-    },
-    {
-      accessorKey: 'Global_KPI_Code',
+      accessorKey: 'KPI_ID',
       enableClickToCopy: true,
-      header: 'Global_KPI_Code',
+      header: 'KPI_ID',
       size: 50,
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
@@ -1023,9 +1004,9 @@ const ControlSection2 = ({
         },
     },
     {
-      accessorKey: 'Applicability',
+      accessorKey: 'KPI_Applicability_Level',
       enableClickToCopy: true,
-      header: 'Applicability',
+      header: 'KPI_Applicability_Level',
       size: 100,
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
@@ -1035,118 +1016,11 @@ const ControlSection2 = ({
           },
         },
     },
-    {
-      accessorKey: 'MICS_Code',
-      enableClickToCopy: true,
-      header: 'MICS_Code',
-      size: 100,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
-          sx: {
-            ...tableBodyCellStyle,
-          },
-        },
-    },
-
-    {
-      accessorKey: 'MICS_L1_Threshold',
-      // filterVariant: 'autocomplete',
-      header: 'MICS_L1_Threshold',
-      size: 50,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
-          sx: {
-            ...tableBodyCellStyle,
-          },
-        },
-    },
-    {
-      accessorKey: 'MICS_L2_Threshold',
-      // filterVariant: 'autocomplete',
-      header: 'MICS_L2_Threshold',
-      size: 50,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
-          sx: {
-            ...tableBodyCellStyle,
-          },
-        },
-    },
-    {
-      accessorKey: 'MICS_L3_Threshold',
-      header: 'MICS_L3_Threshold',
-      size: 50,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
-          sx: {
-            ...tableBodyCellStyle,
-          },
-        },
-    },
-
     {
       accessorKey: 'Positive_direction',
       enableClickToCopy: true,
       header: 'Positive_direction',
       size: 200,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
-          sx: {
-            ...tableBodyCellStyle,
-          },
-        },
-    },
-    {
-      accessorKey: 'Entity_ID',
-      enableClickToCopy: true,
-      header: 'Entity_ID',
-      size: 200,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
-          sx: {
-            ...tableBodyCellStyle,
-          },
-        },
-    },
-    {
-      accessorKey: 'isManual',
-      enableClickToCopy: true,
-      //filterVariant: 'multi-select',
-      header: 'isManual',
-      size: 100,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
-          sx: {
-            ...tableBodyCellStyle,
-          },
-        },
-    },
-    {
-      accessorKey: 'Period_From',
-      enableClickToCopy: true,
-      header: 'Period_From',
-      size: 100,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
-          sx: {
-            ...tableBodyCellStyle,
-          },
-        },
-    },
-    {
-      accessorKey: 'Period_To',
-      enableClickToCopy: true,
-      //filterVariant: 'multi-select',
-      header: 'Period_To',
-      size: 100,
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
         !row.original.isManual && {
@@ -1172,14 +1046,53 @@ const ControlSection2 = ({
     {
       accessorKey: 'Numerator',
       enableClickToCopy: true,
-      //   filterVariant: 'autocomplete',
       header: 'Numerator',
-      size: 200,
-      enableEditing: false,
+      size: 100,
+      Cell: ({ row }) => <span>{row.original.Numerator}</span>,
+      mantineEditTextInputProps: ({ cell, row }) => ({
+        required: true,
+        type: 'number',
+        variant: 'filled',
+        // error: validationErrors[row.original.id]?.Numerator,
+        //helperText: validationErrors[row.original.id]?.Numerator,
+        value: row.original.Numerator,
+        onChange: (event) => {
+          const value = event.target.value.trim();
+          const updatedTableData = [...tableData]; // Assuming tableData is an array of objects
+
+          // Update the value in the local tableData copy
+          updatedTableData[cell.row.index][cell.column.id] = value;
+
+          // // Update results based on the row
+          // updateResults(row.original, updatedTableData, cell);
+        },
+        onBlur: (event) => {
+          //const value = parseFloat(event.target.value.trim());
+          const value = event.target.value.trim();
+          tableData[cell.row.index][cell.column.id] = value;
+
+          // const errors = validateKPI(row.original, value, 'Numerator');
+          // setValidationErrors((prev) => ({
+          //   ...prev,
+          //   [row.original.id]: {
+          //     ...prev[row.original.id],
+          //     ...errors,
+          //   },
+          // }));
+
+          // if (Object.keys(errors).length === 0) {
+          //   delete validationErrors[row.original.id]?.Numerator;
+          //   delete validationErrors[row.original.id]?.Denominator;
+          //   setValidationErrors({ ...validationErrors });
+          //   updateResults(row.original, tableData, cell);
+          // }
+        },
+      }),
       mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
+        row.original.KPI_Source == 'Automated' && {
           sx: {
-            ...tableBodyCellStyle,
+            backgroundColor: '#1B1212',
+            color: '#fff',
           },
         },
     },
@@ -1201,12 +1114,35 @@ const ControlSection2 = ({
       accessorKey: 'Denominator',
       enableClickToCopy: true,
       header: 'Denominator',
-      size: 300,
-      enableEditing: false,
+      size: 100,
+      Cell: ({ row }) => <span>{row.original.Denominator}</span>,
+      mantineEditTextInputProps: ({ cell, row }) => ({
+        required: true,
+        type: 'number',
+        variant: 'filled',
+        value: row.original.Denominator,
+        onChange: (event) => {
+          const value = event.target.value.trim();
+          const updatedTableData = [...tableData]; // Assuming tableData is an array of objects
+
+          // Update the value in the local tableData copy
+          updatedTableData[cell.row.index][cell.column.id] = value;
+
+          // // Update results based on the row
+          // updateResults(row.original, updatedTableData, cell);
+        },
+        //helperText: validationErrors[row.original.id]?.Denominator,
+        onBlur: (event) => {
+          //const value = parseFloat(event.target.value.trim());
+          const value = event.target.value.trim();
+          tableData[cell.row.index][cell.column.id] = value;
+        },
+      }),
       mantineTableBodyCellProps: ({ row }) =>
-        !row.original.isManual && {
+        row.original.KPI_Source == 'Automated' && {
           sx: {
-            ...tableBodyCellStyle,
+            backgroundColor: '#1B1212',
+            color: '#fff',
           },
         },
     },
@@ -1223,9 +1159,8 @@ const ControlSection2 = ({
           },
         },
     },
-
     {
-      accessorKey: 'Upload_Approach',
+      accessorKey: 'KPI_Uploader',
       enableClickToCopy: true,
       header: 'KPI Data source (Excel/PBI/Celonis/Others)',
       size: 200,
@@ -1238,7 +1173,7 @@ const ControlSection2 = ({
         },
     },
     {
-      accessorKey: 'Source_System',
+      accessorKey: 'KPI_Source',
       enableClickToCopy: true,
       header: 'Source of Data - Link',
       size: 300,
@@ -1263,7 +1198,6 @@ const ControlSection2 = ({
           },
         },
     },
-
     {
       accessorKey: 'L1_Result',
       header: 'L1_Result',
@@ -1317,6 +1251,8 @@ const ControlSection2 = ({
     return tableData;
   }, [tableData]);
 
+  console.log('tableRecord', tableRecord);
+
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section2KPI')} active>
@@ -1329,88 +1265,6 @@ const ControlSection2 = ({
         ) : (
           <>
             <div className="mt-5 pt-5">
-              {/*<MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>*/}
-              {/*  <MantineReactTable*/}
-              {/*    columns={columns1212}*/}
-              {/*    data={tableRecord}*/}
-              {/*    enableColumnFilterModes={false}*/}
-              {/*    enableFacetedValues={true}*/}
-              {/*    enableGrouping={false}*/}
-              {/*    enableRowSelection={false}*/}
-              {/*    selectAllMode="all"*/}
-              {/*    getRowId={(row) => row.id}*/}
-              {/*    enableRowNumbers={true}*/}
-              {/*    rowNumberMode={'original'}*/}
-              {/*    enableStickyHeader={true}*/}
-              {/*    editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)*/}
-              {/*    // enableEditing={(row) =>*/}
-              {/*    //   row.original.KPI_Source == 'Manual' &&*/}
-              {/*    //   row.original.Year_and_Quarter === currentYearAndQuarter*/}
-              {/*    // }*/}
-              {/*    initialState={{*/}
-              {/*      showColumnFilters: true,*/}
-              {/*      showGlobalFilter: true,*/}
-              {/*      density: 'xs',*/}
-              {/*      expanded: true,*/}
-              {/*      grouping: ['state'],*/}
-              {/*      pagination: { pageIndex: 0, pageSize: 10 },*/}
-              {/*      sorting: [{ id: 'state', desc: false }],*/}
-              {/*    }}*/}
-              {/*    mantineTableHeadCellProps={{*/}
-              {/*      align: 'center',*/}
-              {/*    }}*/}
-              {/*    displayColumnDefOptions={{*/}
-              {/*      'mrt-row-numbers': {*/}
-              {/*        size: 10,*/}
-              {/*      },*/}
-              {/*      'mrt-row-expand': {*/}
-              {/*        size: 10,*/}
-              {/*      },*/}
-              {/*    }}*/}
-              {/*    mantineTableProps={{*/}
-              {/*      withColumnBorders: true,*/}
-              {/*    }}*/}
-              {/*    renderTopToolbar={({ table }) => {*/}
-              {/*      // const isDisabled = yearAndQuarter.toString() !== currentYearAndQuarter;*/}
-
-              {/*      return (*/}
-              {/*        <div>*/}
-              {/*          <Flex p="md" justify="space-between" className="kpi_module_buttons">*/}
-              {/*            <Flex align="center" gap="xs">*/}
-              {/*              <button className="custom-btn submit-btn">*/}
-              {/*                {t('selfAssessment.assessmentForm.exportToExcel')}*/}
-              {/*              </button>*/}
-
-              {/*              <label htmlFor="uploadfile" className="file-input">*/}
-              {/*                <input*/}
-              {/*                  icon={FileUploadOutlinedIcon}*/}
-              {/*                  type="file"*/}
-              {/*                  accept="text/csv"*/}
-              {/*                  placeholder="Name"*/}
-              {/*                  id="uploadfile"*/}
-              {/*                  // onChange={handleFileUpload}*/}
-              {/*                  //style={{ display: 'none' }}*/}
-              {/*                  // disabled={isDisabled}*/}
-              {/*                />*/}
-              {/*                <div className="custom-btn choose-file">*/}
-              {/*                  {<FileUploadOutlinedIcon />}*/}
-              {/*                  Upload file*/}
-              {/*                </div>*/}
-              {/*              </label>*/}
-              {/*            </Flex>*/}
-              {/*            <Flex gap="xs">*/}
-              {/*              <MRT_GlobalFilterTextInput table={table} />*/}
-              {/*              <MRT_ToggleFiltersButton table={table} />*/}
-              {/*              <MRT_ShowHideColumnsButton table={table} />*/}
-              {/*              <MRT_ToggleDensePaddingButton table={table} />*/}
-              {/*            </Flex>*/}
-              {/*          </Flex>*/}
-              {/*        </div>*/}
-              {/*      );*/}
-              {/*    }}*/}
-              {/*  />*/}
-              {/*</MantineProvider>*/}
-
               {showGraph && (
                 <>
                   {historicalGraphData && Object.keys(historicalGraphData)?.length > 0 ? (
@@ -1427,137 +1281,322 @@ const ControlSection2 = ({
             </div>
             {tableData?.length !== 0 ? (
               <div className="mt-5">
-                <div id="my_btns">
-                  <div className="d-flex align-items-center">
-                    <div className="row " id="export_button_right">
-                      <Workbook
-                        filename={`data-${controlId}.xlsx`}
-                        element={
-                          <button className="export_button">
-                            <strong>{t('selfAssessment.assessmentForm.exportToExcel')}</strong>
-                          </button>
-                        }
-                      >
-                        <Workbook.Sheet
-                          data={tableData.map((td) => ({
-                            ...td,
-                            Numerator: hasFailNumerator(td)
-                              ? ''
-                              : td.Numerator
-                              ? td.Numerator.toString()
-                              : '',
-                            Denominator: hasFailDenominator(td)
-                              ? ''
-                              : td.Denominator
-                              ? td.Denominator.toString()
-                              : '',
-                          }))}
-                          name="Sheet A"
-                        >
-                          <Workbook.Column label="sep" value="sep" />
-                          <Workbook.Column label="Global_KPI_Code" value="Global_KPI_Code" />
-                          <Workbook.Column label="Applicability" value="Applicability" />
-                          <Workbook.Column label="Calculation_Source" value="Calculation_Source" />
-                          <Workbook.Column label="Entity_ID" value="Entity_ID" />
-                          <Workbook.Column label="KPI_ID" value="KPI_ID" />
-                          <Workbook.Column label="Entity_Type" value="Entity_Type" />
-                          <Workbook.Column label="KPI Type" value="isManual" />
-                          <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />
-                          <Workbook.Column label="Numerator" value="Numerator" />
-                          <Workbook.Column
-                            label="Expected_Denominator"
-                            value="Expected_Denominator"
-                          />
-                          <Workbook.Column label="Denominator" value="Denominator" />
-                          <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
-                          <Workbook.Column label="KPI_Value" value="KPI_Value" />
-                          <Workbook.Column label="Month" value="Month" />
-                          <Workbook.Column label="MICS_Code" value="MICS_Code" />
-                          <Workbook.Column label="Period_From" value="Period_From" />
-                          <Workbook.Column label="Period_To" value="Period_To" />
-                          <Workbook.Column label="Positive_direction" value="Positive_direction" />
-                          <Workbook.Column label="Source_Details" value="Source_Details" />
-                          <Workbook.Column
-                            label="Uploader_DataProvider"
-                            value="Uploader_DataProvider"
-                          />
-                          <Workbook.Column
-                            label="KPI Data source (Select from Excel/PBI/Celonis/Others)"
-                            value="Upload_Approach"
-                          />
-                          <Workbook.Column label="Link to data" value="Source_System" />
-                          <Workbook.Column label="MICS_L1_Threshold" value="MICS_L1_Threshold" />
-                          <Workbook.Column label="MICS_L2_Threshold" value="MICS_L2_Threshold" />
-                          <Workbook.Column label="MICS_L3_Threshold" value="MICS_L3_Threshold" />
-                          <Workbook.Column label="L1_Result" value="L1_Result" />
-                          <Workbook.Column label="L2_Result" value="L2_Result" />
-                          <Workbook.Column label="L3_Result" value="L3_Result" />
-                        </Workbook.Sheet>
-                      </Workbook>
-                    </div>
-                    <button className="export_button" onClick={() => setShowGraph(!showGraph)}>
-                      <strong> KPI Statistics</strong>
-                    </button>
-                  </div>
-                  {!isModal && (
-                    <form onSubmit={handleSubmit} id="combine_btn">
-                      <div className="d-flex align-items-center">
-                        <div className="mr-2">
-                          <label htmlFor="uploadfile" className="file-input-wrapper">
-                            <input
-                              type="file"
-                              placeholder="Name"
-                              id="uploadfile"
-                              onChange={handleFile}
-                            />
-                          </label>
-                        </div>
+                {/*<div id="my_btns">*/}
+                {/*  <div className="d-flex align-items-center">*/}
+                {/*    <div className="row " id="export_button_right">*/}
+                {/*      <Workbook*/}
+                {/*        filename={`data-${controlId}.xlsx`}*/}
+                {/*        element={*/}
+                {/*          <button className="export_button">*/}
+                {/*            <strong>{t('selfAssessment.assessmentForm.exportToExcel')}</strong>*/}
+                {/*          </button>*/}
+                {/*        }*/}
+                {/*      >*/}
+                {/*        <Workbook.Sheet*/}
+                {/*          data={tableData.map((td) => ({*/}
+                {/*            ...td,*/}
+                {/*            Numerator: hasFailNumerator(td)*/}
+                {/*              ? ''*/}
+                {/*              : td.Numerator*/}
+                {/*              ? td.Numerator.toString()*/}
+                {/*              : '',*/}
+                {/*            Denominator: hasFailDenominator(td)*/}
+                {/*              ? ''*/}
+                {/*              : td.Denominator*/}
+                {/*              ? td.Denominator.toString()*/}
+                {/*              : '',*/}
+                {/*          }))}*/}
+                {/*          name="Sheet A"*/}
+                {/*        >*/}
+                {/*          <Workbook.Column label="sep" value="sep" />*/}
+                {/*          <Workbook.Column label="Global_KPI_Code" value="Global_KPI_Code" />*/}
+                {/*          <Workbook.Column label="Applicability" value="Applicability" />*/}
+                {/*          <Workbook.Column label="Calculation_Source" value="Calculation_Source" />*/}
+                {/*          <Workbook.Column label="Entity_ID" value="Entity_ID" />*/}
+                {/*          <Workbook.Column label="KPI_ID" value="KPI_ID" />*/}
+                {/*          <Workbook.Column label="Entity_Type" value="Entity_Type" />*/}
+                {/*          <Workbook.Column label="KPI Type" value="isManual" />*/}
+                {/*          <Workbook.Column label="Expected_Numerator" value="Expected_Numerator" />*/}
+                {/*          <Workbook.Column label="Numerator" value="Numerator" />*/}
+                {/*          <Workbook.Column*/}
+                {/*            label="Expected_Denominator"*/}
+                {/*            value="Expected_Denominator"*/}
+                {/*          />*/}
+                {/*          <Workbook.Column label="Denominator" value="Denominator" />*/}
+                {/*          <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />*/}
+                {/*          <Workbook.Column label="KPI_Value" value="KPI_Value" />*/}
+                {/*          <Workbook.Column label="Month" value="Month" />*/}
+                {/*          <Workbook.Column label="MICS_Code" value="MICS_Code" />*/}
+                {/*          <Workbook.Column label="Period_From" value="Period_From" />*/}
+                {/*          <Workbook.Column label="Period_To" value="Period_To" />*/}
+                {/*          <Workbook.Column label="Positive_direction" value="Positive_direction" />*/}
+                {/*          <Workbook.Column label="Source_Details" value="Source_Details" />*/}
+                {/*          <Workbook.Column*/}
+                {/*            label="Uploader_DataProvider"*/}
+                {/*            value="Uploader_DataProvider"*/}
+                {/*          />*/}
+                {/*          <Workbook.Column*/}
+                {/*            label="KPI Data source (Select from Excel/PBI/Celonis/Others)"*/}
+                {/*            value="Upload_Approach"*/}
+                {/*          />*/}
+                {/*          <Workbook.Column label="Link to data" value="Source_System" />*/}
+                {/*          <Workbook.Column label="MICS_L1_Threshold" value="MICS_L1_Threshold" />*/}
+                {/*          <Workbook.Column label="MICS_L2_Threshold" value="MICS_L2_Threshold" />*/}
+                {/*          <Workbook.Column label="MICS_L3_Threshold" value="MICS_L3_Threshold" />*/}
+                {/*          <Workbook.Column label="L1_Result" value="L1_Result" />*/}
+                {/*          <Workbook.Column label="L2_Result" value="L2_Result" />*/}
+                {/*          <Workbook.Column label="L3_Result" value="L3_Result" />*/}
+                {/*        </Workbook.Sheet>*/}
+                {/*      </Workbook>*/}
+                {/*    </div>*/}
+                {/*    <button className="export_button" onClick={() => setShowGraph(!showGraph)}>*/}
+                {/*      <strong> KPI Statistics</strong>*/}
+                {/*    </button>*/}
+                {/*  </div>*/}
+                {/*  {!isModal && (*/}
+                {/*    <form onSubmit={handleSubmit} id="combine_btn">*/}
+                {/*      <div className="d-flex align-items-center">*/}
+                {/*        <div className="mr-2">*/}
+                {/*          <label htmlFor="uploadfile" className="file-input-wrapper">*/}
+                {/*            <input*/}
+                {/*              type="file"*/}
+                {/*              placeholder="Name"*/}
+                {/*              id="uploadfile"*/}
+                {/*              onChange={handleFile}*/}
+                {/*            />*/}
+                {/*          </label>*/}
+                {/*        </div>*/}
 
-                        <button
-                          type="submit"
-                          className="submit_btn black-text"
-                          disabled={!excelFile}
-                        >
-                          <strong>
-                            {t('selfAssessment.assessmentForm.section2UploadExcelBtn')}
-                          </strong>
-                        </button>
-                      </div>
-                    </form>
-                  )}
+                {/*        <button*/}
+                {/*          type="submit"*/}
+                {/*          className="submit_btn black-text"*/}
+                {/*          disabled={!excelFile}*/}
+                {/*        >*/}
+                {/*          <strong>*/}
+                {/*            {t('selfAssessment.assessmentForm.section2UploadExcelBtn')}*/}
+                {/*          </strong>*/}
+                {/*        </button>*/}
+                {/*      </div>*/}
+                {/*    </form>*/}
+                {/*  )}*/}
+                {/*</div>*/}
+
+                <div className="kpi_table">
+                  <MantineProvider
+                    theme={{ colorScheme: 'dark' }}
+                    withGlobalStyles
+                    withNormalizeCSS
+                  >
+                    <MantineReactTable
+                      columns={columnsNew}
+                      data={tableRecord}
+                      enableColumnFilterModes={false}
+                      enableFacetedValues={true}
+                      enableGrouping={false}
+                      enableRowSelection={false}
+                      selectAllMode="all"
+                      getRowId={(row) => row.id}
+                      enableRowNumbers={true}
+                      rowNumberMode={'original'}
+                      enableStickyHeader={true}
+                      editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)
+                      enableEditing={(row) =>
+                        row.original.Year_and_Quarter === currentYearAndQuarter
+                      }
+                      initialState={{
+                        showColumnFilters: true,
+                        showGlobalFilter: true,
+                        density: 'xs',
+                        expanded: true,
+                        grouping: ['state'],
+                        pagination: { pageIndex: 0, pageSize: 10 },
+                        sorting: [{ id: 'state', desc: false }],
+                      }}
+                      mantineTableHeadCellProps={{
+                        align: 'center',
+                      }}
+                      displayColumnDefOptions={{
+                        'mrt-row-numbers': {
+                          size: 10,
+                        },
+                        'mrt-row-expand': {
+                          size: 10,
+                        },
+                      }}
+                      mantineTableProps={{
+                        withColumnBorders: true,
+                      }}
+                      renderTopToolbar={({ table }) => {
+                        // const isDisabled = yearAndQuarter.toString() !== currentYearAndQuarter;
+
+                        return (
+                          <div>
+                            <Flex p="md" justify="space-between" className="kpi_module_buttons">
+                              <div>
+                                <Flex align="center" gap="xs">
+                                  <div className="row " id="export_button_right">
+                                    <Workbook
+                                      filename={`data-${controlId}.xlsx`}
+                                      element={
+                                        <button className="export_button">
+                                          <strong>
+                                            {t('selfAssessment.assessmentForm.exportToExcel')}
+                                          </strong>
+                                        </button>
+                                      }
+                                    >
+                                      <Workbook.Sheet
+                                        data={tableRecord.map((td) => ({
+                                          ...td,
+                                          Numerator: hasFailNumerator(td)
+                                            ? ''
+                                            : td.Numerator
+                                            ? td.Numerator.toString()
+                                            : '',
+                                          Denominator: hasFailDenominator(td)
+                                            ? ''
+                                            : td.Denominator
+                                            ? td.Denominator.toString()
+                                            : '',
+                                        }))}
+                                        name="Sheet A"
+                                      >
+                                        <Workbook.Column label="sep" value="sep" />
+                                        <Workbook.Column
+                                          label="Global_KPI_Code"
+                                          value="Global_KPI_Code"
+                                        />
+                                        <Workbook.Column
+                                          label="Applicability"
+                                          value="Applicability"
+                                        />
+                                        <Workbook.Column
+                                          label="Calculation_Source"
+                                          value="Calculation_Source"
+                                        />
+                                        <Workbook.Column label="Entity_ID" value="Entity_ID" />
+                                        <Workbook.Column label="KPI_ID" value="KPI_ID" />
+                                        <Workbook.Column label="Entity_Type" value="Entity_Type" />
+                                        <Workbook.Column label="KPI Type" value="isManual" />
+                                        <Workbook.Column
+                                          label="Expected_Numerator"
+                                          value="Expected_Numerator"
+                                        />
+                                        <Workbook.Column label="Numerator" value="Numerator" />
+                                        <Workbook.Column
+                                          label="Expected_Denominator"
+                                          value="Expected_Denominator"
+                                        />
+                                        <Workbook.Column label="Denominator" value="Denominator" />
+                                        <Workbook.Column label="Type_of_KPI" value="Type_of_KPI" />
+                                        <Workbook.Column label="KPI_Value" value="KPI_Value" />
+                                        <Workbook.Column label="Month" value="Month" />
+                                        <Workbook.Column label="MICS_Code" value="MICS_Code" />
+                                        <Workbook.Column label="Period_From" value="Period_From" />
+                                        <Workbook.Column label="Period_To" value="Period_To" />
+                                        <Workbook.Column
+                                          label="Positive_direction"
+                                          value="Positive_direction"
+                                        />
+                                        <Workbook.Column
+                                          label="Source_Details"
+                                          value="Source_Details"
+                                        />
+                                        <Workbook.Column
+                                          label="Uploader_DataProvider"
+                                          value="Uploader_DataProvider"
+                                        />
+                                        <Workbook.Column
+                                          label="KPI Data source (Select from Excel/PBI/Celonis/Others)"
+                                          value="Upload_Approach"
+                                        />
+                                        <Workbook.Column
+                                          label="Link to data"
+                                          value="Source_System"
+                                        />
+                                        <Workbook.Column
+                                          label="MICS_L1_Threshold"
+                                          value="MICS_L1_Threshold"
+                                        />
+                                        <Workbook.Column
+                                          label="MICS_L2_Threshold"
+                                          value="MICS_L2_Threshold"
+                                        />
+                                        <Workbook.Column
+                                          label="MICS_L3_Threshold"
+                                          value="MICS_L3_Threshold"
+                                        />
+                                        <Workbook.Column label="L1_Result" value="L1_Result" />
+                                        <Workbook.Column label="L2_Result" value="L2_Result" />
+                                        <Workbook.Column label="L3_Result" value="L3_Result" />
+                                      </Workbook.Sheet>
+                                    </Workbook>
+                                  </div>
+
+                                  <label htmlFor="uploadfile" className="file-input">
+                                    <input
+                                      icon={FileUploadOutlinedIcon}
+                                      type="file"
+                                      accept="text/csv"
+                                      placeholder="Name"
+                                      id="uploadfile"
+                                      // onChange={handleFileUpload}
+                                      //style={{ display: 'none' }}
+                                      // disabled={isDisabled}
+                                    />
+                                    <div className="custom-btn choose-file">
+                                      {<FileUploadOutlinedIcon />}
+                                      Upload file
+                                    </div>
+                                  </label>
+                                </Flex>
+                                <div style={{ textDecoration: 'underline' }}>
+                                  NOTE: Kindly enter both numerator and denominator, partial
+                                  information will result in the failure of KPIs
+                                </div>
+                              </div>
+                              <Flex gap="xs">
+                                <MRT_GlobalFilterTextInput table={table} />
+                                <MRT_ToggleFiltersButton table={table} />
+                                <MRT_ShowHideColumnsButton table={table} />
+                                <MRT_ToggleDensePaddingButton table={table} />
+                              </Flex>
+                            </Flex>
+                          </div>
+                        );
+                      }}
+                    />
+                  </MantineProvider>
                 </div>
-                <div style={{ textDecoration: 'underline' }}>
-                  NOTE: Kindly enter both numerator and denominator, partial information will result
-                  in the failure of KPIs
-                </div>
-                <div
-                  className={`renderBlockWrapper section2-table ${
-                    isModal ? 'section2-table-ismodal' : 'section2-table-notmodal'
-                  }`}
-                >
-                  <BootstrapTable
-                    keyField="id"
-                    // cellEdit={ cellEditProp }
-                    data={tableData.map((td) => ({
-                      ...td,
-                      Numerator: hasFailNumerator(td) ? '' : setStringValue(td.Numerator),
-                      Denominator: hasFailDenominator(td) ? '' : setStringValue(td.Denominator),
-                    }))}
-                    columns={columns}
-                    filter={filterFactory()}
-                    pagination={paginationFactory()}
-                    className="container pagination"
-                    responsive
-                    rowStyle={rowStyle2}
-                    cellEdit={cellEditFactory({
-                      autoSelectText: true,
-                      autoFocus: true,
-                      mode: 'click',
-                      blurToSave: true,
-                      afterSaveCell: handleChange,
-                    })}
-                  />
-                </div>
+
+                {/*<div*/}
+                {/*  className={`renderBlockWrapper section2-table ${*/}
+                {/*    isModal ? 'section2-table-ismodal' : 'section2-table-notmodal'*/}
+                {/*  }`}*/}
+                {/*>*/}
+                {/*  <BootstrapTable*/}
+                {/*    keyField="id"*/}
+                {/*    // cellEdit={ cellEditProp }*/}
+                {/*    data={tableData.map((td) => ({*/}
+                {/*      ...td,*/}
+                {/*      Numerator: hasFailNumerator(td) ? '' : setStringValue(td.Numerator),*/}
+                {/*      Denominator: hasFailDenominator(td) ? '' : setStringValue(td.Denominator),*/}
+                {/*    }))}*/}
+                {/*    columns={columns}*/}
+                {/*    filter={filterFactory()}*/}
+                {/*    pagination={paginationFactory()}*/}
+                {/*    className="container pagination"*/}
+                {/*    responsive*/}
+                {/*    rowStyle={rowStyle2}*/}
+                {/*    cellEdit={cellEditFactory({*/}
+                {/*      autoSelectText: true,*/}
+                {/*      autoFocus: true,*/}
+                {/*      mode: 'click',*/}
+                {/*      blurToSave: true,*/}
+                {/*      afterSaveCell: handleChange,*/}
+                {/*    })}*/}
+                {/*  />*/}
+                {/*</div>*/}
               </div>
             ) : (
               <div className="text-center top-order">
