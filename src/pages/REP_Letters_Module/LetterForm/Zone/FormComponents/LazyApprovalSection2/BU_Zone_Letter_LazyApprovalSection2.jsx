@@ -39,6 +39,7 @@ import {
 } from '../../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../../../LetterFormStyle.scss';
 import useIPandGeoLocation from '../../../../../../hooks/useIPandGeoLocation';
+import { useGoHomePage } from '../../../../../../hooks/useGoHomePage';
 
 const Section2 = ({ id }) => {
   const history = useHistory();
@@ -130,6 +131,7 @@ const Section2 = ({ id }) => {
   const getBUScopeDataState = useSelector(getBUZoneScopeDataSelector);
 
   const AutoAuth = () => {
+    const { handleHomePageRedirect } = useGoHomePage();
     return (
       <div className="section2-form">
         <Formik
@@ -199,7 +201,7 @@ const Section2 = ({ id }) => {
               <div className="footer-action">
                 <div className="d-flex align-items-center justify-content-end">
                   <div>
-                    <Button variant="outlined" color="secondary" onClick={() => history.push('/')}>
+                    <Button variant="outlined" color="secondary" onClick={handleHomePageRedirect}>
                       Cancel
                     </Button>
                     <Button

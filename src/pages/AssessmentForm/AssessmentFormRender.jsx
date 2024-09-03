@@ -278,7 +278,7 @@ const AssessmentFormRender = ({
                         </div>
                       ) : null}
                       {!kpiResultData.loading && (
-                        <div style={{paddingBottom: '100px'}} >
+                        <div style={{ paddingBottom: '100px' }}>
                           <Button
                             color="neutral"
                             className={cs('w-100', { ['isDisabledButton']: isDisabledButton })}

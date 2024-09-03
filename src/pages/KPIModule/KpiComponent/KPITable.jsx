@@ -19,7 +19,7 @@ import { useMsal } from '@azure/msal-react';
 import { submit_KPI_data_KPI_Module } from '../../../redux/KPI_Module/KPI_Action';
 
 // function to export the data to CSV using the XLSX library
-const exportToCsv = (filename, data, fields) => {
+export const exportToCsv = (filename, data, fields) => {
   // Map data to the required format
   const formattedData = data.map((item) => {
     const result = {};
@@ -51,7 +51,7 @@ const exportToCsv = (filename, data, fields) => {
   }
 };
 
-const Badge_apply = ({ data }) => {
+export const Badge_apply = ({ data }) => {
   const colorMap = {
     PASS: 'green',
     FAIL: 'red',

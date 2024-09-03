@@ -495,7 +495,7 @@ const Section2 = ({ scopeData }) => {
               <div className="footer-action">
                 <div className="d-flex align-items-center justify-content-end">
                   <div>
-                    <Button variant="outlined" color="secondary" onClick={() => history.push('/')}>
+                    <Button variant="outlined" color="secondary" onClick={handleHomePageRedirect}>
                       Cancel
                     </Button>
                     <Button
