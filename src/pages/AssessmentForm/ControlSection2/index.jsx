@@ -81,12 +81,6 @@ const ControlSection2 = ({
   const get_historical_graph_data = useSelector(get_historical_graph_dataSelector);
   const historicalGraphData = get_historical_graph_data?.data || {};
 
-  const headerCellStyle = {
-    backgroundColor: '#d4d4d4',
-    border: '2px solid gray',
-    color: 'black',
-  };
-
   useEffect(() => {
     if (startTableEdit) return;
     if (isModal || isReview) {
@@ -101,6 +95,9 @@ const ControlSection2 = ({
         // tData['id'] = i + 1;
         tData['Upload_Approach'] = tData['Upload_Approach'] || '';
         tData['Source_System'] = tData['Source_System']?.trimStart() || '';
+
+        tData['KPI_Source'] = 'Manual';
+        tData['Year_and_Quarter'] = currentYearAndQuarter;
       });
 
       setTableData(table_data);
@@ -426,12 +423,6 @@ const ControlSection2 = ({
         setTableData(output_table_data);
       });
     }
-  };
-
-  const tableBodyCellStyle = {
-    backgroundColor: '#1f2023',
-    color: '#fff',
-    border: '2px solid gray',
   };
 
   const columnsNew = [
@@ -814,13 +805,12 @@ const ControlSection2 = ({
           const updatedTableData = [...tableData]; // Assuming tableData is an array of objects
 
           // Update the value in the local tableData copy
-          updatedTableData[cell.row.index][cell.column.id] = value;
+          updatedTableData[cell.row.index]['Numerator'] = value;
         },
         onBlur: (event) => {
           //const value = parseFloat(event.target.value.trim());
           const value = event.target.value.trim();
-          tableData[cell.row.index][cell.column.id] = value;
-
+          tableData[cell.row.index]['Numerator'] = value;
           const errors = validateKPI(row.original, value, 'Numerator');
           setValidationErrors((prev) => ({
             ...prev,
@@ -879,13 +869,13 @@ const ControlSection2 = ({
           const updatedTableData = [...tableData]; // Assuming tableData is an array of objects
 
           // Update the value in the local tableData copy
-          updatedTableData[cell.row.index][cell.column.id] = value;
+          updatedTableData[cell.row.index]['Denominator'] = value;
         },
         error: validationErrors[row.original.id]?.Denominator,
         onBlur: (event) => {
           //const value = parseFloat(event.target.value.trim());
           const value = event.target.value.trim();
-          tableData[cell.row.index][cell.column.id] = value;
+          tableData[cell.row.index]['Denominator'] = value;
 
           const errors = validateKPI(row.original, value, 'Denominator');
           setValidationErrors((prev) => ({
@@ -968,7 +958,7 @@ const ControlSection2 = ({
           },
         ],
         onChange: (value) => {
-          return (tableData[cell.row.index][cell.column.id] = value);
+          return (tableData[cell.row.index]['Calculation_Source'] = value);
         },
         value: row.original.Calculation_Source ? row.original.Calculation_Source : null,
       }),
@@ -998,11 +988,11 @@ const ControlSection2 = ({
           const updatedTableData = [...tableData]; // Assuming tableData is an array of objects
 
           // Update the value in the local tableData copy
-          updatedTableData[cell.row.index][cell.column.id] = value;
+          updatedTableData[cell.row.index]['Actual_Source_Link'] = value;
         },
         onBlur: (event) => {
           const value = event.target.value.trim();
-          tableData[cell.row.index][cell.column.id] = value;
+          tableData[cell.row.index]['Actual_Source_Link'] = value;
           // setTableData([...tableData]);
         },
       }),
@@ -1154,16 +1144,6 @@ const ControlSection2 = ({
     },
   ];
 
-  const tableRecord = useMemo(() => {
-    return tableData.map((d) => ({
-      ...d,
-      KPI_Source: 'Manual',
-      Year_and_Quarter: currentYearAndQuarter,
-    }));
-  }, [tableData]);
-
-  console.log('tableRecord', tableRecord);
-
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section2KPI')} active>
@@ -1190,7 +1170,7 @@ const ControlSection2 = ({
                 </>
               )}
             </div>
-            {tableRecord?.length !== 0 ? (
+            {tableData?.length !== 0 ? (
               <div className="mt-5">
                 <div className="kpi_table">
                   <MantineProvider
@@ -1200,7 +1180,7 @@ const ControlSection2 = ({
                   >
                     <MantineReactTable
                       columns={columnsNew}
-                      data={tableRecord}
+                      data={tableData}
                       enableColumnFilterModes={false}
                       enableFacetedValues={true}
                       enableGrouping={false}
@@ -1258,7 +1238,7 @@ const ControlSection2 = ({
                                       }
                                     >
                                       <Workbook.Sheet
-                                        data={tableRecord.map((td) => ({
+                                        data={tableData.map((td) => ({
                                           ...td,
                                           Numerator: hasFailNumerator(td)
                                             ? ''
