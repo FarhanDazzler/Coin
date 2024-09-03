@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import BUHeadTable from './BUHeadTable';
 import '../../styles.scss';
 import { get_BU_BU_HeadHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { stringToArray, useQuery } from '../../../../../hooks/useQuery';
 
 const AmountInfo = React.memo(({ amount, infoText }) => {
   return (
@@ -17,11 +18,21 @@ const AmountInfo = React.memo(({ amount, infoText }) => {
 
 const BUHeadHomePage = () => {
   const getHomePageData = useSelector(get_BU_BU_HeadHomePageDataSelector);
+  const params = useQuery();
 
-  const [zoneValue, setZoneValue] = useState([]);
-  const [buValue, setBUValue] = useState([]);
-  const [overallStatusValue, setOverallStatusValue] = useState([]);
-  const [rbaStatusValue, setRbaStatusValue] = useState([]);
+  const initValue = {
+    zoneValue: params?.filterZone ? stringToArray(params?.filterZone) : [],
+    buValue: params?.filterBU ? stringToArray(params?.filterBU) : [],
+    overallStatusValue: params?.filterOverallStatus
+      ? stringToArray(params?.filterOverallStatus)
+      : [],
+    rbaStatusValue: params?.filterRbaStatus ? stringToArray(params?.filterRbaStatus) : [],
+  };
+
+  const [zoneValue, setZoneValue] = useState(initValue.zoneValue);
+  const [buValue, setBUValue] = useState(initValue.buValue);
+  const [overallStatusValue, setOverallStatusValue] = useState(initValue.overallStatusValue);
+  const [rbaStatusValue, setRbaStatusValue] = useState(initValue.rbaStatusValue);
 
   const handleResetState = () => {
     setZoneValue([]);

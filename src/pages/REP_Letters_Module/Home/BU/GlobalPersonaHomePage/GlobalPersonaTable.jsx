@@ -396,6 +396,19 @@ const GlobalPersonaTable = ({
     });
   }, [yearValue, assessmentCycleValue, zoneValue, buValue, overallStatusValue, rbaStatusValue]);
 
+  const isClearButtonDisabled = useMemo(() => {
+    const paramsKeyLength = Object.keys(params).length;
+    if (paramsKeyLength === 2) {
+      if (
+        params.filterYear === initialYear[0] &&
+        params.filterCycle === getCurrentAssessmentCycle()
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }, [params]);
+
   return (
     <>
       <div className="container-fluid">
@@ -457,7 +470,10 @@ const GlobalPersonaTable = ({
                 </Group>
 
                 <div className="d-flex align-items-end">
-                  <ClearFilter onClick={handleClearState} />
+                  <ClearFilter
+                    onClick={handleClearState}
+                    isClearButtonDisabled={isClearButtonDisabled}
+                  />
                 </div>
               </div>
             </div>

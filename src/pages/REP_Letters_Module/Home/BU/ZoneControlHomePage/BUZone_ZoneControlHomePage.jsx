@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import BUZone_ExcomMemberTable from './BUZone_ZoneControlTable';
 import '../../styles.scss';
 import { get_BUZone_Zone_ControlHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { stringToArray, useQuery } from '../../../../../hooks/useQuery';
 
 const AmountInfo = React.memo(({ amount, infoText }) => {
   return (
@@ -21,12 +22,20 @@ const BUZone_ZoneControlHomePage = () => {
   const { accounts } = useMsal();
   const selectedUserRole = localStorage.getItem('selected_Role');
   const getHomePageData = useSelector(get_BUZone_Zone_ControlHomePageDataSelector);
+  const params = useQuery();
 
-  const [zoneValue, setZoneValue] = useState([]);
+  const initValue = {
+    zoneValue: params?.filterZone ? stringToArray(params?.filterZone) : [],
+  };
+  const [zoneValue, setZoneValue] = useState(initValue.zoneValue);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
   }, []);
+
+  const handleResetState = () => {
+    setZoneValue([]);
+  };
 
   const statusInfo = useMemo(() => {
     const tableData = getHomePageData?.data[0]?.zoneControlData || [];
@@ -44,9 +53,7 @@ const BUZone_ZoneControlHomePage = () => {
     }
 
     const updatedData = tableData?.filter((i) => {
-      return (
-        (zoneValue?.length ? zoneValue.includes(i.Zone) : true)
-      );
+      return zoneValue?.length ? zoneValue.includes(i.Zone) : true;
     });
 
     const allUpdatestatus = updatedData?.map((d) => d?.Status);
@@ -87,6 +94,7 @@ const BUZone_ZoneControlHomePage = () => {
       <BUZone_ExcomMemberTable
         zoneValue={zoneValue}
         setZoneValue={setZoneValue}
+        handleResetState={handleResetState}
       />
     </div>
   );

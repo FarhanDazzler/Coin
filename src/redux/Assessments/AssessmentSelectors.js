@@ -12,6 +12,7 @@ export const getLatestDraftSelector = (state) => state.assessments.getLatestDraf
 export const addOrEditUpdateDraftSelector = (state) => state.assessments.addOrEditUpdateDraft;
 export const getMicsOpenActionPlanSelector = (state) => state.assessments.getMicsOpenActionPlan;
 export const get_MICS_OpenActionPlanSelector = (state) => state.assessments.get_MICS_OpenActionPlan;
+export const get_KPI_Section2_dataSelector = (state) => state.assessments.get_KPI_Section2_data;
 export const submitAssessmentResponseSelector = (state) => state.assessments.addResponse;
 export const get_previous_assessment_resultSelector = (state) =>
   state.assessments.get_previous_assessment_result;

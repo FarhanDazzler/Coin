@@ -486,3 +486,31 @@ export const replaceWordInString = (fullString, wordToReplace, replaceWith) => {
   // Use the replace method with the regular expression to replace all occurrences
   return fullString.replace(regex, replaceWith);
 };
+
+// Function to apply styles for all elements with the specified classes
+export function prepareForPDF() {
+  const textareaInputs = document.querySelectorAll('.pdf-textarea-input');
+  const textareaTexts = document.querySelectorAll('.pdf-textarea-text');
+
+  textareaInputs.forEach((input) => {
+    input.style.cssText = 'display: none !important;'; // Hide textarea input
+  });
+
+  textareaTexts.forEach((text) => {
+    text.style.cssText = 'display: block !important;'; // Show text for PDF
+  });
+}
+
+// Function to revert styles for all elements with the specified classes
+export function revertAfterPDF() {
+  const textareaInputs = document.querySelectorAll('.pdf-textarea-input');
+  const textareaTexts = document.querySelectorAll('.pdf-textarea-text');
+
+  textareaInputs.forEach((input) => {
+    input.style.cssText = 'display: block !important;'; // Show textarea input back in browser
+  });
+
+  textareaTexts.forEach((text) => {
+    text.style.cssText = 'display: none !important;'; // Hide text after PDF is created
+  });
+}

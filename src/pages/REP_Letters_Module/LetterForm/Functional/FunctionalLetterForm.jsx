@@ -31,6 +31,7 @@ import {
 } from '../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import '../LetterFormStyle.scss';
 import { Button } from '@mui/material';
+import { prepareForPDF, revertAfterPDF } from '../../../../utils/helper';
 
 const FunctionalLetterForm = (props) => {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const FunctionalLetterForm = (props) => {
     const element = document.getElementById('screenshot-body');
     const scale = 2;
     const pdf = new jsPDF('p', 'mm', 'a4');
-
+    prepareForPDF(element);
     setTimeout(() => {
       html2canvas(element, {
         scale: scale,
@@ -84,6 +85,8 @@ const FunctionalLetterForm = (props) => {
         }
 
         pdf.save('screenshot.pdf');
+
+        revertAfterPDF(element);
       });
     }, 1000);
   };
