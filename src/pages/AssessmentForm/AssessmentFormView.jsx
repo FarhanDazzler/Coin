@@ -199,9 +199,13 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
     dispatch(
       getKPISection2Data({
-        mics_id: 'ATR_BALAN_01-K',
-        receiver_entity: 'Australia',
-        year_and_quarter: '2024Q3',
+        mics_id: activeData?.control_id,
+        receiver_entity: activeData?.Receiver,
+        year_and_quarter: currentQuarter,
+
+        // mics_id: 'ATR_BALAN_01-K',
+        // receiver_entity: 'Australia',
+        // year_and_quarter: '2024Q3',
       }),
     );
 
