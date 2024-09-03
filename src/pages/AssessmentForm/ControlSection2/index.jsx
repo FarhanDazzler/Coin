@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 //import axios from 'axios';
+import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { Badge, Flex, MantineProvider } from '@mantine/core';
 import {
@@ -10,9 +11,6 @@ import {
   MRT_ToggleDensePaddingButton,
 } from 'mantine-react-table';
 import * as XLSX from 'xlsx';
-
-import Workbook from 'react-excel-workbook';
-import readXlsxFile from 'read-excel-file';
 import {
   kpiResultSelector,
   getResponseSelector,
@@ -20,13 +18,11 @@ import {
   get_historical_graph_dataSelector,
   get_KPI_Section2_dataSelector,
 } from '../../../redux/Assessments/AssessmentSelectors';
-import { getCsvTampredDataAction } from '../../../redux/CsvTampred/CsvTampredAction';
 import CollapseFrame from '../../../components/UI/CollapseFrame';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '@mantine/core';
 import KIP_Graph_Section_2 from './KIP_Graph_Section_2';
-import { convertVariable } from '../../../utils/helper';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import { getCurrentYearAndQuarter } from '../../KPIModule/KpiModuleLandingPage';
 import { exportToCsv, Badge_apply } from '../../KPIModule/KpiComponent/KPITable';
@@ -71,7 +67,6 @@ const ControlSection2 = ({
   const kpiResultData = useSelector(kpiResultSelector);
   const get_KPI_Section2_data = useSelector(get_KPI_Section2_dataSelector);
   const latestDraftData = useSelector(getLatestDraftSelector);
-  const [validationErrors, setValidationErrors] = useState({});
   const kpiResponseData = latestDraftData?.data?.Latest_response?.kpis
     ? latestDraftData?.data?.Latest_response?.kpis
     : get_KPI_Section2_data?.data;
@@ -80,6 +75,9 @@ const ControlSection2 = ({
   const dispatch = useDispatch();
   const get_historical_graph_data = useSelector(get_historical_graph_dataSelector);
   const historicalGraphData = get_historical_graph_data?.data || {};
+
+  const [validationErrors, setValidationErrors] = useState({});
+  const [isFileUploading, setIsfileuploading] = useState(false);
 
   useEffect(() => {
     if (startTableEdit) return;
@@ -91,193 +89,28 @@ const ControlSection2 = ({
     } else if (get_KPI_Section2_data?.data?.length > 0) {
       //Convert table formate data TO display structure
       const table_data = [...kpiResponseData];
-      table_data.forEach((tData, i) => {
-        // tData['id'] = i + 1;
-        tData['Upload_Approach'] = tData['Upload_Approach'] || '';
-        tData['Source_System'] = tData['Source_System']?.trimStart() || '';
+      // table_data.forEach((tData, i) => {
+      //   // tData['id'] = i + 1;
+      //   tData['Upload_Approach'] = tData['Upload_Approach'] || '';
+      //   tData['Source_System'] = tData['Source_System']?.trimStart() || '';
 
-        tData['KPI_Source'] = 'Manual';
-        tData['Year_and_Quarter'] = currentYearAndQuarter;
-      });
+      //   tData['KPI_Source'] = 'Manual';
+      //   tData['Year_and_Quarter'] = currentYearAndQuarter;
+      // });
 
       setTableData(table_data);
     }
   }, [kpiResultData, kpiResponseData]);
 
-  const handleUpdateLevel = (data) => {
-    const row = { ...data };
-
-    row.KPI_Value = (+row.Numerator / +row.Denominator).toFixed(5);
-
-    const isNumeratorValue = !!row?.Numerator || [0, '0'].includes(row?.Numerator);
-    const isDenominatorValue = !!row?.Denominator || [0, '0'].includes(row?.Denominator);
-
-    const isFillsNumeratorAndDenominatorValue = isNumeratorValue && isDenominatorValue;
-
-    if (row.Positive_direction?.toLowerCase() === 'lower is better') {
-      if (
-        row.MICS_L1_Threshold === '-' ||
-        row.MICS_L1_Threshold === '' ||
-        row.MICS_L1_Threshold == null ||
-        row.L1_Result == 'N/A'
-      ) {
-        row.L1_Result = 'N/A';
-      } else {
-        if (
-          parseFloat(row.KPI_Value) <= parseFloat(row.MICS_L1_Threshold) &&
-          row.MICS_L1_Threshold !== '' &&
-          isFillsNumeratorAndDenominatorValue
-        ) {
-          row.L1_Result = 'Pass';
-        } else {
-          row.L1_Result = 'Fail';
-        }
-      }
-
-      // store L2_Result when KPI value lessthen MICS L2 thresshold value then pass L2 result
-      if (
-        row.MICS_L2_Threshold === '-' ||
-        row.MICS_L2_Threshold === '' ||
-        row.MICS_L2_Threshold == null ||
-        row.L2_Result == 'N/A'
-      ) {
-        row.L2_Result = 'N/A';
-      } else if (
-        parseFloat(row.KPI_Value) <= parseFloat(row.MICS_L2_Threshold) &&
-        row.MICS_L2_Threshold !== '' &&
-        isFillsNumeratorAndDenominatorValue
-      ) {
-        row.L2_Result = 'Pass';
-      } else {
-        row.L2_Result = 'Fail';
-      }
-
-      if (
-        row.MICS_L3_Threshold === '-' ||
-        row.MICS_L3_Threshold === '' ||
-        row.MICS_L3_Threshold == null ||
-        row.L3_Result == 'N/A'
-      ) {
-        row.L3_Result = 'N/A';
-      } else {
-        if (
-          parseFloat(row.KPI_Value) <= parseFloat(row.MICS_L3_Threshold) &&
-          isFillsNumeratorAndDenominatorValue
-        ) {
-          row.L3_Result = 'Pass';
-        } else {
-          row.L3_Result = 'Fail';
-        }
-      }
-    } else if (row.Positive_direction?.toLowerCase() === 'higher is better') {
-      if (
-        row.MICS_L1_Threshold === '-' ||
-        row.MICS_L1_Threshold === '' ||
-        row.MICS_L1_Threshold === null ||
-        row.L1_Result == 'N/A'
-      ) {
-        row.L1_Result = 'N/A';
-      } else {
-        if (
-          parseFloat(row.KPI_Value) >= parseFloat(row.MICS_L1_Threshold) &&
-          row.MICS_L1_Threshold !== '' &&
-          isFillsNumeratorAndDenominatorValue
-        ) {
-          row.L1_Result = 'Pass';
-        } else {
-          row.L1_Result = 'Fail';
-        }
-      }
-
-      if (
-        row.MICS_L2_Threshold === '-' ||
-        row.MICS_L2_Threshold === '' ||
-        row.MICS_L2_Threshold === null ||
-        row.L2_Result == 'N/A'
-      ) {
-        row.L2_Result = 'N/A';
-      } else {
-        if (
-          parseFloat(row.KPI_Value) >= parseFloat(row.MICS_L2_Threshold) &&
-          isFillsNumeratorAndDenominatorValue
-        ) {
-          row.L2_Result = 'Pass';
-        } else {
-          row.L2_Result = 'Fail';
-        }
-      }
-
-      if (
-        row.MICS_L3_Threshold === '-' ||
-        row.MICS_L3_Threshold === '' ||
-        row.MICS_L3_Threshold === null ||
-        row.L3_Result == 'N/A'
-      ) {
-        row.L3_Result = 'N/A';
-      } else {
-        if (
-          parseFloat(row.KPI_Value) >= parseFloat(row.MICS_L3_Threshold) &&
-          isFillsNumeratorAndDenominatorValue
-        ) {
-          row.L3_Result = 'Pass';
-        } else {
-          row.L3_Result = 'Fail';
-        }
-      }
-    }
-    return row;
-  };
-
-  //Table on change function
-  function handleChange(newInputValue, row, column) {
-    setIsStartTableEdit(true);
-    const newValue = newInputValue.trimStart();
-    const updateProduct = tableData.map((d) => {
-      // Check user change row id match or not
-      if (d.id === row.id) {
-        const copyRow = { ...JSON.parse(JSON.stringify(row)) };
-        //If user Upload_Approach change value then update existing value
-        if (column.dataField === 'Upload_Approach') {
-          row['Upload_Approach'] = newValue;
-        }
-        //If user Denominator change value then update existing value
-        if (column.dataField === 'Denominator') {
-          if (newValue == 0) {
-            row['Denominator'] = '';
-          } else {
-            row['Denominator'] = newValue;
-          }
-          row['Numerator'] = convertVariable(copyRow['Numerator']);
-        }
-
-        if (column.dataField === 'Source_System') {
-          row['Source_System'] = newValue;
-        }
-
-        //If user Numerator change value then update existing value
-        if (column.dataField === 'Numerator') {
-          // TODO: @@@@ If 0 not allowed input then uncomment
-          // if (newValue == 0) {
-          //   row['Numerator'] = 0;
-          // } else {
-          row['Numerator'] = newValue;
-          // }
-          row['Denominator'] = convertVariable(copyRow['Denominator']);
-        }
-
-        return handleUpdateLevel(row);
-      }
-      return d;
-    });
-    setTableData(updateProduct);
-    setTimeout(() => {
-      document.activeElement.blur();
-    }, 100);
-  }
-
   // Code for validation and result calculation for Numerator and Denominator columns
   const validateKPI = (row, value, type) => {
     let errors = {};
+    // console.log('row num', row.Numerator);
+    // console.log('row deno', row.Denominator);
+    // console.log('value', value);
+    // console.log('type', type);
+    // console.log(row.Numerator ? 'Numerator is present' : 'Numerator is not present');
+    // console.log(row.Denominator ? 'Denominator is present' : 'Denominator is not present');
 
     // These functions handle the validation logic based on the Numerator_Allowed and Denominator_Allowed values.
     const isNumeratorValid = (num) => {
@@ -346,6 +179,9 @@ const ControlSection2 = ({
       ) {
         errors.Denominator = 'Denominator is required';
       }
+      // else if (!isNaN(value) && value <= 0) {
+      //   errors.Denominator = 'Denominator must be greater than zero';
+      // }
     }
 
     // If both Numerator and Denominator are present, check their validity
@@ -364,64 +200,107 @@ const ControlSection2 = ({
       }
     }
 
+    console.log('errors', errors);
     return errors;
   };
 
-  // File upload logic
-  // This function convert uploaded Excel file data read and view on table mode
-  const handleFileUpload = (e) => {
-    let selectedFile = e.target.files[0];
-    if (selectedFile) {
-      readXlsxFile(selectedFile).then((data) => {
-        const copyData = { ...data };
-        const fileData = data.slice(1).map((d, dataIndex) => {
-          let obj = { id: Date.now() + dataIndex };
-          d.map((v, i) => {
-            let key = copyData[0][i];
-            if (copyData[0][i] === 'KPI Data source (Select from Excel/PBI/Celonis/Others)') {
-              key = 'Upload_Approach';
-            }
-            if (copyData[0][i] === 'Link to data') {
-              key = 'Source_System';
-            }
+  // Function to calculate the result based on the numerator, denominator, threshold, positive direction and result
+  function calculateResult(numerator, denominator, threshold, positiveDirection, result) {
+    if (
+      threshold === null ||
+      threshold === '' ||
+      threshold === '-' ||
+      threshold === 'NA' ||
+      result === 'NA' ||
+      result === 'N/A'
+    ) {
+      return 'N/A';
+    }
 
-            obj[key] = v;
-          });
+    if (
+      numerator === null ||
+      numerator === '' ||
+      numerator === 'NA' ||
+      denominator === null ||
+      denominator === '' ||
+      denominator === 'NA'
+    ) {
+      return 'Fail';
+    }
 
-          return handleUpdateLevel(obj);
-        });
+    let num, den, thresholdFloat;
 
-        var myHeaders = new Headers();
-        myHeaders.append('Authorization', 'Basic Q09JTjpDT0lOX1NlY3VyZUAxMjM=');
-        myHeaders.append('Content-Type', 'application/json');
+    try {
+      num = parseFloat(+numerator);
+      den = parseFloat(+denominator);
+      thresholdFloat = parseFloat(+threshold);
+    } catch (error) {
+      // console.log('Error: One of the inputs is not a valid float.');
+      return 'Fail';
+    }
 
-        var apiBody = {
-          input_table: tableData,
-          output_table: fileData,
-        };
+    if (isNaN(num) || isNaN(den) || isNaN(thresholdFloat)) {
+      // console.log('Error: One of the inputs is not a valid float.');
+      return 'Fail';
+    }
 
-        const output_table_data = apiBody.output_table.map((d) => {
-          const Denominator = d['Denominator'];
-          if ([0, '0'].includes(Denominator)) {
-            d['Denominator'] = '';
-          } else {
-            d['Denominator'] = Denominator ? +Denominator : '';
-          }
+    if (den === 0) {
+      return 'Pass'; // Only denominator is zero
+    }
+    const value = num / den.toFixed(5);
+    if (positiveDirection && positiveDirection?.trim()?.toLowerCase() === 'lower is better') {
+      return value <= thresholdFloat ? 'Pass' : 'Fail';
+    } else if (
+      positiveDirection &&
+      positiveDirection?.trim()?.toLowerCase() === 'higher is better'
+    ) {
+      return value >= thresholdFloat ? 'Pass' : 'Fail';
+    } else {
+      return 'Fail';
+    }
+  }
 
-          // TODO: @@@@ if Numerator accept 0 then add logic here...
-          const Numerator = d['Numerator'];
-          d['Numerator'] = !!Numerator || [0, '0'].includes(Numerator) ? Numerator.toString() : '';
+  const updateResults = (row, tableData, cell) => {
+    const numerator = parseFloat(row.Numerator);
+    const denominator = parseFloat(row.Denominator);
 
-          return {
-            ...handleUpdateLevel(d),
-            isManual: true,
-            isEdited: true,
-          };
-        });
+    // console.log('numerator', numerator);
+    // console.log('denominator', denominator);
 
-        dispatch(getCsvTampredDataAction({ ...apiBody, output_table: output_table_data }));
-        setTableData(output_table_data);
-      });
+    tableData[cell.row.index].L1_Result = calculateResult(
+      numerator,
+      denominator,
+      row.Threshold_L1,
+      row.Positive_Direction,
+      row.L1_Result,
+    );
+    tableData[cell.row.index].L2_Result = calculateResult(
+      numerator,
+      denominator,
+      row.Threshold_L2,
+      row.Positive_Direction,
+      row.L2_Result,
+    );
+    tableData[cell.row.index].L3_Result = calculateResult(
+      numerator,
+      denominator,
+      row.Threshold_L3,
+      row.Positive_Direction,
+      row.L3_Result,
+    );
+
+    // logic to calculate KPI Value
+    if ((numerator || numerator === 0) && (denominator || denominator === 0)) {
+      // calculate KPI Value only if Numerator and Denominator are present and not null and finding the absolute value of the result
+      // If the denominator is zero, the KPI Value is zero
+      tableData[cell.row.index].KPI_Value =
+        denominator === 0 ? 0 : Math.abs((+numerator / +denominator).toFixed(5));
+
+      // console.log('abs Value', Math.abs((+numerator / +denominator).toFixed(5)));
+      // console.log('KPI Value', tableData[cell.row.index].KPI_Value);
+    } else {
+      tableData[cell.row.index].KPI_Value = '';
+      // console.log('KPI Value else', tableData[cell.row.index].KPI_Value);
     }
   };
 
@@ -798,19 +677,23 @@ const ControlSection2 = ({
         type: 'number',
         variant: 'filled',
         error: validationErrors[row.original.id]?.Numerator,
-        helperText: validationErrors[row.original.id]?.Numerator,
+        //helperText: validationErrors[row.original.id]?.Numerator,
         value: row.original.Numerator,
         onChange: (event) => {
           const value = event.target.value.trim();
           const updatedTableData = [...tableData]; // Assuming tableData is an array of objects
 
           // Update the value in the local tableData copy
-          updatedTableData[cell.row.index]['Numerator'] = value;
+          updatedTableData[cell.row.index][cell.column.id] = value;
+
+          // // Update results based on the row
+          // updateResults(row.original, updatedTableData, cell);
         },
         onBlur: (event) => {
           //const value = parseFloat(event.target.value.trim());
           const value = event.target.value.trim();
-          tableData[cell.row.index]['Numerator'] = value;
+          tableData[cell.row.index][cell.column.id] = value;
+
           const errors = validateKPI(row.original, value, 'Numerator');
           setValidationErrors((prev) => ({
             ...prev,
@@ -824,8 +707,8 @@ const ControlSection2 = ({
             delete validationErrors[row.original.id]?.Numerator;
             delete validationErrors[row.original.id]?.Denominator;
             setValidationErrors({ ...validationErrors });
+            updateResults(row.original, tableData, cell);
           }
-          handleChange(value, row.original, { dataField: 'Numerator' });
         },
       }),
       mantineTableBodyCellProps: ({ row }) =>
@@ -863,19 +746,23 @@ const ControlSection2 = ({
         required: true,
         type: 'number',
         variant: 'filled',
+        error: validationErrors[row.original.id]?.Denominator,
         value: row.original.Denominator,
         onChange: (event) => {
           const value = event.target.value.trim();
           const updatedTableData = [...tableData]; // Assuming tableData is an array of objects
 
           // Update the value in the local tableData copy
-          updatedTableData[cell.row.index]['Denominator'] = value;
+          updatedTableData[cell.row.index][cell.column.id] = value;
+
+          // // Update results based on the row
+          // updateResults(row.original, updatedTableData, cell);
         },
-        error: validationErrors[row.original.id]?.Denominator,
+        //helperText: validationErrors[row.original.id]?.Denominator,
         onBlur: (event) => {
           //const value = parseFloat(event.target.value.trim());
           const value = event.target.value.trim();
-          tableData[cell.row.index]['Denominator'] = value;
+          tableData[cell.row.index][cell.column.id] = value;
 
           const errors = validateKPI(row.original, value, 'Denominator');
           setValidationErrors((prev) => ({
@@ -890,8 +777,8 @@ const ControlSection2 = ({
             delete validationErrors[row.original.id]?.Numerator;
             delete validationErrors[row.original.id]?.Denominator;
             setValidationErrors({ ...validationErrors });
+            updateResults(row.original, tableData, cell);
           }
-          handleChange(value, row.original, { dataField: 'Denominator' });
         },
       }),
       mantineTableBodyCellProps: ({ row }) =>
@@ -958,7 +845,7 @@ const ControlSection2 = ({
           },
         ],
         onChange: (value) => {
-          return (tableData[cell.row.index]['Calculation_Source'] = value);
+          return (tableData[cell.row.index][cell.column.id] = value);
         },
         value: row.original.Calculation_Source ? row.original.Calculation_Source : null,
       }),
@@ -988,11 +875,11 @@ const ControlSection2 = ({
           const updatedTableData = [...tableData]; // Assuming tableData is an array of objects
 
           // Update the value in the local tableData copy
-          updatedTableData[cell.row.index]['Actual_Source_Link'] = value;
+          updatedTableData[cell.row.index][cell.column.id] = value;
         },
         onBlur: (event) => {
           const value = event.target.value.trim();
-          tableData[cell.row.index]['Actual_Source_Link'] = value;
+          tableData[cell.row.index][cell.column.id] = value;
           // setTableData([...tableData]);
         },
       }),
@@ -1144,6 +1031,353 @@ const ControlSection2 = ({
     },
   ];
 
+  const handleExport = () => {
+    const fields = [
+      { label: 'id', value: 'id' },
+      {
+        label: 'Zone',
+        value: 'Zone',
+      },
+      {
+        label: 'Month',
+        value: 'Month',
+      },
+      {
+        label: 'Year and Quarter',
+        value: 'Year_and_Quarter',
+      },
+      {
+        label: 'KPI ID',
+        value: 'KPI_ID',
+      },
+      {
+        label: 'KPI Name',
+        value: 'KPI_Name',
+      },
+      {
+        label: 'KPI Description',
+        value: 'KPI_Description',
+      },
+      {
+        label: 'KPI Type',
+        value: 'KPI_Type',
+      },
+      {
+        label: 'KPI Applicability Level',
+        value: 'KPI_Applicability_Level',
+      },
+      {
+        label: 'KPI Responsibility',
+        value: 'KPI_Responsibility',
+      },
+      {
+        label: 'Receiving Entity',
+        value: 'Receiving_Entity',
+      },
+      {
+        label: 'KPI Owner Email',
+        value: 'KPI_Owner_Email',
+      },
+      {
+        label: 'KPI Oversight Email',
+        value: 'KPI_Oversight_Email',
+      },
+      {
+        label: 'KPI Source',
+        value: 'KPI_Source',
+      },
+      {
+        label: 'Expected KPI Data Source',
+        value: 'Expected_KPI_Source',
+      },
+      {
+        label: 'KPI Frequency',
+        value: 'KPI_Frequency',
+      },
+      {
+        label: 'Control ID',
+        value: 'Control_ID',
+      },
+      {
+        label: 'Provider Org',
+        value: 'Provider_Org',
+      },
+      {
+        label: 'Positive Direction',
+        value: 'Positive_Direction',
+      },
+      {
+        label: 'Expected Numerator',
+        value: 'Expected_Numerator',
+      },
+      {
+        label: 'Expected Denominator',
+        value: 'Expected_Denominator',
+      },
+      {
+        label: 'Numerator Allowed',
+        value: 'Numerator_Allowed',
+      },
+      {
+        label: 'Numerator',
+        value: 'Numerator',
+      },
+      {
+        label: 'Denominator Allowed',
+        value: 'Denominator_Allowed',
+      },
+      {
+        label: 'Denominator',
+        value: 'Denominator',
+      },
+      {
+        label: 'KPI Value',
+        value: 'KPI_Value',
+      },
+      {
+        label: 'Calculation Source',
+        value: 'Calculation_Source',
+      },
+      {
+        label: 'Actual Source Link',
+        value: 'Actual_Source_Link',
+      },
+      {
+        label: 'Threshold L1',
+        value: 'Threshold_L1',
+      },
+      {
+        label: 'Threshold L2',
+        value: 'Threshold_L2',
+      },
+      {
+        label: 'Threshold L3',
+        value: 'Threshold_L3',
+      },
+      {
+        label: 'L1 Result',
+        value: 'L1_Result',
+      },
+      {
+        label: 'L2 Result',
+        value: 'L2_Result',
+      },
+      {
+        label: 'L3 Result',
+        value: 'L3_Result',
+      },
+      {
+        label: 'Load Date',
+        value: 'Load_Date',
+      },
+      {
+        label: 'KPI Uploader',
+        value: 'KPI_Uploader',
+      },
+    ];
+
+    exportToCsv('KPI_Module_Export.csv', tableData, fields);
+  };
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+    // setting the file uploading state to true
+    setIsfileuploading(true);
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const csvData = XLSX.utils.sheet_to_json(worksheet);
+
+      handleDataImport(csvData);
+      // Clear the file input value to allow re-uploading the same file
+      event.target.value = '';
+      // setting the file uploading state to false
+      setIsfileuploading(false);
+    };
+
+    reader.readAsArrayBuffer(file);
+  };
+
+  const validateData = (data) => {
+    let isValid = true;
+
+    data.forEach((row, index) => {
+      const {
+        id,
+        'Denominator Allowed': Denominator_Allowed,
+        'Numerator Allowed': Numerator_Allowed,
+        Numerator,
+        Denominator,
+      } = row;
+
+      // Function to check if the Numerator is valid based on the Numerator Allowed value
+      const isNumeratorValid = (num) => {
+        switch (Numerator_Allowed) {
+          case 'Positive/Zero only':
+            return num >= 0;
+          case 'Negative/Zero only':
+            return num <= 0;
+          case 'Zero/One only':
+            return num === 0 || num === 1;
+          case 'Any value':
+          default:
+            return true;
+        }
+      };
+
+      // Function to check if the Denominator is valid based on the Denominator Allowed value
+      const isDenominatorValid = (den) => {
+        switch (Denominator_Allowed) {
+          case 'Positive only':
+            return den > 0;
+          case 'Negative only':
+            return den < 0;
+          case 'Positive/Zero only':
+            return den >= 0;
+          case 'Negative/Zero only':
+            return den <= 0;
+          case 'Zero/One only':
+            return den === 0 || den === 1;
+          case 'Any value':
+          default:
+            return true;
+        }
+      };
+
+      if ((Numerator || Numerator === 0) && (Denominator || Denominator === 0)) {
+        if (isNaN(Numerator) || isNaN(Denominator)) {
+          isValid = false;
+          toast.error(`Invalid KPI Numerator and Denominator at row ${index + 1}`);
+        }
+        // Check if Numerator and Denominator are valid based on their allowed values
+        if (!isNumeratorValid(Numerator)) {
+          isValid = false;
+          toast.error(`Numerator must be ${Numerator_Allowed} at row ${index + 1}`);
+        }
+
+        if (!isDenominatorValid(Denominator)) {
+          isValid = false;
+          toast.error(`Denominator must be ${Denominator_Allowed} at row ${index + 1}`);
+        }
+      } else if (Numerator || Denominator) {
+        isValid = false;
+        toast.error(`Both Numerator and Denominator are required at row ${index + 1}`);
+      }
+    });
+
+    return isValid;
+  };
+
+  const performCalculations = (data, tableData) => {
+    // Predefined Calculation Source options with proper casing
+    const Calculation_Source_options = {
+      pbi: 'PBI',
+      'grm dashboard': 'GRM Dashboard',
+      cognos: 'Cognos',
+      sap: 'SAP',
+      celonis: 'Celonis',
+      anaplan: 'Anaplan',
+    };
+
+    return data.map((row) => {
+      const {
+        id,
+        Numerator,
+        Denominator,
+        'Calculation Source': Calculation_Source,
+        'Actual Source Link': Actual_Source_Link,
+      } = row;
+
+      const tableRow = tableData.find((item) => item.id === id);
+
+      if (tableRow) {
+        const {
+          KPI_Source,
+          Threshold_L1,
+          Threshold_L2,
+          Threshold_L3,
+          Positive_Direction,
+          L1_Result,
+          L2_Result,
+          L3_Result,
+        } = tableRow;
+
+        // only update those row where expected source is manual
+        if (KPI_Source === 'Manual') {
+          let normalizedCalculationSource = Calculation_Source;
+
+          // Normalize the Calculation_Source if it has a value
+          if (Calculation_Source && Calculation_Source.trim() !== '') {
+            const normalizedInput = Calculation_Source.trim().toLowerCase();
+            normalizedCalculationSource = Calculation_Source_options[normalizedInput] || 'Others';
+          }
+
+          // Calculate KPI Value when Numerator and Denominator are provided and are valid numbers and finding the absolute value of the KPI Value
+          // If the Denominator is 0, then the KPI Value is 0
+          const KPI_Value =
+            (Numerator || Numerator === 0) && (Denominator || Denominator === 0)
+              ? Denominator === 0
+                ? 0
+                : Math.abs((+Numerator / +Denominator).toFixed(5))
+              : '';
+
+          const newResult_L1 = calculateResult(
+            Numerator,
+            Denominator,
+            Threshold_L1,
+            Positive_Direction,
+            L1_Result,
+          );
+          const newResult_L2 = calculateResult(
+            Numerator,
+            Denominator,
+            Threshold_L2,
+            Positive_Direction,
+            L2_Result,
+          );
+          const newResult_L3 = calculateResult(
+            Numerator,
+            Denominator,
+            Threshold_L3,
+            Positive_Direction,
+            L3_Result,
+          );
+
+          return {
+            ...tableRow,
+            Numerator,
+            Denominator,
+            Calculation_Source: normalizedCalculationSource,
+            Actual_Source_Link,
+            KPI_Value,
+            L1_Result: newResult_L1,
+            L2_Result: newResult_L2,
+            L3_Result: newResult_L3,
+          };
+        }
+      }
+
+      return tableRow;
+    });
+  };
+
+  const handleDataImport = (csvData) => {
+    if (validateData(csvData)) {
+      const updatedData = performCalculations(csvData, tableData);
+      setTableData(updatedData);
+      // Clear the validation errors of table after successful validation and import of data
+      setValidationErrors({});
+    }
+  };
+
   return (
     <div>
       <CollapseFrame title={t('selfAssessment.assessmentForm.section2KPI')} active>
@@ -1184,18 +1418,23 @@ const ControlSection2 = ({
                       enableColumnFilterModes={false}
                       enableFacetedValues={true}
                       enableGrouping={false}
+                      // enablePinning= {true}
                       enableRowSelection={false}
                       selectAllMode="all"
                       getRowId={(row) => row.id}
+                      // paginationDisplayMode={'pages'}
                       enableRowNumbers={true}
                       rowNumberMode={'original'}
+                      // positionToolbarAlertBanner= {'bottom'}
                       enableStickyHeader={true}
+                      // createDisplayMode="row" // ('modal', and 'custom' are also available)
                       editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)
                       enableEditing={(row) =>
                         row.original.KPI_Source == 'Manual' &&
                         row.original.Year_and_Quarter === currentYearAndQuarter
                       }
                       initialState={{
+                        isLoading: isFileUploading,
                         showColumnFilters: true,
                         showGlobalFilter: true,
                         density: 'xs',
@@ -1219,163 +1458,41 @@ const ControlSection2 = ({
                         withColumnBorders: true,
                       }}
                       renderTopToolbar={({ table }) => {
-                        // const isDisabled = yearAndQuarter.toString() !== currentYearAndQuarter;
-
                         return (
                           <div>
+                            <div style={{ padding: '16px', color: 'white', fontSize: '14px' }}>
+                              <b>Note:</b> In case there have been no transactions for the specified
+                              period for any KPI, please enter 0 as both the numerator and the
+                              denominator. In case the values are not allowed, please reach out to
+                              your Zone Internal Control.
+                            </div>
                             <Flex p="md" justify="space-between" className="kpi_module_buttons">
-                              <div>
-                                <Flex align="center" gap="xs">
-                                  <div className="row " id="export_button_right">
-                                    <Workbook
-                                      filename={`data-${controlId}.xlsx`}
-                                      element={
-                                        <button className="export_button">
-                                          <strong>
-                                            {t('selfAssessment.assessmentForm.exportToExcel')}
-                                          </strong>
-                                        </button>
-                                      }
-                                    >
-                                      <Workbook.Sheet
-                                        data={tableData.map((td) => ({
-                                          ...td,
-                                          Numerator: hasFailNumerator(td)
-                                            ? ''
-                                            : td.Numerator
-                                            ? td.Numerator.toString()
-                                            : '',
-                                          Denominator: hasFailDenominator(td)
-                                            ? ''
-                                            : td.Denominator
-                                            ? td.Denominator.toString()
-                                            : '',
-                                        }))}
-                                        name="Sheet A"
-                                      >
-                                        <Workbook.Column label="id" value="id" />
-                                        <Workbook.Column label="Zone" value="Zone" />
-                                        <Workbook.Column label="Month" value="Month" />
-                                        <Workbook.Column
-                                          label="Year_and_Quarter"
-                                          value="Year_and_Quarter"
-                                        />
-                                        <Workbook.Column label="KPI_ID" value="KPI_ID" />
-                                        <Workbook.Column label="KPI_Name" value="KPI_Name" />
-                                        <Workbook.Column
-                                          label="KPI_Description"
-                                          value="KPI_Description"
-                                        />
-                                        <Workbook.Column label="KPI_Type" value="KPI_Type" />
-                                        <Workbook.Column
-                                          label="KPI_Applicability_Level"
-                                          value="KPI_Applicability_Level"
-                                        />
-                                        <Workbook.Column
-                                          label="KPI_Responsibility"
-                                          value="KPI_Responsibility"
-                                        />
-                                        <Workbook.Column
-                                          label="Receiving_Entity"
-                                          value="Receiving_Entity"
-                                        />
-                                        <Workbook.Column
-                                          label="KPI_Owner_Email"
-                                          value="KPI_Owner_Email"
-                                        />
-                                        <Workbook.Column
-                                          label="KPI_Oversight_Email"
-                                          value="KPI_Oversight_Email"
-                                        />
-                                        <Workbook.Column label="KPI_Source" value="KPI_Source" />
-                                        <Workbook.Column
-                                          label="Expected_KPI_Source"
-                                          value="Expected_KPI_Source"
-                                        />
-                                        <Workbook.Column
-                                          label="KPI_Frequency"
-                                          value="KPI_Frequency"
-                                        />
-                                        <Workbook.Column label="Control_ID" value="Control_ID" />
-                                        <Workbook.Column
-                                          label="Provider_Org"
-                                          value="Provider_Org"
-                                        />
-                                        <Workbook.Column
-                                          label="Positive_Direction"
-                                          value="Positive_Direction"
-                                        />
-                                        <Workbook.Column
-                                          label="Expected_Numerator"
-                                          value="Expected_Numerator"
-                                        />
-                                        <Workbook.Column
-                                          label="Expected_Denominator"
-                                          value="Expected_Denominator"
-                                        />
-                                        <Workbook.Column
-                                          label="Numerator_Allowed"
-                                          value="Numerator_Allowed"
-                                        />
-                                        <Workbook.Column
-                                          label="Denominator_Allowed"
-                                          value="Denominator_Allowed"
-                                        />
-                                        <Workbook.Column label="KPI_Value" value="KPI_Value" />
-                                        <Workbook.Column
-                                          label="Calculation_Source"
-                                          value="Calculation_Source"
-                                        />
-                                        <Workbook.Column
-                                          label="Actual_Source_Link"
-                                          value="Actual_Source_Link"
-                                        />
-                                        <Workbook.Column
-                                          label="Threshold_L1"
-                                          value="Threshold_L1"
-                                        />
-                                        <Workbook.Column
-                                          label="Threshold_L2"
-                                          value="Threshold_L2"
-                                        />
-                                        <Workbook.Column
-                                          label="Threshold_L3"
-                                          value="Threshold_L3"
-                                        />
-                                        <Workbook.Column label="L1_Result" value="L1_Result" />
-                                        <Workbook.Column label="L2_Result" value="L2_Result" />
-                                        <Workbook.Column label="L3_Result" value="L3_Result" />
-                                        <Workbook.Column label="Load_Date" value="Load_Date" />
-                                        <Workbook.Column
-                                          label="KPI_Uploader"
-                                          value="KPI_Uploader"
-                                        />
-                                      </Workbook.Sheet>
-                                    </Workbook>
-                                  </div>
+                              <Flex align="center" gap="xs">
+                                <button
+                                  className="custom-btn mt-2 submit-btn"
+                                  onClick={handleExport}
+                                >
+                                  {t('selfAssessment.assessmentForm.exportToExcel')}
+                                </button>
 
+                                <div className="mt-4">
                                   <label htmlFor="uploadfile" className="file-input">
                                     <input
                                       icon={FileUploadOutlinedIcon}
                                       type="file"
-                                      // accept="text/csv"
+                                      accept="text/csv"
                                       placeholder="Name"
                                       id="uploadfile"
                                       onChange={handleFileUpload}
                                       //style={{ display: 'none' }}
-                                      // disabled={isDisabled}
                                     />
                                     <div className="custom-btn choose-file">
                                       {<FileUploadOutlinedIcon />}
-                                      Upload file
+                                      {'Upload File'}
                                     </div>
                                   </label>
-                                </Flex>
-                                <div style={{ textDecoration: 'underline' }}>
-                                  NOTE: Kindly enter both numerator and denominator, partial
-                                  information will result in the failure of KPIs
                                 </div>
-                              </div>
+                              </Flex>
                               <Flex gap="xs">
                                 <MRT_GlobalFilterTextInput table={table} />
                                 <MRT_ToggleFiltersButton table={table} />
