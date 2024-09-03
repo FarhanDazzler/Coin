@@ -314,6 +314,24 @@ const KPITable = ({
     }
   };
 
+  const tableRecord = useMemo(() => {
+    const areAllFiltersEmpty = Object.values(filterData).every((arr) => arr.length === 0);
+
+    return areAllFiltersEmpty
+      ? tableData
+      : tableData.filter((item) => {
+          return (
+            (!filterData.zoneValue.length || filterData.zoneValue.includes(item.Zone)) &&
+            (!filterData.entityValue.length ||
+              filterData.entityValue.includes(item.Receiving_Entity)) &&
+            (!filterData.providerValue.length ||
+              filterData.providerValue.includes(item.Provider_Org)) &&
+            (!filterData.controlIDValue.length ||
+              filterData.controlIDValue.includes(item.Control_ID))
+          );
+        });
+  }, [filterData, tableData]);
+
   const columns = [
     {
       accessorKey: 'Zone',
@@ -691,10 +709,13 @@ const KPITable = ({
         value: row.original.Numerator,
         onChange: (event) => {
           const value = event.target.value.trim();
-          const updatedTableData = [...tableData]; // Assuming tableData is an array of objects
+          const updatedTableData = [...tableRecord]; // Assuming tableData is an array of objects
 
           // Update the value in the local tableData copy
           updatedTableData[cell.row.index][cell.column.id] = value;
+
+          const tableDataIndex = tableData.findIndex((td) => td.id === cell.row.id);
+          tableData[tableDataIndex][cell.column.id] = value;
 
           // // Update results based on the row
           // updateResults(row.original, updatedTableData, cell);
@@ -702,7 +723,10 @@ const KPITable = ({
         onBlur: (event) => {
           //const value = parseFloat(event.target.value.trim());
           const value = event.target.value.trim();
-          tableData[cell.row.index][cell.column.id] = value;
+          tableRecord[cell.row.index][cell.column.id] = value;
+
+          const tableDataIndex = tableData.findIndex((td) => td.id === cell.row.id);
+          tableData[tableDataIndex][cell.column.id] = value;
 
           const errors = validateKPI(row.original, value, 'Numerator');
           setValidationErrors((prev) => ({
@@ -717,7 +741,7 @@ const KPITable = ({
             delete validationErrors[row.original.id]?.Numerator;
             delete validationErrors[row.original.id]?.Denominator;
             setValidationErrors({ ...validationErrors });
-            updateResults(row.original, tableData, cell);
+            updateResults(row.original, tableRecord, cell);
           }
         },
       }),
@@ -760,10 +784,13 @@ const KPITable = ({
         value: row.original.Denominator,
         onChange: (event) => {
           const value = event.target.value.trim();
-          const updatedTableData = [...tableData]; // Assuming tableData is an array of objects
+          const updatedTableData = [...tableRecord]; // Assuming tableData is an array of objects
 
           // Update the value in the local tableData copy
           updatedTableData[cell.row.index][cell.column.id] = value;
+
+          const tableDataIndex = tableData.findIndex((td) => td.id === cell.row.id);
+          tableData[tableDataIndex][cell.column.id] = value;
 
           // // Update results based on the row
           // updateResults(row.original, updatedTableData, cell);
@@ -772,7 +799,10 @@ const KPITable = ({
         onBlur: (event) => {
           //const value = parseFloat(event.target.value.trim());
           const value = event.target.value.trim();
-          tableData[cell.row.index][cell.column.id] = value;
+          tableRecord[cell.row.index][cell.column.id] = value;
+
+          const tableDataIndex = tableData.findIndex((td) => td.id === cell.row.id);
+          tableData[tableDataIndex][cell.column.id] = value;
 
           const errors = validateKPI(row.original, value, 'Denominator');
           setValidationErrors((prev) => ({
@@ -787,7 +817,7 @@ const KPITable = ({
             delete validationErrors[row.original.id]?.Numerator;
             delete validationErrors[row.original.id]?.Denominator;
             setValidationErrors({ ...validationErrors });
-            updateResults(row.original, tableData, cell);
+            updateResults(row.original, tableRecord, cell);
           }
         },
       }),
@@ -1196,24 +1226,6 @@ const KPITable = ({
     exportToCsv('KPI_Module_Export.csv', tableData, fields);
   };
 
-  const tableRecord = useMemo(() => {
-    const areAllFiltersEmpty = Object.values(filterData).every((arr) => arr.length === 0);
-
-    return areAllFiltersEmpty
-      ? tableData
-      : tableData.filter((item) => {
-          return (
-            (!filterData.zoneValue.length || filterData.zoneValue.includes(item.Zone)) &&
-            (!filterData.entityValue.length ||
-              filterData.entityValue.includes(item.Receiving_Entity)) &&
-            (!filterData.providerValue.length ||
-              filterData.providerValue.includes(item.Provider_Org)) &&
-            (!filterData.controlIDValue.length ||
-              filterData.controlIDValue.includes(item.Control_ID))
-          );
-        });
-  }, [filterData, tableData]);
-
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
 
@@ -1468,8 +1480,6 @@ const KPITable = ({
       console.log('Saved data', tableData);
     }
   };
-
-  // console.log('validationErrors', validationErrors);
 
   return (
     <div className="kpi_table">
