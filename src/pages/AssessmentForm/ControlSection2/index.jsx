@@ -54,6 +54,8 @@ const ControlSection2 = ({
   isReview,
   startTableEdit,
   setIsStartTableEdit,
+  validationErrors,
+  setValidationErrors,
 }) => {
   const { t } = useTranslation();
   let headerStyles;
@@ -76,7 +78,6 @@ const ControlSection2 = ({
   const get_historical_graph_data = useSelector(get_historical_graph_dataSelector);
   const historicalGraphData = get_historical_graph_data?.data || {};
 
-  const [validationErrors, setValidationErrors] = useState({});
   const [isFileUploading, setIsfileuploading] = useState(false);
 
   useEffect(() => {

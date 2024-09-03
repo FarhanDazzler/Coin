@@ -60,6 +60,7 @@ const AssessmentFormRender = ({
   const [startTableEdit, setIsStartTableEdit] = useState(false);
   // check useEffect if user select section 1 Terminating then this state true
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
+  const [validationErrors, setValidationErrors] = useState({});
 
   const isNotEscalationRequired =
     actionPlanInfo.issueResolved === 'no' && !!actionPlanInfo.isEscalationRequired;
@@ -234,6 +235,8 @@ const AssessmentFormRender = ({
                   isReview={isReview}
                   startTableEdit={startTableEdit}
                   setIsStartTableEdit={setIsStartTableEdit}
+                  validationErrors={validationErrors}
+                  setValidationErrors={setValidationErrors}
                 />
               )}
               {showMoreSection && !s1FailObj && !isNotEscalationRequired && (
@@ -254,9 +257,10 @@ const AssessmentFormRender = ({
               )}
               {!question3?.loading && (
                 <>
-                  {(!isModal && (terminating || checkL3Validation)) ||
-                  (s1FailObj && showMoreSection && !isModal) ||
-                  (isNotEscalationRequired && !isModal) ? (
+                  {((!isModal && (terminating || checkL3Validation)) ||
+                    (s1FailObj && showMoreSection && !isModal) ||
+                    (isNotEscalationRequired && !isModal)) &&
+                  Object.keys(validationErrors)?.length === 0 ? (
                     <>
                       {/* Section 1 Terminating then show error  */}
                       {section1TerminatingLogicValue && (
