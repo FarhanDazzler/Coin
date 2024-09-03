@@ -199,11 +199,12 @@ const AssessmentFormView = ({ isModal: contentTypeModal = false, activeData = {}
 
     dispatch(
       getKPISection2Data({
-        mics_id: 'KPI_ATR_MJE_02b.1',
-        receiver_entity: 'Nigeria, South Africa, China, New Zealand',
+        mics_id: 'ATR_BALAN_01-K',
+        receiver_entity: 'Australia',
         year_and_quarter: '2024Q3',
       }),
     );
+
     return () => {
       // When user componentdidmount then clear all response
       dispatch(clearLatestDraftResponse());
