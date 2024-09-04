@@ -2,9 +2,6 @@
   border-radius: 10px 10px 10px 10px !important;
   padding: 20px !important;
 }
-.card-main-title {
-  color: #fff;
-}
 
 .black-bg-wrapper {
   border: 1px solid #9299a1;
@@ -23,6 +20,18 @@
 }
 .card-main-title {
   padding-right: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+.kpi-insight-box {
+  background: rgba(185, 185, 185, 0.14);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  border-radius: 8px;
 }
 .no-data-dashboard-list {
   padding: 20px;
