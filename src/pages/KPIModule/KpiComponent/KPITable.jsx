@@ -98,8 +98,8 @@ function calculateResult(numerator, denominator, threshold, positiveDirection, r
   let num, den, thresholdFloat;
 
   try {
-    num = Math.abs(parseFloat(+numerator));
-    den = Math.abs(parseFloat(+denominator));
+    num = parseFloat(+numerator);
+    den = parseFloat(+denominator);
     thresholdFloat = parseFloat(+threshold);
   } catch (error) {
     // console.log('Error: One of the inputs is not a valid float.');
@@ -114,7 +114,7 @@ function calculateResult(numerator, denominator, threshold, positiveDirection, r
   if (den === 0) {
     return 'Pass'; // Only denominator is zero
   }
-  const value = num / den.toFixed(5);
+  const value = Math.abs(num / den.toFixed(5));
   if (positiveDirection && positiveDirection?.trim()?.toLowerCase() === 'lower is better') {
     return value <= thresholdFloat ? 'Pass' : 'Fail';
   } else if (positiveDirection && positiveDirection?.trim()?.toLowerCase() === 'higher is better') {
