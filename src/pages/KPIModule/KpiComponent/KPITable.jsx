@@ -98,8 +98,8 @@ function calculateResult(numerator, denominator, threshold, positiveDirection, r
   let num, den, thresholdFloat;
 
   try {
-    num = parseFloat(+numerator);
-    den = parseFloat(+denominator);
+    num = Math.abs(parseFloat(+numerator));
+    den = Math.abs(parseFloat(+denominator));
     thresholdFloat = parseFloat(+threshold);
   } catch (error) {
     // console.log('Error: One of the inputs is not a valid float.');
