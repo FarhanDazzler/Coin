@@ -16,7 +16,10 @@ import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import KpiTableFilter from './KpiTableFilter';
 import { getCurrentYearAndQuarter } from '../KpiModuleLandingPage';
 import { useMsal } from '@azure/msal-react';
-import { reset_submit_kpi_data_success, submit_KPI_data_KPI_Module } from '../../../redux/KPI_Module/KPI_Action';
+import {
+  reset_submit_kpi_data_success,
+  submit_KPI_data_KPI_Module,
+} from '../../../redux/KPI_Module/KPI_Action';
 
 // function to export the data to CSV using the XLSX library
 export const exportToCsv = (filename, data, fields) => {
@@ -1370,7 +1373,7 @@ const KPITable = ({
         } = tableRow;
 
         // only update those row where expected source is manual
-        if (KPI_Source === 'Manual') {
+        if (KPI_Source === 'Manual' || KPI_Source === 'Semi - Automated') {
           let normalizedCalculationSource = Calculation_Source;
 
           // Normalize the Calculation_Source if it has a value
@@ -1464,7 +1467,7 @@ const KPITable = ({
         },
       };
       setSubmitLoading(true);
-      dispatch(reset_submit_kpi_data_success())
+      dispatch(reset_submit_kpi_data_success());
       dispatch(submit_KPI_data_KPI_Module(payload));
       console.log('Saved data', tableData);
     }
@@ -1501,7 +1504,8 @@ const KPITable = ({
           // createDisplayMode="row" // ('modal', and 'custom' are also available)
           editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)
           enableEditing={(row) =>
-            row.original.KPI_Source == 'Manual' &&
+            (row.original.KPI_Source == 'Manual' ||
+              row.original.KPI_Source == 'Semi - Automated') &&
             row.original.Year_and_Quarter === currentYearAndQuarter
           }
           initialState={{
