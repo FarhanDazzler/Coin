@@ -16,7 +16,7 @@ import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import KpiTableFilter from './KpiTableFilter';
 import { getCurrentYearAndQuarter } from '../KpiModuleLandingPage';
 import { useMsal } from '@azure/msal-react';
-import { submit_KPI_data_KPI_Module } from '../../../redux/KPI_Module/KPI_Action';
+import { reset_submit_kpi_data_success, submit_KPI_data_KPI_Module } from '../../../redux/KPI_Module/KPI_Action';
 
 // function to export the data to CSV using the XLSX library
 export const exportToCsv = (filename, data, fields) => {
@@ -1464,6 +1464,7 @@ const KPITable = ({
         },
       };
       setSubmitLoading(true);
+      dispatch(reset_submit_kpi_data_success())
       dispatch(submit_KPI_data_KPI_Module(payload));
       console.log('Saved data', tableData);
     }

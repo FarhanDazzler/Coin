@@ -19,6 +19,7 @@ export const CLEAR_CONTROL_OWNER_KPI_OWNER_CONTROL_OVERSIGHT_KPI_DATA =
 export const SUBMIT_KPI_DATA_KPI_MODULE_REQUEST = 'SUBMIT_KPI_DATA_KPI_MODULE_REQUEST';
 export const SUBMIT_KPI_DATA_KPI_MODULE_SUCCESS = 'SUBMIT_KPI_DATA_KPI_MODULE_SUCCESS';
 export const SUBMIT_KPI_DATA_KPI_MODULE_ERROR = 'SUBMIT_KPI_DATA_KPI_MODULE_ERROR';
+export const RESET_SUBMIT_KPI_DATA_SUCCESS = 'RESET_SUBMIT_KPI_DATA_SUCCESS';
 
 const block = {
   loading: false,
@@ -133,7 +134,14 @@ export const KPI_ModuleReducer = (state = initialState, { type, payload = {} }) 
           success: false,
         },
       };
-
+    case RESET_SUBMIT_KPI_DATA_SUCCESS:
+      return {
+        ...state,
+        submit_KPI_data_KPI_Module: {
+          ...state.submit_KPI_data_KPI_Module,
+          success: false,
+        },
+      };
     default:
       return state;
   }
