@@ -144,7 +144,30 @@ const ICTable = () => {
         }
       }
     }
-  }, [yearAndQuarter, selectedZone, submit_KPI_data_KPI_ModuleState?.success]);
+  }, [yearAndQuarter, selectedZone]);
+  useEffect(() => {
+    if(!submit_KPI_data_KPI_ModuleState?.success)
+      return
+    if (localStorage.getItem('selected_Role') === 'Zonal Internal Control') {
+      const payload = {
+        zone: selectedZone,
+        year_and_quarter: yearAndQuarter,
+      };
+      dispatch(get_ic_KPI_data(payload));
+    } else if (localStorage.getItem('selected_Role') === 'Global Internal Control') {
+      if (selectedZone?.value) {
+        if (yearAndQuarter?.length > 0) {
+          const payload = {
+            zone: selectedZone?.value,
+            year_and_quarter: yearAndQuarter,
+          };
+          dispatch(get_ic_KPI_data(payload));
+        } else {
+          toast.error('Please select Year in filter.');
+        }
+      }
+    }
+  }, [submit_KPI_data_KPI_ModuleState?.success]);
 
   return (
     <div>
