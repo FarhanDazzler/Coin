@@ -19,6 +19,7 @@ import './assets/styles/mixins.scss';
 import TopBar from './parts/TopBar/TopBar';
 import Footer from './parts/Footer/Footer';
 import Login from './pages/Login/Login';
+import Dashboard from './pages/Dashboard/Dashboard';
 import Cookies from 'js-cookie';
 import { UserContext, UserContextProvider } from './context/userContext';
 import dataService from './services/dataService';
@@ -52,6 +53,7 @@ import PageWrapper from './components/wrappers/PageWrapper/index.jsx';
 import RecipientHomePage from './pages/REP_Letters_Module/Home/Functional/RecipientHomePage/RecipientHomePage.jsx';
 import DisclosureProcessorHomePageContainer from './pages/REP_Letters_Module/Home/BU/DisclosureProcessorHomePage/index.jsx';
 import { NoMatch } from './pages/NoMatch/NoMatch.js';
+import NewTopBar from './parts/NewTopBar/NewTopBar';
 
 const theme = createTheme({
   palette: {
@@ -307,7 +309,13 @@ const Pages = () => {
   }, [accounts, inProgress, location.pathname]);
 
   const isNotShowTopNavbar = useMemo(() => {
-    const paths = ['/login', '/homepage-direct-link'];
+    const paths = ['/login', '/homepage-direct-link', '/dashboard'];
+
+    return paths.some((path) => location?.pathname.startsWith(path));
+  }, [location?.pathname]);
+
+  const showNewTopNavbar = useMemo(() => {
+    const paths = ['/dashboard'];
 
     return paths.some((path) => location?.pathname.startsWith(path));
   }, [location?.pathname]);
@@ -317,6 +325,7 @@ const Pages = () => {
       <ToastContainer autoClose={15000} />
       <div className="flex-fill">
         {!isNotShowTopNavbar && <TopBar isControlPage={isControlPage} />}
+        {showNewTopNavbar && <NewTopBar />}
         {/* <Home /> */}
         <Switch>
           <Route
@@ -325,6 +334,8 @@ const Pages = () => {
               return <Login />;
             }}
           />
+
+          <Route exact path="/dashboard" component={Dashboard} />
 
           {!isAssessmentsPage ? (
             <Route exact path="/" component={REP_Letters_HomePage} />
