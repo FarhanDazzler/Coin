@@ -1436,7 +1436,7 @@ const ControlSection2 = ({
                       editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)
                       enableEditing={(row) =>
                         (row.original.KPI_Source == 'Manual' ||
-                          KPI_Source === 'Semi - Automated') &&
+                          row.original.KPI_Source === 'Semi - Automated') &&
                         row.original.Year_and_Quarter === currentYearAndQuarter
                       }
                       initialState={{
