@@ -1490,10 +1490,12 @@ const ControlSection2 = ({
                                       onChange={handleFileUpload}
                                       //style={{ display: 'none' }}
                                     />
-                                    <div className="custom-btn choose-file">
-                                      {<FileUploadOutlinedIcon />}
-                                      {'Upload File'}
-                                    </div>
+                                    {!isReview && (
+                                      <div className="custom-btn choose-file">
+                                        {<FileUploadOutlinedIcon />}
+                                        {'Upload File'}
+                                      </div>
+                                    )}
                                   </label>
                                 </div>
                               </Flex>
