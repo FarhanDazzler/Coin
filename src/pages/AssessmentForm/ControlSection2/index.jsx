@@ -671,6 +671,7 @@ const ControlSection2 = ({
       enableClickToCopy: true,
       header: 'Numerator',
       size: 100,
+      enableEditing: isReview ? false : true,
       Cell: ({ row }) => <span>{row.original.Numerator}</span>,
       mantineEditTextInputProps: ({ cell, row }) => ({
         required: true,
@@ -741,6 +742,7 @@ const ControlSection2 = ({
       enableClickToCopy: true,
       header: 'Denominator',
       size: 100,
+      enableEditing: isReview ? false : true,
       Cell: ({ row }) => <span>{row.original.Denominator}</span>,
       mantineEditTextInputProps: ({ cell, row }) => ({
         required: true,
@@ -812,6 +814,7 @@ const ControlSection2 = ({
       header: 'Calculation Source',
       size: 100,
       editVariant: 'select',
+      enableEditing: isReview ? false : true,
       Cell: ({ row }) => <span>{row.original?.Calculation_Source}</span>,
       mantineEditSelectProps: ({ cell, row }) => ({
         data: [
@@ -864,6 +867,7 @@ const ControlSection2 = ({
       enableClickToCopy: true,
       header: 'Actual Source Link',
       size: 300,
+      enableEditing: isReview ? false : true,
       Cell: ({ row }) => <span>{row.original.Actual_Source_Link}</span>,
       mantineEditTextInputProps: ({ cell, row }) => ({
         required: false,
