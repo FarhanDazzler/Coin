@@ -248,7 +248,7 @@ const ControlSection2 = ({
     if (den === 0) {
       return 'Pass'; // Only denominator is zero
     }
-    const value = num / den.toFixed(5);
+    const value = Math.abs(num / den.toFixed(5));
     if (positiveDirection && positiveDirection?.trim()?.toLowerCase() === 'lower is better') {
       return value <= thresholdFloat ? 'Pass' : 'Fail';
     } else if (
@@ -1316,7 +1316,7 @@ const ControlSection2 = ({
         } = tableRow;
 
         // only update those row where expected source is manual
-        if (KPI_Source === 'Manual') {
+        if (KPI_Source === 'Manual' || KPI_Source === 'Semi - Automated') {
           let normalizedCalculationSource = Calculation_Source;
 
           // Normalize the Calculation_Source if it has a value
@@ -1435,7 +1435,8 @@ const ControlSection2 = ({
                       // createDisplayMode="row" // ('modal', and 'custom' are also available)
                       editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)
                       enableEditing={(row) =>
-                        row.original.KPI_Source == 'Manual' &&
+                        (row.original.KPI_Source == 'Manual' ||
+                          KPI_Source === 'Semi - Automated') &&
                         row.original.Year_and_Quarter === currentYearAndQuarter
                       }
                       initialState={{
