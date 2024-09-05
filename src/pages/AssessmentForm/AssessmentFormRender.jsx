@@ -11,6 +11,8 @@ import { useTranslation } from 'react-i18next';
 import ControlSection from './ControlSection';
 import cs from 'classnames';
 import {
+  get_historical_graph_dataSelector,
+  get_KPI_Section2_dataSelector,
   getLatestDraftSelector,
   kpiResultSelector,
 } from '../../redux/Assessments/AssessmentSelectors';
@@ -60,7 +62,9 @@ const AssessmentFormRender = ({
   const [startTableEdit, setIsStartTableEdit] = useState(false);
   // check useEffect if user select section 1 Terminating then this state true
   const [section1TerminatingLogicValue, setSection1TerminatingLogicValue] = React.useState(false);
-
+  const [validationErrors, setValidationErrors] = useState({});
+  const get_KPI_Section2_data = useSelector(get_KPI_Section2_dataSelector);
+  const get_historical_graph_data = useSelector(get_historical_graph_dataSelector);
   const isNotEscalationRequired =
     actionPlanInfo.issueResolved === 'no' && !!actionPlanInfo.isEscalationRequired;
   const [showControlSection, setShowControlSection] = useState(false);
@@ -185,6 +189,33 @@ const AssessmentFormRender = ({
     return showMoreSection && !s1FailObj && !isNotEscalationRequired && (s1NoSelect || s2NoSelect);
   }, [ansSection3, s1FailObj, isNotEscalationRequired, showNoQuestionAns, L1AndL2NoQuestionsAns]);
 
+  const showSubmitButton = useMemo(() => {
+    const loader =
+      get_historical_graph_data.loading || get_KPI_Section2_data.loading || question3.loading;
+    if (Object.keys(validationErrors)?.length > 0 || loader) return false;
+
+    if (
+      (!isModal && (terminating || checkL3Validation)) ||
+      (s1FailObj && showMoreSection && !isModal) ||
+      (isNotEscalationRequired && !isModal)
+    ) {
+      return true;
+    }
+
+    return false;
+  }, [
+    question3.loading,
+    get_historical_graph_data,
+    get_KPI_Section2_data,
+    validationErrors,
+    isModal,
+    terminating,
+    s1FailObj,
+    showMoreSection,
+    isNotEscalationRequired,
+    checkL3Validation,
+  ]);
+
   return (
     <div className="modal-form-body">
       <ControlActions
@@ -234,6 +265,8 @@ const AssessmentFormRender = ({
                   isReview={isReview}
                   startTableEdit={startTableEdit}
                   setIsStartTableEdit={setIsStartTableEdit}
+                  validationErrors={validationErrors}
+                  setValidationErrors={setValidationErrors}
                 />
               )}
               {showMoreSection && !s1FailObj && !isNotEscalationRequired && (
@@ -254,9 +287,7 @@ const AssessmentFormRender = ({
               )}
               {!question3?.loading && (
                 <>
-                  {(!isModal && (terminating || checkL3Validation)) ||
-                  (s1FailObj && showMoreSection && !isModal) ||
-                  (isNotEscalationRequired && !isModal) ? (
+                  {showSubmitButton ? (
                     <>
                       {/* Section 1 Terminating then show error  */}
                       {section1TerminatingLogicValue && (
