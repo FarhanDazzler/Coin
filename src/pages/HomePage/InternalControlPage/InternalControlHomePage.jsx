@@ -112,9 +112,6 @@ const InternalControlHomePage = () => {
     };
   }, [getControlOwnerData, userRole, zoneValue, buValue, receiverValue, providerValue]);
 
-  useEffect(() => {
-    // if (!userRole?.length || userRole === 'undefined') history.push('/not-authorized');
-  }, [getControlOwnerData, userRole, zoneValue, buValue, receiverValue, providerValue]);
   const { accounts } = useMsal();
   return (
     <div>
