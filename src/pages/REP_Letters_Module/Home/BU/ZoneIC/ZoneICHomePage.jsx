@@ -26,9 +26,10 @@ const NumberWithText = ({ total, number, tooltip, subTitle }) => (
 const ZoneICHomePage = () => {
   const history = useHistory();
   const { accounts } = useMsal();
-  const params = useQuery();
   const selectedUserRole = localStorage.getItem('selected_Role');
   const getZICHomePageData = useSelector(get_BU_ZIC_PersonaHomePageDataSelector);
+
+  const params = useQuery();
 
   const initValue = {
     zoneValue: params?.filterZone ? stringToArray(params?.filterZone) : [],
@@ -39,10 +40,10 @@ const ZoneICHomePage = () => {
     rbaStatusValue: params?.filterRbaStatus ? stringToArray(params?.filterRbaStatus) : [],
   };
 
-  const [zoneValue, setZoneValue] = useState([]);
-  const [buValue, setBUValue] = useState([]);
-  const [overallStatusValue, setOverallStatusValue] = useState([]);
-  const [rbaStatusValue, setRbaStatusValue] = useState([]);
+  const [zoneValue, setZoneValue] = useState(initValue.zoneValue);
+  const [buValue, setBUValue] = useState(initValue.buValue);
+  const [overallStatusValue, setOverallStatusValue] = useState(initValue.overallStatusValue);
+  const [rbaStatusValue, setRbaStatusValue] = useState(initValue.rbaStatusValue);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
@@ -73,6 +74,13 @@ const ZoneICHomePage = () => {
       total: allUpdatestatus?.length,
     };
   }, [getZICHomePageData?.data[0], zoneValue, buValue, getNumberOfItem]);
+
+  const handleResetState = () => {
+    setZoneValue([]);
+    setBUValue([]);
+    setOverallStatusValue([]);
+    setRbaStatusValue([]);
+  };
 
   return (
     <div>
@@ -173,6 +181,7 @@ const ZoneICHomePage = () => {
         setOverallStatusValue={setOverallStatusValue}
         rbaStatusValue={rbaStatusValue}
         setRbaStatusValue={setRbaStatusValue}
+        handleResetState={handleResetState}
       />
     </div>
   );

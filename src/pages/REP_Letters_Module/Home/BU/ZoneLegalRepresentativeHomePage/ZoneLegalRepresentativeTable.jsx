@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMsal } from '@azure/msal-react';
 import Cookies from 'js-cookie';
@@ -15,6 +15,8 @@ import {
 } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
 import { get_BUZone_ZoneLegalRepresentativeHomePageData } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageAction';
 import ShowSignaturesBU_Zone from '../../../../../components/ShowSignatures/ShowSignaturesBU_Zone';
+import { stringToArray, useQuery } from '../../../../../hooks/useQuery';
+import ClearFilter from '../../../../../components/UI/ClearFilter';
 
 const FilterMultiSelect = ({ data, label, value, onChange }) => {
   const [searchValue, onSearchChange] = useState('');
@@ -41,10 +43,12 @@ const FilterMultiSelect = ({ data, label, value, onChange }) => {
   );
 };
 
-const ZoneLegalRepresentativeTable = ({ zoneValue, setZoneValue }) => {
+const ZoneLegalRepresentativeTable = ({ zoneValue, setZoneValue, handleResetState }) => {
   const [tableData, setTableData] = useState([]);
   const [tableDataArray, setTableDataArray] = useState([]);
   const token = Cookies.get('token');
+  const history = useHistory();
+  const params = useQuery();
 
   function getCurrentAssessmentCycle() {
     // Get the current date
@@ -90,14 +94,29 @@ const ZoneLegalRepresentativeTable = ({ zoneValue, setZoneValue }) => {
     return yearsArray;
   }
 
-  const [yearValue, setYearValue] = useState(
+  const initialYear =
     new Date().getMonth() + 1 === 1 || new Date().getMonth() + 1 === 2
       ? [String(new Date().getFullYear() - 1)]
-      : [String(new Date().getFullYear())],
-  );
-  const [assessmentCycleValue, setAssessmentCycleValue] = useState([getCurrentAssessmentCycle()]);
+      : [String(new Date().getFullYear())];
 
-  const history = useHistory();
+  const [yearValue, setYearValue] = useState(
+    params?.filterYear ? stringToArray(params?.filterYear) : initialYear,
+  );
+  const [assessmentCycleValue, setAssessmentCycleValue] = useState(
+    params?.filterCycle ? stringToArray(params?.filterCycle) : [getCurrentAssessmentCycle()],
+  );
+
+  const filterRef = useRef({
+    yearValue,
+    assessmentCycleValue,
+    zoneValue,
+  });
+
+  const handleClearState = () => {
+    setYearValue(initialYear);
+    setAssessmentCycleValue([getCurrentAssessmentCycle()]);
+    if (handleResetState) handleResetState();
+  };
 
   const { accounts } = useMsal();
   const dispatch = useDispatch();
@@ -112,6 +131,13 @@ const ZoneLegalRepresentativeTable = ({ zoneValue, setZoneValue }) => {
   const HomePageData = useMemo(() => {
     return getHomePageData?.data[0]?.zonelegaRepData || [];
   }, [getHomePageData?.data[0]]);
+
+  const handleButtonRedirect = (urlString) => {
+    const currentSearchParams = new URLSearchParams(window.location.search);
+    const url = `${urlString}?${currentSearchParams.toString()}`;
+    // Navigate to the new URL with the combined query parameters
+    history.push(url);
+  };
 
   useEffect(() => {
     if (yearValue.length > 0) {
@@ -149,7 +175,7 @@ const ZoneLegalRepresentativeTable = ({ zoneValue, setZoneValue }) => {
               <Button
                 className="mr-2"
                 onClick={() => {
-                  history.push(
+                  handleButtonRedirect(
                     `/REP-Letters/attempt-letter/Zone-letter-form/${row.row.original.id}/Review`,
                   );
                 }}
@@ -162,7 +188,7 @@ const ZoneLegalRepresentativeTable = ({ zoneValue, setZoneValue }) => {
                 <Button
                   className="mr-2"
                   onClick={() => {
-                    history.push(
+                    handleButtonRedirect(
                       `/REP-Letters/attempt-letter/Zone-letter-form/${row.row.original.id}/attemptSection2`,
                     );
                   }}
@@ -288,6 +314,56 @@ const ZoneLegalRepresentativeTable = ({ zoneValue, setZoneValue }) => {
     });
     setTableDataArray(updatedData);
   }, [assessmentCycleValue, zoneValue, tableData]);
+
+  const isClearButtonDisabled = useMemo(() => {
+    const paramsKeyLength = Object.keys(params).length;
+    if (paramsKeyLength === 2) {
+      if (
+        params.filterYear === initialYear[0] &&
+        params.filterCycle === getCurrentAssessmentCycle()
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }, [params]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    // Update or remove the year parameter
+    if (yearValue) {
+      params.set('filterYear', yearValue.toString());
+    } else {
+      params.delete('filterYear');
+    }
+
+    // Update or remove the assessment cycle parameter
+    if (assessmentCycleValue?.length > 0) {
+      params.set('filterCycle', assessmentCycleValue.toString());
+    } else {
+      params.delete('filterCycle');
+    }
+
+    // Update or remove the zone parameter
+    if (zoneValue?.length > 0) {
+      params.set('filterZone', zoneValue);
+    } else {
+      params.delete('filterZone');
+    }
+
+    filterRef.current = {
+      yearValue,
+      assessmentCycleValue,
+      zoneValue,
+    };
+
+    history.replace({
+      pathname: window.location.pathname,
+      search: params.toString(),
+    });
+  }, [yearValue, assessmentCycleValue, zoneValue]);
+
   return (
     <>
       <div className="container-fluid">
@@ -296,31 +372,39 @@ const ZoneLegalRepresentativeTable = ({ zoneValue, setZoneValue }) => {
         ) : (
           <div className="row pt-5">
             <div className="col-12 col-lg-12">
-              <Group spacing="xs" className="actions-button-wrapper">
-                <FilterMultiSelect
-                  data={getYearsData() || []}
-                  label="Year"
-                  value={yearValue}
-                  onChange={setYearValue}
-                />
-                <FilterMultiSelect
-                  data={[
-                    { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
-                    { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
-                    { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
-                    { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
-                  ]}
-                  label="Assessment Cycle"
-                  value={assessmentCycleValue}
-                  onChange={setAssessmentCycleValue}
-                />
-                <FilterMultiSelect
-                  data={getHomePageData?.data[0]?.distinct_zone || []}
-                  label="Zone"
-                  value={zoneValue}
-                  onChange={setZoneValue}
-                />
-              </Group>
+              <div className="d-flex justify-content-between">
+                <Group spacing="xs" className="actions-button-wrapper">
+                  <FilterMultiSelect
+                    data={getYearsData() || []}
+                    label="Year"
+                    value={yearValue}
+                    onChange={setYearValue}
+                  />
+                  <FilterMultiSelect
+                    data={[
+                      { value: 'Assessment Cycle 1', label: 'Assessment Cycle 1' },
+                      { value: 'Assessment Cycle 2', label: 'Assessment Cycle 2' },
+                      { value: 'Assessment Cycle 3', label: 'Assessment Cycle 3' },
+                      { value: 'Assessment Cycle 4', label: 'Assessment Cycle 4' },
+                    ]}
+                    label="Assessment Cycle"
+                    value={assessmentCycleValue}
+                    onChange={setAssessmentCycleValue}
+                  />
+                  <FilterMultiSelect
+                    data={getHomePageData?.data[0]?.distinct_zone || []}
+                    label="Zone"
+                    value={zoneValue}
+                    onChange={setZoneValue}
+                  />
+                </Group>
+                <div className="d-flex align-items-end">
+                  <ClearFilter
+                    onClick={handleClearState}
+                    isClearButtonDisabled={isClearButtonDisabled}
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="col-12 col-lg-12 mt-5">

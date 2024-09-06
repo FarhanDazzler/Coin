@@ -216,6 +216,9 @@ const AssessmentFormRender = ({
     checkL3Validation,
   ]);
 
+  const loaderSection =
+    get_historical_graph_data?.loading || get_KPI_Section2_data?.loading || question3?.loading;
+
   return (
     <div className="modal-form-body">
       <ControlActions
@@ -285,7 +288,7 @@ const AssessmentFormRender = ({
                   />
                 </>
               )}
-              {!question3?.loading && (
+              {!loaderSection && (
                 <>
                   {showSubmitButton ? (
                     <>
