@@ -12,10 +12,6 @@ import Table2 from '../../../components/UI/Table/Table2';
 import NoDataPlaceholder from '../../../components/NoDataPlaceholder';
 import { getInternalControlTableData } from '../../../redux/DashBoard/DashBoardAction';
 import { getInternalControlDataSelector } from '../../../redux/DashBoard/DashBoardSelectors';
-import {
-  getControlDataAction,
-  getControlDataGcdAction,
-} from '../../../redux/ControlData/ControlDataAction';
 import { stringToArray, useQuery } from '../../../hooks/useQuery';
 import ClearFilter from '../../../components/UI/ClearFilter';
 
@@ -277,7 +273,7 @@ const InternalControlTable = ({
                     );
 
                   // Construct the final URL
-                  const url = `/Assessments/${original.Control_ID}?${paramsSearch.toString()}`;
+                  const url = `/review/${original.Control_ID}?${paramsSearch.toString()}`;
 
                   // Navigate to the new URL with the combined query parameters
                   history.push(url);
@@ -548,7 +544,10 @@ const InternalControlTable = ({
       statusOfAssessmentValue,
     };
 
-    window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`);
+    history.replace({
+      pathname: window.location.pathname,
+      search: params.toString(),
+    });
   }, [
     yearValue,
     assessmentCycleValue,

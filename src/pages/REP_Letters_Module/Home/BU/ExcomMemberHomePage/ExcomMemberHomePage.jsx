@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import ExcomMemberTable from './ExcomMemberTable';
 import '../../styles.scss';
 import { get_BUZone_ExcomMemberHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { stringToArray, useQuery } from '../../../../../hooks/useQuery';
 
 const AmountInfo = React.memo(({ amount, infoText }) => {
   return (
@@ -17,8 +18,12 @@ const AmountInfo = React.memo(({ amount, infoText }) => {
 
 const ExcomMemberHomePage = () => {
   const getHomePageData = useSelector(get_BUZone_ExcomMemberHomePageDataSelector);
+  const params = useQuery();
+  const initValue = {
+    zoneValue: params?.filterZone ? stringToArray(params?.filterZone) : [],
+  };
 
-  const [zoneValue, setZoneValue] = useState([]);
+  const [zoneValue, setZoneValue] = useState(initValue.zoneValue);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
@@ -55,6 +60,9 @@ const ExcomMemberHomePage = () => {
     };
   }, [getHomePageData?.data[0], zoneValue, getNumberOfItem]);
 
+  const handleResetState = () => {
+    setZoneValue([]);
+  };
   return (
     <div>
       <div className="row pt-5 align-items-center"></div>
@@ -78,7 +86,11 @@ const ExcomMemberHomePage = () => {
         </div>
       </div> */}
 
-      <ExcomMemberTable zoneValue={zoneValue} setZoneValue={setZoneValue} />
+      <ExcomMemberTable
+        zoneValue={zoneValue}
+        setZoneValue={setZoneValue}
+        handleResetState={handleResetState}
+      />
     </div>
   );
 };

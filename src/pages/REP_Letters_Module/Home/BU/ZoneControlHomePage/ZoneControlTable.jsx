@@ -164,6 +164,16 @@ const ZoneControlTable = ({
     dispatch,
   ]);
 
+  const handleButtonRedirect = (urlString) => {
+    const paramsSearch = new URLSearchParams(window.location.search);
+
+    // Construct the final URL
+    const url = `${urlString}?${paramsSearch.toString()}`;
+
+    // Navigate to the new URL with the combined query parameters
+    history.push(url);
+  };
+
   const TABLE_COLUMNS = [
     {
       accessorKey: 'Action',
@@ -180,7 +190,7 @@ const ZoneControlTable = ({
               <Button
                 className="mr-2"
                 onClick={() => {
-                  history.push(
+                  handleButtonRedirect(
                     `/REP-Letters/attempt-letter/BU-letter-form/${row.row.original.id}/Review`,
                   );
                 }}
@@ -193,7 +203,7 @@ const ZoneControlTable = ({
                 <Button
                   className="mr-2"
                   onClick={() => {
-                    history.push(
+                    handleButtonRedirect(
                       `/REP-Letters/attempt-letter/BU-letter-form/${row.row.original.id}/attemptSection2`,
                     );
                   }}
