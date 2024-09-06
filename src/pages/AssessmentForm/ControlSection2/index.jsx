@@ -248,7 +248,7 @@ const ControlSection2 = ({
     if (den === 0) {
       return 'Pass'; // Only denominator is zero
     }
-    const value = num / den.toFixed(5);
+    const value = Math.abs(num / den.toFixed(5));
     if (positiveDirection && positiveDirection?.trim()?.toLowerCase() === 'lower is better') {
       return value <= thresholdFloat ? 'Pass' : 'Fail';
     } else if (
@@ -527,25 +527,25 @@ const ControlSection2 = ({
       // Cell: ({ row }) => <span>{row.original.KPI_Source}</span>,
       // Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
     },
-    {
-      accessorKey: 'Expected_KPI_Source',
-      enableClickToCopy: true,
-      // filterVariant: 'multi-select',
-      header: 'Expected KPI Data Source',
-      size: 300,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        row.original.KPI_Source == 'Automated' && {
-          // align: 'center',
-          sx: {
-            backgroundColor: '#1B1212',
-            color: '#fff',
-            // borderRight: '1px solid rgba(224,224,224,1)',
-          },
-        },
-      // Cell: ({ row }) => <span>{row.original.Expected_KPI_Source}</span>,
-      // Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
-    },
+    // {
+    //   accessorKey: 'Expected_KPI_Source',
+    //   enableClickToCopy: true,
+    //   // filterVariant: 'multi-select',
+    //   header: 'Expected KPI Data Source',
+    //   size: 300,
+    //   enableEditing: false,
+    //   mantineTableBodyCellProps: ({ row }) =>
+    //     row.original.KPI_Source == 'Automated' && {
+    //       // align: 'center',
+    //       sx: {
+    //         backgroundColor: '#1B1212',
+    //         color: '#fff',
+    //         // borderRight: '1px solid rgba(224,224,224,1)',
+    //       },
+    //     },
+    //   // Cell: ({ row }) => <span>{row.original.Expected_KPI_Source}</span>,
+    //   // Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
+    // },
     {
       accessorKey: 'KPI_Frequency',
       enableClickToCopy: true,
@@ -672,6 +672,7 @@ const ControlSection2 = ({
       enableClickToCopy: true,
       header: 'Numerator',
       size: 100,
+      enableEditing: isReview ? false : true,
       Cell: ({ row }) => <span>{row.original.Numerator}</span>,
       mantineEditTextInputProps: ({ cell, row }) => ({
         required: true,
@@ -742,6 +743,7 @@ const ControlSection2 = ({
       enableClickToCopy: true,
       header: 'Denominator',
       size: 100,
+      enableEditing: isReview ? false : true,
       Cell: ({ row }) => <span>{row.original.Denominator}</span>,
       mantineEditTextInputProps: ({ cell, row }) => ({
         required: true,
@@ -813,6 +815,7 @@ const ControlSection2 = ({
       header: 'Calculation Source',
       size: 100,
       editVariant: 'select',
+      enableEditing: isReview ? false : true,
       Cell: ({ row }) => <span>{row.original?.Calculation_Source}</span>,
       mantineEditSelectProps: ({ cell, row }) => ({
         data: [
@@ -865,6 +868,7 @@ const ControlSection2 = ({
       enableClickToCopy: true,
       header: 'Actual Source Link',
       size: 300,
+      enableEditing: isReview ? false : true,
       Cell: ({ row }) => <span>{row.original.Actual_Source_Link}</span>,
       mantineEditTextInputProps: ({ cell, row }) => ({
         required: false,
@@ -996,23 +1000,23 @@ const ControlSection2 = ({
           },
         },
     },
-    {
-      accessorKey: 'Load_Date',
-      enableClickToCopy: true,
-      //   filterVariant: 'autocomplete',
-      header: 'Load Date',
-      size: 300,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        row.original.KPI_Source == 'Automated' && {
-          // align: 'center',
-          sx: {
-            backgroundColor: '#1B1212',
-            color: '#fff',
-            // borderRight: '1px solid rgba(224,224,224,1)',
-          },
-        },
-    },
+    // {
+    //   accessorKey: 'Load_Date',
+    //   enableClickToCopy: true,
+    //   //   filterVariant: 'autocomplete',
+    //   header: 'Load Date',
+    //   size: 300,
+    //   enableEditing: false,
+    //   mantineTableBodyCellProps: ({ row }) =>
+    //     row.original.KPI_Source == 'Automated' && {
+    //       // align: 'center',
+    //       sx: {
+    //         backgroundColor: '#1B1212',
+    //         color: '#fff',
+    //         // borderRight: '1px solid rgba(224,224,224,1)',
+    //       },
+    //     },
+    // },
     {
       accessorKey: 'KPI_Uploader',
       enableClickToCopy: true,
@@ -1087,10 +1091,10 @@ const ControlSection2 = ({
         label: 'KPI Source',
         value: 'KPI_Source',
       },
-      {
-        label: 'Expected KPI Data Source',
-        value: 'Expected_KPI_Source',
-      },
+      // {
+      //   label: 'Expected KPI Data Source',
+      //   value: 'Expected_KPI_Source',
+      // },
       {
         label: 'KPI Frequency',
         value: 'KPI_Frequency',
@@ -1167,10 +1171,10 @@ const ControlSection2 = ({
         label: 'L3 Result',
         value: 'L3_Result',
       },
-      {
-        label: 'Load Date',
-        value: 'Load_Date',
-      },
+      // {
+      //   label: 'Load Date',
+      //   value: 'Load_Date',
+      // },
       {
         label: 'KPI Uploader',
         value: 'KPI_Uploader',
@@ -1312,7 +1316,7 @@ const ControlSection2 = ({
         } = tableRow;
 
         // only update those row where expected source is manual
-        if (KPI_Source === 'Manual') {
+        if (KPI_Source === 'Manual' || KPI_Source === 'Semi - Automated') {
           let normalizedCalculationSource = Calculation_Source;
 
           // Normalize the Calculation_Source if it has a value
@@ -1431,7 +1435,8 @@ const ControlSection2 = ({
                       // createDisplayMode="row" // ('modal', and 'custom' are also available)
                       editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)
                       enableEditing={(row) =>
-                        row.original.KPI_Source == 'Manual' &&
+                        (row.original.KPI_Source == 'Manual' ||
+                          row.original.KPI_Source === 'Semi - Automated') &&
                         row.original.Year_and_Quarter === currentYearAndQuarter
                       }
                       initialState={{
@@ -1487,10 +1492,12 @@ const ControlSection2 = ({
                                       onChange={handleFileUpload}
                                       //style={{ display: 'none' }}
                                     />
-                                    <div className="custom-btn choose-file">
-                                      {<FileUploadOutlinedIcon />}
-                                      {'Upload File'}
-                                    </div>
+                                    {!isReview && (
+                                      <div className="custom-btn choose-file">
+                                        {<FileUploadOutlinedIcon />}
+                                        {'Upload File'}
+                                      </div>
+                                    )}
                                   </label>
                                 </div>
                               </Flex>

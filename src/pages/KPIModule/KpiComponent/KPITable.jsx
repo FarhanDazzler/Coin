@@ -16,7 +16,10 @@ import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import KpiTableFilter from './KpiTableFilter';
 import { getCurrentYearAndQuarter } from '../KpiModuleLandingPage';
 import { useMsal } from '@azure/msal-react';
-import { submit_KPI_data_KPI_Module } from '../../../redux/KPI_Module/KPI_Action';
+import {
+  reset_submit_kpi_data_success,
+  submit_KPI_data_KPI_Module,
+} from '../../../redux/KPI_Module/KPI_Action';
 
 // function to export the data to CSV using the XLSX library
 export const exportToCsv = (filename, data, fields) => {
@@ -111,7 +114,7 @@ function calculateResult(numerator, denominator, threshold, positiveDirection, r
   if (den === 0) {
     return 'Pass'; // Only denominator is zero
   }
-  const value = num / den.toFixed(5);
+  const value = Math.abs(num / den.toFixed(5));
   if (positiveDirection && positiveDirection?.trim()?.toLowerCase() === 'lower is better') {
     return value <= thresholdFloat ? 'Pass' : 'Fail';
   } else if (positiveDirection && positiveDirection?.trim()?.toLowerCase() === 'higher is better') {
@@ -554,25 +557,25 @@ const KPITable = ({
       // Cell: ({ row }) => <span>{row.original.KPI_Source}</span>,
       // Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
     },
-    {
-      accessorKey: 'Expected_KPI_Source',
-      enableClickToCopy: true,
-      // filterVariant: 'multi-select',
-      header: 'Expected KPI Data Source',
-      size: 300,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        row.original.KPI_Source == 'Automated' && {
-          // align: 'center',
-          sx: {
-            backgroundColor: '#1B1212',
-            color: '#fff',
-            // borderRight: '1px solid rgba(224,224,224,1)',
-          },
-        },
-      // Cell: ({ row }) => <span>{row.original.Expected_KPI_Source}</span>,
-      // Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
-    },
+    // {
+    //   accessorKey: 'Expected_KPI_Source',
+    //   enableClickToCopy: true,
+    //   // filterVariant: 'multi-select',
+    //   header: 'Expected KPI Data Source',
+    //   size: 300,
+    //   enableEditing: false,
+    //   mantineTableBodyCellProps: ({ row }) =>
+    //     row.original.KPI_Source == 'Automated' && {
+    //       // align: 'center',
+    //       sx: {
+    //         backgroundColor: '#1B1212',
+    //         color: '#fff',
+    //         // borderRight: '1px solid rgba(224,224,224,1)',
+    //       },
+    //     },
+    //   // Cell: ({ row }) => <span>{row.original.Expected_KPI_Source}</span>,
+    //   // Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
+    // },
     {
       accessorKey: 'KPI_Frequency',
       enableClickToCopy: true,
@@ -1035,23 +1038,23 @@ const KPITable = ({
           },
         },
     },
-    {
-      accessorKey: 'Load_Date',
-      enableClickToCopy: true,
-      //   filterVariant: 'autocomplete',
-      header: 'Load Date',
-      size: 300,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        row.original.KPI_Source == 'Automated' && {
-          // align: 'center',
-          sx: {
-            backgroundColor: '#1B1212',
-            color: '#fff',
-            // borderRight: '1px solid rgba(224,224,224,1)',
-          },
-        },
-    },
+    // {
+    //   accessorKey: 'Load_Date',
+    //   enableClickToCopy: true,
+    //   //   filterVariant: 'autocomplete',
+    //   header: 'Load Date',
+    //   size: 300,
+    //   enableEditing: false,
+    //   mantineTableBodyCellProps: ({ row }) =>
+    //     row.original.KPI_Source == 'Automated' && {
+    //       // align: 'center',
+    //       sx: {
+    //         backgroundColor: '#1B1212',
+    //         color: '#fff',
+    //         // borderRight: '1px solid rgba(224,224,224,1)',
+    //       },
+    //     },
+    // },
     {
       accessorKey: 'KPI_Uploader',
       enableClickToCopy: true,
@@ -1133,10 +1136,10 @@ const KPITable = ({
         label: 'KPI Source',
         value: 'KPI_Source',
       },
-      {
-        label: 'Expected KPI Data Source',
-        value: 'Expected_KPI_Source',
-      },
+      // {
+      //   label: 'Expected KPI Data Source',
+      //   value: 'Expected_KPI_Source',
+      // },
       {
         label: 'KPI Frequency',
         value: 'KPI_Frequency',
@@ -1213,10 +1216,10 @@ const KPITable = ({
         label: 'L3 Result',
         value: 'L3_Result',
       },
-      {
-        label: 'Load Date',
-        value: 'Load_Date',
-      },
+      // {
+      //   label: 'Load Date',
+      //   value: 'Load_Date',
+      // },
       {
         label: 'KPI Uploader',
         value: 'KPI_Uploader',
@@ -1382,7 +1385,7 @@ const KPITable = ({
         } = tableRow;
 
         // only update those row where expected source is manual
-        if (KPI_Source === 'Manual') {
+        if (KPI_Source === 'Manual' || KPI_Source === 'Semi - Automated') {
           let normalizedCalculationSource = Calculation_Source;
 
           // Normalize the Calculation_Source if it has a value
@@ -1476,6 +1479,7 @@ const KPITable = ({
         },
       };
       setSubmitLoading(true);
+      dispatch(reset_submit_kpi_data_success());
       dispatch(submit_KPI_data_KPI_Module(payload));
       console.log('Saved data', tableData);
     }
@@ -1510,7 +1514,8 @@ const KPITable = ({
           // createDisplayMode="row" // ('modal', and 'custom' are also available)
           editDisplayMode="table" // ('modal', 'row', 'cell', and 'custom' are also available)
           enableEditing={(row) =>
-            row.original.KPI_Source == 'Manual' &&
+            (row.original.KPI_Source == 'Manual' ||
+              row.original.KPI_Source == 'Semi - Automated') &&
             row.original.Year_and_Quarter === currentYearAndQuarter
           }
           initialState={{
