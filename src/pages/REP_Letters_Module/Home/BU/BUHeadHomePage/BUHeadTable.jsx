@@ -164,6 +164,17 @@ const BUHeadTable = ({
     dispatch,
   ]);
 
+  const handleButtonRedirect = (urlString) => {
+    // Add only the local state values if they exist
+    const currentSearchParams = new URLSearchParams(window.location.search);
+
+    // Construct the final URL
+    const url = `${urlString}?${currentSearchParams.toString()}`;
+
+    // Navigate to the new URL with the combined query parameters
+    history.push(url);
+  };
+
   const TABLE_COLUMNS = [
     {
       accessorKey: 'Action',
@@ -180,7 +191,7 @@ const BUHeadTable = ({
               <Button
                 className="mr-2"
                 onClick={() => {
-                  history.push(
+                  handleButtonRedirect(
                     `/REP-Letters/attempt-letter/BU-letter-form/${row.row.original.id}/Review`,
                   );
                 }}
@@ -193,7 +204,7 @@ const BUHeadTable = ({
                 <Button
                   className="mr-2"
                   onClick={() => {
-                    history.push(
+                    handleButtonRedirect(
                       `/REP-Letters/attempt-letter/BU-letter-form/${row.row.original.id}/attemptSection2`,
                     );
                   }}

@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import ZoneLegalRepresentativeTable from './ZoneLegalRepresentativeTable';
 import '../../styles.scss';
 import { get_BUZone_ZoneLegalRepresentativeHomePageDataSelector } from '../../../../../redux/REP_Letters/RL_HomePage/RL_HomePageSelector';
+import { stringToArray, useQuery } from '../../../../../hooks/useQuery';
 
 const AmountInfo = React.memo(({ amount, infoText }) => {
   return (
@@ -17,12 +18,20 @@ const AmountInfo = React.memo(({ amount, infoText }) => {
 
 const ZoneLegalRepresentativeHomePage = () => {
   const getHomePageData = useSelector(get_BUZone_ZoneLegalRepresentativeHomePageDataSelector);
+  const params = useQuery();
+  const initValue = {
+    zoneValue: params?.filterZone ? stringToArray(params?.filterZone) : [],
+  };
 
-  const [zoneValue, setZoneValue] = useState([]);
+  const [zoneValue, setZoneValue] = useState(initValue.zoneValue);
 
   const getNumberOfItem = useMemo(() => {
     return (array, itemName) => array?.filter((val) => val === itemName)?.length;
   }, []);
+
+  const handleResetState = () => {
+    setZoneValue([]);
+  };
 
   const statusInfo = useMemo(() => {
     const tableData = getHomePageData?.data[0]?.zonelegaRepData || [];
@@ -78,7 +87,11 @@ const ZoneLegalRepresentativeHomePage = () => {
         </div>
       </div> */}
 
-      <ZoneLegalRepresentativeTable zoneValue={zoneValue} setZoneValue={setZoneValue} />
+      <ZoneLegalRepresentativeTable
+        zoneValue={zoneValue}
+        setZoneValue={setZoneValue}
+        handleResetState={handleResetState}
+      />
     </div>
   );
 };
