@@ -557,25 +557,25 @@ const KPITable = ({
       // Cell: ({ row }) => <span>{row.original.KPI_Source}</span>,
       // Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
     },
-    {
-      accessorKey: 'Expected_KPI_Source',
-      enableClickToCopy: true,
-      // filterVariant: 'multi-select',
-      header: 'Expected KPI Data Source',
-      size: 300,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        row.original.KPI_Source == 'Automated' && {
-          // align: 'center',
-          sx: {
-            backgroundColor: '#1B1212',
-            color: '#fff',
-            // borderRight: '1px solid rgba(224,224,224,1)',
-          },
-        },
-      // Cell: ({ row }) => <span>{row.original.Expected_KPI_Source}</span>,
-      // Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
-    },
+    // {
+    //   accessorKey: 'Expected_KPI_Source',
+    //   enableClickToCopy: true,
+    //   // filterVariant: 'multi-select',
+    //   header: 'Expected KPI Data Source',
+    //   size: 300,
+    //   enableEditing: false,
+    //   mantineTableBodyCellProps: ({ row }) =>
+    //     row.original.KPI_Source == 'Automated' && {
+    //       // align: 'center',
+    //       sx: {
+    //         backgroundColor: '#1B1212',
+    //         color: '#fff',
+    //         // borderRight: '1px solid rgba(224,224,224,1)',
+    //       },
+    //     },
+    //   // Cell: ({ row }) => <span>{row.original.Expected_KPI_Source}</span>,
+    //   // Cell: ({ cell }) => <span>{cell.getValue() == 'Manual' ? 'Manual' : 'Automated'}</span>,
+    // },
     {
       accessorKey: 'KPI_Frequency',
       enableClickToCopy: true,
@@ -1038,23 +1038,23 @@ const KPITable = ({
           },
         },
     },
-    {
-      accessorKey: 'Load_Date',
-      enableClickToCopy: true,
-      //   filterVariant: 'autocomplete',
-      header: 'Load Date',
-      size: 300,
-      enableEditing: false,
-      mantineTableBodyCellProps: ({ row }) =>
-        row.original.KPI_Source == 'Automated' && {
-          // align: 'center',
-          sx: {
-            backgroundColor: '#1B1212',
-            color: '#fff',
-            // borderRight: '1px solid rgba(224,224,224,1)',
-          },
-        },
-    },
+    // {
+    //   accessorKey: 'Load_Date',
+    //   enableClickToCopy: true,
+    //   //   filterVariant: 'autocomplete',
+    //   header: 'Load Date',
+    //   size: 300,
+    //   enableEditing: false,
+    //   mantineTableBodyCellProps: ({ row }) =>
+    //     row.original.KPI_Source == 'Automated' && {
+    //       // align: 'center',
+    //       sx: {
+    //         backgroundColor: '#1B1212',
+    //         color: '#fff',
+    //         // borderRight: '1px solid rgba(224,224,224,1)',
+    //       },
+    //     },
+    // },
     {
       accessorKey: 'KPI_Uploader',
       enableClickToCopy: true,
@@ -1136,10 +1136,10 @@ const KPITable = ({
         label: 'KPI Source',
         value: 'KPI_Source',
       },
-      {
-        label: 'Expected KPI Data Source',
-        value: 'Expected_KPI_Source',
-      },
+      // {
+      //   label: 'Expected KPI Data Source',
+      //   value: 'Expected_KPI_Source',
+      // },
       {
         label: 'KPI Frequency',
         value: 'KPI_Frequency',
@@ -1216,10 +1216,10 @@ const KPITable = ({
         label: 'L3 Result',
         value: 'L3_Result',
       },
-      {
-        label: 'Load Date',
-        value: 'Load_Date',
-      },
+      // {
+      //   label: 'Load Date',
+      //   value: 'Load_Date',
+      // },
       {
         label: 'KPI Uploader',
         value: 'KPI_Uploader',
