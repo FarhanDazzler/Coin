@@ -1358,19 +1358,18 @@ const ControlSection2 = ({
 
           return {
             ...tableRow,
-            Numerator,
-            Denominator,
+            Numerator: Numerator || '',
+            Denominator: Denominator || '',
             Calculation_Source: normalizedCalculationSource,
-            Actual_Source_Link,
-            KPI_Value,
+            Actual_Source_Link: Actual_Source_Link || '',
+            KPI_Value: KPI_Value || '',
             L1_Result: newResult_L1,
             L2_Result: newResult_L2,
             L3_Result: newResult_L3,
           };
         }
       }
-
-      return tableRow;
+      return row;
     });
   };
 
