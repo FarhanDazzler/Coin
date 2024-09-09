@@ -115,7 +115,7 @@ const ControlSection2 = ({
 
     // These functions handle the validation logic based on the Numerator_Allowed and Denominator_Allowed values.
     const isNumeratorValid = (num) => {
-      num = parseInt(num)
+      num = parseInt(num);
       switch (row.Numerator_Allowed) {
         case 'Positive/Zero only':
           return num >= 0;
@@ -130,7 +130,7 @@ const ControlSection2 = ({
     };
 
     const isDenominatorValid = (den) => {
-      den = parseInt(den)
+      den = parseInt(den);
       switch (row.Denominator_Allowed) {
         case 'Positive only':
           return den > 0;
@@ -708,7 +708,8 @@ const ControlSection2 = ({
           }));
 
           if (Object.keys(errors).length === 0) {
-            delete validationErrors[row.original.id];
+            delete validationErrors[row.original.id]?.Numerator;
+            delete validationErrors[row.original.id]?.Denominator;
             setValidationErrors({ ...validationErrors });
             updateResults(row.original, tableData, cell);
           }
@@ -778,7 +779,8 @@ const ControlSection2 = ({
           }));
 
           if (Object.keys(errors).length === 0) {
-            delete validationErrors[row.original.id];
+            delete validationErrors[row.original.id]?.Numerator;
+            delete validationErrors[row.original.id]?.Denominator;
             setValidationErrors({ ...validationErrors });
             updateResults(row.original, tableData, cell);
           }
@@ -1225,7 +1227,7 @@ const ControlSection2 = ({
 
       // Function to check if the Numerator is valid based on the Numerator Allowed value
       const isNumeratorValid = (num) => {
-        num = parseInt(num)
+        num = parseInt(num);
         switch (Numerator_Allowed) {
           case 'Positive/Zero only':
             return num >= 0;
@@ -1241,7 +1243,7 @@ const ControlSection2 = ({
 
       // Function to check if the Denominator is valid based on the Denominator Allowed value
       const isDenominatorValid = (den) => {
-        den = parseInt(den)
+        den = parseInt(den);
         switch (Denominator_Allowed) {
           case 'Positive only':
             return den > 0;
@@ -1360,18 +1362,19 @@ const ControlSection2 = ({
 
           return {
             ...tableRow,
-            Numerator: Numerator || '',
-            Denominator: Denominator || '',
+            Numerator,
+            Denominator,
             Calculation_Source: normalizedCalculationSource,
-            Actual_Source_Link: Actual_Source_Link || '',
-            KPI_Value: KPI_Value || '',
+            Actual_Source_Link,
+            KPI_Value,
             L1_Result: newResult_L1,
             L2_Result: newResult_L2,
             L3_Result: newResult_L3,
           };
         }
       }
-      return row;
+
+      return tableRow;
     });
   };
 

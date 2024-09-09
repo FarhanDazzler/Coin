@@ -62,11 +62,11 @@ export const Badge_apply = ({ data }) => {
     NA: 'gray',
   };
 
-  const color = colorMap[data.toUpperCase()] || 'gray';
+  const color = colorMap[data?.toUpperCase()] || 'gray';
 
   return (
     <Badge color={color} size="lg" radius="lg" variant="outline">
-      {data.toUpperCase()}
+      {data?.toUpperCase()}
     </Badge>
   );
 };
@@ -161,7 +161,7 @@ const KPITable = ({
 
     // These functions handle the validation logic based on the Numerator_Allowed and Denominator_Allowed values.
     const isNumeratorValid = (num) => {
-      num = parseInt(num) 
+      num = parseInt(num);
       switch (row.Numerator_Allowed) {
         case 'Positive/Zero only':
           return num >= 0;
@@ -176,7 +176,7 @@ const KPITable = ({
     };
 
     const isDenominatorValid = (den) => {
-      den = parseInt(den)
+      den = parseInt(den);
       switch (row.Denominator_Allowed) {
         case 'Positive only':
           return den > 0;
@@ -1272,7 +1272,7 @@ const KPITable = ({
 
       // Function to check if the Numerator is valid based on the Numerator Allowed value
       const isNumeratorValid = (num) => {
-        num = parseInt(num)
+        num = parseInt(num);
         switch (Numerator_Allowed) {
           case 'Positive/Zero only':
             return num >= 0;
@@ -1288,7 +1288,7 @@ const KPITable = ({
 
       // Function to check if the Denominator is valid based on the Denominator Allowed value
       const isDenominatorValid = (den) => {
-        den = parseInt(den)
+        den = parseInt(den);
         switch (Denominator_Allowed) {
           case 'Positive only':
             return den > 0;
