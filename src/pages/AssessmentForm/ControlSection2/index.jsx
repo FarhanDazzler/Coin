@@ -115,7 +115,6 @@ const ControlSection2 = ({
 
     // These functions handle the validation logic based on the Numerator_Allowed and Denominator_Allowed values.
     const isNumeratorValid = (num) => {
-      
       switch (row.Numerator_Allowed) {
         case 'Positive/Zero only':
           return num >= 0;
@@ -130,7 +129,6 @@ const ControlSection2 = ({
     };
 
     const isDenominatorValid = (den) => {
-
       switch (row.Denominator_Allowed) {
         case 'Positive only':
           return den > 0;
@@ -1227,7 +1225,6 @@ const ControlSection2 = ({
 
       // Function to check if the Numerator is valid based on the Numerator Allowed value
       const isNumeratorValid = (num) => {
-        
         switch (Numerator_Allowed) {
           case 'Positive/Zero only':
             return num >= 0;
@@ -1243,7 +1240,6 @@ const ControlSection2 = ({
 
       // Function to check if the Denominator is valid based on the Denominator Allowed value
       const isDenominatorValid = (den) => {
-       
         switch (Denominator_Allowed) {
           case 'Positive only':
             return den > 0;
@@ -1362,8 +1358,8 @@ const ControlSection2 = ({
 
           return {
             ...tableRow,
-            Numerator,
-            Denominator,
+            Numerator: Numerator ? Numerator : Numerator === 0 ? 0 : '',
+            Denominator: Denominator ? Denominator : Denominator === 0 ? 0 : '',
             Calculation_Source: normalizedCalculationSource,
             Actual_Source_Link,
             KPI_Value,
@@ -1381,6 +1377,7 @@ const ControlSection2 = ({
   const handleDataImport = (csvData) => {
     if (validateData(csvData)) {
       const updatedData = performCalculations(csvData, tableData);
+
       setTableData(updatedData);
       // Clear the validation errors of table after successful validation and import of data
       setValidationErrors({});
