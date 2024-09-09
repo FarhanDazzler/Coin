@@ -161,6 +161,7 @@ const KPITable = ({
 
     // These functions handle the validation logic based on the Numerator_Allowed and Denominator_Allowed values.
     const isNumeratorValid = (num) => {
+      num = parseInt(num) 
       switch (row.Numerator_Allowed) {
         case 'Positive/Zero only':
           return num >= 0;
@@ -175,6 +176,7 @@ const KPITable = ({
     };
 
     const isDenominatorValid = (den) => {
+      den = parseInt(den)
       switch (row.Denominator_Allowed) {
         case 'Positive only':
           return den > 0;
@@ -458,7 +460,7 @@ const KPITable = ({
       enableClickToCopy: true,
       //   filterVariant: 'autocomplete',
       header: 'KPI Applicability Level',
-      size: 100,
+      size: 300,
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
         row.original.KPI_Source == 'Automated' && {
@@ -668,7 +670,7 @@ const KPITable = ({
       enableClickToCopy: true,
       //   filterVariant: 'autocomplete',
       header: 'Expected Denominator',
-      size: 200,
+      size: 300,
       enableEditing: false,
       mantineTableBodyCellProps: ({ row }) =>
         row.original.KPI_Source == 'Automated' && {
@@ -1270,6 +1272,7 @@ const KPITable = ({
 
       // Function to check if the Numerator is valid based on the Numerator Allowed value
       const isNumeratorValid = (num) => {
+        num = parseInt(num)
         switch (Numerator_Allowed) {
           case 'Positive/Zero only':
             return num >= 0;
@@ -1285,6 +1288,7 @@ const KPITable = ({
 
       // Function to check if the Denominator is valid based on the Denominator Allowed value
       const isDenominatorValid = (den) => {
+        den = parseInt(den)
         switch (Denominator_Allowed) {
           case 'Positive only':
             return den > 0;
