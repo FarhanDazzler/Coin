@@ -708,8 +708,7 @@ const ControlSection2 = ({
           }));
 
           if (Object.keys(errors).length === 0) {
-            delete validationErrors[row.original.id]?.Numerator;
-            delete validationErrors[row.original.id]?.Denominator;
+            delete validationErrors[row.original.id];
             setValidationErrors({ ...validationErrors });
             updateResults(row.original, tableData, cell);
           }
@@ -779,8 +778,7 @@ const ControlSection2 = ({
           }));
 
           if (Object.keys(errors).length === 0) {
-            delete validationErrors[row.original.id]?.Numerator;
-            delete validationErrors[row.original.id]?.Denominator;
+            delete validationErrors[row.original.id];
             setValidationErrors({ ...validationErrors });
             updateResults(row.original, tableData, cell);
           }
