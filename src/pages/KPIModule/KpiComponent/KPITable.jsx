@@ -161,13 +161,14 @@ const KPITable = ({
 
     // These functions handle the validation logic based on the Numerator_Allowed and Denominator_Allowed values.
     const isNumeratorValid = (num) => {
+      console.log(typeof(num))
       switch (row.Numerator_Allowed) {
         case 'Positive/Zero only':
           return num >= 0;
         case 'Negative/Zero only':
           return num <= 0;
         case 'Zero/One only':
-          return num === 0 || num === 1;
+          return num == 0 || num == 1;
         case 'Any value':
         default:
           return true;
@@ -185,7 +186,7 @@ const KPITable = ({
         case 'Negative/Zero only':
           return den <= 0;
         case 'Zero/One only':
-          return den === 0 || den === 1;
+          return den == 0 || den == 1;
         case 'Any value':
         default:
           return true;
@@ -1276,7 +1277,7 @@ const KPITable = ({
           case 'Negative/Zero only':
             return num <= 0;
           case 'Zero/One only':
-            return num === 0 || num === 1;
+            return num == 0 || num == 1;
           case 'Any value':
           default:
             return true;
@@ -1295,7 +1296,7 @@ const KPITable = ({
           case 'Negative/Zero only':
             return den <= 0;
           case 'Zero/One only':
-            return den === 0 || den === 1;
+            return den == 0 || den == 1;
           case 'Any value':
           default:
             return true;
