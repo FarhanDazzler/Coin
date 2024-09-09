@@ -1362,18 +1362,19 @@ const ControlSection2 = ({
 
           return {
             ...tableRow,
-            Numerator: Numerator || '',
-            Denominator: Denominator || '',
+            Numerator,
+            Denominator,
             Calculation_Source: normalizedCalculationSource,
-            Actual_Source_Link: Actual_Source_Link || '',
-            KPI_Value: KPI_Value || '',
+            Actual_Source_Link,
+            KPI_Value,
             L1_Result: newResult_L1,
             L2_Result: newResult_L2,
             L3_Result: newResult_L3,
           };
         }
       }
-      return row;
+
+      return tableRow;
     });
   };
 
